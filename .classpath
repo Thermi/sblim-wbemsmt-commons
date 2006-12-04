@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="commons-eui"/>
+	<classpathentry excluding="conf/|doc/|logging/" kind="src" path="commons-bl"/>
+	<classpathentry excluding="target/" kind="src" path="commons-cim-schema"/>
+	<classpathentry kind="src" path="commons-wizards"/>
+	<classpathentry kind="src" path="commons-test"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="JAR_REPO/sblim/sblim-cim-client/1.3.1/sblim-cim-client-1.3.1.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/myfaces/tomahawk/1.1.3/tomahawk-1.1.3.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/commons-cli/commons-cli/1.0/commons-cli-1.0.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/myfaces/myfaces-api/1.1.4/myfaces-api-1.1.4.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/myfaces/myfaces-impl/1.1.4/myfaces-impl-1.1.4.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/xmlbeans/xbean/2.2.0/xbean-2.2.0.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/commons-collections/commons-collections/3.1/commons-collections-3.1.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/javax/servlet/servlet-api/2.4/servlet-api-2.4.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/commons-lang/commons-lang/2.1/commons-lang-2.1.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/sblim/sblim-slp-client/1.3.1/sblim-slp-client-1.3.1.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/junit/junit/3.8.1/junit-3.8.1.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/jsch/jsch/0.1.28/jsch-0.1.28.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/selenium/selenium-remote-control/0.8.1/selenium-java-client-driver.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/sblim/sblim-wbemsmt-commons-launcher-config/0.2.3/sblim-wbemsmt-commons-launcher-config-0.2.3.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

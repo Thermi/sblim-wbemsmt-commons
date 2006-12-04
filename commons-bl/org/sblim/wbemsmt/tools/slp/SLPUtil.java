@@ -1,0 +1,152 @@
+ /** 
+  * SLPUtil.java
+  *
+  * (C) Copyright IBM Corp. 2005
+  *
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
+  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
+  *
+  * You can obtain a current copy of the Common Public License from
+  * http://www.opensource.org/licenses/cpl1.0.php
+  *
+  * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
+  *
+  * Contributors: 
+  * 
+  * Description: Helper class to handle action on the SlpLoader instances
+  * 
+  */
+package org.sblim.wbemsmt.tools.slp;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TasklauncherconfigDocument;
+import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.CimomDocument.Cimom;
+import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TasklauncherconfigDocument.Tasklauncherconfig;
+import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TreeconfigDocument.Treeconfig;
+import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TreeconfigReferenceDocument.TreeconfigReference;
+
+public class SLPUtil {
+
+	private static Logger logger = Logger.getLogger(SLPUtil.class.getName());
+	
+	/**
+	 * Reads all data with the slp loader for the services defined in the given treeConfig. The treeConfig is added to the returned Document
+	 * @param slpLoader
+	 * @param tasklauncherconfig
+	 * @return
+	 */
+	
+	public static TasklauncherconfigDocument readFromSlp(SLPLoader slpLoader, Treeconfig[] treeconfigArray) {
+    	TasklauncherconfigDocument result = TasklauncherconfigDocument.Factory.newInstance();
+		Tasklauncherconfig launcherConfigFromSLP = result.addNewTasklauncherconfig();
+
+		SLPHostDefinition[] allHostDefinitions = slpLoader.findHosts();
+		for (int i = 0; i < allHostDefinitions.length; i++) {
+			SLPHostDefinition definition = allHostDefinitions[i];
+			addCimom(launcherConfigFromSLP,definition);
+		}
+
+		
+		for (int i = 0; i < treeconfigArray.length; i++) {
+			Treeconfig treeconfig = treeconfigArray[i];
+			SLPHostDefinition[] agents = slpLoader.findHosts(treeconfig.getSlpServicename());
+			addHostDefinitions(launcherConfigFromSLP,treeconfigArray, agents,treeconfig);
+			//add the treeConfig from the param-given to the form-slp loaded
+			launcherConfigFromSLP.addNewTreeconfig().set(treeconfig);
+		}
+		return result;
+	}
+	
+	private static void addHostDefinitions(Tasklauncherconfig launcherConfig, Treeconfig[] treeconfigArray, SLPHostDefinition[] hostDefinitions, Treeconfig serviceConfig) {
+
+		for (int i = 0; i < hostDefinitions.length; i++) {
+			SLPHostDefinition agent = hostDefinitions[i];
+			Cimom[] cimomArray = launcherConfig.getCimomArray();
+			Cimom foundCimom = null;
+			for (int j = 0; j < cimomArray.length && foundCimom == null; j++) {
+				Cimom cimom = cimomArray[j];
+				if (cimom.getHostname().equals(agent.getHostname()))
+				{
+					foundCimom = cimom;
+				}
+			}
+			if (foundCimom == null)
+			{
+				foundCimom = addCimom(launcherConfig, agent);
+			}
+			
+			TreeconfigReference[] treeconfigReferenceArray = foundCimom.getTreeconfigReferenceArray();
+			boolean found = false;
+			for (int j = 0; j < treeconfigArray.length && !found; j++) {
+				Treeconfig treeconfig = treeconfigArray[j];
+				for (int k = 0; k < treeconfigReferenceArray.length && !found; k++) {
+					TreeconfigReference treeconfigReference = treeconfigReferenceArray[k];
+					if (treeconfig.getName().equals(treeconfigReference.getName())
+							&& treeconfig.getSlpServicename().equals(serviceConfig.getSlpServicename()))
+						{
+							found = true;
+						}
+				}
+			}
+			
+			if (!found)
+			{
+				TreeconfigReference reference = foundCimom.addNewTreeconfigReference();
+				reference.setName(serviceConfig.getName());
+			}
+		}
+		
+	}
+
+	/**
+	 * Add the Cimom by the information of the SLPHostDefinition
+	 * @param launcherConfig
+	 * @param hostDefinition
+	 * @return
+	 */
+	private static Cimom addCimom(Tasklauncherconfig launcherConfig, SLPHostDefinition hostDefinition) {
+		Cimom foundCimom;
+		foundCimom = launcherConfig.addNewCimom();
+		foundCimom.setHostname(hostDefinition.getHostname());
+		foundCimom.setNamespace(hostDefinition.getNamespace());
+		foundCimom.setPort(hostDefinition.getPort());
+		foundCimom.setProtocol(hostDefinition.getProtocol());
+		foundCimom.setUser("pegasus");
+		return foundCimom;
+	}
+
+	public static boolean getTaskIsSupported(SLPLoader slpLoader, String host, String slpServicename) {
+		
+		boolean result = false;
+		String lookup = "";
+		
+		try {
+			lookup = host;
+			InetAddress address1 = InetAddress.getByName(lookup);
+			
+			if (slpLoader.getCanFindHosts())
+			{
+				SLPHostDefinition[] definitions = slpLoader.findHosts(slpServicename);
+				for (int i = 0; i < definitions.length && !result; i++) {
+					SLPHostDefinition definition = definitions[i];
+					lookup = definition.getHostname();
+					InetAddress address2 = InetAddress.getByName(lookup);
+					if (address1.getHostAddress().equals(address2.getHostAddress()))
+					{
+						result = true;
+					}
+				}
+			}
+		} catch (UnknownHostException e) {
+			logger.log(Level.SEVERE,"Cannot lookup host " + lookup,e);
+		}
+		
+		return result ;
+	}
+
+}

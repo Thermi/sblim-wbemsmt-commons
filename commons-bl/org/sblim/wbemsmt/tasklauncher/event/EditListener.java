@@ -1,0 +1,34 @@
+ /** 
+  * EditListener.java
+  *
+  * (C) Copyright IBM Corp. 2005
+  *
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
+  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
+  *
+  * You can obtain a current copy of the Common Public License from
+  * http://www.opensource.org/licenses/cpl1.0.php
+  *
+  * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
+  *
+  * Contributors: 
+  * 
+  * Description: interface for all edit listeners
+  * 
+  */
+package org.sblim.wbemsmt.tasklauncher.event;
+
+public interface EditListener
+{
+	/**
+	 * Save -Action
+	 * @return the page to be displayed or a other keyword for the calling ui
+	 */
+	public String save();
+	/**
+	 * Cancel-action
+	 * @return the page to be displayed or a other keyword for the calling ui
+	 */
+	public String cancel();
+}

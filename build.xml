@@ -1,0 +1,224 @@
+<!--
+ * build.xml
+ *
+ * (C) Copyright IBM Corp. 2005
+ *
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
+ * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
+ *
+ * You can obtain a current copy of the Common Public License from
+ * http://www.opensource.org/licenses/cpl1.0.php
+ *
+ * Author:     Wolfgang Taphorn <taphorn(at)de.ibm.com>
+ *
+ * Contributors:
+  -->
+
+<project name="wbemsmt-commons" default="build-release" basedir="." >
+    <description>
+        Build file for SBLIM WBEM-SMT Commons packages.
+    </description>
+	
+   	
+    <property name="Schema.version"          value="2.9"/>
+    <property name="Manifest.version"        value="0.2.3"/>
+    <property name="Manifest.release"        value="1"/>
+    <property name="Manifest.title"          value="WBEM-SMT: Common Packages"/>
+    <property name="Manifest.url"            value="http://sblim.sourceforge.net"/>
+    <property name="Manifest.vendor"         value="IBM Corp."/>
+	
+    <property name="dir.compile.output"      value="target/compile"/>
+    <property name="dir.package.output"      value="target/package"/>
+    <property name="dir.release.output"      value="target/release"/>
+    <property name="file.jar.launcher"       value="sblim-${ant.project.name}-launcher-config-${Manifest.version}.jar"/>
+
+    <property name="javac.compiler"          value="modern"/>
+    <property name="javac.debug"             value="true"/>
+    <property name="javac.deprecation"       value="true"/>
+    <property name="javac.listfiles"         value="false"/>
+    <property name="javac.optimize"          value="false"/>
+    <property name="jar.index"               value="true"/>
+    <property name="clean.verbose"           value="true"/>
+    <property name="tar.longfile"            value="gnu"/>
+    
+
+	<path id="project.class.path">
+        <pathelement path="${java.class.path}/"/>
+    </path>
+
+
+	<!-- ================================= 
+          private target: launcher-config
+         ================================= -->
+    <target name="launcher-config">
+        <taskdef name="xmlbean" classname="org.apache.xmlbeans.impl.tool.XMLBean"/>
+    	
+        <mkdir dir="${dir.compile.output}"/>
+        <xmlbean schema="commons-bl/conf/" destfile="${dir.compile.output}/${file.jar.launcher}"/>
+
+        <jar jarfile="${dir.compile.output}/${file.jar.launcher}"
+             basedir="${dir.compile.output}"
+             excludes="**/*"
+             index="${jar.index}" update="true">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="Implementation-Version" value="${Manifest.version}-${Manifest.release}"/>
+                <attribute name="Implementation-Title"   value="${Manifest.title} - Task Launcher Config Model"/>
+                <attribute name="Implementation-URL"     value="${Manifest.url}"/>
+                <attribute name="Implementation-Vendor"  value="${Manifest.vendor}"/>
+            </manifest>
+        </jar>
+
+    </target>
+
+	<!-- ================================= 
+          target: compile
+         ================================= -->
+    <target name="compile" depends="launcher-config" description="--> Compile the sources of ${ant.project.name}">
+        <mkdir dir="${dir.compile.output}"/>
+        <mkdir dir="${dir.compile.output}/etc/sblim-wbemsmt/"/>
+        <mkdir dir="${dir.compile.output}/etc/java/sblim-wbemsmt/"/>
+
+    	<javac destdir="${dir.compile.output}"
+               debug       ="${javac.debug}"
+               listfiles   ="${javac.listfiles}"
+               compiler    ="${javac.compiler}"
+               deprecation ="${javac.deprecation}"
+               optimize    ="${javac.optimize}">
+            <classpath>
+                <path refid="project.class.path"/>
+                <fileset dir="${dir.compile.output}" >
+                    <include name="${file.jar.launcher}" />
+                </fileset>
+            </classpath>
+            <src path="commons-cim-schema"/>
+            <src path="commons-bl"/>
+            <src path="commons-eui"/>
+            <src path="commons-wizards"/>
+        </javac>
+
+        <copy todir="${dir.compile.output}" includeemptydirs="false">
+            <fileset dir="${basedir}/commons-bl">
+            	<include name="messages**.properties"/>
+            </fileset>
+        </copy>
+        <copy todir="${dir.compile.output}/etc/sblim-wbemsmt" includeemptydirs="false">
+            <fileset dir="${basedir}/commons-bl/conf">
+            	<include name="tasklauncher-config.xml"/>
+            </fileset>
+        </copy>
+        <copy todir="${dir.compile.output}/etc/java/sblim-wbemsmt" includeemptydirs="false">
+            <fileset dir="${basedir}/commons-bl/logging/">
+            	<include name="**"/>
+            </fileset>
+        </copy>
+    </target>
+
+
+    <!-- ================================= 
+          target: build-jar
+         ================================= -->
+    <target name="build-jar" depends="compile" description="--> Packages the JAR files for ${ant.project.name} components">
+        <mkdir dir="${dir.package.output}"/>
+    	<copy todir="${dir.package.output}" file="${dir.compile.output}/${file.jar.launcher}" />
+
+    	<jar jarfile="${dir.package.output}/sblim-${ant.project.name}-${Manifest.version}.jar"
+             basedir="${dir.compile.output}"
+    		 includes="org/**,
+    		           messages**.properties"
+             index="${jar.index}">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="Implementation-Version" value="${Manifest.version}-${Manifest.release}"/>
+                <attribute name="Implementation-Title"   value="${Manifest.title}"/>
+                <attribute name="Implementation-URL"     value="${Manifest.url}"/>
+                <attribute name="Implementation-Vendor"  value="${Manifest.vendor}"/>
+            </manifest>
+        </jar>        
+
+        <copy todir="${dir.package.output}" includeemptydirs="false">
+            <fileset dir="${dir.compile.output}">
+            	<include name="etc/**"/>
+            </fileset>
+        </copy>
+    </target>
+	
+
+    <!-- ================================= 
+          target: build-release
+         ================================= -->
+    <target name="build-release" depends="clean, package-src-tar, package-bin-tar" description="--> Build a release of ${ant.project.name}."/>
+
+	
+    <!-- ================================= 
+          target: package-src-tar
+         ================================= -->
+    <target name="package-src-tar" description="--> Package a source TAR ball for ${ant.project.name}">
+        <mkdir dir="${dir.release.output}"/>
+
+        <tar destfile="${dir.release.output}/sblim-${ant.project.name}-${Manifest.version}-src.tar.bz2"
+             compression="bzip2" longfile="${tar.longfile}">
+          <tarfileset
+            dir="${basedir}"
+            includes="**/*.java,
+                      commons-cim-schema/**,
+                      commons-bl/**,
+                      commons-eui/**,
+                      commons-wizards/**,
+                      build.xml,
+                      AUTHORS,
+                      ChangeLog,
+                      COPYING,
+                      NEWS,
+                      README,
+          	          sblim-wbemsmt-commons.spec"
+            excludes="${dir.compile.output}/**, ${dir.package.output}/**, ${dir.release.output}/**"
+            prefix="sblim-${ant.project.name}"/>
+        </tar>
+    </target>
+	
+
+    <!-- ================================= 
+          target: package-bin-tar
+         ================================= -->
+    <target name="package-bin-tar" depends="build-jar" description="--> Package a binary TAR ball for ${ant.project.name}">
+        <mkdir dir="${dir.release.output}"/>
+
+        <tar destfile="${dir.release.output}/sblim-${ant.project.name}-${Manifest.version}-bin.tar.bz2"
+             compression="bzip2" longfile="${tar.longfile}">
+            <tarfileset
+              dir="${dir.package.output}"
+              includes="**/*.jar,
+            	        etc/**"
+              prefix="sblim-${ant.project.name}"/>
+            <tarfileset
+              dir="${basedir}"
+              includes="AUTHORS,
+                        ChangeLog,
+                        COPYING,
+                        NEWS,
+                        README"
+              excludes="${dir.compile.output}/**, ${dir.package.output}, ${dir.release.output}/**"
+              prefix="sblim-${ant.project.name}"/>
+        </tar>
+    </target>
+	
+
+    <!-- ================================= 
+          target: clean
+         ================================= -->
+	<target name="clean" description="--> Cleaning up ${ant.project.name}.">
+        <delete verbose="${clean.versose}" includeemptydirs="true">
+		    <fileset dir="${basedir}" >
+		        <include name="${dir.compile.output}/**"/>
+		        <include name="${dir.package.output}/**"/>
+		        <include name="${dir.release.output}/**"/>
+		        <include name="target"/>
+		        <include name="**/*.jar"/>
+		        <include name="**/*.tar.bz2"/>
+		    </fileset>
+		</delete>
+	</target>
+
+</project>

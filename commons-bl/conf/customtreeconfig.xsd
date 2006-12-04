@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://sblim.org/wbemsmt/tasklauncher/customtreeconfig" xmlns:tasklauncher="http://sblim.org/wbemsmt/tasklauncher/customtreeconfig" xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified">
+	<element name="treenode">
+		<complexType>
+			<sequence>
+				<element ref="tasklauncher:description" minOccurs="1" maxOccurs="1"/>
+				<element ref="tasklauncher:eventListener" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="tasklauncher:cimclass" minOccurs="0" maxOccurs="1"/>
+                <element ref="tasklauncher:ciminstance" minOccurs="0" maxOccurs="1"/>
+                <element ref="tasklauncher:contextmenu" minOccurs="0" maxOccurs="1"/>
+				<element ref="tasklauncher:treenode" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="description" type="string"/>
+	<element name="cimclass">
+		<complexType>
+			<sequence>
+				<element ref="tasklauncher:classname" minOccurs="1"
+					maxOccurs="1" />
+				<element ref="tasklauncher:depth" minOccurs="0"
+					maxOccurs="1" />
+				<element ref="tasklauncher:association" minOccurs="0"
+					maxOccurs="1" />
+				<element ref="tasklauncher:instanceSubnodes"
+					minOccurs="0" maxOccurs="1" />
+				<choice>
+					<element ref="tasklauncher:instanceNamingClass" maxOccurs="1"></element>
+					<element ref="tasklauncher:instanceNamingKey" maxOccurs="1"></element>
+				</choice>
+				<element ref="tasklauncher:filter" minOccurs="0"
+					maxOccurs="1" />
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ciminstance">
+		<complexType>
+			<sequence>
+                <element ref="tasklauncher:classname" minOccurs="1" maxOccurs="1"/>
+                <element ref="tasklauncher:keyproperty" minOccurs="1" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="cimassociation">
+		<complexType>
+			<sequence>
+                <element ref="tasklauncher:classname" minOccurs="1" maxOccurs="1"/>
+                <element ref="tasklauncher:instanceSubnodes" minOccurs="0" maxOccurs="1"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="keyproperty">
+		<complexType>
+			<sequence>
+                <element ref="tasklauncher:property-name" minOccurs="1" maxOccurs="1"/>
+                <element ref="tasklauncher:property-datatype" minOccurs="1" maxOccurs="1"/>
+                <element ref="tasklauncher:property-value" minOccurs="1" maxOccurs="1"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="property-name" type="string"/>
+	<element name="property-datatype" type="tasklauncher:cimdatatype"/>
+	<element name="property-value" type="string"/>
+	<element name="depth" type="integer"/>
+	<element name="association">
+		<complexType>
+    		<attribute name="targetClassName" type="string" use="required"></attribute>
+    		<attribute name="sourceReferenceName" type="string" use="required"></attribute>
+    		<attribute name="targetReferenceName" type="string" use="required"></attribute>
+		</complexType>
+	</element>
+	<element name="instanceSubnodes">
+		<complexType>
+			<sequence>
+				<element ref="tasklauncher:treenode" minOccurs="0" maxOccurs="unbounded"/>
+				<element ref="tasklauncher:eventListener" minOccurs="0" maxOccurs="unbounded"/>
+	    		<element ref="tasklauncher:contextmenu" minOccurs="0" maxOccurs="1"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="instanceNamingKey" type="string"/>
+	<element name="eventListener">
+		<annotation>
+			<documentation>isSystemListener=true defines a listener that is not defined and generated with DCG.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+                <element ref="tasklauncher:classname" minOccurs="1" maxOccurs="1"/>
+				<element ref="tasklauncher:param" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+            <attribute name="isSystemListener" type="boolean" use="optional" default="false"></attribute>
+		</complexType>
+	</element>
+	<element name="contextmenu">
+		<complexType>
+			<sequence>
+                <element ref="tasklauncher:menuitem" minOccurs="1" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="menuitem">
+		<complexType>
+            <sequence>
+                <element ref="tasklauncher:description" minOccurs="1" maxOccurs="1"/>
+                <element ref="tasklauncher:eventListener" minOccurs="0" maxOccurs="1"/>
+            </sequence>
+		</complexType>
+	</element>
+	<element name="param">
+		<complexType>
+			<sequence>
+                <element ref="tasklauncher:param-name" minOccurs="1" maxOccurs="1"/>
+                <element ref="tasklauncher:param-value" minOccurs="1" maxOccurs="1"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="filter">
+		<complexType>
+			<sequence>
+				<element name="classname" type="string" maxOccurs="1" minOccurs="1"></element>
+				<element ref="tasklauncher:param" maxOccurs="unbounded" minOccurs="0">
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="instanceNamingClass">
+		<complexType>
+			<sequence>
+				<element name="classname" type="string" maxOccurs="1" minOccurs="1"></element>
+				<element ref="tasklauncher:param" maxOccurs="unbounded" minOccurs="0">
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="classname" type="string"/>
+	<element name="param-name" type="string"/>
+	<element name="param-value" type="string"/>
+	<simpleType name="cimdatatype">
+		<restriction base="string">
+			<enumeration value="UINT8"/>
+			<enumeration value="SINT8"/>
+			<enumeration value="UINT16"/>
+			<enumeration value="SINT16"/>
+			<enumeration value="UINT32"/>
+			<enumeration value="SINT32"/>
+			<enumeration value="UINT64"/>
+			<enumeration value="SINT64"/>
+			<enumeration value="STRING"/>
+			<enumeration value="BOOLEAN"/>
+			<enumeration value="REAL32"/>
+			<enumeration value="REAL64"/>
+			<enumeration value="DATETIME"/>
+			<enumeration value="CHAR16"/>
+		</restriction>
+	</simpleType>
+</schema>

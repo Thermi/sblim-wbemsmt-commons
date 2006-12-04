@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="wbemsmt-commons">
+        <wb-resource deploy-path="/" source-path="/commons-eui"/>
+        <wb-resource deploy-path="/" source-path="/commons-bl"/>
+        <wb-resource deploy-path="/" source-path="/commons-cim-schema"/>
+        <wb-resource deploy-path="/" source-path="/commons-wizards"/>
+        <wb-resource deploy-path="/" source-path="/commons-test"/>
+    </wb-module>
+</project-modules>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://sblim.org/wbemsmt/tasklauncher/tasklauncherconfig" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tasklauncher="http://sblim.org/wbemsmt/tasklauncher/tasklauncherconfig" elementFormDefault="unqualified">
+	<xs:element name="cimom">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tasklauncher:treeconfigReference" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="hostname" type="xs:string" use="required"/>
+			<xs:attribute name="user" type="xs:string"/>
+			<xs:attribute name="namespace" type="xs:string"/>
+			<xs:attribute name="port" type="xs:int"/>
+			<xs:attribute name="protocol" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="tasklauncherconfig">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tasklauncher:cimom" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="tasklauncher:treeconfig" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="treeconfig">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tasklauncher:fcoPackage" maxOccurs="unbounded"/>
+				<xs:element ref="tasklauncher:resourceBundle" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="filename" type="xs:string" use="required"/>
+			<xs:attribute name="slpServicename" type="xs:string" use="required"/>
+			<xs:attribute name="classForServerTaskLookup" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="treeconfigReference">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="resourceBundle">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="fcoPackage">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

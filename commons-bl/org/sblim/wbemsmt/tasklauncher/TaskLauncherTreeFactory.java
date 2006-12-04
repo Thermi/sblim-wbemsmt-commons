@@ -1,0 +1,290 @@
+/**
+ *  TaskLauncherTreeFactory.java
+ *
+ * (C) Copyright IBM Corp. 2005
+ *
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
+ * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
+ *
+ * You can obtain a current copy of the Common Public License from
+ * http://www.opensource.org/licenses/cpl1.0.php
+ *
+ * @author: Marius Kreis <mail@nulldevice.org>
+ *
+ * Contributors:
+ *
+ */
+
+package org.sblim.wbemsmt.tasklauncher;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
+import java.util.logging.Logger;
+
+import javax.faces.context.FacesContext;
+
+import org.sblim.wbem.client.CIMClient;
+import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeFactory;
+import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
+import org.sblim.wbemsmt.exception.ModelLoadException;
+import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.CimomData;
+import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.TreeConfigData;
+import org.sblim.wbemsmt.tasklauncher.login.LoginCheck;
+import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
+
+
+public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
+{
+    private static final Logger logger = Logger.getLogger(TaskLauncherTreeFactory.class.getName());
+    
+    private List rootNodes = new ArrayList();
+    private CustomTreeConfig[] customTreeConfigs = new CustomTreeConfig[]{};
+
+    public TaskLauncherTreeFactory(CIMClient cimClient, List customTreeConfigs) throws ModelLoadException
+    { 
+    	if (customTreeConfigs != null)
+    	{
+    		this.customTreeConfigs = (CustomTreeConfig[]) customTreeConfigs.toArray(new CustomTreeConfig[customTreeConfigs.size()]);
+        	for (Iterator iter = customTreeConfigs.iterator(); iter.hasNext();) {
+    			CustomTreeConfig customTreeConfig = (CustomTreeConfig) iter.next();
+    			if (customTreeConfig.isLoaded() && customTreeConfig.serverTaskExists(cimClient))
+    			{
+        			TaskLauncherTreeNode nodeFromXML = TaskLauncherTreeNode.createNodeFromXML(cimClient, customTreeConfig.getRootnode(),customTreeConfig.getTreeConfigData());
+        			nodeFromXML.setCustomTreeConfig(customTreeConfig);
+        			rootNodes.add( nodeFromXML );
+    			}
+    			else
+    			{
+        			try {
+        				TaskLauncherTreeNode rootNode = TaskLauncherTreeNode.createSimpleTextNode(customTreeConfig.getTreeConfigData().getName());
+        				//add the node itself as child (the root Nodes are not displayed)
+        				TaskLauncherTreeNode disabledNode = TaskLauncherTreeNode.createSimpleTextNode(customTreeConfig.getTreeConfigData().getName());
+        				disabledNode.setEnabled(false);
+						rootNode.getSubnodes().add(disabledNode);
+	        			rootNodes.add( rootNode );
+					} catch (WbemSmtException e) {
+						throw new ModelLoadException(e);
+					}
+    			}
+    		}
+    	}
+    }
+    
+    public TaskLauncherTreeFactory(CIMClient cimClient) throws ModelLoadException
+    {
+        this(cimClient, null);
+    }
+
+    public TaskLauncherTreeFactory(CimomData[] cimoms) throws WbemSmtException {
+		for (int i = 0; i < cimoms.length; i++) {
+			CimomData cimom = cimoms[i];
+			addCimomNode(cimom);
+		}
+		sortCimomNodes();		
+	}
+
+	private void addCimomNode(CimomData cimom) throws WbemSmtException {
+		TaskLauncherDelegaterTreeNode rootNode = new TaskLauncherDelegaterTreeNode(new ArrayList(),"root");
+		CimomTreeNode cimomNode = new CimomTreeNode(cimom);
+		rootNode.addSubnode(cimomNode);
+		rootNodes.add(rootNode);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sblim.wbem.webapp.ITaskLauncherTreeFactory#getRootNode()
+	 */ 
+    public List getRootNodes()
+    {
+    	return rootNodes;
+    }
+    
+    public void saveTreeConfig()
+    {
+        if(customTreeConfigs != null)
+        {
+        	for (int i = 0; i < customTreeConfigs.length; i++) {
+        		customTreeConfigs[i].saveConfig();
+			}
+        }
+    }
+
+    /**
+     * Updates the current Cimom Treenodes
+     * @param cimomDataArray
+     * @throws WbemSmtException 
+     */
+	public void updateMultiHost(CimomData[] cimomDataArray) throws WbemSmtException {
+		
+		Set oldCimoms = new HashSet(); 
+		Set newCimoms = new HashSet();
+		
+		for (Iterator iter = rootNodes.iterator(); iter.hasNext();) {
+			TaskLauncherTreeNode rootNode = (TaskLauncherTreeNode) iter.next();
+			CimomTreeNode cimomNode = (CimomTreeNode)rootNode.getSubnodes().get(0);
+			oldCimoms.add(cimomNode.getCimomData().getHostname().toLowerCase());
+		}
+		
+		for (int i = 0; i < cimomDataArray.length; i++) {
+			CimomData data = cimomDataArray[i];
+			newCimoms.add(data.getHostname().toLowerCase());
+		}
+		
+		//first remove the oldOnes that doesn't exist anymore
+		for (Iterator iter = oldCimoms.iterator(); iter.hasNext();) {
+			String oldHost = (String) iter.next();
+			if (!newCimoms.contains(oldHost))
+			{
+				for (int i=0; i < rootNodes.size(); i++)
+				{
+					TaskLauncherTreeNode rootNode = (TaskLauncherTreeNode) rootNodes.get(i);
+					CimomTreeNode cimomNode = (CimomTreeNode) rootNode.getSubnodes().get(0);
+					if (oldHost.equalsIgnoreCase(cimomNode.getCimomData().getHostname()))
+					{
+						logger.info("Removing CIMOIM " + oldHost);
+						rootNodes.remove(i);
+						break;
+					}
+				}
+			}
+		}
+		
+		//add the new found hosts
+		for (Iterator iter = newCimoms.iterator(); iter.hasNext();) {
+			String newHost = (String) iter.next();
+			if (!oldCimoms.contains(newHost))
+			{
+				for (int i = 0; i < cimomDataArray.length; i++) {
+					CimomData data = cimomDataArray[i];
+					if(newHost.equalsIgnoreCase(data.getHostname().toLowerCase()))
+					{
+						logger.info("Adding CIMOM " + newHost);
+						addCimomNode(data);
+						break;
+					}
+				}
+			}
+		}
+		sortCimomNodes();
+		logger.info("Cimom-Subnodes: " + rootNodes.size());
+	}
+
+	public void updateSingleHost(CimomData[] cimomDataArray) throws ModelLoadException
+	{
+		LoginCheck loginCheck = (LoginCheck) BeanNameConstants.LOGIN_CHECK.getBoundValue(FacesContext.getCurrentInstance());
+		CIMClient client = loginCheck.getCimClient();
+		
+		CimomData ourCimom = null;
+		
+		for (int i = 0; i < cimomDataArray.length && ourCimom == null; i++) {
+			CimomData data = cimomDataArray[i];
+			if (client != null && data.getHostname().equalsIgnoreCase(client.getNameSpace().getHost()))
+			{
+				ourCimom = data;
+			}
+		}
+		
+		if (ourCimom != null)
+		{
+			Set oldItems = new HashSet(); 
+			Set newItems = new HashSet();
+			
+			for (Iterator iter = rootNodes.iterator(); iter.hasNext();) {
+				TaskLauncherTreeNode rootNode = (TaskLauncherTreeNode) iter.next();
+				oldItems.add(rootNode.getCustomTreeConfig().getFilename());
+			}
+			
+			Vector treeConfigs = ourCimom.getTreeConfigs();
+			for (Iterator iter = treeConfigs.iterator(); iter.hasNext();) {
+				TreeConfigData treeConfigData = (TreeConfigData) iter.next();
+				newItems.add(treeConfigData.getFilename());
+			}
+			
+			//first remove the oldOnes that doesn't exist anymore
+			for (Iterator iter = oldItems.iterator(); iter.hasNext();) {
+				String oldItem = (String) iter.next();
+				if (!newItems.contains(oldItem))
+				{
+					for (int i=0; i < rootNodes.size(); i++)
+					{
+						TaskLauncherTreeNode rootNode = (TaskLauncherTreeNode) rootNodes.get(i);
+						if (oldItem.equalsIgnoreCase(rootNode.getCustomTreeConfig().getFilename()))
+						{
+							logger.info("Removing Node " + oldItem);
+							rootNodes.remove(i);
+							break;
+						}
+					}
+				}
+			}
+			
+			//add the new found Tasks
+			for (Iterator iter = newItems.iterator(); iter.hasNext();) {
+				String newItem = (String) iter.next();
+				if (!oldItems.contains(newItem))
+				{
+					for (Iterator iterator = treeConfigs.iterator(); iterator.hasNext();) {
+						TreeConfigData treeConfigData = (TreeConfigData) iterator.next();
+						
+						if (treeConfigData.getFilename().equalsIgnoreCase(newItem))
+						{
+							CustomTreeConfig customTreeConfig = new CustomTreeConfig(treeConfigData);
+							TaskLauncherTreeNode nodeFromXML = TaskLauncherTreeNode.createNodeFromXML(client, customTreeConfig.getRootnode(),customTreeConfig.getTreeConfigData());
+							nodeFromXML.setCustomTreeConfig(customTreeConfig);
+							rootNodes.add( nodeFromXML );
+						}
+					}
+				}
+			}			
+			sortTaskNodes();
+		}
+		else
+		{
+			rootNodes.clear();
+		}
+	}
+	
+	private void sortCimomNodes() {
+
+		Collections.sort(rootNodes, new Comparator()
+				{
+			public int compare(Object o1, Object o2) {
+				try {
+					CimomTreeNode cimomNode1 = (CimomTreeNode)((TaskLauncherTreeNode)o1).getSubnodes().get(0);
+					CimomTreeNode cimomNode2 = (CimomTreeNode)((TaskLauncherTreeNode)o2).getSubnodes().get(0);
+					return cimomNode1.getCimomData().getHostname().compareTo(cimomNode2.getCimomData().getHostname());
+				} catch (Exception e) {
+					e.printStackTrace();
+					return 0;
+				}
+			}
+		});
+		
+	}
+
+	private void sortTaskNodes() {
+
+		Collections.sort(rootNodes, new Comparator()
+		{
+			public int compare(Object o1, Object o2) {
+				try {
+					ITaskLauncherTreeNode treeNode1 = (ITaskLauncherTreeNode)((TaskLauncherTreeNode)o1).getSubnodes().get(0);
+					ITaskLauncherTreeNode treeNode2 = (ITaskLauncherTreeNode)((TaskLauncherTreeNode)o2).getSubnodes().get(0);
+					return treeNode1.getName().compareTo(treeNode2.getName());
+				} catch (Exception e) {
+					e.printStackTrace();
+					return 0;
+				}
+			}
+		});
+		
+	}	
+
+}
