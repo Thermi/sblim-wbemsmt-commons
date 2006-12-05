@@ -13,7 +13,7 @@ License:        Common Public License
 Url:            http://sblim.sourceforge.net/
 Group:          Development/Libraries/Java
 Vendor:         IBM
-Summary:        WBEM-SMT common libraries
+Summary:        Base module containing common classes used by all wbemsmt tasks
 SOURCE0:        %{name}-%{version}-src.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}
 BuildArch:      noarch
@@ -46,13 +46,11 @@ Requires: jakarta-commons-lang >= 2.0
 ###############################################################################
 
 %description
-Common libraries for WBEM-SMT tasks. This package includes the following
-parts:
-- Business Logic for the CIM Schema
-- Common functionality for Business Logic
-- Common functionality for EUI
-- A Wizard Framework
-These parts are used by the different WBEM-SMT tasks.
+This is the base module for all the wbemsmt client sided packages and contains
+common classes used by the wbemsmt tasks.
+It contains utility classes for creating and executing wizards, tools for cli
+and jsf handling and Helper classes for cim communication.
+It has the generated CIM 2.9 schema and common classes for the task launcher.
 
 ###############################################################################
 
@@ -117,3 +115,22 @@ install target/package/%{name}-launcher-config-%{version}.jar $RPM_BUILD_ROOT%{_
 %{_javadir}/sblim-wbemsmt/%{name}-%{version}.jar
 %{_javadir}/sblim-wbemsmt/%{name}-launcher-config.jar
 %{_javadir}/sblim-wbemsmt/%{name}-launcher-config-%{version}.jar
+
+###############################################################################
+%changelog
+* Mon Dec 4 2006 Wolfgang Taphorn <taphorn@de.ibm.com> 0.2.3-1
+  - Consolidation of the different cvs modules
+  - Inclusion of fixes for the following bug entries:
+    o 1609086 wbemsmt-commons: Consolidation of cvs modules
+    o 1609082 wbemsmt-commons: Functional enhancements
+
+* Tue Oct 17 2006 Wolfgang Taphorn <taphorn@de.ibm.com> 0.2.2-1
+  Changelog information out of the distributed cvs modules
+  - Inclusion of fixes for the following bug entries:
+    o 1572076 Missing Validation Messages
+    o 1573713 WizardPanels are vanishing
+    o 1573746 Preset handling for Login
+    o 1574472 Cleanup for client projects
+
+* Sat Jul 22 2006 Wolfgang Taphorn <taphorn@de.ibm.com> 0.2.1-1
+  - Initial upload of distributed CVS modules

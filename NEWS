@@ -1,0 +1,15 @@
+Changes in 0.2.3-1 :
+==============================================================================
+
+- #1609086 wbemsmt-commons: Consolidation of cvs modules
+- #1609082 wbemsmt-commons: Functional enhancements
+
+
+Changes in 0.2.2-1 : (Distributed packages - which are removed from CVS)
+==============================================================================
+
+- #1572076  Missing Validation Messages
+- #1573713  WizardPanels are vanishing
+- #1573746  Preset handling for Login
+- #1574472  Cleanup for client projects
+
