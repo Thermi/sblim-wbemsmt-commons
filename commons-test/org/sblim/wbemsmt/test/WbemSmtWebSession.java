@@ -19,7 +19,6 @@
   */
 package org.sblim.wbemsmt.test;
 
-import org.sblim.wbemsmt.test.jsf.EditListFieldLocator;
 import org.sblim.wbemsmt.test.jsf.FieldLocator;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
@@ -349,6 +348,10 @@ public class WbemSmtWebSession implements Selenium {
 		click(locator.getInfo());
 	}
 
+	public void click(FieldLocator locator, String wait) {
+		click(locator.getInfo(),wait);
+	}
+
 	public void clickRadio(FieldLocator locator, String wait) {
 		click(locator.getInfo(),wait);
 	}
@@ -395,8 +398,20 @@ public class WbemSmtWebSession implements Selenium {
 		
 	}
 
-	public boolean isElementPresent(EditListFieldLocator locator) {
-		return 	isElementPresent(locator.getInfo());
+	public boolean isElementPresent(FieldLocator locator) {
+		return selenium.isElementPresent(locator.getInfo());
+	}
+
+	public String getText(FieldLocator locator) {
+		return selenium.getText(locator.getInfo());
+	}
+
+	public void uncheck(FieldLocator locator) {
+		selenium.uncheck(locator.getInfo());
+	}
+
+	public boolean isChecked(FieldLocator locator) {
+		return selenium.isChecked(locator.getInfo());
 	}
 
 
