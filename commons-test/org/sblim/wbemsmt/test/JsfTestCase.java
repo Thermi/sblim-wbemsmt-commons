@@ -73,8 +73,7 @@ public class JsfTestCase extends WbemSmtTestCase {
 
     protected void doLogin(WbemSmtWebSession selenium, String taskName) {
 		
-		WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages","messagesDns","org.sblim.wbemsmt.webapp.jsf.webapp_messages"}, Locale.ENGLISH);
-		
+		WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages","org.sblim.wbemsmt.webapp.jsf.webapp_messages"}, Locale.ENGLISH);		
 		selenium = getSession(JsfTestCase.SESSION_MAIN);
 		selenium.open("/wbemsmt-webapp/login.jsf?");
 		selenium.click("langform:en");
