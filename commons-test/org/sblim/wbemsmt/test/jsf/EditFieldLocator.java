@@ -24,11 +24,17 @@ import java.text.MessageFormat;
 public class EditFieldLocator implements FieldLocator {
 
 	private final static String TEMPLATE = "mainForm:objectActionController_editBeans__{0}___containers_{1}___{2}_item";
+	private final static String TEMPLATE_LIST = "mainForm:objectActionController_editBeans__{0}___containers_{1}__{2}_{3}___{4}_item";
 	private String info;
 	
 	public EditFieldLocator(String tabName, int containerIdx, String fieldName)
 	{
 		this.info = MessageFormat.format(TEMPLATE, new Object[]{tabName,""+containerIdx,fieldName});
+	}
+	
+	public EditFieldLocator(String tabName, int containerIdx, String role,int idxInList, String fieldName)
+	{
+		this.info = MessageFormat.format(TEMPLATE_LIST, new Object[]{tabName,""+containerIdx,role,""+idxInList, fieldName});
 	}
 	
 	public String getInfo() {
