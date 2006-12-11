@@ -63,18 +63,8 @@ public class FcoHelper
 	public static void delete(Collection c, CIMClient cimClient) throws ObjectDeletionException
 	{
 		for (Iterator it = c.iterator(); it.hasNext();) {
-			Object o1 = (Object) it.next();
-			if (o1 instanceof CIM_ManagedElement) {
-				CIM_ManagedElement managedElement = (CIM_ManagedElement) o1;
-				delete(managedElement, cimClient);
-			}
-			else
-			{
-				logger.severe("Cannot delete object with class " + o1.getClass().getName());
-				throw new ObjectDeletionException("Cannot delete object with class " + o1.getClass().getName());
-				
-			}
-			
+			Object obj = (Object) it.next();
+			delete(obj, cimClient);
 		}
 	}
 	
