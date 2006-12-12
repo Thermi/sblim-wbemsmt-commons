@@ -91,8 +91,12 @@ public class TabbedPane
 		tabbedPane.setStyle("width:100%");
 		tabbedPane.setId("tabbedPane");
 		tabbedPane.setServerSideTabSwitch(true);
-		tabbedPane.setActiveTabStyleClass("activeTab");
-		tabbedPane.setInactiveTabStyleClass("inactiveTab");
+//		tabbedPane.setActiveTabStyleClass("activeTab");
+//		tabbedPane.setInactiveTabStyleClass("inactiveTab");
+//		tabbedPane.setDisabledTabStyleClass("disabledTab");
+//		tabbedPane.setActiveSubStyleClass("activeSubTab");
+//		tabbedPane.setInactiveSubStyleClass("inactiveSubTab");
+//		tabbedPane.setTabContentStyleClass("tabContentStyle");
 		tabbedPane.addTabChangeListener(new TabbedPaneChangeListener());
 		tabbedPane.setValueBinding("selectedIndex",app.createValueBinding("#{objectActionController.selectedTabIndex}"));
 		panel.getChildren().add(tabbedPane);
@@ -114,12 +118,14 @@ public class TabbedPane
 	private void addOKCancelButtons() {
 		
 		HtmlCommandButton btnOK = (HtmlCommandButton) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
+		btnOK.setStyleClass("submitButton");
 		btnOK.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.ok}"));
 		String binding = "#{" + BeanNameConstants.OBJECT_ACTION_CONTROLLER.getName() + ".currentEditListener.save" + "}";
 		btnOK.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,null));
 		btnOK.setId("editok");
 		
 		HtmlCommandButton btnCancel = (HtmlCommandButton) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
+		btnCancel.setStyleClass("submitButton");
 		btnCancel.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.cancel}"));
 		binding = "#{" + BeanNameConstants.OBJECT_ACTION_CONTROLLER.getName() + ".currentEditListener.cancel" + "}";
 		btnCancel.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,null));
