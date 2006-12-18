@@ -38,8 +38,9 @@ import org.sblim.wbemsmt.tools.converter.test.UnsignedInt16StringConverter;
 import org.sblim.wbemsmt.tools.converter.test.UnsignedInt32StringConverter;
 import org.sblim.wbemsmt.tools.input.jsf.JSFButtonComponent;
 import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFCheckboxActionComponent;
-import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFComboBoxActionComponent;
+import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFCheckboxComponent;
 import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFInputComponent;
+import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFLabelComponent;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
 import org.sblim.wbemsmt.tools.resources.LocaleManager;
@@ -89,33 +90,54 @@ public abstract class BasePanel {
 	
 	public abstract String[] getResourceBundleNames();
 
-	protected void addComponent(UIComponentBase parentComponent, LabeledJSFInputComponent inputComponent)
+	public static void addComponent(UIComponentBase parentComponent, LabeledJSFInputComponent inputComponent)
 	{
 		if (inputComponent instanceof JSFButtonComponent) {
 			//Buttons have no label and should therefore be stores in first columne
 			parentComponent.getChildren().add(inputComponent.getComponent());
-			parentComponent.getChildren().add(inputComponent.getLabel());
 		}
-		else if (inputComponent instanceof LabeledJSFCheckboxActionComponent) {
-			parentComponent.getChildren().add(inputComponent.getLabel());
-			parentComponent.getChildren().add(inputComponent.getComponentPanel());
+		else if (inputComponent instanceof LabeledJSFCheckboxActionComponent
+				 || inputComponent instanceof LabeledJSFCheckboxComponent
+				) {
+			HtmlPanelGrid group = createComponentTable(2);
+			group.setColumnClasses("checkboxComponentTableLeft,checkboxComponentTableRight");
+			group.getChildren().add(inputComponent.getComponentPanel()); 
+			group.getChildren().add(inputComponent.getLabelPanel()); 
+			parentComponent.getChildren().add(group);
 		}
-		else if (inputComponent instanceof LabeledJSFComboBoxActionComponent) {
-			parentComponent.getChildren().add(inputComponent.getLabel());
-			parentComponent.getChildren().add(inputComponent.getComponentPanel());
+		else if (inputComponent instanceof LabeledJSFLabelComponent) {
+			
+			HtmlPanelGrid group = createComponentTable(2);
+			group.setColumnClasses("labelComponentTableLeft,labelComponentTableRight");
+			group.setWidth("100%");
+			group.getChildren().add(inputComponent.getLabelPanel()); 
+			group.getChildren().add(inputComponent.getComponentPanel()); 
+			parentComponent.getChildren().add(group);
 		}
 		else
 		{
-			parentComponent.getChildren().add(inputComponent.getLabel());
+			HtmlPanelGrid group = createComponentTable(1);
+			group.getChildren().add(inputComponent.getLabelPanel());
 			if (inputComponent.getComponentPanel() != null)
 			{
-				parentComponent.getChildren().add(inputComponent.getComponentPanel());
+				group.getChildren().add(inputComponent.getComponentPanel());
 			}
 			else
 			{
-				parentComponent.getChildren().add(inputComponent.getComponent());
+				group.getChildren().add(inputComponent.getComponent());
 			}
+			parentComponent.getChildren().add(group);
 		}
+	}
+
+	private static HtmlPanelGrid createComponentTable(int cols) {
+		HtmlPanelGrid group = (HtmlPanelGrid)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
+		group.setColumnClasses("componentTableLeft,componentTableRight");
+		group.setColumns(cols);
+		group.setCellpadding("0");
+		group.setCellspacing("0");
+		group.setWidth("0%");
+		return group;
 	}
 	
 	public void setKey(CimObjectKey key) {
@@ -129,22 +151,40 @@ public abstract class BasePanel {
 
 		//set the title
 	protected void setTitle(HtmlPanelGrid panelGrid) {
+		HtmlPanelGroup group = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
+
 		HtmlOutputText text = (HtmlOutputText)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
 		text.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + bindingPrefix + "titleText"  + "}"));
 		text.setStyleClass("tableHeader");
 		panelGrid.setHeaderClass("tableHeader");
-		panelGrid.getFacets().put("header",text);
+
+		group.getChildren().add(text);
+		group.getChildren().add(JsfUtil.createText("<br><hr class=\"tableHeaderHR\"/>"));
+		
+		panelGrid.getFacets().put("header",group);
 	}
 	
 	protected void createTitleValueBindingForMultiline(HtmlPanelGrid panelGrid, String bindingForTitle, String keyForTitle) {
+		
 		this.keyForTitle = keyForTitle;
 		this.title = bundle.getString(keyForTitle);
 
-		HtmlOutputText text = (HtmlOutputText)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
-		text.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding(bindingForTitle));
-		text.setStyleClass("tableHeader");
-		panelGrid.setHeaderClass("tableHeader");
-		panelGrid.getFacets().put("header",text);
+		if (!"".equals(title))
+		{
+			HtmlPanelGroup group = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
+			
+
+			HtmlOutputText text = (HtmlOutputText)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
+			text.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding(bindingForTitle));
+			text.setStyleClass("tableHeader");
+			panelGrid.setHeaderClass("tableHeader");
+			
+			group.getChildren().add(text);
+			group.getChildren().add(JsfUtil.createText("<br><hr class=\"tableHeaderHR\"/>"));
+			
+			panelGrid.getFacets().put("header",group);
+		}
+		
 	}
 
 	//set the title

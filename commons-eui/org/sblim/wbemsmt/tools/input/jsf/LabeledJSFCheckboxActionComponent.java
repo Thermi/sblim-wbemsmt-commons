@@ -21,7 +21,6 @@
 package org.sblim.wbemsmt.tools.input.jsf;
 
 import javax.faces.component.html.HtmlCommandButton;
-import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -42,19 +41,12 @@ public class LabeledJSFCheckboxActionComponent extends LabeledJSFInputComponent 
 
 		HtmlSelectBooleanCheckbox cbox = ((HtmlSelectBooleanCheckbox)getComponent());
 		cbox.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
+		cbox.setStyleClass("checkBox");
 		String linkId = "LabeledJSFCheckboxActionComponent" + idCount++;
-		
-		HtmlPanelGrid panel = (HtmlPanelGrid)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
-		panel.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered}"));
-		panel.setColumns(2);
-		panel.setCellpadding("0");
-		panel.setCellspacing("0");
-		panel.setBorder(0);
-		panel.setWidth("0%");
 		
 		HtmlCommandButton btn = (HtmlCommandButton)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
 		btn.setValue(linkId);
-		btn.setStyle("visibility:hidden;width:0px");
+		btn.setStyleClass("invisibleButton");
 		btn.setActionListener(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id + "Action" + "}",new Class[]{ActionEvent.class}));
 		
 		checkbox = ((HtmlSelectBooleanCheckbox)getComponent());
@@ -67,10 +59,11 @@ public class LabeledJSFCheckboxActionComponent extends LabeledJSFInputComponent 
 					"}" +
 				"}"
 		);
-		
-		panel.getChildren().add(checkbox);
-		panel.getChildren().add(btn);
-		setComponentPanel(panel);
+
+		// because the checkbox is rendered in front of the text add the invisible button after the text
+		// so the way to display is: checkbox - label - invisible button
+		// if the space of the invisible is still used by the browser's renderer the layout is not messed up
+		getLabelPanel().getChildren().add(btn);
 		
 	}
 

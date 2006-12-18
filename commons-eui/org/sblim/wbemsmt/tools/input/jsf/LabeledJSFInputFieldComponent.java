@@ -33,6 +33,7 @@ public class LabeledJSFInputFieldComponent extends LabeledJSFInputComponent {
 		super(parent, labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputText.COMPONENT_TYPE), converter,readOnly);
 		HtmlInputText txt = ((HtmlInputText)getComponent());
 		txt.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
+		txt.setSize(25);
 	}
 
 }

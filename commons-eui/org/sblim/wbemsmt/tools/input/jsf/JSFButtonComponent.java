@@ -36,6 +36,7 @@ public class JSFButtonComponent extends LabeledJSFInputComponent {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE), converter,readOnly);
 		HtmlCommandButton btn = ((HtmlCommandButton)getComponent());
 		btn.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"LabelText}"));
+		btn.setStyleClass("submitButton");
 
 		btn.setActionListener(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id + "Action" + "}",new Class[]{ActionEvent.class}));
 	}

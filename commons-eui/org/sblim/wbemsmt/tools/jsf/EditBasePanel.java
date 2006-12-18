@@ -32,13 +32,14 @@ public abstract class EditBasePanel extends BasePanel implements DataContainer {
 	private HtmlPanelGrid panelGrid;
 
 	public EditBasePanel(AbstractBaseCimAdapter adapter, String bindingPrefix, String keyForTitle) {
-		this(adapter,bindingPrefix,keyForTitle, 2);
+		this(adapter,bindingPrefix,keyForTitle, 1);
 	}
 	
 	public EditBasePanel(AbstractBaseCimAdapter adapter, String bindingPrefix, String keyForTitle, int cols) {
 		super(adapter, bindingPrefix, keyForTitle );
 		panelGrid = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
 		panelGrid.setColumns(cols);
+		panelGrid.setWidth("100%");
 
 		setTitle(panelGrid);
 	}

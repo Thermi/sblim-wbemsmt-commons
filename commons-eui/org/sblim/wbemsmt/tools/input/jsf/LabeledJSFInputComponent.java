@@ -49,6 +49,7 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	UIComponentBase componentPanel = null;
 	
 	private HtmlOutputText label;
+	private HtmlPanelGroup labelPanel;
 	private UIComponent component;
 	protected String id;
 	private Map styles = null;
@@ -64,19 +65,25 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	public LabeledJSFInputComponent(DataContainer parent, String labelText, String pId, UIComponent component, Converter converter,boolean readOnly)
 	{
 		super(parent,labelText, converter);
-		this.component = component;
 		this.id = asJsfId(pId);
+		this.component = component;
 		this.component.setId(id);
+		this.component.setValueBinding("disabled", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Disabled}"));
+		this.component.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Rendered}"));
+		this.component.setValueBinding("style", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Style}"));
+
+		this.labelPanel = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
+		this.labelPanel.setStyle("white-space: nowrap;");
+
 		this.label = (HtmlOutputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
-		component.setValueBinding("disabled", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Disabled}"));
-		component.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Rendered}"));
-		component.setValueBinding("style", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Style}"));
 		label.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"LabelRendered}"));
 		label.setEscape(false);
+		
+		
+		String suffix = component instanceof HtmlSelectBooleanCheckbox ? "" : ": ";
 		if (!(component instanceof HtmlCommandButton))
 		{
-			label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"LabelText}"));
-//			this.label.setFor(id);
+			label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"LabelText}" + suffix));
 		}
 		else
 		{
@@ -84,6 +91,11 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		}
 		
 		setItemDisabled(readOnly);
+		labelPanel.getChildren().add(label);
+	}
+
+	public HtmlPanelGroup getLabelPanel() {
+		return labelPanel;
 	}
 
 	public HtmlOutputText getLabel() {
@@ -405,8 +417,15 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		
 	}
 
-	public UIComponentBase getComponentPanel() {
-		return componentPanel;
+	public UIComponent getComponentPanel() {
+		if (componentPanel != null)
+		{
+			return componentPanel;
+		}
+		else
+		{
+			return component;
+		}
 	}
 
 	public void setComponentPanel(UIComponentBase componentPanel) {

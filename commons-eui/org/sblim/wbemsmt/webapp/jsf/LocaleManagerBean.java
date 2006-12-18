@@ -62,6 +62,9 @@ public class LocaleManagerBean implements ILocaleManager, Cleanup
 		{
 			currentLocale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
 		}
+		
+		addResourceBundleEntry("common", new String[]{"messages"});
+		
 		logger.info("Locale is " + currentLocale);
 	}
 	
@@ -194,6 +197,13 @@ public class LocaleManagerBean implements ILocaleManager, Cleanup
 	{
 		key = key.replaceAll("\\.", "_");
 		String binding = "#{" + BeanNameConstants.LOCALE_MANAGER.getName() + ".bundle['"+ appName +"']." + key + "}";
+		return FacesContext.getCurrentInstance().getApplication().createValueBinding(binding);
+	}
+
+	public ValueBinding getBinding(String key)
+	{
+		key = key.replaceAll("\\.", "_");
+		String binding = "#{" + BeanNameConstants.LOCALE_MANAGER.getName() + ".bundle['common']." + key + "}";
 		return FacesContext.getCurrentInstance().getApplication().createValueBinding(binding);
 	}
 

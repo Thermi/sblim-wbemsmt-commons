@@ -29,20 +29,13 @@ import javax.faces.el.ValueBinding;
 
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFInputComponent;
+import org.sblim.wbemsmt.tools.jsf.BasePanel;
 import org.sblim.wbemsmt.webapp.jsf.LocaleManagerBean;
 
 public class JsfLayouter {
 	
 	public static void addComponent(UIComponentBase parent, LabeledJSFInputComponent component) {
-		parent.getChildren().add(component.getLabel());
-		if (component.getComponentPanel() != null)
-		{
-			parent.getChildren().add(component.getComponentPanel());
-		}
-		else
-		{
-			parent.getChildren().add(component.getComponent());
-		}
+		BasePanel.addComponent(parent, component);
 	}
 
 	protected HtmlOutputText getDummyLabel() {

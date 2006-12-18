@@ -119,6 +119,12 @@ public class WbemSmtResourceBundle extends HashMap {
 	
 	public String getString(String key)
 	{
+		String defaultValue = null;
+		return getString(key,defaultValue);
+	}
+	
+	public String getString(String key, String defaultValue)
+	{
 		if (key == null)
 		{
 			key = TOKEN_EMPTY;
@@ -155,7 +161,7 @@ public class WbemSmtResourceBundle extends HashMap {
 					{
 						System.err.println("Key " + firstKey +  " not found");
 						ResourceBundleManager.writeMissingTranslation(firstKey);
-						return "???" + firstKey + "???";
+						return defaultValue != null ? defaultValue : "???" + firstKey + "???";
 					}
 				}
 			}

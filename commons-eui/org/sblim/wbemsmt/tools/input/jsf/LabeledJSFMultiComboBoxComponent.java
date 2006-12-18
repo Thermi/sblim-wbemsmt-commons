@@ -35,6 +35,7 @@ public class LabeledJSFMultiComboBoxComponent extends LabeledJSFInputComponent i
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectManyMenu.COMPONENT_TYPE), converter,readOnly);
 //		super(labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputText.COMPONENT_TYPE) , converter);
 		HtmlSelectManyMenu menu = ((HtmlSelectManyMenu)getComponent());
+		menu.setStyleClass("comboBox");
 		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"List}"));
 		UISelectItems items = (UISelectItems) FacesContext.getCurrentInstance().getApplication().createComponent(UISelectItems.COMPONENT_TYPE);
 		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));

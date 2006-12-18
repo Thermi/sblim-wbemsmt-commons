@@ -31,6 +31,7 @@ public class LabeledJSFCheckboxComponent extends LabeledJSFInputComponent {
 	public LabeledJSFCheckboxComponent(DataContainer parent, String labelText,String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectBooleanCheckbox.COMPONENT_TYPE), converter,readOnly);
 		HtmlSelectBooleanCheckbox cbox = ((HtmlSelectBooleanCheckbox)getComponent());
+		cbox.setStyleClass("checkBox");
 		cbox.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 	}
 

@@ -83,7 +83,8 @@ public class TabbedPane
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Application app = fc.getApplication();
 		
-		panel = createTable(1,"noBorder", "noBorder","100%",0,0);
+		panel = createTable(1,"tabbedPanel", "tabbedPanelColumn","100%",0,0);
+		panel.setRowClasses("tabbedPanelRowTabs, tabbedPanelRowButtons");
 //		form = (HtmlForm) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlForm.COMPONENT_TYPE);
 //		panel.getChildren().add(form);
 		
@@ -148,6 +149,14 @@ public class TabbedPane
 		
 	}
 
+	/**
+	 * Add a tab to the tabbed pane
+	 * @param app
+	 * @param tabbedPane
+	 * @param i
+	 * @param bundleKey
+	 * @param id
+	 */
 	private void addTab(Application app, HtmlPanelTabbedPane tabbedPane, int i, String bundleKey, String id) {
 		HtmlPanelTab tab  = (HtmlPanelTab) app.createComponent(HtmlPanelTab.COMPONENT_TYPE);
 		tab.setId("Tab_" + LabeledJSFInputComponent.asJsfId(id));
@@ -159,6 +168,10 @@ public class TabbedPane
 		HtmlPanelGrid content = (HtmlPanelGrid)tabPanels.get(i);
 		content.setWidth("100%");
 		tab.getChildren().add(content);
+		
+		HtmlPanelGrid spacerTable = createTable(1,"tabbedPanelSpacerTable", "noBorder","100%",0,0);
+		tab.getChildren().add(spacerTable);
+
 	}
 
 	/**

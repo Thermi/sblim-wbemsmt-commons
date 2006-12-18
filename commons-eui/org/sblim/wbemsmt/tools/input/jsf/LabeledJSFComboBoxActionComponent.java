@@ -51,6 +51,7 @@ public class LabeledJSFComboBoxActionComponent extends LabeledJSFInputComponent 
 		btn.setActionListener(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id + "Action" + "}",new Class[]{ActionEvent.class}));
 
 		HtmlSelectOneMenu menu = ((HtmlSelectOneMenu)getComponent());
+		menu.setStyleClass("comboBox");
 		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 		UISelectItems items = (UISelectItems) FacesContext.getCurrentInstance().getApplication().createComponent(UISelectItems.COMPONENT_TYPE);
 		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
