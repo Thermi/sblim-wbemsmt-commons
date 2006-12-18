@@ -25,7 +25,9 @@ import java.util.HashMap;
 import java.util.Stack;
 import java.util.Vector;
 
+import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.tools.wizard.WizardStepList;
 
 public interface IWizardContainer {
 
@@ -105,4 +107,17 @@ public interface IWizardContainer {
 	 */
 	public Object getPage(String actualPanelName) throws WbemSmtException;
 	
+	/**
+	 * Get the List with Wizard Steps
+	 * @return
+	 */
+	public WizardStepList getStepList();
+	
+
+	/**
+	 * Get the Adapter responsible for this wizard
+	 * @return
+	 */
+	public AbstractBaseCimAdapter getAdapter();
+
 }

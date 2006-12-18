@@ -25,23 +25,39 @@ import javax.faces.context.FacesContext;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFInputComponent;
 import org.sblim.wbemsmt.tools.jsf.BasePanel;
+import org.sblim.wbemsmt.tools.wizard.IWizardBasePanel;
 
-public abstract class WizardBasePanel extends BasePanel {
+public abstract class WizardBasePanel extends BasePanel implements IWizardBasePanel {
 	protected static final String BINDING_PREFIX_CURRENT_PAGE = "objectActionController.currentWizard.currentPanel.";
 	private HtmlPanelGrid outerPanel;
 	private HtmlPanelGrid mainPanel;
 	private HtmlPanelGrid childPanel;
 
+	private String subTitle;
+	private String keyForSubTitle;
 	
 	
-	public WizardBasePanel(AbstractBaseCimAdapter adapter, String bindingPrefix, String keyForTitle) {
+	public WizardBasePanel(AbstractBaseCimAdapter adapter, String bindingPrefix, String keyForTitle, String keyForSubTitle) {
 		super(adapter, bindingPrefix, keyForTitle);
-		outerPanel = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
-		mainPanel = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
-		childPanel = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
 		
-		setTitle(outerPanel);
-		mainPanel.setColumns(2);
+		
+		if (keyForSubTitle != null)
+		{
+			this.keyForSubTitle = keyForSubTitle;
+			this.subTitle = bundle.getString(keyForSubTitle);
+		}
+		
+		
+		outerPanel = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
+		outerPanel.setStyleClass("wizardPanelOuterPanel");
+		outerPanel.setColumnClasses("wizardPanelOuterPanelColumn");
+		mainPanel = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
+		mainPanel.setStyleClass("wizardPanelMainPanel");
+		childPanel = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
+		childPanel.setStyleClass("wizardPanelChildPanel");
+		
+		//setTitle(outerPanel);
+		mainPanel.setColumns(1);
 		
 		outerPanel.setColumns(1);
 		outerPanel.getChildren().add(mainPanel);
@@ -58,7 +74,7 @@ public abstract class WizardBasePanel extends BasePanel {
 		return outerPanel;
 	}
 
-	protected HtmlPanelGrid getPanelForCustomLayout()
+	public HtmlPanelGrid getPanelForCustomLayout()
 	{
 		return mainPanel;
 	}
@@ -76,8 +92,26 @@ public abstract class WizardBasePanel extends BasePanel {
 		return mainPanel;
 	}
 
-	public HtmlPanelGrid getOuterPanel() {
-		return outerPanel;
+//	public HtmlPanelGrid getOuterPanel() {
+//		return outerPanel;
+//	}
+	
+	public void reload()
+	{
+		super.reload();
+		if (keyForSubTitle != null)
+		{
+			this.subTitle = bundle.getString(keyForSubTitle);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sblim.wbemsmt.tools.wizard.jsf.IWizardBasePanel#getSubTitleText()
+	 */
+	public String getSubTitleText() {
+		subTitle = subTitle.replaceAll("\\n", "<br>");
+		subTitle = subTitle.replaceAll("\\r", "");
+		return subTitle;
 	}
 	
 	

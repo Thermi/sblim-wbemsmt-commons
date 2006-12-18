@@ -25,6 +25,9 @@ package org.sblim.wbemsmt.tools.wizard.container;
 import java.util.HashMap;
 import java.util.Stack;
 
+import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
+import org.sblim.wbemsmt.tools.wizard.WizardStepList;
+
 public abstract class AbstractWizardContainerBase {
 
 	protected Stack usedPages = new Stack();
@@ -39,8 +42,11 @@ public abstract class AbstractWizardContainerBase {
 	private boolean finishButtonFlag = true;
 	private boolean cancelButtonFlag = true;
 	
-	public AbstractWizardContainerBase() {
-		
+	protected WizardStepList stepList = null;
+	private final AbstractBaseCimAdapter adapter;
+	
+	public AbstractWizardContainerBase(AbstractBaseCimAdapter adapter) {
+		this.adapter = adapter;
 	}
 
 	public void updateButtonStates(boolean isLast, boolean isFirst) {
@@ -215,4 +221,21 @@ public abstract class AbstractWizardContainerBase {
 		this.currentPageName = currentPageName;
 	}
 
+	/**
+	 * The List with steps of the wizard
+	 * @return
+	 */
+	public WizardStepList getStepList() {
+		return stepList;
+	}
+
+	/**
+	 * get the adapter responsible for this wizard
+	 * @return
+	 */
+	public AbstractBaseCimAdapter getAdapter() {
+		return adapter;
+	}
+	
+	
 }
