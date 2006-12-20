@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
+import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
-import org.sblim.wbemsmt.bl.adapter.MessageList.Message;
 import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 

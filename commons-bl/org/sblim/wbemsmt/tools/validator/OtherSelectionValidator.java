@@ -20,7 +20,9 @@
 package org.sblim.wbemsmt.tools.validator;
 
 import org.sblim.wbem.cim.UnsignedInt16;
+import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
+import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
@@ -62,8 +64,8 @@ public class OtherSelectionValidator extends Validator {
 				String valueNotAllowed = adapter.getBundle().getString(key);
 				if (valueSet.equals(valueNotAllowed))
 				{
-					String msg = adapter.getBundle().getString("validator.valueNotAllowed",new Object[]{component.getLabelText(),valueNotAllowed});
-					result.addError(msg,component);
+					String msg = adapter.getBundle().getString(ErrCodes.MSG_VALUE_NOT_ALLOWED,"validator.valueNotAllowed",new Object[]{component.getLabelText(),valueNotAllowed});
+					result.addMessage(new Message(ErrCodes.MSG_VALUE_NOT_ALLOWED,Message.ERROR,msg,component));
 				}
 			}
 		}

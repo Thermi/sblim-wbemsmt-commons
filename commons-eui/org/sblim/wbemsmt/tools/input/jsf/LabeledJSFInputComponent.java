@@ -442,7 +442,7 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		try {
 			parent.getAdapter().updateModel(parent,this);
 			parent.getAdapter().updateControls(parent);
-			JsfBase.addErrors(parent.getMessagesList(), parent.getAdapter().getBundle());
+			JsfBase.addMessages(parent.getMessagesList());
 		} catch (Exception e) {
 			JsfUtil.handleException(e);
 		}

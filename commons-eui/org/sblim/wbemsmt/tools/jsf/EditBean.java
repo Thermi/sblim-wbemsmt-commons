@@ -24,9 +24,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlOutputText;
@@ -34,7 +32,10 @@ import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.FacesContext;
 
+import org.sblim.wbemsmt.bl.ErrCodes;
+import org.sblim.wbemsmt.bl.MessageNumber;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
+import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.exception.CountException;
@@ -114,22 +115,21 @@ public abstract class EditBean extends JsfBase{
    {
 		if (messages.hasErrors())
 		{
-			JsfBase.addErrors(FacesMessage.SEVERITY_ERROR, bundle.getString("save.error"),messages,bundle);
+			JsfBase.addMessages(new Message(ErrCodes.MSG_SAVE_ERROR, Message.ERROR,bundle.getString(ErrCodes.MSG_SAVE_ERROR,"save.error")),messages, true);
 		}
 		else
 		{
 			if (messages.hasWarning())
 			{
-				JsfBase.addErrors(FacesMessage.SEVERITY_WARN,bundle.getString("save.warning"),messages,bundle);
+				JsfBase.addMessages(new Message(ErrCodes.MSG_SAVE_WARNING, Message.WARNING,bundle.getString(ErrCodes.MSG_SAVE_WARNING,"save.warning")),messages, true);
 			}
 			else if (messages.hasInfo())
 			{
-				messages.addInfo(bundle.getString("save.success"));
-				JsfBase.addErrors(bundle.getString("save.info"),messages,bundle);
+				JsfBase.addMessages(new Message(ErrCodes.MSG_SAVE_INFO, Message.INFO,bundle.getString(ErrCodes.MSG_SAVE_INFO,"save.info")),messages, true);
 			}
 			else
 			{
-				JsfBase.addInfo(bundle.getString("save.success"));
+				JsfBase.addMessage(new Message(ErrCodes.MSG_SAVE_SUCCESS, Message.SUCCESS,bundle.getString(ErrCodes.MSG_SAVE_SUCCESS,"save.success")));
 			}
 		}
    }
@@ -160,7 +160,6 @@ public abstract class EditBean extends JsfBase{
 			}
 			catch (Exception e)
 			{
-				logger.log(Level.SEVERE,"Cannot reloadAdapters",e);
 				JsfUtil.handleException(e);
 			}
 		}
@@ -191,10 +190,46 @@ public abstract class EditBean extends JsfBase{
 			}
 			catch (Exception e)
 			{
-				logger.log(Level.SEVERE,"Cannot reloadAdapters",e);
 				JsfUtil.handleException(e);
 			}
 	}
 	
+   protected void addValidationErrors(MessageList list, WbemSmtResourceBundle bundle)
+   {
+	   if (list.hasErrors())
+	   {
+		   addSaveResult(ErrCodes.MSG_VALIDATION_ERROR,Message.ERROR, bundle,"validation.error",list);
+	   }
+   }
+
+   protected void addSaveError(MessageList list, WbemSmtResourceBundle bundle)
+    {
+	   if (list.hasErrors())
+	   {
+		   addSaveResult(ErrCodes.MSG_SAVE_ERROR,Message.ERROR, bundle,"save.error",list);
+	   }
+    }
 	
+	protected void addSaveWarning(MessageList list, WbemSmtResourceBundle bundle)
+    {
+    	addSaveResult(ErrCodes.MSG_SAVE_WARNING,Message.WARNING,bundle,"save.warning",list);
+    }
+    
+    protected void addSaveInfo(MessageList list, WbemSmtResourceBundle bundle)
+    {
+    	addSaveResult(ErrCodes.MSG_SAVE_INFO,Message.INFO,bundle,"save.info",list);
+    }
+    
+    protected void addSaveSuccess(WbemSmtResourceBundle bundle)
+    {
+    	addSaveResult(ErrCodes.MSG_SAVE_SUCCESS,Message.SUCCESS,bundle,"save.success",null);
+    }
+    
+    private void addSaveResult(MessageNumber msgNumber, String severity, WbemSmtResourceBundle bundle, String key, MessageList list) {
+		
+    	Message message = new Message(msgNumber,severity,bundle.getString(msgNumber, key));
+    	addMessages(message, list, true);
+		
+	}
+    
 }

@@ -24,6 +24,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.sblim.wbem.cim.CIMException;
+import org.sblim.wbemsmt.bl.ErrCodes;
+import org.sblim.wbemsmt.bl.MessageNumber;
+import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.tools.cli.CimCommand;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
@@ -69,7 +72,7 @@ public class ExceptionUtil {
 	 * @return
 	 */
 	
-	public static String getEnduserExceptionText(Throwable originalException, Locale currentLocale, WbemSmtResourceBundle bundle, WbemSmtResourceBundle taskBundle, WbemSmtException wbemsmtExceptionCause, Level level, String lineSeparator) {
+	public static Message getEnduserExceptionText(Throwable originalException, Locale currentLocale, WbemSmtResourceBundle bundle, WbemSmtResourceBundle taskBundle, WbemSmtException wbemsmtExceptionCause, Level level, String lineSeparator) {
 
 		level = level == null ? Level.SEVERE : level;
 		lineSeparator = lineSeparator == null ? " " : lineSeparator;
@@ -83,6 +86,7 @@ public class ExceptionUtil {
 		//then for the deepest CIMException
 		CIMException cimException = (CIMException) findDeepest(CIMException.class, originalException);
 	
+		MessageNumber messageNumber = ErrCodes.getMessageNumber(wbemsmtExceptionCause);
 	
 		
 		StringBuffer exceptionText = new StringBuffer();
@@ -136,7 +140,7 @@ public class ExceptionUtil {
 		}
 	
 		String msg = exceptionText.toString() + (cimException != null ? reasonText.toString() : "");
-		return msg;
+		return new Message(messageNumber,Message.ERROR,msg);
 	}
 
 	public static void handleException(Throwable t) {
@@ -149,8 +153,8 @@ public class ExceptionUtil {
 			//first search for the deepest WbemSmtException
 			WbemSmtException smtException = (WbemSmtException) ExceptionUtil.findDeepest(WbemSmtException.class, t);
 			WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages"});
-			String msg = ExceptionUtil.getEnduserExceptionText(t, Locale.getDefault(), bundle , bundle, smtException, Level.FINE, "\n");
-			System.err.println(bundle.getString("error.while.execution") + "\n" + msg);
+			Message msg = ExceptionUtil.getEnduserExceptionText(t, Locale.getDefault(), bundle , bundle, smtException, Level.FINE, "\n");
+			System.err.println(bundle.getString("error.while.execution") + "\n" + msg.getMessageString());
 		}
 	}
 	

@@ -19,7 +19,9 @@
   */
 package org.sblim.wbemsmt.tools.validator;
 
+import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
+import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
@@ -42,8 +44,8 @@ public class RequiredFieldValidator extends Validator {
 		
 		if (component.isEmpty())
 		{
-			String msg = adapter.getBundle().getString("validator.requiredField",new Object[]{component.getLabelText()});
-			result.addError(msg,component);
+			String msg = adapter.getBundle().getString(ErrCodes.MSG_REQUIRED_FIELD, "validator.requiredField",new Object[]{component.getLabelText()});
+			result.addMessage(new Message(ErrCodes.MSG_REQUIRED_FIELD,Message.ERROR,msg,component));
 		}
 	}
 

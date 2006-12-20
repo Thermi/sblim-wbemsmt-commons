@@ -24,12 +24,16 @@
 package org.sblim.wbemsmt.tools.resources;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Properties;
 import java.util.ResourceBundle;
+
+import org.sblim.wbemsmt.bl.MessageNumber;
 
 /**
  * This class is used to load resourceBundleFiles from different locations using the method add to add new ResourceBundles
@@ -99,6 +103,7 @@ public class WbemSmtResourceBundle extends HashMap {
 	/**
 	 * This Method takes the resourceBundle, reads the Entries and puts them to the 
 	 * properties Object - if there is already a properties Object the existing object is overwritten
+	 * The bundlenames of the added bundle are added to the existent bundleNames
 	 * @param bundle
 	 */
 	public void add(WbemSmtResourceBundle bundle)
@@ -115,14 +120,45 @@ public class WbemSmtResourceBundle extends HashMap {
 				properties.put(key1,value);
 			}
 		}
+		addBundleNames(bundle);
 	}
 	
+	/**
+	 * add the bundleNames
+	 * @param bundle
+	 */
+	private void addBundleNames(WbemSmtResourceBundle bundle) {
+
+		List bundleNameList = new ArrayList();
+		for (int i = 0; i < bundleNames.length; i++) {
+			bundleNameList.add(bundleNames[i]);
+		}
+		
+		for (int i = 0; i < bundle.getBundleNames().length; i++) {
+			String newName = bundle.getBundleNames()[i];
+			if (!bundleNameList.contains(newName))
+			{
+				bundleNameList.add(newName);
+			}
+		}
+		
+		bundleNames = (String[]) bundleNameList.toArray(new String[bundleNameList.size()]);
+		
+	}
+
 	public String getString(String key)
 	{
 		String defaultValue = null;
 		return getString(key,defaultValue);
 	}
 	
+	public String getString(MessageNumber messageNumber, String key)
+	{
+		String defaultValue = null;
+		key = messageNumber.getResourceBundleKey() + "." + key;
+		return getString(key,defaultValue);
+	}
+
 	public String getString(String key, String defaultValue)
 	{
 		if (key == null)
@@ -186,6 +222,19 @@ public class WbemSmtResourceBundle extends HashMap {
 		String value = getString(key);
 		return MessageFormat.format(value,objects);
 	}
+	
+	/**
+	 * formats a message format string
+	 * @param key
+	 * @param objects
+	 * @return
+	 */
+	public String getString(MessageNumber messageNumber, String key, Object[] objects) {
+		key = messageNumber.getResourceBundleKey() + "." + key;
+		String value = getString(key);
+		return MessageFormat.format(value,objects);
+	}
+
 	
 	static class Mode 
 	{

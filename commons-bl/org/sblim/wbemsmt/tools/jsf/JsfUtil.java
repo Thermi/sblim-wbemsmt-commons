@@ -23,11 +23,8 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
@@ -38,13 +35,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionListener;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.myfaces.custom.tree2.HtmlTree;
 import org.apache.myfaces.custom.tree2.TreeNode;
-import org.sblim.wbem.cim.CIMException;
+import org.sblim.wbemsmt.bl.ErrCodes;
+import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
 import org.sblim.wbemsmt.exception.WbemSmtException;
-import org.sblim.wbemsmt.tasklauncher.TaskLauncherController;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
@@ -141,49 +137,6 @@ public class JsfUtil {
 		
 	}
 
-	public static void handleExceptionDetailed(Throwable t) {
-
-		Logger logger = Logger.getLogger("org.sblim.wbemsmt.tools.jsf");
-		logger.log(Level.SEVERE,"",t);
-		
-		Logger jsfMsgLogger = TaskLauncherController.getLoggerFacesMessages();
-		
-		//first search for the deepest WbemSmtException
-		WbemSmtException smtException = (WbemSmtException) ExceptionUtil.findDeepest(WbemSmtException.class, t);
-		
-		//then for the deepest CIMException
-		CIMException cimException = (CIMException) ExceptionUtil.findDeepest(CIMException.class, t);
-		
-		//then for the deepest Exception
-		Throwable throwable = (Throwable) ExceptionUtil.findDeepest(Throwable.class, t);
-
-		WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance());
-		
-		jsfMsgLogger.log(Level.SEVERE,bundle.getString("error.while.execution"));
-		
-		String smtMsg = 
-					smtException != null && StringUtils.isNotBlank(smtException.getMessage()) ? 
-					smtException.getMessage() : 
-					t.getMessage();
-		String smtClass = smtException != null ? smtException.getClass().getName() : "";
-					
-		jsfMsgLogger.log(Level.SEVERE,bundle.getString("wrapped.WBEMSMTException") + " " +  smtClass + " " + smtMsg);
-
-		String cimMsg = 
-			cimException != null && StringUtils.isNotBlank(cimException.getMessage()) ? 
-		    		cimException.getID() :
-		    		bundle.getString("no.cimexception");			
-		String cimClass = cimException != null ? cimException.getClass().getName() : "";
-		jsfMsgLogger.log(Level.SEVERE,bundle.getString("wrapped.CIMException") + " " + cimClass + " " + cimMsg);
-		    
-		String tMsg = 
-			throwable != null && StringUtils.isNotBlank(throwable.getMessage()) && throwable != cimException && throwable != smtException ? 
-		    		throwable.getMessage() :
-		    		bundle.getString("no.exception");			
-		String tClass = throwable != null && throwable != cimException && throwable != smtException ? throwable.getClass().getName() : "";
-		jsfMsgLogger.log(Level.SEVERE,bundle.getString("wrapped.exception") + " " + tClass + " " + tMsg);
-
-	}
 	public static void handleException(Throwable t)
 	{
 		handleExceptionEnduser(t);
@@ -204,9 +157,11 @@ public class JsfUtil {
 		} 
 
 		
-		String msg = ExceptionUtil.getEnduserExceptionText(t, currentLocale, bundle, taskBundle, smtException, null, "");
-		Logger jsfMsgLogger = TaskLauncherController.getLoggerFacesMessages();
-		jsfMsgLogger.log(Level.SEVERE,bundle.getString("error.while.execution") + " " + msg);
+		Message msgTitle = new Message(ErrCodes.MSG_ERROR_WHILE_EXECUTION,Message.ERROR,bundle.getString(ErrCodes.MSG_ERROR_WHILE_EXECUTION,"error.while.execution")); 
+		Message msg = ExceptionUtil.getEnduserExceptionText(t, currentLocale, bundle, taskBundle, smtException, null, "");
+		
+		JsfBase.addMessage(msgTitle);
+		JsfBase.addMessage(msg);
 
 	}
 	
@@ -253,9 +208,9 @@ public class JsfUtil {
 		return comp;
 	}
 
-	public static void addMessage(Severity severity, String message)
+	public static void addMessage(Message message)
 	{
-		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(severity,message,""));
+		JsfBase.addMessage(message);
 	}
 
 	public static boolean havingErrors() {
@@ -265,6 +220,14 @@ public class JsfUtil {
 			if (msg.getSeverity().equals(FacesMessage.SEVERITY_ERROR) || msg.getSeverity().equals(FacesMessage.SEVERITY_FATAL))
 			{
 				return true;
+			}
+			if(msg instanceof WbemsmtFacesMessage)
+			{
+				WbemsmtFacesMessage wbemsmtFacesMessage = (WbemsmtFacesMessage) msg;
+				if (wbemsmtFacesMessage.getMessage().isError())
+				{
+					return true;
+				}
 			}
 		}
 		return false;

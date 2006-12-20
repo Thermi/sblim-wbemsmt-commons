@@ -23,7 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
+import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
@@ -67,7 +69,7 @@ public class IpAddressFieldValidator extends Validator {
 			{
 				//only a example should not occur
 				String msg = adapter.getBundle().getString("validator.ipCannotConvert",new Object[]{component.getLabelText()});
-				result.addError(msg,component);
+				result.addMessage(new Message(ErrCodes.MSG_OTHER_COMBO_ENTRY,Message.ERROR,msg,component));
 			}
 		}
 	}
@@ -94,8 +96,8 @@ public class IpAddressFieldValidator extends Validator {
 
 		if (values.size() != 4)
 		{
-			String msg = adapter.getBundle().getString("validator.ip4Digits",new Object[]{value,component.getLabelText()});
-			result.addError(msg,component);
+			String msg = adapter.getBundle().getString(ErrCodes.MSG_IP_4_DIGITS, "validator.ip4Digits",new Object[]{value,component.getLabelText()});
+			result.addMessage(new Message(ErrCodes.MSG_IP_4_DIGITS,Message.ERROR,msg,component));
 			return false;
 		}
 		
@@ -117,18 +119,18 @@ public class IpAddressFieldValidator extends Validator {
 				int nr = Integer.parseInt(strNr);
 				if (nr > 255)
 				{
-					String msg = adapter.getBundle().getString("validator.ipLargerThan255",new Object[]{strNr,value,component.getLabelText()});
-					result.addError(msg,component);
+					String msg = adapter.getBundle().getString(ErrCodes.MSG_IP_LARGER_256,"validator.ipLargerThan255",new Object[]{strNr,value,component.getLabelText()});
+					result.addMessage(new Message(ErrCodes.MSG_IP_LARGER_256,Message.ERROR,msg,component));
 				}
 				if (nr < 0)
 				{
-					String msg = adapter.getBundle().getString("validator.ipLessThan0",new Object[]{strNr,value,component.getLabelText()});
-					result.addError(msg,component);
+					String msg = adapter.getBundle().getString(ErrCodes.MSG_IP_LESS_0,"validator.ipLessThan0",new Object[]{strNr,value,component.getLabelText()});
+					result.addMessage(new Message(ErrCodes.MSG_IP_LESS_0,Message.ERROR,msg,component));
 				}
 				
 			} catch (NumberFormatException e) {
-				String msg = adapter.getBundle().getString("validator.ipNoNumber",new Object[]{strNr,value,component.getLabelText()});
-				result.addError(msg,component);
+				String msg = adapter.getBundle().getString(ErrCodes.MSG_IP_NO_NUMBER,"validator.ipNoNumber",new Object[]{strNr,value,component.getLabelText()});
+				result.addMessage(new Message(ErrCodes.MSG_IP_NO_NUMBER,Message.ERROR,msg,component));
 			}
 		}
 		boolean success = errorCount == result.getErrors().length;

@@ -44,6 +44,7 @@ import org.sblim.wbem.client.PasswordCredential;
 import org.sblim.wbem.client.UserPrincipal;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
+import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
 import org.sblim.wbemsmt.exception.LoginException;
@@ -350,7 +351,7 @@ public abstract class CimCommand {
 	{
 		System.err.println(bundle.getString(bundlekeyForCaption));
         for (Iterator iter = messageList.iterator(); iter.hasNext();) {
-        	MessageList.Message msg = (MessageList.Message) iter.next();
+        	Message msg = (Message) iter.next();
         	System.err.println(msg.toLocalizedString(bundle,true));
         }
 
@@ -368,7 +369,7 @@ public abstract class CimCommand {
 	public void traceErrors(MessageList messageList)
 	{
 	    for (Iterator iter = messageList.iterator(); iter.hasNext();) {
-        	MessageList.Message msg = (MessageList.Message) iter.next();
+        	Message msg = (Message) iter.next();
         	System.err.println(msg.toLocalizedString(bundle,true));
         }
         if (Cli.testMode)
@@ -386,7 +387,7 @@ public abstract class CimCommand {
 	{
 		System.out.println(bundle.getString(bundlekeyForCaption));
         for (Iterator iter = messageList.iterator(); iter.hasNext();) {
-        	MessageList.Message msg = (MessageList.Message) iter.next();
+        	Message msg = (Message) iter.next();
         	System.out.println(msg.toLocalizedString(bundle,true));
         }
         if (Cli.testMode)
@@ -403,7 +404,7 @@ public abstract class CimCommand {
 	public void traceMessages(MessageList messageList)
 	{
         for (Iterator iter = messageList.iterator(); iter.hasNext();) {
-        	MessageList.Message msg = (MessageList.Message) iter.next();
+        	Message msg = (Message) iter.next();
         	System.out.println(msg.toLocalizedString(bundle,true));
         }
         if (Cli.testMode)
@@ -492,9 +493,9 @@ public abstract class CimCommand {
 			//first search for the deepest WbemSmtException
 			WbemSmtException smtException = (WbemSmtException) ExceptionUtil.findDeepest(WbemSmtException.class, t);
 			
-			String msg = ExceptionUtil.getEnduserExceptionText(t, locale, bundle, bundle, smtException, Level.FINE, "\n");
+			Message msg = ExceptionUtil.getEnduserExceptionText(t, locale, bundle, bundle, smtException, Level.FINE, "\n");
 			
-			System.err.println(bundle.getString("error.while.execution") + "\n" + msg);
+			System.err.println(bundle.getString("error.while.execution") + "\n" + msg.getMessageString());
 		}
 	}
 	

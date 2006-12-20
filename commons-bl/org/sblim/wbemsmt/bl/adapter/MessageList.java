@@ -28,23 +28,9 @@ import java.util.Set;
 
 import org.apache.commons.collections.MultiHashMap;
 import org.apache.commons.collections.MultiMap;
-import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
-import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
 public class MessageList {
 
-	/**
-	 * Key for Info-messages
-	 */
-	public static final String INFO = "Info";
-	/**
-	 * Key for Warning-messages
-	 */
-	public static final String WARNING = "Warning";
-	/**
-	 * Key for Error-messages
-	 */
-	public static final String ERROR = "Error";
 	private MultiMap list = new MultiHashMap();
 	private Set messages = new HashSet();
 	
@@ -54,55 +40,66 @@ public class MessageList {
 
 	/**
 	 * @return true if the MessageList has messages from type ERROR
-	 * @see #ERROR
+	 * @see Message#ERROR
 	 */
 	public boolean hasErrors()
 	{
-		List errorList = (List) list.get(ERROR);
+		List errorList = (List) list.get(Message.ERROR);
 		return errorList != null && errorList.size() > 0;
 	}
 	/**
 	 * @return true if the MessageList has messages from type WARNING
-	 * @see #WARNING
+	 * @see Message#WARNING
 	 */
 	public boolean hasWarning()
 	{
-		List warningList = (List) list.get(WARNING);
+		List warningList = (List) list.get(Message.WARNING);
 		return warningList != null && warningList.size() > 0;
 	}
 	/**
 	 * @return true if the MessageList has messages from type INFO
-	 * @see #INFO
+	 * @see Message#INFO
 	 */
 
 	public boolean hasInfo()
 	{
-		List infoList = (List) list.get(INFO);
+		List infoList = (List) list.get(Message.INFO);
+		return infoList != null && infoList.size() > 0;
+	}
+
+	/**
+	 * @return true if the MessageList has messages from type SUCCESS
+	 * @see Message#SUCCESS
+	 */
+
+	public boolean hasSuccess()
+	{
+		List infoList = (List) list.get(Message.SUCCESS);
 		return infoList != null && infoList.size() > 0;
 	}
 
 	/**
 	 * @return all Messages from type ERROR
-	 * @see #ERROR
+	 * @see Message#ERROR
 	 */
 	public Message[] getErrors() {
-		return getList(ERROR);
+		return getList(Message.ERROR);
 	}
 
 	/**
 	 * @return all Messages from type WARNING
-	 * @see #WARNING
+	 * @see Message#WARNING
 	 */
 	public Message[] getWarnings() {
-		return getList(WARNING);
+		return getList(Message.WARNING);
 	}
 
 	/**
 	 * @return all Messages from type INFO
-	 * @see #INFO
+	 * @see Message#INFO
 	 */
 	public Message[] getInfos() {
-		return getList(INFO);
+		return getList(Message.INFO);
 	}
 
 	/**
@@ -123,106 +120,13 @@ public class MessageList {
 	}
 
 	/**
-	 * add Info message
-	 * If the message is already contained it's not added again
-	 * @param msg
-	 */
-	public void addInfo(String msg)
-	{
-		put(INFO, new Message(INFO,msg, null));
-	}
-	/**
-	 * add warning message
-	 * If the message is already contained it's not added again
-	 * @param msg
-	 */
-	public void addWarning(String msg)
-	{
-		put(WARNING, new Message(WARNING,msg, null));
-	}
-	/**
-	 * add Error message
-	 * If the message is already contained it's not added again
-	 * @param msg
-	 */
-	public void addError(String msg)
-	{
-		put(ERROR, new Message(ERROR,msg, null));
-	}
-	
-	/**
-	 * add info message for the given component
-	 * If the message is already contained it's not added again
-	 * @param msg
-	 * @param inputComponent
-	 */
-	public void addInfo(String msg,LabeledBaseInputComponentIf inputComponent)
-	{
-		put(INFO, new Message(INFO,msg,new LabeledBaseInputComponentIf[]{inputComponent}));
-	}
-	/**
-	 * add warning message for the given component
-	 * If the message is already contained it's not added again
-	 * @param msg
-	 * @param inputComponent
-	 */
-	public void addWarning(String msg,LabeledBaseInputComponentIf inputComponent)
-	{
-		put(WARNING, new Message(WARNING,msg,new LabeledBaseInputComponentIf[]{inputComponent}));
-	}
-	/**
-	 * add error message for the given component
-	 * If the message is already contained it's not added again
-	 * @param msg
-	 * @param inputComponent
-	 */
-	public void addError(String msg,LabeledBaseInputComponentIf inputComponent)
-	{
-		put(ERROR, new Message(ERROR,msg,new LabeledBaseInputComponentIf[]{inputComponent}));
-	}
-
-	/**
-	 * add info message for the given components
-	 * If the message is already contained it's not added again
-	 * @param msg
-	 * @param inputComponent
-	 */
-
-	public void addInfo(String msg,LabeledBaseInputComponentIf[] inputComponent)
-	{
-		put(INFO, new Message(INFO,msg,inputComponent));
-	}
-
-	/**
-	 * add warning message for the given components
-	 * If the message is already contained it's not added again
-	 * @param msg
-	 * @param inputComponent
-	 */
-	public void addWarning(String msg,LabeledBaseInputComponentIf[] inputComponent)
-	{
-		put(WARNING, new Message(WARNING,msg,inputComponent));
-	}
-
-	/**
-	 * add error message for the given components
-	 * If the message is already contained it's not added again
-	 * @param msg
-	 * @param inputComponent
-	 */
-	public void addError(String msg,LabeledBaseInputComponentIf[] inputComponent)
-	{
-		put(ERROR, new Message(ERROR,msg,inputComponent));
-	}
-
-	/**
 	 * Add the message as is to the list
 	 * If the message is already contained it's not added again
 	 * @param message
 	 */
 	public void addMessage(Message message)
 	{
-		put(message.type,message);
+		put(message.getType(),message);
 	}
 	
 	/**
@@ -306,58 +210,6 @@ public class MessageList {
 		return list.values().isEmpty();
 	}
 
-	/**
-	 * data object class for types,messages and the components for this message
-	 * @author Bauschert
-	 *
-	 */
-	public static class Message
-	{
-		private final String type;
-		private final String msg;
-		private final LabeledBaseInputComponentIf[] inputComponents;
-
-		Message(String type, String msg, LabeledBaseInputComponentIf[] inputComponents)
-		{
-			this.type = type;
-			this.msg = msg;
-			if (inputComponents == null)
-			{
-				this.inputComponents = new LabeledBaseInputComponentIf[]{};
-			}
-			else
-			{
-				this.inputComponents = inputComponents;
-			}
-		}
-		
-		public String toString()
-		{
-			return type + " " + msg;
-		}
-		
-		public String toLocalizedString(WbemSmtResourceBundle bundle,boolean addType)
-		{
-			return (addType ? bundle.getString("type." + type) + " " : "") + msg;
-		}
-		
-		public String getType()
-		{
-			return type;
-		}
-
-		public String getMessage()
-		{
-			return msg;
-		}
-
-		public LabeledBaseInputComponentIf[] getInputComponents() {
-			return inputComponents;
-		}
-		
-	}
-	
-	
 	/**
 	 * Initializes the MessageList of a container and gives the (empty) list back
 	 * @param container

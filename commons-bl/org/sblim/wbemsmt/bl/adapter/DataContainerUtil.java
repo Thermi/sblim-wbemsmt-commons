@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 
 
@@ -118,11 +119,12 @@ public class DataContainerUtil {
 					{
 						if (errors == 0)
 						{
-							list.addError(container.getAdapter().getBundle().getString("conversion.error"));							
+							String msg = container.getAdapter().getBundle().getString(ErrCodes.MSG_CONVERSION_ERROR,"conversion.error");
+							list.addMessage(new Message(ErrCodes.MSG_CONVERSION_ERROR,Message.ERROR, msg));
 						}
 						
-						String msg = container.getAdapter().getBundle().getString("cannot.convert",new Object[]{field.getLabelText(),field.getConverter().getTypeForModel()});
-						list.addError(msg, field);
+						String msg = container.getAdapter().getBundle().getString(ErrCodes.MSG_CANNOT_CONVERT, "cannot.convert",new Object[]{field.getLabelText(),field.getConverter().getTypeForModel()});
+						list.addMessage(new Message(ErrCodes.MSG_CANNOT_CONVERT,Message.ERROR, msg, field));
 						errors++;
 					}
 				} catch (Exception e) {

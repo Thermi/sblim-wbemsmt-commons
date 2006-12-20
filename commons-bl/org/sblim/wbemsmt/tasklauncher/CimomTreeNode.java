@@ -24,10 +24,11 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.sblim.wbem.client.CIMClient;
+import org.sblim.wbemsmt.bl.ErrCodes;
+import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
 import org.sblim.wbemsmt.exception.WbemSmtException;
@@ -140,17 +141,20 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 						if (treeConfig.serverTaskExists(cimClient))
 						{
 							readNodes = true;
-							JsfUtil.addMessage(FacesMessage.SEVERITY_INFO,bundle.getString("task.supported", new Object[]{treeConfigData.getName(),cimClient.getNameSpace().getHost()}));
+							
+							String msg = bundle.getString(ErrCodes.MSG_TASK_SUPPORTED,"task.supported", new Object[]{treeConfigData.getName(),cimClient.getNameSpace().getHost()});
+							JsfUtil.addMessage(new Message(ErrCodes.MSG_TASK_SUPPORTED,Message.INFO,msg));
 						}
 						else
 						{
-							JsfUtil.addMessage(FacesMessage.SEVERITY_ERROR,bundle.getString("task.not.supported.on.server", new Object[]{treeConfigData.getName(),cimClient.getNameSpace().getHost()}));
+							String msg = bundle.getString(ErrCodes.MSG_TASK_NOT_SUPPORTED_SERVER,"task.not.supported.on.server", new Object[]{treeConfigData.getName(),cimClient.getNameSpace().getHost()});
+							JsfUtil.addMessage(new Message(ErrCodes.MSG_TASK_NOT_SUPPORTED_SERVER,Message.ERROR,msg));
 						}
 					}
 					else
 					{
-        				//TODO check if only added once
-						JsfUtil.addMessage(FacesMessage.SEVERITY_ERROR,bundle.getString("task.not.supported.on.client", new Object[]{treeConfigData.getName()}));
+						String msg = bundle.getString(ErrCodes.MSG_TASK_NOT_SUPPORTED_CLIENT,"task.not.supported.on.client", new Object[]{treeConfigData.getName()});
+						JsfUtil.addMessage(new Message(ErrCodes.MSG_TASK_NOT_SUPPORTED_CLIENT,Message.ERROR,msg));
 					}
 					
 					if (readNodes)
@@ -175,7 +179,8 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 					logger.log(Level.INFO, "Task " + treeConfigData.getName() + " is not supported for host " + cimClient.getNameSpace().getHost());
 					if (RuntimeUtil.getInstance().isJSF())
 					{
-						JsfUtil.addMessage(FacesMessage.SEVERITY_WARN,bundle.getString("task.not.supported", new Object[]{treeConfigData.getName(),cimClient.getNameSpace().getHost()}));
+						String msg = bundle.getString(ErrCodes.MSG_TASK_NOT_SUPPORTED,"task.not.supported", new Object[]{treeConfigData.getName(),cimClient.getNameSpace().getHost()});
+						JsfUtil.addMessage(new Message(ErrCodes.MSG_TASK_NOT_SUPPORTED,Message.ERROR,msg));
 					}
 					
 				}

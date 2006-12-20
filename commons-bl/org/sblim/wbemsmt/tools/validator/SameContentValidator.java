@@ -19,7 +19,9 @@
   */
 package org.sblim.wbemsmt.tools.validator;
 
+import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
+import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
@@ -56,8 +58,8 @@ public class SameContentValidator extends Validator {
 
 						if (!value1.equals(value2))
 						{
-							String msg = adapter.getBundle().getString("validator.notTheSame",new Object[]{field1.getLabelText(),field2.getLabelText()});
-							result.addError(msg,new LabeledBaseInputComponentIf[]{field1,field2});
+							String msg = adapter.getBundle().getString(ErrCodes.MSG_NOT_THE_SAME, "validator.notTheSame",new Object[]{field1.getLabelText(),field2.getLabelText()});
+							result.addMessage(new Message(ErrCodes.MSG_NOT_THE_SAME,Message.ERROR,msg,new LabeledBaseInputComponentIf[]{field1,field2}));
 						}
 					}
 					else
@@ -71,10 +73,11 @@ public class SameContentValidator extends Validator {
 			else
 			{
 				//only a example should not occur
-				String msg = adapter.getBundle().getString("validator.cannotConvert",new Object[]{field1.getLabelText()});
-				result.addError(msg,field1);
-				msg = adapter.getBundle().getString("validator.cannotConvert",new Object[]{field2.getLabelText()});
-				result.addError(msg,field2);
+				String msg = adapter.getBundle().getString(ErrCodes.MSG_CANNOT_CONVERT,"validator.cannotConvert",new Object[]{field1.getLabelText()});
+				result.addMessage(new Message(ErrCodes.MSG_CANNOT_CONVERT,Message.ERROR,msg,field1));
+				
+				msg = adapter.getBundle().getString(ErrCodes.MSG_CANNOT_CONVERT,"validator.cannotConvert",new Object[]{field2.getLabelText()});
+				result.addMessage(new Message(ErrCodes.MSG_CANNOT_CONVERT,Message.ERROR,msg,field2));
 			}
 		}
 	}

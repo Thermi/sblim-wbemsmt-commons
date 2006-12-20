@@ -25,15 +25,16 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.logging.Logger;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UICommand;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.bl.adapter.DataContainerUtil;
+import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
 import org.sblim.wbemsmt.exception.ObjectSaveException;
@@ -183,9 +184,17 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 		{
         	baseCimAdapter.updateModel((DataContainer) currentPanel);
         	result = ((DataContainer) currentPanel).getMessagesList();
-			addErrors(bundle.getString("additional.messages"),result,bundle);
+        	if (result.hasWarning())
+        	{
+        		addMessage(new Message(ErrCodes.MSG_ADDITIONAL_MESSAGES,Message.WARNING,bundle.getString(ErrCodes.MSG_ADDITIONAL_MESSAGES,"additional.messages")));
+        	}
+        	if (result.hasInfo())
+        	{
+        		addMessage(new Message(ErrCodes.MSG_ADDITIONAL_MESSAGES,Message.INFO,bundle.getString(ErrCodes.MSG_ADDITIONAL_MESSAGES,"additional.messages")));
+        	}
+        	addMessages(result);
 		} else {
-			addErrors(bundle.getString("validation.error"),result,bundle);
+			addMessages(new Message(ErrCodes.MSG_VALIDATION_ERROR,Message.ERROR,bundle.getString(ErrCodes.MSG_VALIDATION_ERROR,"validation.error")),result, true);
 		}
 
         if (!result.hasErrors())
@@ -216,7 +225,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
             container.getUsedPages().push(actualPanelName);
             container.setCurrentPageName(actualPanelName);
 
-        	addErrors(result,bundle);
+        	addMessages(result);
         	result.clear();
         }
         else 
@@ -282,12 +291,11 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 			
 			if (dc.getMessagesList() != null && dc.getMessagesList().hasErrors())
 			{
-				addErrors(FacesMessage.SEVERITY_ERROR,bundle.getString("create.failed"),dc.getMessagesList(),bundle);
+				addMessages(new Message(ErrCodes.MSG_CREATE_FAILED,Message.ERROR,bundle.getString(ErrCodes.MSG_CREATE_FAILED,"create.failed")),dc.getMessagesList(), true);        
 			}
 			else
 			{
-				addInfo(bundle.getString(currentPanel.getClass().getName() + ".create.success"));        
-				addErrors(dc.getMessagesList(),bundle);
+				addMessages(new Message(ErrCodes.MSG_CREATE_SUCCESS,Message.SUCCESS,bundle.getString(currentPanel.getClass().getName() + ".create.success")),dc.getMessagesList(), true);        
 				baseCimAdapter.reload();
 			}
 			

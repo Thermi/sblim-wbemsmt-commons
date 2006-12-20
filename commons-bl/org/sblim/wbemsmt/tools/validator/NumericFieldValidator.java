@@ -19,7 +19,9 @@
   */
 package org.sblim.wbemsmt.tools.validator;
 
+import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
+import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
@@ -60,13 +62,13 @@ public class NumericFieldValidator extends Validator {
 
 						if (min != null && value.longValue() < min.longValue())
 						{
-							String msg = adapter.getBundle().getString("validator.belowMin",new Object[]{value,min,component.getLabelText()});
-							result.addError(msg,component);
+							String msg = adapter.getBundle().getString(ErrCodes.MSG_BELOW_MIN,"validator.belowMin",new Object[]{value,min,component.getLabelText()});
+							result.addMessage(new Message(ErrCodes.MSG_BELOW_MIN,Message.ERROR,msg,component));
 						}
 						if (max != null && value.longValue() > max.longValue())
 						{
-							String msg = adapter.getBundle().getString("validator.aboveMax",new Object[]{value,max,component.getLabelText()});
-							result.addError(msg,component);
+							String msg = adapter.getBundle().getString(ErrCodes.MSG_ABOVE_MAX,"validator.aboveMax",new Object[]{value,max,component.getLabelText()});
+							result.addMessage(new Message(ErrCodes.MSG_ABOVE_MAX,Message.ERROR,msg,component));
 						}
 					}
 					else
@@ -80,8 +82,8 @@ public class NumericFieldValidator extends Validator {
 			{
 				Object minObj = min != null ? (Object)min : (Object)adapter.getBundle().getString("validator.not.defined");
 				Object maxObj = max != null ? (Object)max : (Object)adapter.getBundle().getString("validator.not.defined");
-				String msg = adapter.getBundle().getString("validator.notNumeric",new Object[]{minObj,maxObj,component.getLabelText()});
-				result.addError(msg,component);
+				String msg = adapter.getBundle().getString(ErrCodes.MSG_NOT_NUMERIC,"validator.notNumeric",new Object[]{minObj,maxObj,component.getLabelText()});
+				result.addMessage(new Message(ErrCodes.MSG_NOT_NUMERIC,Message.ERROR,msg,component));
 			}
 		}
 	}

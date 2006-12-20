@@ -30,10 +30,10 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.faces.application.FacesMessage;
-
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.Cleanup;
+import org.sblim.wbemsmt.bl.ErrCodes;
+import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.exception.ModelLoadException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.CimomData;
@@ -50,7 +50,6 @@ import org.sblim.wbemsmt.tools.slp.SLPUtil;
 public class TaskLauncherController implements Cleanup
 {
     public static final String NAME_FOR_MULTI_CIMOM_TREE = "multi";
-	private static Logger loggerFacesMessages = Logger.getLogger("org.sblim.wbem.webapp");
 	private static Logger logger = Logger.getLogger(TaskLauncherController.class.getName());
     private static ConsoleHandler handler;
     
@@ -64,8 +63,6 @@ public class TaskLauncherController implements Cleanup
 	private boolean useSlp;
 	private WbemSmtResourceBundle bundle;
     
-    public static final Logger getLoggerFacesMessages() { return loggerFacesMessages; }
-
     public TaskLauncherController() throws WbemSmtException
     {
         // initialize logging
@@ -74,8 +71,6 @@ public class TaskLauncherController implements Cleanup
     		handler = new FacesMessageHandler();
     		handler.setLevel(Level.INFO);
     		handler.setFormatter(new FacesMessageFormater());
-            loggerFacesMessages.addHandler(handler);
-            loggerFacesMessages.setLevel(Level.INFO);
             logger.log(Level.INFO, "Logger created.");
     	}
         bundle = ResourceBundleManager.getCommonResourceBundle();
@@ -149,7 +144,7 @@ public class TaskLauncherController implements Cleanup
 				{
 					if (RuntimeUtil.getInstance().isJSF())
 					{
-						JsfUtil.addMessage(FacesMessage.SEVERITY_INFO,bundle.getString("host.not.found.tasks.added", new Object[]{cimClient.getNameSpace().getHost()}));
+						JsfUtil.addMessage(Message.create(ErrCodes.MSG_HOST_NOT_FOUND,Message.INFO,bundle,"host.not.found.tasks.added", new Object[]{cimClient.getNameSpace().getHost()}));
 					}
 					for (Iterator iter = taskLauncherConfig.getTreeConfigData().iterator(); iter.hasNext();) {
 						TaskLauncherConfig.TreeConfigData configData = (TaskLauncherConfig.TreeConfigData) iter.next();
@@ -175,16 +170,19 @@ public class TaskLauncherController implements Cleanup
 					{
 						if (treeConfig.serverTaskExists(cimClient))
 						{
-							JsfUtil.addMessage(FacesMessage.SEVERITY_INFO,bundle.getString("task.supported", new Object[]{configData.getName(),cimClient.getNameSpace().getHost()}));
+							String msg = bundle.getString(ErrCodes.MSG_TASK_SUPPORTED,"task.supported", new Object[]{configData.getName(),cimClient.getNameSpace().getHost()});
+							JsfUtil.addMessage(new Message(ErrCodes.MSG_TASK_SUPPORTED,Message.INFO,msg));
 						}
 						else
 						{
-							JsfUtil.addMessage(FacesMessage.SEVERITY_ERROR,bundle.getString("task.not.supported.on.server", new Object[]{configData.getName(),cimClient.getNameSpace().getHost()}));
+							String msg = bundle.getString(ErrCodes.MSG_TASK_NOT_SUPPORTED_SERVER,"task.not.supported.on.server", new Object[]{configData.getName(),cimClient.getNameSpace().getHost()});
+							JsfUtil.addMessage(new Message(ErrCodes.MSG_TASK_NOT_SUPPORTED_SERVER,Message.ERROR,msg));
 						}
 					}
 					else
 					{
-						JsfUtil.addMessage(FacesMessage.SEVERITY_ERROR,bundle.getString("task.not.supported.on.client", new Object[]{configData.getName()}));
+						String msg = bundle.getString(ErrCodes.MSG_TASK_NOT_SUPPORTED_CLIENT,"task.not.supported.on.client", new Object[]{configData.getName()});
+						JsfUtil.addMessage(new Message(ErrCodes.MSG_TASK_NOT_SUPPORTED_CLIENT,Message.ERROR,msg));
 					}
 				}
 			}
@@ -195,7 +193,8 @@ public class TaskLauncherController implements Cleanup
 			logger.log(Level.INFO, "Task " + configData.getName() + " is not supported for host " + cimClient.getNameSpace().getHost());
 			if (RuntimeUtil.getInstance().isJSF())
 			{
-				JsfUtil.addMessage(FacesMessage.SEVERITY_WARN,bundle.getString("task.not.supported", new Object[]{configData.getName(),cimClient.getNameSpace().getHost()}));
+				String msg = bundle.getString(ErrCodes.MSG_TASK_NOT_SUPPORTED,"task.not.supported", new Object[]{configData.getName(),cimClient.getNameSpace().getHost()});
+				JsfUtil.addMessage(new Message(ErrCodes.MSG_TASK_NOT_SUPPORTED,Message.ERROR,msg));
 			}
 		}
 	}

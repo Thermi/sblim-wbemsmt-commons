@@ -21,15 +21,11 @@ package org.sblim.wbemsmt.tools.jsf;
 
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.logging.Logger;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 
+import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
-import org.sblim.wbemsmt.bl.adapter.MessageList.Message;
-import org.sblim.wbemsmt.tasklauncher.TaskLauncherController;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
 import org.sblim.wbemsmt.tools.resources.LocaleManager;
@@ -40,8 +36,6 @@ public class JsfBase {
 
 	protected WbemSmtResourceBundle bundle;
 
-	protected static final Logger logger = TaskLauncherController.getLoggerFacesMessages();	
-	
 	public JsfBase(WbemSmtResourceBundle bundle)
 	{
 		this.bundle = bundle;
@@ -58,91 +52,68 @@ public class JsfBase {
 	}
 	
 	
-	public static void addInfo(String message) {
+	public static void addMessage(Message message) {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
-		facesContext.addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,message,""));
-	}
-
-	public static void addError(String message, Throwable t) {
-		t.printStackTrace();
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		facesContext.addMessage(null,new FacesMessage(FacesMessage.SEVERITY_FATAL,message,t.getMessage()));
-	}
-
-	public static void addError(String message) {
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		facesContext.addMessage(null,new FacesMessage(FacesMessage.SEVERITY_FATAL,message,""));
+		facesContext.addMessage(null,new WbemsmtFacesMessage(message));
 	}
 
 	/**
 	 * Prints the title with the given severity and the Messages in the List.
 	 * If the list is empty nothing is printed, including the title 
+	 * @param messages
+	 * @param alwaysPrintTitle Always print the the tile even if the messages-List is empty or null
+	 * @param severity
+	 * @param title
+	 * @param bundle
+	 */
+	public static void addMessages(Message titleMessage, MessageList messages, boolean alwaysPrintTitle) {
+		
+		if (alwaysPrintTitle || !alwaysPrintTitle && messages != null && messages.size() > 0)
+		{
+			addMessage(titleMessage);
+		}
+		addMessages(messages);
+
+		
+	}
+
+	/**
+	 * add all messages in the list 
 	 * @param severity
 	 * @param title
 	 * @param messages
 	 * @param bundle
 	 */
-	public static void addErrors(Severity severity, String title, MessageList messages,WbemSmtResourceBundle bundle) {
+	public static void addMessages(MessageList messages) {
 		
 		if (messages != null && messages.size() > 0)
 		{
-			FacesContext facesContext = FacesContext.getCurrentInstance();
-			facesContext.addMessage(null,new FacesMessage(severity,title,""));
-			addErrors(messages,bundle);
-		}
-		
-	}
-
-	/**
-	 * Prints the title as info-Messages and the Messages in the List.
-	 * If the list is empty nothing is printed, including the title 
-	 * @param title
-	 * @param messages
-	 * @param bundle
-	 */
-	public static void addErrors(String title, MessageList messages,WbemSmtResourceBundle bundle) {
-		
-		addErrors(FacesMessage.SEVERITY_INFO,title,messages,bundle);
-	}
-
-	/**
-	 * Prints the Messages in the List.
-	 * If the list is empty nothing is printed, including the title 
-	 * @param title
-	 * @param messages
-	 * @param bundle
-	 */
-	public static void addErrors(MessageList messages,WbemSmtResourceBundle bundle) {
-		
-		if (messages != null && messages.size() > 0)
-		{
-			FacesContext facesContext = FacesContext.getCurrentInstance();
-			
 			for (Iterator iter = messages.iterator(); iter.hasNext();) {
 				Message msgObject = (Message) iter.next();
-				Severity severity = getSeverity(msgObject);
-				facesContext.addMessage(null,new FacesMessage(severity,msgObject.toLocalizedString(bundle,false),""));
+				addMessage(msgObject);
 			}
+			
 		}
 		
 	}
-
-	private static Severity getSeverity(Message msgObject) {
-		String type = msgObject.getType();
-		if (type == MessageList.INFO)
-		{
-			return FacesMessage.SEVERITY_INFO;
-		}
-		else if (type == MessageList.WARNING)
-		{
-			return FacesMessage.SEVERITY_WARN;
-		}
-		else if (type == MessageList.ERROR)
-		{
-			return FacesMessage.SEVERITY_ERROR;
-		}
-		return FacesMessage.SEVERITY_FATAL;
-	}
+	
+	
+//	private static Severity getSeverity(Message msgObject) {
+//		String type = msgObject.getType();
+//		if (type == Message.INFO || type == Message.SUCCESS)
+//		{
+//			return FacesMessage.SEVERITY_INFO;
+//		}
+//		else if (type == Message.WARNING)
+//		{
+//			return FacesMessage.SEVERITY_WARN;
+//		}
+//		else if (type == Message.ERROR)
+//		{
+//			return FacesMessage.SEVERITY_ERROR;
+//		}
+//		return FacesMessage.SEVERITY_FATAL;
+//	}
 
 	public WbemSmtResourceBundle getBundle() {
 		return bundle;

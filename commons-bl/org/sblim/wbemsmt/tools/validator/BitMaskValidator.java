@@ -19,7 +19,9 @@
   */
 package org.sblim.wbemsmt.tools.validator;
 
+import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
+import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
@@ -55,8 +57,8 @@ public class BitMaskValidator extends Validator {
 
 						if (value.length() != fieldSize)
 						{
-							String msg = adapter.getBundle().getString("validator.bitmaskLength",new Object[]{value,""+fieldSize,component.getLabelText()});
-							result.addError(msg,component);
+							String msg = adapter.getBundle().getString(ErrCodes.MSG_BITMASK_LENGTH,"validator.bitmaskLength",new Object[]{value,""+fieldSize,component.getLabelText()});
+							result.addMessage(new Message(ErrCodes.MSG_BITMASK_LENGTH,Message.ERROR,msg,component));
 						}
 						else
 						{
@@ -67,12 +69,12 @@ public class BitMaskValidator extends Validator {
 									int bitValue = Integer.parseInt(strBitValue);
 									if (bitValue > 7)
 									{
-										String msg = adapter.getBundle().getString("validator.bitvalueTooLarge",new Object[]{value,strBitValue,component.getLabelText()});
-										result.addError(msg,component);
+										String msg = adapter.getBundle().getString(ErrCodes.MSG_BITMASK_VALUE_TOO_LARGE, "validator.bitvalueTooLarge",new Object[]{value,strBitValue,component.getLabelText()});
+										result.addMessage(new Message(ErrCodes.MSG_BITMASK_VALUE_TOO_LARGE,Message.ERROR,msg,component));
 									}
 								} catch (NumberFormatException e) {
-									String msg = adapter.getBundle().getString("validator.bitvalueNoNumber",new Object[]{value,strBitValue,component.getLabelText()});
-									result.addError(msg,component);
+									String msg = adapter.getBundle().getString(ErrCodes.MSG_BITMASK_VALUE_NO_NUMBER, "validator.bitvalueNoNumber",new Object[]{value,strBitValue,component.getLabelText()});
+									result.addMessage(new Message(ErrCodes.MSG_BITMASK_VALUE_NO_NUMBER,Message.ERROR,msg,component));
 								}
 								
 							}
@@ -89,8 +91,8 @@ public class BitMaskValidator extends Validator {
 			else
 			{
 				//only a example should not occur
-				String msg = adapter.getBundle().getString("validator.cannotConvert",new Object[]{component.getLabelText()});
-				result.addError(msg,component);
+				String msg = adapter.getBundle().getString(ErrCodes.MSG_CANNOT_CONVERT, "validator.cannotConvert",new Object[]{component.getLabelText()});
+				result.addMessage(new Message(ErrCodes.MSG_CANNOT_CONVERT,Message.ERROR,msg,component));
 			}
 		}
 	}
