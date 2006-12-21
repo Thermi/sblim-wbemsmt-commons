@@ -29,18 +29,32 @@ import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
-import javax.faces.component.html.*;
+import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.component.html.HtmlGraphicImage;
+import javax.faces.component.html.HtmlInputSecret;
+import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlOutputText;
+import javax.faces.component.html.HtmlPanelGroup;
+import javax.faces.component.html.HtmlSelectBooleanCheckbox;
+import javax.faces.component.html.HtmlSelectManyListbox;
+import javax.faces.component.html.HtmlSelectManyMenu;
+import javax.faces.component.html.HtmlSelectOneListbox;
+import javax.faces.component.html.HtmlSelectOneMenu;
+import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
+import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
 import org.sblim.wbemsmt.tools.jsf.JsfBase;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.jsf.MultiLineBasePanel;
+import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.util.StringTokenizer;
+import org.sblim.wbemsmt.webapp.jsf.style.StyleBean;
 
 public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 {
@@ -59,12 +73,22 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	private boolean rendered = true;
 	private boolean itemLabelRendered = true;
 	private String[] entries;
+	private HtmlGraphicImage fieldIndicator;
+	private String fieldIndicatorImage;
+	private String itemFieldIndicatorAltText;
+	private boolean fieldIndicatorRendered;
+	private boolean required;
+	private boolean hasErrors;
+	private boolean isMultiline;
 
 	
 	
 	public LabeledJSFInputComponent(DataContainer parent, String labelText, String pId, UIComponent component, Converter converter,boolean readOnly)
 	{
 		super(parent,labelText, converter);
+		
+		this.isMultiline = parent instanceof MultiLineBasePanel; 
+		
 		this.id = asJsfId(pId);
 		this.component = component;
 		this.component.setId(id);
@@ -73,7 +97,7 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		this.component.setValueBinding("style", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Style}"));
 
 		this.labelPanel = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
-		this.labelPanel.setStyle("white-space: nowrap;");
+		this.labelPanel.setStyle("white-space: nowrap; vertical-align:bottom");
 
 		this.label = (HtmlOutputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
 		label.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"LabelRendered}"));
@@ -91,7 +115,18 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		}
 		
 		setItemDisabled(readOnly);
+		
+		this.fieldIndicator = (HtmlGraphicImage) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlGraphicImage.COMPONENT_TYPE);
+		this.fieldIndicator.setValueBinding("alt", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"FieldIndicatorAltText}"));
+		this.fieldIndicator.setValueBinding("title", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"FieldIndicatorAltText}"));
+		this.fieldIndicator.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"FieldIndicator}"));
+		this.fieldIndicator.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"FieldIndicatorRendered}"));
+
+		labelPanel.getChildren().add(fieldIndicator);
 		labelPanel.getChildren().add(label);
+		
+		updateFieldIndicatorImage();
+		
 	}
 
 	public HtmlPanelGroup getLabelPanel() {
@@ -143,6 +178,30 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 
 	public void setItemStyle(String itemStyle) {
 		this.itemStyle = itemStyle;
+	}
+
+	public String getItemFieldIndicator() {
+		return fieldIndicatorImage;
+	}
+
+	public void setItemFieldIndicator(String fieldIndicatorImage) {
+		this.fieldIndicatorImage = fieldIndicatorImage;
+	}
+	
+	public String getItemFieldIndicatorAltText() {
+		return itemFieldIndicatorAltText;
+	}
+
+	public void setItemFieldIndicatorAltText(String itemFieldIndicatorAltText) {
+		this.itemFieldIndicatorAltText = itemFieldIndicatorAltText;
+	}
+
+	public boolean isItemFieldIndicatorRendered() {
+		return fieldIndicatorRendered;
+	}
+
+	public void setItemFieldIndicatorRendered(boolean fieldIndicatorRendered) {
+		this.fieldIndicatorRendered = fieldIndicatorRendered;
 	}
 
 	/**
@@ -457,5 +516,59 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		return this.entries;
 	}
 	
+	public void setRequired(boolean required)
+	{
+		this.required = required;
+		updateFieldIndicatorImage();
+	}
+	
+	public boolean isRequired() {
+		return required;
+	}
+	
+	public void setHasErrors(boolean hasErrors)
+	{
+		this.hasErrors = hasErrors;
+		updateFieldIndicatorImage();
+	}
+
+	public boolean hasErrors()
+	{
+		return this.hasErrors;
+	}
+
+	private void updateFieldIndicatorImage() {
+	
+		StyleBean style = (StyleBean) BeanNameConstants.STYLE.getBoundValue(FacesContext.getCurrentInstance());
+		if (hasErrors && !isMultiline)
+		{
+			//errors are not shown in Label if field is multiline (because there is only one label (column header) for all fields
+			if (!isMultiline)
+			{
+				fieldIndicatorImage = style.getResourceDir() + "/images/fieldIndicatorError.png";
+				fieldIndicatorRendered = true;
+				itemFieldIndicatorAltText = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance()).getString("fieldError");
+			}
+		}
+		else if (required)
+		{
+			fieldIndicatorImage = style.getResourceDir() + "/images/fieldIndicatorRequired.png";
+			fieldIndicatorRendered = true;
+			itemFieldIndicatorAltText = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance()).getString("fieldRequired");
+		}
+		else
+		{
+			fieldIndicatorRendered = false;
+			fieldIndicatorImage = style.getResourceDir() + "/images/fieldIndicatorEmpty.png";
+		}
+		
+		if (isMultiline)
+		{
+			((MultiLineBasePanel)parent).setHasErrors(hasErrors);		
+		}
+	}
+
+
+
 }
 

@@ -19,19 +19,18 @@
   */
 package org.sblim.wbemsmt.tools.validator;
 
-import org.sblim.wbemsmt.tools.input.ComponentProperties;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 
 public class ValidatorUtil {
 
 	public static void setError(LabeledBaseInputComponentIf component) {
 		if (component != null)
-		component.getProperties().setBgColor(ComponentProperties.COLOR_RED);
+			component.setHasErrors(true);
 	}
 
 	public static void setOK(LabeledBaseInputComponentIf component) {
 		if (component != null)
-		component.getProperties().setBgColor(ComponentProperties.COLOR_WHITE);
+			component.setHasErrors(false);
 		
 	}
 

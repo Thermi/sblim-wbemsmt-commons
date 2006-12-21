@@ -19,6 +19,8 @@
  */
 package org.sblim.wbemsmt.tools.jsf;
 
+import java.util.List;
+
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.context.FacesContext;
@@ -33,8 +35,12 @@ public abstract class MultiLineBasePanel extends BasePanel {
 	HtmlPanelGrid panelGrid;
 	protected boolean first;
 	private HtmlPanelGrid outerPanel;
+	private boolean hasErrors;
+	private String rowClasses;
+	private List list;
+	private MultiLineBasePanel firstRow = null;
 
-	public MultiLineBasePanel(AbstractBaseCimAdapter adapter,String bindingPrefix, String bindingForTitle, String keyForTitle, int cols, HtmlPanelGrid grid) {
+	public MultiLineBasePanel(AbstractBaseCimAdapter adapter,String bindingPrefix, String bindingPrefixOfContainer, String keyForTitle, int cols, HtmlPanelGrid grid) {
 		super(adapter, bindingPrefix);
 		//+1 because the last col is a dummy col
 //		cols++;
@@ -54,6 +60,8 @@ public abstract class MultiLineBasePanel extends BasePanel {
 			
 			HtmlPanelGrid dummyPanel = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
 			dummyPanel.setWidth("100%");
+			dummyPanel.setCellpadding("0");
+			dummyPanel.setCellspacing("0");
 			dummyPanel.setStyleClass("multiLineDummyTable");
 			HtmlOutputText label = (HtmlOutputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
 			label.setValue("&nbsp;");
@@ -67,6 +75,8 @@ public abstract class MultiLineBasePanel extends BasePanel {
 			panelGrid.setCellspacing("0");
 			panelGrid.setStyleClass("multiLineTable");
 			panelGrid.setHeaderClass("multiLineHeader");
+			panelGrid.setValueBinding("rowClasses", FacesContext.getCurrentInstance().getApplication().createValueBinding(bindingPrefixOfContainer + ".rowClasses}"));
+
 			StringBuffer sb = new StringBuffer();
 			for (int i=0; i < cols; i++)
 			{
@@ -81,7 +91,7 @@ public abstract class MultiLineBasePanel extends BasePanel {
 			}
 			panelGrid.setColumnClasses(sb.toString());
 			
-			createTitleValueBindingForMultiline(outerPanel,bindingForTitle,keyForTitle);
+			createTitleValueBindingForMultiline(outerPanel,bindingPrefixOfContainer + ".titleText}",keyForTitle);
 			
 			outerPanel.getChildren().add(panelGrid);
 			outerPanel.getChildren().add(dummyPanel);
@@ -127,11 +137,11 @@ public abstract class MultiLineBasePanel extends BasePanel {
 		return outerPanel;
 	}
 
-	public void updateRows(int modelRows) {
-		updateRows(modelRows,0);
+	public void updateRows() {
+		updateRows(0);
 	}
 	
-	public void updateRows(int modelRows, int additionalRowsAfterModel) {
+	public void updateRows(int additionalRowsAfterModel) {
 		
 		//if there not at least 3 rows available add this rows
 		//see Web application design guidelines (http://w3-03.ibm.com/oid/page/5598) for more
@@ -163,17 +173,57 @@ public abstract class MultiLineBasePanel extends BasePanel {
 		StringBuffer sb = new StringBuffer();
 		for (int i=0; i < rows; i++)
 		{
+			boolean rowHasError = false;
+			//the first row in the model is the second in the table so ignore the first
+			//and also ignore the manually added rows at the end of the table
+			if (i > 0 && i-1 < list.size())
+			{
+				MultiLineBasePanel panel = (MultiLineBasePanel) list.get(i-1);
+				rowHasError = panel.hasErrors;
+			}
+			
 			if (sb.length() > 0)
 			{
 				sb.append(", ");
 			}
 			if (i==0) sb.append("multiLineRowHeader");
-			else if (i%2 == 1) sb.append("multiLineRowWhite");
-			else sb.append("multiLineRowGray");
+			else if (i%2 == 1) sb.append(rowHasError ? "multiLineRowError" : "multiLineRowWhite");
+			else sb.append(rowHasError ? "multiLineRowError" : "multiLineRowGray");
 		}
-		panelGrid.setRowClasses(sb.toString());
-		
-		
+		rowClasses = sb.toString();
+	}
+	
+	
+
+	public String getRowClasses() {
+		return rowClasses;
+	}
+
+	public void setRowClasses(String rowClasses) {
+		this.rowClasses = rowClasses;
+	}
+
+	public void setFirst(MultiLineBasePanel multiLineBasePanel)
+	{
+		this.firstRow = multiLineBasePanel;
+	}
+	
+	
+	public List getList() {
+		return list;
+	}
+
+	public void setList(List list) {
+		this.list = list;
+	}
+
+	public void setHasErrors(boolean hasErrors) {
+		if (this.hasErrors != hasErrors)
+		{
+			this.hasErrors = hasErrors;
+			//the first Row contains the Panel with all the rows
+			firstRow.updateRows();
+		}
 	}
 
 	

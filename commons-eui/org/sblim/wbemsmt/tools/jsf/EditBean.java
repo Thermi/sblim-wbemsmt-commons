@@ -44,7 +44,9 @@ import org.sblim.wbemsmt.exception.ObjectNotFoundException;
 import org.sblim.wbemsmt.exception.ObjectSaveException;
 import org.sblim.wbemsmt.exception.UpdateControlsException;
 import org.sblim.wbemsmt.exception.ValidationException;
+import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
+import org.sblim.wbemsmt.webapp.jsf.style.StyleBean;
 
 public abstract class EditBean extends JsfBase{
 
@@ -229,7 +231,24 @@ public abstract class EditBean extends JsfBase{
 		
     	Message message = new Message(msgNumber,severity,bundle.getString(msgNumber, key));
     	addMessages(message, list, true);
-		
 	}
+    
+    protected void addFooter(HtmlPanelGrid containerPanel)
+    {
+    	StyleBean style = (StyleBean) BeanNameConstants.STYLE.getBoundValue(FacesContext.getCurrentInstance());    	
+    	
+		HtmlPanelGrid table = (HtmlPanelGrid)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
+		table.setStyleClass("tableFooter");
+		table.setCellpadding("0");
+		table.setCellspacing("0");
+		table.setColumns(2);
+		table.setColumnClasses("tableFooterIcon,tableFooter");
+		
+		BasePanel.addRequiredIconLegend(style, table);
+		BasePanel.addErrorIconLegend(style, table);
+		
+		containerPanel.getFacets().put("footer", table);
+
+    }
     
 }

@@ -32,6 +32,7 @@ import javax.faces.context.FacesContext;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.CimObjectKey;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
+import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.converter.test.DummyConverter;
 import org.sblim.wbemsmt.tools.converter.test.UnsignedInt16StringConverter;
@@ -46,6 +47,8 @@ import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
 import org.sblim.wbemsmt.tools.resources.LocaleManager;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
+import org.sblim.wbemsmt.tools.wizard.jsf.WizardBasePanel;
+import org.sblim.wbemsmt.webapp.jsf.style.StyleBean;
 
 public abstract class BasePanel {
 
@@ -198,32 +201,77 @@ public abstract class BasePanel {
 	protected void setFooter(HtmlPanelGrid panelGrid, String key, String binding) {
 		
 		
+		
 		footerTextKey = key;
-		if (bundle.keyExists(key))
+		if (bundle.keyExists(key) || this instanceof WizardBasePanel)
 		{
-			footerText = bundle.getString(key);
-
+			StyleBean style = (StyleBean) BeanNameConstants.STYLE.getBoundValue(FacesContext.getCurrentInstance());
+			
 			HtmlPanelGroup group = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 			
 			HtmlPanelGrid table = (HtmlPanelGrid)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
 			table.setColumns(2);
-			table.setColumnClasses("tableFooter tableFooterIcon,tableFooter");
+			table.setColumnClasses("tableFooterIcon,tableFooter");
 			group.getChildren().add(table);
-			
-			HtmlGraphicImage img = (HtmlGraphicImage)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlGraphicImage.COMPONENT_TYPE);
-			img.setStyle("border:0px");
-			img.setUrl("/images/info.gif");
-			table.getChildren().add(img);
-			
-			HtmlOutputText text = (HtmlOutputText)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
-			text.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
-			text.setStyleClass("tableFooter");
-			table.getChildren().add(text);
-			
+
 			panelGrid.setFooterClass("tableFooter");
 			panelGrid.getFacets().put("footer",group);
+
+			
+			if (bundle.keyExists(key))
+			{
+				footerText = bundle.getString(key);
+				String altBinding = "#{messages.info}";
+
+				HtmlGraphicImage img = (HtmlGraphicImage)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlGraphicImage.COMPONENT_TYPE);
+				img.setStyle("border:0px");
+				img.setUrl(style.getResourceDir()+"/images/info.gif");
+				img.setValueBinding("alt",FacesContext.getCurrentInstance().getApplication().createValueBinding(altBinding));
+				img.setValueBinding("title",FacesContext.getCurrentInstance().getApplication().createValueBinding(altBinding));
+				
+				table.getChildren().add(img);
+				
+				HtmlOutputText text = (HtmlOutputText)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
+				text.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
+				text.setStyleClass("tableFooter");
+				table.getChildren().add(text);
+			}
+
+			if (this instanceof WizardBasePanel)
+			{
+				addRequiredIconLegend(style,table);
+				addErrorIconLegend(style,table);
+			}
+			
+			
 		}
 		
+	}
+
+	public static void addErrorIconLegend(StyleBean style, HtmlPanelGrid table) {
+		String binding = "#{messages.fieldRequired}";
+		String image = "/images/fieldIndicatorError.png";
+		addLegend(style, table, binding, image);
+	}
+
+	public  static void addRequiredIconLegend(StyleBean style, HtmlPanelGrid table) {
+		String binding = "#{messages.fieldRequired}";
+		String image = "/images/fieldIndicatorRequired.png";
+		addLegend(style, table, binding, image);
+	}
+
+	private static void addLegend(StyleBean style, HtmlPanelGrid table, String binding, String image) {
+		HtmlGraphicImage img = (HtmlGraphicImage)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlGraphicImage.COMPONENT_TYPE);
+		img.setStyle("border:0px");
+		img.setValueBinding("alt",FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
+		img.setValueBinding("title",FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
+		img.setUrl(style.getResourceDir()+image);
+		table.getChildren().add(img);
+		
+		HtmlOutputText text = (HtmlOutputText)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
+		text.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
+		text.setStyleClass("tableFooter");
+		table.getChildren().add(text);
 	}
 
 	public String getTitleText()

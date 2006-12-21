@@ -29,6 +29,8 @@ public class LabeledTestStringArrayComponent extends LabeledBaseInputComponent i
 	private Object value;
 	private final StringArrayConverter arrayConverter;
 	private boolean visible = true;
+	private boolean required;
+	private boolean hasErrors;
 
 	/**
 	 * @param parent
@@ -114,4 +116,25 @@ public class LabeledTestStringArrayComponent extends LabeledBaseInputComponent i
 		return arrayConverter.getValues();
 	}	
 
+	public void setRequired(boolean required)
+	{
+		this.required = required;
+	}
+
+	public boolean isRequired() {
+		return required;
+	}
+
+	public void setHasErrors(boolean hasErrors)
+	{
+		this.hasErrors = hasErrors;
+	}
+
+	public boolean hasErrors()
+	{
+		return this.hasErrors;
+	}	
+	
+	
+	
 }

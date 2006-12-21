@@ -40,7 +40,8 @@ public abstract class EditBasePanel extends BasePanel implements DataContainer {
 		panelGrid = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
 		panelGrid.setColumns(cols);
 		panelGrid.setWidth("100%");
-
+		panelGrid.setCellpadding("0");
+		panelGrid.setCellspacing("0");
 		setTitle(panelGrid);
 	}
 	

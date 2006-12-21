@@ -109,4 +109,21 @@ public interface LabeledBaseInputComponentIf {
 	 */
 	public boolean isVisible();
 
+	
+	/**
+	 * Is the field required
+	 * @param b
+	 */
+	public void setRequired(boolean b);
+	
+	public boolean isRequired();
+
+	/**
+	 * Set to trur if the field have an error
+	 * @param b
+	 */
+	public void setHasErrors(boolean b);
+	
+	public boolean hasErrors();
+
 }

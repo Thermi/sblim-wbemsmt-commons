@@ -42,6 +42,8 @@ public class LabeledSwingInputComponent extends LabeledBaseInputComponent
 
 	private JLabel label;
 	private Component component;
+	private boolean required;
+	private boolean hasErrors;
 	private static Map colors = new HashMap();
 	
 	static
@@ -242,5 +244,24 @@ public class LabeledSwingInputComponent extends LabeledBaseInputComponent
 	public boolean isVisible() {
 		return component.isVisible();
 	}
+
+	public void setRequired(boolean required)
+	{
+		this.required = required;
+	}
+	
+	public boolean isRequired() {
+		return required;
+	}
+	
+	public void setHasErrors(boolean hasErrors)
+	{
+		this.hasErrors = hasErrors;
+	}
+
+	public boolean hasErrors()
+	{
+		return this.hasErrors;
+	}	
 }
 
