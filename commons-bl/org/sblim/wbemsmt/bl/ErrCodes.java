@@ -76,7 +76,12 @@ public class ErrCodes
 	
 	public static MessageNumber getMessageNumber(WbemSmtException wbemsmtExceptionCause) {
 		
-		MessageNumber result = (MessageNumber) exceptions.get(wbemsmtExceptionCause.getClass());
+		MessageNumber result = null;
+		if (wbemsmtExceptionCause != null)
+		{
+			result = (MessageNumber) exceptions.get(wbemsmtExceptionCause.getClass());
+		}
+		
 		if (result == null)
 		{
 			result = MSG_OTHER_EXCEPTION;
