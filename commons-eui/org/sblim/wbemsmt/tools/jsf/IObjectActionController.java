@@ -22,6 +22,7 @@ package org.sblim.wbemsmt.tools.jsf;
 import javax.faces.component.html.HtmlPanelGrid;
 
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
+import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tasklauncher.event.EditListener;
 
 public interface IObjectActionController {
@@ -35,8 +36,16 @@ public interface IObjectActionController {
 	public void setSelectedTabId(String id);
 	
 	public void setSelectedTabIndex(int index);
-	
+	public int getSelectedTabIndex();
+
 	public void setCurrentEditListener(EditListener editListener);
 	
 	public void addAdapter(String key, AbstractBaseCimAdapter adapter);
+
+
+	public void setSelectedNode(TaskLauncherTreeNode node);
+
+	public TaskLauncherTreeNode getSelectedNode();
+
+	public String getSelectedTabId();
 }

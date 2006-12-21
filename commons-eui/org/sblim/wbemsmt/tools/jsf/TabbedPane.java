@@ -87,6 +87,10 @@ public class TabbedPane
 		panel.setRowClasses("tabbedPanelRowTabs, tabbedPanelRowButtons");
 //		form = (HtmlForm) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlForm.COMPONENT_TYPE);
 //		panel.getChildren().add(form);
+
+		//reset the selected Tab
+        IObjectActionController objectActionController = (IObjectActionController)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(fc);
+        objectActionController.setSelectedTabIndex(0);
 		
 		HtmlPanelTabbedPane tabbedPane = (HtmlPanelTabbedPane) app.createComponent(HtmlPanelTabbedPane.COMPONENT_TYPE);
 		tabbedPane.setStyle("width:100%");
@@ -102,6 +106,9 @@ public class TabbedPane
 		tabbedPane.setValueBinding("selectedIndex",app.createValueBinding("#{objectActionController.selectedTabIndex}"));
 		panel.getChildren().add(tabbedPane);
 
+        
+		
+		
 		String[] bundleKeyArray = (String[]) this.bundleKeys.toArray(new String[this.bundleKeys.size()]);
 		for (int i = 0; i < bundleKeyArray.length; i++) {
 			String bundleKey = bundleKeyArray[i];
@@ -280,6 +287,10 @@ public class TabbedPane
 		return (String) ids.get(0);
 	}
 
+	public String getIdByIdx(int selectTabIndex) {
+		return (String) ids.get(0);
+	}
+
 	
 	public WbemSmtResourceBundle getBundle() {
 		return bundle;
@@ -292,6 +303,7 @@ public class TabbedPane
 	public String getString(String key) {
 		return bundle.getString(key);
 	}
+
 	
 	
 	

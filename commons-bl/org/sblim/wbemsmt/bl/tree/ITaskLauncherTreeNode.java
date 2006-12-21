@@ -23,8 +23,10 @@ package org.sblim.wbemsmt.bl.tree;
 import java.util.List;
 import java.util.Vector;
 
+import org.sblim.wbem.cim.CIMObjectPath;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 
 public interface ITaskLauncherTreeNode {
 
@@ -62,4 +64,8 @@ public interface ITaskLauncherTreeNode {
 	public abstract void setParent(ITaskLauncherTreeNode node);
 	
 	public String processEvent(TaskLauncherTreeNodeEvent event) throws WbemSmtException;
+
+	public abstract TaskLauncherTreeNode findInstanceNode(CIMObjectPath pathOfCreatedNode) throws WbemSmtException;
+
+	public abstract String getInfo();
 }

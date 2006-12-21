@@ -210,6 +210,9 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 		this.slpLoader = slpLoader;
 	}
 	
+	public String getInfo() {
+		return CimomTreeNode.class.getName() + name + "; " + cimomData.getInfo();
+	}
 	
     
     

@@ -78,4 +78,9 @@ public class CIMInstanceNode extends TaskLauncherTreeNode implements Serializabl
         // node specific insertion of xmldata would go here
         return node;
     }
+    
+	public String getInfo() {
+		return CIMInstanceNode.class.getName() + name + "; " + cimInstance.getObjectPath();
+	}
+    
 }

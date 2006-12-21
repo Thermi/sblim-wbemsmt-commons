@@ -21,6 +21,9 @@
 package org.sblim.wbemsmt.bl.tree;
 
 
+
+
+
 public interface ITreeSelector {
 
 	public abstract String getCurrentOutcome();
@@ -32,5 +35,7 @@ public interface ITreeSelector {
 	public ITaskLauncherTreeNode getSelectedTaskLauncherTreeNode();
 
 	public abstract void expandAll();
+
+	public abstract void selectNode(ITaskLauncherTreeNode selectedNode);
 
 }

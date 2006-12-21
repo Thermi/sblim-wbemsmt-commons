@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.collections.MultiHashMap;
+import org.sblim.wbem.cim.CIMObjectPath;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.Cleanup;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
@@ -56,6 +57,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	protected boolean markedForReload = false;
 	protected LabeledBaseInputComponentIf updateTrigger;
 	protected CimObjectKey lastSelectedKey;
+	protected CIMObjectPath pathOfCreatedNode;
 	protected ITaskLauncherTreeNode rootNode = null; 
 	protected WbemSmtResourceBundle bundle;
 
@@ -633,6 +635,19 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			Method method = getCreateDelegatee().getClass().getMethod(methodName, new Class[]{interfaceClass});
 			method.setAccessible(true);
 			method.invoke(getCreateDelegatee(),new Object[]{dataContainer});
+			
+			//find the deepest key and store the path of that key in the adapter
+			if (dataContainer.getKey() != null)
+			{
+				List keyList = dataContainer.getKey().getKeyList();
+				CimObjectKey lastKey = (CimObjectKey) keyList.get(keyList.size()-1);
+				setPathOfCreatedNode(lastKey.getObjectPath());
+			}
+			else
+			{
+				setPathOfCreatedNode(null);
+			}
+			
 		} catch (NoSuchMethodException e) {
 			logger.log(Level.SEVERE, "Cannot create Object with Method " + methodName + "(" + interfaceClass.getName().toString() + "). Method not exists");
 			throw new ObjectCreationException("Internal error");
@@ -948,4 +963,15 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	{
 		CimAdapterFactory.getInstance().removeAdapter(this);		
 	}
+
+	public CIMObjectPath getPathOfCreatedNode() {
+		return pathOfCreatedNode;
+	}
+
+	public void setPathOfCreatedNode(CIMObjectPath pathOfCreatedNode) {
+		this.pathOfCreatedNode = pathOfCreatedNode;
+	}
+	
+	
+	
 }

@@ -12,7 +12,7 @@
  *
  * @author: Marius Kreis <mail@nulldevice.org>
  *
- * Contributors:
+ * Contributors: michael.bauschert@de.ibm.com
  *
  */
 
@@ -53,6 +53,7 @@ import org.sblim.wbemsmt.tasklauncher.customtreeconfig.InstanceNamingClassDocume
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.ParamDocument.Param;
 import org.sblim.wbemsmt.tasklauncher.filter.CIMInstanceFilterFactory;
 import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNamingFactory;
+import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
 /**
@@ -955,6 +956,26 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 		}
 	}
 
+	public TaskLauncherTreeNode findInstanceNode(CIMObjectPath path) throws WbemSmtException {
+		for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
+			ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) iter.next();
+			if (node instanceof CIMInstanceNode) {
+				CIMInstanceNode clsNode = (CIMInstanceNode) node;
+				if (clsNode.getCimInstance().getObjectPath().equals(path))
+				{
+					return clsNode;
+				}
+			}
+			TaskLauncherTreeNode result = node.findInstanceNode(path);
+			if (result != null)
+			{
+				return result;
+			}
+		}
+		return null;
+	}
+
+	
 	public void setCustomTreeConfig(CustomTreeConfig customTreeConfig) {
 		this.customTreeConfig = customTreeConfig;
 	}
@@ -970,6 +991,26 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+
+	public String click() {
+        try {
+			if(hasEventListener())
+			{
+			    TaskLauncherTreeNodeEvent treeNodeEvent = new TaskLauncherTreeNodeEvent(this, this, FacesContext.getCurrentInstance(), TaskLauncherTreeNodeEvent.TYPE_CLICKED);
+				String result = processEvent(treeNodeEvent);
+			    return result;
+			}
+		} catch (Exception e) {
+			JsfUtil.handleException(e);
+		}
+		return null;
+	}
+
+	public String getInfo() {
+		return TaskLauncherTreeNode.class.getName() + name;
+
+	}
+
 
 	
 	

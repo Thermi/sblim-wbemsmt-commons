@@ -55,5 +55,7 @@ public interface ITaskLauncherUiTreeNode {
 	public abstract String getContextMenuId();
 
 	public abstract boolean getHasContextMenu();
+	
+	public String getId();
 
 }

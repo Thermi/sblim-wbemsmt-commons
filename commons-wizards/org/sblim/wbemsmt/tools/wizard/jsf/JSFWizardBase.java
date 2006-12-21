@@ -36,12 +36,16 @@ import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.bl.adapter.DataContainerUtil;
 import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
+import org.sblim.wbemsmt.bl.tree.ITreeSelector;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
 import org.sblim.wbemsmt.exception.ObjectSaveException;
 import org.sblim.wbemsmt.exception.ObjectUpdateException;
 import org.sblim.wbemsmt.exception.UpdateControlsException;
 import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
+import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
+import org.sblim.wbemsmt.tools.jsf.IObjectActionController;
 import org.sblim.wbemsmt.tools.jsf.JsfBase;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
@@ -72,6 +76,13 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 	private String keyForTitle;
 	private String title;
 	
+	/**
+	 * Panel selection while starting the wizard
+	 */
+	private TaskLauncherTreeNode selectedNode;
+	private int selectTabIndex;
+	private String selectTabId;
+	
 	public abstract String getFinishText();
 	
 	public JSFWizardBase(AbstractBaseCimAdapter baseCimAdapter,WbemSmtResourceBundle resourceBundle, String keyForTitle) {
@@ -101,6 +112,13 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 	public void initWizard(IWizardContainer container, IPageWizardAdapter adapter) throws Exception {
 		this.container = container;
 		this.adapter = adapter;
+
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		IObjectActionController objectActionController = (IObjectActionController)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(facesContext);
+		selectedNode = objectActionController.getSelectedNode();
+		selectTabIndex = objectActionController.getSelectedTabIndex();
+		selectTabId = objectActionController.getSelectedTabId();
+		
 		container.setWizardRunType(IWizardContainer.RUN_TYPE_JSF);
 		container.initWizardContainer();
 		String actualPanelName = container.getNextWizardPageName();
@@ -298,8 +316,44 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 				addMessages(new Message(ErrCodes.MSG_CREATE_SUCCESS,Message.SUCCESS,bundle.getString(currentPanel.getClass().getName() + ".create.success")),dc.getMessagesList(), true);        
 				baseCimAdapter.reload();
 			}
+
+			FacesContext facesContext = FacesContext.getCurrentInstance();
+			ITreeSelector treeSelectorBean = (ITreeSelector)BeanNameConstants.TREE_SELECTOR.getBoundValue(facesContext);
+
+	        /**
+			 * If the business logic set the path to a node try 
+			 */
+			if (baseCimAdapter.getPathOfCreatedNode() != null)
+			{
+				TaskLauncherTreeNode node = baseCimAdapter.getRootNode().findInstanceNode(baseCimAdapter.getPathOfCreatedNode());
+				if (node != null)
+				{
+					
+			        treeSelectorBean.setSelectedTaskLauncherTreeNode(node);
+
+			        IObjectActionController objectActionController = (IObjectActionController)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(facesContext);
+			        objectActionController.setSelectedNode(node);
+			        String result = node.click();
+			        
+			        //if after finishing the wizard the same node is active, switch the tabs
+			        if (selectedNode.getInfo().equals(node.getInfo()))
+			        {
+			        	objectActionController.setSelectedTabIndex(selectTabIndex);
+			        	objectActionController.setSelectedTabId(selectTabId);
+			        }
+			        selectedNode = node;
+			        treeSelectorBean.selectNode(selectedNode);
+					return result != null ? result : "";
+				}
+				else
+				{
+					logger.warning("Node with path " + baseCimAdapter.getPathOfCreatedNode() + " was not found in tree");
+				}
+			}
+	        treeSelectorBean.selectNode(selectedNode);
+			return "editPage";
+			//return "start";
 			
-			return "start";
 		} catch (Exception e) {
 			e.printStackTrace();
 			JsfUtil.handleException(e);

@@ -53,6 +53,10 @@ public class SimpleTextTreeNode extends TaskLauncherTreeNode {
 		//do nothing
 	}
     
+	public String getInfo() {
+		return SimpleTextTreeNode.class.getName() + name;
+	}
+	
     
     
 }

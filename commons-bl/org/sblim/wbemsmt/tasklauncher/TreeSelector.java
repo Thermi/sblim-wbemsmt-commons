@@ -26,12 +26,12 @@ import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.CimomData;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
-public class TreeSelector
+public abstract class TreeSelector
 {
     protected HashMap factories;
     protected String currentTreeName;
     protected TaskLauncherController taskLauncherController;
-    private ITaskLauncherTreeNode selectedNode; 
+    protected ITaskLauncherTreeNode selectedTasklauncherTreeNode; 
     
     
     public TreeSelector()
@@ -94,12 +94,14 @@ public class TreeSelector
 		
 	}
 
-	public void setSelectedTaskLauncherTreeNode(ITaskLauncherTreeNode node) {
-		selectedNode = node;
-	}
+	/**
+	 * Implementors should care about the synchronisation of the tree
+	 * @param node
+	 */
+	public abstract void setSelectedTaskLauncherTreeNode(ITaskLauncherTreeNode node);
 	
 	public ITaskLauncherTreeNode getSelectedTaskLauncherTreeNode() {
-		return selectedNode;
+		return selectedTasklauncherTreeNode;
 	}
 	
 }

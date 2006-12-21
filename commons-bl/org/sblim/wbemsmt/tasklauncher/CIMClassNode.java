@@ -654,6 +654,9 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
 		this.filter = filter;
 	}
 
+	public String getInfo() {
+		return CIMClassNode.class.getName() + name + "; " + cimClass.getName();
+	}
 
 
 
