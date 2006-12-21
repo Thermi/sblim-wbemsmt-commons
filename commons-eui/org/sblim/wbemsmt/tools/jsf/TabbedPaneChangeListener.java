@@ -25,13 +25,14 @@ import javax.faces.event.AbortProcessingException;
 import org.apache.myfaces.custom.tabbedpane.TabChangeEvent;
 import org.apache.myfaces.custom.tabbedpane.TabChangeListener;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
+import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
 
 public class TabbedPaneChangeListener implements TabChangeListener {
 
 	public void processTabChange(TabChangeEvent arg0) throws AbortProcessingException
 	{
 		FacesContext fc = FacesContext.getCurrentInstance();
-        IObjectActionController oac = (IObjectActionController)BeanNameConstants.OBJECT_ACTION_CONTROLLER.asValueBinding(fc).getValue(fc);
+		ObjectActionControllerBean oac = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.asValueBinding(fc).getValue(fc);
         oac.setSelectedTabIndex(arg0.getNewTabIndex());
 	}
 

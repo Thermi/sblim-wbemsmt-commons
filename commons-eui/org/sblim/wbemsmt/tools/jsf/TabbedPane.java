@@ -43,6 +43,7 @@ import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
+import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
 
 public class TabbedPane
 {
@@ -89,7 +90,7 @@ public class TabbedPane
 //		panel.getChildren().add(form);
 
 		//reset the selected Tab
-        IObjectActionController objectActionController = (IObjectActionController)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(fc);
+		ObjectActionControllerBean objectActionController = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(fc);
         objectActionController.setSelectedTabIndex(0);
 		
 		HtmlPanelTabbedPane tabbedPane = (HtmlPanelTabbedPane) app.createComponent(HtmlPanelTabbedPane.COMPONENT_TYPE);

@@ -45,7 +45,6 @@ import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
-import org.sblim.wbemsmt.tools.jsf.IObjectActionController;
 import org.sblim.wbemsmt.tools.jsf.JsfBase;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
@@ -58,6 +57,7 @@ import org.sblim.wbemsmt.tools.wizard.WizardBase;
 import org.sblim.wbemsmt.tools.wizard.WizardStepList;
 import org.sblim.wbemsmt.tools.wizard.adapter.IPageWizardAdapter;
 import org.sblim.wbemsmt.tools.wizard.container.IWizardContainer;
+import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
 
 public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 
@@ -114,7 +114,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 		this.adapter = adapter;
 
 		FacesContext facesContext = FacesContext.getCurrentInstance();
-		IObjectActionController objectActionController = (IObjectActionController)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(facesContext);
+		ObjectActionControllerBean objectActionController = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(facesContext);
 		selectedNode = objectActionController.getSelectedNode();
 		selectTabIndex = objectActionController.getSelectedTabIndex();
 		selectTabId = objectActionController.getSelectedTabId();
@@ -331,7 +331,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 					
 			        treeSelectorBean.setSelectedTaskLauncherTreeNode(node);
 
-			        IObjectActionController objectActionController = (IObjectActionController)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(facesContext);
+			        ObjectActionControllerBean objectActionController = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(facesContext);
 			        objectActionController.setSelectedNode(node);
 			        String result = node.click();
 			        

@@ -30,10 +30,10 @@ import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEventListenerImpl;
 import org.sblim.wbemsmt.exception.ModelLoadException;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
-import org.sblim.wbemsmt.tools.jsf.IObjectActionController;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
+import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
 
 public class InitAdapterListener extends TaskLauncherTreeNodeEventListenerImpl {
 
@@ -70,7 +70,7 @@ public class InitAdapterListener extends TaskLauncherTreeNodeEventListenerImpl {
 					adapter.reLoad(node);
 					adapter.setLocaleManager(localeManager);
 
-					IObjectActionController objectActionController = (IObjectActionController) BeanNameConstants.OBJECT_ACTION_CONTROLLER.asValueBinding(context).getValue(context);
+					ObjectActionControllerBean objectActionController = (ObjectActionControllerBean) BeanNameConstants.OBJECT_ACTION_CONTROLLER.asValueBinding(context).getValue(context);
 					objectActionController.addAdapter(getParameters().getProperty(InitAdapterListener.TASK_NAME), adapter);
 					
 				}
