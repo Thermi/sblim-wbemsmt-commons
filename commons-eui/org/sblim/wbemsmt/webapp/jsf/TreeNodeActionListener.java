@@ -75,6 +75,10 @@ public class TreeNodeActionListener implements ActionListener
         {
         	treeSelectorBean.setCurrentOutcome(result);        
         }
+        else
+        {
+        	treeSelectorBean.setCurrentOutcome("start");
+        }
     }
 
     public UIComponent getComponent()
