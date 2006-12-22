@@ -323,9 +323,9 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 	        /**
 			 * If the business logic set the path to a node try 
 			 */
-			if (baseCimAdapter.getPathOfCreatedNode() != null)
+			if (baseCimAdapter.getPathOfTreeNode() != null)
 			{
-				TaskLauncherTreeNode node = baseCimAdapter.getRootNode().findInstanceNode(baseCimAdapter.getPathOfCreatedNode());
+				TaskLauncherTreeNode node = baseCimAdapter.getRootNode().findInstanceNode(baseCimAdapter.getPathOfTreeNode());
 				if (node != null)
 				{
 					
@@ -347,7 +347,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 				}
 				else
 				{
-					logger.warning("Node with path " + baseCimAdapter.getPathOfCreatedNode() + " was not found in tree");
+					logger.warning("Node with path " + baseCimAdapter.getPathOfTreeNode() + " was not found in tree");
 				}
 			}
 	        treeSelectorBean.selectNode(selectedNode);

@@ -57,7 +57,13 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	protected boolean markedForReload = false;
 	protected LabeledBaseInputComponentIf updateTrigger;
 	protected CimObjectKey lastSelectedKey;
-	protected CIMObjectPath pathOfCreatedNode;
+	
+	/**
+	 * Can be set after creatign a new Object so that the wizard knows which node to select in the tree
+	 * This variable is currently only questioned by the wizards, but could be used for example after a deletion action
+	 * to select the next possible treeNNode
+	 */
+	protected CIMObjectPath pathOfTreeNode;
 	protected ITaskLauncherTreeNode rootNode = null; 
 	protected WbemSmtResourceBundle bundle;
 
@@ -623,6 +629,10 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 */
 	public void create(DataContainer dataContainer) throws ObjectCreationException
 	{
+		
+		//This variable can be step by the business logic which is creating a new object
+		pathOfTreeNode = null;
+		
 		Class interfaceClass = getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		logger.fine("Creating: " + interfaceName);		
@@ -635,19 +645,6 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			Method method = getCreateDelegatee().getClass().getMethod(methodName, new Class[]{interfaceClass});
 			method.setAccessible(true);
 			method.invoke(getCreateDelegatee(),new Object[]{dataContainer});
-			
-			//find the deepest key and store the path of that key in the adapter
-			if (dataContainer.getKey() != null)
-			{
-				List keyList = dataContainer.getKey().getKeyList();
-				CimObjectKey lastKey = (CimObjectKey) keyList.get(keyList.size()-1);
-				setPathOfCreatedNode(lastKey.getObjectPath());
-			}
-			else
-			{
-				setPathOfCreatedNode(null);
-			}
-			
 		} catch (NoSuchMethodException e) {
 			logger.log(Level.SEVERE, "Cannot create Object with Method " + methodName + "(" + interfaceClass.getName().toString() + "). Method not exists");
 			throw new ObjectCreationException("Internal error");
@@ -964,12 +961,12 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		CimAdapterFactory.getInstance().removeAdapter(this);		
 	}
 
-	public CIMObjectPath getPathOfCreatedNode() {
-		return pathOfCreatedNode;
+	public CIMObjectPath getPathOfTreeNode() {
+		return pathOfTreeNode;
 	}
 
-	public void setPathOfCreatedNode(CIMObjectPath pathOfCreatedNode) {
-		this.pathOfCreatedNode = pathOfCreatedNode;
+	public void setPathOfTreeNode(CIMObjectPath pathOfCreatedNode) {
+		this.pathOfTreeNode = pathOfCreatedNode;
 	}
 	
 	
