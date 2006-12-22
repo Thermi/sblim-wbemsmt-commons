@@ -53,6 +53,7 @@ import org.sblim.wbemsmt.tools.jsf.JsfBase;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.jsf.MultiLineBasePanel;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
+import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.util.StringTokenizer;
 import org.sblim.wbemsmt.webapp.jsf.style.StyleBean;
 
@@ -80,6 +81,15 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	private boolean required;
 	private boolean hasErrors;
 	private boolean isMultiline;
+	
+	/**
+	 * Only needed for ActionComponents
+	 */
+	private boolean needConfirmation;
+	/**
+	 * Only needed for ActionComponents
+	 */
+	private boolean showWait;
 
 	
 	
@@ -568,7 +578,54 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		}
 	}
 
+	public boolean isNeedConfirmation() {
+		return needConfirmation;
+	}
 
+	public void setNeedConfirmation(boolean needConfirmation) {
+		this.needConfirmation = needConfirmation;
+	}	
+
+	/**
+	 * externalized this statement into this method because the handling via JSF EL is too complex
+	 * @return
+	 */
+	public String getItemJavaScriptConfirmStatement()
+	{
+		if (isNeedConfirmation())
+		{
+			WbemSmtResourceBundle resourceBundle = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance());
+			return "if (!showConfirm('" +  resourceBundle.getString("continue")  +"')) return false;";
+		}
+		else
+		{
+			return "";
+		}
+	}
+
+	public boolean isShowWait() {
+		return showWait;
+	}
+
+	public void setShowWait(boolean showWait) {
+		this.showWait = showWait;
+	}	
+	
+	/**
+	 * externalized this statement into this method because the handling via JSF EL is too complex
+	 * @return
+	 */
+	public String getItemJavaScriptWaitStatement()
+	{
+		if (isNeedConfirmation())
+		{
+			return "showWait();";
+		}
+		else
+		{
+			return "";
+		}
+	}
 
 }
 

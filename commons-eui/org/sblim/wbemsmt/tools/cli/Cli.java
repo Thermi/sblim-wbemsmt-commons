@@ -34,7 +34,7 @@ import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 public class Cli {
 
 	/**
-	 * set to true if run fro junit
+	 * set to true if run from junit
 	 */
 	public static boolean testMode;
 	public static boolean commandExecuted;

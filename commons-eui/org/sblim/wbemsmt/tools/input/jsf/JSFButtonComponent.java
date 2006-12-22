@@ -29,13 +29,15 @@ import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.exception.ObjectUpdateException;
 import org.sblim.wbemsmt.exception.UpdateControlsException;
 import org.sblim.wbemsmt.tools.converter.Converter;
+import org.sblim.wbemsmt.tools.input.ActionComponent;
 
-public class JSFButtonComponent extends LabeledJSFInputComponent {
+public class JSFButtonComponent extends LabeledJSFInputComponent implements ActionComponent {
 
 	public JSFButtonComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE), converter,readOnly);
 		HtmlCommandButton btn = ((HtmlCommandButton)getComponent());
 		btn.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"LabelText}"));
+		btn.setValueBinding("onclick", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"JavaScriptConfirmStatement} #{" + id +"JavaScriptWaitStatement}"));
 		btn.setStyleClass("submitButton");
 
 		btn.setActionListener(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id + "Action" + "}",new Class[]{ActionEvent.class}));
@@ -56,5 +58,6 @@ public class JSFButtonComponent extends LabeledJSFInputComponent {
 	{
 		return getLabelText();
 	}
+
 		
 }

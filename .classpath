@@ -20,5 +20,6 @@
 	<classpathentry kind="var" path="JAR_REPO/jsch/jsch/0.1.28/jsch-0.1.28.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/selenium/selenium-remote-control/0.8.1/selenium-java-client-driver.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/sblim/sblim-wbemsmt-commons-launcher-config/0.2.3/sblim-wbemsmt-commons-launcher-config-0.2.3.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/xerces/xerces/1.4.4/xerces-1.4.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

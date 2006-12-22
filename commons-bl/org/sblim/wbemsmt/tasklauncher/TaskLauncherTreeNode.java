@@ -51,6 +51,8 @@ import org.sblim.wbemsmt.tasklauncher.customtreeconfig.EventListenerDocument.Eve
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.FilterDocument.Filter;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.InstanceNamingClassDocument.InstanceNamingClass;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.ParamDocument.Param;
+import org.sblim.wbemsmt.tasklauncher.event.DeleteListener;
+import org.sblim.wbemsmt.tasklauncher.event.EditListener;
 import org.sblim.wbemsmt.tasklauncher.filter.CIMInstanceFilterFactory;
 import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNamingFactory;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
@@ -359,6 +361,22 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     	return !this.eventListener.isEmpty();
     }
     
+    /**
+     * Returns true if there are event listeners with action that take longer so that the frontend can show a wait indicator
+     * @return
+     */
+    public boolean hasEventListenerWithLongrunningActions()
+    {
+    	for (Iterator iter = eventListener.iterator(); iter.hasNext();) {
+			TaskLauncherTreeNodeEventListener listener = (TaskLauncherTreeNodeEventListener) iter.next();
+			if (listener instanceof DeleteListener || listener instanceof EditListener)
+			{
+				return true;
+			}
+		}
+    	return false;
+    }
+
     public boolean hasCustomEventListener()
     {
     	for (Iterator iter = eventListener.iterator(); iter.hasNext();) {

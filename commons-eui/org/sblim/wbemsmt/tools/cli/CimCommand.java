@@ -19,6 +19,9 @@
   */
 package org.sblim.wbemsmt.tools.cli;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -516,6 +519,31 @@ public abstract class CimCommand {
 		this.errorCount++;
 	}
 
+	/**
+	 * Asks the user for confirming an action
+	 * if Cli.testMode == true the confirmations is set to true and the user is not asked
+	 * @param msg
+	 * @return
+	 * @throws IOException
+	 * @see {@link Cli#testMode}
+	 */
+	protected boolean getConfirmation() throws IOException
+	{
+		String msg = bundle.getString("continue.commandline");
+		String yes = bundle.getString("continue.commandline.yes","y");
+
+		if (Cli.testMode)
+		{
+			return true;
+		}
+		else
+		{
+			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+			System.out.print(msg + " ");
+			String response = in.readLine();
+			return yes.equalsIgnoreCase(response);
+		}
+	}
 	
 
 }

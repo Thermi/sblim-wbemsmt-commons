@@ -30,6 +30,9 @@ import javax.faces.context.FacesContext;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.ITreeSelector;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
+import org.sblim.wbemsmt.exception.ExceptionUtil;
+import org.sblim.wbemsmt.tasklauncher.event.DeleteListener;
+import org.sblim.wbemsmt.tasklauncher.event.EditListener;
 import org.sblim.wbemsmt.tasklauncher.event.TaskLauncherContextMenuEventListener;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
@@ -46,7 +49,7 @@ public class TaskLauncherContextMenuItem implements Cloneable, LocaleChangeListe
 	private TaskLauncherContextMenuEventListener eventListener;
 	private Properties parameters;
 	private String outcome = ""; // next navigation target as result of eventlistener processing event
-
+	
 	private TaskLauncherContextMenu parent;
 
 	private String bundleKey;
@@ -147,7 +150,7 @@ public class TaskLauncherContextMenuItem implements Cloneable, LocaleChangeListe
 			this.outcome = this.eventListener.processEvent(event);
 			treeSelectorBean.setCurrentOutcome(outcome);
 		} catch (Exception ex) {
-			JsfUtil.handleException(ex);
+			ExceptionUtil.handleException(ex);
 		}
     }
 
@@ -177,6 +180,32 @@ public class TaskLauncherContextMenuItem implements Cloneable, LocaleChangeListe
 		this.description = bundle.getString(bundleKey);
 		
 	}
+
+	public boolean isShowWait() {
+		return eventListener instanceof DeleteListener || eventListener instanceof EditListener;
+	}
+
+	public boolean isShowConfirm() {
+		return eventListener instanceof DeleteListener;
+	}
+	
+	/**
+	 * externalized this statement into this method because the handling via JSF EL is too complex
+	 * @return
+	 */
+	public String getJavaScriptConfirmStatement()
+	{
+		if (isShowConfirm())
+		{
+			WbemSmtResourceBundle resourceBundle = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance());
+			return "if (!showConfirm('" +  resourceBundle.getString("continue")  +"')) return false;";
+		}
+		else
+		{
+			return "";
+		}
+	}
+	
 	
 	
 }

@@ -1,5 +1,5 @@
  /** 
-  * EditListener.java
+  * CreateListener.java
   *
   * (C) Copyright IBM Corp. 2005
   *
@@ -14,12 +14,15 @@
   *
   * Contributors: 
   * 
-  * Description: interface for all edit listeners
+  * Description: marker interface for create listeners
   * 
   */
 package org.sblim.wbemsmt.tasklauncher.event;
 
-public interface EditListener
-{
+/**
+ * @author Bauschert
+ *
+ */
+public interface CreateListener {
 
 }

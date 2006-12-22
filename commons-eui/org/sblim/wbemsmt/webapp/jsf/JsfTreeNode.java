@@ -502,6 +502,8 @@ public class JsfTreeNode implements TaskLauncherTreeNodeEventListener, TreeNode,
 		return null;
 	}
 
-	
+	public boolean isShowWaitOnClick() {
+		return taskLauncherTreeNode.hasEventListenerWithLongrunningActions();
+	}	
 	
 }
