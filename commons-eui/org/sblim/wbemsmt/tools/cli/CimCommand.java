@@ -54,6 +54,7 @@ import org.sblim.wbemsmt.exception.LoginException;
 import org.sblim.wbemsmt.exception.ObjectUpdateException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tools.converter.StringArrayConverter;
+import org.sblim.wbemsmt.tools.input.ActionComponent;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
@@ -195,15 +196,42 @@ public abstract class CimCommand {
 	 * @param dc
 	 * @param ipc
 	 * @param definition
+	 * @return true if the Button was pressed - Return false if the button was pressed and there were errors in the MessageList of the container or if the Confirmation
+	 * was requested and the user had choosen to deny the action
+	 * 
+	 * So the calling commandline can abort the current action if the method returns false
 	 * @throws ObjectUpdateException
 	 */
 	protected boolean pressButton(CommandLine cmd, AbstractBaseCimAdapter adapter, DataContainer dc, LabeledBaseInputComponentIf ipc, OptionDefinition definition) throws ObjectUpdateException {
-		if (cmd.hasOption(definition.getLongKey()))
+
+		if (ipc instanceof ActionComponent)
 		{
-			adapter.updateModel(dc,ipc);
-			return !MessageList.init(dc).hasErrors();
+			
+			ActionComponent actionComponent = (ActionComponent)ipc;
+			
+			if (actionComponent.isNeedConfirmation())
+			{
+				try {
+					if (!getConfirmation())
+					{
+						logger.info("Current Action cancelled by User");
+						return false;
+					}
+				} catch (IOException e) {
+					throw new ObjectUpdateException("Cannot get the Confirmation for Component " + ipc.getLabelText(), e);
+				}
+			}
+			
+			if (cmd.hasOption(definition.getLongKey()))
+			{
+				adapter.updateModel(dc,ipc);
+				return !MessageList.init(dc).hasErrors();
+			}
+			return true;
 		}
-		return true;
+		
+		throw new ObjectUpdateException("Component is no ActionComponent");
+		
 	}		
 	
 	/**

@@ -14,7 +14,7 @@
   *
   * Contributors: 
   * 
-  * Description: InputComponent for TestClasses
+  * Description: InputComponent for TestClasses and CLI
   * 
   */
 package org.sblim.wbemsmt.tools.input.test;
@@ -29,6 +29,7 @@ public class LabeledTestInputComponent extends LabeledBaseInputComponent impleme
 	private boolean visible= true;
 	private boolean required;
 	private boolean hasErrors;
+
 
 	/**
 	 * @param parent

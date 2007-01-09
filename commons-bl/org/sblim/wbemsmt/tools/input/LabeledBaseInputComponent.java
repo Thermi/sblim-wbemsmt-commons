@@ -42,6 +42,20 @@ public abstract class LabeledBaseInputComponent implements LabeledBaseInputCompo
 	protected DataContainer parent;
 	protected ComponentProperties componentProperties;
 	
+	/**
+	 * Property is Accessed through ActionComponent Interface which is implemented by the subclasses
+	 * @see ActionComponent#isNeedConfirmation()
+	 * @see ActionComponent#setNeedConfirmation(boolean)
+	 */
+	private boolean needConfirmation = false;
+	/**
+	 * Property is Accessed through ActionComponent Interface which is implemented by the subclasses
+	 * @see ActionComponent#isShowWait()
+	 * @see ActionComponent#setShowWait(boolean)
+	 */
+	private boolean showWait = false;
+		
+	
 	protected Logger logger = Logger.getLogger("org.sblim.wbemsmt.tools.input");
 	
 	public LabeledBaseInputComponent(DataContainer parent, String labelText, Converter converter) {
@@ -138,6 +152,37 @@ public abstract class LabeledBaseInputComponent implements LabeledBaseInputCompo
 		return converter;
 	}
 	
-	
+	/**
+	 * Property is Accessed through ActionComponent Interface which is implemented by the subclasses
+	 * @see ActionComponent#isNeedConfirmation()
+	 * @see ActionComponent#setNeedConfirmation(boolean)
+	 */
+	public boolean isNeedConfirmation() {
+		return needConfirmation;
+	}
+	/**
+	 * Property is Accessed through ActionComponent Interface which is implemented by the subclasses
+	 * @see ActionComponent#isNeedConfirmation()
+	 * @see ActionComponent#setNeedConfirmation(boolean)
+	 */
+	public void setNeedConfirmation(boolean needConfirmation) {
+		this.needConfirmation = needConfirmation;
+	}
+	/**
+	 * Property is Accessed through ActionComponent Interface which is implemented by the subclasses
+	 * @see ActionComponent#isShowWait()
+	 * @see ActionComponent#setShowWait(boolean)
+	 */
+	public boolean isShowWait() {
+		return showWait;
+	}
+	/**
+	 * Property is Accessed through ActionComponent Interface which is implemented by the subclasses
+	 * @see ActionComponent#isShowWait()
+	 * @see ActionComponent#setShowWait(boolean)
+	 */
+	public void setShowWait(boolean showWait) {
+		this.showWait = showWait;
+	}		
 	
 }

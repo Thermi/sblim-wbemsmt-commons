@@ -82,17 +82,6 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	private boolean hasErrors;
 	private boolean isMultiline;
 	
-	/**
-	 * Only needed for ActionComponents
-	 */
-	private boolean needConfirmation;
-	/**
-	 * Only needed for ActionComponents
-	 */
-	private boolean showWait;
-
-	
-	
 	public LabeledJSFInputComponent(DataContainer parent, String labelText, String pId, UIComponent component, Converter converter,boolean readOnly)
 	{
 		super(parent,labelText, converter);
@@ -578,13 +567,6 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		}
 	}
 
-	public boolean isNeedConfirmation() {
-		return needConfirmation;
-	}
-
-	public void setNeedConfirmation(boolean needConfirmation) {
-		this.needConfirmation = needConfirmation;
-	}	
 
 	/**
 	 * externalized this statement into this method because the handling via JSF EL is too complex
@@ -603,14 +585,6 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		}
 	}
 
-	public boolean isShowWait() {
-		return showWait;
-	}
-
-	public void setShowWait(boolean showWait) {
-		this.showWait = showWait;
-	}	
-	
 	/**
 	 * externalized this statement into this method because the handling via JSF EL is too complex
 	 * @return

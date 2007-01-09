@@ -14,7 +14,7 @@
   *
   * Contributors: 
   * 
-  * Description: InputComponent for TestClasses
+  * Description: InputComponent for TestClasses and CLI
   * 
   */
 package org.sblim.wbemsmt.tools.input.test;
