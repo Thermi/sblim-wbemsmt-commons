@@ -426,4 +426,15 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 		return this.title;
 	}
 	
+	/**
+	 * externalized this statement into this method because the handling via JSF EL is too complex
+	 * @return
+	 */
+	public String getCancelJavaScriptConfirmStatement()
+	{
+		WbemSmtResourceBundle resourceBundle = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance());
+		return "if (!showConfirm('" +  resourceBundle.getString("cancelWizard")  +"')) return false;";
+	}
+	
+	
 }
