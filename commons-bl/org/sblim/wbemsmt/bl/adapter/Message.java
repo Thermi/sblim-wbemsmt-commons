@@ -233,7 +233,7 @@ public class Message
 	 * @see Message#ERROR
 	 */
 	public static Message create(MessageNumber number, String type, WbemSmtResourceBundle bundle, String key, Object[] objects) {
-		return new Message(number,type,bundle.getString(key,objects));
+		return new Message(number,type,bundle.getString(number,key,objects));
 	}
 
 	/**
