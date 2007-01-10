@@ -76,10 +76,10 @@ public class TabbedPane
 	
 	/**
 	 * For creation of Tomahawk TabPanel
-	 * @param createOKCancelButtons 
+	 * @param createOKRevertButtons 
 	 */
 	
-	public void create(boolean createOKCancelButtons)
+	public void create(boolean createOKRevertButtons)
 	{
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Application app = fc.getApplication();
@@ -117,28 +117,30 @@ public class TabbedPane
 			addTab(app,tabbedPane,i,bundleKey,id);
 		}
 		
-		if (createOKCancelButtons)
+		if (createOKRevertButtons)
 		{
-			addOKCancelButtons();
+			addOKRevertButtons();
 		}
 	}
 	
 	
-	private void addOKCancelButtons() {
+	private void addOKRevertButtons() {
 		
 		HtmlCommandButton btnOK = (HtmlCommandButton) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
 		btnOK.setStyleClass("submitButton");
 		btnOK.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.ok}"));
 		String binding = "#{" + BeanNameConstants.OBJECT_ACTION_CONTROLLER.getName() + ".currentEditListener.save" + "}";
 		btnOK.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,null));
+		btnOK.setOnclick("showWait();");
 		btnOK.setId("editok");
 		
-		HtmlCommandButton btnCancel = (HtmlCommandButton) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
-		btnCancel.setStyleClass("submitButton");
-		btnCancel.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.cancel}"));
-		binding = "#{" + BeanNameConstants.OBJECT_ACTION_CONTROLLER.getName() + ".currentEditListener.cancel" + "}";
-		btnCancel.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,null));
-		btnCancel.setId("editcancel");
+		HtmlCommandButton btnRevert = (HtmlCommandButton) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
+		btnRevert.setStyleClass("submitButton");
+		btnRevert.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.revert}"));
+		binding = "#{" + BeanNameConstants.OBJECT_ACTION_CONTROLLER.getName() + ".currentEditListener.revert" + "}";
+		btnRevert.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,null));
+		btnRevert.setOnclick(JsfUtil.getRevertEditActionJavaScriptConfirmStatement() + "showWait();");
+		btnRevert.setId("editrevert");
 
 		HtmlPanelGroup buttonGroup = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 		HtmlOutputText text1 = (HtmlOutputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
@@ -151,7 +153,7 @@ public class TabbedPane
 		buttonGroup.getChildren().add(text1);
 		buttonGroup.getChildren().add(btnOK);
 		buttonGroup.getChildren().add(text2);
-		buttonGroup.getChildren().add(btnCancel);
+		buttonGroup.getChildren().add(btnRevert);
 
 		panel.getChildren().add(buttonGroup);
 		

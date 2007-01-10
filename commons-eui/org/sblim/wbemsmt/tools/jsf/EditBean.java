@@ -41,6 +41,7 @@ import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.exception.CountException;
 import org.sblim.wbemsmt.exception.InitContainerException;
 import org.sblim.wbemsmt.exception.ObjectNotFoundException;
+import org.sblim.wbemsmt.exception.ObjectRevertException;
 import org.sblim.wbemsmt.exception.ObjectSaveException;
 import org.sblim.wbemsmt.exception.UpdateControlsException;
 import org.sblim.wbemsmt.exception.ValidationException;
@@ -59,13 +60,12 @@ public abstract class EditBean extends JsfBase{
 	public static final String PAGE_START = "start";
 	public static final String PAGE_EDIT = "edit";
 	
-	protected HtmlCommandButton btnCancel, btnOK = null;
+	protected HtmlCommandButton btnRevert, btnOK = null;
 	protected MessageList saveResult = null;
 
 	   
-	public String cancel() {
-		return PAGE_START;
-	}
+	public abstract String revert() throws ObjectRevertException;
+	
 	public abstract String save() throws ValidationException, ObjectSaveException;
 	public abstract void edit(ITaskLauncherTreeNode treeNode) throws ObjectNotFoundException, UpdateControlsException, CountException, InitContainerException;
 	public abstract HtmlPanelGrid getPanel();
@@ -75,18 +75,20 @@ public abstract class EditBean extends JsfBase{
 	public void setContainers(List containers) {
 		this.containers = containers;
 	}
-	public void addOKCancel(UIComponentBase parent, String methodBindingPrefix) {
+	public void addOKRevert(UIComponentBase parent, String methodBindingPrefix) {
 		btnOK = (HtmlCommandButton) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
 		btnOK.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.ok}"));
 		String binding = "#{" + methodBindingPrefix + "save" + "}";
 		btnOK.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,null));
+		btnOK.setOnclick("showWait();");
 		btnOK.setId("editok");
 		
-		btnCancel = (HtmlCommandButton) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
-		btnCancel.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.cancel}"));
-		binding = "#{" + methodBindingPrefix + "cancel" + "}";
-		btnCancel.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,null));
-		btnCancel.setId("editcancel");
+		btnRevert = (HtmlCommandButton) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
+		btnRevert.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.revert}"));
+		binding = "#{" + methodBindingPrefix + "revert" + "}";
+		btnRevert.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,null));
+		btnRevert.setOnclick(JsfUtil.getRevertEditActionJavaScriptConfirmStatement() +  "showWait();");
+		btnRevert.setId("editrevert");
 
 		HtmlPanelGroup buttonGroup = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 		HtmlOutputText text1 = (HtmlOutputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
@@ -99,7 +101,7 @@ public abstract class EditBean extends JsfBase{
 		buttonGroup.getChildren().add(text1);
 		buttonGroup.getChildren().add(btnOK);
 		buttonGroup.getChildren().add(text2);
-		buttonGroup.getChildren().add(btnCancel);
+		buttonGroup.getChildren().add(btnRevert);
 
 		parent.getChildren().add(buttonGroup);
 	}

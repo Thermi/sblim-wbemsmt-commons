@@ -30,6 +30,10 @@ public interface CimAdapterDelegator
 	 */
 	public SaveDelegatee getSaveDelegatee();
 	/**
+	 * @return the delegatee for revert actions
+	 */
+	public RevertDelegatee getRevertDelegatee();
+	/**
 	 * @return the delegatee for delete actions
 	 */
 	public DeleteDelegatee getDeleteDelegatee();

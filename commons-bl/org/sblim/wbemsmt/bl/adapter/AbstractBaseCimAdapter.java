@@ -455,7 +455,124 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	}
 
 	/**
-	 * saves the changes contained in the dataContainer
+	 * revert the changes contained in the dataContainer
+	 * 
+	 * The implementor must revert the childs too
+	 * 
+	 * Calls the saveImpl-Methods on the derived class
+	 * 
+	 * @param dataContainer
+	 * @throws ObjectUpdateException
+	 */
+	public void revert(DataContainer dataContainer) throws ObjectRevertException
+	{
+		
+		if (!DataContainerUtil.validateEnteredValues(dataContainer))
+		{
+			return;
+		}
+
+		Class interfaceClass = getDataContainerInterface(dataContainer);
+		String interfaceName = interfaceClass.getName();
+		logger.fine("Reverting: " + interfaceName);		
+
+		String methodName = "revertImpl";
+		
+		logger.fine("Using method " + methodName);		
+		
+		try {
+			Method method = getRevertDelegatee().getClass().getMethod(methodName, new Class[]{interfaceClass});
+			method.setAccessible(true);
+			MessageList list = (MessageList) method.invoke(getRevertDelegatee(),new Object[]{dataContainer});
+			dataContainer.setMessagesList(list != null ? list : new MessageList());
+		} catch (NoSuchMethodException e) {
+			logger.log(Level.SEVERE, "Cannot revert Object with Method " + methodName + "(" + interfaceClass.getName().toString() + "). Method not exists");
+			throw new ObjectRevertException("Internal error");
+		} catch (InvocationTargetException e) {
+			Throwable t = e.getTargetException();
+			logger.log(Level.SEVERE, "Cannot revert Object with Method " + methodName,t);
+			if (t instanceof ObjectRevertException) {
+				ObjectRevertException e1 = (ObjectRevertException) t;
+				throw e1;
+			}
+			else
+			{
+				throw new ObjectRevertException("Internal error",t);
+			}
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, "Cannot revert Object with Method " + methodName,e);
+			throw new ObjectRevertException("Internal error");
+		} 
+	}
+	
+	/**
+	 * saves the List ModelElements
+	 * a UpdateControlsException should be thrown:
+	 *   - if the size datContainer-List is not equal the size of the modelElements-List
+	 *   - if the type of a element in the dataContainer list doesn't fit to the type of the modelElemets List. 
+	 *     e.g. if a user wants to update a resourceRecord-ContainerItem with a zone-ModelElement   
+	 * @param dataContainer
+	 * @param modelElements
+	 * @throws UpdateControlsException
+	 */
+	public MessageList revert(List containerList, List modelElements) throws ObjectRevertException
+	{
+		
+		if (modelElements.size() != containerList.size())
+		{
+			String msg = "There are {0} resource Records found in Model and [1} in GUI. Cannot revert the GUI";
+			throw new ObjectRevertException(bundle.getString(msg,new Object[]{new Integer(modelElements.size()),new Integer(containerList.size())}));
+		}
+		
+		MessageList result = new MessageList();
+		
+		for (int i=0; i <  modelElements.size(); i++) {
+			CIM_ManagedElement modelElement = (CIM_ManagedElement) modelElements.get(i);
+			DataContainer containerElement = (DataContainer)containerList.get(i);
+
+			if (!DataContainerUtil.validateEnteredValues(containerElement))
+			{
+				return containerElement.getMessagesList();
+			}
+			
+			Class modelClass = modelElement.getClass();
+			Class containerClass = getDataContainerInterface(containerElement);
+			logger.fine("updating Controls: " + containerClass.getName().toString());		
+
+			String methodName = "revertImpl";
+			
+			logger.fine("Using method " + methodName);		
+
+			String signature = methodName + "(" + containerClass.getName().toString() + "," + modelClass.getName().toString() +")";
+			try {
+				Method method = getRevertDelegatee().getClass().getMethod(methodName, new Class[]{containerClass,modelClass});
+				method.setAccessible(true);
+				MessageList result1 = (MessageList) method.invoke(getRevertDelegatee(),new Object[]{containerElement,modelElement});
+				result.addAll(result1);
+			} catch (NoSuchMethodException e) {
+				logger.log(Level.SEVERE, "Cannot revert Controls with Method " + signature +". Method not exists");
+				throw new ObjectRevertException("Internal error");
+			} catch (InvocationTargetException e) {
+				Throwable t = e.getTargetException();
+				logger.log(Level.SEVERE, "Cannot revert Object with Method " + signature,t);
+				if (t instanceof ObjectRevertException) {
+					ObjectRevertException e1 = (ObjectRevertException) t;
+					throw e1;
+				}
+				else
+				{
+					throw new ObjectRevertException("Internal error",t);
+				}
+			} catch (Exception e) {
+				logger.log(Level.SEVERE, "Cannot revert Object with Method " + signature,e);
+				throw new ObjectRevertException("Internal error");
+			} 
+		}		
+		return result;
+	}
+
+	/**
+	 * update the Data Model (Triggered by the frontend)
 	 * 
 	 * The implementor have to decide if he wants to save the childs too
 	 * 

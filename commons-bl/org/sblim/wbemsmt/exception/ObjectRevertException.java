@@ -1,5 +1,5 @@
 /**
- * ObjectSaveException.java
+ * ObjectRevertException.java
  *
  * (C) Copyright IBM Corp. 2005
  *
@@ -10,9 +10,9 @@
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * Author:     Wolfgang Taphorn <taphorn@de.ibm.com>
- * 
- * Contributors: Michael Bauschert <Michael.Bauschert@de.ibm.com>
+ * Author:     Michael Bauschert <Michael.Bauschert@de.ibm.com>
+ *
+ * Exception thrown while Reverting a Container
  *
  **/
 
@@ -26,68 +26,64 @@ import org.sblim.wbemsmt.bl.fco.CIM_Object;
 import org.sblim.wbemsmt.schema.cim29.CIM_Component;
 import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
 
-/**
- * Author taphorn
- *
- */
-public class ObjectSaveException extends WbemSmtException {
+public class ObjectRevertException extends WbemSmtException {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8375900149617127953L;
 
-	public ObjectSaveException(CIM_ManagedElement cimElement, Throwable arg1) {
+	public ObjectRevertException(CIM_ManagedElement cimElement, Throwable arg1) {
 		super(cimElement, arg1);
 		
 	}
 
-	public ObjectSaveException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
+	public ObjectRevertException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
 		super(arg0, cimElement, arg1);
 		
 	}
 
-	public ObjectSaveException(WbemSmtException arg1) {
+	public ObjectRevertException(WbemSmtException arg1) {
 		super(arg1);
 		
 	}
 
-	public ObjectSaveException(CIM_ManagedElement cimElement) {
+	public ObjectRevertException(CIM_ManagedElement cimElement) {
 		super(cimElement);
 		
 	}
 
-	public ObjectSaveException(String arg0, Throwable arg1) {
+	public ObjectRevertException(String arg0, Throwable arg1) {
 		super(arg0, arg1);
 		
 	}
 
-	public ObjectSaveException(String arg0) {
+	public ObjectRevertException(String arg0) {
 		super(arg0);
 		
 	}
 
-	public ObjectSaveException(String msg, CIM_Component co, Throwable t) {
+	public ObjectRevertException(String msg, CIM_Component co, Throwable t) {
 		super(msg, co, t);
 		
 	}
 
-	public ObjectSaveException(CIM_Component co, Throwable t) {
+	public ObjectRevertException(CIM_Component co, Throwable t) {
 		super(co, t);
 		
 	}
 
-	public ObjectSaveException(Throwable arg1) {
+	public ObjectRevertException(Throwable arg1) {
 		super(arg1);
 		
 	}
 
-	public ObjectSaveException(CIM_Object cimObject, Throwable arg1) {
+	public ObjectRevertException(CIM_Object cimObject, Throwable arg1) {
 		super(cimObject, arg1);
 		
 	}
 
-	public ObjectSaveException(String arg0, CIM_Object cimObject, Throwable arg1) {
+	public ObjectRevertException(String arg0, CIM_Object cimObject, Throwable arg1) {
 		super(arg0, cimObject, arg1);
 		
 	}

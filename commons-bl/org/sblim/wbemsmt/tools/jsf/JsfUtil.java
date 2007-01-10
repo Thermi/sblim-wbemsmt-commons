@@ -232,4 +232,15 @@ public class JsfUtil {
 		}
 		return false;
 	}
+	
+	/**
+	 * externalized this statement into this method because the handling via JSF EL is too complex
+	 * @return
+	 */
+	public static String getRevertEditActionJavaScriptConfirmStatement()
+	{
+		WbemSmtResourceBundle resourceBundle = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance());
+		return "if (!showConfirm('" +  resourceBundle.getString("revertEditAction")  +"')) return false;";
+	}
+	
 }

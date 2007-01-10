@@ -249,7 +249,7 @@ public abstract class BasePanel {
 	}
 
 	public static void addErrorIconLegend(StyleBean style, HtmlPanelGrid table) {
-		String binding = "#{messages.fieldRequired}";
+		String binding = "#{messages.fieldError}";
 		String image = "/images/fieldIndicatorError.png";
 		addLegend(style, table, binding, image);
 	}
