@@ -24,6 +24,11 @@ import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public interface LabeledBaseInputComponentIf {
+
+	public static final int LEFT = 0; 
+	public static final int CENTER = 1; 
+	public static final int RIGHT = 2; 
+	
 	public abstract Object getItem();
 
 	public abstract void setItem(Object item);

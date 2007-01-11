@@ -49,6 +49,7 @@ import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
+import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 import org.sblim.wbemsmt.tools.jsf.JsfBase;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.jsf.MultiLineBasePanel;
@@ -60,6 +61,7 @@ import org.sblim.wbemsmt.webapp.jsf.style.StyleBean;
 public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 {
 
+	
 	protected List itemValues = new ArrayList();
 	UIComponentBase componentPanel = null;
 	
@@ -79,6 +81,7 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	private String itemFieldIndicatorAltText;
 	private boolean fieldIndicatorRendered;
 	private boolean required;
+	protected int orientation;
 	private boolean hasErrors;
 	private boolean isMultiline;
 	
@@ -601,5 +604,29 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		}
 	}
 
+	/**
+	 * Get the orientation of the component
+	 * @return
+	 * @see LabeledBaseInputComponentIf#LEFT
+	 * @see LabeledBaseInputComponentIf#RIGHT
+	 * @see LabeledBaseInputComponentIf#CENTER
+	 */
+	public int getOrientation() {
+		return orientation;
+	}
+
+	/**
+	 * Set the orientation
+	 * @param orientation
+	 * @see LabeledBaseInputComponentIf#LEFT
+	 * @see LabeledBaseInputComponentIf#RIGHT
+	 * @see LabeledBaseInputComponentIf#CENTER
+	 * 
+	 */
+	public void setOrientation(int orientation) {
+		this.orientation = orientation;
+	}
+
+	
 }
 

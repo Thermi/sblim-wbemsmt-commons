@@ -28,6 +28,9 @@ import org.sblim.wbemsmt.tools.converter.Converter;
 
 public abstract class LabeledBaseInputComponent implements LabeledBaseInputComponentIf, ComponentPropertyChangListener {
 
+
+	
+	
 	protected String labelText;
 	/**
 	 * itemList is set if the component supports the selection of one value (for example a textfield)

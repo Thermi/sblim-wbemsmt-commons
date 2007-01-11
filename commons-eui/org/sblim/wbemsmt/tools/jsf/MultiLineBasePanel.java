@@ -84,9 +84,9 @@ public abstract class MultiLineBasePanel extends BasePanel {
 				{
 					sb.append(", ");
 				}
-				if (i==0) sb.append("multiLineContentFirst");
-				else if (i==cols-1) sb.append("multiLineContentLast");
-				else sb.append("multiLineContent");
+				if (i==0) sb.append("multiLineContentFirst " + getOrientationOfColumnAsCss(i) );
+				else if (i==cols-1) sb.append("multiLineContentLast " + getOrientationOfColumnAsCss(i));
+				else sb.append("multiLineContent " + getOrientationOfColumnAsCss(i));
 				
 			}
 			panelGrid.setColumnClasses(sb.toString());
@@ -97,7 +97,7 @@ public abstract class MultiLineBasePanel extends BasePanel {
 			outerPanel.getChildren().add(dummyPanel);
 		}
 	}
-	
+
 	protected void addComponents(LabeledJSFInputComponent[] inputComponent)
 	{
 		if (first)
@@ -226,5 +226,7 @@ public abstract class MultiLineBasePanel extends BasePanel {
 		}
 	}
 
+	
+	protected abstract String getOrientationOfColumnAsCss(int column);
 	
 }

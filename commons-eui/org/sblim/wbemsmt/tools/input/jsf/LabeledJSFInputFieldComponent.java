@@ -26,6 +26,7 @@ import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.tools.converter.Converter;
+import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 
 public class LabeledJSFInputFieldComponent extends LabeledJSFInputComponent {
 
@@ -35,5 +36,19 @@ public class LabeledJSFInputFieldComponent extends LabeledJSFInputComponent {
 		txt.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 		txt.setSize(25);
 	}
+
+	public void setOrientation(int orientation) {
+		super.setOrientation(orientation);
+		if (orientation == LabeledBaseInputComponentIf.CENTER)
+		{
+			addStyleSheetElement("text-align", "center");
+		}
+		else if (orientation == LabeledBaseInputComponentIf.RIGHT)
+		{
+			addStyleSheetElement("text-align", "right");
+		}
+	}
+	
+	
 
 }
