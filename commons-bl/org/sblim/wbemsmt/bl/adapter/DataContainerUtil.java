@@ -20,6 +20,7 @@
 package org.sblim.wbemsmt.bl.adapter;
 
 import java.lang.reflect.Method;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -136,4 +137,66 @@ public class DataContainerUtil {
 		return errors == 0;
 	}
 
+	/**
+	 * Check if some fields are marked as required. A field is only marked as required if the field has no error
+	 * @param containers List with DataContainers
+	 * @return true if a field within the containers or their childs is required
+	 */
+	public static boolean havingRequiredFields(List containers) {
+		for (Iterator iter = containers.iterator(); iter.hasNext();) {
+			DataContainer container = (DataContainer) iter.next();
+			boolean result = havingRequiredFields(container);
+			if (result)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean havingRequiredFields(DataContainer container) {
+		List fields = container.getFields();
+		for (Iterator iterator = fields.iterator(); iterator.hasNext();) {
+			LabeledBaseInputComponentIf field = (LabeledBaseInputComponentIf) iterator.next();
+			if (field.isRequired() && !field.hasErrors())
+			{
+				return true;
+			}
+		}
+		List childContainers = container.getChildContainers();
+		boolean result = havingRequiredFields(childContainers);
+		return result;
+	}	
+
+	
+	/**
+	 * Check if some fields are required
+	 * @param containers List with DataContainers
+	 * @return true if a field within the containers or their childs is required
+	 */
+	public static boolean havingErrorFields(List containers) {
+		for (Iterator iter = containers.iterator(); iter.hasNext();) {
+			DataContainer container = (DataContainer) iter.next();
+			boolean result = havingErrorFields(container);
+			if (result)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean havingErrorFields(DataContainer container) {
+		List fields = container.getFields();
+		for (Iterator iterator = fields.iterator(); iterator.hasNext();) {
+			LabeledBaseInputComponentIf field = (LabeledBaseInputComponentIf) iterator.next();
+			if (field.hasErrors())
+			{
+				return true;
+			}
+		}
+		List childContainers = container.getChildContainers();
+		boolean result = havingErrorFields(childContainers);
+		return result;
+	}	
 }

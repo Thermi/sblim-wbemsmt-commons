@@ -20,7 +20,9 @@
 
 package org.sblim.wbemsmt.tools.wizard;
 
-public interface IWizardBasePanel {
+import org.sblim.wbemsmt.bl.adapter.DataContainer;
+
+public interface IWizardBasePanel extends DataContainer {
 
 	public abstract String getSubTitleText();
 	public abstract String getTitleText();

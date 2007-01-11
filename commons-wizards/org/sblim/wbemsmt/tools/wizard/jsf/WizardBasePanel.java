@@ -23,6 +23,7 @@ import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
+import org.sblim.wbemsmt.bl.adapter.DataContainerUtil;
 import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFInputComponent;
 import org.sblim.wbemsmt.tools.jsf.BasePanel;
 import org.sblim.wbemsmt.tools.wizard.IWizardBasePanel;
@@ -114,6 +115,22 @@ public abstract class WizardBasePanel extends BasePanel implements IWizardBasePa
 		return subTitle;
 	}
 	
-	
+    /**
+     * Go through all containers and Childs and check if they have required fields
+     * @return
+     */
+    public boolean isRequiredVisible()
+    {
+    	return DataContainerUtil.havingRequiredFields(this);
+    }
+    
+    /**
+     * Go through all containers and Childs and check if they have errors
+     * @return
+     */
+    public boolean isErrorVisible()
+    {
+    	return DataContainerUtil.havingErrorFields(this);
+    }	
 
 }

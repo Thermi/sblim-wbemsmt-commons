@@ -239,8 +239,8 @@ public abstract class BasePanel {
 
 			if (this instanceof WizardBasePanel)
 			{
-				addRequiredIconLegend(style,table);
-				addErrorIconLegend(style,table);
+				addRequiredIconLegend(style,table,"#{objectActionController.currentWizard.currentPanel.requiredVisible}");
+				addErrorIconLegend(style,table,"#{objectActionController.currentWizard.currentPanel.errorVisible}");
 			}
 			
 			
@@ -248,28 +248,30 @@ public abstract class BasePanel {
 		
 	}
 
-	public static void addErrorIconLegend(StyleBean style, HtmlPanelGrid table) {
+	public static void addErrorIconLegend(StyleBean style, HtmlPanelGrid table,String visibleBinding) {
 		String binding = "#{messages.fieldError}";
 		String image = "/images/fieldIndicatorError.png";
-		addLegend(style, table, binding, image);
+		addLegend(style, table, binding, image,visibleBinding);
 	}
 
-	public  static void addRequiredIconLegend(StyleBean style, HtmlPanelGrid table) {
+	public  static void addRequiredIconLegend(StyleBean style, HtmlPanelGrid table, String visibleBinding) {
 		String binding = "#{messages.fieldRequired}";
 		String image = "/images/fieldIndicatorRequired.png";
-		addLegend(style, table, binding, image);
+		addLegend(style, table, binding, image,visibleBinding);
 	}
 
-	private static void addLegend(StyleBean style, HtmlPanelGrid table, String binding, String image) {
+	private static void addLegend(StyleBean style, HtmlPanelGrid table, String binding, String image, String visibleBinding) {
 		HtmlGraphicImage img = (HtmlGraphicImage)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlGraphicImage.COMPONENT_TYPE);
 		img.setStyle("border:0px");
 		img.setValueBinding("alt",FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
 		img.setValueBinding("title",FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
+		img.setValueBinding("rendered",FacesContext.getCurrentInstance().getApplication().createValueBinding(visibleBinding));
 		img.setUrl(style.getResourceDir()+image);
 		table.getChildren().add(img);
 		
 		HtmlOutputText text = (HtmlOutputText)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
 		text.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
+		text.setValueBinding("rendered",FacesContext.getCurrentInstance().getApplication().createValueBinding(visibleBinding));
 		text.setStyleClass("tableFooter");
 		table.getChildren().add(text);
 	}

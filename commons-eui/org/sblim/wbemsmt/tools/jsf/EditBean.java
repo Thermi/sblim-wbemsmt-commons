@@ -35,6 +35,7 @@ import javax.faces.context.FacesContext;
 import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.MessageNumber;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
+import org.sblim.wbemsmt.bl.adapter.DataContainerUtil;
 import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
@@ -235,7 +236,7 @@ public abstract class EditBean extends JsfBase{
     	addMessages(message, list, true);
 	}
     
-    protected void addFooter(HtmlPanelGrid containerPanel)
+    protected void addFooter(HtmlPanelGrid containerPanel, String bindingPrefix)
     {
     	StyleBean style = (StyleBean) BeanNameConstants.STYLE.getBoundValue(FacesContext.getCurrentInstance());    	
     	
@@ -246,11 +247,28 @@ public abstract class EditBean extends JsfBase{
 		table.setColumns(2);
 		table.setColumnClasses("tableFooterIcon,tableFooter");
 		
-		BasePanel.addRequiredIconLegend(style, table);
-		BasePanel.addErrorIconLegend(style, table);
+		BasePanel.addRequiredIconLegend(style, table, "#{" + bindingPrefix + "requiredVisible}");
+		BasePanel.addErrorIconLegend(style, table, "#{" + bindingPrefix + "errorVisible}");
 		
 		containerPanel.getFacets().put("footer", table);
 
     }
     
+    /**
+     * Go through all containers and Childs and check if they have required fields
+     * @return
+     */
+    public boolean isRequiredVisible()
+    {
+    	return DataContainerUtil.havingRequiredFields(containers);
+    }
+    
+    /**
+     * Go through all containers and Childs and check if they have errors
+     * @return
+     */
+    public boolean isErrorVisible()
+    {
+    	return DataContainerUtil.havingErrorFields(containers);
+    }
 }

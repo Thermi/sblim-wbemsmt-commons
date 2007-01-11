@@ -19,6 +19,8 @@
   */
 package org.sblim.wbemsmt.bl.adapter;
 
+import java.util.List;
+
 
 public interface DataContainer
 {
@@ -59,4 +61,15 @@ public interface DataContainer
 	 */
 	public void setAdapter(AbstractBaseCimAdapter adapter);
 
+	/**
+	 * Return a list of all Fields. A Field is a LabeledBaseInputComponentIf
+	 * @return
+	 */
+	public List getFields();
+
+	/**
+	 * Return a list of all associated childContainers. A childContainer is a DataContainer
+	 * @return
+	 */
+	public List getChildContainers();
 }
