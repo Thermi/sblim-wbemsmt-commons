@@ -95,7 +95,10 @@ public class ErrCodes
 	 */
 	public final static String SUBSYS_COM = "COM";
 	
-	/**
+	public static final MessageNumber MSG_LOGGED_OUT = new MessageNumber(COMPONENT,SUBSYS_COM,1);
+	
+	
+	/**   
 	 * Validator
 	 */
 	public final static String SUBSYS_VAL = "VAL";

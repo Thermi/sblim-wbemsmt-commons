@@ -23,10 +23,23 @@ public class JavascriptUtil
 {
 
 	public static String getShowWaitCall(String text) {
-		return "waitMessage = '" + text + "';"
-	    + "showWait();";
+		return getShowWaitCall(text, true);
 	}
 
+	public static String getShowWaitCall(String text, boolean textIsLiteral) {
+		
+		if (textIsLiteral)
+		{
+			return "waitMessage = '" + text + "';"
+		    + "showWait();";
+		}
+		else
+		{
+			return "waitMessage = " + text + ";"
+		    + "showWait();";
+		}
+		
+	}
 
 	
 }
