@@ -165,21 +165,23 @@ public abstract class BasePanel {
 		this.keyForTitle = keyForTitle;
 		this.title = bundle.getString(keyForTitle);
 
-		HtmlPanelGroup group = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
-		
+		if (!"".equals(title))
+		{
+			HtmlPanelGroup group = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
+			
 
-		HtmlOutputText text = (HtmlOutputText)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
-		text.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding(bindingForTitle));
-		text.setStyleClass("tableHeader");
-		panelGrid.setHeaderClass("tableHeader");
-		
-		group.getChildren().add(text);
-		group.getChildren().add(JsfUtil.createText("<br><hr class=\"tableHeaderHR\"/>"));
-		
-		panelGrid.getFacets().put("header",group);
+			HtmlOutputText text = (HtmlOutputText)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
+			text.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding(bindingForTitle));
+			text.setStyleClass("tableHeader");
+			panelGrid.setHeaderClass("tableHeader");
+			
+			group.getChildren().add(text);
+			group.getChildren().add(JsfUtil.createText("<br><hr class=\"tableHeaderHR\"/>"));
+			
+			panelGrid.getFacets().put("header",group);
+		}
 		
 	}
-
 	//set the title
 	protected void setFooter(HtmlPanelGrid panelGrid, String key) {
 
