@@ -47,6 +47,7 @@ import org.sblim.wbemsmt.tasklauncher.TaskLauncherDelegaterTreeNode;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeConfigTreeNode;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
+import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
@@ -504,6 +505,19 @@ public class JsfTreeNode implements TaskLauncherTreeNodeEventListener, TreeNode,
 
 	public boolean isShowWaitOnClick() {
 		return taskLauncherTreeNode.hasEventListenerWithLongrunningActions();
-	}	
+	}
+	
+	public String getOnClickJavaScript()
+	{
+		if (isShowWaitOnClick())
+		{
+			String text = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance()).getString("loading.treenode",new Object[]{getDescription()});
+			return JavascriptUtil.getShowWaitCall(text);
+		}
+		else
+		{
+			return "";
+		}
+	}
 	
 }

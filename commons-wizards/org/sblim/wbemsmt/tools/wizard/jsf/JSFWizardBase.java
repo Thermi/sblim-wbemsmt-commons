@@ -84,6 +84,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 	private String selectTabId;
 	
 	public abstract String getFinishText();
+	public abstract String getJavaScriptWaitStatement();
 	
 	public JSFWizardBase(AbstractBaseCimAdapter baseCimAdapter,WbemSmtResourceBundle resourceBundle, String keyForTitle) {
 		super(resourceBundle);

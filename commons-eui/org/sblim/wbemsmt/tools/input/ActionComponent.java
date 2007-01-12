@@ -39,4 +39,11 @@ public interface ActionComponent {
 	 * @param showWait
 	 */
 	public void setShowWait(boolean showWait);
+
+	/**
+	 * set the wait text
+	 * @param showWait
+	 */
+	public void setWaitText(String waitText);
+
 }

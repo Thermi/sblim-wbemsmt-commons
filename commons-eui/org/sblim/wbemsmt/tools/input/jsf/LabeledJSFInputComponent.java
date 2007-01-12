@@ -53,6 +53,7 @@ import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
+import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 import org.sblim.wbemsmt.tools.jsf.JsfBase;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.jsf.MultiLineBasePanel;
@@ -585,9 +586,9 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	 */
 	public String getItemJavaScriptWaitStatement()
 	{
-		if (isNeedConfirmation())
+		if (isShowWait())
 		{
-			return "showWait();";
+			return JavascriptUtil.getShowWaitCall(getWaitText());
 		}
 		else
 		{

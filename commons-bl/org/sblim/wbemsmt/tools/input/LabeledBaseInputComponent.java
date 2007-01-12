@@ -57,6 +57,8 @@ public abstract class LabeledBaseInputComponent implements LabeledBaseInputCompo
 	 * @see ActionComponent#setShowWait(boolean)
 	 */
 	private boolean showWait = false;
+	
+	private String waitText = null;
 		
 	
 	protected Logger logger = Logger.getLogger("org.sblim.wbemsmt.tools.input");
@@ -186,6 +188,24 @@ public abstract class LabeledBaseInputComponent implements LabeledBaseInputCompo
 	 */
 	public void setShowWait(boolean showWait) {
 		this.showWait = showWait;
+	}
+
+	/**
+	 * Set The text for displaying if while showing the wait indicator
+	 * @return
+	 */
+	public String getWaitText() {
+		return waitText;
+	}
+
+	/**
+	 * get the Text for displaying while showing the wait indicator
+	 * @param waitText
+	 */
+	public void setWaitText(String waitText) {
+		this.waitText = waitText;
 	}		
+	
+	
 	
 }

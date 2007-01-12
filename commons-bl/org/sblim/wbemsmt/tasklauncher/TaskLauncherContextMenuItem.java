@@ -35,6 +35,7 @@ import org.sblim.wbemsmt.tasklauncher.event.DeleteListener;
 import org.sblim.wbemsmt.tasklauncher.event.EditListener;
 import org.sblim.wbemsmt.tasklauncher.event.TaskLauncherContextMenuEventListener;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
+import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
@@ -206,6 +207,24 @@ public class TaskLauncherContextMenuItem implements Cloneable, LocaleChangeListe
 		}
 	}
 	
+	/**
+	 * externalized this statement into this method because the handling via JSF EL is too complex
+	 * @return
+	 */
+	public String getJavaScriptWaitStatement()
+	{
+		if (isShowWait())
+		{
+			WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance());
+			bundle.add(ResourceBundleManager.getResourceBundle(new String[]{"message"},bundle.getLocale()));
+			String text = bundle.getString("execute.contextmenue.wait.msg",new Object[]{description});
+			return JavascriptUtil.getShowWaitCall(text);
+		}
+		else
+		{
+			return "";
+		}
+	}
 	
 	
 }
