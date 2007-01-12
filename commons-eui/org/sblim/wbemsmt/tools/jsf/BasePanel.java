@@ -97,7 +97,7 @@ public abstract class BasePanel {
 	{
 		if (inputComponent instanceof JSFButtonComponent) {
 			//Buttons have no label and should therefore be stores in first columne
-			parentComponent.getChildren().add(inputComponent.getComponent());
+			parentComponent.getChildren().add(inputComponent.getComponentPanel());
 		}
 		else if (inputComponent instanceof LabeledJSFCheckboxActionComponent
 				 || inputComponent instanceof LabeledJSFCheckboxComponent
@@ -121,14 +121,7 @@ public abstract class BasePanel {
 		{
 			HtmlPanelGrid group = createComponentTable(1);
 			group.getChildren().add(inputComponent.getLabelPanel());
-			if (inputComponent.getComponentPanel() != null)
-			{
-				group.getChildren().add(inputComponent.getComponentPanel());
-			}
-			else
-			{
-				group.getChildren().add(inputComponent.getComponent());
-			}
+			group.getChildren().add(inputComponent.getComponentPanel());
 			parentComponent.getChildren().add(group);
 		}
 	}

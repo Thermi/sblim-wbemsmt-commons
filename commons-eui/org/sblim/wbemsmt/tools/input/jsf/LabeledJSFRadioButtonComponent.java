@@ -22,9 +22,13 @@ package org.sblim.wbemsmt.tools.input.jsf;
 
 import java.util.logging.Level;
 
+import javax.faces.component.UIComponent;
 import javax.faces.component.UISelectItems;
+import javax.faces.component.html.HtmlOutputLabel;
+import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.tools.converter.Converter;
@@ -35,7 +39,7 @@ public class LabeledJSFRadioButtonComponent extends LabeledJSFInputComponent imp
 	public LabeledJSFRadioButtonComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectOneRadio.COMPONENT_TYPE), converter,readOnly);
 //		super(labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputText.COMPONENT_TYPE) , converter);
-		HtmlSelectOneRadio menu = ((HtmlSelectOneRadio)getComponent());
+		HtmlSelectOneRadio menu = ((HtmlSelectOneRadio)component);
 		
 		//prevents the validator to be called
 		menu.setRequired(false);
@@ -54,6 +58,66 @@ public class LabeledJSFRadioButtonComponent extends LabeledJSFInputComponent imp
 		}
 		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
 		menu.getChildren().add(items);
+		
+		createReadOnlyRadioButton(id, menu);	
+		
+	}
+	
+	/**
+	 * Create a lable as readOnly representation for a radio button
+	 * @param id
+	 * @param writeableComponent
+	 */
+
+	protected void createReadOnlyRadioButton(String id, HtmlSelectOneRadio writeableComponent) {
+		
+		//overwrite the rendered State of the component
+		writeableComponent.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && !" + id +"Disabled}"));
+		
+		//Add the label to the col
+		HtmlOutputLabel label = (HtmlOutputLabel)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputLabel.COMPONENT_TYPE);
+		label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"SelectedReadOnlyRadioButtonValue}"));
+		label.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && " + id +"Disabled}"));
+
+		//add the table to ComponentPanel.If the ComponentPanel not exists - create one and add the writableComponent first 
+		UIComponent panel = getComponentPanel();
+		if (panel == null)
+		{
+			panel = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);			
+			panel.getChildren().add(writeableComponent);
+		}
+		getComponentPanel().getChildren().add(label);
+	}		
+	
+	public String getItemSelectedReadOnlyRadioButtonValue()
+	{
+		if (item != null)
+		{
+			if (item instanceof String) {
+				String idx = (String) item;
+				try {
+					if (idx.length() == 0)
+					{
+						return "-";
+					}
+					else
+					{
+						return  ((SelectItem)itemValues.get(Integer.parseInt(idx))).getLabel();
+					}
+				} catch (NumberFormatException e) {
+					logger.log(Level.SEVERE,"Cannot parse as int", e);
+				}
+				
+			} else if (item instanceof Number)
+			{
+				Number idx = (Number) item;
+				return  ((SelectItem)itemValues.get(idx.intValue())).getLabel();
+			} else
+			{
+				logger.log(Level.SEVERE,"Cannot parse as int: " + item);
+			}
+		}
+		return "-";
 	}
 	
 }

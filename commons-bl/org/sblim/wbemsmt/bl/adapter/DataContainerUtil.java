@@ -34,70 +34,7 @@ public class DataContainerUtil {
 	private static Logger logger = Logger.getLogger(DataContainerUtil.class.getName());	
 
 	public static DataContainer copyValues(DataContainer source, DataContainer target) {
-		
-		
-		String sourceClassName = source.getClass().getName();
-		String targetClassName = target.getClass().getName();
-		
-		if (!sourceClassName.equals(targetClassName))
-		{
-			throw new IllegalArgumentException("The containers are not from same type. Source is " + sourceClassName + " and target is " + targetClassName );
-		}
-		
-		Method[] methods = target.getClass().getMethods();
-		for (int i = 0; i < methods.length; i++) {
-			Method targetMethod = methods[i];
-			targetMethod.setAccessible(true);
-			if (targetMethod.getName().startsWith("get_"))
-			{
-				try {
-					Method sourceMethod = source.getClass().getMethod(targetMethod.getName(),null);
-					sourceMethod.setAccessible(true);
-					LabeledBaseInputComponentIf sourceField = (LabeledBaseInputComponentIf) sourceMethod.invoke(source,null);
-					LabeledBaseInputComponentIf targetField = (LabeledBaseInputComponentIf) targetMethod.invoke(target,null);
-					targetField.setValue(sourceField.getValue());
-					//targetField.setControlValue(sourceField.getConvertedControlValue());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			else if (targetMethod.getName().startsWith("get") && targetMethod.getReturnType().equals(List.class))
-			{
-				try {
-					Method sourceMethod = source.getClass().getMethod(targetMethod.getName(),null);
-					sourceMethod.setAccessible(true);
-					List sourceList = (List) sourceMethod.invoke(source,null);
-					List targetList = (List) targetMethod.invoke(target,null);
-					if (sourceList.size() != targetList.size())
-					{
-						throw new IllegalArgumentException("The Liste are not from same size. Source is " + sourceList.size() + " and target is " + targetList.size() );
-					}
-					
-					for (int ii=0; ii < sourceList.size(); ii++)
-					{
-						DataContainerUtil.copyValues((DataContainer) sourceList.get(ii),(DataContainer)targetList.get(ii));
-					}
-					
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			else if (targetMethod.getName().startsWith("getMessageList") && targetMethod.getReturnType().equals(MessageList.class))
-			{
-				try {
-					Method sourceMethod = source.getClass().getMethod(targetMethod.getName(),null);
-					sourceMethod.setAccessible(true);
-					MessageList sourceList = (MessageList) sourceMethod.invoke(source,null);
-
-					MessageList.init(target).addAll(sourceList);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
-		}
-		
+		target.copyFrom(source);
 		return target;
 	}
 

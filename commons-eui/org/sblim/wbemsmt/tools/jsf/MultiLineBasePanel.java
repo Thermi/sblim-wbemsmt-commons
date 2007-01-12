@@ -113,14 +113,7 @@ public abstract class MultiLineBasePanel extends BasePanel {
 		
 		for (int i = 0; i < inputComponent.length; i++) {
 			LabeledJSFInputComponent component = inputComponent[i];
-			if (component.getComponentPanel() != null)
-			{
-				panelGrid.getChildren().add(component.getComponentPanel());
-			}
-			else
-			{
-				panelGrid.getChildren().add(component.getComponent());
-			}
+			panelGrid.getChildren().add(component.getComponentPanel());
 		}
         //add a dummy column
 //		panelGrid.getChildren().add(FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE));

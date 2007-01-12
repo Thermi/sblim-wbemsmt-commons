@@ -26,13 +26,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
+import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIComponentBase;
 import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
@@ -63,11 +66,11 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 
 	
 	protected List itemValues = new ArrayList();
-	UIComponentBase componentPanel = null;
+	UIComponent componentPanel = null;
 	
 	private HtmlOutputText label;
 	private HtmlPanelGroup labelPanel;
-	private UIComponent component;
+	protected UIComponent component;
 	protected String id;
 	private Map styles = null;
 	private String itemStyle = null;
@@ -98,6 +101,9 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		this.component.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Rendered}"));
 		this.component.setValueBinding("style", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Style}"));
 
+		componentPanel = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
+		componentPanel.getChildren().add(component);
+		
 		this.labelPanel = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 		this.labelPanel.setStyle("white-space: nowrap; vertical-align:bottom");
 
@@ -363,10 +369,6 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		}			
 	}
 
-	public UIComponent getComponent() {
-		return component;
-	}	
-	
 	public void setValue(Object object)
 	{
 		item = object;
@@ -479,18 +481,7 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	}
 
 	public UIComponent getComponentPanel() {
-		if (componentPanel != null)
-		{
-			return componentPanel;
-		}
-		else
-		{
-			return component;
-		}
-	}
-
-	public void setComponentPanel(UIComponentBase componentPanel) {
-		this.componentPanel = componentPanel;
+		return componentPanel;
 	}
 
 	public boolean isVisible() {
@@ -627,6 +618,101 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		this.orientation = orientation;
 	}
 
+	/**
+	 * Create a table as readOnly representation for multiple values
+	 * @param id
+	 * @param writeableComponent
+	 */
+
+	protected void createReadOnlyTable(String id, UIComponent writeableComponent) {
+
+		//overwrite the rendered State of the component
+		writeableComponent.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && !" + id +"Disabled}"));
+
+		
+		//we create a table which is used if the List is readOnly
+		HtmlDataTable table = (HtmlDataTable)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlDataTable.COMPONENT_TYPE);
+		table.setStyleClass("tableAsReadOnlyList");
+		table.setCellspacing("0");
+		table.setCellpadding("0");
+		table.setVar("tableItem");
+		table.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
+		table.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && " + id +"Disabled}"));
+
+		//Add the col
+		UIColumn col = (UIColumn)FacesContext.getCurrentInstance().getApplication().createComponent(UIColumn.COMPONENT_TYPE);
+		table.getChildren().add(col);
+		
+		//Add the label to the col
+		HtmlOutputLabel label = (HtmlOutputLabel)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputLabel.COMPONENT_TYPE);
+		label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{tableItem.label}"));
+		col.getChildren().add(label);
+
+		//add the table to ComponentPanel.If the ComponentPanel not exists - create one and add the writableComponent first 
+		UIComponent panel = getComponentPanel();
+		panel.getChildren().add(table);
+	}
+	
+	/**
+	 * Create a lable as readOnly representation for a checkbox
+	 * @param id
+	 * @param writeableComponent
+	 */
+
+	protected void createReadOnlyCheckbox(String id, HtmlSelectBooleanCheckbox writeableComponent) {
+		
+		//overwrite the rendered State of the component
+		writeableComponent.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && !" + id +"Disabled}"));
+		
+		//Add the label to the col
+		HtmlOutputLabel label = (HtmlOutputLabel)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputLabel.COMPONENT_TYPE);
+		label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"SelectedReadOnlyCheckboxValue}"));
+		label.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && " + id +"Disabled}"));
+
+		//add the table to ComponentPanel.If the ComponentPanel not exists - create one and add the writableComponent first 
+		UIComponent panel = getComponentPanel();
+		if (panel == null)
+		{
+			panel = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);			
+			panel.getChildren().add(writeableComponent);
+		}
+		
+		boolean multiLine = getParent() instanceof MultiLineBasePanel;
+		
+		if (multiLine)
+		{
+			getComponentPanel().getChildren().add(label);
+		}
+		else
+		{
+			getLabelPanel().getChildren().add(label);
+		}
+		
+	}		
+	
+	public String getItemSelectedReadOnlyCheckboxValue()
+	{
+		if (item != null)
+		{
+			boolean multiLine = getParent() instanceof MultiLineBasePanel;
+			
+			if (item instanceof Boolean) 	{
+				Boolean idx = (Boolean) item;
+				String key = idx.booleanValue() ?  "checkbox.readonly.yes" : "checkbox.readonly.no";
+				//normally the label is having no colon so prepend one
+				//only do that for ! MultiLineEntries
+				return
+					(!multiLine ? ": " : "") + 
+				    ResourceBundleManager
+					.getResourceBundle(new String[]{"messages"}, FacesContext.getCurrentInstance().getApplication().getDefaultLocale())
+					.getString(key);
+			} else
+			{
+				logger.log(Level.SEVERE,"Cannot parse as boolean: " + item);
+			}
+		}
+		return "-";
+	}	
 	
 }
 

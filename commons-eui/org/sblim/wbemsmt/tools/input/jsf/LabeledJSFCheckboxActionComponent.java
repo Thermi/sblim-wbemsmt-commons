@@ -40,7 +40,7 @@ public class LabeledJSFCheckboxActionComponent extends LabeledJSFInputComponent 
 	public LabeledJSFCheckboxActionComponent(DataContainer parent, String labelText,String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectBooleanCheckbox.COMPONENT_TYPE), converter,readOnly);
 
-		HtmlSelectBooleanCheckbox cbox = ((HtmlSelectBooleanCheckbox)getComponent());
+		HtmlSelectBooleanCheckbox cbox = ((HtmlSelectBooleanCheckbox)component);
 		cbox.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 		cbox.setValueBinding("onclick", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"JavaScriptConfirmStatement} #{" + id +"JavaScriptWaitStatement}"));
 		cbox.setStyleClass("checkBox");
@@ -51,8 +51,7 @@ public class LabeledJSFCheckboxActionComponent extends LabeledJSFInputComponent 
 		btn.setStyleClass("invisibleButton");
 		btn.setActionListener(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id + "Action" + "}",new Class[]{ActionEvent.class}));
 		
-		checkbox = ((HtmlSelectBooleanCheckbox)getComponent());
-		checkbox.setOnclick("" +
+		cbox.setOnclick("" +
 				"for (i=0; i < document.forms.length; i++) {" +
 					"for (j=0; j < document.forms[i].length; j++) {" + 
 						"if (document.forms[i].elements[j].value == '" + linkId +"') {" +
@@ -67,6 +66,7 @@ public class LabeledJSFCheckboxActionComponent extends LabeledJSFInputComponent 
 		// if the space of the invisible is still used by the browser's renderer the layout is not messed up
 		getLabelPanel().getChildren().add(btn);
 		
+		createReadOnlyCheckbox(id,cbox);
 	}
 
 	/**

@@ -34,12 +34,15 @@ public class LabeledJSFComboBoxComponent extends LabeledJSFInputComponent implem
 	public LabeledJSFComboBoxComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectOneMenu.COMPONENT_TYPE), converter,readOnly);
 //		super(labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputText.COMPONENT_TYPE) , converter);
-		HtmlSelectOneMenu menu = ((HtmlSelectOneMenu)getComponent());
+		HtmlSelectOneMenu menu = ((HtmlSelectOneMenu)component);
 		menu.setStyleClass("comboBox");
 		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 		UISelectItems items = (UISelectItems) FacesContext.getCurrentInstance().getApplication().createComponent(UISelectItems.COMPONENT_TYPE);
 		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
 		menu.getChildren().add(items);
+		
+		createReadOnlyTable(id, menu);	
+		
 	}
 
 }

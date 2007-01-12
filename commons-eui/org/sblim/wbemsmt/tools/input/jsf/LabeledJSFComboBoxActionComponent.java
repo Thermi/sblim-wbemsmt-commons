@@ -23,7 +23,6 @@ package org.sblim.wbemsmt.tools.input.jsf;
 
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlCommandButton;
-import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -44,13 +43,12 @@ public class LabeledJSFComboBoxActionComponent extends LabeledJSFInputComponent 
 		
 		String linkId = "LabeledJSFComboBoxActionComponent" + idCount++;
 		
-		HtmlPanelGroup panel = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 		HtmlCommandButton btn = (HtmlCommandButton)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
 		btn.setValue(linkId);
 		btn.setStyle("visibility:hidden;width:0px");
 		btn.setActionListener(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id + "Action" + "}",new Class[]{ActionEvent.class}));
 
-		HtmlSelectOneMenu menu = ((HtmlSelectOneMenu)getComponent());
+		HtmlSelectOneMenu menu = ((HtmlSelectOneMenu)component);
 		menu.setStyleClass("comboBox");
 		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 		menu.setValueBinding("onchange", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"JavaScriptConfirmStatement} #{" + id +"JavaScriptWaitStatement}"));
@@ -68,10 +66,9 @@ public class LabeledJSFComboBoxActionComponent extends LabeledJSFInputComponent 
 				"}"
 		);		
 		
-		panel.getChildren().add(menu);
-		panel.getChildren().add(btn);
+		getComponentPanel().getChildren().add(btn);
+		createReadOnlyTable(id, menu);	
 		
-		setComponentPanel(panel);
 	}
 
 	/**

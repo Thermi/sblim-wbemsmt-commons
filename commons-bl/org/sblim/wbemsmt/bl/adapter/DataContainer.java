@@ -72,4 +72,10 @@ public interface DataContainer
 	 * @return
 	 */
 	public List getChildContainers();
+
+	/**
+	 * Copy the content of a DataContainer to a other
+	 * @param source
+	 */
+	public void copyFrom(DataContainer source);
 }

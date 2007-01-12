@@ -30,7 +30,7 @@ public class LabeledJSFPasswordFieldComponent extends LabeledJSFInputComponent {
 
 	public LabeledJSFPasswordFieldComponent(DataContainer parent, String labelText,String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputSecret.COMPONENT_TYPE), converter,readOnly);
-		HtmlInputSecret txt = ((HtmlInputSecret)getComponent());
+		HtmlInputSecret txt = ((HtmlInputSecret)component);
 		txt.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 		txt.setRedisplay(true);
 	}

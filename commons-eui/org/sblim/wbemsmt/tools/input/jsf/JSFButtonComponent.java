@@ -35,7 +35,7 @@ public class JSFButtonComponent extends LabeledJSFInputComponent implements Acti
 
 	public JSFButtonComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE), converter,readOnly);
-		HtmlCommandButton btn = ((HtmlCommandButton)getComponent());
+		HtmlCommandButton btn = ((HtmlCommandButton)component);
 		btn.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"LabelText}"));
 		btn.setValueBinding("onclick", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"JavaScriptConfirmStatement} #{" + id +"JavaScriptWaitStatement}"));
 		btn.setStyleClass("submitButton");
