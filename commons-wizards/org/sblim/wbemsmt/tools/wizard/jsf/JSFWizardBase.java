@@ -364,9 +364,20 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 	
 	public String cancel() throws ValidationException, ObjectUpdateException, UpdateControlsException, ObjectSaveException
 	{
-        container.getUsedPages().clear();
-//        switchButtons();
-        return "start";
+		ITreeSelector treeSelectorBean = (ITreeSelector)BeanNameConstants.TREE_SELECTOR.getBoundValue(FacesContext.getCurrentInstance());
+		ObjectActionControllerBean objectActionController = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
+
+		treeSelectorBean.setSelectedTaskLauncherTreeNode(selectedNode);
+
+        objectActionController.setSelectedNode(selectedNode);
+        String result = selectedNode.click();
+        
+    	objectActionController.setSelectedTabIndex(selectTabIndex);
+    	objectActionController.setSelectedTabId(selectTabId);
+        treeSelectorBean.selectNode(selectedNode);
+        
+		container.getUsedPages().clear();
+		return result != null ? result : "start";
 	}	
 
 	public void switchButtons() {
