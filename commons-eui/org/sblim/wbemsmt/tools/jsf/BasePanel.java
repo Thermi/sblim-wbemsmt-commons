@@ -128,6 +128,7 @@ public abstract class BasePanel {
 
 	private static HtmlPanelGrid createComponentTable(int cols) {
 		HtmlPanelGrid group = (HtmlPanelGrid)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
+		group.setStyleClass("componentTable");
 		group.setColumnClasses("componentTableLeft,componentTableRight");
 		group.setColumns(cols);
 		group.setCellpadding("0");

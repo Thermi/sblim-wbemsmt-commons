@@ -106,7 +106,7 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		componentPanel.getChildren().add(component);
 		
 		this.labelPanel = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
-		this.labelPanel.setStyle("white-space: nowrap; vertical-align:bottom");
+		this.labelPanel.setStyle("white-space: nowrap; vertical-align:bottom; padding-top:3px;");
 
 		this.label = (HtmlOutputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
 		label.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"LabelRendered}"));
