@@ -81,14 +81,14 @@ public abstract class EditBean extends JsfBase{
 		btnOK.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.ok}"));
 		String binding = "#{" + methodBindingPrefix + "save" + "}";
 		btnOK.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,null));
-		btnOK.setOnclick("showWait();");
+		btnOK.setOnclick(JavascriptUtil.getShowWaitCall(bundle.getString("saving.data")));
 		btnOK.setId("editok");
 		
 		btnRevert = (HtmlCommandButton) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
 		btnRevert.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.revert}"));
 		binding = "#{" + methodBindingPrefix + "revert" + "}";
 		btnRevert.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,null));
-		btnRevert.setOnclick(JsfUtil.getRevertEditActionJavaScriptConfirmStatement() +  "showWait();");
+		btnRevert.setOnclick(JsfUtil.getRevertEditActionJavaScriptConfirmStatement() +  JavascriptUtil.getShowWaitCall(bundle.getString("undo.data")));
 		btnRevert.setId("editrevert");
 
 		HtmlPanelGroup buttonGroup = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);

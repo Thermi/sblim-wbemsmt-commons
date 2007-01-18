@@ -131,7 +131,7 @@ public class TabbedPane
 		btnOK.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.ok}"));
 		String binding = "#{" + BeanNameConstants.OBJECT_ACTION_CONTROLLER.getName() + ".currentEditListener.save" + "}";
 		btnOK.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,null));
-		btnOK.setOnclick("showWait();");
+		btnOK.setOnclick(JavascriptUtil.getShowWaitCall(bundle.getString("saving.data")));
 		btnOK.setId("editok");
 		
 		HtmlCommandButton btnRevert = (HtmlCommandButton) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
@@ -139,7 +139,7 @@ public class TabbedPane
 		btnRevert.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.revert}"));
 		binding = "#{" + BeanNameConstants.OBJECT_ACTION_CONTROLLER.getName() + ".currentEditListener.revert" + "}";
 		btnRevert.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,null));
-		btnRevert.setOnclick(JsfUtil.getRevertEditActionJavaScriptConfirmStatement() + "showWait();");
+		btnRevert.setOnclick(JsfUtil.getRevertEditActionJavaScriptConfirmStatement() + JavascriptUtil.getShowWaitCall(bundle.getString("undo.data")));
 		btnRevert.setId("editrevert");
 
 		HtmlPanelGroup buttonGroup = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
