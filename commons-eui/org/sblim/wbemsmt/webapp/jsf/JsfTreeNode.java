@@ -485,7 +485,7 @@ public class JsfTreeNode implements TaskLauncherTreeNodeEventListener, TreeNode,
 	}
 
 	public JsfTreeNode find(ITaskLauncherTreeNode taskLauncherTreeNode) {
-		if (this.taskLauncherTreeNode == taskLauncherTreeNode)
+		if (this.taskLauncherTreeNode.getInfo().equals(taskLauncherTreeNode.getInfo()))
 		{
 			return this;
 		}

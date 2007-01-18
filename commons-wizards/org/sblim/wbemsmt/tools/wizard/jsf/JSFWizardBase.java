@@ -343,7 +343,6 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 			        	objectActionController.setSelectedTabId(selectTabId);
 			        }
 			        selectedNode = node;
-			        treeSelectorBean.selectNode(selectedNode);
 					return result != null ? result : "";
 				}
 				else
@@ -351,7 +350,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 					logger.warning("Node with path " + baseCimAdapter.getPathOfTreeNode() + " was not found in tree");
 				}
 			}
-	        treeSelectorBean.selectNode(selectedNode);
+	        treeSelectorBean.setSelectedTaskLauncherTreeNode(selectedNode);
 			return "editPage";
 			//return "start";
 			
@@ -370,13 +369,12 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 		treeSelectorBean.setSelectedTaskLauncherTreeNode(selectedNode);
 
         objectActionController.setSelectedNode(selectedNode);
-        String result = selectedNode.click();
-        
     	objectActionController.setSelectedTabIndex(selectTabIndex);
     	objectActionController.setSelectedTabId(selectTabId);
-        treeSelectorBean.selectNode(selectedNode);
-        
-		container.getUsedPages().clear();
+
+        container.getUsedPages().clear();
+
+        String result = selectedNode.click();
 		return result != null ? result : "start";
 	}	
 
