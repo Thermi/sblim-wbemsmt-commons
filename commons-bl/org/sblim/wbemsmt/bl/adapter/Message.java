@@ -250,6 +250,6 @@ public class Message
 	 * @see Message#ERROR
 	 */
 	public static Message create(MessageNumber number, String type, WbemSmtResourceBundle bundle, String key) {
-		return new Message(number,type,bundle.getString(key));
+		return new Message(number,type,bundle.getString(number,key));
 	}
 }
