@@ -37,7 +37,7 @@ public class WbemsmtFacesMessage extends FacesMessage {
 
 	protected WbemsmtFacesMessage()
 	{
-		
+		this.message = null;
 	}
 	
 	public WbemsmtFacesMessage(Message message) {

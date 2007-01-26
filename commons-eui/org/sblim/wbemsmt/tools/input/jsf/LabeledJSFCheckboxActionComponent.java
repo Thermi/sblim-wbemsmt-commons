@@ -23,7 +23,6 @@ package org.sblim.wbemsmt.tools.input.jsf;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.exception.ObjectUpdateException;
@@ -49,7 +48,7 @@ public class LabeledJSFCheckboxActionComponent extends LabeledJSFInputComponent 
 		HtmlCommandButton btn = (HtmlCommandButton)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
 		btn.setValue(linkId);
 		btn.setStyleClass("invisibleButton");
-		btn.setActionListener(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id + "Action" + "}",new Class[]{ActionEvent.class}));
+		btn.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id + "Action" + "}",new Class[]{}));
 		
 		cbox.setOnclick("" +
 				"for (i=0; i < document.forms.length; i++) {" +
@@ -71,11 +70,10 @@ public class LabeledJSFCheckboxActionComponent extends LabeledJSFInputComponent 
 
 	/**
 	 * ActionListenerCalled by JSF Framwork
-	 * @param event
 	 * @throws ObjectUpdateException 
 	 * @throws UpdateControlsException 
 	 */
-	public void itemAction(ActionEvent event) throws ObjectUpdateException, UpdateControlsException
+	public String itemAction() throws ObjectUpdateException, UpdateControlsException
 	{
 		if (item == null)
 		{
@@ -86,6 +84,6 @@ public class LabeledJSFCheckboxActionComponent extends LabeledJSFInputComponent 
 			//item = new Boolean(!((Boolean)item).booleanValue());
 		}
 		
-		handleAction();
+		return handleAction();
 	}
 }

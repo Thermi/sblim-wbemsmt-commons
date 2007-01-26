@@ -47,8 +47,10 @@ import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
+import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
@@ -60,6 +62,7 @@ import org.sblim.wbemsmt.tools.jsf.MultiLineBasePanel;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.util.StringTokenizer;
+import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
 import org.sblim.wbemsmt.webapp.jsf.style.StyleBean;
 
 public class LabeledJSFInputComponent extends LabeledBaseInputComponent
@@ -489,16 +492,44 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		return rendered;
 	}
 
-	protected void handleAction()
+	protected String handleAction()
 	{
+		String result = "";
+		
 		MessageList.init(parent).clear();
 		try {
-			parent.getAdapter().updateModel(parent,this);
-			parent.getAdapter().updateControls(parent);
+			AbstractBaseCimAdapter adapter = parent.getAdapter();
+			adapter.updateModel(parent,this);
+			
+			if (adapter.getActiveModule() == AbstractBaseCimAdapter.ACTIVE_EDIT
+				&& adapter.isEditObjectMarkedForReload())
+			{
+				adapter.setEditObjectMarkedForReload(true);
+
+				//reload the node
+				ObjectActionControllerBean objectActionController = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
+
+				TaskLauncherTreeNode selectedNode = objectActionController.getSelectedNode();
+				int selectTabIndex = objectActionController.getSelectedTabIndex();
+				String selectTabId = objectActionController.getSelectedTabId();
+
+				result = objectActionController.getSelectedNode().click();
+				
+		        objectActionController.setSelectedNode(selectedNode);
+		    	objectActionController.setSelectedTabIndex(selectTabIndex);
+		    	objectActionController.setSelectedTabId(selectTabId);
+			}
+			else
+			{
+				adapter.updateControls(parent);
+			}
+			
 			JsfBase.addMessages(parent.getMessagesList());
+			
 		} catch (Exception e) {
 			JsfUtil.handleException(e);
 		}
+		return result;
 	}
 
 	public void setValues(String[] entries)

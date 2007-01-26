@@ -54,7 +54,7 @@ public class FacesMessageWrapper extends WbemsmtFacesMessage {
 	}
 
 	public String getMessageText() {
-		return super.getMessageText();
+		return "";
 	}
 
 	/**

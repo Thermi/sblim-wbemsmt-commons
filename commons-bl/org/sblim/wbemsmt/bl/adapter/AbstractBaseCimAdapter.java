@@ -45,16 +45,30 @@ import org.sblim.wbemsmt.tools.wizard.WizardBase;
 
 public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,LocaleChangeListener,Cleanup {
 
+	public static final int ACTIVE_EDIT = 0;
+	public static final int ACTIVE_WIZARD = 1;
+	
 	private Logger logger = Logger.getLogger(AbstractBaseCimAdapter.class.getName());	
 	
 	protected CIMClient cimClient;
 	private MultiHashMap validators = new MultiHashMap();
 	private SelectionHierarchy selectionHierarchy;
+	/**
+	 * Defines the currently active Module
+	 * @see AbstractBaseCimAdapter#ACTIVE_EDIT
+	 * @see AbstractBaseCimAdapter#ACTIVE_WIZARD
+	 */
+	private int activeModule = -1;
 	protected boolean loaded = false;
+	/**
+	 * Allow a particular action to mark that there should be a reload of the complete task at the end of the action
+	 */
+	protected boolean markedForReload = false;
 	/**
 	 * Allow a particular action to mark that there should be a reload at the end of the action
 	 */
-	protected boolean markedForReload = false;
+	protected boolean editObjectMarkedForReload = false;
+
 	protected LabeledBaseInputComponentIf updateTrigger;
 	protected CimObjectKey lastSelectedKey;
 	
@@ -985,6 +999,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 */
 	public void initWizard(WizardBase base, DataContainer dataContainer, String currentPageName) throws InitWizardException {
 		
+		activeModule = ACTIVE_WIZARD;
+		
 		Class interfaceClass = getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		
@@ -1055,6 +1071,21 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	public void setMarkedForReload() {
 		this.markedForReload = true;
 	}
+	
+	public boolean isEditObjectMarkedForReload() {
+		return editObjectMarkedForReload;
+	}
+
+	/**
+	 * set to true if the edit object should be refreshed (for example after a updateModel action deleting some items)
+	 * 
+	 * Only evaluated if the user in a editAction.
+	 * 
+	 * @param editObjectMarkedForReload
+	 */
+	public void setEditObjectMarkedForReload(boolean editObjectMarkedForReload) {
+		this.editObjectMarkedForReload = editObjectMarkedForReload;
+	}
 
 	/**
 	 * reloads the Tree. Is only executed if marked for reload
@@ -1084,6 +1115,14 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 	public void setPathOfTreeNode(CIMObjectPath pathOfCreatedNode) {
 		this.pathOfTreeNode = pathOfCreatedNode;
+	}
+
+	public int getActiveModule() {
+		return activeModule;
+	}
+
+	public void setActiveModule(int activeModule) {
+		this.activeModule = activeModule;
 	}
 	
 	

@@ -25,7 +25,6 @@ import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.exception.ObjectUpdateException;
@@ -46,7 +45,7 @@ public class LabeledJSFComboBoxActionComponent extends LabeledJSFInputComponent 
 		HtmlCommandButton btn = (HtmlCommandButton)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
 		btn.setValue(linkId);
 		btn.setStyle("visibility:hidden;width:0px");
-		btn.setActionListener(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id + "Action" + "}",new Class[]{ActionEvent.class}));
+		btn.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id + "Action" + "}",new Class[]{}));
 
 		HtmlSelectOneMenu menu = ((HtmlSelectOneMenu)component);
 		menu.setStyleClass("comboBox");
@@ -77,9 +76,9 @@ public class LabeledJSFComboBoxActionComponent extends LabeledJSFInputComponent 
 	 * @throws ObjectUpdateException 
 	 * @throws UpdateControlsException 
 	 */
-	public void itemAction(ActionEvent event) throws ObjectUpdateException, UpdateControlsException
+	public String itemAction() throws ObjectUpdateException, UpdateControlsException
 	{
-		handleAction();
+		return handleAction();
 	}
 
 }
