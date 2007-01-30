@@ -30,6 +30,8 @@ public class StyleBean {
 	private String resourceBundle;
 	
 	private boolean header;
+	private boolean helpLink;
+	private boolean logoutLink;
 	
 	public String getResourceDir() {
 		return resourceDir;
@@ -45,6 +47,22 @@ public class StyleBean {
 
 	public void setHeader(boolean header) {
 		this.header = header;
+	}
+
+	public boolean isHelpLink() {
+		return helpLink;
+	}
+
+	public void setHelpLink(boolean helpLink) {
+		this.helpLink = helpLink;
+	}
+
+	public boolean isLogoutLink() {
+		return logoutLink;
+	}
+
+	public void setLogoutLink(boolean logoutLink) {
+		this.logoutLink = logoutLink;
 	}
 
 	public String getResourceBundle() {
