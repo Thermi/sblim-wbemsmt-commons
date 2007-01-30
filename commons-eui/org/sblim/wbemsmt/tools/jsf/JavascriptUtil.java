@@ -19,6 +19,12 @@
   */
 package org.sblim.wbemsmt.tools.jsf;
 
+import javax.faces.context.FacesContext;
+
+import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
+import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
+
+
 public class JavascriptUtil
 {
 
@@ -39,6 +45,15 @@ public class JavascriptUtil
 		    + "showWait();";
 		}
 		
+	}
+
+	public static String getInputFieldValueChangedCall() {
+		WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance());
+		return "inputFieldChanged('" + bundle.getString("loose.changes") + "');";
+	}
+
+	public static String getCheckModificationsCall() {
+		return "if (!checkModifications()) return false;";
 	}
 
 	

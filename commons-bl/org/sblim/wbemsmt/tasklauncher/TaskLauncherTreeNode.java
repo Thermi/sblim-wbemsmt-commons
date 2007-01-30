@@ -30,7 +30,17 @@ import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 
-import org.sblim.wbem.cim.*;
+import org.sblim.wbem.cim.CIMClass;
+import org.sblim.wbem.cim.CIMDataType;
+import org.sblim.wbem.cim.CIMInstance;
+import org.sblim.wbem.cim.CIMObjectPath;
+import org.sblim.wbem.cim.CIMSimpleDateTime;
+import org.sblim.wbem.cim.CIMValue;
+import org.sblim.wbem.cim.Numeric;
+import org.sblim.wbem.cim.UnsignedInt16;
+import org.sblim.wbem.cim.UnsignedInt32;
+import org.sblim.wbem.cim.UnsignedInt64;
+import org.sblim.wbem.cim.UnsignedInt8;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
@@ -930,6 +940,16 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 		return result;
 	}
 
+	/**
+	 * find a classNode and give it back
+	 * @param cim_class_name the Name of the class
+	 * @param label the label of the classNode
+	 * @throws WbemSmtException 
+	 */
+	public ITaskLauncherTreeNode findClassNode(CIMClassNode classNode) throws WbemSmtException {
+		return findClassNode(classNode.getCIMClass().getName(),classNode.getName());
+	}
+
 	TaskLauncherTreeNode findClassNodeImpl(String cimClassName, String label) throws WbemSmtException {
 		for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
 			ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) iter.next();
@@ -1028,6 +1048,25 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 		return TaskLauncherTreeNode.class.getName() + name;
 
 	}
+
+	public ITaskLauncherTreeNode findNode(ITaskLauncherTreeNode selectedNode) throws WbemSmtException {
+
+		if (this instanceof CIMClassNode) {
+			CIMClassNode classNode = (CIMClassNode) this;
+			return findClassNode(classNode);
+		}
+		else if (this instanceof CIMInstanceNode) {
+			CIMInstanceNode node = (CIMInstanceNode) this;
+			return findInstanceNode(node.getCimInstance().getObjectPath());
+		}
+		else
+		{
+			logger.warning("Cannot search for Node from type " + (selectedNode != null ? selectedNode.getInfo() : "" + selectedNode));
+		}
+		
+		return null;
+	}
+
 
 
 	

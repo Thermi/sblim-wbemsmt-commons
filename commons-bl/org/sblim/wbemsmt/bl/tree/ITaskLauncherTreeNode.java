@@ -26,6 +26,7 @@ import java.util.Vector;
 import org.sblim.wbem.cim.CIMObjectPath;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.tasklauncher.CIMClassNode;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 
 public interface ITaskLauncherTreeNode {
@@ -52,6 +53,10 @@ public interface ITaskLauncherTreeNode {
 	public abstract void deleteSubnode(ITaskLauncherTreeNode subnode);
 
 	public abstract ITaskLauncherTreeNode findClassNode(String cimClassName, String label) throws WbemSmtException;
+
+	public abstract ITaskLauncherTreeNode findClassNode(CIMClassNode classNode) throws WbemSmtException;
+
+	public abstract ITaskLauncherTreeNode findNode(ITaskLauncherTreeNode treeNode) throws WbemSmtException;
 
 	public abstract List findInstanceNodes(String cimClassName) throws WbemSmtException;
 

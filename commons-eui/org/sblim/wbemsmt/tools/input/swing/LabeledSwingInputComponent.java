@@ -263,5 +263,5 @@ public class LabeledSwingInputComponent extends LabeledBaseInputComponent
 	{
 		return this.hasErrors;
 	}	
+		
 }
-

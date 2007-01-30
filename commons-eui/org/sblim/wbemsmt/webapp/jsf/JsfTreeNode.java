@@ -507,17 +507,31 @@ public class JsfTreeNode implements TaskLauncherTreeNodeEventListener, TreeNode,
 		return taskLauncherTreeNode.hasEventListenerWithLongrunningActions();
 	}
 	
+	/**
+	 * Called by the tree component by the on click Attribute
+	 * @return
+	 */
 	public String getOnClickJavaScript()
 	{
+		
+		ObjectActionControllerBean oac = (ObjectActionControllerBean) BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
+		
+		StringBuffer result = new StringBuffer();
+		
+		if (oac.isEditBeansModified() || oac.isWizardActive())
+		{
+			result.append(JavascriptUtil.getInputFieldValueChangedCall());
+		}
+		
+		result.append(JavascriptUtil.getCheckModificationsCall());
+		
 		if (isShowWaitOnClick())
 		{
 			String text = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance()).getString("loading.treenode",new Object[]{getDescription()});
-			return JavascriptUtil.getShowWaitCall(text);
+			result.append(JavascriptUtil.getShowWaitCall(text));
 		}
-		else
-		{
-			return "";
-		}
+		
+		return result.toString();
 	}
 	
 }

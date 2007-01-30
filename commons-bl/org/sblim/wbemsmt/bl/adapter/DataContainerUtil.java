@@ -136,4 +136,45 @@ public class DataContainerUtil {
 		boolean result = havingErrorFields(childContainers);
 		return result;
 	}	
+	
+	public static boolean isModified(DataContainer container)
+	{
+		List fields = container.getFields();
+		for (Iterator iter = fields.iterator(); iter.hasNext();) {
+			LabeledBaseInputComponentIf field = (LabeledBaseInputComponentIf) iter.next();
+			if (field.isModified())
+			{
+				return true;
+			}
+		}
+
+		
+		List childContainers = container.getChildContainers();
+		for (Iterator iter = childContainers.iterator(); iter.hasNext();) {
+			DataContainer child = (DataContainer) iter.next();
+			if (child.isModified())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean resetModifiedFlag(DataContainer container)
+	{
+		List fields = container.getFields();
+		for (Iterator iter = fields.iterator(); iter.hasNext();) {
+			LabeledBaseInputComponentIf field = (LabeledBaseInputComponentIf) iter.next();
+			field.setModified(false);
+		}
+
+		
+		List childContainers = container.getChildContainers();
+		for (Iterator iter = childContainers.iterator(); iter.hasNext();) {
+			DataContainer child = (DataContainer) iter.next();
+			resetModifiedFlag(child);
+		}
+		return false;
+	}
+	
 }

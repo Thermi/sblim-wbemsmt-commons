@@ -61,6 +61,7 @@ import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
 
 public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 
+	public static final String WIZARD_PAGE = "wizardPage";
 	private IPageWizardAdapter adapter = null;	
 	protected IWizardContainer container = null;
 	private boolean finishButtonDisabled;
@@ -189,7 +190,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 	
 	public String selectAction()
 	{
-		return "wizardPage";
+		return JSFWizardBase.WIZARD_PAGE;
 	}
 	
 	public String next() throws ValidationException, ObjectUpdateException, UpdateControlsException
@@ -268,7 +269,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
         
 	 	pages.put(actualPanelName,currentPanel);
         
-        return "wizardPage";
+        return JSFWizardBase.WIZARD_PAGE;
 	}
 	
 	public String back() throws ValidationException, UpdateControlsException
@@ -278,7 +279,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
         container.getStepList().getWizardStep(actualPanelName).setVisited(false);
         actualPanelName = (String) container.getUsedPages().peek();
         selectContainerWhileSteppingBack(actualPanelName);
-        return "wizardPage";
+        return JSFWizardBase.WIZARD_PAGE;
 	}
 
 	private void selectContainerWhileSteppingBack(String actualPanelName) throws UpdateControlsException {
@@ -302,7 +303,11 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 	public String finish()
 	{
         try {
-			String actualPanelName = (String) container.getUsedPages().peek();
+        	FacesContext facesContext = FacesContext.getCurrentInstance();
+        	ITreeSelector treeSelectorBean = (ITreeSelector)BeanNameConstants.TREE_SELECTOR.getBoundValue(facesContext);
+        	ObjectActionControllerBean objectActionController = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(facesContext);
+			
+        	String actualPanelName = (String) container.getUsedPages().peek();
 			currentPanel = (IWizardBasePanel)container.getPages().get(actualPanelName);
 			DataContainer dc = (DataContainer) currentPanel;
 			baseCimAdapter.create(dc);
@@ -318,8 +323,9 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 				baseCimAdapter.reload();
 			}
 
-			FacesContext facesContext = FacesContext.getCurrentInstance();
-			ITreeSelector treeSelectorBean = (ITreeSelector)BeanNameConstants.TREE_SELECTOR.getBoundValue(facesContext);
+			objectActionController.setWizardActive(false);
+
+			
 
 	        /**
 			 * If the business logic set the path to a node try 
@@ -332,7 +338,6 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 					
 			        treeSelectorBean.setSelectedTaskLauncherTreeNode(node);
 
-			        ObjectActionControllerBean objectActionController = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(facesContext);
 			        objectActionController.setSelectedNode(node);
 			        String result = node.click();
 			        
@@ -350,9 +355,8 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 					logger.warning("Node with path " + baseCimAdapter.getPathOfTreeNode() + " was not found in tree");
 				}
 			}
-	        treeSelectorBean.setSelectedTaskLauncherTreeNode(selectedNode);
+			treeSelectorBean.setSelectedTaskLauncherTreeNode(selectedNode);
 			return "editPage";
-			//return "start";
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -366,6 +370,8 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 		ITreeSelector treeSelectorBean = (ITreeSelector)BeanNameConstants.TREE_SELECTOR.getBoundValue(FacesContext.getCurrentInstance());
 		ObjectActionControllerBean objectActionController = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
 
+		objectActionController.setWizardActive(false);
+
 		treeSelectorBean.setSelectedTaskLauncherTreeNode(selectedNode);
 
         objectActionController.setSelectedNode(selectedNode);
@@ -375,6 +381,8 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
         container.getUsedPages().clear();
 
         String result = selectedNode.click();
+
+        
 		return result != null ? result : "start";
 	}	
 
@@ -386,7 +394,9 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 	}
 	
 	
-	public void startWizard() { 		
+	public void startWizard() {
+		ObjectActionControllerBean objectActionController = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
+		objectActionController.setWizardActive(true);
 	}
 
 	public boolean isBackButtonDisabled() {

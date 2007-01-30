@@ -382,6 +382,10 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			method.setAccessible(true);
 			MessageList list = (MessageList) method.invoke(getSaveDelegatee(),new Object[]{dataContainer});
 			dataContainer.setMessagesList(list != null ? list : new MessageList());
+			if (!dataContainer.getMessagesList().hasErrors())
+			{
+				DataContainerUtil.resetModifiedFlag(dataContainer);				
+			}
 		} catch (NoSuchMethodException e) {
 			logger.log(Level.SEVERE, "Cannot save Object with Method " + methodName + "(" + interfaceClass.getName().toString() + "). Method not exists");
 			throw new ObjectSaveException("Internal error");
@@ -399,7 +403,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Cannot save Object with Method " + methodName,e);
 			throw new ObjectSaveException("Internal error");
-		} 
+		}
+		
+		
 	}
 	
 	/**
@@ -465,6 +471,15 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 				throw new ObjectSaveException("Internal error");
 			} 
 		}		
+
+		if (!result.hasErrors())
+		{
+			for (int i=0; i <  containerList.size(); i++) {
+				DataContainer containerElement = (DataContainer)containerList.get(i);
+				DataContainerUtil.resetModifiedFlag(containerElement);	
+			}
+		}
+		
 		return result;
 	}
 
@@ -486,6 +501,11 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			return;
 		}
 
+		if (!dataContainer.isModified())
+		{
+			return;
+		}
+
 		Class interfaceClass = getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		logger.fine("Reverting: " + interfaceName);		
@@ -499,6 +519,11 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			method.setAccessible(true);
 			MessageList list = (MessageList) method.invoke(getRevertDelegatee(),new Object[]{dataContainer});
 			dataContainer.setMessagesList(list != null ? list : new MessageList());
+			if (!dataContainer.getMessagesList().hasErrors())
+			{
+				DataContainerUtil.resetModifiedFlag(dataContainer);				
+			}
+			
 		} catch (NoSuchMethodException e) {
 			logger.log(Level.SEVERE, "Cannot revert Object with Method " + methodName + "(" + interfaceClass.getName().toString() + "). Method not exists");
 			throw new ObjectRevertException("Internal error");
@@ -517,6 +542,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			logger.log(Level.SEVERE, "Cannot revert Object with Method " + methodName,e);
 			throw new ObjectRevertException("Internal error");
 		} 
+		
+		DataContainerUtil.resetModifiedFlag(dataContainer);
 	}
 	
 	/**
@@ -582,6 +609,17 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 				throw new ObjectRevertException("Internal error");
 			} 
 		}		
+		
+		if (!result.hasErrors())
+		{
+			for (int i=0; i <  containerList.size(); i++) {
+				DataContainer containerElement = (DataContainer)containerList.get(i);
+				DataContainerUtil.resetModifiedFlag(containerElement);	
+			}
+			
+		}
+
+		
 		return result;
 	}
 

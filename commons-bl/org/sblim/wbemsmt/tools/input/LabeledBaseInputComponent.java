@@ -32,6 +32,9 @@ public abstract class LabeledBaseInputComponent implements LabeledBaseInputCompo
 	
 	
 	protected String labelText;
+
+	protected boolean modified;
+	
 	/**
 	 * itemList is set if the component supports the selection of one value (for example a textfield)
 	 */
@@ -204,8 +207,25 @@ public abstract class LabeledBaseInputComponent implements LabeledBaseInputCompo
 	 */
 	public void setWaitText(String waitText) {
 		this.waitText = waitText;
+	}
+
+	/**
+	 * return true if the field is modified
+	 */
+	public boolean isModified() {
+		return modified;
+	}
+
+	/**
+	 * Set modified to true or false
+	 * @param modified
+	 */
+	public void setModified(boolean modified) {
+		this.modified = modified;
 	}		
+
 	
 	
+
 	
 }

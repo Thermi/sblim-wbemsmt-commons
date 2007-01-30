@@ -19,6 +19,8 @@
 package org.sblim.wbemsmt.webapp.jsf;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.component.html.HtmlCommandLink;
@@ -29,6 +31,7 @@ import javax.faces.event.ActionEvent;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.Cleanup;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
+import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.bl.tree.ITreeSelector;
 import org.sblim.wbemsmt.exception.ModelLoadException;
 import org.sblim.wbemsmt.exception.ObjectDeletionException;
@@ -36,7 +39,7 @@ import org.sblim.wbemsmt.exception.ObjectNotFoundException;
 import org.sblim.wbemsmt.exception.ObjectUpdateException;
 import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
-import org.sblim.wbemsmt.tasklauncher.event.EditListener;
+import org.sblim.wbemsmt.tasklauncher.event.jsf.JsfEditListener;
 import org.sblim.wbemsmt.tools.jsf.EditBean;
 import org.sblim.wbemsmt.tools.jsf.TabbedPane;
 import org.sblim.wbemsmt.tools.wizard.jsf.IWizardController;
@@ -48,11 +51,13 @@ public class ObjectActionControllerBean  implements IWizardController, Cleanup {
 //	private boolean canCreate;
 	private ITreeSelector treeSelector;
 	private FacesContext facesContext;
-	private EditListener currentEditListener;
+	private JsfEditListener currentEditListener;
 	
 	private JSFWizardBase currentWizard;
 	private HtmlPanelGrid currentEditor;
 	private Map editBeans = new HashMap();
+	private Boolean editBeansModified = null;
+	private boolean wizardActive = false;
 	private Map adapter = new HashMap();
 	public String selectedTabId = "undefined";
 	public TabbedPane tabbedPane;
@@ -129,6 +134,17 @@ public class ObjectActionControllerBean  implements IWizardController, Cleanup {
 		this.currentEditor = editor;
 	}
 	
+	public void clearEditBeans()
+	{
+		editBeans.clear();
+		editBeansModified = null;
+	}
+	
+	public void clearEditBeansModified()
+	{
+		editBeansModified = null;
+	}
+	
 	public void addEditBean(String key, EditBean editBean)
 	{
 		editBeans.put(key,editBean);
@@ -178,10 +194,10 @@ public class ObjectActionControllerBean  implements IWizardController, Cleanup {
 	public void setCimomName(String cimomName) {
 		this.cimomName = cimomName;
 	}
-	public EditListener getCurrentEditListener() {
+	public JsfEditListener getCurrentEditListener() {
 		return currentEditListener;
 	}
-	public void setCurrentEditListener(EditListener currentEditListener) {
+	public void setCurrentEditListener(JsfEditListener currentEditListener) {
 		this.currentEditListener = currentEditListener;
 	}
 	
@@ -214,6 +230,43 @@ public class ObjectActionControllerBean  implements IWizardController, Cleanup {
 	public TaskLauncherTreeNode getSelectedNode() {
 		return selectedNode;
 	}
+
+	public boolean isEditBeansModified() {
+
+		if (editBeansModified == null)
+		{
+			Iterator iterator = editBeans.values().iterator();
+			while (iterator.hasNext() && editBeansModified == null) {
+				EditBean editBean = (EditBean) iterator.next();
+				List containers = editBean.getContainers();
+				for (Iterator iter = containers.iterator(); iter.hasNext()  && editBeansModified == null ;) {
+					DataContainer container = (DataContainer) iter.next();
+					if (container.isModified())
+					{
+						editBeansModified = new Boolean(true);
+					}
+				}
+			}
+			
+			if (editBeansModified == null)
+			{
+				editBeansModified = new Boolean(false);
+			}
+			
+		}
+		
+		return editBeansModified.booleanValue();
+		
+	}
+
+	public boolean isWizardActive() {
+		return wizardActive;
+	}
+
+	public void setWizardActive(boolean wizardActive) {
+		this.wizardActive = wizardActive;
+	}
+
 	
 	
 }

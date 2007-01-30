@@ -31,6 +31,7 @@ import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.ITreeSelector;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
+import org.sblim.wbemsmt.tasklauncher.event.CreateListener;
 import org.sblim.wbemsmt.tasklauncher.event.DeleteListener;
 import org.sblim.wbemsmt.tasklauncher.event.EditListener;
 import org.sblim.wbemsmt.tasklauncher.event.TaskLauncherContextMenuEventListener;
@@ -41,6 +42,7 @@ import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
+import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
 
 public class TaskLauncherContextMenuItem implements Cloneable, LocaleChangeListener
 {
@@ -190,21 +192,34 @@ public class TaskLauncherContextMenuItem implements Cloneable, LocaleChangeListe
 		return eventListener instanceof DeleteListener;
 	}
 	
+	public boolean isCheckIfInEditAction() {
+		return eventListener instanceof CreateListener;
+	}
+
 	/**
 	 * externalized this statement into this method because the handling via JSF EL is too complex
 	 * @return
 	 */
 	public String getJavaScriptConfirmStatement()
 	{
+		StringBuffer sb = new StringBuffer();
+		
+		if (isCheckIfInEditAction())
+		{
+			ObjectActionControllerBean oac = (ObjectActionControllerBean) BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
+			if (oac.isEditBeansModified() || oac.isWizardActive())
+			{
+				sb.append(JavascriptUtil.getInputFieldValueChangedCall());
+			}
+			sb.append(JavascriptUtil.getCheckModificationsCall());
+		}
 		if (isShowConfirm())
 		{
 			WbemSmtResourceBundle resourceBundle = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance());
-			return "if (!showConfirm('" +  resourceBundle.getString("continue")  +"')) return false;";
+			sb.append("if (!showConfirm('" +  resourceBundle.getString("continue")  +"')) return false;");
 		}
-		else
-		{
-			return "";
-		}
+		
+		return sb.toString();
 	}
 	
 	/**

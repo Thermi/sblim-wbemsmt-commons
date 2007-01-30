@@ -78,4 +78,11 @@ public interface DataContainer
 	 * @param source
 	 */
 	public void copyFrom(DataContainer source);
+	
+	/**
+	 * return true if a container or it's children is modified
+	 * @return
+	 */
+	public boolean isModified();
+	
 }

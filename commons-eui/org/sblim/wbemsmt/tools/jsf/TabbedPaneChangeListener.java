@@ -34,6 +34,7 @@ public class TabbedPaneChangeListener implements TabChangeListener {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		ObjectActionControllerBean oac = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.asValueBinding(fc).getValue(fc);
         oac.setSelectedTabIndex(arg0.getNewTabIndex());
+        oac.clearEditBeansModified();
 	}
 
 }

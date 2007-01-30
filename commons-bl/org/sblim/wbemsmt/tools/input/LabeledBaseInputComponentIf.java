@@ -130,5 +130,17 @@ public interface LabeledBaseInputComponentIf {
 	public void setHasErrors(boolean b);
 	
 	public boolean hasErrors();
+	
+	/**
+	 * Returns true if the field is modified
+	 * @return
+	 */
+	public boolean isModified();
+	
+	/**
+	 * Set modified-Flag
+	 * @param modified
+	 */
+	public void setModified(boolean modified);
 
 }

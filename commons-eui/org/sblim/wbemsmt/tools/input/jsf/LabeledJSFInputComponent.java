@@ -21,6 +21,7 @@
 
 package org.sblim.wbemsmt.tools.input.jsf;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,6 +56,7 @@ import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
+import org.sblim.wbemsmt.tools.jsf.EditBean;
 import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 import org.sblim.wbemsmt.tools.jsf.JsfBase;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
@@ -67,8 +69,6 @@ import org.sblim.wbemsmt.webapp.jsf.style.StyleBean;
 
 public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 {
-
-	
 	protected List itemValues = new ArrayList();
 	UIComponent componentPanel = null;
 	
@@ -104,6 +104,15 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		this.component.setValueBinding("disabled", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Disabled}"));
 		this.component.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Rendered}"));
 		this.component.setValueBinding("style", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Style}"));
+		
+		//Try to set the onchange attribute (evtl. overwritten by the subclass)
+		try {
+			Method onChange = this.component.getClass().getMethod("setOnchange", new Class[]{String.class});
+			onChange.invoke(this.component, new Object[]{JavascriptUtil.getInputFieldValueChangedCall()});
+		} catch (Exception e) {
+			logger.warning("Cannot set onchange for component " + this.component);
+		}
+		
 
 		componentPanel = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 		componentPanel.getChildren().add(component);
@@ -497,18 +506,20 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		String result = "";
 		
 		MessageList.init(parent).clear();
+		AbstractBaseCimAdapter adapter = parent.getAdapter();
 		try {
-			AbstractBaseCimAdapter adapter = parent.getAdapter();
 			adapter.updateModel(parent,this);
+
+			ObjectActionControllerBean objectActionController = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
+			//force a re-checking of the modified state of the current panel
+			objectActionController.clearEditBeansModified();
 			
 			if (adapter.getActiveModule() == AbstractBaseCimAdapter.ACTIVE_EDIT
 				&& adapter.isEditObjectMarkedForReload())
 			{
-				adapter.setEditObjectMarkedForReload(true);
-
 				//reload the node
-				ObjectActionControllerBean objectActionController = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
-
+				adapter.setEditObjectMarkedForReload(true);
+				
 				TaskLauncherTreeNode selectedNode = objectActionController.getSelectedNode();
 				int selectTabIndex = objectActionController.getSelectedTabIndex();
 				String selectTabId = objectActionController.getSelectedTabId();
@@ -529,6 +540,20 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		} catch (Exception e) {
 			JsfUtil.handleException(e);
 		}
+		
+		if (result.length() == 0)
+		{
+			if (adapter.getActiveModule() == AbstractBaseCimAdapter.ACTIVE_EDIT)
+			{
+				result = EditBean.PAGE_EDIT;
+			}
+			else if (adapter.getActiveModule() == AbstractBaseCimAdapter.ACTIVE_WIZARD)
+			{
+				result = "";
+			}
+			
+		}
+		
 		return result;
 	}
 
@@ -744,7 +769,20 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 			}
 		}
 		return "-";
-	}	
+	}
+
+	/**
+	 * Overwritten so that we can check if the field was modified
+	 */
+	public void setItem(Object newItem) {
+		if (item != null && !item.equals(newItem)
+			|| item == null && newItem != null	
+			)
+			setModified(true);
+		
+		this.item = newItem;
+	}
+	
 	
 }
 

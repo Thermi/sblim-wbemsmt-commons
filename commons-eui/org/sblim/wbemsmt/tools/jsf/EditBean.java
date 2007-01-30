@@ -48,6 +48,7 @@ import org.sblim.wbemsmt.exception.UpdateControlsException;
 import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
+import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
 import org.sblim.wbemsmt.webapp.jsf.style.StyleBean;
 
 public abstract class EditBean extends JsfBase{
@@ -65,7 +66,24 @@ public abstract class EditBean extends JsfBase{
 	protected MessageList saveResult = null;
 
 	   
-	public abstract String revert() throws ObjectRevertException;
+	public String revert() throws ObjectRevertException
+	{
+		for (Iterator iter = containers.iterator(); iter.hasNext();) {
+			DataContainer dataContainer = (DataContainer) iter.next();
+			dataContainer.getAdapter().revert(dataContainer);
+		}
+
+		for (Iterator iter = containers.iterator(); iter.hasNext();) {
+			DataContainer dataContainer = (DataContainer) iter.next();
+			try {
+				dataContainer.getAdapter().updateControls(dataContainer);
+			} catch (UpdateControlsException e) {
+				throw new ObjectRevertException("Cannot updateControls after Reverting the changes",e);
+			}
+		}
+		
+		return EditBean.PAGE_EDIT;
+	}
 	
 	public abstract String save() throws ValidationException, ObjectSaveException;
 	public abstract void edit(ITaskLauncherTreeNode treeNode) throws ObjectNotFoundException, UpdateControlsException, CountException, InitContainerException;
@@ -270,5 +288,11 @@ public abstract class EditBean extends JsfBase{
     public boolean isErrorVisible()
     {
     	return DataContainerUtil.havingErrorFields(containers);
+    }
+    
+    public void clearEditBeansModified()
+    {
+    	ObjectActionControllerBean oac = (ObjectActionControllerBean) BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
+    	oac.clearEditBeansModified();
     }
 }
