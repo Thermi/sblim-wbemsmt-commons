@@ -33,6 +33,7 @@ import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.exception.ModelLoadException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.filter.EmbeddedFilter;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.CimomDocument;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TasklauncherconfigDocument;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TreeconfigDocument;
@@ -158,7 +159,7 @@ public class TaskLauncherConfig
 		if (!hasConfiguration)
 		{
 			CimomData cimomData = new CimomData("",TaskLauncherConfig.DEFAULT_PORT,"","");
-			cimomData.addTreeConfig(new TreeConfigData("noConfig","noConfig.xml","","messages",null));
+			cimomData.addTreeConfig(new TreeConfigData("noConfig","noConfig.xml","","messages",null,null));
 			this.cimomData.add(cimomData);
 		}
 	}
@@ -211,7 +212,7 @@ public class TaskLauncherConfig
         
         if (cimomData.getTreeConfigs().size() == 0)
         {
-        	cimomData.addTreeConfig(new TreeConfigData("No Configuration found","noConfig.xml","noConfig","messages",null));
+        	cimomData.addTreeConfig(new TreeConfigData("No Configuration found","noConfig.xml","noConfig","messages",null,null));
         }
         
 		this.cimomData.add(cimomData);
@@ -282,13 +283,15 @@ public class TaskLauncherConfig
 		private String slpServicename;
 		private String[] bundles;
 		private String lookupClass;
+		private String embeddedFilterClass;
         
-        public TreeConfigData(String name, String filename, String slpServicename, String bundle, String lookupClass)
+        public TreeConfigData(String name, String filename, String slpServicename, String bundle, String lookupClass, String embeddedFilterClass)
         {
             this.name = name;
             this.filename = filename;
 			this.slpServicename = slpServicename;
 			this.lookupClass = lookupClass;
+			this.embeddedFilterClass = embeddedFilterClass;
 			this.bundles = new String[]{bundle};
         }
         
@@ -298,6 +301,7 @@ public class TaskLauncherConfig
             this.filename = treeconfig.getFilename();
             this.slpServicename = treeconfig.getSlpServicename();
             this.lookupClass = treeconfig.getClassForServerTaskLookup();
+            this.embeddedFilterClass = treeconfig.getEmbeddedFilter();
             
             ResourceBundle[] resourceBundleArray = treeconfig.getResourceBundleArray();
             this.bundles = new String[resourceBundleArray.length];
@@ -354,7 +358,23 @@ public class TaskLauncherConfig
 		public String getLookupClass() {
 			return lookupClass;
 		}
-		
+
+		public String getEmbeddedFilterClass() {
+			return embeddedFilterClass;
+		}
+
+		/**
+		 * Returns the Filter to filter the model iin embedded mode
+		 * @return null if no filter was specified or the creation of the filter failed 
+		 */
+		public EmbeddedFilter getEmbeddedFilter() {
+			try {
+				return (EmbeddedFilter) Class.forName(embeddedFilterClass).newInstance();
+			} catch (Exception e) {
+				logger.log(Level.SEVERE, "Cannot create embeddedFilter for class " + embeddedFilterClass, e);
+				return null;
+			}
+		}
     }
     
     // just a DTO

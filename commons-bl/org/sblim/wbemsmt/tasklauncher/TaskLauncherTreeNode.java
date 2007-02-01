@@ -1067,6 +1067,11 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 		return null;
 	}
 
+	public Set getEventListener() {
+		return eventListener;
+	}
+
+	
 
 
 	

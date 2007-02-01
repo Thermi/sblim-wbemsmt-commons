@@ -21,15 +21,20 @@ package org.sblim.wbemsmt.tools.runtime;
 
 public class RuntimeUtil {
 
+	private int plType = -1;
 	public static final int PL_TYPE_JSF = 0;
 	public static final int PL_TYPE_SWING = 1;
 	public static final int PL_TYPE_CMD = 2;
 	
 	
-	private int plType = -1;
+	private String mode;
 	public static final String MODE_MULTI = "multi";
 	public static final String MODE_SINGLE = "single";
 	public static final String MODE_EMBEDDED = "embedded";
+	
+	/**
+	 * Key for storing the runtime in a session etc
+	 */
 	public static final String RUNTIME_MODE = "RuntimeMode";
 	
 	private static RuntimeUtil _instance;
@@ -65,6 +70,21 @@ public class RuntimeUtil {
 		return this.plType == PL_TYPE_CMD;
 	}
 	
+	public boolean isSingleMode()
+	{
+		return MODE_SINGLE.equals(this.mode);
+	}
+	
+	public boolean isMultiMode()
+	{
+		return MODE_EMBEDDED.equals(this.mode);
+	}
+
+	public boolean isEmbeddedMode()
+	{
+		return MODE_EMBEDDED.equals(this.mode);
+	}
+	
 	public String getRuntime()
 	{
 		if (isSwing())
@@ -74,5 +94,9 @@ public class RuntimeUtil {
 		if (isCommandline())
 			return "Commandline";
 		return "undefined";
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
 	}
 }

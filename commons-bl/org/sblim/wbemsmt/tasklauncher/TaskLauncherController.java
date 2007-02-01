@@ -208,7 +208,12 @@ public class TaskLauncherController implements Cleanup
     	treeFactories.clear();
     	Vector cimomData = taskLauncherConfig.getCimomData();
     	CimomData[] data = (CimomData[]) cimomData.toArray(new CimomData[cimomData.size()]);
-    	this.treeFactories.put(TaskLauncherController.NAME_FOR_MULTI_CIMOM_TREE,new TaskLauncherTreeFactory(data));
+    	createTreeFactoriesMultiHost(data);
+    }
+    
+    public void createTreeFactoriesMultiHost(CimomData[] data) throws WbemSmtException
+    {
+    	this.treeFactories.put(TaskLauncherController.NAME_FOR_MULTI_CIMOM_TREE,new TaskLauncherTreeFactory(data));    	
     }
     
 	private void loadConfig(String configFilename) throws WbemSmtException {

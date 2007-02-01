@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 
 import org.apache.xmlbeans.XmlException;
 import org.sblim.wbem.client.CIMClient;
+import org.sblim.wbemsmt.filter.EmbeddedFilter;
 import org.sblim.wbemsmt.lookup.Lookup;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.TreeConfigData;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CimclassDocument;
@@ -68,7 +69,24 @@ public class CustomTreeConfig
             {
                 logger.log(Level.INFO, "Reading config from " + treeConfigUrl + filename);
                 treeDocument = TreenodeDocument.Factory.parse(treeConfigUrl);
-                this.rootNode = treeDocument.getTreenode();
+                
+                //use the define filter to get the rootNode if we are running in embedded mode
+                if (RuntimeUtil.getInstance().isEmbeddedMode())
+                {
+                	EmbeddedFilter embeddedFilter = treeConfigData.getEmbeddedFilter();
+                	if (embeddedFilter != null)
+                	{
+                		this.rootNode = embeddedFilter.filter(treeDocument);
+                	}
+                }
+                if (this.rootNode == null)
+                {
+                	//reload the Model because evtl the filter had destoryed the old one
+                	treeDocument = TreenodeDocument.Factory.parse(treeConfigUrl);
+                	this.rootNode = treeDocument.getTreenode();
+                }
+                
+                
                 loaded = true;
             }
             catch(IOException e)

@@ -96,6 +96,7 @@ public class ErrCodes
 	public final static String SUBSYS_COM = "COM";
 	
 	public static final MessageNumber MSG_LOGGED_OUT = new MessageNumber(COMPONENT,SUBSYS_COM,1);
+	public static final MessageNumber MSG_TIME_OUT = new MessageNumber(COMPONENT,SUBSYS_COM,2);
 	
 	
 	/**   

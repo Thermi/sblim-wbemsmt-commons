@@ -30,6 +30,7 @@
 			<xs:attribute name="filename" type="xs:string" use="required"/>
 			<xs:attribute name="slpServicename" type="xs:string" use="required"/>
 			<xs:attribute name="classForServerTaskLookup" type="xs:string" use="required"/>
+			<xs:attribute name="embeddedFilter" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="treeconfigReference">

@@ -21,6 +21,7 @@
 package org.sblim.wbemsmt.bl.tree;
 
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import org.sblim.wbem.cim.CIMObjectPath;
@@ -73,4 +74,8 @@ public interface ITaskLauncherTreeNode {
 	public abstract TaskLauncherTreeNode findInstanceNode(CIMObjectPath pathOfCreatedNode) throws WbemSmtException;
 
 	public abstract String getInfo();
+	
+	public void addSubnode(ITaskLauncherTreeNode subnode);
+
+	public abstract Set getEventListener();
 }

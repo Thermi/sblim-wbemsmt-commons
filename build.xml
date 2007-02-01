@@ -16,7 +16,10 @@
   -->
 
 <project name="wbemsmt-commons" default="build-release" basedir="." >
-    <description>
+
+	<taskdef name="xmlbean" classname="org.apache.xmlbeans.impl.tool.XMLBean"/>
+	
+	<description>
         Build file for SBLIM WBEM-SMT Commons packages.
     </description>
 	
