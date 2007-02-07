@@ -1,7 +1,7 @@
 /**
  *  TaskLauncherController.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -12,7 +12,7 @@
  *
  * @author: Marius Kreis <mail@nulldevice.org>
  *
- * Contributors:
+ * Contributors: Michael.Bauschert@de.ibm.com
  *
  */
 
@@ -93,10 +93,23 @@ public class TaskLauncherController implements Cleanup
 
 	public void init(String name, CIMClient cimClient, boolean useSlpForTasks) throws ModelLoadException
     {
+		init(name, cimClient, useSlpForTasks,null);
+    }
+	
+	/**
+	 * Initialize the TaskLauncherController
+	 * @param name
+	 * @param cimClient
+	 * @param useSlpForTasks
+	 * @param treeConfigs List with TreeConfigData-Objects. Can be used to filter all those tasks which are not in the List
+	 * @throws ModelLoadException
+	 */
+	public void init(String name, CIMClient cimClient, boolean useSlpForTasks, List treeConfigs) throws ModelLoadException
+    {
         try {
         	this.useSlp = useSlpForTasks;
 			this.cimClients.put(name,cimClient);
-			loadConfig(null);
+			loadConfig(null,treeConfigs);
 		} catch (WbemSmtException e) {
 			throw new ModelLoadException(e);
 		}
@@ -217,10 +230,19 @@ public class TaskLauncherController implements Cleanup
     }
     
 	private void loadConfig(String configFilename) throws WbemSmtException {
-		this.taskLauncherConfig = new TaskLauncherConfig(configFilename);
-		this.createTreeFactories();
+		loadConfig(configFilename,null);
 	}
     
+	/**
+	 * @param configFilename
+	 * @param treeConfigs List with TreeConfigData-Objects. Can be used to filter all those tasks which are not in the List
+	 * @throws WbemSmtException
+	 */
+	private void loadConfig(String configFilename, List treeConfigs) throws WbemSmtException {
+		this.taskLauncherConfig = new TaskLauncherConfig(configFilename, treeConfigs);
+		this.createTreeFactories();
+	}
+
 	public TaskLauncherConfig getTaskLauncherConfig() throws WbemSmtException
     {
 		if (this.taskLauncherConfig == null)

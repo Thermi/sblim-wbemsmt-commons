@@ -1,7 +1,7 @@
 /**
  *  TreeSelector.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -12,7 +12,7 @@
  *
  * @author: Marius Kreis <mail@nulldevice.org>
  *
- * Contributors:
+ * Contributors: Michael.Bauschert@de.ibm.com
  *
  */
 

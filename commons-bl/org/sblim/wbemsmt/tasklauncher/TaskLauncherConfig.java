@@ -1,7 +1,7 @@
 /**
  *  TaskLauncherConfig.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -12,7 +12,7 @@
  *
  * @author: Marius Kreis <mail@nulldevice.org>
  *
- * Contributors:
+ * Contributors: Michael.Bauschert@de.ibm.com
  *
  */
 
@@ -24,7 +24,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,6 +84,13 @@ public class TaskLauncherConfig
 	private boolean hasConfiguration;
 
 	private WbemSmtResourceBundle bundle;
+
+	/**
+	 * This list contains all the treeConfigs that are taken into account if the config is loaded
+	 * 
+	 * If the list is empty or null all treeConfigs are used
+	 */
+	private List treeConfigs = new ArrayList();
     
 
 	/**
@@ -90,11 +99,22 @@ public class TaskLauncherConfig
 	 */
     public TaskLauncherConfig(String configFilename) throws WbemSmtException
     {
-    	this.configFilename = configFilename;
-    	init();
-        this.readConfig();
+    	this(configFilename,null);
     }
 
+	/**
+	 * @param configFilename set to null if default behaviour is wanted (configuration-File created by TASKLAUNCHER_CONFIG_XML and getConfigDirectory)
+	 * @param treeConfigs List with TreeConfigData-Objects. Can be used to filter all those tasks which are not in the List
+	 * @throws WbemSmtException
+	 */
+    public TaskLauncherConfig(String configFilename, List treeConfigs) throws WbemSmtException
+    {
+    	this.configFilename = configFilename;
+		this.treeConfigs = treeConfigs;
+    	init();
+        this.readConfig();
+    }    
+    
     public TaskLauncherConfig(TasklauncherconfigDocument tasklauncherConfig) throws WbemSmtException
     {
     	init();
@@ -537,15 +557,40 @@ public class TaskLauncherConfig
 		}
 	}
 
+	/**
+	 * Reads all files, checks if they are wanted and adds them to the tasklauncherconfig
+	 * @param tasklauncherconfig
+	 */
 	private void addTasks(Tasklauncherconfig tasklauncherconfig) {
 		File taskXML = null;
  		try {
 			File[] files = getTaskXMLs();
 			for (int i = 0; i < files.length; i++) {
 				taskXML = files[i];
-				TasklauncherconfigDocument treeConfigToAdd = TasklauncherconfigDocument.Factory.parse(taskXML);
-				Treeconfig treeconfig = tasklauncherconfig.addNewTreeconfig();
-				treeconfig.set(treeConfigToAdd.getTasklauncherconfig().getTreeconfigArray(0).copy());
+				Treeconfig treeConfigToAdd = TasklauncherconfigDocument.Factory.parse(taskXML).getTasklauncherconfig().getTreeconfigArray(0);
+				
+				//check if the task is wanted
+				boolean add = true;
+				if (treeConfigs != null && treeConfigs.size() > 0)
+				{
+					add = false;
+					for (Iterator iter = treeConfigs.iterator(); !add && iter.hasNext();) {
+						TreeConfigData treeConfigData = (TreeConfigData) iter.next();
+						if (treeConfigData.getName().equals(treeConfigToAdd.getName()))
+						{
+							add = true;
+						}
+					}
+				}
+				if (add)
+				{
+					Treeconfig treeconfig = tasklauncherconfig.addNewTreeconfig();
+					treeconfig.set(treeConfigToAdd.copy());
+				}
+				else
+				{
+					logger.log(Level.INFO,"Treeconfig " + treeConfigToAdd.getName() + " was not added because the TreeConfig was not in the include list");
+				}
 			}
 		} catch (Exception e) {
 			logger.log(Level.SEVERE,"Cannot load xml-Taskfile " + taskXML,e); 
