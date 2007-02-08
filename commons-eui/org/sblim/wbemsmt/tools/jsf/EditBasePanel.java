@@ -1,7 +1,7 @@
 /** 
  * EditBasePanel.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -19,11 +19,16 @@
  */
 package org.sblim.wbemsmt.tools.jsf;
 
+import java.util.Map;
+
+import javax.faces.component.UIPanel;
 import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.context.FacesContext;
 
+import org.sblim.wbemsmt.ajax.panel.AjaxPanelPhaseListener;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
+import org.sblim.wbemsmt.exception.UpdateControlsException;
 import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFInputComponent;
 
 public abstract class EditBasePanel extends BasePanel implements DataContainer {
@@ -31,23 +36,30 @@ public abstract class EditBasePanel extends BasePanel implements DataContainer {
 	protected static final String BINDING_PREFIX_CURRENT_PAGE = "objectActionController.currentEditor.currentEditPage.";
 	private HtmlPanelGrid panelGrid;
 
-	public EditBasePanel(AbstractBaseCimAdapter adapter, String bindingPrefix, String keyForTitle) {
-		this(adapter,bindingPrefix,keyForTitle, 1);
+	public EditBasePanel(AbstractBaseCimAdapter adapter, String bindingPrefix, String keyForTitle,boolean dynamic) {
+		this(adapter,bindingPrefix,keyForTitle, 1, dynamic);
 	}
 	
-	public EditBasePanel(AbstractBaseCimAdapter adapter, String bindingPrefix, String keyForTitle, int cols) {
+	public EditBasePanel(AbstractBaseCimAdapter adapter, String bindingPrefix, String keyForTitle, int cols,boolean dynamic) {
 		super(adapter, bindingPrefix, keyForTitle );
+		
 		panelGrid = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
 		panelGrid.setColumns(cols);
 		panelGrid.setWidth("100%");
 		panelGrid.setCellpadding("0");
 		panelGrid.setCellspacing("0");
 		setTitle(panelGrid);
+		
+		if (dynamic)
+		{
+			//For the editPanels the AjaxPanel is added in the editBean surrounding the container and it's childs
+			//super.addAjaxPanel(panelGrid);
+		}
 	}
 	
-	protected HtmlPanelGrid getPanelForCustomLayout()
+	public HtmlPanelGrid getPanelForCustomLayout()
 	{
-		return getInputFieldContainer();
+		return panelGrid;
 	}
 
 	protected void addComponent(LabeledJSFInputComponent inputComponent)
@@ -55,9 +67,36 @@ public abstract class EditBasePanel extends BasePanel implements DataContainer {
 		addComponent(panelGrid,inputComponent);
 	}
 
-	public HtmlPanelGrid getInputFieldContainer()
+	public UIPanel getInputFieldContainer()
 	{
-		return panelGrid;
+		return ajaxPanelGroup != null ? (UIPanel)ajaxPanelGroup : (UIPanel)panelGrid;
+	}
+
+	public void checkForUpdateControls() {
+
+		String key = "updateControls." + this.toString();
+		String ajaxKey = AjaxPanelPhaseListener.AJAX_PARAMETER;
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Map requestParameterMap = fc.getExternalContext().getRequestParameterMap();
+		Map requestMap = fc.getExternalContext().getRequestMap();
+		
+		synchronized (fc) {
+			if ( requestParameterMap.containsKey(ajaxKey) && 
+					!requestMap.containsKey(key))
+			{
+				if (this.getAdapter().periodicalRefreshEnabled(this))
+				{
+					try {
+						//first set the key in the requestMap so that
+						//subsequent getXYZ() calls are not leading to a infinite loop
+						requestMap.put(key, "true");					
+						this.getAdapter().updateControls(this);
+					} catch (UpdateControlsException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 	
 }

@@ -1,7 +1,7 @@
 /** 
  * LabeledJSFInputComponent.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -21,7 +21,6 @@
 
 package org.sblim.wbemsmt.tools.input.jsf;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -67,7 +66,7 @@ import org.sblim.wbemsmt.util.StringTokenizer;
 import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
 import org.sblim.wbemsmt.webapp.jsf.style.StyleBean;
 
-public class LabeledJSFInputComponent extends LabeledBaseInputComponent
+public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 {
 	protected List itemValues = new ArrayList();
 	UIComponent componentPanel = null;
@@ -104,15 +103,6 @@ public class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		this.component.setValueBinding("disabled", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Disabled}"));
 		this.component.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Rendered}"));
 		this.component.setValueBinding("style", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Style}"));
-		
-		//Try to set the onchange attribute (evtl. overwritten by the subclass)
-		try {
-			Method onChange = this.component.getClass().getMethod("setOnchange", new Class[]{String.class});
-			onChange.invoke(this.component, new Object[]{JavascriptUtil.getInputFieldValueChangedCall()});
-		} catch (Exception e) {
-			logger.warning("Cannot set onchange for component " + this.component);
-		}
-		
 
 		componentPanel = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 		componentPanel.getChildren().add(component);

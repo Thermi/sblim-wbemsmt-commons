@@ -1,7 +1,7 @@
 /** 
   *LabeledJSFPasswordFieldComponent.java
   *
-  * (C) Copyright IBM Corp. 2005
+  * © Copyright IBM Corp. 2005
   *
   * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -25,6 +25,7 @@ import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.tools.converter.Converter;
+import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 
 public class LabeledJSFPasswordFieldComponent extends LabeledJSFInputComponent {
 
@@ -33,6 +34,7 @@ public class LabeledJSFPasswordFieldComponent extends LabeledJSFInputComponent {
 		HtmlInputSecret txt = ((HtmlInputSecret)component);
 		txt.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 		txt.setRedisplay(true);
+		txt.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
 	}
 
 }

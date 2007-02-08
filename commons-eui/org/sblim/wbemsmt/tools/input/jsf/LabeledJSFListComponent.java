@@ -1,7 +1,7 @@
 /** 
   *LabeledJSFListComponent.java
   *
-  * (C) Copyright IBM Corp. 2005
+  * © Copyright IBM Corp. 2005
   *
   * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -27,6 +27,7 @@ import javax.faces.context.FacesContext;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.LabeledStringArrayInputComponentIf;
+import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 
 public class LabeledJSFListComponent extends LabeledJSFInputComponent implements LabeledStringArrayInputComponentIf {
 
@@ -39,6 +40,7 @@ public class LabeledJSFListComponent extends LabeledJSFInputComponent implements
 		menu.setStyleClass("listBox");
 		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 		menu.setValueBinding("size", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Size}"));
+		menu.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
 		UISelectItems items = (UISelectItems) FacesContext.getCurrentInstance().getApplication().createComponent(UISelectItems.COMPONENT_TYPE);
 		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
 		menu.getChildren().add(items);

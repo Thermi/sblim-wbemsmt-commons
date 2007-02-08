@@ -1,7 +1,7 @@
 /** 
   *LabeledJSFRadioButtonComponent.java
   *
-  * (C) Copyright IBM Corp. 2005
+  * © Copyright IBM Corp. 2005
   *
   * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -33,6 +33,7 @@ import javax.faces.model.SelectItem;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.LabeledStringArrayInputComponentIf;
+import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 
 public class LabeledJSFRadioButtonComponent extends LabeledJSFInputComponent implements LabeledStringArrayInputComponentIf {
 
@@ -43,6 +44,8 @@ public class LabeledJSFRadioButtonComponent extends LabeledJSFInputComponent imp
 		
 		//prevents the validator to be called
 		menu.setRequired(false);
+		
+		menu.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
 		
 		String binding = "#{" + id +"}";
 		if (logger.isLoggable(Level.FINE)) {

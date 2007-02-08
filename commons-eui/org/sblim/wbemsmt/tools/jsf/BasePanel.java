@@ -1,7 +1,7 @@
  /** 
   * BasePanel.java
   *
-  * (C) Copyright IBM Corp. 2005
+  * © Copyright IBM Corp. 2005
   *
   * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -29,6 +29,7 @@ import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.FacesContext;
 
+import org.sblim.wbemsmt.ajax.panel.AjaxPanelGroup;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.CimObjectKey;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
@@ -59,11 +60,12 @@ public abstract class BasePanel {
 	protected Converter int32HtmlInputConverter = new UnsignedInt32StringConverter();
 	protected Converter int16HtmlInputConverter = new UnsignedInt16StringConverter();
 	protected WbemSmtResourceBundle bundle;
-	private AbstractBaseCimAdapter adapter;
+	protected AbstractBaseCimAdapter adapter;
 	private String keyForTitle = null;
 	protected String bindingPrefix;
 	private String footerTextKey;
 	private String footerText;
+	protected AjaxPanelGroup ajaxPanelGroup;
 
     protected static final Logger logger = Logger.getLogger("org.sblim.wbemsmt.tools.jsf");
 	
@@ -304,6 +306,12 @@ public abstract class BasePanel {
 		{
 			footerText = bundle.getString(footerTextKey);
 		}
+	}
+
+	public void addAjaxPanel(HtmlPanelGrid panel) {
+		ajaxPanelGroup =  (AjaxPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(AjaxPanelGroup.COMPONENT_TYPE);
+		ajaxPanelGroup.setPeriodicalUpdate(new Integer(1000));
+		ajaxPanelGroup.getChildren().add(panel);			
 	}
 
 }

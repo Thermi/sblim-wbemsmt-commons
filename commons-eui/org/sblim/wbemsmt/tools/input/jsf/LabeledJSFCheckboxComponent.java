@@ -1,7 +1,7 @@
 /** 
   * LabeledJSFCheckboxComponent.java
   *
-  * (C) Copyright IBM Corp. 2005
+  * © Copyright IBM Corp. 2005
   *
   * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -25,6 +25,7 @@ import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.tools.converter.Converter;
+import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 
 public class LabeledJSFCheckboxComponent extends LabeledJSFInputComponent {
 
@@ -32,6 +33,7 @@ public class LabeledJSFCheckboxComponent extends LabeledJSFInputComponent {
 		super(parent, labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectBooleanCheckbox.COMPONENT_TYPE), converter,readOnly);
 		HtmlSelectBooleanCheckbox cbox = ((HtmlSelectBooleanCheckbox)component);
 		cbox.setStyleClass("checkBox");
+		cbox.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
 		cbox.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 		
 		createReadOnlyCheckbox(id,cbox);
