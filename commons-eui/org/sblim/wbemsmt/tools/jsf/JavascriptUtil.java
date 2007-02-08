@@ -1,7 +1,7 @@
  /** 
   * JavascriptUtil.java
   *
-  * (C) Copyright IBM Corp. 2005
+  * © Copyright IBM Corp. 2005
   *
   * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -36,6 +36,11 @@ public class JavascriptUtil
 		
 		if (textIsLiteral)
 		{
+			if (text.indexOf("'") > -1 && text.indexOf("\\'") == -1)
+			{
+				text = text.replaceAll("'", "\\'");
+			}
+			
 			return "waitMessage = '" + text + "';"
 		    + "showWait();";
 		}

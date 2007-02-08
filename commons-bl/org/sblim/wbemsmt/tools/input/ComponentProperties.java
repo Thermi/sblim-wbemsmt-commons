@@ -1,7 +1,7 @@
- /** 
+/** 
   * ComponentProperties.java
   *
-  * (C) Copyright IBM Corp. 2005
+  * © Copyright IBM Corp. 2005
   *
   * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -33,7 +33,12 @@ import java.util.Set;
  */
 public class ComponentProperties extends Hashtable
 {
+	public static String COLOR_GREEN = "green";
 	public static String COLOR_RED = "red";
+	public static String COLOR_BLUE = "blue";
+	public static String COLOR_YELLOW = "yellow";
+	public static String COLOR_ORANGE = "orange";
+	public static String COLOR_BLACK = "black";
 	public static String COLOR_WHITE = "white";
 	
 	
@@ -49,14 +54,14 @@ public class ComponentProperties extends Hashtable
 	Set listeners = new HashSet();
 	
 	public String getBgColor() {
-		return (String) (get(KEY_BG_COLOR) == null ? "white" : get(KEY_BG_COLOR));
+		return (String) (get(KEY_BG_COLOR) == null ? COLOR_WHITE : get(KEY_BG_COLOR));
 	}
 	public void setBgColor(String bgColor) {
 		setProperty(KEY_BG_COLOR,bgColor);
 	}
 
 	public String getColor() {
-		return (String) (get(KEY_COLOR) == null ? "black" : get(KEY_COLOR));
+		return (String) (get(KEY_COLOR) == null ? COLOR_BLACK : get(KEY_COLOR));
 	}
 	public void setColor(String color) {
 		setProperty(KEY_COLOR,color);

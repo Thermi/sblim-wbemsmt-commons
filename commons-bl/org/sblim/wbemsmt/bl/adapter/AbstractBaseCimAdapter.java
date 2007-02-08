@@ -1,7 +1,7 @@
  /** 
   * AbstractBaseCimAdapter.java
   *
-  * (C) Copyright IBM Corp. 2005
+  * © Copyright IBM Corp. 2005
   *
   * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -23,17 +23,34 @@ package org.sblim.wbemsmt.bl.adapter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.collections.MultiHashMap;
+import org.apache.commons.collections.map.HashedMap;
 import org.sblim.wbem.cim.CIMObjectPath;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.Cleanup;
+import org.sblim.wbemsmt.bl.adapter.refresh.RemoveDataContainerThread;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
-import org.sblim.wbemsmt.exception.*;
+import org.sblim.wbemsmt.exception.CountException;
+import org.sblim.wbemsmt.exception.InitContainerException;
+import org.sblim.wbemsmt.exception.InitWizardException;
+import org.sblim.wbemsmt.exception.ModelLoadException;
+import org.sblim.wbemsmt.exception.ObjectCreationException;
+import org.sblim.wbemsmt.exception.ObjectDeletionException;
+import org.sblim.wbemsmt.exception.ObjectNotFoundException;
+import org.sblim.wbemsmt.exception.ObjectRevertException;
+import org.sblim.wbemsmt.exception.ObjectSaveException;
+import org.sblim.wbemsmt.exception.ObjectUpdateException;
+import org.sblim.wbemsmt.exception.UpdateControlsException;
+import org.sblim.wbemsmt.exception.ValidationException;
+import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
@@ -47,6 +64,11 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 	public static final int ACTIVE_EDIT = 0;
 	public static final int ACTIVE_WIZARD = 1;
+	
+	/**
+	 * The Object to synchronize Refresh-Threads on
+	 */
+	public Object refreshMedium = "";
 	
 	private Logger logger = Logger.getLogger(AbstractBaseCimAdapter.class.getName());	
 	
@@ -82,9 +104,19 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	protected WbemSmtResourceBundle bundle;
 
 	private ILocaleManager localeManager;
+	private Set refreshItems = new HashSet();
+	/**
+	 * Stores the time at which a DataContainer was last accessed
+	 */
+	private Map accessTimes = new HashedMap();
+	
+	
+	private RemoveDataContainerThread removeDataContainerThread;
 	
 	public AbstractBaseCimAdapter()
 	{
+		removeDataContainerThread = new RemoveDataContainerThread(this);
+		removeDataContainerThread.start();
 	}
 
 	public void init(WbemSmtResourceBundle resourceBundle, SelectionHierarchy selectionHierarchy) {
@@ -1144,7 +1176,11 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	
 	public void cleanup()
 	{
-		CimAdapterFactory.getInstance().removeAdapter(this);		
+		CimAdapterFactory.getInstance().removeAdapter(this);
+		refreshItems.clear();
+		
+		removeDataContainerThread.cleanup();
+		removeDataContainerThread=null;
 	}
 
 	public CIMObjectPath getPathOfTreeNode() {
@@ -1162,7 +1198,69 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	public void setActiveModule(int activeModule) {
 		this.activeModule = activeModule;
 	}
+
+	/**
+	 * Manages the periodical refresh for the given DataContainer
+	 * Calls updateControls
+	 * @param panel
+	 */
+	public void periodicalRefresh(DataContainer dataContainer) {
+		synchronized (refreshMedium) {
+			refreshItems.add(dataContainer);
+		}
+	}
+
+	/**
+	 * Manages the periodical refresh for the given DataContainer
+	 * Calls updateControls
+	 * @param panel
+	 */
+	public boolean periodicalRefreshEnabled(DataContainer dataContainer) {
+		synchronized (refreshMedium) {
+			return refreshItems.contains(dataContainer);
+		}
+	}
+
+	public Set getRefreshItems() {
+		return refreshItems;
+	}
+
+	/**
+	 * Updates the last access timestamp for the given datacontainer
+	 * @param dc
+	 */
+	public void updateAccesTime(DataContainer dc) {
+		synchronized (refreshMedium) {
+			accessTimes.put(dc,new Long(System.currentTimeMillis()));
+		}
+	}
 	
+	/**
+	 * Gets the Map with the time value a container was access last time
+	 * @return
+	 */
+	public Map getAccessTimes() {
+		return accessTimes;
+	}
+
+	
+	/**
+	 * Returns the refresh interval 
+	 * @return
+	 */
+	public long getDefaultRefreshIntervalInMillis()
+	{
+		return 10000l;
+	}
+	
+	/**
+	 * Define the period in millis after which a DataContainer is removed from the RefreshList 
+	 * @return
+	 */
+	public long getDefaultRefreshTimeout()
+	{
+		return 100000l;
+	}
 	
 	
 }

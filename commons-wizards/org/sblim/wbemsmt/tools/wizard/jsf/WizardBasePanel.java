@@ -1,7 +1,7 @@
 /** 
  * WizardBasePanel.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -19,6 +19,7 @@
  */
 package org.sblim.wbemsmt.tools.wizard.jsf;
 
+import javax.faces.component.UIPanel;
 import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.context.FacesContext;
 
@@ -37,11 +38,9 @@ public abstract class WizardBasePanel extends BasePanel implements IWizardBasePa
 	private String subTitle;
 	private String keyForSubTitle;
 	
-	
-	public WizardBasePanel(AbstractBaseCimAdapter adapter, String bindingPrefix, String keyForTitle, String keyForSubTitle) {
+	public WizardBasePanel(AbstractBaseCimAdapter adapter, String bindingPrefix, String keyForTitle, String keyForSubTitle, boolean dynamic) {
 		super(adapter, bindingPrefix, keyForTitle);
-		
-		
+
 		if (keyForSubTitle != null)
 		{
 			this.keyForSubTitle = keyForSubTitle;
@@ -63,6 +62,13 @@ public abstract class WizardBasePanel extends BasePanel implements IWizardBasePa
 		outerPanel.setColumns(1);
 		outerPanel.getChildren().add(mainPanel);
 		outerPanel.getChildren().add(childPanel);
+		
+		if (dynamic)
+		{
+			//Currently wizardPanels supporting no ajaxified Panels
+			//super.addAjaxPanel(outerPanel);
+		}
+		
 	}
 	
 	protected void addComponent(LabeledJSFInputComponent inputComponent)
@@ -70,9 +76,9 @@ public abstract class WizardBasePanel extends BasePanel implements IWizardBasePa
 		addComponent(mainPanel,inputComponent);
 	}	
 	
-	public HtmlPanelGrid getInputFieldContainer()
+	public UIPanel getInputFieldContainer()
 	{
-		return outerPanel;
+		return ajaxPanelGroup != null ? (UIPanel) ajaxPanelGroup : (UIPanel) outerPanel;
 	}
 
 	public HtmlPanelGrid getPanelForCustomLayout()

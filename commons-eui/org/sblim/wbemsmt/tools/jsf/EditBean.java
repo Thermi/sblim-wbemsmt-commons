@@ -1,7 +1,7 @@
 /** 
  * EditBean.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -26,12 +26,14 @@ import java.util.List;
 import java.util.Set;
 
 import javax.faces.component.UIComponentBase;
+import javax.faces.component.UIPanel;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.FacesContext;
 
+import org.sblim.wbemsmt.ajax.panel.StopRefresh;
 import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.MessageNumber;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
@@ -53,11 +55,19 @@ import org.sblim.wbemsmt.webapp.jsf.style.StyleBean;
 
 public abstract class EditBean extends JsfBase{
 
+	
+	/**
+	 * The name of the form where the editbeans are added to
+	 */
+	public static final String MAIN_FORM = "mainForm";
+
+
 	public EditBean(WbemSmtResourceBundle bundle) {
 		super(bundle);
 	}
 	
 	protected List containers = new ArrayList();
+	protected List ajaxPanels = new ArrayList();
 	
 	public static final String PAGE_START = "start";
 	public static final String PAGE_EDIT = "edit";
@@ -270,6 +280,38 @@ public abstract class EditBean extends JsfBase{
 		
 		containerPanel.getFacets().put("footer", table);
 
+    }
+    
+    public void addStopRefreshCheckbox(UIComponentBase parent)
+    {
+    	FacesContext fc = FacesContext.getCurrentInstance();
+
+    	StringBuffer clientIds = new StringBuffer();
+		for (Iterator iter = ajaxPanels.iterator(); iter.hasNext();) {
+			UIPanel ajaxPanel = (UIPanel) iter.next();
+			if (clientIds.length() > 0)
+			{
+				clientIds.append(",");
+			}
+			clientIds.append(EditBean.MAIN_FORM + ":" + ajaxPanel.getId());
+		}
+    	
+		HtmlPanelGroup group = (HtmlPanelGroup)fc.getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
+		group.setStyle("white-space: nowrap; vertical-align:bottom; padding-top:3px;");
+
+		HtmlOutputText label = (HtmlOutputText)fc.getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
+		label.setStyleClass("fieldLabel");
+		label.setValueBinding("value", fc.getApplication().createValueBinding("#{messages.stopDynamicUpdates}"));
+		
+		
+		StopRefresh checkbox = (StopRefresh)fc.getApplication().createComponent(StopRefresh.COMPONENT_TYPE);
+		checkbox.setPanel(clientIds.toString());
+		checkbox.setStyleClass("checkBox");
+
+		group.getChildren().add(checkbox);
+		group.getChildren().add(label);
+		
+		parent.getChildren().add(group);	
     }
     
     /**
