@@ -34,6 +34,7 @@ public class BeanNameConstants {
 	public static final BeanNameConstant LOGIN_CHECK = new BeanNameConstant("loginCheck");
 	public static final BeanNameConstant MENUE_CONTROLLER = new BeanNameConstant("menueController");
 	public static final BeanNameConstant LOCALE_MANAGER = new BeanNameConstant("localeManager");
+	public static final BeanNameConstant HELP_MANAGER = new BeanNameConstant("helpManager");
 	public static final BeanNameConstant STYLE = new BeanNameConstant("style");
 	
 	public static class BeanNameConstant
