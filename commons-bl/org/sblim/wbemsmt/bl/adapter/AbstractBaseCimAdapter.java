@@ -119,6 +119,11 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		removeDataContainerThread.start();
 	}
 
+	public AbstractBaseCimAdapter(Locale locale)
+	{
+		this();
+	}
+
 	public void init(WbemSmtResourceBundle resourceBundle, SelectionHierarchy selectionHierarchy) {
 		this.bundle = resourceBundle;
 		this.selectionHierarchy = selectionHierarchy;
