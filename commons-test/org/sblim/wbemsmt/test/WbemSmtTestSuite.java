@@ -86,7 +86,6 @@ public class WbemSmtTestSuite extends TestSuite {
 	}
 	public void run(TestResult arg0) {
 		super.run(arg0);
-		System.err.println("Run");
 	}
 
 	public void runTest(Test arg0, TestResult arg1) {

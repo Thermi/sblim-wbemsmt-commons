@@ -19,7 +19,7 @@
   */
 package org.sblim.wbemsmt.bl.adapter;
 
-import java.io.PrintStream;
+import java.io.PrintWriter;
 
 public abstract class BaseDataContainer implements DataContainer {
 
@@ -38,7 +38,7 @@ public abstract class BaseDataContainer implements DataContainer {
 	
 	private CimObjectKey key;
 	private AbstractBaseCimAdapter adapter;
-
+	
 	/**
 	 * @see DataContainer#setKey(CimObjectKey)
 	 */
@@ -95,7 +95,7 @@ public abstract class BaseDataContainer implements DataContainer {
 	 */
 	public static boolean listOptionIsValid(String listOption)
 	{
-		return LIST_OPTION_INSTANCE.equals(listOption) || LIST_OPTION_INSTANCE.equals(listOption) || LIST_OPTION_INSTANCE_WITH_CHILDS.equals(listOption);
+		return LIST_OPTION_KEY.equals(listOption) || LIST_OPTION_INSTANCE.equals(listOption) || LIST_OPTION_INSTANCE_WITH_CHILDS.equals(listOption);
 	}
 
 	/**
@@ -119,30 +119,30 @@ public abstract class BaseDataContainer implements DataContainer {
 	}
 
 	/**
-	 * Trace to the PribtStream, The listOprions used is LIST_OPTION_INSTANCE_WITH_CHILDS and showTitle is true
+	 * Trace to the PrintWriter, The listOprions used is LIST_OPTION_INSTANCE_WITH_CHILDS and showTitle is true
 	 * @param out
 	 */
-	public void trace(PrintStream out)
+	public void trace(PrintWriter out)
 	{
 		trace(out,LIST_OPTION_INSTANCE_WITH_CHILDS,true);
 	}
 
 	/**
-	 * Trace to the PribtStream, showTitle is true
+	 * Trace to the PrintWriter, showTitle is true
 	 * @param out
 	 */
 
-	public void trace(PrintStream out, String listOption)
+	public void trace(PrintWriter out, String listOption)
 	{
 		trace(out,listOption,true);
 	}
 	
 	/**
-	 * Trace to the PrintStream, showTitle is true
+	 * Trace to the PrintWriter, showTitle is true
 	 * @param out
 	 */
 
-	public void traceChilds(PrintStream out, String listOption)
+	public void traceChilds(PrintWriter out, String listOption)
 	{
 		traceChilds(out,listOption,true);
 	}
@@ -157,7 +157,7 @@ public abstract class BaseDataContainer implements DataContainer {
 	 * @see #LIST_OPTION_INSTANCE
 	 * @see #LIST_OPTION_INSTANCE_WITH_CHILDS
 	 */
-	public abstract void trace(PrintStream out, String listOption, boolean showTitle);
+	public abstract void trace(PrintWriter out, String listOption, boolean showTitle);
 	
 	/**
 	 * Subclasses should implement this for tracing the object
@@ -169,7 +169,7 @@ public abstract class BaseDataContainer implements DataContainer {
 	 * @see #LIST_OPTION_INSTANCE
 	 * @see #LIST_OPTION_INSTANCE_WITH_CHILDS
 	 */
-	public abstract void traceChilds(PrintStream out, String listOption,boolean showTitle);
+	public abstract void traceChilds(PrintWriter out, String listOption,boolean showTitle);
 
 	private MessageList messageList;
 

@@ -90,7 +90,7 @@ public class FcoHelper
 		Class helperClass = null;
 		CIM_Object objectToDelete = null;
 		try {
-			helperClass = Class.forName(helperName);
+			helperClass = Class.forName(helperName,true,fco.getClass().getClassLoader());
 			objectToDelete = CIM_Object.create(fco);
 			FcoHelperProcessItemEvent event = fireEvent(FcoHelperProcessItemEvent.TYPE_BEFORE_DELETE,objectToDelete);
 			if (!event.isDoProcessing())
@@ -182,7 +182,7 @@ public class FcoHelper
 		Object fco = null;
 		CIM_Object cimObject = null;
 		try {
-			Class helperClass = Class.forName(helperName);
+			Class helperClass = Class.forName(helperName,true,fcoClass.getClassLoader());
 			
 			//get the instance - if the instance was not found -> ready & return
 			
@@ -338,7 +338,7 @@ public class FcoHelper
 				return fco;
 			}
 
-			helperClass = Class.forName(helperName);
+			helperClass = Class.forName(helperName,true,fco.getClass().getClassLoader());
 			Method method = helperClass.getMethod("createInstance", new Class[]{CIMClient.class,fco.getClass(),boolean.class});
 			logger.fine("Calling " + helperName + "." + method.getName()  + " with fco " + fco.toString()+ " on " + cimClient.getNameSpace().toString());
 			newInstance = method.invoke(null,new Object[]{cimClient,fco,Boolean.TRUE});
@@ -603,7 +603,7 @@ public class FcoHelper
 		
 		String helperName = o.getClass().getName() + "Helper";
 		try {
-			Class helperClass = Class.forName(helperName);
+			Class helperClass = Class.forName(helperName,true,o.getClass().getClassLoader());
 			Method method = helperClass.getMethod("modifyInstance", new Class[]{CIMClient.class,o.getClass(),boolean.class});
 			logger.fine("Calling " + helperName + "." + method.getName()  + " with fco " + o.toString()+ " on " + cimClient.getNameSpace().toString());
 			o = (CIM_ManagedElement) method.invoke(null,new Object[]{cimClient,o,Boolean.FALSE});
@@ -835,7 +835,7 @@ public class FcoHelper
 	public static Object reload(CIM_ManagedElement fcoToReload, CIMClient cimClient) throws ModelLoadException {
 		String helperName = fcoToReload.getClass().getName() + "Helper";
 		try {
-			Class helperClass = Class.forName(helperName);
+			Class helperClass = Class.forName(helperName,true,fcoToReload.getClass().getClassLoader());
 			Method getInstanceMethod = helperClass.getMethod("getInstance", new Class[]{CIMClient.class,CIMObjectPath.class});
 			getInstanceMethod.setAccessible(true);
 
@@ -944,7 +944,7 @@ public class FcoHelper
 
 		String helperName = fcoClass.getName() + "Helper";
 		try {
-			Class helperClass = Class.forName(helperName);
+			Class helperClass = Class.forName(helperName,true,fcoClass.getClassLoader());
 			Method enumMethod = helperClass.getMethod("enumerateInstanceNames", new Class[]{CIMClient.class,boolean.class});
 			enumMethod.setAccessible(true);
 

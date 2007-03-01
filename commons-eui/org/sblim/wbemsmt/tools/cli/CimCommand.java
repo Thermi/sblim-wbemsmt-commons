@@ -22,6 +22,8 @@ package org.sblim.wbemsmt.tools.cli;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,6 +41,7 @@ import org.apache.commons.cli.MissingOptionException;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.PosixParser;
 import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbem.cim.CIMException;
 import org.sblim.wbem.cim.CIMNameSpace;
@@ -69,14 +72,66 @@ public abstract class CimCommand {
 	protected static Logger logger = Logger.getLogger(CimCommand.class.getName());
 	private static CimCommand currentCommand = null;
 	protected final Locale locale;
+	protected CimCommandValues commandValues;
 	
 	/**
 	 * executes the command
 	 * to be implemented by the real commandlet
+	 * @param values The values needed to execute a CimCommand 
+	 * @throws WbemSmtException
+	 */
+	public abstract void execute(CimCommandValues values) throws WbemSmtException;
+
+	public abstract Options getOptions() throws WbemSmtException;
+	public abstract Options getLocalOptions() throws WbemSmtException;
+	public abstract Options getGlobalWbemsmtCommonOptions() throws WbemSmtException;
+	public abstract Options getGlobalWbemsmtCommunicationOptions() throws WbemSmtException;
+	public abstract Options getGlobalTaskOptions() throws WbemSmtException;
+	/**
+	 * prepare the command
+	 * to be implemented by the real commandlet
 	 * @param args The argument from commandline (the first argument is the commandname and this argument has already been cut off) 
 	 * @throws WbemSmtException
 	 */
-	public abstract void execute(String[] args) throws WbemSmtException;
+	public CimCommandValues prepare(String[] args) throws WbemSmtException
+	{
+		
+		CimCommandValues values = new CimCommandValues();
+		values.setIn(new InputStreamReader(System.in));
+		values.setOut(new PrintWriter(System.out,true));
+		values.setErr(new PrintWriter(System.err,true));
+		values.setExecute(true);
+		values.setArgs(args);
+		
+	    Options options = getOptions();
+	    values.setOptions(options);
+	    
+		//check if the password is the only argument that is missing and query the user if thats the case
+		CommandLineParser parser = new PosixParser();
+		PasswordCheckResult result = checkPassword(parser,options,args,getLoginOptions());
+		args = result.getArgs();
+		values.setArgs(args);
+		
+		if (!result.isPasswordEntered())
+		{
+			logger.info("No password entered. Stopping execution");
+			return values;
+		}
+		
+		CommandLine cmd = null;
+		try {
+			cmd = parser.parse( options, args);
+			values.setCommandLine(cmd);
+			values.setCimClient(getCimClient(System.out,cmd, getCimClientOptions()));
+		} catch (ParseException e) {
+			//handled later by the execute method
+			values.setParseException(e);
+		}
+		return values;
+	}
+	
+	protected abstract LoginOptionValues getLoginOptions();
+	protected abstract CimClientOptionValues getCimClientOptions();
 
 	/**
 	 * Called before the command is executed
@@ -90,7 +145,6 @@ public abstract class CimCommand {
 	 */
 	public void afterExecute() {
 		currentCommand = null;
-		
 	}
 	
 	
@@ -234,16 +288,10 @@ public abstract class CimCommand {
 		
 	}		
 	
-	/**
-	 * ExceptionHandlier for a ParseException (occurs while parsing invalid Commandline args)
-	 * @param args the invalid args
-	 * @param options the Options defined for Parsing
-	 * @param the Exception
-	 */
 	protected void handleParseException(String[] args, Options options, ParseException e, OptionDefinition defPassword) {
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < args.length; i++) {
-			if (i > 0 && args[i-1].equals("-" + defPassword.getLongKey()))
+			if (i > 0 && args[i-1].equals("--" + defPassword.getLongKey()))
 			{
 				sb.append("**************").append(" ");
 			}
@@ -252,9 +300,19 @@ public abstract class CimCommand {
 				sb.append(args[i]).append(" ");
 			}
 		}
-		showUsage(options);
-		System.err.println("Supplied Arguments: " + sb.toString());
-		System.err.println("Missing Arguments: " + e.getMessage());
+		showUsage(commandValues.getOut(),options);
+		commandValues.getErr().println(bundle.getString("supplied.arguments" ,new Object[]{sb.toString()}));
+		if (e instanceof MissingOptionException) {
+			MissingOptionException moe = (MissingOptionException) e;
+			String msg = moe.getMessage().indexOf(":") > -1 ? 
+					  moe.getMessage().substring(moe.getMessage().indexOf(":") + 1)
+					: moe.getMessage();
+			commandValues.getErr().println(bundle.getString("missing.arguments" ,new Object[]{msg}));
+		}
+	}
+
+	protected void handleParseException(CimCommandValues values, OptionDefinition defPassword) {
+		handleParseException(values.getArgs(), values.getOptions(), values.getParseException(), defPassword);
 	}
 
 	/**
@@ -266,15 +324,17 @@ public abstract class CimCommand {
 	protected String getOptionValue(CommandLine cmd, OptionDefinition definition) {
 		String value = null;
 		
+		String key = definition.getLongKey() != null ? definition.getLongKey() : definition.getShortKey(); 
+		
 		if (definition.isRequired())
 		{
-			value = cmd.getOptionValue(definition.getLongKey());
+			value = cmd.getOptionValue(key);
 		}
 		else
 		{
-			if (cmd.hasOption(definition.getLongKey()))
+			if (cmd.hasOption(key))
 			{
-				value = cmd.getOptionValue(definition.getLongKey());
+				value = cmd.getOptionValue(key);
 			}
 			else
 			{
@@ -288,27 +348,32 @@ public abstract class CimCommand {
 	 * Show the Usage of the Command
 	 * @param options
 	 */
-	protected void showUsage(Options options) {
-		if (Cli.testMode)
+	protected void showUsage(PrintWriter pw, Options options) {
+		if (Cli.testMode) 
 		{
 			Cli.commandExecuted=false;
 		}
-		HelpFormatter formatter = new HelpFormatter();
+		HelpFormatter formatter = new WbemsmtHelpFormatter();
 		
-		String msg = commandName + "\n \n \n" + bundle.getString("commanddescription." + ClassUtils.getShortClassName(getClass())) + " \n \n";
+		String msg = commandName + " ";
+		String footer = "\n" + bundle.getString("commanddescription." + ClassUtils.getShortClassName(getClass())) + " \n";
 		
-		formatter.printHelp(120,msg,"", options,"",true);
-		
+		formatter.printHelp(pw,120,msg,"",options,0,0,footer,true);
 	}
 
+	protected Options createOptions(OptionDefinition[] optionDefinitions, WbemSmtResourceBundle bundle) {
+		Options options = new Options();
+		createOptions(options, optionDefinitions, bundle);
+		return options;
+	}	
 	/**
 	 * Create for all OptionDefinitions new Options for the Apache Commons CLI
 	 * @param optionDefinitions
 	 * @param bundle
 	 * @return
 	 */
-	protected Options createOptions(OptionDefinition[] optionDefinitions, WbemSmtResourceBundle bundle) {
-		Options options = new Options();
+	public Options createOptions(Options options, OptionDefinition[] optionDefinitions, WbemSmtResourceBundle bundle) {
+		
 		
 		CliUtil util = CliUtil.getInstance();
 		
@@ -324,6 +389,7 @@ public abstract class CimCommand {
 
 	/**
 	 * Get the CimClient for Server Connection
+	 * @param out 
 	 * @param cmd
 	 * @param hostName
 	 * @param nameSpace
@@ -332,29 +398,22 @@ public abstract class CimCommand {
 	 * @return
 	 * @throws LoginException 
 	 */
-	protected CIMClient getCimClient(CommandLine cmd, 
-			OptionDefinition hostName, 
-			OptionDefinition port, 
-			OptionDefinition nameSpace, 
-			OptionDefinition user, 
-			OptionDefinition password,
-			OptionDefinition publicKeyFile,
-			OptionDefinition privateKeyFile
+	protected CIMClient getCimClient(PrintStream out, CommandLine cmd,CimClientOptionValues clientOptons
 			) throws LoginException {
 
 		//TODO implement the connection with public/private-Keys
-		String server = CliUtil.getOption(cmd,hostName);
-		String strPort = CliUtil.getOption(cmd,port);
-		String namespace = CliUtil.getOption(cmd,nameSpace);
+		String server = CliUtil.getOption(cmd,clientOptons.getHost());
+		String strPort = CliUtil.getOption(cmd,clientOptons.getPort());
+		String namespace = CliUtil.getOption(cmd,clientOptons.getNamespace());
 		String url = "HTTP://" + server + ":" + strPort + namespace;
-		String userName = CliUtil.getOption(cmd,user);
-		String strPassword = CliUtil.getOption(cmd,password);
+		String userName = CliUtil.getOption(cmd,clientOptons.getUser());
+		String strPassword = CliUtil.getOption(cmd,clientOptons.getPassword());
 	
 		UserPrincipal userPrincipal      = new UserPrincipal(userName);
 		PasswordCredential passwordCredential = new PasswordCredential(strPassword.toCharArray());		
 		CIMNameSpace cimNameSpace       = new CIMNameSpace(url);
 					
-		System.out.println(bundle.getString("connectToServer", new Object[]{url,userName}));
+		out.println(bundle.getString("connectToServer", new Object[]{url,userName}));
 		
 		CIMClient cimClient = new CIMClient(cimNameSpace, userPrincipal, passwordCredential);
 		try {
@@ -380,10 +439,10 @@ public abstract class CimCommand {
 	 */
 	public void traceErrors(String bundlekeyForCaption, MessageList messageList)
 	{
-		System.err.println(bundle.getString(bundlekeyForCaption));
+		commandValues.getErr().println(bundle.getString(bundlekeyForCaption));
         for (Iterator iter = messageList.iterator(); iter.hasNext();) {
         	Message msg = (Message) iter.next();
-        	System.err.println(msg.toLocalizedString(bundle,true));
+        	commandValues.getErr().println(msg.toLocalizedString(bundle,true));
         }
 
         if (Cli.testMode)
@@ -401,7 +460,7 @@ public abstract class CimCommand {
 	{
 	    for (Iterator iter = messageList.iterator(); iter.hasNext();) {
         	Message msg = (Message) iter.next();
-        	System.err.println(msg.toLocalizedString(bundle,true));
+        	commandValues.getErr().println(msg.toLocalizedString(bundle,true));
         }
         if (Cli.testMode)
 		{
@@ -416,14 +475,17 @@ public abstract class CimCommand {
 	 */
 	public void traceMessages(String bundlekeyForCaption, MessageList messageList)
 	{
-		System.out.println(bundle.getString(bundlekeyForCaption));
-        for (Iterator iter = messageList.iterator(); iter.hasNext();) {
-        	Message msg = (Message) iter.next();
-        	System.out.println(msg.toLocalizedString(bundle,true));
-        }
-        if (Cli.testMode)
+		if (messageList.size() > 0)
 		{
-			Cli.commandExecuted=!messageList.hasErrors();
+			commandValues.getOut().println(bundle.getString(bundlekeyForCaption));
+			for (Iterator iter = messageList.iterator(); iter.hasNext();) {
+				Message msg = (Message) iter.next();
+				commandValues.getOut().println(msg.toLocalizedString(bundle,true));
+			}
+			if (Cli.testMode)
+			{
+				Cli.commandExecuted=!messageList.hasErrors();
+			}
 		}
 	}
 
@@ -436,7 +498,7 @@ public abstract class CimCommand {
 	{
         for (Iterator iter = messageList.iterator(); iter.hasNext();) {
         	Message msg = (Message) iter.next();
-        	System.out.println(msg.toLocalizedString(bundle,true));
+        	commandValues.getOut().println(msg.toLocalizedString(bundle,true));
         }
         if (Cli.testMode)
 		{
@@ -455,22 +517,26 @@ public abstract class CimCommand {
 	 * @throws ParseException 
 	 * @return The Arguments with the password added
 	 */
-	public String[] checkPassword(CommandLineParser parser, Options options, String[] args, OptionDefinition defHost, OptionDefinition defUser, OptionDefinition defPassword) {
+	public PasswordCheckResult checkPassword(CommandLineParser parser, Options options, String[] args, LoginOptionValues loginOptionValues) {
+		
+		PasswordCheckResult result = new PasswordCheckResult();
+		result.setPasswordEntered(false);
 		
 		try {
 			parser.parse( options, args);
+			result.setPasswordEntered(true);
 		} catch (MissingOptionException e) {
 			
 			//Only if password is the one and only thing that is mssing
-			if (e.getMessage().equals("-" + defPassword.getLongKey()))
+			if (e.getMessage().equals("--" + loginOptionValues.getPassword().getLongKey()))
 			{
 				List argList = new ArrayList();
 				argList.addAll(Arrays.asList(args));
 				
-				int hostIndex = argList.indexOf("-" + defHost.getLongKey());
+				int hostIndex = argList.indexOf("-" + loginOptionValues.getHost().getLongKey());
 				if (hostIndex > -1 && argList.size() > hostIndex+1)
 				{
-					int userIndex = argList.indexOf("-" + defUser.getLongKey());
+					int userIndex = argList.indexOf("--" + loginOptionValues.getUser().getLongKey());
 					String user = "";
 					if (userIndex > -1 && argList.size() > userIndex+1)
 					{
@@ -478,8 +544,8 @@ public abstract class CimCommand {
 					}
 					WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages"},locale);
 					try {
-						char [] password = PasswordField.getPassword(System.in, bundle.getString("enter.password.for.cimom",new Object[]{user + argList.get(hostIndex+1)}));
-						argList.add("-" + defPassword.getLongKey());
+						char [] password = PasswordField.getPassword(commandValues.getIn(), bundle.getString("enter.password.for.cimom",new Object[]{user + argList.get(hostIndex+1)}));
+						argList.add("--" + loginOptionValues.getPassword().getLongKey());
 						if (password != null)
 						{
 							argList.add(String.valueOf(password));
@@ -490,18 +556,27 @@ public abstract class CimCommand {
 						}
 						
 						args = (String[]) argList.toArray(new String[argList.size()]);
+						result.setPasswordEntered(true);
 					} catch (Exception e1) {
 						logger.log(Level.SEVERE,"Cannot get Password",e1);
 					}
 				}
 				
 			}
+			//other parameters are okay
+			else
+			{
+				result.setPasswordEntered(true);
+			}
 		} catch (ParseException e) {
-			// do nothing handled by the subclass we just want the Missing options
-			e.printStackTrace();
+			//do nothing handled by the subclass we just want the Missing options
+			//password was entered directly on the commandline
+			result.setPasswordEntered(true);
 		}
 		
-		return args;
+		result.setArgs(args);
+		
+		return result;
 	}
 
 	public void handleException(Throwable t,String[] args, Options options,OptionDefinition defPassword) {
@@ -526,7 +601,7 @@ public abstract class CimCommand {
 			
 			Message msg = ExceptionUtil.getEnduserExceptionText(t, locale, bundle, bundle, smtException, Level.FINE, "\n");
 			
-			System.err.println(bundle.getString("error.while.execution") + "\n" + msg.getMessageString());
+			commandValues.getErr().println(bundle.getString("error.while.execution") + "\n" + msg.getMessageString());
 		}
 	}
 	
@@ -566,12 +641,38 @@ public abstract class CimCommand {
 		}
 		else
 		{
-			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-			System.out.print(msg + " ");
+			BufferedReader in = new BufferedReader(commandValues.getIn());
+			commandValues.getOut().println(msg + " ");
 			String response = in.readLine();
 			return yes.equalsIgnoreCase(response);
 		}
 	}
 	
+	/**
+	 * Checks if the option was found in the arguments
+	 * @param args
+	 * @param option
+	 * @return
+	 */
+	protected boolean hasOption(String[] args, String option)
+	{
+		for (int i = 0; i < args.length; i++) {
+			String arg = args[i];
+			if (arg != null && arg.equals(option))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * update the resource Bundle
+	 * @param resourceBundle
+	 */
+	public void setResourceBundle(WbemSmtResourceBundle resourceBundle)
+	{
+		bundle = resourceBundle;
+	}
 
 }

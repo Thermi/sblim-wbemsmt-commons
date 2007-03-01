@@ -116,6 +116,11 @@ public class ResourceBundleManager
 		return getResourceBundle(array,locale,classLoader, true);
 	}
 
+	public static synchronized WbemSmtResourceBundle reloadResourceBundle(String[] array, Locale locale, ClassLoader[] classLoader)
+	{
+		return getResourceBundle(array,locale,classLoader, true);
+	}
+
 	public static synchronized WbemSmtResourceBundle getResourceBundle(String[] array,Locale locale)
 	{
 		return getResourceBundle(array,locale,false);
@@ -126,9 +131,15 @@ public class ResourceBundleManager
 		return getResourceBundle(array,locale,classLoader, false);
 	}
 
+	public static synchronized WbemSmtResourceBundle getResourceBundle(String[] array,Locale locale,ClassLoader[] classLoader)
+	{
+		return getResourceBundle(array,locale,classLoader, false);
+	}
+
 	public static synchronized WbemSmtResourceBundle getResourceBundle(String[] array,Locale locale, boolean forceLoading)
 	{
-		return getResourceBundle(array,locale,null, false);
+		ClassLoader loader = null;
+		return getResourceBundle(array,locale,loader, false);
 	}	
 	/**
 	 * loads all the given ResourceBundle in the given order. New read resorceBundles are added to existing ones.
@@ -152,13 +163,32 @@ public class ResourceBundleManager
 		return result;
 	}
 
-	private static WbemSmtResourceBundle loadBundle(String[] array, Locale locale, ClassLoader classLoader)
+	
+	/**
+	 * loads all the given ResourceBundle in the given order. New read resorceBundles are added to existing ones.
+	 * If there exists a entry with the same key in two bundles the value of that resourceBundle which is last in Array is used.
+	 * @param array The Names of the Properties (e.g. use new String[]{"messages","messagesDns"} to first read the messages.properties and then overwrite this bundle with the messagesDns ResourceBundle
+	 * @param locale the Locale which to load.
+	 *
+	 * The loaded ResourceBundle is cached.
+	 * 
+	 * @return
+	 */
+	public static synchronized WbemSmtResourceBundle getResourceBundle(String[] array,Locale locale, ClassLoader[] classLoader, boolean forceLoading)
 	{
-		if (classLoader==null)
+		String key = Arrays.asList(array) + locale.toString();
+		WbemSmtResourceBundle result = (WbemSmtResourceBundle) instances.get(key);
+		if (result == null || forceLoading)
 		{
-			classLoader = WbemSmtResourceBundle.class.getClassLoader();
-			logger.fine("Using defalt classloader of Class " + WbemSmtResourceBundle.class.getName());
+			result = loadBundle(array,locale, classLoader);
+			instances.put(key,result);
 		}
+		return result;
+	}
+	
+	private static WbemSmtResourceBundle loadBundle(String[] array, Locale locale, ClassLoader[] classLoader)
+	{
+		ClassLoader defaultClassLoader = WbemSmtResourceBundle.class.getClassLoader();
 
 		WbemSmtResourceBundle result = new WbemSmtResourceBundle();
 		result.setLocale(locale);
@@ -166,15 +196,62 @@ public class ResourceBundleManager
 		
 		for (int i = 0; i < array.length; i++) {
 			String bundleName = array[i];
-			logger.fine("Loading Bundle " + bundleName + " for Locale " + locale + " with classLoader " + classLoader.toString());
-			try {
-				ResourceBundle bundle = ResourceBundle.getBundle(bundleName,locale, classLoader);
-				result.add(bundle);
-			} catch (MissingResourceException e) {
-				logger.severe("Cannot load bundle " + bundleName + " Evtl. this is a bundle of a task, defined in tasklaucher-config.xml but the jar-File with this resourceBundle is not deployed.");
+			boolean found = false;
+			for (int j = 0; j < classLoader.length && !found; j++) {
+				ClassLoader loader = classLoader[j];
+				if (loader !=null)
+				{
+					found = loadBundle(bundleName, locale, loader, result);		
+				}
+			}
+			if (!found)
+			{
+				found = loadBundle(bundleName, locale, defaultClassLoader, result);
 			}
 		}
 		return result;
+	}
+
+	
+	private static WbemSmtResourceBundle loadBundle(String[] array, Locale locale, ClassLoader classLoader)
+	{
+		ClassLoader defaultClassLoader = WbemSmtResourceBundle.class.getClassLoader();
+		if (classLoader==null)
+		{
+			classLoader = defaultClassLoader;
+			logger.fine("Using defalt classloader of Class " + WbemSmtResourceBundle.class.getName());
+		}
+
+		WbemSmtResourceBundle result = new WbemSmtResourceBundle();
+		result.setLocale(locale);
+		result.setBundleNames(array);
+		
+		
+		for (int i = 0; i < array.length; i++) {
+			String bundleName = array[i];
+			boolean ok = false;
+			if (classLoader != null)
+			{
+				ok = loadBundle(bundleName, locale, classLoader,result);
+			}
+			if (!ok)
+			{
+				loadBundle(bundleName, locale, defaultClassLoader,result);
+			}
+		}
+		return result;
+	}
+
+	private static boolean loadBundle(String bundleName, Locale locale, ClassLoader classLoader, WbemSmtResourceBundle result) {
+		logger.fine("Loading Bundle " + bundleName + " for Locale " + locale + " with classLoader " + classLoader.toString());
+		try {
+			ResourceBundle bundle = ResourceBundle.getBundle(bundleName,locale, classLoader);
+			result.add(bundle);
+			return true;
+		} catch (MissingResourceException e) {
+			logger.severe("Cannot load bundle " + bundleName + " Evtl. this is a bundle of a task, defined in tasklaucher-config.xml but the jar-File with this resourceBundle is not deployed.");
+		}
+		return false;
 	}
 	
 	public static void writeMissingTranslation(String key)

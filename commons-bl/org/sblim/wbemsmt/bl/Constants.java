@@ -30,7 +30,6 @@ public class Constants {
 	private static final String BUNDLE_NAME_GENERATOR = "org.sblim.wbemsmt.dcg.generator.messages";
 
 	public static WbemSmtResourceBundle RESOURCE_BUNDLE = ResourceBundleManager.getResourceBundle(new String[]{BUNDLE_NAME,BUNDLE_NAME_GENERATOR});
-	public static final String NO_DEFAULT_VALUE = "noDefaultValue";
 
 	private Constants() {}
 

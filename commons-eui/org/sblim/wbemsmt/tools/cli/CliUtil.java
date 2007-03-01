@@ -36,7 +36,6 @@ import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
-import org.sblim.wbemsmt.bl.Constants;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
 public class CliUtil {
@@ -100,14 +99,29 @@ public class CliUtil {
 		
 		try {
 			String longKey = definition.getLongKey();
-			
-			String strLongKey = props.getProperty(commandlet.getCommandName() + "." + longKey,""+longKey).trim();
-			definition.setLongKey( strLongKey );
-			
-			if (longKey != null && longKey.length() > 0)
+			if (longKey != null)
 			{
-				longKey = props.getProperty(commandlet.getCommandName() + "." + longKey,""+longKey).trim();
-				definition.setLongKey(longKey);
+				String strLongKey = props.getProperty(commandlet.getCommandName() + "." + longKey,""+longKey).trim();
+				definition.setLongKey( strLongKey );
+				
+				if (longKey != null && longKey.length() > 0)
+				{
+					longKey = props.getProperty(commandlet.getCommandName() + "." + longKey,""+longKey).trim();
+					definition.setLongKey(longKey);
+				}
+			}
+
+			String shortKey = definition.getShortKey();
+			if (shortKey != null)
+			{
+				String strShortKey = props.getProperty(commandlet.getCommandName() + "." + shortKey,""+shortKey).trim();
+				definition.setShortKey( strShortKey );
+				
+				if (shortKey != null && shortKey.length() > 0)
+				{
+					shortKey = props.getProperty(commandlet.getCommandName() + "." + shortKey,""+shortKey).trim();
+					definition.setShortKey(shortKey);
+				}
 			}
 			
 			
@@ -147,7 +161,7 @@ public class CliUtil {
 
 		if (defaultValue && !required)
 		{
-			if (definition.getDefaultValue().equals(Constants.NO_DEFAULT_VALUE))
+			if (definition.getDefaultValue() == null)
 			{
 				properties.add(bundle.getString("command.noDefault"));
 			}
@@ -167,25 +181,36 @@ public class CliUtil {
 			description.append(properties.get(i));
 		}
 		
-		//Buttons havong no argNames
-		if (definition.getArgName() == null)
+		boolean hasArgs = definition.getArgName() != null;
+		if (hasArgs)
 		{
-				OptionBuilder.isRequired(required);
-				OptionBuilder.withDescription( description.toString() );
-				return OptionBuilder.create( definition.getLongKey());
+			OptionBuilder.hasArg(true);
+			OptionBuilder.withArgName( bundle.getString(definition.getArgName()) );
 		}
 		else
 		{
-				String arg = bundle.getString(definition.getArgName());
-				OptionBuilder.withArgName( arg );
-				OptionBuilder.isRequired(required);
-				OptionBuilder.hasArg();
-				OptionBuilder.withDescription( description.toString() );
-				return OptionBuilder.create( definition.getLongKey());
-				
+			OptionBuilder.hasArg(false);
+		}
+		OptionBuilder.isRequired(required);
+		OptionBuilder.withDescription( description.toString() );
+		
+		if (definition.getLongKey() != null)
+		{
+			OptionBuilder.withLongOpt(definition.getLongKey());
 		}
 		
+		Option result = null;
 		
+		if (definition.getShortKey() != null)
+		{
+			result = OptionBuilder.create( definition.getShortKey() );
+		}
+		else
+		{
+			result = OptionBuilder.create( );
+		}
+		
+		return result;
 		
 	}
 	

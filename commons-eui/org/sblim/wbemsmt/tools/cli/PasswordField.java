@@ -20,8 +20,8 @@
 package org.sblim.wbemsmt.tools.cli;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PushbackInputStream;
+import java.io.PushbackReader;
+import java.io.Reader;
 import java.util.Arrays;
 
 public class PasswordField {
@@ -31,7 +31,7 @@ public class PasswordField {
 	   *@return The password as entered by the user.
 	   */
 
-	   public static final char[] getPassword(InputStream in, String prompt) throws IOException {
+	   public static final char[] getPassword(Reader in, String prompt) throws IOException {
 	      MaskingThread maskingthread = new MaskingThread(prompt);
 	      Thread thread = new Thread(maskingthread);
 	      thread.start();
@@ -54,10 +54,10 @@ public class PasswordField {
 	            case '\r':
 	               int c2 = in.read();
 	               if ((c2 != '\n') && (c2 != -1)) {
-	                  if (!(in instanceof PushbackInputStream)) {
-	                     in = new PushbackInputStream(in);
+	                  if (!(in instanceof PushbackReader)) {
+	                     in = new PushbackReader(in);
 	                  }
-	                  ((PushbackInputStream)in).unread(c2);
+	                  ((PushbackReader)in).unread(c2);
 	                } else {
 	                  break loop;
 	                }

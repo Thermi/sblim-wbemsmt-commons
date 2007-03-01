@@ -87,7 +87,11 @@ public class Cli {
 			argList = new ArrayList(argList.subList(1,argList.size()));
 			args = (String[]) argList.toArray(new String[argList.size()]);
 			commandlet.beforeExecute();
-			commandlet.execute(args);
+			CimCommandValues values = commandlet.prepare(args);
+			if (values.isExecute())
+			{
+				commandlet.execute(values);
+			}
 			commandlet.afterExecute();
 			
 		} catch (CommandNotFoundException e) {
@@ -147,7 +151,8 @@ public class Cli {
 			System.out.println(commandlet.getCommandName());
 			try {
 				commandlet.beforeExecute();
-				commandlet.execute(new String[]{"--help"});
+				CimCommandValues values = commandlet.prepare(new String[]{"-h"});
+				commandlet.execute(values);
 			} catch (WbemSmtException e) {
 				System.err.println("Cannot get help for command " + commandlet.getCommandName());
 				e.printStackTrace();
@@ -171,7 +176,7 @@ public class Cli {
 		
 		String localeString = null;
 		
-		String[] options = new String[]{"-locale"};
+		String[] options = new String[]{"--locale","-L"};
 		for (int i = 0; i < args.length && localeString == null; i++) {
 			String arg = args[i];
 			for (int j = 0; j < options.length && localeString == null; j++) {

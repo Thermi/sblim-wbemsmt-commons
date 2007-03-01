@@ -19,7 +19,10 @@
   */
 package org.sblim.wbemsmt.tools.cli;
 
+import java.text.MessageFormat;
+
 public class OptionDefinition {
+	private String shortKey;
 	private String longKey;
 	private String defaultValue;
 	private boolean required;
@@ -37,14 +40,43 @@ public class OptionDefinition {
 	 * @param readOnly is the value readOnly (keyFields)
 	 * @param bundleKey the resourceBundleKey for the Description value for the argument (later use: -a, --ALong &lt;ArgName&gt; , Description
 	 */
-	public OptionDefinition(String longKey, String defaultValue, String argName, boolean required, boolean readOnly,String bundleKey)
+	public OptionDefinition(String shortKey, String longKey, String defaultValue, String argName, boolean required, boolean readOnly,String bundleKey)
 	{
+		this.shortKey = shortKey;
 		this.longKey = longKey;
 		this.defaultValue = defaultValue;
 		this.argName = argName;
 		this.required = required;
 		this.readOnly = readOnly;
 		this.bundleKey = bundleKey;
+	}
+
+	/**
+	 * creates the Argument for Creating a Instance at runtime
+	 * @return
+	 * @see OptionDefinition#OptionDefinition(String, String, String, String, boolean, boolean, String)
+	 */
+	public static String getArgsForConstructor(String shortKey, String longKey, String defaultValue, String argName, boolean required, boolean readOnly,String bundleKey)
+	{
+		//OptionDefinition(String shortKey, String longKey, String defaultValue, String argName, boolean required, boolean readOnly,String bundleKey)
+		String template = "{0},{1},{2},{3},{4},{5},{6}";
+		return MessageFormat.format(template, new Object[]{
+				quoteIfNotNull(shortKey),
+				quoteIfNotNull(longKey),
+				quoteIfNotNull(defaultValue),
+				quoteIfNotNull(argName),
+				new Boolean(required),
+				new Boolean(readOnly),
+				quoteIfNotNull(bundleKey)});
+	}
+	
+	/**
+	 * Puts the string in "" if the string is not null
+	 * @param string
+	 * @return
+	 */
+	private static Object quoteIfNotNull(String string) {
+		return string != null ? "\"" + string + "\"" : null;
 	}
 
 	public String getLongKey() {
@@ -94,8 +126,14 @@ public class OptionDefinition {
 	public void setBundleKey(String bundleKey) {
 		this.bundleKey = bundleKey;
 	}
-	
-	
+
+	public String getShortKey() {
+		return shortKey;
+	}
+
+	public void setShortKey(String shortKey) {
+		this.shortKey = shortKey;
+	}
 	
 
 	
