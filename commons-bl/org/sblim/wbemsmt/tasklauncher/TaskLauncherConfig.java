@@ -39,12 +39,14 @@ import org.sblim.wbemsmt.filter.EmbeddedFilter;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.CimomDocument;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TasklauncherconfigDocument;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TreeconfigDocument;
+import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.Version;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.CimomDocument.Cimom;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.FcoPackageDocument.FcoPackage;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.ResourceBundleDocument.ResourceBundle;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TasklauncherconfigDocument.Tasklauncherconfig;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TreeconfigDocument.Treeconfig;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TreeconfigReferenceDocument.TreeconfigReference;
+import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.Version.Enum;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
@@ -76,6 +78,8 @@ public class TaskLauncherConfig
 	private String configFilename = null;
 	
 	public final static int DEFAULT_PORT = 5988;
+
+	private static final Enum SUPPORTED_VERSION_TASKLAUNCHER_CONFIG = Version.VERSION_2_0;
 	
     private static Logger logger = Logger.getLogger(TaskLauncherConfig.class.getName());
     private Vector cimomData;
@@ -138,6 +142,9 @@ public class TaskLauncherConfig
         {
         	//The config doc
 			tasklauncherConfigDoc = TasklauncherconfigDocument.Factory.parse(configFile);
+			
+			checkVersion(configFile,tasklauncherConfigDoc.getTasklauncherconfig());
+			
 			addTasks(tasklauncherConfigDoc.getTasklauncherconfig());
 			
 			//if no cimoms were found
@@ -154,6 +161,16 @@ public class TaskLauncherConfig
         	throw new WbemSmtException(bundle.getString("cannot.load.config.file", new Object[]{configFile.getAbsolutePath()}));
         }
     }
+
+	private void checkVersion(File f, Tasklauncherconfig tasklauncherconfig) throws WbemSmtException {
+		
+		if (tasklauncherconfig.getVersion() == null || ! tasklauncherconfig.getVersion().equals(SUPPORTED_VERSION_TASKLAUNCHER_CONFIG))
+		{
+			String msg = "Model-Version " + tasklauncherconfig.getVersion() + " of file " + f.getAbsolutePath() + " is not supported.\nPlease upgrade to Version " + SUPPORTED_VERSION_TASKLAUNCHER_CONFIG;
+			throw new WbemSmtException(msg);
+		}
+		
+	}
 
 	private void readConfig(TasklauncherconfigDocument tasklauncherConfig) {
 
@@ -563,38 +580,41 @@ public class TaskLauncherConfig
 	 */
 	private void addTasks(Tasklauncherconfig tasklauncherconfig) {
 		File taskXML = null;
- 		try {
 			File[] files = getTaskXMLs();
 			for (int i = 0; i < files.length; i++) {
-				taskXML = files[i];
-				Treeconfig treeConfigToAdd = TasklauncherconfigDocument.Factory.parse(taskXML).getTasklauncherconfig().getTreeconfigArray(0);
-				
-				//check if the task is wanted
-				boolean add = true;
-				if (treeConfigs != null && treeConfigs.size() > 0)
-				{
-					add = false;
-					for (Iterator iter = treeConfigs.iterator(); !add && iter.hasNext();) {
-						TreeConfigData treeConfigData = (TreeConfigData) iter.next();
-						if (treeConfigData.getName().equals(treeConfigToAdd.getName()))
-						{
-							add = true;
+				try {
+					taskXML = files[i];
+					Tasklauncherconfig tasklauncherconfigToAdd = TasklauncherconfigDocument.Factory.parse(taskXML).getTasklauncherconfig();
+					//Throws Exception if version is wrong
+					checkVersion(taskXML, tasklauncherconfigToAdd);
+					Treeconfig treeConfigToAdd = tasklauncherconfigToAdd.getTreeconfigArray(0);
+					
+					//check if the task is wanted
+					boolean add = true;
+					if (treeConfigs != null && treeConfigs.size() > 0)
+					{
+						add = false;
+						for (Iterator iter = treeConfigs.iterator(); !add && iter.hasNext();) {
+							TreeConfigData treeConfigData = (TreeConfigData) iter.next();
+							if (treeConfigData.getName().equals(treeConfigToAdd.getName()))
+							{
+								add = true;
+							}
 						}
 					}
-				}
-				if (add)
-				{
-					Treeconfig treeconfig = tasklauncherconfig.addNewTreeconfig();
-					treeconfig.set(treeConfigToAdd.copy());
-				}
-				else
-				{
-					logger.log(Level.INFO,"Treeconfig " + treeConfigToAdd.getName() + " was not added because the TreeConfig was not in the include list");
+					if (add)
+					{
+						Treeconfig treeconfig = tasklauncherconfig.addNewTreeconfig();
+						treeconfig.set(treeConfigToAdd.copy());
+					}
+					else
+					{
+						logger.log(Level.INFO,"Treeconfig " + treeConfigToAdd.getName() + " was not added because the TreeConfig was not in the include list");
+					}
+				} catch (Exception e) {
+					logger.log(Level.SEVERE,"Cannot load xml-Taskfile " + taskXML,e); 
 				}
 			}
-		} catch (Exception e) {
-			logger.log(Level.SEVERE,"Cannot load xml-Taskfile " + taskXML,e); 
-		}
 	}
 
 	public File[] getTaskXMLs() {

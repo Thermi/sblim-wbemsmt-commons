@@ -18,6 +18,7 @@
 				<xs:element ref="tasklauncher:cimom" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="tasklauncher:treeconfig" maxOccurs="unbounded"/>
 			</xs:sequence>
+			<xs:attribute name="version" type="tasklauncher:version" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="treeconfig">
@@ -48,4 +49,16 @@
 			<xs:attribute name="name" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+		<xs:simpleType name="version">
+        <xs:annotation>
+        	<xs:documentation>
+        	Versions
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+			<xs:enumeration value="VERSION_2_0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
 </xs:schema>
