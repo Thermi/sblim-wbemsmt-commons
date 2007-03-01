@@ -72,14 +72,6 @@ public abstract class TreeSelector
         }
     }
     
-    public void saveCurrentTreeConfig()
-    {
-        if(currentTreeName != null)
-        {
-            getCurrentTreeFactory().saveTreeConfig();
-        }
-    }
-
 	public void reloadConfig(String runtimeMode) throws WbemSmtException {
 		taskLauncherController.getTaskLauncherConfig().reload(runtimeMode);
 		Vector cimomData = taskLauncherController.getTaskLauncherConfig().getCimomData();

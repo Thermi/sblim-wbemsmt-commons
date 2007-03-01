@@ -21,7 +21,6 @@ package org.sblim.wbemsmt.filter;
 
 import java.util.logging.Logger;
 
-import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument.Treenode;
 
 public abstract class EmbeddedFilter {
@@ -31,10 +30,10 @@ public abstract class EmbeddedFilter {
 	
 	/**
 	 * Implementors should filter the source and give back the modified version
-	 * @param treeDocument
+	 * @param rootNode
 	 * @return the filtered model
 	 */
-	public abstract Treenode filter ( TreenodeDocument treeDocument );
+	public abstract Treenode filter ( Treenode rootNode );
 	
 
 }

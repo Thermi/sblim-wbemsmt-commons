@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema targetNamespace="http://sblim.org/wbemsmt/tasklauncher/customtreeconfig" xmlns:tasklauncher="http://sblim.org/wbemsmt/tasklauncher/customtreeconfig" xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified">
+<schema targetNamespace="http://sblim.org/wbemsmt/tasklauncher/customtreeconfig" xmlns:cus="http://sblim.org/wbemsmt/tasklauncher/customtreeconfig" xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified">
+	<element name="customtreeconfig">
+		<complexType>
+			<sequence>
+				<element ref="cus:treenode" minOccurs="1" maxOccurs="1"/>
+			</sequence>
+			<attribute name="version" type="cus:version" use="required"/>
+		</complexType>
+	</element>
 	<element name="treenode">
 		<complexType>
 			<sequence>
-				<element ref="tasklauncher:description" minOccurs="1" maxOccurs="1"/>
-				<element ref="tasklauncher:eventListener" minOccurs="0" maxOccurs="unbounded"/>
-                <element ref="tasklauncher:cimclass" minOccurs="0" maxOccurs="1"/>
-                <element ref="tasklauncher:ciminstance" minOccurs="0" maxOccurs="1"/>
-                <element ref="tasklauncher:contextmenu" minOccurs="0" maxOccurs="1"/>
-				<element ref="tasklauncher:treenode" minOccurs="0" maxOccurs="unbounded"/>
+				<element ref="cus:description" minOccurs="1" maxOccurs="1"/>
+				<element ref="cus:eventListener" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="cus:cimclass" minOccurs="0" maxOccurs="1"/>
+                <element ref="cus:ciminstance" minOccurs="0" maxOccurs="1"/>
+                <element ref="cus:contextmenu" minOccurs="0" maxOccurs="1"/>
+				<element ref="cus:treenode" minOccurs="0" maxOccurs="unbounded"/>
 			</sequence>
 		</complexType>
 	</element>
@@ -16,19 +24,19 @@
 	<element name="cimclass">
 		<complexType>
 			<sequence>
-				<element ref="tasklauncher:classname" minOccurs="1"
+				<element ref="cus:classname" minOccurs="1"
 					maxOccurs="1" />
-				<element ref="tasklauncher:depth" minOccurs="0"
+				<element ref="cus:depth" minOccurs="0"
 					maxOccurs="1" />
-				<element ref="tasklauncher:association" minOccurs="0"
+				<element ref="cus:association" minOccurs="0"
 					maxOccurs="1" />
-				<element ref="tasklauncher:instanceSubnodes"
+				<element ref="cus:instanceSubnodes"
 					minOccurs="0" maxOccurs="1" />
 				<choice>
-					<element ref="tasklauncher:instanceNamingClass" maxOccurs="1"></element>
-					<element ref="tasklauncher:instanceNamingKey" maxOccurs="1"></element>
+					<element ref="cus:instanceNamingClass" maxOccurs="1"></element>
+					<element ref="cus:instanceNamingKey" maxOccurs="1"></element>
 				</choice>
-				<element ref="tasklauncher:filter" minOccurs="0"
+				<element ref="cus:filter" minOccurs="0"
 					maxOccurs="1" />
 			</sequence>
 		</complexType>
@@ -36,30 +44,30 @@
 	<element name="ciminstance">
 		<complexType>
 			<sequence>
-                <element ref="tasklauncher:classname" minOccurs="1" maxOccurs="1"/>
-                <element ref="tasklauncher:keyproperty" minOccurs="1" maxOccurs="unbounded"/>
+                <element ref="cus:classname" minOccurs="1" maxOccurs="1"/>
+                <element ref="cus:keyproperty" minOccurs="1" maxOccurs="unbounded"/>
 			</sequence>
 		</complexType>
 	</element>
 	<element name="cimassociation">
 		<complexType>
 			<sequence>
-                <element ref="tasklauncher:classname" minOccurs="1" maxOccurs="1"/>
-                <element ref="tasklauncher:instanceSubnodes" minOccurs="0" maxOccurs="1"/>
+                <element ref="cus:classname" minOccurs="1" maxOccurs="1"/>
+                <element ref="cus:instanceSubnodes" minOccurs="0" maxOccurs="1"/>
 			</sequence>
 		</complexType>
 	</element>
 	<element name="keyproperty">
 		<complexType>
 			<sequence>
-                <element ref="tasklauncher:property-name" minOccurs="1" maxOccurs="1"/>
-                <element ref="tasklauncher:property-datatype" minOccurs="1" maxOccurs="1"/>
-                <element ref="tasklauncher:property-value" minOccurs="1" maxOccurs="1"/>
+                <element ref="cus:property-name" minOccurs="1" maxOccurs="1"/>
+                <element ref="cus:property-datatype" minOccurs="1" maxOccurs="1"/>
+                <element ref="cus:property-value" minOccurs="1" maxOccurs="1"/>
 			</sequence>
 		</complexType>
 	</element>
 	<element name="property-name" type="string"/>
-	<element name="property-datatype" type="tasklauncher:cimdatatype"/>
+	<element name="property-datatype" type="cus:cimdatatype"/>
 	<element name="property-value" type="string"/>
 	<element name="depth" type="integer"/>
 	<element name="association">
@@ -72,9 +80,9 @@
 	<element name="instanceSubnodes">
 		<complexType>
 			<sequence>
-				<element ref="tasklauncher:treenode" minOccurs="0" maxOccurs="unbounded"/>
-				<element ref="tasklauncher:eventListener" minOccurs="0" maxOccurs="unbounded"/>
-	    		<element ref="tasklauncher:contextmenu" minOccurs="0" maxOccurs="1"/>
+				<element ref="cus:treenode" minOccurs="0" maxOccurs="unbounded"/>
+				<element ref="cus:eventListener" minOccurs="0" maxOccurs="unbounded"/>
+	    		<element ref="cus:contextmenu" minOccurs="0" maxOccurs="1"/>
 			</sequence>
 		</complexType>
 	</element>
@@ -85,8 +93,8 @@
 		</annotation>
 		<complexType>
 			<sequence>
-                <element ref="tasklauncher:classname" minOccurs="1" maxOccurs="1"/>
-				<element ref="tasklauncher:param" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="cus:classname" minOccurs="1" maxOccurs="1"/>
+				<element ref="cus:param" minOccurs="0" maxOccurs="unbounded"/>
 			</sequence>
             <attribute name="isSystemListener" type="boolean" use="optional" default="false"></attribute>
 		</complexType>
@@ -94,23 +102,23 @@
 	<element name="contextmenu">
 		<complexType>
 			<sequence>
-                <element ref="tasklauncher:menuitem" minOccurs="1" maxOccurs="unbounded"/>
+                <element ref="cus:menuitem" minOccurs="1" maxOccurs="unbounded"/>
 			</sequence>
 		</complexType>
 	</element>
 	<element name="menuitem">
 		<complexType>
             <sequence>
-                <element ref="tasklauncher:description" minOccurs="1" maxOccurs="1"/>
-                <element ref="tasklauncher:eventListener" minOccurs="0" maxOccurs="1"/>
+                <element ref="cus:description" minOccurs="1" maxOccurs="1"/>
+                <element ref="cus:eventListener" minOccurs="0" maxOccurs="1"/>
             </sequence>
 		</complexType>
 	</element>
 	<element name="param">
 		<complexType>
 			<sequence>
-                <element ref="tasklauncher:param-name" minOccurs="1" maxOccurs="1"/>
-                <element ref="tasklauncher:param-value" minOccurs="1" maxOccurs="1"/>
+                <element ref="cus:param-name" minOccurs="1" maxOccurs="1"/>
+                <element ref="cus:param-value" minOccurs="1" maxOccurs="1"/>
 			</sequence>
 		</complexType>
 	</element>
@@ -118,7 +126,7 @@
 		<complexType>
 			<sequence>
 				<element name="classname" type="string" maxOccurs="1" minOccurs="1"></element>
-				<element ref="tasklauncher:param" maxOccurs="unbounded" minOccurs="0">
+				<element ref="cus:param" maxOccurs="unbounded" minOccurs="0">
 				</element>
 			</sequence>
 		</complexType>
@@ -127,7 +135,7 @@
 		<complexType>
 			<sequence>
 				<element name="classname" type="string" maxOccurs="1" minOccurs="1"></element>
-				<element ref="tasklauncher:param" maxOccurs="unbounded" minOccurs="0">
+				<element ref="cus:param" maxOccurs="unbounded" minOccurs="0">
 				</element>
 			</sequence>
 		</complexType>
@@ -151,6 +159,17 @@
 			<enumeration value="REAL64"/>
 			<enumeration value="DATETIME"/>
 			<enumeration value="CHAR16"/>
+		</restriction>
+	</simpleType>
+	
+	<simpleType name="version">
+        <annotation>
+        	<documentation>
+        	Versions
+        	</documentation>
+        </annotation>
+        <restriction base="string">
+			<enumeration value="VERSION_2_0"/>
 		</restriction>
 	</simpleType>
 </schema>

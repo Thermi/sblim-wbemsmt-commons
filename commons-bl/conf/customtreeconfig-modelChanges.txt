@@ -1,0 +1,7 @@
+2007-03-01 12:55  michael.bauschert@de.ibm.com
+
+Update from unknown to VERSION_2_0
+
+	- ADD new Root-Element customtreeconfig
+ 	- ADD Attribute version to root-element customtreeconfig (version="VERSION_2_0")
+ 	

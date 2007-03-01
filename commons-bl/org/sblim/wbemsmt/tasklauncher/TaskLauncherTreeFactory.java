@@ -46,13 +46,11 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
     private static final Logger logger = Logger.getLogger(TaskLauncherTreeFactory.class.getName());
     
     private List rootNodes = new ArrayList();
-    private CustomTreeConfig[] customTreeConfigs = new CustomTreeConfig[]{};
 
     public TaskLauncherTreeFactory(CIMClient cimClient, List customTreeConfigs) throws ModelLoadException
     { 
     	if (customTreeConfigs != null)
     	{
-    		this.customTreeConfigs = (CustomTreeConfig[]) customTreeConfigs.toArray(new CustomTreeConfig[customTreeConfigs.size()]);
         	for (Iterator iter = customTreeConfigs.iterator(); iter.hasNext();) {
     			CustomTreeConfig customTreeConfig = (CustomTreeConfig) iter.next();
     			if (customTreeConfig.isLoaded() && customTreeConfig.serverTaskExists(cimClient))
@@ -106,16 +104,6 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
     	return rootNodes;
     }
     
-    public void saveTreeConfig()
-    {
-        if(customTreeConfigs != null)
-        {
-        	for (int i = 0; i < customTreeConfigs.length; i++) {
-        		customTreeConfigs[i].saveConfig();
-			}
-        }
-    }
-
     /**
      * Updates the current Cimom Treenodes
      * @param cimomDataArray

@@ -19,28 +19,30 @@
 package org.sblim.wbemsmt.tasklauncher;
 
 import java.io.File;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.xmlbeans.XmlException;
 import org.sblim.wbem.client.CIMClient;
+import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.filter.EmbeddedFilter;
 import org.sblim.wbemsmt.lookup.Lookup;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.TreeConfigData;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CimclassDocument;
+import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CustomtreeconfigDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.EventListenerDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument;
+import org.sblim.wbemsmt.tasklauncher.customtreeconfig.Version;
+import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CustomtreeconfigDocument.Customtreeconfig;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
 public class CustomTreeConfig
 {
-    private static Logger logger = Logger.getLogger(CustomTreeConfig.class.getName());
+    private static final Object SUPPORTED_VERSION_TREE_CONFIG = Version.VERSION_2_0;
+	private static Logger logger = Logger.getLogger(CustomTreeConfig.class.getName());
     private String filename;
     
-    private TreenodeDocument treeDocument;
     private TreenodeDocument.Treenode rootNode;
 	private final TreeConfigData treeConfigData;
 	private boolean loaded = false;
@@ -68,7 +70,10 @@ public class CustomTreeConfig
             try
             {
                 logger.log(Level.INFO, "Reading config from " + treeConfigUrl + filename);
-                treeDocument = TreenodeDocument.Factory.parse(treeConfigUrl);
+                
+                rootNode = CustomtreeconfigDocument.Factory.parse(treeConfigUrl).getCustomtreeconfig().getTreenode();
+                
+                checkVersion(treeConfigUrl, CustomtreeconfigDocument.Factory.parse(treeConfigUrl).getCustomtreeconfig());
                 
                 //use the define filter to get the rootNode if we are running in embedded mode
                 if (RuntimeUtil.getInstance().isEmbeddedMode())
@@ -76,26 +81,21 @@ public class CustomTreeConfig
                 	EmbeddedFilter embeddedFilter = treeConfigData.getEmbeddedFilter();
                 	if (embeddedFilter != null)
                 	{
-                		this.rootNode = embeddedFilter.filter(treeDocument);
+                		this.rootNode = embeddedFilter.filter(rootNode);
                 	}
                 }
                 if (this.rootNode == null)
                 {
                 	//reload the Model because evtl the filter had destoryed the old one
-                	treeDocument = TreenodeDocument.Factory.parse(treeConfigUrl);
-                	this.rootNode = treeDocument.getTreenode();
+                	rootNode = CustomtreeconfigDocument.Factory.parse(treeConfigUrl).getCustomtreeconfig().getTreenode();
                 }
                 
                 
                 loaded = true;
             }
-            catch(IOException e)
+            catch(Exception e)
             {
-                logger.log(Level.SEVERE, "IO Error while loading config file " + treeConfigUrl, e.getLocalizedMessage());
-            }
-            catch(XmlException e)
-            {
-                logger.log(Level.SEVERE, "Error while reading config file " + treeConfigUrl, e.getLocalizedMessage());
+                logger.log(Level.SEVERE, "Error while reading config file " + treeConfigUrl, e);
             }  
     	}
     	else
@@ -118,18 +118,6 @@ public class CustomTreeConfig
 		    );
 		return treeConfigUrl;
 	}
-    
-    public void saveConfig()
-    {
-        this.printSubnodes(rootNode, 0);
-        try
-        {
-            File save = new File("savedconfig.xml");
-            logger.log(Level.INFO, "Saving Config to " + save.getAbsolutePath());
-            this.treeDocument.save(save);
-        }
-        catch(Exception e) { System.err.println(e.getMessage()); }
-    }
     
     public void printSubnodes(TreenodeDocument.Treenode node, int depth)
     {
@@ -209,6 +197,15 @@ public class CustomTreeConfig
 		return false;
 	}
 
+	private void checkVersion(URL url, Customtreeconfig treeconfig) throws WbemSmtException {
+		
+		if (treeconfig.getVersion() == null || ! treeconfig.getVersion().equals(SUPPORTED_VERSION_TREE_CONFIG))
+		{
+			String msg = "Model-Version " + treeconfig.getVersion() + " of " + url + " is not supported.\nPlease upgrade to Version " + SUPPORTED_VERSION_TREE_CONFIG;
+			throw new WbemSmtException(msg);
+		}
+		
+	}
 
 	
 	
