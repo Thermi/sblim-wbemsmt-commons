@@ -78,29 +78,51 @@ public abstract class EditBean extends JsfBase{
 	   
 	public String revert() throws ObjectRevertException
 	{
+		EditBean.revert(containers,bundle);
+		
+		return EditBean.PAGE_EDIT;
+	}
+	
+	public static MessageList revert(List containers, WbemSmtResourceBundle bundle) throws ObjectRevertException {
+
+		DataContainerUtil.clearContainerMessages(containers);
+		
 		for (Iterator iter = containers.iterator(); iter.hasNext();) {
 			DataContainer dataContainer = (DataContainer) iter.next();
 			dataContainer.getAdapter().revert(dataContainer);
+			if (MessageList.init(dataContainer).hasErrors())
+			{
+				return DataContainerUtil.getContainerMessages(containers);
+			}
 		}
 
 		for (Iterator iter = containers.iterator(); iter.hasNext();) {
 			DataContainer dataContainer = (DataContainer) iter.next();
 			try {
 				dataContainer.getAdapter().updateControls(dataContainer);
+				if (MessageList.init(dataContainer).hasErrors())
+				{
+					return DataContainerUtil.getContainerMessages(containers);
+				}
 			} catch (UpdateControlsException e) {
 				throw new ObjectRevertException("Cannot updateControls after Reverting the changes",e);
 			}
 		}
 		
-		return EditBean.PAGE_EDIT;
+		MessageList messages = DataContainerUtil.getContainerMessages(containers);
+		handleRevertResult(bundle,messages);
+		return messages;
 	}
-	
+
 	public abstract String save() throws ValidationException, ObjectSaveException;
 	public abstract void edit(ITaskLauncherTreeNode treeNode) throws ObjectNotFoundException, UpdateControlsException, CountException, InitContainerException;
 	public abstract HtmlPanelGrid getPanel();
 	public List getContainers() {
 		return containers;
 	}
+	
+	
+	
 	public void setContainers(List containers) {
 		this.containers = containers;
 	}
@@ -148,21 +170,44 @@ public abstract class EditBean extends JsfBase{
    {
 		if (messages.hasErrors())
 		{
-			JsfBase.addMessages(new Message(ErrCodes.MSG_SAVE_ERROR, Message.ERROR,bundle.getString(ErrCodes.MSG_SAVE_ERROR,"save.error")),messages, true);
+			JsfBase.addMessages(Message.create(ErrCodes.MSG_SAVE_ERROR, Message.ERROR,bundle,"save.error"),messages, true);
 		}
 		else
 		{
 			if (messages.hasWarning())
 			{
-				JsfBase.addMessages(new Message(ErrCodes.MSG_SAVE_WARNING, Message.WARNING,bundle.getString(ErrCodes.MSG_SAVE_WARNING,"save.warning")),messages, true);
+				JsfBase.addMessages(Message.create(ErrCodes.MSG_SAVE_WARNING, Message.WARNING,bundle,"save.warning"),messages, true);
 			}
 			else if (messages.hasInfo())
 			{
-				JsfBase.addMessages(new Message(ErrCodes.MSG_SAVE_INFO, Message.INFO,bundle.getString(ErrCodes.MSG_SAVE_INFO,"save.info")),messages, true);
+				JsfBase.addMessages(Message.create(ErrCodes.MSG_SAVE_INFO, Message.INFO,bundle,"save.info"),messages, true);
 			}
 			else
 			{
-				JsfBase.addMessage(new Message(ErrCodes.MSG_SAVE_SUCCESS, Message.SUCCESS,bundle.getString(ErrCodes.MSG_SAVE_SUCCESS,"save.success")));
+				JsfBase.addMessage(Message.create(ErrCodes.MSG_SAVE_SUCCESS, Message.SUCCESS,bundle,"save.success"));
+			}
+		}
+   }
+
+   public static void handleRevertResult(WbemSmtResourceBundle bundle, MessageList messages)
+   {
+		if (messages.hasErrors())
+		{
+			JsfBase.addMessages(Message.create(ErrCodes.MSG_CANCEL_ERROR, Message.ERROR,bundle,"revert.error"),messages, true);
+		}
+		else
+		{
+			if (messages.hasWarning())
+			{
+				JsfBase.addMessages(Message.create(ErrCodes.MSG_CANCEL_WARNING, Message.WARNING,bundle,"revert.warning"),messages, true);
+			}
+			else if (messages.hasInfo())
+			{
+				JsfBase.addMessages(Message.create(ErrCodes.MSG_CANCEL_INFO, Message.INFO,bundle,"revert.info"),messages, true);
+			}
+			else
+			{
+				JsfBase.addMessage(Message.create(ErrCodes.MSG_CANCEL_SUCCESS, Message.INFO,bundle,"revert.success"));
 			}
 		}
    }
@@ -337,4 +382,6 @@ public abstract class EditBean extends JsfBase{
     	ObjectActionControllerBean oac = (ObjectActionControllerBean) BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
     	oac.clearEditBeansModified();
     }
+
+
 }

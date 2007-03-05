@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 
+import org.sblim.wbemsmt.bl.adapter.DataContainerUtil;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.tasklauncher.event.EditListener;
 import org.sblim.wbemsmt.tasklauncher.event.TaskLauncherContextMenuEventListenerImpl;
@@ -54,7 +55,7 @@ public class JsfEditListener extends TaskLauncherContextMenuEventListenerImpl im
 	public String revert(boolean doUpdateControls)
 	{
 		boolean foundErrors = false;
-
+		
 		//stop if the first editBean reports errors
 		for (int i=0; i < editBeans.size() && !foundErrors; i++)
 		{
@@ -62,6 +63,7 @@ public class JsfEditListener extends TaskLauncherContextMenuEventListenerImpl im
 			{
     			EditBean bean = (EditBean)editBeans.get(i);
     			bean.revert();
+    			foundErrors = DataContainerUtil.getContainerMessages(bean.getContainers()).hasErrors();
 			}
 			catch (Exception e)
 			{
@@ -69,6 +71,7 @@ public class JsfEditListener extends TaskLauncherContextMenuEventListenerImpl im
 				org.sblim.wbemsmt.tools.jsf.JsfUtil.handleException(e);
 				return EditBean.PAGE_EDIT;
 			}
+			
 		}
 
 		if (!foundErrors)
@@ -76,7 +79,6 @@ public class JsfEditListener extends TaskLauncherContextMenuEventListenerImpl im
 			ObjectActionControllerBean oac = (ObjectActionControllerBean) BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
 			oac.clearEditBeansModified();
 		}
-		
 		return EditBean.PAGE_EDIT;
 	}
     /**

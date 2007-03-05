@@ -62,6 +62,11 @@ public class ErrCodes
 	public static final MessageNumber MSG_OTHER_EXCEPTION  = new MessageNumber(COMPONENT,SUBSYS_BLO,18);
 	public static final MessageNumber MSG_ERROR_WHILE_EXECUTION = new MessageNumber(COMPONENT,SUBSYS_BLO,19);
 	
+	public static final MessageNumber MSG_CANCEL_SUCCESS = new MessageNumber(COMPONENT,SUBSYS_BLO,20);
+	public static final MessageNumber MSG_CANCEL_INFO = new MessageNumber(COMPONENT,SUBSYS_BLO,21);
+	public static final MessageNumber MSG_CANCEL_WARNING = new MessageNumber(COMPONENT,SUBSYS_BLO,22);
+	public static final MessageNumber MSG_CANCEL_ERROR = new MessageNumber(COMPONENT,SUBSYS_BLO,23);
+
 	static
 	{
 		exceptions.put(org.sblim.wbemsmt.exception.InitWizardException    .class    , MSG_INITWIZARDEXCEPTION    );

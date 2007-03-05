@@ -176,5 +176,30 @@ public class DataContainerUtil {
 		}
 		return false;
 	}
+
+	
+    /**
+     * return all messages of all containers in that editBean
+     * @return
+     */
+	public static MessageList getContainerMessages(List containers) {
+		MessageList list = new MessageList();
+		for (Iterator iter = containers.iterator(); iter.hasNext();) {
+			DataContainer container = (DataContainer) iter.next();
+			list.addAll(container.getMessagesList());
+		}
+		return list;
+	}
+
+    /**
+     * clear all messages of all containers in that editBean
+     * @return
+     */
+	public static void clearContainerMessages(List containers) {
+		for (Iterator iter = containers.iterator(); iter.hasNext();) {
+			DataContainer container = (DataContainer) iter.next();
+			MessageList.init(container).clear();
+		}
+	}
 	
 }
