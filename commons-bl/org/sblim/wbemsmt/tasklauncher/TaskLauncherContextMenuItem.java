@@ -27,6 +27,9 @@ import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 
+import org.sblim.wbemsmt.bl.ErrCodes;
+import org.sblim.wbemsmt.bl.adapter.Message;
+import org.sblim.wbemsmt.bl.adapter.MessageUtil;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.ITreeSelector;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
@@ -146,13 +149,40 @@ public class TaskLauncherContextMenuItem implements Cloneable, LocaleChangeListe
     	
     	try {
 			ITreeSelector treeSelectorBean = (ITreeSelector)BeanNameConstants.TREE_SELECTOR.asValueBinding(FacesContext.getCurrentInstance()).getValue(FacesContext.getCurrentInstance());
-			treeSelectorBean.setSelectedTaskLauncherTreeNode(getParent().getNode());
 			ITaskLauncherTreeNode nodeOfAction = getParent().getNode();
-			logger.log(Level.INFO, "ContextMenuItem " + this.bundleKey + " received Action for listener " + this.eventListener + " with node " + nodeOfAction.getName());
-			TaskLauncherTreeNodeEvent event = new TaskLauncherTreeNodeEvent(this,nodeOfAction ,FacesContext.getCurrentInstance(),TaskLauncherTreeNodeEvent.TYPE_CLICKED);
-			this.outcome = this.eventListener.processEvent(event);
-			treeSelectorBean.setCurrentOutcome(outcome);
-		} catch (Exception ex) {
+			
+			 
+			if (getParent().isCommon())
+			{
+				//if it's a common context menue then get the last selected node
+				//...if there is one
+				if (treeSelectorBean.getSelectedTaskLauncherTreeNode() != null)
+				{
+					nodeOfAction = treeSelectorBean.getSelectedTaskLauncherTreeNode();
+				}
+				else
+				{
+					nodeOfAction = treeSelectorBean.getCurrentTreeFactory().getNodeWithActiveCimomsNodes();
+				}
+				
+				
+			} else {
+				treeSelectorBean.setSelectedTaskLauncherTreeNode(getParent().getNode());
+			}
+			
+			if (nodeOfAction == null)
+			{
+				MessageUtil.addMessage(ErrCodes.MSG_NO_NODE_SELECTED, Message.ERROR, parent.getBundles(), "no.node.selected");
+				treeSelectorBean.setCurrentOutcome("");
+			}
+			else
+			{
+				logger.log(Level.INFO, "ContextMenuItem " + this.bundleKey + " received Action for listener " + this.eventListener + " with node " + nodeOfAction.getName());
+				TaskLauncherTreeNodeEvent event = new TaskLauncherTreeNodeEvent(this,nodeOfAction ,FacesContext.getCurrentInstance(),TaskLauncherTreeNodeEvent.TYPE_CLICKED);
+				this.outcome = this.eventListener.processEvent(event);
+				treeSelectorBean.setCurrentOutcome(outcome);
+			}
+    	} catch (Exception ex) {
 			ExceptionUtil.handleException(ex);
 		}
     }

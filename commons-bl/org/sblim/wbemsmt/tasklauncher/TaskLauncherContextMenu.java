@@ -38,7 +38,8 @@ public class TaskLauncherContextMenu implements Cloneable
 	
 	private ITaskLauncherTreeNode node;
 	private final String[] bundles;
-
+	private boolean common = false;
+	
 	
 	public TaskLauncherContextMenu(ContextmenuDocument.Contextmenu contextMenu, String[] bundles)
 	{
@@ -156,6 +157,15 @@ public class TaskLauncherContextMenu implements Cloneable
 	public TaskLauncherContextMenuItem getItem(int i) {
 		return (TaskLauncherContextMenuItem) getMenuItems().get(i);
 	}
+
+	public boolean isCommon() {
+		return common;
+	}
+
+	public void setCommon(boolean common) {
+		this.common = common;
+	}
+	
 	
 	
 }

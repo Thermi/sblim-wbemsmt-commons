@@ -21,6 +21,7 @@
 package org.sblim.wbemsmt.bl.tree;
 
 import org.sblim.wbemsmt.tasklauncher.ITaskLauncherUiTreeNode;
+import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeFactory;
 
 
 
@@ -41,5 +42,7 @@ public interface ITreeSelector {
 	public abstract ITaskLauncherUiTreeNode getSelectedNode();
 
 	public abstract void setSelectedNode(ITaskLauncherUiTreeNode node);
+	
+	public TaskLauncherTreeFactory getCurrentTreeFactory();
 
 }

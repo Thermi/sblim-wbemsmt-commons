@@ -38,6 +38,7 @@ import org.apache.commons.collections.MultiHashMap;
 import org.apache.commons.collections.MultiMap;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.tools.resources.LocaleManager;
+import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
 public class CimAdapterFactory {
 
@@ -85,6 +86,24 @@ public class CimAdapterFactory {
 		}
 	}
 
+	/**
+	 * Retrieve the adapter belonging to the given adapter class and the bound to the HttpSession
+	 * which is the the Session of the current FacesContext
+	 * 
+	 * @param adapterClass
+	 * @param fc
+	 * @return
+	 */
+	public AbstractBaseCimAdapter getAdapter(Class adapterClass, CIMClient client)
+	{
+		if (RuntimeUtil.getInstance().isJSF())
+		{
+			return getAdapter(adapterClass, FacesContext.getCurrentInstance(),client);
+		}
+		return null;
+	}
+
+	
 	/**
 	 * Retrieve the adapter belonging to the given adapter class and the bound to the session
 	 * the given Oject belongs to

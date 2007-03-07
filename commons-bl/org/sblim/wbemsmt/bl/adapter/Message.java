@@ -164,6 +164,10 @@ public class Message
 	{
 		return msg;
 	}
+	
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 
 	public MessageNumber getMessageNumber() {
 		return messageNumber;
@@ -225,7 +229,7 @@ public class Message
 	 * @param type the Severity - use Constants in Message class
 	 * @param bundle
 	 * @param key
-	 * @param objects
+	 * @param objects can be null
 	 * @return
 	 * @see Message#SUCCESS
 	 * @see Message#INFO
@@ -233,7 +237,10 @@ public class Message
 	 * @see Message#ERROR
 	 */
 	public static Message create(MessageNumber number, String type, WbemSmtResourceBundle bundle, String key, Object[] objects) {
-		return new Message(number,type,bundle.getString(number,key,objects));
+		if (objects != null)
+			return new Message(number,type,bundle.getString(number,key,objects));
+		else
+			return new Message(number,type,bundle.getString(number,key));
 	}
 
 	/**

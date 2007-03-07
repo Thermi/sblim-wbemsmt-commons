@@ -19,7 +19,9 @@
   */
 package org.sblim.wbemsmt.tasklauncher;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,6 +55,8 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 	private static Logger logger = Logger.getLogger(CimomTreeNode.class.getName());
 	
 	private SLPLoader slpLoader = null;
+
+	private Map commonContextMenues = new HashMap();
 
     public CimomTreeNode(CimomData cimom) {
 		super(null,null,cimom.getHostname());
@@ -160,6 +164,14 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 					if (readNodes)
 					{
 						TaskLauncherTreeNode rootNode = TaskLauncherTreeNode.createNodeFromXML(cimClient, treeConfig.getRootnode(),treeConfigData);
+						if (treeConfig.getCommonContextMenue() != null)
+						{
+	        				TaskLauncherContextMenu contextMenu = new TaskLauncherContextMenu(treeConfig.getCommonContextMenue(),treeConfig.getTreeConfigData().getBundles());
+	        				contextMenu.setCommon(true);
+	        				//The ContextMenue in MultiHost Environment is having no default node
+	        				contextMenu.setNode(null);
+							commonContextMenues.put(treeConfig.getTreeConfigData().getName(),contextMenu);
+						}
 						//forget the root node and just add the childs
 						Vector subnodes = rootNode.getSubnodes();
 						for (Iterator iterator = subnodes.iterator(); iterator.hasNext();) {
@@ -188,6 +200,15 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 		}
 	}
 
+	/**
+	 * Clear the subnodes and the commonContextMenue
+	 */
+	public void clearSubnodes()
+	{
+		super.clearSubnodes();
+		commonContextMenues.clear();
+	}
+	
 	public void updateName()
 	{
 		if (cimClient != null)
@@ -212,6 +233,18 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 	
 	public String getInfo() {
 		return CimomTreeNode.class.getName() + name + "; " + cimomData.getInfo();
+	}
+
+	public Map getCommonContextMenues() {
+		return commonContextMenues;
+	}
+
+	public void logout() throws WbemSmtException {
+		setCimClient(null);
+		getCimomData().setUser(null);
+		updateName();
+		buildTree();   
+		readSubnodes(true);
 	}
 	
     

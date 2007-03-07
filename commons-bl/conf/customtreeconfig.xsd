@@ -3,6 +3,7 @@
 	<element name="customtreeconfig">
 		<complexType>
 			<sequence>
+				<element ref="cus:contextmenu" minOccurs="0" maxOccurs="1"/>
 				<element ref="cus:treenode" minOccurs="1" maxOccurs="1"/>
 			</sequence>
 			<attribute name="version" type="cus:version" use="required"/>
@@ -165,11 +166,12 @@
 	<simpleType name="version">
         <annotation>
         	<documentation>
-        	Versions
+        	Versions. Is checked in org.sblim.wbemsmt.tasklauncher.CustomTreeConfig.checkVersion
         	</documentation>
         </annotation>
         <restriction base="string">
 			<enumeration value="VERSION_2_0"/>
+			<enumeration value="VERSION_2_1"/>
 		</restriction>
 	</simpleType>
 </schema>

@@ -67,6 +67,8 @@ public class ErrCodes
 	public static final MessageNumber MSG_CANCEL_WARNING = new MessageNumber(COMPONENT,SUBSYS_BLO,22);
 	public static final MessageNumber MSG_CANCEL_ERROR = new MessageNumber(COMPONENT,SUBSYS_BLO,23);
 
+	public static final MessageNumber MSG_NO_NODE_SELECTED = new MessageNumber(COMPONENT,SUBSYS_BLO,24);
+
 	static
 	{
 		exceptions.put(org.sblim.wbemsmt.exception.InitWizardException    .class    , MSG_INITWIZARDEXCEPTION    );

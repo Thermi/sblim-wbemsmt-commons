@@ -24,8 +24,10 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
@@ -39,6 +41,8 @@ import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.CimomData;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.TreeConfigData;
 import org.sblim.wbemsmt.tasklauncher.login.LoginCheck;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
+import org.sblim.wbemsmt.tools.resources.ILocaleManager;
+import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
 
 public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
@@ -47,6 +51,10 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
     
     private List rootNodes = new ArrayList();
 
+    private List commonContextMenues = new ArrayList();
+
+	private List cimomNodes = new ArrayList();
+    
     public TaskLauncherTreeFactory(CIMClient cimClient, List customTreeConfigs) throws ModelLoadException
     { 
     	if (customTreeConfigs != null)
@@ -58,6 +66,13 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
         			TaskLauncherTreeNode nodeFromXML = TaskLauncherTreeNode.createNodeFromXML(cimClient, customTreeConfig.getRootnode(),customTreeConfig.getTreeConfigData());
         			nodeFromXML.setCustomTreeConfig(customTreeConfig);
         			rootNodes.add( nodeFromXML );
+        			if (customTreeConfig.getCommonContextMenue() != null)
+        			{
+        				TaskLauncherContextMenu contextMenu = new TaskLauncherContextMenu(customTreeConfig.getCommonContextMenue(),customTreeConfig.getTreeConfigData().getBundles());
+        				contextMenu.setCommon(true);
+        				contextMenu.setNode(nodeFromXML);
+						commonContextMenues.add(contextMenu);
+        			}
     			}
     			else
     			{
@@ -92,6 +107,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 	private void addCimomNode(CimomData cimom) throws WbemSmtException {
 		TaskLauncherDelegaterTreeNode rootNode = new TaskLauncherDelegaterTreeNode(new ArrayList(),"root");
 		CimomTreeNode cimomNode = new CimomTreeNode(cimom);
+		cimomNodes.add(cimomNode);
 		rootNode.addSubnode(cimomNode);
 		rootNodes.add(rootNode);
 	}
@@ -138,6 +154,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 					{
 						logger.info("Removing CIMOIM " + oldHost);
 						rootNodes.remove(i);
+						cimomNodes.remove(i);
 						break;
 					}
 				}
@@ -273,6 +290,109 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 			}
 		});
 		
-	}	
+	}
 
+	public List getCommonContextMenues() {
+	
+		List result = new ArrayList();
+		if (RuntimeUtil.getInstance().isSingleMode() || RuntimeUtil.getInstance().isEmbeddedMode())
+		{
+			result.addAll(commonContextMenues);
+		}
+		else
+		{
+			Set addedCommonContextMenues = new HashSet();
+			
+			for (Iterator iter = cimomNodes.iterator(); iter.hasNext();) {
+				CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
+				Map ctxMenues = cimomTreeNode.getCommonContextMenues();
+				for (Iterator iterator = ctxMenues.entrySet().iterator(); iterator.hasNext();) {
+					Map.Entry entry = (Entry) iterator.next();
+					if (!addedCommonContextMenues.contains(entry.getKey()))
+					{
+						result.add(entry.getValue());
+						addedCommonContextMenues.add(entry.getKey());
+					}
+					
+				}
+			}
+			
+		}
+		
+		
+		
+		if (RuntimeUtil.getInstance().isJSF() )
+		{
+			ILocaleManager manager = (ILocaleManager) BeanNameConstants.LOCALE_MANAGER.getBoundValue(FacesContext.getCurrentInstance());
+			for (Iterator iter = result.iterator(); iter.hasNext();) {
+				TaskLauncherContextMenu menu = (TaskLauncherContextMenu) iter.next();
+				if (menu != null && menu.getItemCount() > 0 && menu.getItem(0).getDescription() == null)
+				{
+					menu.initI18n(manager);
+				}
+			}
+		}
+		
+		return result;
+	}
+
+	/**
+	 * Counts the active Cimom Nodes 
+	 * If the application is not running in multimode the return value is 0
+	 * @return
+	 */
+	public int getActiveCimomNodeCount()
+	{
+		int count = 0;
+		for (Iterator iter = cimomNodes.iterator(); iter.hasNext();) {
+			CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
+			if (cimomTreeNode.getCimClient() != null)
+			{
+				count++;
+			}
+		}
+		return count;
+	}
+	
+	/**
+	 * Returns a node with all active cimons
+	 * If the application is not running in multimode the return value is nul
+	 * @return null or a SimpleTextTreeNode with all the active CimomTreeNodes as childs
+	 */
+	public ITaskLauncherTreeNode getNodeWithActiveCimomsNodes()
+	{
+		ITaskLauncherTreeNode result = null;
+		if (getActiveCimomNodeCount() > 0)
+		{
+			List nodes = getActiveCimomNodes();
+			result = new SimpleTextTreeNode("activeCimoms");
+			for (Iterator iter = nodes.iterator(); iter.hasNext();) {
+				CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
+				result.addSubnode(cimomTreeNode);
+			}
+			
+		}
+			
+		return result;
+	}
+
+	/**
+	 * Returns a list with all active cimons
+	 * If the application is not running in multimode the return value is null
+	 * @return
+	 */
+	private List getActiveCimomNodes() {
+
+		List result = new ArrayList();
+		
+		for (Iterator iter = cimomNodes.iterator(); iter.hasNext();) {
+			CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
+			if (cimomTreeNode.getCimClient() != null)
+			{
+				result.add(cimomTreeNode);
+			}	
+		}
+		return result;
+	}
+	
 }

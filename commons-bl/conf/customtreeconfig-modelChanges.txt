@@ -5,3 +5,7 @@ Update from unknown to VERSION_2_0
 	- ADD new Root-Element customtreeconfig
  	- ADD Attribute version to root-element customtreeconfig (version="VERSION_2_0")
  	
+Update from VERSION_2_0 to VERSION_2_1
+    - Compatible change to 2_0
+ 	- CHANGE Attribute version of root-element customtreeconfig to VERSION_2_1
+	- ADD contextmenu as first child of root Element for common context menues

@@ -342,7 +342,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 			        String result = node.click();
 			        
 			        //if after finishing the wizard the same node is active, switch the tabs
-			        if (selectedNode.getInfo().equals(node.getInfo()))
+			        if (selectedNode != null && selectedNode.getInfo().equals(node.getInfo()))
 			        {
 			        	objectActionController.setSelectedTabIndex(selectTabIndex);
 			        	objectActionController.setSelectedTabId(selectTabId);

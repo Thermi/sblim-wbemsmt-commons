@@ -24,9 +24,12 @@ import java.util.logging.Logger;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.CimObjectKey;
 import org.sblim.wbemsmt.bl.adapter.TaskLauncherTreeNodeSelector;
+import org.sblim.wbemsmt.bl.adapter.TaskLauncherTreeNodeSelectorForCreate;
 import org.sblim.wbemsmt.exception.ObjectNotFoundException;
 
-public class CurrentTaskLauncherTreeNodeSelector implements TaskLauncherTreeNodeSelector {
+public class CurrentTaskLauncherTreeNodeSelector implements TaskLauncherTreeNodeSelector, TaskLauncherTreeNodeSelectorForCreate {
+
+	private AbstractBaseCimAdapter adapter;
 
 	/**
 	 * Uses the currentTreeNode to select the right element on the adapter
@@ -35,6 +38,7 @@ public class CurrentTaskLauncherTreeNodeSelector implements TaskLauncherTreeNode
 	 * @see AbstractBaseCimAdapter#select(CimObjectKey)
 	 */
 	public void select(ITaskLauncherTreeNode treeNode, AbstractBaseCimAdapter adapter, String editPanelId) throws ObjectNotFoundException {
+		this.adapter = adapter;
 		CimObjectKey key = adapter.select(treeNode);
 		if (key == null)
 		{
@@ -42,6 +46,14 @@ public class CurrentTaskLauncherTreeNodeSelector implements TaskLauncherTreeNode
 			logger.severe("Cannot select with adapter " + adapter + " and treeNode " + treeNode);
 			throw new ObjectNotFoundException("Cannot select with adapter " + adapter + " and treeNode " + treeNode.getName());
 		}
+	}
+
+	public boolean execute() {
+		return true;
+	}
+
+	public AbstractBaseCimAdapter getAdapter() {
+		return adapter;
 	}
 
 }

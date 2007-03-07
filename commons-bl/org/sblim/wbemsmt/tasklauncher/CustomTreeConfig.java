@@ -34,18 +34,20 @@ import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CustomtreeconfigDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.EventListenerDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.Version;
+import org.sblim.wbemsmt.tasklauncher.customtreeconfig.ContextmenuDocument.Contextmenu;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CustomtreeconfigDocument.Customtreeconfig;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
 public class CustomTreeConfig
 {
-    private static final Object SUPPORTED_VERSION_TREE_CONFIG = Version.VERSION_2_0;
+    private static final Object[] SUPPORTED_VERSIONS_TREE_CONFIG = new Object[] {Version.VERSION_2_0, Version.VERSION_2_1};
 	private static Logger logger = Logger.getLogger(CustomTreeConfig.class.getName());
     private String filename;
     
     private TreenodeDocument.Treenode rootNode;
 	private final TreeConfigData treeConfigData;
 	private boolean loaded = false;
+	private Contextmenu commonContextMenue;
 
     public CustomTreeConfig(TreeConfigData configData)
     {
@@ -71,7 +73,9 @@ public class CustomTreeConfig
             {
                 logger.log(Level.INFO, "Reading config from " + treeConfigUrl + filename);
                 
-                rootNode = CustomtreeconfigDocument.Factory.parse(treeConfigUrl).getCustomtreeconfig().getTreenode();
+                CustomtreeconfigDocument.Customtreeconfig customtreeconfig = CustomtreeconfigDocument.Factory.parse(treeConfigUrl).getCustomtreeconfig(); 
+                rootNode = customtreeconfig.getTreenode();
+                commonContextMenue = customtreeconfig.getContextmenu();
                 
                 checkVersion(treeConfigUrl, CustomtreeconfigDocument.Factory.parse(treeConfigUrl).getCustomtreeconfig());
                 
@@ -198,15 +202,29 @@ public class CustomTreeConfig
 	}
 
 	private void checkVersion(URL url, Customtreeconfig treeconfig) throws WbemSmtException {
+
+		boolean found = false;
 		
-		if (treeconfig.getVersion() == null || ! treeconfig.getVersion().equals(SUPPORTED_VERSION_TREE_CONFIG))
+		for (int i = 0; i < SUPPORTED_VERSIONS_TREE_CONFIG.length; i++) {
+			Object version = SUPPORTED_VERSIONS_TREE_CONFIG[i];
+			if (treeconfig.getVersion() != null && treeconfig.getVersion().equals(version))
+			{
+				found = true;
+			}
+		}
+		if (!found)
 		{
-			String msg = "Model-Version " + treeconfig.getVersion() + " of " + url + " is not supported.\nPlease upgrade to Version " + SUPPORTED_VERSION_TREE_CONFIG;
-			throw new WbemSmtException(msg);
+			String msg = "Model-Version " + treeconfig.getVersion() + " of " + url + " is not supported.\nPlease upgrade to Version " + SUPPORTED_VERSIONS_TREE_CONFIG;
+			throw new WbemSmtException(msg);			
 		}
 		
 	}
 
+	public Contextmenu getCommonContextMenue() {
+		return commonContextMenue;
+	}
+
+	
 	
 	
     

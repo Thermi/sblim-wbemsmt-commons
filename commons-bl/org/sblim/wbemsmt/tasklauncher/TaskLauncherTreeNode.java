@@ -951,10 +951,16 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 	}
 
 	TaskLauncherTreeNode findClassNodeImpl(String cimClassName, String label) throws WbemSmtException {
+		CIMClassNode clsNode = (CIMClassNode) this;
+		if (clsNode.getCIMClass().getName().equals(cimClassName) && label.equals(clsNode.getName()))
+		{
+			return clsNode;
+		}
+
 		for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
 			ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) iter.next();
 			if (node instanceof CIMClassNode) {
-				CIMClassNode clsNode = (CIMClassNode) node;
+				clsNode = (CIMClassNode) node;
 				if (clsNode.getCIMClass().getName().equals(cimClassName) && label.equals(clsNode.getName()))
 				{
 					return clsNode;
@@ -981,29 +987,30 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 	}
 
 	void findInstanceNodes(String cimClassName, List result) throws WbemSmtException {
-		for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
-			ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) iter.next();
-			if (node instanceof CIMInstanceNode) {
-				CIMInstanceNode clsNode = (CIMInstanceNode) node;
-				if (clsNode.getCimInstance().getClassName().equals(cimClassName))
-				{
-					result.add(clsNode);
-				}
+		if (this instanceof CIMInstanceNode) {
+			CIMInstanceNode clsNode = (CIMInstanceNode) this;
+			if (clsNode.getCimInstance().getClassName().equals(cimClassName))
+			{
+				result.add(clsNode);
 			}
-			((TaskLauncherTreeNode)node).findInstanceNodes(cimClassName,result);
+		}
+		for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
+			TaskLauncherTreeNode node = (TaskLauncherTreeNode) iter.next();
+			node.findInstanceNodes(cimClassName,result);
 		}
 	}
 
 	public TaskLauncherTreeNode findInstanceNode(CIMObjectPath path) throws WbemSmtException {
-		for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
-			ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) iter.next();
-			if (node instanceof CIMInstanceNode) {
-				CIMInstanceNode clsNode = (CIMInstanceNode) node;
-				if (clsNode.getCimInstance().getObjectPath().equals(path))
-				{
-					return clsNode;
-				}
+		if (this instanceof CIMInstanceNode) {
+			CIMInstanceNode clsNode = (CIMInstanceNode) this;
+			if (clsNode.getCimInstance().getObjectPath().equals(path))
+			{
+				return clsNode;
 			}
+		}
+
+		for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
+			TaskLauncherTreeNode node = (TaskLauncherTreeNode) iter.next();
 			TaskLauncherTreeNode result = node.findInstanceNode(path);
 			if (result != null)
 			{
