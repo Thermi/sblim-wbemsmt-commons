@@ -20,6 +20,8 @@
 
 package org.sblim.wbemsmt.webapp.jsf.style;
 
+import javax.faces.context.FacesContext;
+
 public class StyleBean {
 
 	/**
@@ -31,8 +33,20 @@ public class StyleBean {
 	
 	private boolean embedded;
 	
+	/**
+	 * return the resource dir without the RequestContextPath as configured via Managed Bean Config
+	 * @return
+	 */
 	public String getResourceDir() {
 		return resourceDir;
+	}
+
+	/**
+	 * return the resource dir as configured via Managed Bean Config together with the RequestContextPath
+	 * @return
+	 */
+	public String getResourceDirAbsolute() {
+		return FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + (resourceDir.startsWith("/") ? "" : "/") + resourceDir ;
 	}
 
 	public void setResourceDir(String resourceDir) {
