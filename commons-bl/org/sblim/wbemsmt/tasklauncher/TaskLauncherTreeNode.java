@@ -408,16 +408,16 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     	
     	int listenersWithReturnValue = 0;
     	
-    	for (Iterator iter = eventListener.iterator(); iter.hasNext();) {
-			TaskLauncherTreeNodeEventListener listener = (TaskLauncherTreeNodeEventListener) iter.next();
+    	Object[] listeners = eventListener.toArray();
+    	for (int i = 0; i < listeners.length; i++) {
+			TaskLauncherTreeNodeEventListener listener = (TaskLauncherTreeNodeEventListener) listeners[i];
 			String tmpResult = listener.processEvent(event);
 			if (tmpResult != null && listener.isCustomListener())
 			{
 				result = tmpResult;
 				listenersWithReturnValue++;
-			}
-        }
-    	
+			}			
+		}
     	if (listenersWithReturnValue == 1)
     	{
     		return result;
