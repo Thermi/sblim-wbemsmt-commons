@@ -160,12 +160,14 @@ public class TaskLauncherContextMenuItem implements Cloneable, LocaleChangeListe
 				{
 					nodeOfAction = treeSelectorBean.getSelectedTaskLauncherTreeNode();
 				}
-				else
+				else if (treeSelectorBean.getCurrentTreeFactory().getNodeWithActiveCimomsNodes() != null)
 				{
 					nodeOfAction = treeSelectorBean.getCurrentTreeFactory().getNodeWithActiveCimomsNodes();
 				}
-				
-				
+				else if (treeSelectorBean.getCurrentTreeFactory().getNodeWithRootNodes() != null)
+				{
+					nodeOfAction = treeSelectorBean.getCurrentTreeFactory().getNodeWithRootNodes();
+				}
 			} else {
 				treeSelectorBean.setSelectedTaskLauncherTreeNode(getParent().getNode());
 			}

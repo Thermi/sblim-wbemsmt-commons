@@ -377,6 +377,26 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 	}
 
 	/**
+	 * Returns a node with all rootNodes
+	 * @return null or a SimpleTextTreeNode with all the active rootnodes as childs
+	 */
+	public ITaskLauncherTreeNode getNodeWithRootNodes()
+	{
+		ITaskLauncherTreeNode result = null;
+		
+		for (int i=0; i < rootNodes.size(); i++)
+		{
+			if (i==0)
+			{
+				result = new SimpleTextTreeNode("activeCimoms");
+			}
+			ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) rootNodes.get(i);
+			result.addSubnode(node);
+		}
+		return result;
+	}
+
+	/**
 	 * Returns a list with all active cimons
 	 * If the application is not running in multimode the return value is null
 	 * @return
