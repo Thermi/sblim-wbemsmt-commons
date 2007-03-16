@@ -19,8 +19,10 @@
 package org.sblim.wbemsmt.tasklauncher;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +30,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 import java.util.Map.Entry;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
@@ -35,6 +38,7 @@ import javax.faces.context.FacesContext;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeFactory;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
+import org.sblim.wbemsmt.bl.welcome.WelcomeData;
 import org.sblim.wbemsmt.exception.ModelLoadException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.CimomData;
@@ -413,6 +417,38 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 			}	
 		}
 		return result;
+	}
+
+	
+	/**
+	 * Returns a array of TreeConfigData Objects of all active tasks
+	 * @return
+	 */
+	
+	public WelcomeData[] getWelcomeData() {
+		Map map = new HashMap();
+		
+		for (int i=0; i < rootNodes.size(); i++)
+		{
+			TaskLauncherTreeNode node = (TaskLauncherTreeNode) rootNodes.get(i);
+			map.put(node.getCustomTreeConfig().getTreeConfigData().getName(), new WelcomeData(node.getCustomTreeConfig().getTreeConfigData(),node.getCimClient()));
+		}		
+
+		List activeCimoms = getActiveCimomNodes();
+		for (Iterator iter = activeCimoms.iterator(); iter.hasNext();) {
+			CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
+			try {
+				List vector = cimomTreeNode.getSubnodes();
+				for (Iterator iterator = vector.iterator(); iterator.hasNext();) {
+					TaskLauncherTreeNode node = (TaskLauncherTreeNode) iterator.next();
+					map.put(node.getCustomTreeConfig().getTreeConfigData().getName(), new WelcomeData(node.getCustomTreeConfig().getTreeConfigData(),cimomTreeNode.getCimClient()));
+				}
+			} catch (WbemSmtException e) {
+				logger.log(Level.SEVERE, "Cannot get nodes of cimomTreeNode " + cimomTreeNode.getInfo(),e);
+			}
+		}
+		Collection values = map.values();
+		return (WelcomeData[]) values.toArray(new WelcomeData[values.size()]);
 	}
 	
 }

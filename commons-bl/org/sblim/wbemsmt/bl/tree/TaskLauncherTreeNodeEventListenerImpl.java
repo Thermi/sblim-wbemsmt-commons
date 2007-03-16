@@ -21,7 +21,12 @@ package org.sblim.wbemsmt.bl.tree;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import javax.faces.context.FacesContext;
+
 import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
+import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
+import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
 
 public abstract class TaskLauncherTreeNodeEventListenerImpl implements TaskLauncherTreeNodeEventListener
@@ -62,4 +67,14 @@ public abstract class TaskLauncherTreeNodeEventListenerImpl implements TaskLaunc
     		throw new RuntimeException("Parameter " + parameterName + " was not defined for class " + getClass().getName());
     	}
     }
+    
+	protected WbemSmtResourceBundle getBundle()
+	{
+		if (RuntimeUtil.getInstance().isJSF())
+		{
+			return ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance());
+		}
+		throw new RuntimeException("Init Bundle for swing first");
+	}
+    
 }

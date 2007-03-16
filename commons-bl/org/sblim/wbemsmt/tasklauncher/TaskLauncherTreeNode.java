@@ -1079,6 +1079,16 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 	}
 
 	
+	public ITaskLauncherTreeNode getRootNode() throws WbemSmtException {
+		ITaskLauncherTreeNode parent = this;
+		while (parent.getParent() != null)
+		{
+			parent = parent.getParent();
+		}
+		return parent;
+	}
+
+	
 
 
 	

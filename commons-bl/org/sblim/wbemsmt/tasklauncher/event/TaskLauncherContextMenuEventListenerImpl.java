@@ -18,26 +18,11 @@
 
 package org.sblim.wbemsmt.tasklauncher.event;
 
-import javax.faces.context.FacesContext;
-
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEventListenerImpl;
-import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
-import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
-import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
 public abstract class TaskLauncherContextMenuEventListenerImpl extends TaskLauncherTreeNodeEventListenerImpl implements TaskLauncherContextMenuEventListener
 {
 	public boolean isCustomListener() {
 		return true;
 	}
-	
-	protected WbemSmtResourceBundle getBundle()
-	{
-		if (RuntimeUtil.getInstance().isJSF())
-		{
-			return ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance());
-		}
-		throw new RuntimeException("Init Bundle for swing first");
-	}
-	
 }

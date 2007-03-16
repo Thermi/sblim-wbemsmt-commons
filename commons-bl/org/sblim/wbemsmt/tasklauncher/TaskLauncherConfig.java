@@ -79,7 +79,7 @@ public class TaskLauncherConfig
 	
 	public final static int DEFAULT_PORT = 5988;
 
-	private static final Enum SUPPORTED_VERSION_TASKLAUNCHER_CONFIG = Version.VERSION_2_0;
+	private static final Enum[] SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS = new Enum[]{Version.VERSION_2_0,Version.VERSION_2_1};
 	
     private static Logger logger = Logger.getLogger(TaskLauncherConfig.class.getName());
     private Vector cimomData;
@@ -164,12 +164,21 @@ public class TaskLauncherConfig
 
 	private void checkVersion(File f, Tasklauncherconfig tasklauncherconfig) throws WbemSmtException {
 		
-		if (tasklauncherconfig.getVersion() == null || ! tasklauncherconfig.getVersion().equals(SUPPORTED_VERSION_TASKLAUNCHER_CONFIG))
-		{
-			String msg = "Model-Version " + tasklauncherconfig.getVersion() + " of file " + f.getAbsolutePath() + " is not supported.\nPlease upgrade to Version " + SUPPORTED_VERSION_TASKLAUNCHER_CONFIG;
-			throw new WbemSmtException(msg);
-		}
 		
+		boolean found = false;
+		
+		for (int i = 0; i < SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS.length; i++) {
+			Object version = SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS[i];
+			if (tasklauncherconfig.getVersion() != null && tasklauncherconfig.getVersion().equals(version))
+			{
+				found = true;
+			}
+		}
+		if (!found)
+		{
+			String msg = "Model-Version " + tasklauncherconfig.getVersion() + " of file " + f.getAbsolutePath() + " is not supported.\nPlease upgrade to Version " + SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS;
+			throw new WbemSmtException(msg);			
+		}
 	}
 
 	private void readConfig(TasklauncherconfigDocument tasklauncherConfig) {
@@ -196,7 +205,7 @@ public class TaskLauncherConfig
 		if (!hasConfiguration)
 		{
 			CimomData cimomData = new CimomData("",TaskLauncherConfig.DEFAULT_PORT,"","");
-			cimomData.addTreeConfig(new TreeConfigData("noConfig","noConfig.xml","","messages",null,null));
+			cimomData.addTreeConfig(new TreeConfigData("noConfig","noConfig.xml","","messages",null,null,null));
 			this.cimomData.add(cimomData);
 		}
 	}
@@ -249,7 +258,7 @@ public class TaskLauncherConfig
         
         if (cimomData.getTreeConfigs().size() == 0)
         {
-        	cimomData.addTreeConfig(new TreeConfigData("No Configuration found","noConfig.xml","noConfig","messages",null,null));
+        	cimomData.addTreeConfig(new TreeConfigData("No Configuration found","noConfig.xml","noConfig","messages",null,null,null));
         }
         
 		this.cimomData.add(cimomData);
@@ -321,14 +330,16 @@ public class TaskLauncherConfig
 		private String[] bundles;
 		private String lookupClass;
 		private String embeddedFilterClass;
+		private final String welcomeListenerClass;
         
-        public TreeConfigData(String name, String filename, String slpServicename, String bundle, String lookupClass, String embeddedFilterClass)
+        public TreeConfigData(String name, String filename, String slpServicename, String bundle, String lookupClass, String embeddedFilterClass, String welcomeListenerClass)
         {
             this.name = name;
             this.filename = filename;
 			this.slpServicename = slpServicename;
 			this.lookupClass = lookupClass;
 			this.embeddedFilterClass = embeddedFilterClass;
+			this.welcomeListenerClass = welcomeListenerClass;
 			this.bundles = new String[]{bundle};
         }
         
@@ -339,6 +350,7 @@ public class TaskLauncherConfig
             this.slpServicename = treeconfig.getSlpServicename();
             this.lookupClass = treeconfig.getClassForServerTaskLookup();
             this.embeddedFilterClass = treeconfig.getEmbeddedFilter();
+            this.welcomeListenerClass = treeconfig.getWelcomeListener();
             
             ResourceBundle[] resourceBundleArray = treeconfig.getResourceBundleArray();
             this.bundles = new String[resourceBundleArray.length];
@@ -398,6 +410,10 @@ public class TaskLauncherConfig
 
 		public String getEmbeddedFilterClass() {
 			return embeddedFilterClass;
+		}
+		
+		public String getWelcomeListenerClass() {
+			return welcomeListenerClass;
 		}
 
 		/**

@@ -29,6 +29,7 @@ import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tasklauncher.CIMClassNode;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
+import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.TreeConfigData;
 
 public interface ITaskLauncherTreeNode {
 
@@ -59,6 +60,8 @@ public interface ITaskLauncherTreeNode {
 
 	public abstract ITaskLauncherTreeNode findNode(ITaskLauncherTreeNode treeNode) throws WbemSmtException;
 
+	public abstract ITaskLauncherTreeNode getRootNode() throws WbemSmtException;
+
 	public abstract List findInstanceNodes(String cimClassName) throws WbemSmtException;
 
 	public abstract void readSubnodes() throws WbemSmtException;
@@ -78,4 +81,6 @@ public interface ITaskLauncherTreeNode {
 	public void addSubnode(ITaskLauncherTreeNode subnode);
 
 	public abstract Set getEventListener();
+	
+	public TreeConfigData getTreeConfigData();
 }

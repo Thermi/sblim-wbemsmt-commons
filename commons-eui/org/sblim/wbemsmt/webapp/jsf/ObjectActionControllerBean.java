@@ -18,10 +18,13 @@
 
 package org.sblim.wbemsmt.webapp.jsf;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlPanelGrid;
@@ -32,22 +35,30 @@ import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.Cleanup;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
+import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.ITreeSelector;
+import org.sblim.wbemsmt.bl.welcome.JsfWelcomeListener;
+import org.sblim.wbemsmt.bl.welcome.WelcomeData;
+import org.sblim.wbemsmt.bl.welcome.WelcomeListener;
 import org.sblim.wbemsmt.exception.ModelLoadException;
 import org.sblim.wbemsmt.exception.ObjectDeletionException;
 import org.sblim.wbemsmt.exception.ObjectNotFoundException;
 import org.sblim.wbemsmt.exception.ObjectUpdateException;
 import org.sblim.wbemsmt.exception.ValidationException;
+import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tasklauncher.event.jsf.JsfEditListener;
+import org.sblim.wbemsmt.tools.jsf.EditBasePanel;
 import org.sblim.wbemsmt.tools.jsf.EditBean;
 import org.sblim.wbemsmt.tools.jsf.TabbedPane;
 import org.sblim.wbemsmt.tools.wizard.jsf.IWizardController;
 import org.sblim.wbemsmt.tools.wizard.jsf.JSFWizardBase;
 
-public class ObjectActionControllerBean  implements IWizardController, Cleanup {
+public class ObjectActionControllerBean implements IWizardController, Cleanup {
 
-//	private boolean canDelete;
+    private static final Logger logger = Logger.getLogger(ObjectActionControllerBean.class.getName());
+
+    //	private boolean canDelete;
 //	private boolean canCreate;
 	private ITreeSelector treeSelector;
 	private FacesContext facesContext;
@@ -65,7 +76,9 @@ public class ObjectActionControllerBean  implements IWizardController, Cleanup {
 	private String cimomName;
 	
 	public final String KEY_VERSION = "wbemsmt-version";
-	public TaskLauncherTreeNode selectedNode; 
+	public TaskLauncherTreeNode selectedNode;
+
+	private List welcomeContainers = new ArrayList(); 
 	
 	public ObjectActionControllerBean() {
 		this.facesContext = FacesContext.getCurrentInstance();	
@@ -220,6 +233,7 @@ public class ObjectActionControllerBean  implements IWizardController, Cleanup {
 	}
 	public void cleanup() {
 		editBeans.clear();
+		welcomeContainers.clear();
 		adapter.clear();
 	}
 
@@ -267,6 +281,73 @@ public class ObjectActionControllerBean  implements IWizardController, Cleanup {
 		this.wizardActive = wizardActive;
 	}
 
+	/**
+	 * get the panel with all welcome panels for the current used tasks
+	 * @return
+	 */
+	public HtmlPanelGrid getWelcomePanel()
+	{
+		HtmlPanelGrid parent = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
+		parent.setWidth("100%");
+		parent.setCellspacing("0");
+		parent.setCellpadding("0");
+		parent.setStyleClass("editPanelNoTabsOnlyContainers");
+		
+		WelcomeData[] configs = null;
+		ITaskLauncherTreeNode selectedTreeNode = treeSelector.getSelectedTaskLauncherTreeNode();
+		if (selectedTreeNode != null)
+		{
+			try {
+				
+				while (selectedTreeNode != null && (selectedTreeNode.getCimClient() == null || selectedTreeNode.getTreeConfigData() == null) )
+				{
+					selectedTreeNode = selectedTreeNode.getParent();
+				}
+				configs = new WelcomeData[]{new WelcomeData(selectedTreeNode)};
+			} catch (WbemSmtException e) {
+				logger.log(Level.SEVERE,"Cannot create JsfWelcomeListener for Selected node " + selectedTreeNode.getInfo(),e);
+				configs = new WelcomeData[]{};
+			}
+		}
+		else
+		{
+			configs = treeSelector.getCurrentTreeFactory().getWelcomeData();
+		}
+		
+		welcomeContainers.clear();
+		
+		for (int i = 0; i < configs.length; i++) {
+			WelcomeData config = configs[i];
+			try
+			{
+				String listenerClass = config.getTreeConfigData().getWelcomeListenerClass();
+				if (listenerClass != null)
+				{
+					WelcomeListener listener = (WelcomeListener)Class.forName(listenerClass).newInstance();
+					JsfWelcomeListener jsfListener = (JsfWelcomeListener)listener.getListenerByPlType();
+					String bindingPrefix = "objectActionController.welcomeContainers[" + welcomeContainers.size() + "].";
+					EditBasePanel child = jsfListener.createEditBasePanel(bindingPrefix,config.getCimClient());
+					parent.getChildren().add(child.getInputFieldContainer());
+					welcomeContainers.add(child);
+				}
+			}
+			catch (Exception e)
+			{
+				logger.log(Level.SEVERE,"Cannot crete JsfWelcomeListener for Task " + config.getTreeConfigData().getName(),e);
+			}
+		}
+		return parent;
+	}
+
+	/**
+	 * return a list with all containers of the welcome page
+	 * @return
+	 */
+	public List getWelcomeContainers() {
+		return welcomeContainers;
+	}
+	
+	
 	
 	
 }
