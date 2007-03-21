@@ -37,11 +37,13 @@ import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.MissingArgumentException;
 import org.apache.commons.cli.MissingOptionException;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
+import org.apache.commons.cli.UnrecognizedOptionException;
 import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbem.cim.CIMException;
 import org.sblim.wbem.cim.CIMNameSpace;
@@ -302,13 +304,27 @@ public abstract class CimCommand {
 		}
 		showUsage(commandValues.getOut(),options);
 		commandValues.getErr().println(bundle.getString("supplied.arguments" ,new Object[]{sb.toString()}));
+		String key = null;
+		
 		if (e instanceof MissingOptionException) {
-			MissingOptionException moe = (MissingOptionException) e;
-			String msg = moe.getMessage().indexOf(":") > -1 ? 
-					  moe.getMessage().substring(moe.getMessage().indexOf(":") + 1)
-					: moe.getMessage();
-			commandValues.getErr().println(bundle.getString("missing.arguments" ,new Object[]{msg}));
+			key = "missing.options";
 		}
+		else if (e instanceof MissingArgumentException) {
+			key = "missing.arguments";
+		}
+		else if (e instanceof UnrecognizedOptionException) {
+			key = "unrecognized.options";
+		}
+		//AlreadySelectedException is not thrown becuase wbemsmt is not using options in option groups
+		
+		if (key != null)
+		{
+			String msg = e.getMessage().lastIndexOf(":") > -1 ? 
+					e.getMessage().substring(e.getMessage().lastIndexOf(":") + 1)
+					: e.getMessage();
+					commandValues.getErr().println(bundle.getString(key ,new Object[]{msg}));
+		}
+		
 	}
 
 	protected void handleParseException(CimCommandValues values, OptionDefinition defPassword) {
