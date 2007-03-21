@@ -57,6 +57,7 @@ import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
+import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 import org.sblim.wbemsmt.tools.validator.Validator;
 import org.sblim.wbemsmt.tools.wizard.WizardBase;
 
@@ -115,8 +116,11 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	
 	public AbstractBaseCimAdapter()
 	{
-		removeDataContainerThread = new RemoveDataContainerThread(this);
-		removeDataContainerThread.start();
+		if (!RuntimeUtil.getInstance().isCommandline())
+		{
+			removeDataContainerThread = new RemoveDataContainerThread(this);
+			removeDataContainerThread.start();
+		}
 	}
 
 	public AbstractBaseCimAdapter(Locale locale)

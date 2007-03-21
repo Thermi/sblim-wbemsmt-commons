@@ -31,6 +31,7 @@ import java.util.logging.Level;
 import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.component.html.HtmlInputSecret;
@@ -50,6 +51,7 @@ import javax.faces.model.SelectItem;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
+import org.sblim.wbemsmt.bl.fielddata.FieldData;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.converter.Converter;
@@ -78,7 +80,8 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	private Map styles = null;
 	private String itemStyle = null;
 	private boolean disabled = false;
-
+	private FieldData fieldData = null;
+	
 	private boolean rendered = true;
 	private boolean itemLabelRendered = true;
 	private String[] entries;
@@ -158,7 +161,11 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		return "<nobr>" + getLabelText() + "</nobr>";
 	}
 	
-	
+	public String getItemPlainLabelText()
+	{
+		return getLabelText();
+	}
+		
 	public boolean getItemDisabled() {
 		return disabled;
 	}
@@ -223,7 +230,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		
 		if (component instanceof HtmlInputText
 			|| component instanceof HtmlInputSecret
-			|| component instanceof HtmlOutputText
+			|| component instanceof HtmlOutputText && !( this instanceof LabeledJSFMemoComponent)
 			)
 		{
 			return converter.convertForModel(item);
@@ -256,6 +263,13 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		{
 			return converter.convertForModel(item);
 		}		
+		else if (component instanceof HtmlGraphicImage
+				 || component instanceof HtmlCommandLink
+				 || this instanceof LabeledJSFMemoComponent
+				)
+		{
+			return converter.convertForModel(this);
+		}		
 		else
 		{
 			throw new IllegalArgumentException("Controls wth Type " + component.getClass().getName() + " are not supported.");
@@ -275,7 +289,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	{
 		if (component instanceof HtmlInputText
 			|| component instanceof HtmlInputSecret	
-			|| component instanceof HtmlOutputText	
+			|| component instanceof HtmlOutputText && !( this instanceof LabeledJSFMemoComponent)	
 		    )
 		{
 			return item == null || ((String)item).length() == 0;
@@ -309,6 +323,13 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		{
 			return item == null;
 		}		
+		else if (component instanceof HtmlGraphicImage
+				 || component instanceof HtmlCommandLink
+				 || this instanceof LabeledJSFMemoComponent
+				)
+		{
+			return false;
+		}
 		else
 		{
 			throw new IllegalArgumentException("Controls wth Type " + component.getClass().getName() + " are not supported.");
@@ -329,7 +350,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		{
 			item =  converter.convertForGui(controlValue);
 		}
-		else if (component instanceof HtmlOutputText)
+		else if (component instanceof HtmlOutputText && !( this instanceof LabeledJSFMemoComponent))
 		{
 			item =  converter.convertForGui(controlValue);
 		}
@@ -365,6 +386,14 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		{
 			Object object  = converter.convertForGui(controlValue);
 			item = object;
+		}	
+		else if (component instanceof HtmlGraphicImage
+				 || component instanceof HtmlCommandLink
+				 || this instanceof LabeledJSFMemoComponent
+				)
+		{
+			Object object  = converter.convertForGui(controlValue);
+			setFieldData((FieldData) object);
 		}		
 		else
 		{
@@ -772,6 +801,16 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		
 		this.item = newItem;
 	}
+
+	public FieldData getFieldData() {
+		return fieldData;
+	}
+
+	public void setFieldData(FieldData fieldData) {
+		this.fieldData = fieldData;
+	}
+
+	
 	
 	
 }
