@@ -747,6 +747,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			default: // could also be TYPE_DEFAULT
 				subnode = new TaskLauncherTreeNode(cimClient, treenode);
 				subnode.setTreeConfigData(treeConfigData);
+				subnode.setCustomTreeConfig(new CustomTreeConfig(treeConfigData));
 				subnode.createEventListener(treenode.getEventListenerArray());
 				break;
 			}
@@ -1000,10 +1001,30 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 		}
 	}
 
+	public List findClassNodes(String cimClassName) throws WbemSmtException {
+		List result = new ArrayList();
+		findClassNodes(cimClassName,result);
+		return result;
+	}
+
+	void findClassNodes(String cimClassName, List result) throws WbemSmtException {
+		if (this instanceof CIMClassNode) {
+			CIMClassNode clsNode = (CIMClassNode) this;
+			if (clsNode.getCIMClass().getName().equals(cimClassName))
+			{
+				result.add(clsNode);
+			}
+		}
+		for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
+			TaskLauncherTreeNode node = (TaskLauncherTreeNode) iter.next();
+			node.findClassNodes(cimClassName,result);
+		}
+	}
+
 	public TaskLauncherTreeNode findInstanceNode(CIMObjectPath path) throws WbemSmtException {
 		if (this instanceof CIMInstanceNode) {
 			CIMInstanceNode clsNode = (CIMInstanceNode) this;
-			if (clsNode.getCimInstance().getObjectPath().equals(path))
+			if (clsNode.getCimInstance().getObjectPath().equals(path) || path != null && clsNode.getCimInstance().getObjectPath().toString().equals(path.toString()))
 			{
 				return clsNode;
 			}

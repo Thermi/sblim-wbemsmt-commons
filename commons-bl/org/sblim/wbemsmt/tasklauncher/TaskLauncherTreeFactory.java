@@ -431,7 +431,10 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		for (int i=0; i < rootNodes.size(); i++)
 		{
 			TaskLauncherTreeNode node = (TaskLauncherTreeNode) rootNodes.get(i);
-			map.put(node.getCustomTreeConfig().getTreeConfigData().getName(), new WelcomeData(node.getCustomTreeConfig().getTreeConfigData(),node.getCimClient()));
+			if (node.getCustomTreeConfig() != null)
+			{
+				map.put(node.getCustomTreeConfig().getTreeConfigData().getName(), new WelcomeData(node.getCustomTreeConfig().getTreeConfigData(),node.getCimClient()));
+			}
 		}		
 
 		List activeCimoms = getActiveCimomNodes();
