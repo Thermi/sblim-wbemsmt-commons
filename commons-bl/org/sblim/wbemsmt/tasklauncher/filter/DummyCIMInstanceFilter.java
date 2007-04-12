@@ -20,6 +20,7 @@
 package org.sblim.wbemsmt.tasklauncher.filter;
 
 import org.sblim.wbem.cim.CIMInstance;
+import org.sblim.wbem.client.CIMClient;
 
 public class DummyCIMInstanceFilter extends CIMInstanceFilter {
 
@@ -32,9 +33,9 @@ public class DummyCIMInstanceFilter extends CIMInstanceFilter {
 
 	/**
 	 * accept all CIMInstances
-	 * @see org.sblim.wbemsmt.tasklauncher.filter.CIMInstanceFilter#accept(org.sblim.wbem.cim.CIMInstance)
+	 * @see org.sblim.wbemsmt.tasklauncher.filter.CIMInstanceFilter#accept(org.sblim.wbem.cim.CIMInstance, CIMClient)
 	 */
-	public boolean accept(CIMInstance cimInstance) {
+	public boolean accept(CIMInstance cimInstance, CIMClient cimClient) {
 		return true;
 	}
 

@@ -301,7 +301,7 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
     					Object o = enumeration.nextElement();
                 		CIMInstance associator = (CIMInstance) o;
 
-                		if (filter == null || filter.accept(associator))
+                		if (filter == null || filter.accept(associator, cimClient))
                 		{
                             String name = getName(associator);
                     		
@@ -358,7 +358,7 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
                 while(cimInstances.hasMoreElements())
                 {
                     CIMInstance currentInstance = (CIMInstance) cimInstances.nextElement();
-                    if (filter == null || filter.accept(currentInstance))
+                    if (filter == null || filter.accept(currentInstance, cimClient))
                     {
                     	String name = getName(currentInstance);
                     	

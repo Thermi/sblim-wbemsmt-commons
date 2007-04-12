@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.sblim.wbem.cim.CIMInstance;
+import org.sblim.wbem.client.CIMClient;
 
 public abstract class CIMInstanceFilter
 {
@@ -31,9 +32,10 @@ public abstract class CIMInstanceFilter
 	/**
 	 * return true if we accept the instance
 	 * @param cimInstance
+	 * @param cimClient
 	 * @return
 	 */
-	public abstract boolean accept(CIMInstance cimInstance);
+	public abstract boolean accept(CIMInstance cimInstance, CIMClient cimClient);
 	
 	public void addParameter(String name, String value)
 	{
