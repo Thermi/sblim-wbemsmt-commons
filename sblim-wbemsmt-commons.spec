@@ -20,12 +20,12 @@ BuildArch:      noarch
 
 BuildRequires: jpackage-utils >= 0:1.5.32
 BuildRequires: ant >= 0:1.6
-BuildRequires: sblim-cim-client >= 0:1.3.1
+BuildRequires: sblim-cim-client >= 0:1.3.2
 BuildRequires: tomcat5-servlet-2.4-api >= 5.5.15
 BuildRequires: jakarta-commons-cli >= 1.0
 BuildRequires: jakarta-commons-lang >= 2.0
 BuildRequires: jakarta-commons-collections >= 3.1
-#BuildRequires:  myfaces >= 1.1.4
+#BuildRequires:  myfaces >= 1.1.5
 #BuildRequires:  tomahawk >= 1.1.3
 #BuildRequires:  xmlBeans >= 2.2.0
 #BuildRequires:  jsr173-1.0-api >= 1.0?
@@ -33,12 +33,12 @@ BuildRequires: jakarta-commons-collections >= 3.1
 ###############################################################################
 
 Requires: jpackage-utils >= 0:1.5.32
-Requires: sblim-cim-client >= 0:1.3.1
+Requires: sblim-cim-client >= 0:1.3.2
 Requires: tomcat5-servlet-2.4-api >= 5.5.15
 Requires: jakarta-commons-cli >= 1.0
 Requires: jakarta-commons-collections >= 3.1
 Requires: jakarta-commons-lang >= 2.0
-#Requires:  myfaces >= 1.1.4
+#Requires:  myfaces >= 1.1.5
 #Requires:  tomahawk >= 1.1.3
 #Requires:  xmlBeans >= 2.2.0
 #Requires:  jsr173-1.0-api >= 1.0?
