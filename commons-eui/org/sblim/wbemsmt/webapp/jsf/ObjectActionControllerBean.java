@@ -330,6 +330,10 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 					parent.getChildren().add(child.getInputFieldContainer());
 					welcomeContainers.add(child);
 				}
+				else
+				{
+					logger.warning("For  task " + config.getTreeConfigData().getName() + " no WelcomeListener was defined");
+				}
 			}
 			catch (Exception e)
 			{

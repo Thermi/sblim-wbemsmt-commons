@@ -64,6 +64,8 @@ public interface ITaskLauncherTreeNode {
 
 	public abstract List findInstanceNodes(String cimClassName) throws WbemSmtException;
 
+	public abstract List findClassNodes(String cimClassName) throws WbemSmtException;
+
 	public abstract void readSubnodes() throws WbemSmtException;
 
 	public abstract void readSubnodes(boolean notifyListeners) throws WbemSmtException;
@@ -83,4 +85,5 @@ public interface ITaskLauncherTreeNode {
 	public abstract Set getEventListener();
 	
 	public TreeConfigData getTreeConfigData();
+
 }

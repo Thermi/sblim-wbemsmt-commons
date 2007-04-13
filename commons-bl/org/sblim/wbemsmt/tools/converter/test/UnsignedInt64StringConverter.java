@@ -32,7 +32,7 @@ public class UnsignedInt64StringConverter implements Converter {
 	 */
 	public Object convertForGui(Object value) {
 		UnsignedInt64 iValue = (UnsignedInt64)value;
-		return iValue != null ? ""+iValue.intValue() : "";
+		return iValue != null ? ""+iValue.longValue() : "";
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class UnsignedInt64StringConverter implements Converter {
 
 		try {
 			String value = (String) guiElement;
-			Integer.parseInt(value);
+			Long.parseLong(value);
 			return true;
 		} catch (NumberFormatException e) {
 			//do nothing
