@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.sblim.wbem.cim.CIMInstance;
 import org.sblim.wbem.client.CIMClient;
+import org.sblim.wbemsmt.exception.FilterException;
 
 public abstract class CIMInstanceFilter
 {
@@ -35,7 +36,7 @@ public abstract class CIMInstanceFilter
 	 * @param cimClient
 	 * @return
 	 */
-	public abstract boolean accept(CIMInstance cimInstance, CIMClient cimClient);
+	public abstract boolean accept(CIMInstance cimInstance, CIMClient cimClient) throws FilterException;
 	
 	public void addParameter(String name, String value)
 	{

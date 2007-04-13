@@ -20,6 +20,7 @@
 package org.sblim.wbemsmt.tasklauncher.naming;
 
 import org.sblim.wbem.cim.CIMInstance;
+import org.sblim.wbem.client.CIMClient;
 
 public class DummyCIMInstanceNaming extends CIMInstanceNaming {
 
@@ -32,7 +33,7 @@ public class DummyCIMInstanceNaming extends CIMInstanceNaming {
 
 	/**
 	 * accept all CIMInstances
-	 * @see org.sblim.wbemsmt.tasklauncher.filter.CIMInstanceFilter#accept(org.sblim.wbem.cim.CIMInstance)
+	 * @see org.sblim.wbemsmt.tasklauncher.filter.CIMInstanceFilter#accept(org.sblim.wbem.cim.CIMInstance, CIMClient)
 	 */
 	public String getDisplayString(CIMInstance cimInstance) {
 		return (String) cimInstance.getProperty("Name").getValue().getValue();
