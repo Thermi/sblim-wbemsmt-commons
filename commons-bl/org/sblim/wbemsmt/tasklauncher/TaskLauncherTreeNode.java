@@ -1059,10 +1059,15 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 	}
 
 	public String click() {
+		return click(true);
+	}
+
+	public String click(boolean revert) {
         try {
 			if(hasEventListener())
 			{
 			    TaskLauncherTreeNodeEvent treeNodeEvent = new TaskLauncherTreeNodeEvent(this, this, FacesContext.getCurrentInstance(), TaskLauncherTreeNodeEvent.TYPE_CLICKED);
+			    treeNodeEvent.addParameter(TaskLauncherTreeNodeEvent.PARAM_REVERT, revert);
 				String result = processEvent(treeNodeEvent);
 			    return result;
 			}
