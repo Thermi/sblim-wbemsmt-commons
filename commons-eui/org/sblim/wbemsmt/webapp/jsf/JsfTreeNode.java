@@ -33,6 +33,7 @@ import javax.faces.event.ActionEvent;
 
 import org.apache.myfaces.custom.tree2.HtmlTree;
 import org.apache.myfaces.custom.tree2.TreeNode;
+import org.sblim.wbemsmt.bl.tree.ICIMInstanceNode;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEventListener;
@@ -261,7 +262,14 @@ public class JsfTreeNode implements TaskLauncherTreeNodeEventListener, TreeNode,
     
     public String getDescription()
     {
-        return this.description;
+    	if (! (taskLauncherTreeNode instanceof ICIMInstanceNode))
+    	{
+    		return "<nobr>" + this.description + "</nobr>";
+    	}
+    	else
+    	{
+    		return this.description;
+    	}
     }
     
     public void setType(String type)
