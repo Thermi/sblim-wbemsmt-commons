@@ -25,4 +25,6 @@ public interface WizardBase {
 
 	public IWizardContainer getWizardContainer();
 	
+	public boolean canBeExecuted();
+	
 }

@@ -70,6 +70,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 	private boolean cancelButtonDisabled;
 	private IWizardBasePanel currentPanel;
 	protected final AbstractBaseCimAdapter baseCimAdapter;
+	private boolean canBeExecuted = false;
 		
 	protected static Logger logger = Logger.getLogger("org.sblim.wbemsmt.tools.wizard.jsf");
 	
@@ -138,6 +139,10 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 		
 		baseCimAdapter.initWizard(this,(DataContainer) currentPanel,actualPanelName);
 		baseCimAdapter.updateControls((DataContainer) currentPanel);
+		
+		MessageList list = MessageList.init(((DataContainer) currentPanel));
+		JsfBase.addMessages(list);
+		canBeExecuted = !list.hasErrors();
 		
 		//System.out.println("added first panel to contentPanel");
 		container.updateButtonStates(container.isLast(actualPanelName), container.isFirst(actualPanelName));
@@ -339,7 +344,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 			        treeSelectorBean.setSelectedTaskLauncherTreeNode(node);
 
 			        objectActionController.setSelectedNode(node);
-			        String result = node.click();
+			        String result = node.click(true);
 			        
 			        //if after finishing the wizard the same node is active, switch the tabs
 			        if (selectedNode != null && selectedNode.getInfo().equals(node.getInfo()))
@@ -380,7 +385,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 
         container.getUsedPages().clear();
 
-        String result = selectedNode.click();
+        String result = selectedNode.click(true);
 
         
 		return result != null ? result : "start";
@@ -455,6 +460,15 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 		WbemSmtResourceBundle resourceBundle = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance());
 		return "if (!showConfirm('" +  resourceBundle.getString("cancelWizard")  +"')) return false;";
 	}
+	
+	/**
+	 * return true if the wizard can be executed
+	 * thats the case if initializing the wizard created no errors
+	 */
+	public boolean canBeExecuted() {
+		return canBeExecuted;
+	}
+	
 	
 	
 }

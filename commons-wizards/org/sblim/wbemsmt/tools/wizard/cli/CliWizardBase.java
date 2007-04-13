@@ -47,6 +47,8 @@ public abstract class CliWizardBase implements WizardBase {
 	private BaseDataContainer currentPanel;
 	private final AbstractBaseCimAdapter baseCimAdapter;
 	protected final WbemSmtResourceBundle resourceBundle;
+	private boolean canBeExecuted;
+	private MessageList list;
 
 	static Logger logger = Logger.getLogger(CliWizardBase.class.getName());
 		
@@ -71,8 +73,10 @@ public abstract class CliWizardBase implements WizardBase {
 
 		currentPanel = (BaseDataContainer)container.getPages().get(actualPagename);
 		baseCimAdapter.initWizard(this,currentPanel,actualPagename);
-
 		baseCimAdapter.updateControls(currentPanel);
+
+		list = MessageList.init(((DataContainer) currentPanel));
+		canBeExecuted = !list.hasErrors();
 		
 		//System.out.println("added first panel to contentPanel");
 		container.updateButtonStates(container.isLast(actualPagename), container.isFirst(actualPagename));
@@ -85,8 +89,8 @@ public abstract class CliWizardBase implements WizardBase {
         String actualPanelName = (String) container.getUsedPages().peek();
         currentPanel = (BaseDataContainer)container.getPages().get(actualPanelName);
         baseCimAdapter.validateValues((DataContainer) currentPanel);
-		MessageList result = ((DataContainer) currentPanel).getMessagesList();
-        if (result.size() == 0)
+		list = ((DataContainer) currentPanel).getMessagesList();
+        if (list.size() == 0)
         {
         	baseCimAdapter.updateModel((DataContainer) currentPanel);
     		actualPanelName = container.getNextWizardPageName();
@@ -100,7 +104,7 @@ public abstract class CliWizardBase implements WizardBase {
         }
         container.updateButtonStates(container.isLast(actualPanelName),container.isFirst(actualPanelName));
         switchButtons();
-        return result;
+        return list;
 	}
 	
 	public void back() throws ValidationException, UpdateControlsException
@@ -161,5 +165,15 @@ public abstract class CliWizardBase implements WizardBase {
 		return adapter;
 	}
 
+	public boolean canBeExecuted() {
+		return canBeExecuted;
+	}
+
+	public MessageList getMessageList()
+	{
+		return list;
+	}
+
+	
    
 }
