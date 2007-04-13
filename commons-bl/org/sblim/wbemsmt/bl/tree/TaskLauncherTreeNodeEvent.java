@@ -19,6 +19,8 @@
 package org.sblim.wbemsmt.bl.tree;
 
 import java.util.EventObject;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TaskLauncherTreeNodeEvent extends EventObject
 {
@@ -33,11 +35,15 @@ public class TaskLauncherTreeNodeEvent extends EventObject
 					  TYPE_EXPANDED = 4,
 					  TYPE_COLLAPSED = 8;
 	
+	public static final String PARAM_REVERT = "revert";
+	
 	public int type = TYPE_ALL;
 
 	private final Object context;
 
 	private ITaskLauncherTreeNode treeNode;
+
+	private Map parameters = new HashMap(); 
 	
 	public TaskLauncherTreeNodeEvent(Object source, ITaskLauncherTreeNode treeNode, Object context, int eventType)
 	{
@@ -70,6 +76,33 @@ public class TaskLauncherTreeNodeEvent extends EventObject
 		return treeNode;
 	}
     
+	public void addParameter(String key, Object value)
+	{
+		parameters.put(key, value);
+	}
 	
+	public void addParameter(String key, boolean value)
+	{
+		parameters.put(key, new Boolean(value));
+	}
     
+	public void addParameter(String key, int value)
+	{
+		parameters.put(key, new Integer(value));
+	}
+	
+	public Object getParameter(String key)
+	{
+		return parameters.get(key);
+	}
+
+	public Boolean getBooleanParameter(String key)
+	{
+		return (Boolean)parameters.get(key);
+	}
+
+	public Integer getIntegerParameter(String key)
+	{
+		return (Integer)parameters.get(key);
+	}
 }

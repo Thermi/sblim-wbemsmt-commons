@@ -78,12 +78,16 @@ public abstract class EditBean extends JsfBase{
 	   
 	public String revert() throws ObjectRevertException
 	{
-		EditBean.revert(containers,bundle);
-		
+		return revert(false);
+	}
+	
+	public String revert(boolean silent) throws ObjectRevertException
+	{
+		EditBean.revert(containers,bundle,silent);
 		return EditBean.PAGE_EDIT;
 	}
 	
-	public static MessageList revert(List containers, WbemSmtResourceBundle bundle) throws ObjectRevertException {
+	public static MessageList revert(List containers, WbemSmtResourceBundle bundle, boolean silent) throws ObjectRevertException {
 
 		DataContainerUtil.clearContainerMessages(containers);
 		
@@ -110,7 +114,10 @@ public abstract class EditBean extends JsfBase{
 		}
 		
 		MessageList messages = DataContainerUtil.getContainerMessages(containers);
-		handleRevertResult(bundle,messages);
+		if (!silent)
+		{
+			handleRevertResult(bundle,messages);
+		}
 		return messages;
 	}
 

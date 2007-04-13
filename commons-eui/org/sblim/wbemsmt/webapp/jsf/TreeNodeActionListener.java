@@ -70,7 +70,7 @@ public class TreeNodeActionListener implements ActionListener
         
         TaskLauncherTreeNode treeNode = node.getTaskLauncherTreeNode();
 
-        String result = treeNode.click();
+        String result = treeNode.click(true);
         if (result != null)
         {
         	treeSelectorBean.setCurrentOutcome(result);        

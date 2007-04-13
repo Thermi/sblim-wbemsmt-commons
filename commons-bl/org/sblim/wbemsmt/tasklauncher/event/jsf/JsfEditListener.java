@@ -51,8 +51,21 @@ public class JsfEditListener extends TaskLauncherContextMenuEventListenerImpl im
 	 * revert the action of 
 	 * 
 	 * @param doUpdateControls do update controls for all editPanels after reverting
+	 * @param silent if true no messages are addded
 	 **/
 	public String revert(boolean doUpdateControls)
+	{
+		revert(doUpdateControls,true);
+		return EditBean.PAGE_EDIT;
+	}
+
+	/**
+	 * revert the action of 
+	 * 
+	 * @param doUpdateControls do update controls for all editPanels after reverting
+	 * @param silent if true no messages are addded
+	 **/
+	public String revert(boolean doUpdateControls, boolean silent)
 	{
 		boolean foundErrors = false;
 		
@@ -62,7 +75,7 @@ public class JsfEditListener extends TaskLauncherContextMenuEventListenerImpl im
 			try
 			{
     			EditBean bean = (EditBean)editBeans.get(i);
-    			bean.revert();
+    			bean.revert(silent);
     			foundErrors = DataContainerUtil.getContainerMessages(bean.getContainers()).hasErrors();
 			}
 			catch (Exception e)
@@ -82,11 +95,12 @@ public class JsfEditListener extends TaskLauncherContextMenuEventListenerImpl im
 		return EditBean.PAGE_EDIT;
 	}
     /**
-	 * revert the action of 
+	 * revert the action
+	 * calles directly from the jsf context 
 	 **/
 	public String revert()
 	{
-		return revert(true);
+		return revert(true,false);
 	}
 
 	public String save()
