@@ -108,10 +108,12 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		this.component.setValueBinding("style", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Style}"));
 
 		componentPanel = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
+		componentPanel.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Rendered}"));
 		componentPanel.getChildren().add(component);
 		
 		this.labelPanel = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 		this.labelPanel.setStyle("white-space: nowrap; vertical-align:bottom; padding-top:3px;");
+		this.labelPanel.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"LabelRendered}"));
 
 		this.label = (HtmlOutputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
 		label.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"LabelRendered}"));
@@ -533,21 +535,34 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 			//force a re-checking of the modified state of the current panel
 			objectActionController.clearEditBeansModified();
 			
-			if (adapter.getActiveModule() == AbstractBaseCimAdapter.ACTIVE_EDIT
-				&& adapter.isEditObjectMarkedForReload())
+			if (adapter.getActiveModule() == AbstractBaseCimAdapter.ACTIVE_EDIT)
 			{
-				//reload the node
-				adapter.setEditObjectMarkedForReload(true);
-				
 				TaskLauncherTreeNode selectedNode = objectActionController.getSelectedNode();
 				int selectTabIndex = objectActionController.getSelectedTabIndex();
 				String selectTabId = objectActionController.getSelectedTabId();
 
-				result = objectActionController.getSelectedNode().click();
+				boolean reloaded = false;
 				
-		        objectActionController.setSelectedNode(selectedNode);
-		    	objectActionController.setSelectedTabIndex(selectTabIndex);
-		    	objectActionController.setSelectedTabId(selectTabId);
+				if (adapter.isMarkedForReload())
+				{
+					adapter.reload();	
+					reloaded = true;
+				}
+
+				if (adapter.isEditObjectMarkedForReload())
+				{
+					//reload the node
+					adapter.setEditObjectMarkedForReload(false);
+					reloaded = true;
+				}
+
+				if (reloaded)
+				{
+					result = objectActionController.getSelectedNode().click(false);
+					objectActionController.setSelectedNode(selectedNode);
+					objectActionController.setSelectedTabIndex(selectTabIndex);
+					objectActionController.setSelectedTabId(selectTabId);
+				}
 			}
 			else
 			{
