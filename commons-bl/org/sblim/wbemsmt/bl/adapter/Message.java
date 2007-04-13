@@ -259,4 +259,42 @@ public class Message
 	public static Message create(MessageNumber number, String type, WbemSmtResourceBundle bundle, String key) {
 		return new Message(number,type,bundle.getString(number,key));
 	}
+	
+	/**
+	 * the objects together with the key of the defintion are resolved with the resource bundle and used as Msg-Text 
+	 * @param definition
+	 * @param type the Severity - use Constants in Message class
+	 * @param bundle
+	 * @param key
+	 * @param objects can be null
+	 * @return
+	 * @see Message#SUCCESS
+	 * @see Message#INFO
+	 * @see Message#WARNING
+	 * @see Message#ERROR
+	 */
+	public static Message create(MessageDefinition definition, WbemSmtResourceBundle bundle, Object[] objects) {
+		if (objects != null)
+			return new Message(definition.getNumber(),definition.getType(),bundle.getString(definition.getNumber(),definition.getKey(),objects));
+		else
+			return new Message(definition.getNumber(),definition.getType(),bundle.getString(definition.getNumber(),definition.getKey()));
+	}
+	
+	/**
+	 * the objects together with the key of the defintion are resolved with the resource bundle and used as Msg-Text 
+	 * @param definition
+	 * @param type the Severity - use Constants in Message class
+	 * @param bundle
+	 * @param key
+	 * @return
+	 * @see Message#SUCCESS
+	 * @see Message#INFO
+	 * @see Message#WARNING
+	 * @see Message#ERROR
+	 */
+	public static Message create(MessageDefinition definition, WbemSmtResourceBundle bundle) {
+		return new Message(definition.getNumber(),definition.getType(),bundle.getString(definition.getNumber(),definition.getKey()));
+	}
+	
+	
 }
