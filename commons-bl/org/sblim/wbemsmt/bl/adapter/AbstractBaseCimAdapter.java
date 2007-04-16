@@ -71,7 +71,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 */
 	public Object refreshMedium = "";
 	
-	private Logger logger = Logger.getLogger(AbstractBaseCimAdapter.class.getName());	
+	static Logger logger = Logger.getLogger(AbstractBaseCimAdapter.class.getName());	
 	
 	protected CIMClient cimClient;
 	private MultiHashMap validators = new MultiHashMap();
@@ -258,7 +258,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * @throws InitContainerException
 	 */
 	public void initContainer(DataContainer dataContainer) throws InitContainerException {
-		Class interfaceClass = getDataContainerInterface(dataContainer);
+		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		
 		logger.fine("InitContainer: " + dataContainer + " with interface " + interfaceName);		
@@ -300,7 +300,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 */
 	public void updateControls(DataContainer dataContainer) throws UpdateControlsException
 	{
-		Class interfaceClass = getDataContainerInterface(dataContainer);
+		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		logger.fine("UpdatingControls: " + interfaceName);		
 
@@ -358,7 +358,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 			Class modelClass = modelElement.getClass();
 			
-			Class containerClass = getDataContainerInterface(containerElement);
+			Class containerClass = DataContainerUtil.getDataContainerInterface(containerElement);
 			logger.fine("updating Controls: " + containerClass.getName().toString());		
 
 			String methodName = "updateControlsImpl";
@@ -410,7 +410,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			return;
 		}
 
-		Class interfaceClass = getDataContainerInterface(dataContainer);
+		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		logger.fine("Creating: " + interfaceName);		
 
@@ -480,7 +480,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			}
 			
 			Class modelClass = modelElement.getClass();
-			Class containerClass = getDataContainerInterface(containerElement);
+			Class containerClass = DataContainerUtil.getDataContainerInterface(containerElement);
 			logger.fine("updating Controls: " + containerClass.getName().toString());		
 
 			String methodName = "saveImpl";
@@ -547,7 +547,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			return;
 		}
 
-		Class interfaceClass = getDataContainerInterface(dataContainer);
+		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		logger.fine("Reverting: " + interfaceName);		
 
@@ -618,7 +618,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			}
 			
 			Class modelClass = modelElement.getClass();
-			Class containerClass = getDataContainerInterface(containerElement);
+			Class containerClass = DataContainerUtil.getDataContainerInterface(containerElement);
 			logger.fine("updating Controls: " + containerClass.getName().toString());		
 
 			String methodName = "revertImpl";
@@ -696,7 +696,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		}
 		
 		this.updateTrigger = updateTrigger;
-		Class interfaceClass = getDataContainerInterface(dataContainer);
+		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		logger.fine("UpdateModel: " + interfaceName);		
 
@@ -752,7 +752,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 			Class modelClass = modelElement.getClass();
 			
-			Class containerClass = getDataContainerInterface(containerElement);
+			Class containerClass = DataContainerUtil.getDataContainerInterface(containerElement);
 			logger.fine("updating : " + containerClass.getName().toString());		
 
 			String methodName = "updateModelImpl";
@@ -843,7 +843,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		//This variable can be step by the business logic which is creating a new object
 		pathOfTreeNode = null;
 		
-		Class interfaceClass = getDataContainerInterface(dataContainer);
+		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		logger.fine("Creating: " + interfaceName);		
 
@@ -876,32 +876,13 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	}
 
 	/**
-	 * Gets the interface class of a dataContainer
-	 * @param dataContainer
-	 * @return
-	 */
-	private Class getDataContainerInterface(DataContainer dataContainer) {
-		Class[] interfaces = dataContainer.getClass().getInterfaces();
-		Class interfaceClass = null;
-		for (int i = 0; i < interfaces.length; i++) {
-			interfaceClass = interfaces[i];
-			String interfaceName = interfaceClass.getName();
-			if (interfaceName.endsWith("DataContainer"))
-			{
-				break;
-			}
-		}
-		return interfaceClass;
-	}
-	
-	/**
 	 * install the validators for the given container
 	 * @param dataContainer
 	 * @throws ValidationException 
 	 */
 	private void installValidators(DataContainer dataContainer) throws ValidationException
 	{
-		Class interfaceClass = getDataContainerInterface(dataContainer);
+		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		logger.fine("InstallValidators: " + interfaceName);		
 
@@ -1080,7 +1061,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		
 		activeModule = ACTIVE_WIZARD;
 		
-		Class interfaceClass = getDataContainerInterface(dataContainer);
+		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		
 		Class wizardContainerClass = base.getWizardContainer().getClass();

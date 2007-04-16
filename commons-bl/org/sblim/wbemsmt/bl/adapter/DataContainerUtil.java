@@ -201,5 +201,34 @@ public class DataContainerUtil {
 			MessageList.init(container).clear();
 		}
 	}
+
+	/**
+	 * Gets the interface class of a dataContainer
+	 * @param dataContainer
+	 * @return
+	 */
+	public static Class getDataContainerInterface(DataContainer dataContainer) {
+		Class[] interfaces = dataContainer.getClass().getInterfaces();
+		Class interfaceClass = null;
+		
+		boolean found = false;
+		
+		for (int i = 0; i < interfaces.length; i++) {
+			interfaceClass = interfaces[i];
+			String interfaceName = interfaceClass.getName();
+			if (interfaceName.endsWith("DataContainer"))
+			{
+				found = true; 
+				break;
+			}
+		}
+		
+		if (!found && interfaces.length > 1)
+		{
+			AbstractBaseCimAdapter.logger.warning("For the class " + dataContainer.getClass().getName() + " no Interface that ends with DataContainer was found");
+		}
+		
+		return interfaceClass;
+	}
 	
 }
