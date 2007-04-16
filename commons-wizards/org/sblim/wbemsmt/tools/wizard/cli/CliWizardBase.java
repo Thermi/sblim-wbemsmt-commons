@@ -21,8 +21,6 @@
   */
 package org.sblim.wbemsmt.tools.wizard.cli;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
@@ -111,15 +109,13 @@ public abstract class CliWizardBase implements WizardBase {
 	{
 	}
 	
-	public List finish() throws ValidationException, ObjectUpdateException, UpdateControlsException, ObjectSaveException, ObjectCreationException
+	public MessageList finish() throws ValidationException, ObjectUpdateException, UpdateControlsException, ObjectSaveException, ObjectCreationException
 	{
         String actualPanelName = (String) container.getUsedPages().peek();
 		logger.info("finish - currentPageName: "+actualPanelName);
         currentPanel = (BaseDataContainer)container.getPages().get(actualPanelName);
         baseCimAdapter.create((DataContainer) currentPanel);
-        List result = new ArrayList();
-        //put errors here
-        return result;
+        return MessageList.init(currentPanel);
 	}	
 	
 	public void cancel() throws ValidationException, ObjectUpdateException, UpdateControlsException, ObjectSaveException

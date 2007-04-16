@@ -318,13 +318,14 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 			baseCimAdapter.create(dc);
 			
 			
+			String wizardName = getClass().getSimpleName();
 			if (dc.getMessagesList() != null && dc.getMessagesList().hasErrors())
 			{
-				addMessages(new Message(ErrCodes.MSG_CREATE_FAILED,Message.ERROR,bundle.getString(ErrCodes.MSG_CREATE_FAILED,"create.failed")),dc.getMessagesList(), true);        
+				addMessages(new Message(ErrCodes.MSG_CREATE_FAILED,Message.ERROR,bundle.getString(wizardName + ".create.failed")),dc.getMessagesList(), true);        
 			}
 			else
 			{
-				addMessages(new Message(ErrCodes.MSG_CREATE_SUCCESS,Message.SUCCESS,bundle.getString(currentPanel.getClass().getName() + ".create.success")),dc.getMessagesList(), true);        
+				addMessages(new Message(ErrCodes.MSG_CREATE_SUCCESS,Message.SUCCESS,bundle.getString(wizardName + ".create.success")),dc.getMessagesList(), true);        
 				baseCimAdapter.reload();
 			}
 
