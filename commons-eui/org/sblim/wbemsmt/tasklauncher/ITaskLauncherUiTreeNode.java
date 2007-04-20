@@ -22,14 +22,13 @@ package org.sblim.wbemsmt.tasklauncher;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sblim.wbemsmt.tasklauncher.TaskLauncherContextMenu;
-import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
+import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 
 public interface ITaskLauncherUiTreeNode {
 
-	public abstract TaskLauncherTreeNode getTaskLauncherTreeNode();
+	public abstract ITaskLauncherTreeNode getTaskLauncherTreeNode();
 
-	public abstract void setTaskLauncherTreeNode(TaskLauncherTreeNode taskLauncherTreeNode);
+	public abstract void setTaskLauncherTreeNode(ITaskLauncherTreeNode taskLauncherTreeNode);
 
 	public abstract ITaskLauncherUiTreeNode getParent();
 

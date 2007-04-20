@@ -27,6 +27,7 @@ import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
+import org.sblim.wbemsmt.webapp.jsf.JsfTreeNode;
 
 
 public abstract class TaskLauncherTreeNodeEventListenerImpl implements TaskLauncherTreeNodeEventListener
@@ -75,6 +76,18 @@ public abstract class TaskLauncherTreeNodeEventListenerImpl implements TaskLaunc
 			return ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance());
 		}
 		throw new RuntimeException("Init Bundle for swing first");
+	}
+
+	public void addNode(ITaskLauncherTreeNode parent, ITaskLauncherTreeNode child, boolean leaf) {
+		if (RuntimeUtil.getInstance().isJSF())
+		{
+			new JsfTreeNode(JsfTreeNode.FACET_TREENODE, child.getName(), false, child);
+		}
+		else
+		{
+			throw new IllegalArgumentException("Runtime " + RuntimeUtil.getInstance().getRuntime() +  " is not supported");
+		}
+		parent.addSubnode(child);
 	}
     
 }

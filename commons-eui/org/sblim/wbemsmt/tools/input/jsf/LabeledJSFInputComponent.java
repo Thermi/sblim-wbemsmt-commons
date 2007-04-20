@@ -52,6 +52,7 @@ import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.bl.fielddata.FieldData;
+import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.converter.Converter;
@@ -537,7 +538,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 			
 			if (adapter.getActiveModule() == AbstractBaseCimAdapter.ACTIVE_EDIT)
 			{
-				TaskLauncherTreeNode selectedNode = objectActionController.getSelectedNode();
+				ITaskLauncherTreeNode selectedNode = objectActionController.getSelectedNode();
 				int selectTabIndex = objectActionController.getSelectedTabIndex();
 				String selectTabId = objectActionController.getSelectedTabId();
 

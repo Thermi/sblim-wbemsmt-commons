@@ -221,7 +221,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * @param nodeToPaste
      * @param offset relative position to the reference.
      */
-    public void insertSubnode(TaskLauncherTreeNode reference, TaskLauncherTreeNode nodeToPaste, int offset)
+    public void insertSubnode(ITaskLauncherTreeNode reference, ITaskLauncherTreeNode nodeToPaste, int offset)
     {
         int insertPosition = subnodes.indexOf(reference);
 
@@ -254,7 +254,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * @param nodeToPaste
      * @param offset relative position to the reference.
      */
-    private void pasteXMLSubnode(TaskLauncherTreeNode reference, TaskLauncherTreeNode nodeToPaste, int offset)
+    private void pasteXMLSubnode(ITaskLauncherTreeNode reference, ITaskLauncherTreeNode nodeToPaste, int offset)
     {
         // default position is the end
         int insertPosition = xmlconfigNode.sizeOfTreenodeArray();

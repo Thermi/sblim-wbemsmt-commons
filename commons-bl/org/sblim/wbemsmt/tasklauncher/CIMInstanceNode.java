@@ -42,17 +42,25 @@ public class CIMInstanceNode extends TaskLauncherTreeNode implements Serializabl
         this(cimClient, xmlconfigNode, null,cimInstance);
     }
     
+    /**
+     * @param cimClient
+     * @param xmlconfigNode configuration - can be null
+     * @param name
+     * @param cimInstance
+     */
     public CIMInstanceNode(CIMClient cimClient, TreenodeDocument.Treenode xmlconfigNode, String name, CIMInstance cimInstance)
     {
     	super(cimClient, xmlconfigNode, (name != null) ? name : cimInstance.getClassName());
     	this.cimInstance = cimInstance;
     	
-    	EventListener[] eventListenerArray = xmlconfigNode.getCimclass().getInstanceSubnodes().getEventListenerArray();
-    	for (int i = 0; i < eventListenerArray.length; i++) {
-			EventListener listener = eventListenerArray[i];
-			addEventListener(listener);
-		}
-    	
+    	if (xmlconfigNode != null)
+    	{
+    		EventListener[] eventListenerArray = xmlconfigNode.getCimclass().getInstanceSubnodes().getEventListenerArray();
+    		for (int i = 0; i < eventListenerArray.length; i++) {
+    			EventListener listener = eventListenerArray[i];
+    			addEventListener(listener);
+    		}
+    	}
     }    
 
 

@@ -36,6 +36,7 @@ import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.bl.adapter.DataContainerUtil;
 import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
+import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.ITreeSelector;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
 import org.sblim.wbemsmt.exception.ObjectSaveException;
@@ -81,7 +82,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 	/**
 	 * Panel selection while starting the wizard
 	 */
-	private TaskLauncherTreeNode selectedNode;
+	private ITaskLauncherTreeNode selectedNode;
 	private int selectTabIndex;
 	private String selectTabId;
 	

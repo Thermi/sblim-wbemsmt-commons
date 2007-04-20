@@ -76,7 +76,7 @@ public class JsfTreeNode implements TaskLauncherTreeNodeEventListener, TreeNode,
     private ArrayList children;
     
     private JsfTreeNode parent;
-    private TaskLauncherTreeNode taskLauncherTreeNode;
+    private ITaskLauncherTreeNode taskLauncherTreeNode;
     private boolean eventListenerFlag = false;
     private boolean customEventListenerFlag = false;
 
@@ -93,7 +93,7 @@ public class JsfTreeNode implements TaskLauncherTreeNodeEventListener, TreeNode,
         this.leaf = leaf;
     }
     
-    public JsfTreeNode(String type, String description, boolean leaf, TaskLauncherTreeNode treeNode)
+    public JsfTreeNode(String type, String description, boolean leaf, ITaskLauncherTreeNode treeNode)
     {
         this(type, description, leaf);
         this.setTaskLauncherTreeNode(treeNode);
@@ -136,7 +136,7 @@ public class JsfTreeNode implements TaskLauncherTreeNodeEventListener, TreeNode,
     /* (non-Javadoc)
 	 * @see org.sblim.wbemsmt.tasklauncher.jsf.ITaskLauncherUiTreeNode#getTaskLauncherTreeNode()
 	 */
-    public TaskLauncherTreeNode getTaskLauncherTreeNode()
+    public ITaskLauncherTreeNode getTaskLauncherTreeNode()
     {
         return taskLauncherTreeNode;
     }
@@ -144,7 +144,7 @@ public class JsfTreeNode implements TaskLauncherTreeNodeEventListener, TreeNode,
     /* (non-Javadoc)
 	 * @see org.sblim.wbemsmt.tasklauncher.jsf.ITaskLauncherUiTreeNode#setTaskLauncherTreeNode(org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode)
 	 */
-    public void setTaskLauncherTreeNode(TaskLauncherTreeNode treeNode)
+    public void setTaskLauncherTreeNode(ITaskLauncherTreeNode treeNode)
     {
         this.taskLauncherTreeNode = treeNode;
         this.taskLauncherTreeNode.addEventListener(this);

@@ -29,8 +29,8 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 
 import org.apache.myfaces.custom.tree2.HtmlTree;
+import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.ITreeSelector;
-import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 
 public class TreeNodeActionListener implements ActionListener
@@ -68,7 +68,7 @@ public class TreeNodeActionListener implements ActionListener
         ObjectActionControllerBean objectActionController = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(facesContext);
         objectActionController.setSelectedNode(node.getTaskLauncherTreeNode());
         
-        TaskLauncherTreeNode treeNode = node.getTaskLauncherTreeNode();
+        ITaskLauncherTreeNode treeNode = node.getTaskLauncherTreeNode();
 
         String result = treeNode.click(true);
         if (result != null)

@@ -46,7 +46,6 @@ import org.sblim.wbemsmt.exception.ObjectNotFoundException;
 import org.sblim.wbemsmt.exception.ObjectUpdateException;
 import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
-import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tasklauncher.event.jsf.JsfEditListener;
 import org.sblim.wbemsmt.tools.jsf.EditBasePanel;
 import org.sblim.wbemsmt.tools.jsf.EditBean;
@@ -76,7 +75,7 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	private String cimomName;
 	
 	public final String KEY_VERSION = "wbemsmt-version";
-	public TaskLauncherTreeNode selectedNode;
+	public ITaskLauncherTreeNode selectedNode;
 
 	private List welcomeContainers = new ArrayList(); 
 	
@@ -237,11 +236,11 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 		adapter.clear();
 	}
 
-	public void setSelectedNode(TaskLauncherTreeNode node) {
+	public void setSelectedNode(ITaskLauncherTreeNode node) {
 		this.selectedNode = node;
 	}
 
-	public TaskLauncherTreeNode getSelectedNode() {
+	public ITaskLauncherTreeNode getSelectedNode() {
 		return selectedNode;
 	}
 
