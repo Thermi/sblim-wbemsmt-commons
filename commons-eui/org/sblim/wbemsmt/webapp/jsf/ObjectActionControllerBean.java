@@ -149,12 +149,13 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	public void clearEditBeans()
 	{
 		editBeans.clear();
-		editBeansModified = null;
+		clearEditBeansModified();
 	}
 	
 	public void clearEditBeansModified()
 	{
 		editBeansModified = null;
+		wizardActive = false;
 	}
 	
 	public void addEditBean(String key, EditBean editBean)
@@ -278,6 +279,7 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 
 	public void setWizardActive(boolean wizardActive) {
 		this.wizardActive = wizardActive;
+		this.editBeansModified = new Boolean(!wizardActive);
 	}
 
 	/**
