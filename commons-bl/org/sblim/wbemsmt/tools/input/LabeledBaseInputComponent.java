@@ -1,7 +1,7 @@
 /** 
  * LabeledBaseInputComponent.java
  *
- * © Copyright IBM Corp. 2005
+ * Â© Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -56,8 +56,7 @@ public abstract class LabeledBaseInputComponent implements LabeledBaseInputCompo
 	private boolean needConfirmation = false;
 	/**
 	 * Property is Accessed through ActionComponent Interface which is implemented by the subclasses
-	 * @see ActionComponent#isShowWait()
-	 * @see ActionComponent#setShowWait(boolean)
+	 * @see ActionComponent#isShowWait()	 * @see ActionComponent#setShowWait(boolean)
 	 */
 	private boolean showWait = false;
 	
@@ -65,6 +64,8 @@ public abstract class LabeledBaseInputComponent implements LabeledBaseInputCompo
 		
 	
 	protected Logger logger = Logger.getLogger("org.sblim.wbemsmt.tools.input");
+
+	protected Size size = LabeledBaseInputComponentIf.SIZE_M;
 	
 	public LabeledBaseInputComponent(DataContainer parent, String labelText, Converter converter) {
 		this.parent = parent;
@@ -224,6 +225,32 @@ public abstract class LabeledBaseInputComponent implements LabeledBaseInputCompo
 		this.modified = modified;
 	}		
 
+	/**
+	 * Wrapper class for the size
+	 * @author Bauschert
+	 *
+	 */
+	public static class Size
+	{
+		private final int value;
+
+		Size(int value)
+		{
+			this.value = value;
+		}
+
+		public int getValue() {
+			return this.value;
+		}
+	}
+
+	public Size getSize() {
+		return size ;
+	}
+
+	public void setSize(Size size) {
+		this.size = size;
+	}
 	
 	
 

@@ -1,7 +1,7 @@
 /** 
   *LabeledJSFPasswordFieldComponent.java
   *
-  * © Copyright IBM Corp. 2005
+  * ï¿½ Copyright IBM Corp. 2005
   *
   * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -33,8 +33,12 @@ public class LabeledJSFPasswordFieldComponent extends LabeledJSFInputComponent {
 		super(parent, labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputSecret.COMPONENT_TYPE), converter,readOnly);
 		HtmlInputSecret txt = ((HtmlInputSecret)component);
 		txt.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
+		txt.setValueBinding("size", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Size}"));
 		txt.setRedisplay(true);
 		txt.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
 	}
-
+	
+	public void sizeChanged(Size size) {
+		setSize(size);
+	}
 }

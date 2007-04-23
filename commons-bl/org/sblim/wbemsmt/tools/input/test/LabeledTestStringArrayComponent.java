@@ -1,7 +1,7 @@
  /** 
   * LabeledTestInputComponent.java
   *
-  * © Copyright IBM Corp. 2005
+  * ï¿½ Copyright IBM Corp. 2005
   *
   * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -99,7 +99,7 @@ public class LabeledTestStringArrayComponent extends LabeledBaseInputComponent i
 	}
 	
 
-	public void sizeChanged(int size) {
+	public void sizeChanged(Size size) {
 		
 		
 	}

@@ -1,7 +1,7 @@
 /** 
  * LabeledBaseInputComponentIf.java
  *
- * © Copyright IBM Corp. 2005
+ * Â© Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -22,12 +22,18 @@ package org.sblim.wbemsmt.tools.input;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.tools.converter.Converter;
+import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent.Size;
 
 public interface LabeledBaseInputComponentIf {
 
 	public static final int LEFT = 0; 
 	public static final int CENTER = 1; 
 	public static final int RIGHT = 2; 
+
+	public static final Size SIZE_S = new Size(25);
+	public static final Size SIZE_M = new Size(50);
+	public static final Size SIZE_L = new Size(100);
+	
 	
 	public abstract Object getItem();
 
@@ -143,4 +149,16 @@ public interface LabeledBaseInputComponentIf {
 	 */
 	public void setModified(boolean modified);
 
+	/**
+	 * get the size of the field
+	 * @return
+	 */
+	public Size getSize();
+
+	/**
+	 * Set the size of the field
+	 * @param size
+	 */
+	public void setSize(Size size);
+	
 }

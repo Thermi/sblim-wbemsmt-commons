@@ -1,7 +1,7 @@
 /** 
   *LabeledJSFInputFieldComponent.java
   *
-  * © Copyright IBM Corp. 2005
+  * ï¿½ Copyright IBM Corp. 2005
   *
   * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -35,7 +35,7 @@ public class LabeledJSFInputFieldComponent extends LabeledJSFInputComponent {
 		super(parent, labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputText.COMPONENT_TYPE), converter,readOnly);
 		HtmlInputText txt = ((HtmlInputText)component);
 		txt.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
-		txt.setSize(25);
+		txt.setValueBinding("size", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Size}"));
 		txt.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
 	}
 
@@ -51,6 +51,8 @@ public class LabeledJSFInputFieldComponent extends LabeledJSFInputComponent {
 		}
 	}
 	
+	public void sizeChanged(Size size) {
+		setSize(size);
+	}
 	
-
 }

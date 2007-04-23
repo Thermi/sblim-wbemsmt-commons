@@ -1,7 +1,7 @@
 /** 
   *LabeledJSFListComponent.java
   *
-  * © Copyright IBM Corp. 2005
+  * ï¿½ Copyright IBM Corp. 2005
   *
   * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -31,8 +31,6 @@ import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 
 public class LabeledJSFListComponent extends LabeledJSFInputComponent implements LabeledStringArrayInputComponentIf {
 
-	private int itemSize;
-	
 	public LabeledJSFListComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectOneListbox.COMPONENT_TYPE), converter,readOnly);
 //		super(labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputText.COMPONENT_TYPE) , converter);
@@ -45,23 +43,11 @@ public class LabeledJSFListComponent extends LabeledJSFInputComponent implements
 		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
 		menu.getChildren().add(items);
 		menu.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && !" + id +"Disabled}"));
-
 		createReadOnlyTable(id, menu);	
 
 	}
-
-	public void sizeChanged(int size) {
-		setItemSize(size);
-	}
-
-	public int getItemSize() {
-		return itemSize;
-	}
-
-	public void setItemSize(int itemSize) {
-		this.itemSize = Math.min(10,itemSize);
-	}
-
 	
-	
+	public void sizeChanged(Size size) {
+		setSize(size);
+	}
 }

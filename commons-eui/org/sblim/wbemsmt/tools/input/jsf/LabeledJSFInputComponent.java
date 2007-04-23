@@ -1,7 +1,7 @@
 /** 
  * LabeledJSFInputComponent.java
  *
- * © Copyright IBM Corp. 2005
+ * ï¿½ Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -53,7 +53,6 @@ import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.bl.fielddata.FieldData;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
-import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
@@ -212,6 +211,8 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	public String getItemFieldIndicatorAltText() {
 		return itemFieldIndicatorAltText;
 	}
+	
+	
 
 	public void setItemFieldIndicatorAltText(String itemFieldIndicatorAltText) {
 		this.itemFieldIndicatorAltText = itemFieldIndicatorAltText;
@@ -826,8 +827,21 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		this.fieldData = fieldData;
 	}
 
+	public int getItemSize() {
+		return size.getValue();
+	}
 	
-	
-	
+	public void sizeChanged(Size size) {
+		setCssWith(size);
+	}
+
+	/**
+	 * is called by the subclasses if the subclasses component is having no size attribuet, like label for example
+	 * @param size
+	 * @see LabeledJSFLabelComponent#sizeChanged(Size)
+	 */
+	public void setCssWith(Size size) {
+		addStyleSheetElement("width", ""+size.getValue() * 4);
+	}	
 }
 
