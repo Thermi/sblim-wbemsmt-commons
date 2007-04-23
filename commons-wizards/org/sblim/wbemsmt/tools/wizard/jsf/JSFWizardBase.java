@@ -1,7 +1,7 @@
  /** 
   * JSFWizardBase.java
   *
-  * © Copyright IBM Corp. 2005
+  * ï¿½ Copyright IBM Corp. 2005
   *
   * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -30,6 +30,7 @@ import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
@@ -319,7 +320,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 			baseCimAdapter.create(dc);
 			
 			
-			String wizardName = getClass().getSimpleName();
+			String wizardName = ClassUtils.getShortClassName(getClass());
 			if (dc.getMessagesList() != null && dc.getMessagesList().hasErrors())
 			{
 				addMessages(new Message(ErrCodes.MSG_CREATE_FAILED,Message.ERROR,bundle.getString(wizardName + ".create.failed")),dc.getMessagesList(), true);        
