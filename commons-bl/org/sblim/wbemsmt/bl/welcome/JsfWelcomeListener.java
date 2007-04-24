@@ -20,13 +20,10 @@
 package org.sblim.wbemsmt.bl.welcome;
 
 import javax.faces.component.UIComponentBase;
-import javax.faces.component.UIPanel;
-import javax.faces.component.html.HtmlPanelGrid;
 
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.exception.WbemSmtException;
-import org.sblim.wbemsmt.tools.jsf.EditBasePanel;
 /**
  * @author Bauschert
  *
