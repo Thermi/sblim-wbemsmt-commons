@@ -1,7 +1,7 @@
 /** 
  * CIM_CacheMemory.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,8 +16,15 @@
  * Contributors:
  *
  *
- * Description: Capabilities and management of Cache Memory. Cache memory is dedicated or allocated RAM that a Processor searches first for data, before going to 'regular' memory. CacheMemory is used to speed up the delivery of data to a Processor. It is usually described by its closeness to the Processor (for example, Primary or Secondary Cache). 
-If a DiskDrive includes RAM allocated for holding the disk's most recently read and/or adjacent data (in order to speed up retrieval), this also would be modeled as CacheMemory. Note that CacheMemory is NOT operating system or application level buffers but actual RAM allocated for caching data for a Processor, from a hard disk, etc.
+ * Description:  Capabilities and management of Cache Memory. Cache memory is dedicated or
+ * allocated RAM that a Processor searches first for data, before going to
+ * 'regular' memory. CacheMemory is used to speed up the delivery of data to a
+ * Processor. It is usually described by its closeness to the Processor (for
+ * example, Primary or Secondary Cache). If a DiskDrive includes RAM allocated
+ * for holding the disk's most recently read and/or adjacent data (in order to
+ * speed up retrieval), this also would be modeled as CacheMemory. Note that
+ * CacheMemory is NOT operating system or application level buffers but actual
+ * RAM allocated for caching data for a Processor, from a hard disk, etc.
  * 
  */
 
@@ -29,9 +36,20 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Capabilities and management of Cache Memory. Cache memory is dedicated or
+ * allocated RAM that a Processor searches first for data, before going to
+ * 'regular' memory. CacheMemory is used to speed up the delivery of data to a
+ * Processor. It is usually described by its closeness to the Processor (for
+ * example, Primary or Secondary Cache). If a DiskDrive includes RAM allocated
+ * for holding the disk's most recently read and/or adjacent data (in order to
+ * speed up retrieval), this also would be modeled as CacheMemory. Note that
+ * CacheMemory is NOT operating system or application level buffers but actual
+ * RAM allocated for caching data for a Processor, from a hard disk, etc.
+ */
 public class CIM_CacheMemory extends CIM_Memory  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_CacheMemory";
+	public final static String CIM_CLASS_NAME = "CIM_CacheMemory"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -304,7 +322,7 @@ public class CIM_CacheMemory extends CIM_Memory  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

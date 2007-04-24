@@ -1,7 +1,7 @@
 /** 
  * CIM_ApplicationSystemDirectory.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,14 @@
  * Contributors:
  *
  *
- * Description: CIM_ApplicationSystemDirectory is an association used to establish a relationship between an ApplicationSystem and the Directories that it uses. This is used to identify the single root installation directory for an ApplicationSystem, as well as the logical purpose of other directories utilized by the ApplicationSystem. Note: This class is intended to be a subclass of CIM_Dependency but the current specification prohibits the extension of parent keys in a subclass. This will be revisited when the specification changes to make the intended inheritance possible.
+ * Description:  CIM_ApplicationSystemDirectory is an association used to establish a
+ * relationship between an ApplicationSystem and the Directories that it uses.
+ * This is used to identify the single root installation directory for an
+ * ApplicationSystem, as well as the logical purpose of other directories
+ * utilized by the ApplicationSystem. Note: This class is intended to be a
+ * subclass of CIM_Dependency but the current specification prohibits the
+ * extension of parent keys in a subclass. This will be revisited when the
+ * specification changes to make the intended inheritance possible.
  * 
  */
 
@@ -28,13 +35,23 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_ApplicationSystemDirectory is an association used to establish a
+ * relationship between an ApplicationSystem and the Directories that it uses.
+ * This is used to identify the single root installation directory for an
+ * ApplicationSystem, as well as the logical purpose of other directories
+ * utilized by the ApplicationSystem. Note: This class is intended to be a
+ * subclass of CIM_Dependency but the current specification prohibits the
+ * extension of parent keys in a subclass. This will be revisited when the
+ * specification changes to make the intended inheritance possible.
+ */
 public class CIM_ApplicationSystemDirectory  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ApplicationSystemDirectory";
+	public final static String CIM_CLASS_NAME = "CIM_ApplicationSystemDirectory"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -219,7 +236,7 @@ public class CIM_ApplicationSystemDirectory  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
