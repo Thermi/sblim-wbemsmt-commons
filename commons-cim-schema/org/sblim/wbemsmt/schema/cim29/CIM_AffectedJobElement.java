@@ -1,7 +1,7 @@
 /** 
  * CIM_AffectedJobElement.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: AffectedJobElement represents an association between a Job and the ManagedElement(s) that may be affected by its execution. It may not be feasible for the Job to describe all of the affected elements. The main purpose of this association is to provide information when a Job requires exclusive use of the 'affected' ManagedElment(s) or when describing that side effects may result.
+ * Description:  AffectedJobElement represents an association between a Job and the
+ * ManagedElement(s) that may be affected by its execution. It may not be
+ * feasible for the Job to describe all of the affected elements. The main
+ * purpose of this association is to provide information when a Job requires
+ * exclusive use of the 'affected' ManagedElment(s) or when describing that side
+ * effects may result.
  * 
  */
 
@@ -28,13 +33,21 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  AffectedJobElement represents an association between a Job and the
+ * ManagedElement(s) that may be affected by its execution. It may not be
+ * feasible for the Job to describe all of the affected elements. The main
+ * purpose of this association is to provide information when a Job requires
+ * exclusive use of the 'affected' ManagedElment(s) or when describing that side
+ * effects may result.
+ */
 public class CIM_AffectedJobElement  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_AffectedJobElement";
+	public final static String CIM_CLASS_NAME = "CIM_AffectedJobElement"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -197,7 +210,7 @@ public class CIM_AffectedJobElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
