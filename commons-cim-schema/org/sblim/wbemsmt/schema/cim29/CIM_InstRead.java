@@ -1,7 +1,7 @@
 /** 
  * CIM_InstRead.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,7 @@
  * Contributors:
  *
  *
- * Description: CIM_InstRead notifies when an instance is read but not modified.
+ * Description:  CIM_InstRead notifies when an instance is read but not modified.
  * 
  */
 
@@ -28,9 +28,12 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_InstRead notifies when an instance is read but not modified.
+ */
 public class CIM_InstRead extends CIM_InstIndication  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_InstRead";
+	public final static String CIM_CLASS_NAME = "CIM_InstRead"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -184,7 +187,7 @@ public class CIM_InstRead extends CIM_InstIndication  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

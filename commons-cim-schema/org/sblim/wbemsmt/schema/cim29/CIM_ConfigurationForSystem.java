@@ -1,7 +1,7 @@
 /** 
  * CIM_ConfigurationForSystem.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: CIM_ConfigurationForSystem defines a Configuration in the context of the System on which it resides.
+ * Description:  CIM_ConfigurationForSystem defines a Configuration in the context of the System
+ * on which it resides.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_ConfigurationForSystem defines a Configuration in the context of the System
+ * on which it resides.
+ */
 public class CIM_ConfigurationForSystem extends CIM_HostedDependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ConfigurationForSystem";
+	public final static String CIM_CLASS_NAME = "CIM_ConfigurationForSystem"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +196,7 @@ public class CIM_ConfigurationForSystem extends CIM_HostedDependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

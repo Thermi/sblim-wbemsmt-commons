@@ -1,7 +1,7 @@
 /** 
  * CIM_HostedJobDestination.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: An association between a JobDestination and a System on which it resides. The cardinality of this association is 1-to-many. A System may host many Job queues. Job Destinations are weak with respect to their hosting System. Heuristic: A JobDestination is hosted on the System where the LogicalDevices, SoftwareFeatures or Services that implement/ provide the JobDestination are located.
+ * Description:  An association between a JobDestination and a System on which it resides. The
+ * cardinality of this association is 1-to-many. A System may host many Job
+ * queues. Job Destinations are weak with respect to their hosting System.
+ * Heuristic: A JobDestination is hosted on the System where the LogicalDevices,
+ * SoftwareFeatures or Services that implement/ provide the JobDestination are
+ * located.
  * 
  */
 
@@ -28,9 +33,17 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  An association between a JobDestination and a System on which it resides. The
+ * cardinality of this association is 1-to-many. A System may host many Job
+ * queues. Job Destinations are weak with respect to their hosting System.
+ * Heuristic: A JobDestination is hosted on the System where the LogicalDevices,
+ * SoftwareFeatures or Services that implement/ provide the JobDestination are
+ * located.
+ */
 public class CIM_HostedJobDestination extends CIM_HostedDependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_HostedJobDestination";
+	public final static String CIM_CLASS_NAME = "CIM_HostedJobDestination"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +204,7 @@ public class CIM_HostedJobDestination extends CIM_HostedDependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_ChassisInRack.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: Racks, as simple enclosures, contain Chassis that provide the physical componentry realizing processing nodes, storage devices, UPSs, etc. The ChassisInRack association makes explicit the 'containing' relationship between the Rack and the Chassis.
+ * Description:  Racks, as simple enclosures, contain Chassis that provide the physical
+ * componentry realizing processing nodes, storage devices, UPSs, etc. The
+ * ChassisInRack association makes explicit the 'containing' relationship
+ * between the Rack and the Chassis.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Racks, as simple enclosures, contain Chassis that provide the physical
+ * componentry realizing processing nodes, storage devices, UPSs, etc. The
+ * ChassisInRack association makes explicit the 'containing' relationship
+ * between the Rack and the Chassis.
+ */
 public class CIM_ChassisInRack extends CIM_Container  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ChassisInRack";
+	public final static String CIM_CLASS_NAME = "CIM_ChassisInRack"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -203,7 +212,7 @@ public class CIM_ChassisInRack extends CIM_Container  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

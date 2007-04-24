@@ -1,7 +1,7 @@
 /** 
  * CIM_ConcreteJob.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: A concrete version of Job. This class represents a generic and instantiable unit of work, such as a batch or a print job.
+ * Description:  A concrete version of Job. This class represents a generic and instantiable
+ * unit of work, such as a batch or a print job.
  * 
  */
 
@@ -31,9 +32,13 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A concrete version of Job. This class represents a generic and instantiable
+ * unit of work, such as a batch or a print job.
+ */
 public class CIM_ConcreteJob extends CIM_Job  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ConcreteJob";
+	public final static String CIM_CLASS_NAME = "CIM_ConcreteJob"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -286,7 +291,7 @@ If 0 is returned, then the task completed successfully. Any other return code in
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

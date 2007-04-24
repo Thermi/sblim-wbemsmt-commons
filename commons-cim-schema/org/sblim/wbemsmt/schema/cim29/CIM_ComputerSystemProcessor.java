@@ -1,7 +1,7 @@
 /** 
  * CIM_ComputerSystemProcessor.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: Association indicating the processor(s) of a UnitaryComputer System. ComputerSystemProcessor is depreacted in lieu of its superclass, SystemDevice, since it adds no detail and changes none of the cardinalities in the superclass' definition.
+ * Description:  Association indicating the processor(s) of a UnitaryComputer System.
+ * ComputerSystemProcessor is depreacted in lieu of its superclass,
+ * SystemDevice, since it adds no detail and changes none of the cardinalities
+ * in the superclass' definition.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Association indicating the processor(s) of a UnitaryComputer System.
+ * ComputerSystemProcessor is depreacted in lieu of its superclass,
+ * SystemDevice, since it adds no detail and changes none of the cardinalities
+ * in the superclass' definition.
+ */
 public class CIM_ComputerSystemProcessor extends CIM_SystemDevice  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ComputerSystemProcessor";
+	public final static String CIM_CLASS_NAME = "CIM_ComputerSystemProcessor"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +200,7 @@ public class CIM_ComputerSystemProcessor extends CIM_SystemDevice  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

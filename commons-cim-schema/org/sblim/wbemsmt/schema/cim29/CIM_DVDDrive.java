@@ -1,7 +1,7 @@
 /** 
  * CIM_DVDDrive.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,7 @@
  * Contributors:
  *
  *
- * Description: Capabilities and management of a DVDDrive, a subtype of MediaAccessDevice.
+ * Description:  Capabilities and management of a DVDDrive, a subtype of MediaAccessDevice.
  * 
  */
 
@@ -28,9 +28,12 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Capabilities and management of a DVDDrive, a subtype of MediaAccessDevice.
+ */
 public class CIM_DVDDrive extends CIM_MediaAccessDevice  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_DVDDrive";
+	public final static String CIM_CLASS_NAME = "CIM_DVDDrive"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -220,7 +223,7 @@ public class CIM_DVDDrive extends CIM_MediaAccessDevice  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

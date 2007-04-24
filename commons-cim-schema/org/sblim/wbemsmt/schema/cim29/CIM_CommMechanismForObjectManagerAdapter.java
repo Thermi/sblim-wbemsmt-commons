@@ -1,7 +1,7 @@
 /** 
  * CIM_CommMechanismForObjectManagerAdapter.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: CommMechanismForObjectManagerAdapter is an association between an ObjectManager's communication mechanism and a ObjectManagerAdapter that supports that mechanism to translate requests and responses for the Object Manager.
+ * Description:  CommMechanismForObjectManagerAdapter is an association between an
+ * ObjectManager's communication mechanism and a ObjectManagerAdapter that
+ * supports that mechanism to translate requests and responses for the Object
+ * Manager.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CommMechanismForObjectManagerAdapter is an association between an
+ * ObjectManager's communication mechanism and a ObjectManagerAdapter that
+ * supports that mechanism to translate requests and responses for the Object
+ * Manager.
+ */
 public class CIM_CommMechanismForObjectManagerAdapter extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_CommMechanismForObjectManagerAdapter";
+	public final static String CIM_CLASS_NAME = "CIM_CommMechanismForObjectManagerAdapter"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +200,7 @@ public class CIM_CommMechanismForObjectManagerAdapter extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

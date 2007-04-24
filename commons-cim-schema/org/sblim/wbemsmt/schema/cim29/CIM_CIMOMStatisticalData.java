@@ -1,7 +1,7 @@
 /** 
  * CIM_CIMOMStatisticalData.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,23 @@
  * Contributors:
  *
  *
- * Description: CIM_CIMOMStatisticalData provides statistical data about the performance of the CIM Object Manager. Each object of this class provides elapsed time and size data for a particular type of CIM operation. All operations of that type, regardless of the CIM operations protocol being used, are accumulated in one object and covers the CIM operations issued by all clients of the Object Manager scoping the instance. Batched CIM operations are accumulated into a separate operation type for "Batched". The counters in this class SHOULD be implemented such that they always increment and naturally wrap around when their numerical limit is exceeded. A client that calculates the difference of two snapshots of a counter at the beginning and end of a measurement interval should get the correct result, even if there was a wrap-around in between obtaining the two snapshots. (Two or more wrap arounds will result in wrong data being calculated.) The gathering of the data can be controlled through the property, CIM_ObjectManager.GatherStatisticalData. The time interval to which the statistical data applies, ends at the current time and therefore includes the most current CIM operations. The interval starts when the statistical data gathering was last turned on for the Object Manager.
+ * Description:  CIM_CIMOMStatisticalData provides statistical data about the performance of the
+ * CIM Object Manager. Each object of this class provides elapsed time and size
+ * data for a particular type of CIM operation. All operations of that type,
+ * regardless of the CIM operations protocol being used, are accumulated in one
+ * object and covers the CIM operations issued by all clients of the Object
+ * Manager scoping the instance. Batched CIM operations are accumulated into a
+ * separate operation type for "Batched". The counters in this class SHOULD be
+ * implemented such that they always increment and naturally wrap around when
+ * their numerical limit is exceeded. A client that calculates the difference of
+ * two snapshots of a counter at the beginning and end of a measurement interval
+ * should get the correct result, even if there was a wrap-around in between
+ * obtaining the two snapshots. (Two or more wrap arounds will result in wrong
+ * data being calculated.) The gathering of the data can be controlled through
+ * the property, CIM_ObjectManager.GatherStatisticalData. The time interval to
+ * which the statistical data applies, ends at the current time and therefore
+ * includes the most current CIM operations. The interval starts when the
+ * statistical data gathering was last turned on for the Object Manager.
  * 
  */
 
@@ -29,9 +45,28 @@ import org.sblim.wbem.cim.*;
 import java.util.Calendar;
 
 
+/**
+ *  CIM_CIMOMStatisticalData provides statistical data about the performance of the
+ * CIM Object Manager. Each object of this class provides elapsed time and size
+ * data for a particular type of CIM operation. All operations of that type,
+ * regardless of the CIM operations protocol being used, are accumulated in one
+ * object and covers the CIM operations issued by all clients of the Object
+ * Manager scoping the instance. Batched CIM operations are accumulated into a
+ * separate operation type for "Batched". The counters in this class SHOULD be
+ * implemented such that they always increment and naturally wrap around when
+ * their numerical limit is exceeded. A client that calculates the difference of
+ * two snapshots of a counter at the beginning and end of a measurement interval
+ * should get the correct result, even if there was a wrap-around in between
+ * obtaining the two snapshots. (Two or more wrap arounds will result in wrong
+ * data being calculated.) The gathering of the data can be controlled through
+ * the property, CIM_ObjectManager.GatherStatisticalData. The time interval to
+ * which the statistical data applies, ends at the current time and therefore
+ * includes the most current CIM operations. The interval starts when the
+ * statistical data gathering was last turned on for the Object Manager.
+ */
 public class CIM_CIMOMStatisticalData extends CIM_StatisticalData  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_CIMOMStatisticalData";
+	public final static String CIM_CLASS_NAME = "CIM_CIMOMStatisticalData"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -312,7 +347,7 @@ The <ID> MUST include a CIM Object Manager specified unique identifier.
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

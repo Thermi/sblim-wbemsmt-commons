@@ -1,7 +1,7 @@
 /** 
  * CIM_Chassis.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: The Chassis class represents the PhysicalElements that enclose other Elements and provide definable functionality, such as a desktop, processing node, UPS, disk or tape storage, or a combination of these.
+ * Description:  The Chassis class represents the PhysicalElements that enclose other Elements
+ * and provide definable functionality, such as a desktop, processing node, UPS,
+ * disk or tape storage, or a combination of these.
  * 
  */
 
@@ -33,17 +35,22 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  The Chassis class represents the PhysicalElements that enclose other Elements
+ * and provide definable functionality, such as a desktop, processing node, UPS,
+ * disk or tape storage, or a combination of these.
+ */
 public class CIM_Chassis extends CIM_PhysicalFrame  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Chassis";
+	public final static String CIM_CLASS_NAME = "CIM_Chassis"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.8.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_CHASSISINRACK = "CIM_ChassisInRack";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DOCKED = "CIM_Docked";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PACKAGEINCHASSIS = "CIM_PackageInChassis";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_CHASSISINRACK = "CIM_ChassisInRack"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DOCKED = "CIM_Docked"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PACKAGEINCHASSIS = "CIM_PackageInChassis"; //$NON-NLS-1$
 	
 	
 	/**
@@ -337,7 +344,7 @@ An array of free-form strings providing more information on the ChassisTypes arr
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -462,8 +469,8 @@ An array of free-form strings providing more information on the ChassisTypes arr
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_CHASSISINRACK, 
 					CIM_Rack.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -476,9 +483,9 @@ An array of free-form strings providing more information on the ChassisTypes arr
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Chassis.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Chassis.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Chassis.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Chassis.Java_Package_List.setElementAt((String)(CIM_Chassis.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Chassis.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Chassis.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Chassis.Java_Package_List.setElementAt((String)(CIM_Chassis.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Chassis.Java_Package_List.get(i)) + cimClassName;
 
@@ -548,8 +555,8 @@ An array of free-form strings providing more information on the ChassisTypes arr
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_CHASSISINRACK, 
 					CIM_Rack.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -589,8 +596,8 @@ An array of free-form strings providing more information on the ChassisTypes arr
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_DOCKED, 
 					CIM_Chassis.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -603,9 +610,9 @@ An array of free-form strings providing more information on the ChassisTypes arr
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Chassis.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Chassis.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Chassis.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Chassis.Java_Package_List.setElementAt((String)(CIM_Chassis.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Chassis.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Chassis.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Chassis.Java_Package_List.setElementAt((String)(CIM_Chassis.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Chassis.Java_Package_List.get(i)) + cimClassName;
 
@@ -675,8 +682,8 @@ An array of free-form strings providing more information on the ChassisTypes arr
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_DOCKED, 
 					CIM_Chassis.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -716,8 +723,8 @@ An array of free-form strings providing more information on the ChassisTypes arr
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PACKAGEINCHASSIS, 
 					CIM_PhysicalPackage.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -730,9 +737,9 @@ An array of free-form strings providing more information on the ChassisTypes arr
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Chassis.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Chassis.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Chassis.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Chassis.Java_Package_List.setElementAt((String)(CIM_Chassis.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Chassis.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Chassis.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Chassis.Java_Package_List.setElementAt((String)(CIM_Chassis.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Chassis.Java_Package_List.get(i)) + cimClassName;
 
@@ -802,8 +809,8 @@ An array of free-form strings providing more information on the ChassisTypes arr
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PACKAGEINCHASSIS, 
 					CIM_PhysicalPackage.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

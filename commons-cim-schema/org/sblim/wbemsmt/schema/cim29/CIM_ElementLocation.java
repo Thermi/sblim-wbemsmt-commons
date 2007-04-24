@@ -1,7 +1,7 @@
 /** 
  * CIM_ElementLocation.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: ElementLocation associates a ManagedElement with a Location for positioning, inventory, maintenance and similar purposes. PhysicalElements can certainly have Locations - this is explicitly defined in a subclass, PhysicalElement Location. However, other ManagedElements may also be associated with Locations. For example, Organizations may be 'in' one or more Locations, or Services may be restricted to a Location.
+ * Description:  ElementLocation associates a ManagedElement with a Location for positioning,
+ * inventory, maintenance and similar purposes. PhysicalElements can certainly
+ * have Locations - this is explicitly defined in a subclass, PhysicalElement
+ * Location. However, other ManagedElements may also be associated with
+ * Locations. For example, Organizations may be 'in' one or more Locations, or
+ * Services may be restricted to a Location.
  * 
  */
 
@@ -28,13 +33,21 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  ElementLocation associates a ManagedElement with a Location for positioning,
+ * inventory, maintenance and similar purposes. PhysicalElements can certainly
+ * have Locations - this is explicitly defined in a subclass, PhysicalElement
+ * Location. However, other ManagedElements may also be associated with
+ * Locations. For example, Organizations may be 'in' one or more Locations, or
+ * Services may be restricted to a Location.
+ */
 public class CIM_ElementLocation  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ElementLocation";
+	public final static String CIM_CLASS_NAME = "CIM_ElementLocation"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +191,7 @@ public class CIM_ElementLocation  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

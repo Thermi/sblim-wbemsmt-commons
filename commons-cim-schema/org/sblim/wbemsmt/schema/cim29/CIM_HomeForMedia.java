@@ -1,7 +1,7 @@
 /** 
  * CIM_HomeForMedia.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: In a StorageLibrary or repository for PhysicalMedia, it is reasonable that a specific Media always be placed in a specific Location (rather than anywhere in the repository/ Library). The default location for a PhysicalMedia is called its 'home'. This information is expressed by the HomeForMedia dependency association. (Note that a PhysicalMedia can have at most one 'home', and a StorageMediaLocation can be 'home' to at most one Media.)
+ * Description:  In a StorageLibrary or repository for PhysicalMedia, it is reasonable that a
+ * specific Media always be placed in a specific Location (rather than anywhere
+ * in the repository/ Library). The default location for a PhysicalMedia is
+ * called its 'home'. This information is expressed by the HomeForMedia
+ * dependency association. (Note that a PhysicalMedia can have at most one
+ * 'home', and a StorageMediaLocation can be 'home' to at most one Media.)
  * 
  */
 
@@ -28,9 +33,17 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  In a StorageLibrary or repository for PhysicalMedia, it is reasonable that a
+ * specific Media always be placed in a specific Location (rather than anywhere
+ * in the repository/ Library). The default location for a PhysicalMedia is
+ * called its 'home'. This information is expressed by the HomeForMedia
+ * dependency association. (Note that a PhysicalMedia can have at most one
+ * 'home', and a StorageMediaLocation can be 'home' to at most one Media.)
+ */
 public class CIM_HomeForMedia extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_HomeForMedia";
+	public final static String CIM_CLASS_NAME = "CIM_HomeForMedia"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +204,7 @@ public class CIM_HomeForMedia extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

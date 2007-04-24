@@ -1,7 +1,7 @@
 /** 
  * CIM_DiskPartition.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: A DiskPartition is a presentation of a contiguous range of logical blocks that is identifiable by the Operating System via the Partition's type and subtype fields. Disk Partitions should be directly realized by PhysicalMedia (indicated by the RealizesDiskPartition association) or built on StorageVolumes (indicated by the PartitionBasedOnVolume association.
+ * Description:  A DiskPartition is a presentation of a contiguous range of logical blocks that
+ * is identifiable by the Operating System via the Partition's type and subtype
+ * fields. Disk Partitions should be directly realized by PhysicalMedia
+ * (indicated by the RealizesDiskPartition association) or built on
+ * StorageVolumes (indicated by the PartitionBasedOnVolume association.
  * 
  */
 
@@ -33,17 +37,24 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A DiskPartition is a presentation of a contiguous range of logical blocks that
+ * is identifiable by the Operating System via the Partition's type and subtype
+ * fields. Disk Partitions should be directly realized by PhysicalMedia
+ * (indicated by the RealizesDiskPartition association) or built on
+ * StorageVolumes (indicated by the PartitionBasedOnVolume association.
+ */
 public class CIM_DiskPartition extends CIM_MediaPartition  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_DiskPartition";
+	public final static String CIM_CLASS_NAME = "CIM_DiskPartition"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DISKPARTITIONBASEDONVOLUME = "CIM_DiskPartitionBasedOnVolume";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONPARTITION = "CIM_LogicalDiskBasedOnPartition";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_REALIZESDISKPARTITION = "CIM_RealizesDiskPartition";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DISKPARTITIONBASEDONVOLUME = "CIM_DiskPartitionBasedOnVolume"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONPARTITION = "CIM_LogicalDiskBasedOnPartition"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_REALIZESDISKPARTITION = "CIM_RealizesDiskPartition"; //$NON-NLS-1$
 	
 	
 	/**
@@ -330,7 +341,7 @@ public class CIM_DiskPartition extends CIM_MediaPartition  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -455,8 +466,8 @@ public class CIM_DiskPartition extends CIM_MediaPartition  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_DISKPARTITIONBASEDONVOLUME, 
 					CIM_StorageVolume.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -469,9 +480,9 @@ public class CIM_DiskPartition extends CIM_MediaPartition  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_DiskPartition.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_DiskPartition.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_DiskPartition.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_DiskPartition.Java_Package_List.setElementAt((String)(CIM_DiskPartition.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_DiskPartition.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_DiskPartition.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_DiskPartition.Java_Package_List.setElementAt((String)(CIM_DiskPartition.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_DiskPartition.Java_Package_List.get(i)) + cimClassName;
 
@@ -541,8 +552,8 @@ public class CIM_DiskPartition extends CIM_MediaPartition  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_DISKPARTITIONBASEDONVOLUME, 
 					CIM_StorageVolume.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -582,8 +593,8 @@ public class CIM_DiskPartition extends CIM_MediaPartition  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONPARTITION, 
 					CIM_LogicalDisk.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -596,9 +607,9 @@ public class CIM_DiskPartition extends CIM_MediaPartition  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_DiskPartition.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_DiskPartition.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_DiskPartition.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_DiskPartition.Java_Package_List.setElementAt((String)(CIM_DiskPartition.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_DiskPartition.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_DiskPartition.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_DiskPartition.Java_Package_List.setElementAt((String)(CIM_DiskPartition.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_DiskPartition.Java_Package_List.get(i)) + cimClassName;
 
@@ -668,8 +679,8 @@ public class CIM_DiskPartition extends CIM_MediaPartition  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONPARTITION, 
 					CIM_LogicalDisk.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -709,8 +720,8 @@ public class CIM_DiskPartition extends CIM_MediaPartition  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_REALIZESDISKPARTITION, 
 					CIM_PhysicalMedia.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -723,9 +734,9 @@ public class CIM_DiskPartition extends CIM_MediaPartition  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_DiskPartition.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_DiskPartition.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_DiskPartition.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_DiskPartition.Java_Package_List.setElementAt((String)(CIM_DiskPartition.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_DiskPartition.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_DiskPartition.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_DiskPartition.Java_Package_List.setElementAt((String)(CIM_DiskPartition.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_DiskPartition.Java_Package_List.get(i)) + cimClassName;
 
@@ -795,8 +806,8 @@ public class CIM_DiskPartition extends CIM_MediaPartition  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_REALIZESDISKPARTITION, 
 					CIM_PhysicalMedia.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

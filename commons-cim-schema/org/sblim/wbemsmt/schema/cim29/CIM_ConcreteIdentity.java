@@ -1,7 +1,7 @@
 /** 
  * CIM_ConcreteIdentity.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,9 +16,19 @@
  * Contributors:
  *
  *
- * Description: CIM_ConcreteIdentity associates two elements representing different aspects of the same underlying entity. It is defined as a concrete subclass of the abstract CIM_LogicalIdentity class, to be used in place of many specific subclasses of LogicalIdentity that add no semantics - i.e., that do not clarify the type of identity, update cardinalities, or add/remove qualifiers. Note -that when defining additional semantics for LogicalIdentity that this class should not be subclassed. Specifc semantics continue to be defined as subclasses of the abstract CIM_LogicalIdentity. ConcreteIdentity is limited in its use as a concrete form of a general identity relationship. 
-
-It was deemed more prudent to create this concrete subclass than to change LogicalIdentity from an abstract to a concrete class. LogicalIdentity already had multiple abstract subclasses in the CIM Schema, and wider industry usage and impact could not be anticipated.
+ * Description:  CIM_ConcreteIdentity associates two elements representing different aspects of
+ * the same underlying entity. It is defined as a concrete subclass of the
+ * abstract CIM_LogicalIdentity class, to be used in place of many specific
+ * subclasses of LogicalIdentity that add no semantics - i.e., that do not
+ * clarify the type of identity, update cardinalities, or add/remove qualifiers.
+ * Note -that when defining additional semantics for LogicalIdentity that this
+ * class should not be subclassed. Specifc semantics continue to be defined as
+ * subclasses of the abstract CIM_LogicalIdentity. ConcreteIdentity is limited
+ * in its use as a concrete form of a general identity relationship. It was
+ * deemed more prudent to create this concrete subclass than to change
+ * LogicalIdentity from an abstract to a concrete class. LogicalIdentity already
+ * had multiple abstract subclasses in the CIM Schema, and wider industry usage
+ * and impact could not be anticipated.
  * 
  */
 
@@ -30,9 +40,24 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_ConcreteIdentity associates two elements representing different aspects of
+ * the same underlying entity. It is defined as a concrete subclass of the
+ * abstract CIM_LogicalIdentity class, to be used in place of many specific
+ * subclasses of LogicalIdentity that add no semantics - i.e., that do not
+ * clarify the type of identity, update cardinalities, or add/remove qualifiers.
+ * Note -that when defining additional semantics for LogicalIdentity that this
+ * class should not be subclassed. Specifc semantics continue to be defined as
+ * subclasses of the abstract CIM_LogicalIdentity. ConcreteIdentity is limited
+ * in its use as a concrete form of a general identity relationship. It was
+ * deemed more prudent to create this concrete subclass than to change
+ * LogicalIdentity from an abstract to a concrete class. LogicalIdentity already
+ * had multiple abstract subclasses in the CIM Schema, and wider industry usage
+ * and impact could not be anticipated.
+ */
 public class CIM_ConcreteIdentity extends CIM_LogicalIdentity  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ConcreteIdentity";
+	public final static String CIM_CLASS_NAME = "CIM_ConcreteIdentity"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -193,7 +218,7 @@ public class CIM_ConcreteIdentity extends CIM_LogicalIdentity  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

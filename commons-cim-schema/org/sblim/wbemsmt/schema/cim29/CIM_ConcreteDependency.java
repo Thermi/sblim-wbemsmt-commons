@@ -1,7 +1,7 @@
 /** 
  * CIM_ConcreteDependency.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,9 +16,18 @@
  * Contributors:
  *
  *
- * Description: CIM_ConcreteDependency is a generic association used to establish dependency relationships between ManagedElements. It is defined as a concrete subclass of the abstract CIM_Dependency class, to be used in place of many specific subclasses of Dependency that add no semantics - i.e., that do not clarify the type of dependency, update cardinalities, or add/remove qualifiers. Note that when defining additional semantics for Dependency that this class MUST NOT be subclassed. Specific semantics continue to be defined as subclasses of the abstract CIM_Dependency. ConcreteDependency is limited in its use as a concrete form of a general dependency. 
-
-It was deemed more prudent to create this concrete subclass than to change Dependency from an abstract to a concrete class. Dependency already had multiple abstract subclasses in the CIM Schema, and wider industry usage and impact could not be anticipated.
+ * Description:  CIM_ConcreteDependency is a generic association used to establish dependency
+ * relationships between ManagedElements. It is defined as a concrete subclass
+ * of the abstract CIM_Dependency class, to be used in place of many specific
+ * subclasses of Dependency that add no semantics - i.e., that do not clarify
+ * the type of dependency, update cardinalities, or add/remove qualifiers. Note
+ * that when defining additional semantics for Dependency that this class MUST
+ * NOT be subclassed. Specific semantics continue to be defined as subclasses of
+ * the abstract CIM_Dependency. ConcreteDependency is limited in its use as a
+ * concrete form of a general dependency. It was deemed more prudent to create
+ * this concrete subclass than to change Dependency from an abstract to a
+ * concrete class. Dependency already had multiple abstract subclasses in the
+ * CIM Schema, and wider industry usage and impact could not be anticipated.
  * 
  */
 
@@ -30,9 +39,23 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_ConcreteDependency is a generic association used to establish dependency
+ * relationships between ManagedElements. It is defined as a concrete subclass
+ * of the abstract CIM_Dependency class, to be used in place of many specific
+ * subclasses of Dependency that add no semantics - i.e., that do not clarify
+ * the type of dependency, update cardinalities, or add/remove qualifiers. Note
+ * that when defining additional semantics for Dependency that this class MUST
+ * NOT be subclassed. Specific semantics continue to be defined as subclasses of
+ * the abstract CIM_Dependency. ConcreteDependency is limited in its use as a
+ * concrete form of a general dependency. It was deemed more prudent to create
+ * this concrete subclass than to change Dependency from an abstract to a
+ * concrete class. Dependency already had multiple abstract subclasses in the
+ * CIM Schema, and wider industry usage and impact could not be anticipated.
+ */
 public class CIM_ConcreteDependency extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ConcreteDependency";
+	public final static String CIM_CLASS_NAME = "CIM_ConcreteDependency"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -193,7 +216,7 @@ public class CIM_ConcreteDependency extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

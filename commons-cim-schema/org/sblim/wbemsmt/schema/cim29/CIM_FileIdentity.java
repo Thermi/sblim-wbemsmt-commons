@@ -1,7 +1,7 @@
 /** 
  * CIM_FileIdentity.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: CIM_FileIdentity indicates that a UnixFile describes Unix- specific aspects of the various subclasses of LogicalFile. The association exists since it forces UnixFile to be weak to (scoped by) the LogicalFile. This is not true in the association's superclass, LogicalIdentity.
+ * Description:  CIM_FileIdentity indicates that a UnixFile describes Unix- specific aspects of
+ * the various subclasses of LogicalFile. The association exists since it forces
+ * UnixFile to be weak to (scoped by) the LogicalFile. This is not true in the
+ * association's superclass, LogicalIdentity.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_FileIdentity indicates that a UnixFile describes Unix- specific aspects of
+ * the various subclasses of LogicalFile. The association exists since it forces
+ * UnixFile to be weak to (scoped by) the LogicalFile. This is not true in the
+ * association's superclass, LogicalIdentity.
+ */
 public class CIM_FileIdentity extends CIM_LogicalIdentity  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_FileIdentity";
+	public final static String CIM_CLASS_NAME = "CIM_FileIdentity"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +200,7 @@ public class CIM_FileIdentity extends CIM_LogicalIdentity  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

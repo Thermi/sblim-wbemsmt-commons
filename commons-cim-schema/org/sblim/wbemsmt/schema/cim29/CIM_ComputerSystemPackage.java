@@ -1,7 +1,7 @@
 /** 
  * CIM_ComputerSystemPackage.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: Similar to the way that LogicalDevices are 'Realized' by PhysicalElements, UnitaryComputerSystems are realized in one or more PhysicalPackages. The ComputerSystemPackage association explicitly defines this relationship.
+ * Description:  Similar to the way that LogicalDevices are 'Realized' by PhysicalElements,
+ * UnitaryComputerSystems are realized in one or more PhysicalPackages. The
+ * ComputerSystemPackage association explicitly defines this relationship.
  * 
  */
 
@@ -28,9 +30,14 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Similar to the way that LogicalDevices are 'Realized' by PhysicalElements,
+ * UnitaryComputerSystems are realized in one or more PhysicalPackages. The
+ * ComputerSystemPackage association explicitly defines this relationship.
+ */
 public class CIM_ComputerSystemPackage extends CIM_SystemPackaging  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ComputerSystemPackage";
+	public final static String CIM_CLASS_NAME = "CIM_ComputerSystemPackage"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -203,7 +210,7 @@ public class CIM_ComputerSystemPackage extends CIM_SystemPackaging  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

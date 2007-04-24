@@ -1,7 +1,7 @@
 /** 
  * CIM_Configuration.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,8 +16,18 @@
  * Contributors:
  *
  *
- * Description: The Configuration object allows the grouping of sets of parameters (defined in Setting objects) and dependencies for one or more ManagedSystemElements. It represents a certain behavior, or a desired functional state for the ManagedSystem Elements. Note that the CIM_Profile class uses simplified naming/identity and collection algorithms as compared to CIM_Configuration. 
-The desired functional state of the Configuration is typically driven by external requirements such as time or location. For example, to connect to a Mail System from 'home', a dependency on a modem exists, but a dependency on a network adapter exists at 'work'. Settings for the pertinent LogicalDevices (in this example, POTSModem and NetworkAdapter) can be defined and aggregated by the Configuration. Therefore, two 'Connect to Mail' Configurations may be defined grouping the relevant dependencies and Setting objects.
+ * Description:  The Configuration object allows the grouping of sets of parameters (defined in
+ * Setting objects) and dependencies for one or more ManagedSystemElements. It
+ * represents a certain behavior, or a desired functional state for the
+ * ManagedSystem Elements. Note that the CIM_Profile class uses simplified
+ * naming/identity and collection algorithms as compared to CIM_Configuration.
+ * The desired functional state of the Configuration is typically driven by
+ * external requirements such as time or location. For example, to connect to a
+ * Mail System from 'home', a dependency on a modem exists, but a dependency on
+ * a network adapter exists at 'work'. Settings for the pertinent LogicalDevices
+ * (in this example, POTSModem and NetworkAdapter) can be defined and aggregated
+ * by the Configuration. Therefore, two 'Connect to Mail' Configurations may be
+ * defined grouping the relevant dependencies and Setting objects.
  * 
  */
 
@@ -34,19 +44,33 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  The Configuration object allows the grouping of sets of parameters (defined in
+ * Setting objects) and dependencies for one or more ManagedSystemElements. It
+ * represents a certain behavior, or a desired functional state for the
+ * ManagedSystem Elements. Note that the CIM_Profile class uses simplified
+ * naming/identity and collection algorithms as compared to CIM_Configuration.
+ * The desired functional state of the Configuration is typically driven by
+ * external requirements such as time or location. For example, to connect to a
+ * Mail System from 'home', a dependency on a modem exists, but a dependency on
+ * a network adapter exists at 'work'. Settings for the pertinent LogicalDevices
+ * (in this example, POTSModem and NetworkAdapter) can be defined and aggregated
+ * by the Configuration. Therefore, two 'Connect to Mail' Configurations may be
+ * defined grouping the relevant dependencies and Setting objects.
+ */
 public class CIM_Configuration extends CIM_ManagedElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Configuration";
+	public final static String CIM_CLASS_NAME = "CIM_Configuration"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONCONFIGURATION = "CIM_CollectionConfiguration";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_CONFIGURATIONCOMPONENT = "CIM_ConfigurationComponent";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DEPENDENCYCONTEXT = "CIM_DependencyContext";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTCONFIGURATION = "CIM_ElementConfiguration";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT = "CIM_SettingContext";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONCONFIGURATION = "CIM_CollectionConfiguration"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_CONFIGURATIONCOMPONENT = "CIM_ConfigurationComponent"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DEPENDENCYCONTEXT = "CIM_DependencyContext"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTCONFIGURATION = "CIM_ElementConfiguration"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT = "CIM_SettingContext"; //$NON-NLS-1$
 	
 	
 	/**
@@ -214,7 +238,7 @@ public class CIM_Configuration extends CIM_ManagedElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -339,8 +363,8 @@ public class CIM_Configuration extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONCONFIGURATION, 
 					CIM_CollectionOfMSEs.CIM_CLASS_NAME, 
-					"Configuration",
-					"Collection",
+					"Configuration", //$NON-NLS-1$
+					"Collection", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -353,9 +377,9 @@ public class CIM_Configuration extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Configuration.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Configuration.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Configuration.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Configuration.Java_Package_List.setElementAt((String)(CIM_Configuration.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Configuration.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Configuration.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Configuration.Java_Package_List.setElementAt((String)(CIM_Configuration.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Configuration.Java_Package_List.get(i)) + cimClassName;
 
@@ -425,8 +449,8 @@ public class CIM_Configuration extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONCONFIGURATION, 
 					CIM_CollectionOfMSEs.CIM_CLASS_NAME, 
-					"Configuration",
-					"Collection");
+					"Configuration", //$NON-NLS-1$
+					"Collection"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -466,8 +490,8 @@ public class CIM_Configuration extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_CONFIGURATIONCOMPONENT, 
 					CIM_Configuration.CIM_CLASS_NAME, 
-					"ConfigGroup",
-					"ConfigComponent",
+					"ConfigGroup", //$NON-NLS-1$
+					"ConfigComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -480,9 +504,9 @@ public class CIM_Configuration extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Configuration.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Configuration.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Configuration.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Configuration.Java_Package_List.setElementAt((String)(CIM_Configuration.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Configuration.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Configuration.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Configuration.Java_Package_List.setElementAt((String)(CIM_Configuration.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Configuration.Java_Package_List.get(i)) + cimClassName;
 
@@ -552,8 +576,8 @@ public class CIM_Configuration extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_CONFIGURATIONCOMPONENT, 
 					CIM_Configuration.CIM_CLASS_NAME, 
-					"ConfigGroup",
-					"ConfigComponent");
+					"ConfigGroup", //$NON-NLS-1$
+					"ConfigComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -593,8 +617,8 @@ public class CIM_Configuration extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_DEPENDENCYCONTEXT, 
 					CIM_Dependency.CIM_CLASS_NAME, 
-					"Context",
-					"Dependency",
+					"Context", //$NON-NLS-1$
+					"Dependency", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -607,9 +631,9 @@ public class CIM_Configuration extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Configuration.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Configuration.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Configuration.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Configuration.Java_Package_List.setElementAt((String)(CIM_Configuration.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Configuration.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Configuration.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Configuration.Java_Package_List.setElementAt((String)(CIM_Configuration.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Configuration.Java_Package_List.get(i)) + cimClassName;
 
@@ -679,8 +703,8 @@ public class CIM_Configuration extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_DEPENDENCYCONTEXT, 
 					CIM_Dependency.CIM_CLASS_NAME, 
-					"Context",
-					"Dependency");
+					"Context", //$NON-NLS-1$
+					"Dependency"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -720,8 +744,8 @@ public class CIM_Configuration extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTCONFIGURATION, 
 					CIM_ManagedSystemElement.CIM_CLASS_NAME, 
-					"Configuration",
-					"Element",
+					"Configuration", //$NON-NLS-1$
+					"Element", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -734,9 +758,9 @@ public class CIM_Configuration extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Configuration.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Configuration.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Configuration.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Configuration.Java_Package_List.setElementAt((String)(CIM_Configuration.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Configuration.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Configuration.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Configuration.Java_Package_List.setElementAt((String)(CIM_Configuration.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Configuration.Java_Package_List.get(i)) + cimClassName;
 
@@ -806,8 +830,8 @@ public class CIM_Configuration extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTCONFIGURATION, 
 					CIM_ManagedSystemElement.CIM_CLASS_NAME, 
-					"Configuration",
-					"Element");
+					"Configuration", //$NON-NLS-1$
+					"Element"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -847,8 +871,8 @@ public class CIM_Configuration extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT, 
 					CIM_Setting.CIM_CLASS_NAME, 
-					"Context",
-					"Setting",
+					"Context", //$NON-NLS-1$
+					"Setting", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -861,9 +885,9 @@ public class CIM_Configuration extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Configuration.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Configuration.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Configuration.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Configuration.Java_Package_List.setElementAt((String)(CIM_Configuration.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Configuration.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Configuration.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Configuration.Java_Package_List.setElementAt((String)(CIM_Configuration.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Configuration.Java_Package_List.get(i)) + cimClassName;
 
@@ -933,8 +957,8 @@ public class CIM_Configuration extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT, 
 					CIM_Setting.CIM_CLASS_NAME, 
-					"Context",
-					"Setting");
+					"Context", //$NON-NLS-1$
+					"Setting"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

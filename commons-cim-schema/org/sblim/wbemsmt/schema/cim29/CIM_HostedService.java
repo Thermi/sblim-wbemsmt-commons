@@ -1,7 +1,7 @@
 /** 
  * CIM_HostedService.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,14 @@
  * Contributors:
  *
  *
- * Description: CIM_HostedService is an association between a Service and the System on which the functionality resides. The cardinality of this association is 1-to-many. A System may host many Services. Services are weak with respect to their hosting System. Heuristic: A Service is hosted on the System where the LogicalDevices or SoftwareFeatures that implement the Service are located. The model does not represent Services hosted across multiple systems. This is modeled as an ApplicationSystem that acts as an aggregation point for Services, that are each located on a single host.
+ * Description:  CIM_HostedService is an association between a Service and the System on which
+ * the functionality resides. The cardinality of this association is 1-to-many.
+ * A System may host many Services. Services are weak with respect to their
+ * hosting System. Heuristic: A Service is hosted on the System where the
+ * LogicalDevices or SoftwareFeatures that implement the Service are located.
+ * The model does not represent Services hosted across multiple systems. This is
+ * modeled as an ApplicationSystem that acts as an aggregation point for
+ * Services, that are each located on a single host.
  * 
  */
 
@@ -28,9 +35,19 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_HostedService is an association between a Service and the System on which
+ * the functionality resides. The cardinality of this association is 1-to-many.
+ * A System may host many Services. Services are weak with respect to their
+ * hosting System. Heuristic: A Service is hosted on the System where the
+ * LogicalDevices or SoftwareFeatures that implement the Service are located.
+ * The model does not represent Services hosted across multiple systems. This is
+ * modeled as an ApplicationSystem that acts as an aggregation point for
+ * Services, that are each located on a single host.
+ */
 public class CIM_HostedService extends CIM_HostedDependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_HostedService";
+	public final static String CIM_CLASS_NAME = "CIM_HostedService"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +208,7 @@ public class CIM_HostedService extends CIM_HostedDependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

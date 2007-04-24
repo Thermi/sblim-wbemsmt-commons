@@ -1,7 +1,7 @@
 /** 
  * CIM_DeviceSAPImplementation.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,15 @@
  * Contributors:
  *
  *
- * Description: An association between a ServiceAccessPoint and how it is implemented. The cardinality of this association is many-to-many. A SAP may be provided by more than one LogicalDevice, operating in conjunction. And, any Device may provide more than one ServiceAccessPoint. When many LogicalDevices are associated with a single SAP, it is assumed that these elements operate in conjunction to provide the AccessPoint. If different implementations of a SAP exist, each of these implementations would result in individual instantiations of the ServiceAccessPoint object. These individual instantiations would then have associations to the unique implementations.
+ * Description:  An association between a ServiceAccessPoint and how it is implemented. The
+ * cardinality of this association is many-to-many. A SAP may be provided by
+ * more than one LogicalDevice, operating in conjunction. And, any Device may
+ * provide more than one ServiceAccessPoint. When many LogicalDevices are
+ * associated with a single SAP, it is assumed that these elements operate in
+ * conjunction to provide the AccessPoint. If different implementations of a SAP
+ * exist, each of these implementations would result in individual
+ * instantiations of the ServiceAccessPoint object. These individual
+ * instantiations would then have associations to the unique implementations.
  * 
  */
 
@@ -28,9 +36,20 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  An association between a ServiceAccessPoint and how it is implemented. The
+ * cardinality of this association is many-to-many. A SAP may be provided by
+ * more than one LogicalDevice, operating in conjunction. And, any Device may
+ * provide more than one ServiceAccessPoint. When many LogicalDevices are
+ * associated with a single SAP, it is assumed that these elements operate in
+ * conjunction to provide the AccessPoint. If different implementations of a SAP
+ * exist, each of these implementations would result in individual
+ * instantiations of the ServiceAccessPoint object. These individual
+ * instantiations would then have associations to the unique implementations.
+ */
 public class CIM_DeviceSAPImplementation extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_DeviceSAPImplementation";
+	public final static String CIM_CLASS_NAME = "CIM_DeviceSAPImplementation"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +210,7 @@ public class CIM_DeviceSAPImplementation extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
