@@ -1,7 +1,7 @@
 /** 
  * CIM_ConfigurationComponent.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: ConfigurationComponent aggregates 'lower-level' Configuration objects into a 'high-level' Configuration. This enables the assembly of complex Configurations by grouping together simpler ones. For example, a logon policy for the United States could consist of two Configuration groups, one for the east coast and one for the west coast. Each of these could in turn consist of multiple Configurations to handle different aspects of the logon process.
+ * Description:  ConfigurationComponent aggregates 'lower-level' Configuration objects into a
+ * 'high-level' Configuration. This enables the assembly of complex
+ * Configurations by grouping together simpler ones. For example, a logon policy
+ * for the United States could consist of two Configuration groups, one for the
+ * east coast and one for the west coast. Each of these could in turn consist of
+ * multiple Configurations to handle different aspects of the logon process.
  * 
  */
 
@@ -28,13 +33,21 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  ConfigurationComponent aggregates 'lower-level' Configuration objects into a
+ * 'high-level' Configuration. This enables the assembly of complex
+ * Configurations by grouping together simpler ones. For example, a logon policy
+ * for the United States could consist of two Configuration groups, one for the
+ * east coast and one for the west coast. Each of these could in turn consist of
+ * multiple Configurations to handle different aspects of the logon process.
+ */
 public class CIM_ConfigurationComponent  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ConfigurationComponent";
+	public final static String CIM_CLASS_NAME = "CIM_ConfigurationComponent"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +191,7 @@ public class CIM_ConfigurationComponent  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

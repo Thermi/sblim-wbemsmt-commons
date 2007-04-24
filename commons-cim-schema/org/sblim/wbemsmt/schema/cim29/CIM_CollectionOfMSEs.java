@@ -1,7 +1,7 @@
 /** 
  * CIM_CollectionOfMSEs.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,8 +16,26 @@
  * Contributors:
  *
  *
- * Description: The CollectionOfMSEs object allows the grouping of Managed SystemElements for various identification purposes and to reduce the complexity of associating Settings and Configurations. It is abstract to require further definition and semantic refinement in subclasses. The CollectionOfMSEs object does not carry any state or status information, but only represents a grouping or 'bag' of Elements. For this reason, it is incorrect to subclass groups that have state/ status from CollectionOfMSEs - an example is CIM_Redundancy Group (which is subclassed from LogicalElement). 
-Collections typically aggregate 'like'objects, but are not required to do so. They simply identify 'bags' and may represent an optimization. This is especially true with respect to their association to Settings and Configurations. Without Collections, one is forced to define individual ElementSetting andElementConfiguration associations, to tie Settings and Configuration objects to individual ManagedSystemElements. There may be much duplication in assigning the same Setting to multiple objects. In addition, using the Collection object allows the determination that the Setting and Configuration associations are indeed the same for the Collection's members. This information would otherwise be obtained by defining the Collection in a proprietary manner, and then querying the ElementSetting and ElementConfiguration associations to determine ifthe Collection set is completely covered.
+ * Description:  The CollectionOfMSEs object allows the grouping of Managed SystemElements for
+ * various identification purposes and to reduce the complexity of associating
+ * Settings and Configurations. It is abstract to require further definition and
+ * semantic refinement in subclasses. The CollectionOfMSEs object does not carry
+ * any state or status information, but only represents a grouping or 'bag' of
+ * Elements. For this reason, it is incorrect to subclass groups that have
+ * state/ status from CollectionOfMSEs - an example is CIM_Redundancy Group
+ * (which is subclassed from LogicalElement). Collections typically aggregate
+ * 'like'objects, but are not required to do so. They simply identify 'bags' and
+ * may represent an optimization. This is especially true with respect to their
+ * association to Settings and Configurations. Without Collections, one is
+ * forced to define individual ElementSetting andElementConfiguration
+ * associations, to tie Settings and Configuration objects to individual
+ * ManagedSystemElements. There may be much duplication in assigning the same
+ * Setting to multiple objects. In addition, using the Collection object allows
+ * the determination that the Setting and Configuration associations are indeed
+ * the same for the Collection's members. This information would otherwise be
+ * obtained by defining the Collection in a proprietary manner, and then
+ * querying the ElementSetting and ElementConfiguration associations to
+ * determine ifthe Collection set is completely covered.
  * 
  */
 
@@ -34,17 +52,39 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  The CollectionOfMSEs object allows the grouping of Managed SystemElements for
+ * various identification purposes and to reduce the complexity of associating
+ * Settings and Configurations. It is abstract to require further definition and
+ * semantic refinement in subclasses. The CollectionOfMSEs object does not carry
+ * any state or status information, but only represents a grouping or 'bag' of
+ * Elements. For this reason, it is incorrect to subclass groups that have
+ * state/ status from CollectionOfMSEs - an example is CIM_Redundancy Group
+ * (which is subclassed from LogicalElement). Collections typically aggregate
+ * 'like'objects, but are not required to do so. They simply identify 'bags' and
+ * may represent an optimization. This is especially true with respect to their
+ * association to Settings and Configurations. Without Collections, one is
+ * forced to define individual ElementSetting andElementConfiguration
+ * associations, to tie Settings and Configuration objects to individual
+ * ManagedSystemElements. There may be much duplication in assigning the same
+ * Setting to multiple objects. In addition, using the Collection object allows
+ * the determination that the Setting and Configuration associations are indeed
+ * the same for the Collection's members. This information would otherwise be
+ * obtained by defining the Collection in a proprietary manner, and then
+ * querying the ElementSetting and ElementConfiguration associations to
+ * determine ifthe Collection set is completely covered.
+ */
 public class CIM_CollectionOfMSEs extends CIM_Collection  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_CollectionOfMSEs";
+	public final static String CIM_CLASS_NAME = "CIM_CollectionOfMSEs"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTEDMSES = "CIM_CollectedMSEs";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONCONFIGURATION = "CIM_CollectionConfiguration";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING = "CIM_CollectionSetting";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTEDMSES = "CIM_CollectedMSEs"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONCONFIGURATION = "CIM_CollectionConfiguration"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING = "CIM_CollectionSetting"; //$NON-NLS-1$
 	
 	
 	/**
@@ -205,7 +245,7 @@ public class CIM_CollectionOfMSEs extends CIM_Collection  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -330,8 +370,8 @@ public class CIM_CollectionOfMSEs extends CIM_Collection  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTEDMSES, 
 					CIM_ManagedSystemElement.CIM_CLASS_NAME, 
-					"Collection",
-					"Member",
+					"Collection", //$NON-NLS-1$
+					"Member", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -344,9 +384,9 @@ public class CIM_CollectionOfMSEs extends CIM_Collection  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_CollectionOfMSEs.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_CollectionOfMSEs.Java_Package_List.setElementAt((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_CollectionOfMSEs.Java_Package_List.setElementAt((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_CollectionOfMSEs.Java_Package_List.get(i)) + cimClassName;
 
@@ -416,8 +456,8 @@ public class CIM_CollectionOfMSEs extends CIM_Collection  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTEDMSES, 
 					CIM_ManagedSystemElement.CIM_CLASS_NAME, 
-					"Collection",
-					"Member");
+					"Collection", //$NON-NLS-1$
+					"Member"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -457,8 +497,8 @@ public class CIM_CollectionOfMSEs extends CIM_Collection  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONCONFIGURATION, 
 					CIM_Configuration.CIM_CLASS_NAME, 
-					"Collection",
-					"Configuration",
+					"Collection", //$NON-NLS-1$
+					"Configuration", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -471,9 +511,9 @@ public class CIM_CollectionOfMSEs extends CIM_Collection  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_CollectionOfMSEs.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_CollectionOfMSEs.Java_Package_List.setElementAt((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_CollectionOfMSEs.Java_Package_List.setElementAt((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_CollectionOfMSEs.Java_Package_List.get(i)) + cimClassName;
 
@@ -543,8 +583,8 @@ public class CIM_CollectionOfMSEs extends CIM_Collection  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONCONFIGURATION, 
 					CIM_Configuration.CIM_CLASS_NAME, 
-					"Collection",
-					"Configuration");
+					"Collection", //$NON-NLS-1$
+					"Configuration"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -584,8 +624,8 @@ public class CIM_CollectionOfMSEs extends CIM_Collection  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING, 
 					CIM_Setting.CIM_CLASS_NAME, 
-					"Collection",
-					"Setting",
+					"Collection", //$NON-NLS-1$
+					"Setting", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -598,9 +638,9 @@ public class CIM_CollectionOfMSEs extends CIM_Collection  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_CollectionOfMSEs.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_CollectionOfMSEs.Java_Package_List.setElementAt((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_CollectionOfMSEs.Java_Package_List.setElementAt((String)(CIM_CollectionOfMSEs.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_CollectionOfMSEs.Java_Package_List.get(i)) + cimClassName;
 
@@ -670,8 +710,8 @@ public class CIM_CollectionOfMSEs extends CIM_Collection  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING, 
 					CIM_Setting.CIM_CLASS_NAME, 
-					"Collection",
-					"Setting");
+					"Collection", //$NON-NLS-1$
+					"Setting"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
