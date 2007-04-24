@@ -1,7 +1,7 @@
 /**
  *  ObjectActionControllerBean.java
  *
- * © Copyright IBM Corp. 2005
+ * ï¿½ Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -47,7 +47,6 @@ import org.sblim.wbemsmt.exception.ObjectUpdateException;
 import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tasklauncher.event.jsf.JsfEditListener;
-import org.sblim.wbemsmt.tools.jsf.EditBasePanel;
 import org.sblim.wbemsmt.tools.jsf.EditBean;
 import org.sblim.wbemsmt.tools.jsf.TabbedPane;
 import org.sblim.wbemsmt.tools.wizard.jsf.IWizardController;
@@ -327,9 +326,9 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 					WelcomeListener listener = (WelcomeListener)Class.forName(listenerClass).newInstance();
 					JsfWelcomeListener jsfListener = (JsfWelcomeListener)listener.getListenerByPlType();
 					String bindingPrefix = "objectActionController.welcomeContainers[" + welcomeContainers.size() + "].";
-					EditBasePanel child = jsfListener.createEditBasePanel(bindingPrefix,config.getCimClient());
-					parent.getChildren().add(child.getInputFieldContainer());
-					welcomeContainers.add(child);
+					jsfListener.create(bindingPrefix,config.getCimClient());
+					parent.getChildren().add(jsfListener.getPanel());
+					welcomeContainers.add(jsfListener.getContainer());
 				}
 				else
 				{

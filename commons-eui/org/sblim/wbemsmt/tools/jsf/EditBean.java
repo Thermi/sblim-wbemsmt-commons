@@ -1,7 +1,7 @@
 /** 
  * EditBean.java
  *
- * © Copyright IBM Corp. 2005
+ * ï¿½ Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -335,6 +335,11 @@ public abstract class EditBean extends JsfBase{
     }
     
     public void addStopRefreshCheckbox(UIComponentBase parent)
+    {
+    	addStopRefreshCheckbox(parent,ajaxPanels);
+    }
+    	
+    public static void addStopRefreshCheckbox(UIComponentBase parent, List ajaxPanels)
     {
     	FacesContext fc = FacesContext.getCurrentInstance();
 

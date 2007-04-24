@@ -1,7 +1,7 @@
  /** 
   * JsfWelcomeListener.java
   *
-  * © Copyright IBM Corp. 2005
+  * ï¿½ Copyright IBM Corp. 2005
   *
   * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -19,7 +19,12 @@
   */
 package org.sblim.wbemsmt.bl.welcome;
 
+import javax.faces.component.UIComponentBase;
+import javax.faces.component.UIPanel;
+import javax.faces.component.html.HtmlPanelGrid;
+
 import org.sblim.wbem.client.CIMClient;
+import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tools.jsf.EditBasePanel;
 /**
@@ -32,6 +37,10 @@ public interface JsfWelcomeListener extends WelcomeListener {
 	 * Create a panel representing the datacontainer bound to that welcome listener
 	 * @return
 	 */
-	public EditBasePanel createEditBasePanel(String bindingPrefix, CIMClient cimClient) throws WbemSmtException;
+	public void create(String bindingPrefix, CIMClient cimClient) throws WbemSmtException;
+	
+	public UIComponentBase getPanel();
+	
+	public DataContainer getContainer();
 
 }
