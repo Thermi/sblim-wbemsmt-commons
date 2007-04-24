@@ -1,7 +1,7 @@
 /** 
  * CIM_ActsAsSpare.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: The ActsAsSpare association indicates which elements can spare or replace the other aggregated elements. The fact that a spare can operate in "hot standby" mode is specified on an element by element basis.
+ * Description:  The ActsAsSpare association indicates which elements can spare or replace the
+ * other aggregated elements. The fact that a spare can operate in "hot standby"
+ * mode is specified on an element by element basis.
  * 
  */
 
@@ -28,13 +30,18 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The ActsAsSpare association indicates which elements can spare or replace the
+ * other aggregated elements. The fact that a spare can operate in "hot standby"
+ * mode is specified on an element by element basis.
+ */
 public class CIM_ActsAsSpare  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ActsAsSpare";
+	public final static String CIM_CLASS_NAME = "CIM_ActsAsSpare"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -184,7 +191,7 @@ public class CIM_ActsAsSpare  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
