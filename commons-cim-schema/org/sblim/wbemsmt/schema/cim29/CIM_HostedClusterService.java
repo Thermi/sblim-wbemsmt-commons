@@ -1,7 +1,7 @@
 /** 
  * CIM_HostedClusterService.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: HostedClusterService defines the hosting Cluster for a ClusteringService. Since this relationship is subclassed from HostedService, it inherits the scoping/naming scheme defined for Service - where a Service is weak to its hosting System. In this case, a ClusteringService must be weak to its hosting Cluster System.
+ * Description:  HostedClusterService defines the hosting Cluster for a ClusteringService. Since
+ * this relationship is subclassed from HostedService, it inherits the
+ * scoping/naming scheme defined for Service - where a Service is weak to its
+ * hosting System. In this case, a ClusteringService must be weak to its hosting
+ * Cluster System.
  * 
  */
 
@@ -28,9 +32,16 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  HostedClusterService defines the hosting Cluster for a ClusteringService. Since
+ * this relationship is subclassed from HostedService, it inherits the
+ * scoping/naming scheme defined for Service - where a Service is weak to its
+ * hosting System. In this case, a ClusteringService must be weak to its hosting
+ * Cluster System.
+ */
 public class CIM_HostedClusterService extends CIM_HostedService  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_HostedClusterService";
+	public final static String CIM_CLASS_NAME = "CIM_HostedClusterService"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +202,7 @@ public class CIM_HostedClusterService extends CIM_HostedService  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

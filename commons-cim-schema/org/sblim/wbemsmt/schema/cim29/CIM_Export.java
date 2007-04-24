@@ -1,7 +1,7 @@
 /** 
  * CIM_Export.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: An association between a LocalFileSystem and its Directories indicating that the specified Directories are available for mount. When exporting an entire FileSystem, the Directory should reference the topmost directory of the FileSystem.
+ * Description:  An association between a LocalFileSystem and its Directories indicating that
+ * the specified Directories are available for mount. When exporting an entire
+ * FileSystem, the Directory should reference the topmost directory of the
+ * FileSystem.
  * 
  */
 
@@ -28,13 +31,19 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  An association between a LocalFileSystem and its Directories indicating that
+ * the specified Directories are available for mount. When exporting an entire
+ * FileSystem, the Directory should reference the topmost directory of the
+ * FileSystem.
+ */
 public class CIM_Export  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_Export";
+	public final static String CIM_CLASS_NAME = "CIM_Export"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -184,7 +193,7 @@ public class CIM_Export  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

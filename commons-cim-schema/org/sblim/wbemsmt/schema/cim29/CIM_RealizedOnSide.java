@@ -1,7 +1,7 @@
 /** 
  * CIM_RealizedOnSide.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: Since removable PhysicalMedia can be dual-sided, there is the possibility for StorageExtents to be realized on a single side of the Media. This association is a specialization of the RealizesExtent relationship, adding a Side property to express the Media's orientation details.
+ * Description:  Since removable PhysicalMedia can be dual-sided, there is the possibility for
+ * StorageExtents to be realized on a single side of the Media. This association
+ * is a specialization of the RealizesExtent relationship, adding a Side
+ * property to express the Media's orientation details.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Since removable PhysicalMedia can be dual-sided, there is the possibility for
+ * StorageExtents to be realized on a single side of the Media. This association
+ * is a specialization of the RealizesExtent relationship, adding a Side
+ * property to express the Media's orientation details.
+ */
 public class CIM_RealizedOnSide extends CIM_RealizesExtent  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_RealizedOnSide";
+	public final static String CIM_CLASS_NAME = "CIM_RealizedOnSide"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -210,7 +219,7 @@ public class CIM_RealizedOnSide extends CIM_RealizesExtent  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

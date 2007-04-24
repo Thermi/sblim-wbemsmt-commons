@@ -1,7 +1,7 @@
 /** 
  * CIM_SystemBIOS.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,7 @@
  * Contributors:
  *
  *
- * Description: SystemBIOS associates a UnitaryComputerSystem's BIOS with the System itself.
+ * Description:  SystemBIOS associates a UnitaryComputerSystem's BIOS with the System itself.
  * 
  */
 
@@ -28,9 +28,12 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  SystemBIOS associates a UnitaryComputerSystem's BIOS with the System itself.
+ */
 public class CIM_SystemBIOS extends CIM_SystemComponent  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SystemBIOS";
+	public final static String CIM_CLASS_NAME = "CIM_SystemBIOS"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +194,7 @@ public class CIM_SystemBIOS extends CIM_SystemComponent  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

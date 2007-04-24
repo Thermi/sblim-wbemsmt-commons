@@ -1,7 +1,7 @@
 /** 
  * CIM_SoftwareElementServiceImplementation.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,11 +16,31 @@
  * Contributors:
  *
  *
- * Description: An association between a Service and how it is implemented by one or more executable SoftwareElements. Note that this association is restricted to 'executable' Elements. In earlier phases of deployment, the SoftwareFeatureService Implementation association is adequate and recommended. 
-The relationship between this association and Software FeatureServiceImplementation is more fully described here. SoftwareElementServiceImplementation allows the description of greater granularity than SoftwareFeatureService Implementation, when a SoftwareFeature is fully deployed and results in several executable Elements. These Elements may implement several different Services. 
-Since SoftwareFeatures decompose into SoftwareElements, it is possible to describe how software implements a Service by using either this association or the SoftwareFeature ServiceImplementation relationship. One or the other should be chosen. Both associations should not be used for a single Service instance, since their information is redundant. 
-This relationship is especially important when the SoftwareFeature and Product aspects are not described for a SoftwareElement (ie, when the acquisition and deployment of the software is not detailed). In this case, the Software ElementServiceImplementation association is the only one available to describe how a Service is implemented in software. Since SoftwareFeatures are not instantiated, it is not possible to use the SoftwareFeatureService Implementation association. 
-The cardinality of this association is many-to-many. A Service may be provided by more than one SoftwareElement. If this is true, it is assumed that the SoftwareElements operate in conjunction. And, any SoftwareElement may provide more than one Service.
+ * Description:  An association between a Service and how it is implemented by one or more
+ * executable SoftwareElements. Note that this association is restricted to
+ * 'executable' Elements. In earlier phases of deployment, the
+ * SoftwareFeatureService Implementation association is adequate and
+ * recommended. The relationship between this association and Software
+ * FeatureServiceImplementation is more fully described here.
+ * SoftwareElementServiceImplementation allows the description of greater
+ * granularity than SoftwareFeatureService Implementation, when a
+ * SoftwareFeature is fully deployed and results in several executable Elements.
+ * These Elements may implement several different Services. Since
+ * SoftwareFeatures decompose into SoftwareElements, it is possible to describe
+ * how software implements a Service by using either this association or the
+ * SoftwareFeature ServiceImplementation relationship. One or the other should
+ * be chosen. Both associations should not be used for a single Service
+ * instance, since their information is redundant. This relationship is
+ * especially important when the SoftwareFeature and Product aspects are not
+ * described for a SoftwareElement (ie, when the acquisition and deployment of
+ * the software is not detailed). In this case, the Software
+ * ElementServiceImplementation association is the only one available to
+ * describe how a Service is implemented in software. Since SoftwareFeatures are
+ * not instantiated, it is not possible to use the SoftwareFeatureService
+ * Implementation association. The cardinality of this association is
+ * many-to-many. A Service may be provided by more than one SoftwareElement. If
+ * this is true, it is assumed that the SoftwareElements operate in conjunction.
+ * And, any SoftwareElement may provide more than one Service.
  * 
  */
 
@@ -32,9 +52,36 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  An association between a Service and how it is implemented by one or more
+ * executable SoftwareElements. Note that this association is restricted to
+ * 'executable' Elements. In earlier phases of deployment, the
+ * SoftwareFeatureService Implementation association is adequate and
+ * recommended. The relationship between this association and Software
+ * FeatureServiceImplementation is more fully described here.
+ * SoftwareElementServiceImplementation allows the description of greater
+ * granularity than SoftwareFeatureService Implementation, when a
+ * SoftwareFeature is fully deployed and results in several executable Elements.
+ * These Elements may implement several different Services. Since
+ * SoftwareFeatures decompose into SoftwareElements, it is possible to describe
+ * how software implements a Service by using either this association or the
+ * SoftwareFeature ServiceImplementation relationship. One or the other should
+ * be chosen. Both associations should not be used for a single Service
+ * instance, since their information is redundant. This relationship is
+ * especially important when the SoftwareFeature and Product aspects are not
+ * described for a SoftwareElement (ie, when the acquisition and deployment of
+ * the software is not detailed). In this case, the Software
+ * ElementServiceImplementation association is the only one available to
+ * describe how a Service is implemented in software. Since SoftwareFeatures are
+ * not instantiated, it is not possible to use the SoftwareFeatureService
+ * Implementation association. The cardinality of this association is
+ * many-to-many. A Service may be provided by more than one SoftwareElement. If
+ * this is true, it is assumed that the SoftwareElements operate in conjunction.
+ * And, any SoftwareElement may provide more than one Service.
+ */
 public class CIM_SoftwareElementServiceImplementation extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SoftwareElementServiceImplementation";
+	public final static String CIM_CLASS_NAME = "CIM_SoftwareElementServiceImplementation"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -195,7 +242,7 @@ public class CIM_SoftwareElementServiceImplementation extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

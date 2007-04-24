@@ -1,7 +1,7 @@
 /** 
  * CIM_FileSystem.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: A file or dataset store local to a System (such as a ComputerSystem or an ApplicationSystem) or remotely mounted from a file server.
+ * Description:  A file or dataset store local to a System (such as a ComputerSystem or an
+ * ApplicationSystem) or remotely mounted from a file server.
  * 
  */
 
@@ -33,18 +34,22 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A file or dataset store local to a System (such as a ComputerSystem or an
+ * ApplicationSystem) or remotely mounted from a file server.
+ */
 public class CIM_FileSystem extends CIM_EnabledLogicalElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_FileSystem";
+	public final static String CIM_CLASS_NAME = "CIM_FileSystem"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_BOOTOSFROMFS = "CIM_BootOSFromFS";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_FILESTORAGE = "CIM_FileStorage";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDFILESYSTEM = "CIM_HostedFileSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_MOUNT = "CIM_Mount";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_BOOTOSFROMFS = "CIM_BootOSFromFS"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_FILESTORAGE = "CIM_FileStorage"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDFILESYSTEM = "CIM_HostedFileSystem"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_MOUNT = "CIM_Mount"; //$NON-NLS-1$
 	
 	
 	/**
@@ -403,7 +408,7 @@ public class CIM_FileSystem extends CIM_EnabledLogicalElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -528,8 +533,8 @@ public class CIM_FileSystem extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_BOOTOSFROMFS, 
 					CIM_OperatingSystem.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -542,9 +547,9 @@ public class CIM_FileSystem extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_FileSystem.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_FileSystem.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_FileSystem.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_FileSystem.Java_Package_List.setElementAt((String)(CIM_FileSystem.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_FileSystem.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_FileSystem.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_FileSystem.Java_Package_List.setElementAt((String)(CIM_FileSystem.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_FileSystem.Java_Package_List.get(i)) + cimClassName;
 
@@ -614,8 +619,8 @@ public class CIM_FileSystem extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_BOOTOSFROMFS, 
 					CIM_OperatingSystem.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -655,8 +660,8 @@ public class CIM_FileSystem extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_FILESTORAGE, 
 					CIM_LogicalFile.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -669,9 +674,9 @@ public class CIM_FileSystem extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_FileSystem.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_FileSystem.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_FileSystem.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_FileSystem.Java_Package_List.setElementAt((String)(CIM_FileSystem.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_FileSystem.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_FileSystem.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_FileSystem.Java_Package_List.setElementAt((String)(CIM_FileSystem.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_FileSystem.Java_Package_List.get(i)) + cimClassName;
 
@@ -741,8 +746,8 @@ public class CIM_FileSystem extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_FILESTORAGE, 
 					CIM_LogicalFile.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -782,8 +787,8 @@ public class CIM_FileSystem extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDFILESYSTEM, 
 					CIM_System.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -796,9 +801,9 @@ public class CIM_FileSystem extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_FileSystem.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_FileSystem.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_FileSystem.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_FileSystem.Java_Package_List.setElementAt((String)(CIM_FileSystem.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_FileSystem.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_FileSystem.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_FileSystem.Java_Package_List.setElementAt((String)(CIM_FileSystem.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_FileSystem.Java_Package_List.get(i)) + cimClassName;
 
@@ -868,8 +873,8 @@ public class CIM_FileSystem extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDFILESYSTEM, 
 					CIM_System.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -909,8 +914,8 @@ public class CIM_FileSystem extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_MOUNT, 
 					CIM_Directory.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -923,9 +928,9 @@ public class CIM_FileSystem extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_FileSystem.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_FileSystem.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_FileSystem.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_FileSystem.Java_Package_List.setElementAt((String)(CIM_FileSystem.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_FileSystem.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_FileSystem.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_FileSystem.Java_Package_List.setElementAt((String)(CIM_FileSystem.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_FileSystem.Java_Package_List.get(i)) + cimClassName;
 
@@ -995,8 +1000,8 @@ public class CIM_FileSystem extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_MOUNT, 
 					CIM_Directory.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

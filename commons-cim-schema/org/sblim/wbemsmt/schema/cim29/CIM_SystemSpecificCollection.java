@@ -1,7 +1,7 @@
 /** 
  * CIM_SystemSpecificCollection.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,8 +16,17 @@
  * Contributors:
  *
  *
- * Description: SystemSpecificCollection represents the general concept of a collection which is scoped (or contained) by a System. It represents a Collection that only has meaning in the context of a System, and/or whose elements are restricted by the definition of the System. This is explicitly described by the (required) association, HostedCollection. 
-An example of a SystemSpecificCollection is a Fibre Channel zone that collects network ports, port groupings and aliases (as required by a customer) in the context of an AdminDomain. The Collection is not a part of the domain, but merely an arbitrary grouping of the devices and other Collections in the domain. In other words, the context of the Collection is restricted to the domain, and its members are also limited by the domain.
+ * Description:  SystemSpecificCollection represents the general concept of a collection which
+ * is scoped (or contained) by a System. It represents a Collection that only
+ * has meaning in the context of a System, and/or whose elements are restricted
+ * by the definition of the System. This is explicitly described by the
+ * (required) association, HostedCollection. An example of a
+ * SystemSpecificCollection is a Fibre Channel zone that collects network ports,
+ * port groupings and aliases (as required by a customer) in the context of an
+ * AdminDomain. The Collection is not a part of the domain, but merely an
+ * arbitrary grouping of the devices and other Collections in the domain. In
+ * other words, the context of the Collection is restricted to the domain, and
+ * its members are also limited by the domain.
  * 
  */
 
@@ -34,15 +43,28 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  SystemSpecificCollection represents the general concept of a collection which
+ * is scoped (or contained) by a System. It represents a Collection that only
+ * has meaning in the context of a System, and/or whose elements are restricted
+ * by the definition of the System. This is explicitly described by the
+ * (required) association, HostedCollection. An example of a
+ * SystemSpecificCollection is a Fibre Channel zone that collects network ports,
+ * port groupings and aliases (as required by a customer) in the context of an
+ * AdminDomain. The Collection is not a part of the domain, but merely an
+ * arbitrary grouping of the devices and other Collections in the domain. In
+ * other words, the context of the Collection is restricted to the domain, and
+ * its members are also limited by the domain.
+ */
 public class CIM_SystemSpecificCollection extends CIM_Collection  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SystemSpecificCollection";
+	public final static String CIM_CLASS_NAME = "CIM_SystemSpecificCollection"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDCOLLECTION = "CIM_HostedCollection";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDCOLLECTION = "CIM_HostedCollection"; //$NON-NLS-1$
 	
 	
 	/**
@@ -214,7 +236,7 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -339,8 +361,8 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDCOLLECTION, 
 					CIM_System.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -353,9 +375,9 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_SystemSpecificCollection.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SystemSpecificCollection.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SystemSpecificCollection.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SystemSpecificCollection.Java_Package_List.setElementAt((String)(CIM_SystemSpecificCollection.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_SystemSpecificCollection.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_SystemSpecificCollection.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_SystemSpecificCollection.Java_Package_List.setElementAt((String)(CIM_SystemSpecificCollection.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_SystemSpecificCollection.Java_Package_List.get(i)) + cimClassName;
 
@@ -425,8 +447,8 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDCOLLECTION, 
 					CIM_System.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

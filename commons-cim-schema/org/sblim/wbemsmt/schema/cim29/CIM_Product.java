@@ -1,7 +1,7 @@
 /** 
  * CIM_Product.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,8 +16,21 @@
  * Contributors:
  *
  *
- * Description: CIM_Product is a concrete class that aggregates PhysicalElements, software (SoftwareIdentity and SoftwareFeatures), Services and/or other Products, and is acquired as a unit. Acquisition implies an agreement between supplier and consumer which may have implications to Product licensing, support and warranty. Non-commercial (e.g., in-house developed Products) should also be identified as an instance of CIM_Product. 
-Note that software is handled a bit differently in the list of aggregated entities, above. This is because software can be viewed as a tangible asset (similar to PhysicalElements) AND/ OR as a set of features that make up a Product and are deployed. These are two different concepts, usually managed by different units in a business' organization. When software 'features' are described, the CIM_SoftwareFeature class from the Application Model is instantiated (where Features are Weak to/scoped by a Product). When a specific piece of software is acquired and perhaps warrantied as part of a Product, this is addressed by the class, SoftwareIdentity.
+ * Description:  CIM_Product is a concrete class that aggregates PhysicalElements, software
+ * (SoftwareIdentity and SoftwareFeatures), Services and/or other Products, and
+ * is acquired as a unit. Acquisition implies an agreement between supplier and
+ * consumer which may have implications to Product licensing, support and
+ * warranty. Non-commercial (e.g., in-house developed Products) should also be
+ * identified as an instance of CIM_Product. Note that software is handled a bit
+ * differently in the list of aggregated entities, above. This is because
+ * software can be viewed as a tangible asset (similar to PhysicalElements) AND/
+ * OR as a set of features that make up a Product and are deployed. These are
+ * two different concepts, usually managed by different units in a business'
+ * organization. When software 'features' are described, the CIM_SoftwareFeature
+ * class from the Application Model is instantiated (where Features are Weak
+ * to/scoped by a Product). When a specific piece of software is acquired and
+ * perhaps warrantied as part of a Product, this is addressed by the class,
+ * SoftwareIdentity.
  * 
  */
 
@@ -35,27 +48,43 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  CIM_Product is a concrete class that aggregates PhysicalElements, software
+ * (SoftwareIdentity and SoftwareFeatures), Services and/or other Products, and
+ * is acquired as a unit. Acquisition implies an agreement between supplier and
+ * consumer which may have implications to Product licensing, support and
+ * warranty. Non-commercial (e.g., in-house developed Products) should also be
+ * identified as an instance of CIM_Product. Note that software is handled a bit
+ * differently in the list of aggregated entities, above. This is because
+ * software can be viewed as a tangible asset (similar to PhysicalElements) AND/
+ * OR as a set of features that make up a Product and are deployed. These are
+ * two different concepts, usually managed by different units in a business'
+ * organization. When software 'features' are described, the CIM_SoftwareFeature
+ * class from the Application Model is instantiated (where Features are Weak
+ * to/scoped by a Product). When a specific piece of software is acquired and
+ * perhaps warrantied as part of a Product, this is addressed by the class,
+ * SoftwareIdentity.
+ */
 public class CIM_Product extends CIM_ManagedElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Product";
+	public final static String CIM_CLASS_NAME = "CIM_Product"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_FRUINCLUDESPRODUCT = "CIM_FRUIncludesProduct";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDPRODUCTIMAGE = "CIM_InstalledProductImage";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTCOMPONENT = "CIM_ProductComponent";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTFRU = "CIM_ProductFRU";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPARENTCHILD = "CIM_ProductParentChild";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPHYSICALCOMPONENT = "CIM_ProductPhysicalComponent";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPHYSICALELEMENTS = "CIM_ProductPhysicalElements";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPRODUCTDEPENDENCY = "CIM_ProductProductDependency";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSERVICECOMPONENT = "CIM_ProductServiceComponent";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSOFTWARECOMPONENT = "CIM_ProductSoftwareComponent";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSOFTWAREFEATURES = "CIM_ProductSoftwareFeatures";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSUPPORT = "CIM_ProductSupport";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_REPLACEABLEPRODUCTFRU = "CIM_ReplaceableProductFRU";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_FRUINCLUDESPRODUCT = "CIM_FRUIncludesProduct"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTCOMPONENT = "CIM_ProductComponent"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTFRU = "CIM_ProductFRU"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPARENTCHILD = "CIM_ProductParentChild"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPHYSICALCOMPONENT = "CIM_ProductPhysicalComponent"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPHYSICALELEMENTS = "CIM_ProductPhysicalElements"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPRODUCTDEPENDENCY = "CIM_ProductProductDependency"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSERVICECOMPONENT = "CIM_ProductServiceComponent"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSOFTWARECOMPONENT = "CIM_ProductSoftwareComponent"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSOFTWAREFEATURES = "CIM_ProductSoftwareFeatures"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSUPPORT = "CIM_ProductSupport"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_REPLACEABLEPRODUCTFRU = "CIM_ReplaceableProductFRU"; //$NON-NLS-1$
 	
 	
 	/**
@@ -292,7 +321,7 @@ public class CIM_Product extends CIM_ManagedElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -417,8 +446,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_FRUINCLUDESPRODUCT, 
 					CIM_FRU.CIM_CLASS_NAME, 
-					"Component",
-					"FRU",
+					"Component", //$NON-NLS-1$
+					"FRU", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -431,9 +460,9 @@ public class CIM_Product extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Product.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Product.Java_Package_List.get(i)) + cimClassName;
 
@@ -503,8 +532,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_FRUINCLUDESPRODUCT, 
 					CIM_FRU.CIM_CLASS_NAME, 
-					"Component",
-					"FRU");
+					"Component", //$NON-NLS-1$
+					"FRU"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -512,133 +541,6 @@ public class CIM_Product extends CIM_ManagedElement  {
 			
 				if (obj instanceof CIMObjectPath) {
 					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_FRU.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_InstalledProduct_CIM_InstalledProductImages(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDPRODUCTIMAGE, 
-					CIM_InstalledProduct.CIM_CLASS_NAME, 
-					"Product",
-					"Collection",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_Product.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_Product.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_InstalledProduct(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_InstalledProduct(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_InstalledProduct(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_InstalledProduct_CIM_InstalledProductImage_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDPRODUCTIMAGE, 
-					CIM_InstalledProduct.CIM_CLASS_NAME, 
-					"Product",
-					"Collection");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_InstalledProduct.CIM_CLASS_NAME)) {
 						resultArrayList.add(obj);
 					}
 				}
@@ -671,8 +573,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTCOMPONENT, 
 					CIM_Product.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -685,9 +587,9 @@ public class CIM_Product extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Product.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Product.Java_Package_List.get(i)) + cimClassName;
 
@@ -757,8 +659,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTCOMPONENT, 
 					CIM_Product.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -798,8 +700,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTFRU, 
 					CIM_FRU.CIM_CLASS_NAME, 
-					"Product",
-					"FRU",
+					"Product", //$NON-NLS-1$
+					"FRU", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -812,9 +714,9 @@ public class CIM_Product extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Product.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Product.Java_Package_List.get(i)) + cimClassName;
 
@@ -884,8 +786,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTFRU, 
 					CIM_FRU.CIM_CLASS_NAME, 
-					"Product",
-					"FRU");
+					"Product", //$NON-NLS-1$
+					"FRU"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -925,8 +827,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPARENTCHILD, 
 					CIM_Product.CIM_CLASS_NAME, 
-					"Parent",
-					"Child",
+					"Parent", //$NON-NLS-1$
+					"Child", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -939,9 +841,9 @@ public class CIM_Product extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Product.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Product.Java_Package_List.get(i)) + cimClassName;
 
@@ -1011,8 +913,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPARENTCHILD, 
 					CIM_Product.CIM_CLASS_NAME, 
-					"Parent",
-					"Child");
+					"Parent", //$NON-NLS-1$
+					"Child"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1052,8 +954,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPHYSICALCOMPONENT, 
 					CIM_PhysicalElement.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1066,9 +968,9 @@ public class CIM_Product extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Product.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Product.Java_Package_List.get(i)) + cimClassName;
 
@@ -1138,8 +1040,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPHYSICALCOMPONENT, 
 					CIM_PhysicalElement.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1179,8 +1081,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPHYSICALELEMENTS, 
 					CIM_PhysicalElement.CIM_CLASS_NAME, 
-					"Product",
-					"Component",
+					"Product", //$NON-NLS-1$
+					"Component", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1193,9 +1095,9 @@ public class CIM_Product extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Product.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Product.Java_Package_List.get(i)) + cimClassName;
 
@@ -1265,8 +1167,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPHYSICALELEMENTS, 
 					CIM_PhysicalElement.CIM_CLASS_NAME, 
-					"Product",
-					"Component");
+					"Product", //$NON-NLS-1$
+					"Component"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1306,8 +1208,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPRODUCTDEPENDENCY, 
 					CIM_Product.CIM_CLASS_NAME, 
-					"RequiredProduct",
-					"DependentProduct",
+					"RequiredProduct", //$NON-NLS-1$
+					"DependentProduct", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1320,9 +1222,9 @@ public class CIM_Product extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Product.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Product.Java_Package_List.get(i)) + cimClassName;
 
@@ -1392,8 +1294,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPRODUCTDEPENDENCY, 
 					CIM_Product.CIM_CLASS_NAME, 
-					"RequiredProduct",
-					"DependentProduct");
+					"RequiredProduct", //$NON-NLS-1$
+					"DependentProduct"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1433,8 +1335,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSERVICECOMPONENT, 
 					CIM_Service.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1447,9 +1349,9 @@ public class CIM_Product extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Product.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Product.Java_Package_List.get(i)) + cimClassName;
 
@@ -1519,8 +1421,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSERVICECOMPONENT, 
 					CIM_Service.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1560,8 +1462,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSOFTWARECOMPONENT, 
 					CIM_SoftwareIdentity.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1574,9 +1476,9 @@ public class CIM_Product extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Product.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Product.Java_Package_List.get(i)) + cimClassName;
 
@@ -1646,8 +1548,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSOFTWARECOMPONENT, 
 					CIM_SoftwareIdentity.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1687,8 +1589,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSOFTWAREFEATURES, 
 					CIM_SoftwareFeature.CIM_CLASS_NAME, 
-					"Product",
-					"Component",
+					"Product", //$NON-NLS-1$
+					"Component", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1701,9 +1603,9 @@ public class CIM_Product extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Product.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Product.Java_Package_List.get(i)) + cimClassName;
 
@@ -1773,8 +1675,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSOFTWAREFEATURES, 
 					CIM_SoftwareFeature.CIM_CLASS_NAME, 
-					"Product",
-					"Component");
+					"Product", //$NON-NLS-1$
+					"Component"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1814,8 +1716,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSUPPORT, 
 					CIM_SupportAccess.CIM_CLASS_NAME, 
-					"Product",
-					"Support",
+					"Product", //$NON-NLS-1$
+					"Support", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1828,9 +1730,9 @@ public class CIM_Product extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Product.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Product.Java_Package_List.get(i)) + cimClassName;
 
@@ -1900,8 +1802,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSUPPORT, 
 					CIM_SupportAccess.CIM_CLASS_NAME, 
-					"Product",
-					"Support");
+					"Product", //$NON-NLS-1$
+					"Support"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1941,8 +1843,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_REPLACEABLEPRODUCTFRU, 
 					CIM_FRU.CIM_CLASS_NAME, 
-					"Product",
-					"FRU",
+					"Product", //$NON-NLS-1$
+					"FRU", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1955,9 +1857,9 @@ public class CIM_Product extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Product.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Product.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Product.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Product.Java_Package_List.setElementAt((String)(CIM_Product.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Product.Java_Package_List.get(i)) + cimClassName;
 
@@ -2027,8 +1929,8 @@ public class CIM_Product extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_REPLACEABLEPRODUCTFRU, 
 					CIM_FRU.CIM_CLASS_NAME, 
-					"Product",
-					"FRU");
+					"Product", //$NON-NLS-1$
+					"FRU"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

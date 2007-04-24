@@ -1,7 +1,7 @@
 /** 
  * CIM_MemoryWithMedia.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: MemoryWithMedia indicates that Memory is associated with a PhysicalMedia and its cartridge. The Memory provides media identification and also stores user-specific data.
+ * Description:  MemoryWithMedia indicates that Memory is associated with a PhysicalMedia and
+ * its cartridge. The Memory provides media identification and also stores
+ * user-specific data.
  * 
  */
 
@@ -28,9 +30,14 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  MemoryWithMedia indicates that Memory is associated with a PhysicalMedia and
+ * its cartridge. The Memory provides media identification and also stores
+ * user-specific data.
+ */
 public class CIM_MemoryWithMedia extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_MemoryWithMedia";
+	public final static String CIM_CLASS_NAME = "CIM_MemoryWithMedia"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +198,7 @@ public class CIM_MemoryWithMedia extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

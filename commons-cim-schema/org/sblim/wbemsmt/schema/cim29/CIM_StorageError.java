@@ -1,7 +1,7 @@
 /** 
  * CIM_StorageError.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: StorageError defines blocks of media or memory space that are mapped 'out of use' due to errors. The Key of the class is the StartingAddress of the bytes in error.
+ * Description:  StorageError defines blocks of media or memory space that are mapped 'out of
+ * use' due to errors. The Key of the class is the StartingAddress of the bytes
+ * in error.
  * 
  */
 
@@ -33,15 +35,20 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  StorageError defines blocks of media or memory space that are mapped 'out of
+ * use' due to errors. The Key of the class is the StartingAddress of the bytes
+ * in error.
+ */
 public class CIM_StorageError extends CIM_ManagedElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_StorageError";
+	public final static String CIM_CLASS_NAME = "CIM_StorageError"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_STORAGEDEFECT = "CIM_StorageDefect";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_STORAGEDEFECT = "CIM_StorageDefect"; //$NON-NLS-1$
 	
 	
 	/**
@@ -277,7 +284,7 @@ public class CIM_StorageError extends CIM_ManagedElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -402,8 +409,8 @@ public class CIM_StorageError extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_STORAGEDEFECT, 
 					CIM_StorageExtent.CIM_CLASS_NAME, 
-					"Error",
-					"Extent",
+					"Error", //$NON-NLS-1$
+					"Extent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -416,9 +423,9 @@ public class CIM_StorageError extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_StorageError.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_StorageError.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_StorageError.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_StorageError.Java_Package_List.setElementAt((String)(CIM_StorageError.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_StorageError.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_StorageError.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_StorageError.Java_Package_List.setElementAt((String)(CIM_StorageError.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_StorageError.Java_Package_List.get(i)) + cimClassName;
 
@@ -488,8 +495,8 @@ public class CIM_StorageError extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_STORAGEDEFECT, 
 					CIM_StorageExtent.CIM_CLASS_NAME, 
-					"Error",
-					"Extent");
+					"Error", //$NON-NLS-1$
+					"Extent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

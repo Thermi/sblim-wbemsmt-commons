@@ -1,7 +1,7 @@
 /** 
  * CIM_ServiceServiceDependency.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,8 +16,18 @@
  * Contributors:
  *
  *
- * Description: CIM_ServiceServiceDependency is an association between a Service and another Service, indicating that the latter is required to be present, required to have completed, or must be absent for the former Service to provide its functionality. For example, Boot Services may be dependent upon underlying system initialization Services. In the case of the initialization Services, the Boot Service may be dependent on the init Services completing. 
-Examining the ServiceServiceDependency class definition, note that its superclass ProvidesServiceToElement is deprecated. Unfortunately, ProvidesServiceToElement cannot be removed from the object hierarchy without a major Schema release. When/if this occurs, the ProvidesServiceToElement superclass will be removed, and ServiceServiceDependency will subclass from CIM_Dependency directly.
+ * Description:  CIM_ServiceServiceDependency is an association between a Service and another
+ * Service, indicating that the latter is required to be present, required to
+ * have completed, or must be absent for the former Service to provide its
+ * functionality. For example, Boot Services may be dependent upon underlying
+ * system initialization Services. In the case of the initialization Services,
+ * the Boot Service may be dependent on the init Services completing. Examining
+ * the ServiceServiceDependency class definition, note that its superclass
+ * ProvidesServiceToElement is deprecated. Unfortunately,
+ * ProvidesServiceToElement cannot be removed from the object hierarchy without
+ * a major Schema release. When/if this occurs, the ProvidesServiceToElement
+ * superclass will be removed, and ServiceServiceDependency will subclass from
+ * CIM_Dependency directly.
  * 
  */
 
@@ -29,9 +39,23 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_ServiceServiceDependency is an association between a Service and another
+ * Service, indicating that the latter is required to be present, required to
+ * have completed, or must be absent for the former Service to provide its
+ * functionality. For example, Boot Services may be dependent upon underlying
+ * system initialization Services. In the case of the initialization Services,
+ * the Boot Service may be dependent on the init Services completing. Examining
+ * the ServiceServiceDependency class definition, note that its superclass
+ * ProvidesServiceToElement is deprecated. Unfortunately,
+ * ProvidesServiceToElement cannot be removed from the object hierarchy without
+ * a major Schema release. When/if this occurs, the ProvidesServiceToElement
+ * superclass will be removed, and ServiceServiceDependency will subclass from
+ * CIM_Dependency directly.
+ */
 public class CIM_ServiceServiceDependency extends CIM_ProvidesServiceToElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ServiceServiceDependency";
+	public final static String CIM_CLASS_NAME = "CIM_ServiceServiceDependency"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -219,7 +243,7 @@ public class CIM_ServiceServiceDependency extends CIM_ProvidesServiceToElement  
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

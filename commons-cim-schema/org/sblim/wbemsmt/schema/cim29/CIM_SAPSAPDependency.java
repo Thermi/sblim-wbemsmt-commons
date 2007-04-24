@@ -1,7 +1,7 @@
 /** 
  * CIM_SAPSAPDependency.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: CIM_SAPSAPDependency is an association between a Service AccessPoint and another ServiceAccessPoint indicating that the latter is required in order for the former ServiceAccess Point to utilize or connect with its Service. For example, to print at a network printer, local Print Access Points must utilize underlying network-related SAPs, or ProtocolEndpoints, in order to send the print request.
+ * Description:  CIM_SAPSAPDependency is an association between a Service AccessPoint and
+ * another ServiceAccessPoint indicating that the latter is required in order
+ * for the former ServiceAccess Point to utilize or connect with its Service.
+ * For example, to print at a network printer, local Print Access Points must
+ * utilize underlying network-related SAPs, or ProtocolEndpoints, in order to
+ * send the print request.
  * 
  */
 
@@ -28,9 +33,17 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_SAPSAPDependency is an association between a Service AccessPoint and
+ * another ServiceAccessPoint indicating that the latter is required in order
+ * for the former ServiceAccess Point to utilize or connect with its Service.
+ * For example, to print at a network printer, local Print Access Points must
+ * utilize underlying network-related SAPs, or ProtocolEndpoints, in order to
+ * send the print request.
+ */
 public class CIM_SAPSAPDependency extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SAPSAPDependency";
+	public final static String CIM_CLASS_NAME = "CIM_SAPSAPDependency"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +204,7 @@ public class CIM_SAPSAPDependency extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

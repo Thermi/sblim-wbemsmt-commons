@@ -1,7 +1,7 @@
 /** 
  * CIM_Processor.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,7 @@
  * Contributors:
  *
  *
- * Description: Capabilities and management of the Processor LogicalDevice.
+ * Description:  Capabilities and management of the Processor LogicalDevice.
  * 
  */
 
@@ -33,15 +33,18 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  Capabilities and management of the Processor LogicalDevice.
+ */
 public class CIM_Processor extends CIM_LogicalDevice  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Processor";
+	public final static String CIM_CLASS_NAME = "CIM_Processor"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR = "CIM_ComputerSystemProcessor";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR = "CIM_ComputerSystemProcessor"; //$NON-NLS-1$
 	
 	
 	/**
@@ -428,7 +431,7 @@ public class CIM_Processor extends CIM_LogicalDevice  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -553,8 +556,8 @@ public class CIM_Processor extends CIM_LogicalDevice  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR, 
 					CIM_UnitaryComputerSystem.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -567,9 +570,9 @@ public class CIM_Processor extends CIM_LogicalDevice  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Processor.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Processor.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Processor.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Processor.Java_Package_List.setElementAt((String)(CIM_Processor.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Processor.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Processor.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Processor.Java_Package_List.setElementAt((String)(CIM_Processor.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Processor.Java_Package_List.get(i)) + cimClassName;
 
@@ -639,8 +642,8 @@ public class CIM_Processor extends CIM_LogicalDevice  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR, 
 					CIM_UnitaryComputerSystem.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

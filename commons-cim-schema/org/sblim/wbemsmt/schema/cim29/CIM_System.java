@@ -1,7 +1,7 @@
 /** 
  * CIM_System.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,9 +16,20 @@
  * Contributors:
  *
  *
- * Description: CIM_System represents an entity made up of component parts (defined by the SystemComponent relationship), that operates as a 'functional whole'. Systems are top level objects in the CIM hierarchy, requiring no scoping or weak relationships in order to exist and have context. It should be reasonable to uniquely name and manage a System at an enterprise level. For example, a ComputerSystem is a kind of System that can be uniquely named and independently managed in an enterprise. However, this is not true for the power supply (or the power supply sub-'system') within the computer. 
-
-Although a System may be viewed as a Collection, this is not the correct model. A Collection is simply a 'bag' that 'holds' its members. A System is a higher level abstraction, built out of its individual components. It is more than a sum of its parts. Note that System is a subclass of EnabledLogicalElement which allows the entire abstraction to be functionally enabled/disabled - at a higher level than enabling/disabling its component parts.
+ * Description:  CIM_System represents an entity made up of component parts (defined by the
+ * SystemComponent relationship), that operates as a 'functional whole'. Systems
+ * are top level objects in the CIM hierarchy, requiring no scoping or weak
+ * relationships in order to exist and have context. It should be reasonable to
+ * uniquely name and manage a System at an enterprise level. For example, a
+ * ComputerSystem is a kind of System that can be uniquely named and
+ * independently managed in an enterprise. However, this is not true for the
+ * power supply (or the power supply sub-'system') within the computer. Although
+ * a System may be viewed as a Collection, this is not the correct model. A
+ * Collection is simply a 'bag' that 'holds' its members. A System is a higher
+ * level abstraction, built out of its individual components. It is more than a
+ * sum of its parts. Note that System is a subclass of EnabledLogicalElement
+ * which allows the entire abstraction to be functionally enabled/disabled - at
+ * a higher level than enabling/disabling its component parts.
  * 
  */
 
@@ -35,46 +46,44 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  CIM_System represents an entity made up of component parts (defined by the
+ * SystemComponent relationship), that operates as a 'functional whole'. Systems
+ * are top level objects in the CIM hierarchy, requiring no scoping or weak
+ * relationships in order to exist and have context. It should be reasonable to
+ * uniquely name and manage a System at an enterprise level. For example, a
+ * ComputerSystem is a kind of System that can be uniquely named and
+ * independently managed in an enterprise. However, this is not true for the
+ * power supply (or the power supply sub-'system') within the computer. Although
+ * a System may be viewed as a Collection, this is not the correct model. A
+ * Collection is simply a 'bag' that 'holds' its members. A System is a higher
+ * level abstraction, built out of its individual components. It is more than a
+ * sum of its parts. Note that System is a subclass of EnabledLogicalElement
+ * which allows the entire abstraction to be functionally enabled/disabled - at
+ * a higher level than enabling/disabling its component parts.
+ */
 public class CIM_System extends CIM_EnabledLogicalElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_System";
+	public final static String CIM_CLASS_NAME = "CIM_System"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ACCOUNTONSYSTEM = "CIM_AccountOnSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONINSYSTEM = "CIM_CollectionInSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_CONFIGURATIONFORSYSTEM = "CIM_ConfigurationForSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDACI = "CIM_HostedACI";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDACCESSPOINT = "CIM_HostedAccessPoint";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDAUTHENTICATIONREQUIREMENT = "CIM_HostedAuthenticationRequirement";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDBOOTSERVICE = "CIM_HostedBootService";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDCOLLECTION = "CIM_HostedCollection";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDFILESYSTEM = "CIM_HostedFileSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDJOBDESTINATION = "CIM_HostedJobDestination";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDROUTE = "CIM_HostedRoute";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDSERVICE = "CIM_HostedService";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDSTORAGEPOOL = "CIM_HostedStoragePool";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_IPSECPOLICYFORSYSTEM = "CIM_IPsecPolicyForSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_IDENTIFICATIONOFMANAGEDSYSTEM = "CIM_IdentificationOfManagedSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDSOFTWAREIDENTITY = "CIM_InstalledSoftwareIdentity";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_MANAGESACCOUNTONSYSTEM = "CIM_ManagesAccountOnSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_POLICYGROUPINSYSTEM = "CIM_PolicyGroupInSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_POLICYINSYSTEM = "CIM_PolicyInSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_POLICYROLECOLLECTIONINSYSTEM = "CIM_PolicyRoleCollectionInSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_POLICYRULEINSYSTEM = "CIM_PolicyRuleInSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_POLICYSETINSYSTEM = "CIM_PolicySetInSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_RESOURCEOFSYSTEM = "CIM_ResourceOfSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SECURITYSERVICEFORSYSTEM = "CIM_SecurityServiceForSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGFORSYSTEM = "CIM_SettingForSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMADMINISTRATOR = "CIM_SystemAdministrator";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMADMINISTRATORGROUP = "CIM_SystemAdministratorGroup";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMADMINISTRATORROLE = "CIM_SystemAdministratorRole";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMCOMPONENT = "CIM_SystemComponent";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMDEVICE = "CIM_SystemDevice";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPACKAGING = "CIM_SystemPackaging";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMSTATISTICS = "CIM_SystemStatistics";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_CONFIGURATIONFORSYSTEM = "CIM_ConfigurationForSystem"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDACCESSPOINT = "CIM_HostedAccessPoint"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDBOOTSERVICE = "CIM_HostedBootService"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDCOLLECTION = "CIM_HostedCollection"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDFILESYSTEM = "CIM_HostedFileSystem"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDJOBDESTINATION = "CIM_HostedJobDestination"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDSERVICE = "CIM_HostedService"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_IDENTIFICATIONOFMANAGEDSYSTEM = "CIM_IdentificationOfManagedSystem"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDSOFTWAREIDENTITY = "CIM_InstalledSoftwareIdentity"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGFORSYSTEM = "CIM_SettingForSystem"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMCOMPONENT = "CIM_SystemComponent"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMDEVICE = "CIM_SystemDevice"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPACKAGING = "CIM_SystemPackaging"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMSTATISTICS = "CIM_SystemStatistics"; //$NON-NLS-1$
 	
 	
 	/**
@@ -290,7 +299,7 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -400,260 +409,6 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 	// Associators methods
 	//*****************************************************
 	
-	public ArrayList getAssociated_CIM_Account_CIM_AccountOnSystems(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_ACCOUNTONSYSTEM, 
-					CIM_Account.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Account(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Account(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Account(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Account_CIM_AccountOnSystem_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_ACCOUNTONSYSTEM, 
-					CIM_Account.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_Account.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Collection_CIM_CollectionInSystems(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONINSYSTEM, 
-					CIM_Collection.CIM_CLASS_NAME, 
-					"Parent",
-					"Child",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Collection(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Collection(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Collection(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Collection_CIM_CollectionInSystem_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONINSYSTEM, 
-					CIM_Collection.CIM_CLASS_NAME, 
-					"Parent",
-					"Child");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_Collection.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
 	public ArrayList getAssociated_CIM_SystemConfiguration_CIM_ConfigurationForSystems(CIMClient cimClient,
 	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
 
@@ -669,8 +424,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_CONFIGURATIONFORSYSTEM, 
 					CIM_SystemConfiguration.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -683,9 +438,9 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
 
@@ -755,8 +510,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_CONFIGURATIONFORSYSTEM, 
 					CIM_SystemConfiguration.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -764,133 +519,6 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 			
 				if (obj instanceof CIMObjectPath) {
 					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_SystemConfiguration.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_AccessControlInformation_CIM_HostedACIs(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDACI, 
-					CIM_AccessControlInformation.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_AccessControlInformation(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_AccessControlInformation(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_AccessControlInformation(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_AccessControlInformation_CIM_HostedACI_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDACI, 
-					CIM_AccessControlInformation.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_AccessControlInformation.CIM_CLASS_NAME)) {
 						resultArrayList.add(obj);
 					}
 				}
@@ -923,8 +551,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDACCESSPOINT, 
 					CIM_ServiceAccessPoint.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -937,9 +565,9 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
 
@@ -1009,8 +637,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDACCESSPOINT, 
 					CIM_ServiceAccessPoint.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1018,133 +646,6 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 			
 				if (obj instanceof CIMObjectPath) {
 					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_ServiceAccessPoint.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_AuthenticationRequirement_CIM_HostedAuthenticationRequirements(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDAUTHENTICATIONREQUIREMENT, 
-					CIM_AuthenticationRequirement.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_AuthenticationRequirement(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_AuthenticationRequirement(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_AuthenticationRequirement(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_AuthenticationRequirement_CIM_HostedAuthenticationRequirement_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDAUTHENTICATIONREQUIREMENT, 
-					CIM_AuthenticationRequirement.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_AuthenticationRequirement.CIM_CLASS_NAME)) {
 						resultArrayList.add(obj);
 					}
 				}
@@ -1177,8 +678,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDBOOTSERVICE, 
 					CIM_BootService.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1191,9 +692,9 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
 
@@ -1263,8 +764,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDBOOTSERVICE, 
 					CIM_BootService.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1304,8 +805,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDCOLLECTION, 
 					CIM_SystemSpecificCollection.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1318,9 +819,9 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
 
@@ -1390,8 +891,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDCOLLECTION, 
 					CIM_SystemSpecificCollection.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1431,8 +932,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDFILESYSTEM, 
 					CIM_FileSystem.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1445,9 +946,9 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
 
@@ -1517,8 +1018,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDFILESYSTEM, 
 					CIM_FileSystem.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1558,8 +1059,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDJOBDESTINATION, 
 					CIM_JobDestination.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1572,9 +1073,9 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
 
@@ -1644,8 +1145,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDJOBDESTINATION, 
 					CIM_JobDestination.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1653,133 +1154,6 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 			
 				if (obj instanceof CIMObjectPath) {
 					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_JobDestination.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_NextHopRoute_CIM_HostedRoutes(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDROUTE, 
-					CIM_NextHopRoute.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_NextHopRoute(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_NextHopRoute(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_NextHopRoute(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_NextHopRoute_CIM_HostedRoute_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDROUTE, 
-					CIM_NextHopRoute.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_NextHopRoute.CIM_CLASS_NAME)) {
 						resultArrayList.add(obj);
 					}
 				}
@@ -1812,8 +1186,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDSERVICE, 
 					CIM_Service.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1826,9 +1200,9 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
 
@@ -1898,8 +1272,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDSERVICE, 
 					CIM_Service.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1907,260 +1281,6 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 			
 				if (obj instanceof CIMObjectPath) {
 					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_Service.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_StoragePool_CIM_HostedStoragePools(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDSTORAGEPOOL, 
-					CIM_StoragePool.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_StoragePool(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_StoragePool(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_StoragePool(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_StoragePool_CIM_HostedStoragePool_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDSTORAGEPOOL, 
-					CIM_StoragePool.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_StoragePool.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_PolicyGroup_CIM_IPsecPolicyForSystems(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_IPSECPOLICYFORSYSTEM, 
-					CIM_PolicyGroup.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PolicyGroup(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PolicyGroup(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PolicyGroup(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_PolicyGroup_CIM_IPsecPolicyForSystem_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_IPSECPOLICYFORSYSTEM, 
-					CIM_PolicyGroup.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_PolicyGroup.CIM_CLASS_NAME)) {
 						resultArrayList.add(obj);
 					}
 				}
@@ -2193,8 +1313,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_IDENTIFICATIONOFMANAGEDSYSTEM, 
 					CIM_SystemIdentification.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -2207,9 +1327,9 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
 
@@ -2279,8 +1399,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_IDENTIFICATIONOFMANAGEDSYSTEM, 
 					CIM_SystemIdentification.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -2320,8 +1440,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDSOFTWAREIDENTITY, 
 					CIM_SoftwareIdentity.CIM_CLASS_NAME, 
-					"System",
-					"InstalledSoftware",
+					"System", //$NON-NLS-1$
+					"InstalledSoftware", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -2334,9 +1454,9 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
 
@@ -2406,8 +1526,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDSOFTWAREIDENTITY, 
 					CIM_SoftwareIdentity.CIM_CLASS_NAME, 
-					"System",
-					"InstalledSoftware");
+					"System", //$NON-NLS-1$
+					"InstalledSoftware"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -2415,1022 +1535,6 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 			
 				if (obj instanceof CIMObjectPath) {
 					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_SoftwareIdentity.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_AccountManagementService_CIM_ManagesAccountOnSystems(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_MANAGESACCOUNTONSYSTEM, 
-					CIM_AccountManagementService.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_AccountManagementService(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_AccountManagementService(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_AccountManagementService(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_AccountManagementService_CIM_ManagesAccountOnSystem_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_MANAGESACCOUNTONSYSTEM, 
-					CIM_AccountManagementService.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_AccountManagementService.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_PolicyGroup_CIM_PolicyGroupInSystems(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_POLICYGROUPINSYSTEM, 
-					CIM_PolicyGroup.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PolicyGroup(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PolicyGroup(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PolicyGroup(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_PolicyGroup_CIM_PolicyGroupInSystem_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_POLICYGROUPINSYSTEM, 
-					CIM_PolicyGroup.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_PolicyGroup.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Policy_CIM_PolicyInSystems(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_POLICYINSYSTEM, 
-					CIM_Policy.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Policy(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Policy(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Policy(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Policy_CIM_PolicyInSystem_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_POLICYINSYSTEM, 
-					CIM_Policy.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_Policy.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_PolicyRoleCollection_CIM_PolicyRoleCollectionInSystems(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_POLICYROLECOLLECTIONINSYSTEM, 
-					CIM_PolicyRoleCollection.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PolicyRoleCollection(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PolicyRoleCollection(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PolicyRoleCollection(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_PolicyRoleCollection_CIM_PolicyRoleCollectionInSystem_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_POLICYROLECOLLECTIONINSYSTEM, 
-					CIM_PolicyRoleCollection.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_PolicyRoleCollection.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_PolicyRule_CIM_PolicyRuleInSystems(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_POLICYRULEINSYSTEM, 
-					CIM_PolicyRule.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PolicyRule(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PolicyRule(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PolicyRule(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_PolicyRule_CIM_PolicyRuleInSystem_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_POLICYRULEINSYSTEM, 
-					CIM_PolicyRule.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_PolicyRule.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_PolicySet_CIM_PolicySetInSystems(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_POLICYSETINSYSTEM, 
-					CIM_PolicySet.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PolicySet(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PolicySet(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PolicySet(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_PolicySet_CIM_PolicySetInSystem_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_POLICYSETINSYSTEM, 
-					CIM_PolicySet.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_PolicySet.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_SystemResource_CIM_ResourceOfSystems(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_RESOURCEOFSYSTEM, 
-					CIM_SystemResource.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_SystemResource(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_SystemResource(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_SystemResource(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_SystemResource_CIM_ResourceOfSystem_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_RESOURCEOFSYSTEM, 
-					CIM_SystemResource.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_SystemResource.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_SecurityService_CIM_SecurityServiceForSystems(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SECURITYSERVICEFORSYSTEM, 
-					CIM_SecurityService.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_SecurityService(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_SecurityService(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_SecurityService(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_SecurityService_CIM_SecurityServiceForSystem_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SECURITYSERVICEFORSYSTEM, 
-					CIM_SecurityService.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_SecurityService.CIM_CLASS_NAME)) {
 						resultArrayList.add(obj);
 					}
 				}
@@ -3463,8 +1567,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGFORSYSTEM, 
 					CIM_SystemSetting.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -3477,9 +1581,9 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
 
@@ -3549,8 +1653,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGFORSYSTEM, 
 					CIM_SystemSetting.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -3558,387 +1662,6 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 			
 				if (obj instanceof CIMObjectPath) {
 					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_SystemSetting.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_UserEntity_CIM_SystemAdministrators(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMADMINISTRATOR, 
-					CIM_UserEntity.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_UserEntity(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_UserEntity(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_UserEntity(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_UserEntity_CIM_SystemAdministrator_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMADMINISTRATOR, 
-					CIM_UserEntity.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_UserEntity.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Group_CIM_SystemAdministratorGroups(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMADMINISTRATORGROUP, 
-					CIM_Group.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Group(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Group(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Group(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Group_CIM_SystemAdministratorGroup_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMADMINISTRATORGROUP, 
-					CIM_Group.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_Group.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Role_CIM_SystemAdministratorRoles(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMADMINISTRATORROLE, 
-					CIM_Role.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Role(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Role(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Role(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Role_CIM_SystemAdministratorRole_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMADMINISTRATORROLE, 
-					CIM_Role.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_Role.CIM_CLASS_NAME)) {
 						resultArrayList.add(obj);
 					}
 				}
@@ -3971,8 +1694,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMCOMPONENT, 
 					CIM_ManagedSystemElement.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -3985,9 +1708,9 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
 
@@ -4057,8 +1780,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMCOMPONENT, 
 					CIM_ManagedSystemElement.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -4098,8 +1821,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMDEVICE, 
 					CIM_LogicalDevice.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -4112,9 +1835,9 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
 
@@ -4184,8 +1907,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMDEVICE, 
 					CIM_LogicalDevice.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -4225,8 +1948,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPACKAGING, 
 					CIM_PhysicalElement.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -4239,9 +1962,9 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
 
@@ -4311,8 +2034,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPACKAGING, 
 					CIM_PhysicalElement.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -4352,8 +2075,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMSTATISTICS, 
 					CIM_SystemStatisticalInformation.CIM_CLASS_NAME, 
-					"Element",
-					"Stats",
+					"Element", //$NON-NLS-1$
+					"Stats", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -4366,9 +2089,9 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_System.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_System.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_System.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_System.Java_Package_List.setElementAt((String)(CIM_System.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_System.Java_Package_List.get(i)) + cimClassName;
 
@@ -4438,8 +2161,8 @@ Note that instrumentation's view of a System's 'roles' is defined by instantiati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMSTATISTICS, 
 					CIM_SystemStatisticalInformation.CIM_CLASS_NAME, 
-					"Element",
-					"Stats");
+					"Element", //$NON-NLS-1$
+					"Stats"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

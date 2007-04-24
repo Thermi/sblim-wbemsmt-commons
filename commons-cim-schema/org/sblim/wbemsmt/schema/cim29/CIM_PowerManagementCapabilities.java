@@ -1,7 +1,7 @@
 /** 
  * CIM_PowerManagementCapabilities.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: A class derived from Capabilities that describes the power management aspects of an element (typically a system or device). The element's power management capabilities are decoupled from a PowerManagementService, since a single service could apply to multiple elements, each with specific capabilities.
+ * Description:  A class derived from Capabilities that describes the power management aspects
+ * of an element (typically a system or device). The element's power management
+ * capabilities are decoupled from a PowerManagementService, since a single
+ * service could apply to multiple elements, each with specific capabilities.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  A class derived from Capabilities that describes the power management aspects
+ * of an element (typically a system or device). The element's power management
+ * capabilities are decoupled from a PowerManagementService, since a single
+ * service could apply to multiple elements, each with specific capabilities.
+ */
 public class CIM_PowerManagementCapabilities extends CIM_Capabilities  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_PowerManagementCapabilities";
+	public final static String CIM_CLASS_NAME = "CIM_PowerManagementCapabilities"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -218,7 +227,7 @@ public class CIM_PowerManagementCapabilities extends CIM_Capabilities  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

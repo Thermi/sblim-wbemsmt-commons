@@ -1,7 +1,7 @@
 /** 
  * CIM_RelatedStatisticalData.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: CIM_RelatedStatisticalData is an association that defines hierarchies and/or dependencies of related CIM_Statistical Data classes.
+ * Description:  CIM_RelatedStatisticalData is an association that defines hierarchies and/or
+ * dependencies of related CIM_Statistical Data classes.
  * 
  */
 
@@ -28,13 +29,17 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_RelatedStatisticalData is an association that defines hierarchies and/or
+ * dependencies of related CIM_Statistical Data classes.
+ */
 public class CIM_RelatedStatisticalData  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_RelatedStatisticalData";
+	public final static String CIM_CLASS_NAME = "CIM_RelatedStatisticalData"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -184,7 +189,7 @@ public class CIM_RelatedStatisticalData  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_IndicationHandlerCIMXML.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: CIM_IndicationHandlerCIMXML describes the destination for Indications to be delivered via CIM-XML.
+ * Description:  CIM_IndicationHandlerCIMXML describes the destination for Indications to be
+ * delivered via CIM-XML.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_IndicationHandlerCIMXML describes the destination for Indications to be
+ * delivered via CIM-XML.
+ */
 public class CIM_IndicationHandlerCIMXML extends CIM_IndicationHandler  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_IndicationHandlerCIMXML";
+	public final static String CIM_CLASS_NAME = "CIM_IndicationHandlerCIMXML"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -203,7 +208,7 @@ public class CIM_IndicationHandlerCIMXML extends CIM_IndicationHandler  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

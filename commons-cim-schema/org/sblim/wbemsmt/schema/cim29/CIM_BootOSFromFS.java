@@ -1,7 +1,7 @@
 /** 
  * CIM_BootOSFromFS.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: A link between the OperatingSystem and the FileSystem(s) from which this OperatingSystem is loaded. The association is many- to-many since a Distributed OS could depend on several File Systems in order to correctly and completely load.
+ * Description:  A link between the OperatingSystem and the FileSystem(s) from which this
+ * OperatingSystem is loaded. The association is many- to-many since a
+ * Distributed OS could depend on several File Systems in order to correctly and
+ * completely load.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  A link between the OperatingSystem and the FileSystem(s) from which this
+ * OperatingSystem is loaded. The association is many- to-many since a
+ * Distributed OS could depend on several File Systems in order to correctly and
+ * completely load.
+ */
 public class CIM_BootOSFromFS extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_BootOSFromFS";
+	public final static String CIM_CLASS_NAME = "CIM_BootOSFromFS"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +200,7 @@ public class CIM_BootOSFromFS extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

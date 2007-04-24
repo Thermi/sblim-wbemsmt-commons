@@ -1,7 +1,7 @@
 /** 
  * CIM_PhysicalStatisticalInformation.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: Statistical information associated with a PhysicalElement or one of its subclasses.
+ * Description:  Statistical information associated with a PhysicalElement or one of its
+ * subclasses.
  * 
  */
 
@@ -33,15 +34,19 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  Statistical information associated with a PhysicalElement or one of its
+ * subclasses.
+ */
 public class CIM_PhysicalStatisticalInformation extends CIM_StatisticalInformation  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_PhysicalStatisticalInformation";
+	public final static String CIM_CLASS_NAME = "CIM_PhysicalStatisticalInformation"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PHYSICALSTATISTICS = "CIM_PhysicalStatistics";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PHYSICALSTATISTICS = "CIM_PhysicalStatistics"; //$NON-NLS-1$
 	
 	
 	/**
@@ -254,7 +259,7 @@ public class CIM_PhysicalStatisticalInformation extends CIM_StatisticalInformati
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -379,8 +384,8 @@ public class CIM_PhysicalStatisticalInformation extends CIM_StatisticalInformati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PHYSICALSTATISTICS, 
 					CIM_PhysicalElement.CIM_CLASS_NAME, 
-					"Stats",
-					"Element",
+					"Stats", //$NON-NLS-1$
+					"Element", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -393,9 +398,9 @@ public class CIM_PhysicalStatisticalInformation extends CIM_StatisticalInformati
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_PhysicalStatisticalInformation.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalStatisticalInformation.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_PhysicalStatisticalInformation.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_PhysicalStatisticalInformation.Java_Package_List.setElementAt((String)(CIM_PhysicalStatisticalInformation.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_PhysicalStatisticalInformation.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_PhysicalStatisticalInformation.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_PhysicalStatisticalInformation.Java_Package_List.setElementAt((String)(CIM_PhysicalStatisticalInformation.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_PhysicalStatisticalInformation.Java_Package_List.get(i)) + cimClassName;
 
@@ -465,8 +470,8 @@ public class CIM_PhysicalStatisticalInformation extends CIM_StatisticalInformati
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PHYSICALSTATISTICS, 
 					CIM_PhysicalElement.CIM_CLASS_NAME, 
-					"Stats",
-					"Element");
+					"Stats", //$NON-NLS-1$
+					"Element"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

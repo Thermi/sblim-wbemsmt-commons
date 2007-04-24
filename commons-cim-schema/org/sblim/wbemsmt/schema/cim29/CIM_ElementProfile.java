@@ -1,7 +1,7 @@
 /** 
  * CIM_ElementProfile.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: ElementProfile represents the association between ManagedElements and the Profiles (collection of settings) defined for them. This association describes that the settings collected by the Profile apply to the associated ManagedElement.
+ * Description:  ElementProfile represents the association between ManagedElements and the
+ * Profiles (collection of settings) defined for them. This association
+ * describes that the settings collected by the Profile apply to the associated
+ * ManagedElement.
  * 
  */
 
@@ -28,13 +31,19 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  ElementProfile represents the association between ManagedElements and the
+ * Profiles (collection of settings) defined for them. This association
+ * describes that the settings collected by the Profile apply to the associated
+ * ManagedElement.
+ */
 public class CIM_ElementProfile  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ElementProfile";
+	public final static String CIM_CLASS_NAME = "CIM_ElementProfile"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +187,7 @@ public class CIM_ElementProfile  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

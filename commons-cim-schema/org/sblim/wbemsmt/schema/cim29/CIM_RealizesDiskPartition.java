@@ -1,7 +1,7 @@
 /** 
  * CIM_RealizesDiskPartition.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,14 @@
  * Contributors:
  *
  *
- * Description: DiskPartitions can be directly realized on a PhysicalMedia. This is used to model the creation of Partitions on a raw SCSI or IDE drive, using the fdisk (DOS and Unix) or pdisk (Unix) command. The StartingAddress of the DiskPartition on the PhysicalMedia is also specified as a property of this relationship. An alternative is that Partitions can be BasedOn StorageVolumes, such as a VolumeSet or a Volume exposed by a hardware RAID cabinet. The latter relationship is modeled using the DiskPartitionBasedOnVolume association.
+ * Description:  DiskPartitions can be directly realized on a PhysicalMedia. This is used to
+ * model the creation of Partitions on a raw SCSI or IDE drive, using the fdisk
+ * (DOS and Unix) or pdisk (Unix) command. The StartingAddress of the
+ * DiskPartition on the PhysicalMedia is also specified as a property of this
+ * relationship. An alternative is that Partitions can be BasedOn
+ * StorageVolumes, such as a VolumeSet or a Volume exposed by a hardware RAID
+ * cabinet. The latter relationship is modeled using the
+ * DiskPartitionBasedOnVolume association.
  * 
  */
 
@@ -28,9 +35,19 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  DiskPartitions can be directly realized on a PhysicalMedia. This is used to
+ * model the creation of Partitions on a raw SCSI or IDE drive, using the fdisk
+ * (DOS and Unix) or pdisk (Unix) command. The StartingAddress of the
+ * DiskPartition on the PhysicalMedia is also specified as a property of this
+ * relationship. An alternative is that Partitions can be BasedOn
+ * StorageVolumes, such as a VolumeSet or a Volume exposed by a hardware RAID
+ * cabinet. The latter relationship is modeled using the
+ * DiskPartitionBasedOnVolume association.
+ */
 public class CIM_RealizesDiskPartition extends CIM_RealizesExtent  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_RealizesDiskPartition";
+	public final static String CIM_CLASS_NAME = "CIM_RealizesDiskPartition"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +208,7 @@ public class CIM_RealizesDiskPartition extends CIM_RealizesExtent  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

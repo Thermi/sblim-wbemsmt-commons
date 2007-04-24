@@ -1,7 +1,7 @@
 /** 
  * CIM_ScopedSettingData.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,16 @@
  * Contributors:
  *
  *
- * Description: The ScopedSettingData class represents the general concept of SettingData which is scoped/contained by a ManagedElement (i.e. settings that are specifically defined for a system, device, etc). ScopedSettingData is tied to a ManagedElement using the ScopedSetting association. Note that the cardinality of the ManagedElement reference is Min(1), Max(1). This cardinality mandates the instantiation of the ScopedSetting association for the referenced instance of ScopedSettingData. ScopedSetting describes the existence requirements and context for the referenced instance of ManagedElement. Specifically, the ManagedElement MUST exist and provides the context for the ScopedSettingData.
+ * Description:  The ScopedSettingData class represents the general concept of SettingData which
+ * is scoped/contained by a ManagedElement (i.e. settings that are specifically
+ * defined for a system, device, etc). ScopedSettingData is tied to a
+ * ManagedElement using the ScopedSetting association. Note that the cardinality
+ * of the ManagedElement reference is Min(1), Max(1). This cardinality mandates
+ * the instantiation of the ScopedSetting association for the referenced
+ * instance of ScopedSettingData. ScopedSetting describes the existence
+ * requirements and context for the referenced instance of ManagedElement.
+ * Specifically, the ManagedElement MUST exist and provides the context for the
+ * ScopedSettingData.
  * 
  */
 
@@ -33,15 +42,27 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  The ScopedSettingData class represents the general concept of SettingData which
+ * is scoped/contained by a ManagedElement (i.e. settings that are specifically
+ * defined for a system, device, etc). ScopedSettingData is tied to a
+ * ManagedElement using the ScopedSetting association. Note that the cardinality
+ * of the ManagedElement reference is Min(1), Max(1). This cardinality mandates
+ * the instantiation of the ScopedSetting association for the referenced
+ * instance of ScopedSettingData. ScopedSetting describes the existence
+ * requirements and context for the referenced instance of ManagedElement.
+ * Specifically, the ManagedElement MUST exist and provides the context for the
+ * ScopedSettingData.
+ */
 public class CIM_ScopedSettingData extends CIM_SettingData  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ScopedSettingData";
+	public final static String CIM_CLASS_NAME = "CIM_ScopedSettingData"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SCOPEDSETTING = "CIM_ScopedSetting";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SCOPEDSETTING = "CIM_ScopedSetting"; //$NON-NLS-1$
 	
 	
 	
@@ -190,7 +211,7 @@ public class CIM_ScopedSettingData extends CIM_SettingData  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -315,8 +336,8 @@ public class CIM_ScopedSettingData extends CIM_SettingData  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SCOPEDSETTING, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -329,9 +350,9 @@ public class CIM_ScopedSettingData extends CIM_SettingData  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_ScopedSettingData.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ScopedSettingData.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ScopedSettingData.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ScopedSettingData.Java_Package_List.setElementAt((String)(CIM_ScopedSettingData.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_ScopedSettingData.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_ScopedSettingData.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_ScopedSettingData.Java_Package_List.setElementAt((String)(CIM_ScopedSettingData.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_ScopedSettingData.Java_Package_List.get(i)) + cimClassName;
 
@@ -401,8 +422,8 @@ public class CIM_ScopedSettingData extends CIM_SettingData  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SCOPEDSETTING, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

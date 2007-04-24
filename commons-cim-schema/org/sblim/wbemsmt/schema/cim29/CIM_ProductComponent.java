@@ -1,7 +1,7 @@
 /** 
  * CIM_ProductComponent.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,8 +16,14 @@
  * Contributors:
  *
  *
- * Description: The CIM_ProductComponent association defines a containment and component relationship among Products. For example, a Product may come bundled with other Products. 
-Note that this association duplicates ProductParentChild. The latter association is maintained for legacy reasons. This association, ProductComponent, is added for ease of query and modeling consistency. Using ProductComponent, an application can query for all Component relationships for a Product, versus querying the various Component relationships AND ProductParentChild.
+ * Description:  The CIM_ProductComponent association defines a containment and component
+ * relationship among Products. For example, a Product may come bundled with
+ * other Products. Note that this association duplicates ProductParentChild. The
+ * latter association is maintained for legacy reasons. This association,
+ * ProductComponent, is added for ease of query and modeling consistency. Using
+ * ProductComponent, an application can query for all Component relationships
+ * for a Product, versus querying the various Component relationships AND
+ * ProductParentChild.
  * 
  */
 
@@ -29,9 +35,19 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The CIM_ProductComponent association defines a containment and component
+ * relationship among Products. For example, a Product may come bundled with
+ * other Products. Note that this association duplicates ProductParentChild. The
+ * latter association is maintained for legacy reasons. This association,
+ * ProductComponent, is added for ease of query and modeling consistency. Using
+ * ProductComponent, an application can query for all Component relationships
+ * for a Product, versus querying the various Component relationships AND
+ * ProductParentChild.
+ */
 public class CIM_ProductComponent extends CIM_Component  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ProductComponent";
+	public final static String CIM_CLASS_NAME = "CIM_ProductComponent"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -192,7 +208,7 @@ public class CIM_ProductComponent extends CIM_Component  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

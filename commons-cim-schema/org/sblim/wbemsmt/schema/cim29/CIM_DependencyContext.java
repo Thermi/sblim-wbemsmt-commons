@@ -1,7 +1,7 @@
 /** 
  * CIM_DependencyContext.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: This relationship associates a Dependency with one or more Configuration objects. For example, a ComputerSystem's dependencies could change based on the site/network to which the System is attached.
+ * Description:  This relationship associates a Dependency with one or more Configuration
+ * objects. For example, a ComputerSystem's dependencies could change based on
+ * the site/network to which the System is attached.
  * 
  */
 
@@ -28,13 +30,18 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  This relationship associates a Dependency with one or more Configuration
+ * objects. For example, a ComputerSystem's dependencies could change based on
+ * the site/network to which the System is attached.
+ */
 public class CIM_DependencyContext  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_DependencyContext";
+	public final static String CIM_CLASS_NAME = "CIM_DependencyContext"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +185,7 @@ public class CIM_DependencyContext  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

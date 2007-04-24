@@ -1,7 +1,7 @@
 /** 
  * CIM_StorageDefect.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,7 @@
  * Contributors:
  *
  *
- * Description: The StorageDefect aggregation collects the StorageErrors for a StorageExtent.
+ * Description:  The StorageDefect aggregation collects the StorageErrors for a StorageExtent.
  * 
  */
 
@@ -28,13 +28,16 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The StorageDefect aggregation collects the StorageErrors for a StorageExtent.
+ */
 public class CIM_StorageDefect  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_StorageDefect";
+	public final static String CIM_CLASS_NAME = "CIM_StorageDefect"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +181,7 @@ public class CIM_StorageDefect  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

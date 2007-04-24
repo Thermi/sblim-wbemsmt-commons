@@ -1,7 +1,7 @@
 /** 
  * CIM_SystemComponent.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,8 +16,19 @@
  * Contributors:
  *
  *
- * Description: CIM_SystemComponent is a specialization of the CIM_Component association that establishes 'part of' relationships between a System and any ManagedSystemElements of which it is composed. 
-The use of this association is cautioned - versus the use of a subclass such as SystemDevice, or a peer association such as HostedService. This class is very broadly defined which can lead to erroneous use. For example, Access Points that are dependent on (and hosted on) a System are NOT Components of the System. The System is not made up of any AccessPoint 'parts', which is why a Dependency association, HostedAccessPoint, was defined. Similarly, a PhysicalPackage is not a 'part' of a System, since the physical element exists independently of any internal components, software, etc. In fact, again, a Dependency relationship is true - where a ComputerSystem is Dependent on its packaging, as described by the ComputerSystemPackage association.
+ * Description:  CIM_SystemComponent is a specialization of the CIM_Component association that
+ * establishes 'part of' relationships between a System and any
+ * ManagedSystemElements of which it is composed. The use of this association is
+ * cautioned - versus the use of a subclass such as SystemDevice, or a peer
+ * association such as HostedService. This class is very broadly defined which
+ * can lead to erroneous use. For example, Access Points that are dependent on
+ * (and hosted on) a System are NOT Components of the System. The System is not
+ * made up of any AccessPoint 'parts', which is why a Dependency association,
+ * HostedAccessPoint, was defined. Similarly, a PhysicalPackage is not a 'part'
+ * of a System, since the physical element exists independently of any internal
+ * components, software, etc. In fact, again, a Dependency relationship is true
+ * - where a ComputerSystem is Dependent on its packaging, as described by the
+ * ComputerSystemPackage association.
  * 
  */
 
@@ -29,9 +40,24 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_SystemComponent is a specialization of the CIM_Component association that
+ * establishes 'part of' relationships between a System and any
+ * ManagedSystemElements of which it is composed. The use of this association is
+ * cautioned - versus the use of a subclass such as SystemDevice, or a peer
+ * association such as HostedService. This class is very broadly defined which
+ * can lead to erroneous use. For example, Access Points that are dependent on
+ * (and hosted on) a System are NOT Components of the System. The System is not
+ * made up of any AccessPoint 'parts', which is why a Dependency association,
+ * HostedAccessPoint, was defined. Similarly, a PhysicalPackage is not a 'part'
+ * of a System, since the physical element exists independently of any internal
+ * components, software, etc. In fact, again, a Dependency relationship is true
+ * - where a ComputerSystem is Dependent on its packaging, as described by the
+ * ComputerSystemPackage association.
+ */
 public class CIM_SystemComponent extends CIM_Component  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SystemComponent";
+	public final static String CIM_CLASS_NAME = "CIM_SystemComponent"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -192,7 +218,7 @@ public class CIM_SystemComponent extends CIM_Component  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

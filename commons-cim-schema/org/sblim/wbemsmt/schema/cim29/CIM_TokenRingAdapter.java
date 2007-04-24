@@ -1,7 +1,7 @@
 /** 
  * CIM_TokenRingAdapter.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: The use of the CIM_TokenRingAdapter class has been deprecated, consistent with NetworkAdapter. Instead use the CIM_TokenRingPort class. This class describes the capabilities and management aspects of a TokenRingAdapter.
+ * Description:  The use of the CIM_TokenRingAdapter class has been deprecated, consistent with
+ * NetworkAdapter. Instead use the CIM_TokenRingPort class. This class describes
+ * the capabilities and management aspects of a TokenRingAdapter.
  * 
  */
 
@@ -28,9 +30,14 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The use of the CIM_TokenRingAdapter class has been deprecated, consistent with
+ * NetworkAdapter. Instead use the CIM_TokenRingPort class. This class describes
+ * the capabilities and management aspects of a TokenRingAdapter.
+ */
 public class CIM_TokenRingAdapter extends CIM_NetworkAdapter  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_TokenRingAdapter";
+	public final static String CIM_CLASS_NAME = "CIM_TokenRingAdapter"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -441,7 +448,7 @@ public class CIM_TokenRingAdapter extends CIM_NetworkAdapter  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

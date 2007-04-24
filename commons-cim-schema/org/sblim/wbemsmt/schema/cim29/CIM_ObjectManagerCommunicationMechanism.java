@@ -1,7 +1,7 @@
 /** 
  * CIM_ObjectManagerCommunicationMechanism.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,13 @@
  * Contributors:
  *
  *
- * Description: The class, ObjectManagerCommunicationMechanism, describes access to an ObjectManager. It describes a protocol and data encoding that can be used for communication. When all instances of this class are enumerated for an ObjectManager (using the CommMechanismForManager association), all possible protocol and encoding schemes will be known. Also, specific capabilities (for example, basic read or query) that are supported in the protocol/encoding are described - using the ProfilesSupported property.
+ * Description:  The class, ObjectManagerCommunicationMechanism, describes access to an
+ * ObjectManager. It describes a protocol and data encoding that can be used for
+ * communication. When all instances of this class are enumerated for an
+ * ObjectManager (using the CommMechanismForManager association), all possible
+ * protocol and encoding schemes will be known. Also, specific capabilities (for
+ * example, basic read or query) that are supported in the protocol/encoding are
+ * described - using the ProfilesSupported property.
  * 
  */
 
@@ -33,17 +39,26 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  The class, ObjectManagerCommunicationMechanism, describes access to an
+ * ObjectManager. It describes a protocol and data encoding that can be used for
+ * communication. When all instances of this class are enumerated for an
+ * ObjectManager (using the CommMechanismForManager association), all possible
+ * protocol and encoding schemes will be known. Also, specific capabilities (for
+ * example, basic read or query) that are supported in the protocol/encoding are
+ * described - using the ProfilesSupported property.
+ */
 public class CIM_ObjectManagerCommunicationMechanism extends CIM_ServiceAccessPoint  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ObjectManagerCommunicationMechanism";
+	public final static String CIM_CLASS_NAME = "CIM_ObjectManagerCommunicationMechanism"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER = "CIM_CommMechanismForAdapter";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER = "CIM_CommMechanismForManager";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER = "CIM_CommMechanismForObjectManagerAdapter";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER = "CIM_CommMechanismForAdapter"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER = "CIM_CommMechanismForManager"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER = "CIM_CommMechanismForObjectManagerAdapter"; //$NON-NLS-1$
 	
 	
 	/**
@@ -319,7 +334,7 @@ public class CIM_ObjectManagerCommunicationMechanism extends CIM_ServiceAccessPo
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -444,8 +459,8 @@ public class CIM_ObjectManagerCommunicationMechanism extends CIM_ServiceAccessPo
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER, 
 					CIM_ProtocolAdapter.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -458,9 +473,9 @@ public class CIM_ObjectManagerCommunicationMechanism extends CIM_ServiceAccessPo
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_ObjectManagerCommunicationMechanism.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ObjectManagerCommunicationMechanism.Java_Package_List.setElementAt((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_ObjectManagerCommunicationMechanism.Java_Package_List.setElementAt((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i)) + cimClassName;
 
@@ -530,8 +545,8 @@ public class CIM_ObjectManagerCommunicationMechanism extends CIM_ServiceAccessPo
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER, 
 					CIM_ProtocolAdapter.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -571,8 +586,8 @@ public class CIM_ObjectManagerCommunicationMechanism extends CIM_ServiceAccessPo
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER, 
 					CIM_ObjectManager.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -585,9 +600,9 @@ public class CIM_ObjectManagerCommunicationMechanism extends CIM_ServiceAccessPo
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_ObjectManagerCommunicationMechanism.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ObjectManagerCommunicationMechanism.Java_Package_List.setElementAt((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_ObjectManagerCommunicationMechanism.Java_Package_List.setElementAt((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i)) + cimClassName;
 
@@ -657,8 +672,8 @@ public class CIM_ObjectManagerCommunicationMechanism extends CIM_ServiceAccessPo
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER, 
 					CIM_ObjectManager.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -698,8 +713,8 @@ public class CIM_ObjectManagerCommunicationMechanism extends CIM_ServiceAccessPo
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER, 
 					CIM_ObjectManagerAdapter.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -712,9 +727,9 @@ public class CIM_ObjectManagerCommunicationMechanism extends CIM_ServiceAccessPo
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_ObjectManagerCommunicationMechanism.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ObjectManagerCommunicationMechanism.Java_Package_List.setElementAt((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_ObjectManagerCommunicationMechanism.Java_Package_List.setElementAt((String)(CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_ObjectManagerCommunicationMechanism.Java_Package_List.get(i)) + cimClassName;
 
@@ -784,8 +799,8 @@ public class CIM_ObjectManagerCommunicationMechanism extends CIM_ServiceAccessPo
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER, 
 					CIM_ObjectManagerAdapter.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

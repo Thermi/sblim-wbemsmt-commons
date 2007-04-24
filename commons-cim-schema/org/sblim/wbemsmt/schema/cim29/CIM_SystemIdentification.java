@@ -1,7 +1,7 @@
 /** 
  * CIM_SystemIdentification.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: A Namespace may represent data for one or many systems, that are local, remote (different than the system on which the ObjectManager is running) or aggregated. The System Identification class provides enough data to identify the system(s) represented in the Namespace. It is weak to the Namespace.
+ * Description:  A Namespace may represent data for one or many systems, that are local, remote
+ * (different than the system on which the ObjectManager is running) or
+ * aggregated. The System Identification class provides enough data to identify
+ * the system(s) represented in the Namespace. It is weak to the Namespace.
  * 
  */
 
@@ -33,16 +36,22 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A Namespace may represent data for one or many systems, that are local, remote
+ * (different than the system on which the ObjectManager is running) or
+ * aggregated. The System Identification class provides enough data to identify
+ * the system(s) represented in the Namespace. It is weak to the Namespace.
+ */
 public class CIM_SystemIdentification extends CIM_ManagedElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SystemIdentification";
+	public final static String CIM_CLASS_NAME = "CIM_SystemIdentification"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_IDENTIFICATIONOFMANAGEDSYSTEM = "CIM_IdentificationOfManagedSystem";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMINNAMESPACE = "CIM_SystemInNamespace";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_IDENTIFICATIONOFMANAGEDSYSTEM = "CIM_IdentificationOfManagedSystem"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMINNAMESPACE = "CIM_SystemInNamespace"; //$NON-NLS-1$
 	
 	
 	/**
@@ -360,7 +369,7 @@ public class CIM_SystemIdentification extends CIM_ManagedElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -485,8 +494,8 @@ public class CIM_SystemIdentification extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_IDENTIFICATIONOFMANAGEDSYSTEM, 
 					CIM_System.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -499,9 +508,9 @@ public class CIM_SystemIdentification extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_SystemIdentification.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SystemIdentification.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SystemIdentification.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SystemIdentification.Java_Package_List.setElementAt((String)(CIM_SystemIdentification.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_SystemIdentification.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_SystemIdentification.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_SystemIdentification.Java_Package_List.setElementAt((String)(CIM_SystemIdentification.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_SystemIdentification.Java_Package_List.get(i)) + cimClassName;
 
@@ -571,8 +580,8 @@ public class CIM_SystemIdentification extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_IDENTIFICATIONOFMANAGEDSYSTEM, 
 					CIM_System.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -612,8 +621,8 @@ public class CIM_SystemIdentification extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMINNAMESPACE, 
 					CIM_Namespace.CIM_CLASS_NAME, 
-					"Identification",
-					"ManagedNamespace",
+					"Identification", //$NON-NLS-1$
+					"ManagedNamespace", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -626,9 +635,9 @@ public class CIM_SystemIdentification extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_SystemIdentification.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SystemIdentification.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SystemIdentification.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SystemIdentification.Java_Package_List.setElementAt((String)(CIM_SystemIdentification.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_SystemIdentification.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_SystemIdentification.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_SystemIdentification.Java_Package_List.setElementAt((String)(CIM_SystemIdentification.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_SystemIdentification.Java_Package_List.get(i)) + cimClassName;
 
@@ -698,8 +707,8 @@ public class CIM_SystemIdentification extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMINNAMESPACE, 
 					CIM_Namespace.CIM_CLASS_NAME, 
-					"Identification",
-					"ManagedNamespace");
+					"Identification", //$NON-NLS-1$
+					"ManagedNamespace"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

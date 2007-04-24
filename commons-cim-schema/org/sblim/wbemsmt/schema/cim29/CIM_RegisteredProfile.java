@@ -1,7 +1,7 @@
 /** 
  * CIM_RegisteredProfile.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,9 +16,20 @@
  * Contributors:
  *
  *
- * Description: A RegisteredProfile describes a set of CIM Schema classes with required properties and/or methods, necessary to manage a real-world entity or to support a usage scenario, in an interoperable fashion. RegisteredProfiles can be defined by the DMTF or other standards organizations. Note that this class should not be confused with CIM_Profile, which collects SettingData instances, to be applied as a 'configuration profile' for an element. 
-A RegisteredProfile is a named 'standard' for CIM-based management of a particular System, subsystem, Service or other entity, for a specified set of uses. It is a complete, standalone definition, as opposed to the subclass RegisteredSubProfile, which requires a scoping profile for context. 
-The uses for a RegisteredProfile or SubProfile MUST be specified in the document that defines the profile. Examples of Profiles are to manage various aspects of an Operating System, Storage Array, or Database. The name of the profile is defined and scoped by its authoring organization.
+ * Description:  A RegisteredProfile describes a set of CIM Schema classes with required
+ * properties and/or methods, necessary to manage a real-world entity or to
+ * support a usage scenario, in an interoperable fashion. RegisteredProfiles can
+ * be defined by the DMTF or other standards organizations. Note that this class
+ * should not be confused with CIM_Profile, which collects SettingData
+ * instances, to be applied as a 'configuration profile' for an element. A
+ * RegisteredProfile is a named 'standard' for CIM-based management of a
+ * particular System, subsystem, Service or other entity, for a specified set of
+ * uses. It is a complete, standalone definition, as opposed to the subclass
+ * RegisteredSubProfile, which requires a scoping profile for context. The uses
+ * for a RegisteredProfile or SubProfile MUST be specified in the document that
+ * defines the profile. Examples of Profiles are to manage various aspects of an
+ * Operating System, Storage Array, or Database. The name of the profile is
+ * defined and scoped by its authoring organization.
  * 
  */
 
@@ -35,16 +46,32 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A RegisteredProfile describes a set of CIM Schema classes with required
+ * properties and/or methods, necessary to manage a real-world entity or to
+ * support a usage scenario, in an interoperable fashion. RegisteredProfiles can
+ * be defined by the DMTF or other standards organizations. Note that this class
+ * should not be confused with CIM_Profile, which collects SettingData
+ * instances, to be applied as a 'configuration profile' for an element. A
+ * RegisteredProfile is a named 'standard' for CIM-based management of a
+ * particular System, subsystem, Service or other entity, for a specified set of
+ * uses. It is a complete, standalone definition, as opposed to the subclass
+ * RegisteredSubProfile, which requires a scoping profile for context. The uses
+ * for a RegisteredProfile or SubProfile MUST be specified in the document that
+ * defines the profile. Examples of Profiles are to manage various aspects of an
+ * Operating System, Storage Array, or Database. The name of the profile is
+ * defined and scoped by its authoring organization.
+ */
 public class CIM_RegisteredProfile extends CIM_ManagedElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_RegisteredProfile";
+	public final static String CIM_CLASS_NAME = "CIM_RegisteredProfile"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.8.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTCONFORMSTOPROFILE = "CIM_ElementConformsToProfile";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SUBPROFILEREQUIRESPROFILE = "CIM_SubProfileRequiresProfile";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTCONFORMSTOPROFILE = "CIM_ElementConformsToProfile"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SUBPROFILEREQUIRESPROFILE = "CIM_SubProfileRequiresProfile"; //$NON-NLS-1$
 	
 	
 	/**
@@ -323,7 +350,7 @@ U - The update (e.g. errata, patch, ..., in numeric form) describing the profile
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -448,8 +475,8 @@ U - The update (e.g. errata, patch, ..., in numeric form) describing the profile
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTCONFORMSTOPROFILE, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"ConformantStandard",
-					"ManagedElement",
+					"ConformantStandard", //$NON-NLS-1$
+					"ManagedElement", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -462,9 +489,9 @@ U - The update (e.g. errata, patch, ..., in numeric form) describing the profile
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_RegisteredProfile.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_RegisteredProfile.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_RegisteredProfile.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_RegisteredProfile.Java_Package_List.setElementAt((String)(CIM_RegisteredProfile.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_RegisteredProfile.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_RegisteredProfile.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_RegisteredProfile.Java_Package_List.setElementAt((String)(CIM_RegisteredProfile.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_RegisteredProfile.Java_Package_List.get(i)) + cimClassName;
 
@@ -534,8 +561,8 @@ U - The update (e.g. errata, patch, ..., in numeric form) describing the profile
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTCONFORMSTOPROFILE, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"ConformantStandard",
-					"ManagedElement");
+					"ConformantStandard", //$NON-NLS-1$
+					"ManagedElement"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -575,8 +602,8 @@ U - The update (e.g. errata, patch, ..., in numeric form) describing the profile
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SUBPROFILEREQUIRESPROFILE, 
 					CIM_RegisteredSubProfile.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -589,9 +616,9 @@ U - The update (e.g. errata, patch, ..., in numeric form) describing the profile
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_RegisteredProfile.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_RegisteredProfile.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_RegisteredProfile.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_RegisteredProfile.Java_Package_List.setElementAt((String)(CIM_RegisteredProfile.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_RegisteredProfile.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_RegisteredProfile.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_RegisteredProfile.Java_Package_List.setElementAt((String)(CIM_RegisteredProfile.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_RegisteredProfile.Java_Package_List.get(i)) + cimClassName;
 
@@ -661,8 +688,8 @@ U - The update (e.g. errata, patch, ..., in numeric form) describing the profile
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SUBPROFILEREQUIRESPROFILE, 
 					CIM_RegisteredSubProfile.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

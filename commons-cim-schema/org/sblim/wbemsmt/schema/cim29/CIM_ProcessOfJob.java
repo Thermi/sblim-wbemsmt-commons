@@ -1,7 +1,7 @@
 /** 
  * CIM_ProcessOfJob.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: ProcessOfJob describes that the referenced Process is the result of the execution of the Job. A Job may cause multiple Processes to run, perhaps on different operating systems. This is allowed by the '*' cardinality of the Process reference. Note that a Process can result from only one Job - hence, the '0..1' cardinality on Job.
+ * Description:  ProcessOfJob describes that the referenced Process is the result of the
+ * execution of the Job. A Job may cause multiple Processes to run, perhaps on
+ * different operating systems. This is allowed by the '*' cardinality of the
+ * Process reference. Note that a Process can result from only one Job - hence,
+ * the '0..1' cardinality on Job.
  * 
  */
 
@@ -28,9 +32,16 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  ProcessOfJob describes that the referenced Process is the result of the
+ * execution of the Job. A Job may cause multiple Processes to run, perhaps on
+ * different operating systems. This is allowed by the '*' cardinality of the
+ * Process reference. Note that a Process can result from only one Job - hence,
+ * the '0..1' cardinality on Job.
+ */
 public class CIM_ProcessOfJob extends CIM_Component  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ProcessOfJob";
+	public final static String CIM_CLASS_NAME = "CIM_ProcessOfJob"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +202,7 @@ public class CIM_ProcessOfJob extends CIM_Component  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

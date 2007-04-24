@@ -1,7 +1,7 @@
 /** 
  * CIM_UnixDeviceFile.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: DeviceFile is a special type of LogicalFile that represents a Device. This class is a specialization of DeviceFile for a Unix environment.
+ * Description:  DeviceFile is a special type of LogicalFile that represents a Device. This
+ * class is a specialization of DeviceFile for a Unix environment.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  DeviceFile is a special type of LogicalFile that represents a Device. This
+ * class is a specialization of DeviceFile for a Unix environment.
+ */
 public class CIM_UnixDeviceFile extends CIM_DeviceFile  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_UnixDeviceFile";
+	public final static String CIM_CLASS_NAME = "CIM_UnixDeviceFile"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -263,7 +268,7 @@ public class CIM_UnixDeviceFile extends CIM_DeviceFile  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

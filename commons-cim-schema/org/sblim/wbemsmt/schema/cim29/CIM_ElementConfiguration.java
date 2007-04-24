@@ -1,7 +1,7 @@
 /** 
  * CIM_ElementConfiguration.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: This association relates a Configuration object to one or more ManagedSystemElements. The Configuration object represents a certain behavior, or a desired functional state for the associated ManagedSystemElements.
+ * Description:  This association relates a Configuration object to one or more
+ * ManagedSystemElements. The Configuration object represents a certain
+ * behavior, or a desired functional state for the associated
+ * ManagedSystemElements.
  * 
  */
 
@@ -28,13 +31,19 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  This association relates a Configuration object to one or more
+ * ManagedSystemElements. The Configuration object represents a certain
+ * behavior, or a desired functional state for the associated
+ * ManagedSystemElements.
+ */
 public class CIM_ElementConfiguration  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ElementConfiguration";
+	public final static String CIM_CLASS_NAME = "CIM_ElementConfiguration"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +187,7 @@ public class CIM_ElementConfiguration  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
