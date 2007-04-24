@@ -36,21 +36,14 @@
 
 package org.sblim.wbemsmt.schema.cim_2_14;
 
-import java.lang.reflect.Constructor;
 import java.security.InvalidParameterException;
+import java.util.Vector;
+import java.util.Iterator;
+import org.sblim.wbem.cim.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Vector;
-
-import org.sblim.wbem.cim.CIMDataType;
-import org.sblim.wbem.cim.CIMException;
-import org.sblim.wbem.cim.CIMInstance;
-import org.sblim.wbem.cim.CIMObjectPath;
-import org.sblim.wbem.cim.CIMProperty;
-import org.sblim.wbem.cim.CIMValue;
-import org.sblim.wbem.client.CIMClient;
-import org.sblim.wbem.client.CIMEnumeration;
+import java.lang.reflect.Constructor;
+import org.sblim.wbem.client.*;
 
 
 
@@ -80,7 +73,6 @@ public class CIM_SettingData extends CIM_ManagedElement  {
 	
 	public final static String CIM_CLASS_VERSION = "2.10.0";
 	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTINGDATA = "CIM_ElementSettingData"; //$NON-NLS-1$
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGASSOCIATEDTOCAPABILITIES = "CIM_SettingAssociatedToCapabilities"; //$NON-NLS-1$
 	
 	
 	/**
@@ -487,133 +479,6 @@ For DMTF-defined instances, the "preferred" algorithm must be used with the <Org
 			
 				if (obj instanceof CIMObjectPath) {
 					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_ManagedElement.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Capabilities_CIM_SettingAssociatedToCapabilitiess(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGASSOCIATEDTOCAPABILITIES, 
-					CIM_Capabilities.CIM_CLASS_NAME, 
-					"Dependent", //$NON-NLS-1$
-					"Antecedent", //$NON-NLS-1$
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_SettingData.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SettingData.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_SettingData.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_SettingData.Java_Package_List.setElementAt((String)(CIM_SettingData.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_SettingData.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Capabilities(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Capabilities(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Capabilities(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Capabilities_CIM_SettingAssociatedToCapabilities_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGASSOCIATEDTOCAPABILITIES, 
-					CIM_Capabilities.CIM_CLASS_NAME, 
-					"Dependent", //$NON-NLS-1$
-					"Antecedent"); //$NON-NLS-1$
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_Capabilities.CIM_CLASS_NAME)) {
 						resultArrayList.add(obj);
 					}
 				}

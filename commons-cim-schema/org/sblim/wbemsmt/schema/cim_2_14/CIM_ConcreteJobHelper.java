@@ -22,21 +22,17 @@
 
 package org.sblim.wbemsmt.schema.cim_2_14;
 
-import java.lang.reflect.Constructor;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Enumeration;
-import java.util.Vector;
 
-import org.sblim.wbem.cim.CIMClass;
-import org.sblim.wbem.cim.CIMException;
-import org.sblim.wbem.cim.CIMInstance;
-import org.sblim.wbem.cim.CIMObjectPath;
-import org.sblim.wbem.cim.CIMProperty;
-import org.sblim.wbem.cim.UnsignedInt16;
-import org.sblim.wbem.client.CIMClient;
-import org.sblim.wbem.client.CIMEnumeration;
+
+import java.util.Calendar;
+import java.util.Vector;
+import java.lang.reflect.Constructor;
+
+import org.sblim.wbem.cim.*;
+import org.sblim.wbem.client.*;
 
 public final class CIM_ConcreteJobHelper {
 
