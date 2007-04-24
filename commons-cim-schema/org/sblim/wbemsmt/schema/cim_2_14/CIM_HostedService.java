@@ -30,15 +30,9 @@
 package org.sblim.wbemsmt.schema.cim_2_14;
 
 import java.security.InvalidParameterException;
-import java.util.Iterator;
 import java.util.Vector;
-
-import org.sblim.wbem.cim.CIMDataType;
-import org.sblim.wbem.cim.CIMException;
-import org.sblim.wbem.cim.CIMInstance;
-import org.sblim.wbem.cim.CIMObjectPath;
-import org.sblim.wbem.cim.CIMProperty;
-import org.sblim.wbem.cim.CIMValue;
+import java.util.Iterator;
+import org.sblim.wbem.cim.*;
 
 
 /**
