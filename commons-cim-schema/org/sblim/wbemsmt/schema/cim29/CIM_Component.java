@@ -1,7 +1,7 @@
 /** 
  * CIM_Component.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: CIM_Component is a generic association used to establish 'part of' relationships between Managed Elements. For example, it could be used to define the components or parts of a System.
+ * Description:  CIM_Component is a generic association used to establish 'part of'
+ * relationships between Managed Elements. For example, it could be used to
+ * define the components or parts of a System.
  * 
  */
 
@@ -28,13 +30,18 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_Component is a generic association used to establish 'part of'
+ * relationships between Managed Elements. For example, it could be used to
+ * define the components or parts of a System.
+ */
 public class CIM_Component  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_Component";
+	public final static String CIM_CLASS_NAME = "CIM_Component"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +185,7 @@ public class CIM_Component  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

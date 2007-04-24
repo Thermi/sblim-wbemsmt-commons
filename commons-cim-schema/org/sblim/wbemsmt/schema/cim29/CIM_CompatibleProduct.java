@@ -1,7 +1,7 @@
 /** 
  * CIM_CompatibleProduct.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: CIM_CompatibleProduct is an association between Products that can indicate a wide variety of information. For example, it can indicate that the two referenced Products interoperate, that they can be installed together, that one can be the physical container for the other, etc. The string property, CompatibilityDescription, defines how the Products interoperate or are compatible, any limitations regarding interoperability or installation, ...
+ * Description:  CIM_CompatibleProduct is an association between Products that can indicate a
+ * wide variety of information. For example, it can indicate that the two
+ * referenced Products interoperate, that they can be installed together, that
+ * one can be the physical container for the other, etc. The string property,
+ * CompatibilityDescription, defines how the Products interoperate or are
+ * compatible, any limitations regarding interoperability or installation, ...
  * 
  */
 
@@ -28,13 +33,21 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_CompatibleProduct is an association between Products that can indicate a
+ * wide variety of information. For example, it can indicate that the two
+ * referenced Products interoperate, that they can be installed together, that
+ * one can be the physical container for the other, etc. The string property,
+ * CompatibilityDescription, defines how the Products interoperate or are
+ * compatible, any limitations regarding interoperability or installation, ...
+ */
 public class CIM_CompatibleProduct  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_CompatibleProduct";
+	public final static String CIM_CLASS_NAME = "CIM_CompatibleProduct"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -184,7 +197,7 @@ public class CIM_CompatibleProduct  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_AlertIndication.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: A concrete superclass for CIM Alert notifications. An AlertIndication is a specialized type of CIM_Indication that contains information about the severity, cause, recommended actions and other data of a real world event. This event and its data may or may not be modeled in the CIM class hierarchy.
+ * Description:  A concrete superclass for CIM Alert notifications. An AlertIndication is a
+ * specialized type of CIM_Indication that contains information about the
+ * severity, cause, recommended actions and other data of a real world event.
+ * This event and its data may or may not be modeled in the CIM class hierarchy.
  * 
  */
 
@@ -29,9 +32,15 @@ import org.sblim.wbem.cim.*;
 import java.util.Calendar;
 
 
+/**
+ *  A concrete superclass for CIM Alert notifications. An AlertIndication is a
+ * specialized type of CIM_Indication that contains information about the
+ * severity, cause, recommended actions and other data of a real world event.
+ * This event and its data may or may not be modeled in the CIM class hierarchy.
+ */
 public class CIM_AlertIndication extends CIM_ProcessIndication  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_AlertIndication";
+	public final static String CIM_CLASS_NAME = "CIM_AlertIndication"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -529,7 +538,7 @@ public class CIM_AlertIndication extends CIM_ProcessIndication  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

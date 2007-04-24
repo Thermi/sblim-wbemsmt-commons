@@ -1,7 +1,7 @@
 /** 
  * CIM_Capabilities.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,20 @@
  * Contributors:
  *
  *
- * Description: Capabilities is an abstract class whose subclasses describe abilities and/or potential for use. For example, one may describe the maximum number of VLANs that can be supported on a system using a subclass of Capabilities. Capabilities are tied to the elements which they describe using the ElementCapabilities association. Note that the cardinality of the ManagedElement reference is Min(1), Max(1). This cardinality mandates the instantiation of the ElementCapabilities association for the referenced instance of Capabilities. ElementCapabilities describes the existence requirements and context for the referenced instance of ManagedElement. Specifically, the ManagedElement MUST exist and provides the context for the Capabilities. Note that Capabilities do not indicate what IS configured or operational, but what CAN or CANNOT exist, be defined or be used. Note that it is possible to describe both supported and excluded abilities and functions (both capabilities and limitations) using this class.
+ * Description:  Capabilities is an abstract class whose subclasses describe abilities and/or
+ * potential for use. For example, one may describe the maximum number of VLANs
+ * that can be supported on a system using a subclass of Capabilities.
+ * Capabilities are tied to the elements which they describe using the
+ * ElementCapabilities association. Note that the cardinality of the
+ * ManagedElement reference is Min(1), Max(1). This cardinality mandates the
+ * instantiation of the ElementCapabilities association for the referenced
+ * instance of Capabilities. ElementCapabilities describes the existence
+ * requirements and context for the referenced instance of ManagedElement.
+ * Specifically, the ManagedElement MUST exist and provides the context for the
+ * Capabilities. Note that Capabilities do not indicate what IS configured or
+ * operational, but what CAN or CANNOT exist, be defined or be used. Note that
+ * it is possible to describe both supported and excluded abilities and
+ * functions (both capabilities and limitations) using this class.
  * 
  */
 
@@ -33,15 +46,31 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  Capabilities is an abstract class whose subclasses describe abilities and/or
+ * potential for use. For example, one may describe the maximum number of VLANs
+ * that can be supported on a system using a subclass of Capabilities.
+ * Capabilities are tied to the elements which they describe using the
+ * ElementCapabilities association. Note that the cardinality of the
+ * ManagedElement reference is Min(1), Max(1). This cardinality mandates the
+ * instantiation of the ElementCapabilities association for the referenced
+ * instance of Capabilities. ElementCapabilities describes the existence
+ * requirements and context for the referenced instance of ManagedElement.
+ * Specifically, the ManagedElement MUST exist and provides the context for the
+ * Capabilities. Note that Capabilities do not indicate what IS configured or
+ * operational, but what CAN or CANNOT exist, be defined or be used. Note that
+ * it is possible to describe both supported and excluded abilities and
+ * functions (both capabilities and limitations) using this class.
+ */
 public class CIM_Capabilities extends CIM_ManagedElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Capabilities";
+	public final static String CIM_CLASS_NAME = "CIM_Capabilities"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTCAPABILITIES = "CIM_ElementCapabilities";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTCAPABILITIES = "CIM_ElementCapabilities"; //$NON-NLS-1$
 	
 	
 	/**
@@ -228,7 +257,7 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -353,8 +382,8 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTCAPABILITIES, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Capabilities",
-					"ManagedElement",
+					"Capabilities", //$NON-NLS-1$
+					"ManagedElement", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -367,9 +396,9 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Capabilities.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Capabilities.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Capabilities.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Capabilities.Java_Package_List.setElementAt((String)(CIM_Capabilities.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Capabilities.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Capabilities.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Capabilities.Java_Package_List.setElementAt((String)(CIM_Capabilities.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Capabilities.Java_Package_List.get(i)) + cimClassName;
 
@@ -439,8 +468,8 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTCAPABILITIES, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Capabilities",
-					"ManagedElement");
+					"Capabilities", //$NON-NLS-1$
+					"ManagedElement"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
