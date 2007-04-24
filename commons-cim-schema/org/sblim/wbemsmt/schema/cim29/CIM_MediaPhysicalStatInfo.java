@@ -1,7 +1,7 @@
 /** 
  * CIM_MediaPhysicalStatInfo.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,13 @@
  * Contributors:
  *
  *
- * Description: Statistics related to reading physical labels and picks/puts at a specific StorageMediaLocation, or for a specific piece of PhysicalMedia. Although the same class is used to represent this data, at the instance level the object holds information for the Location (independent of the Media), OR for the Media (independent of its StorageMediaLocation). This class is deprecated in lieu of MediaPhysicalStatData, to take advantage of the simplified key structure defined there.
+ * Description:  Statistics related to reading physical labels and picks/puts at a specific
+ * StorageMediaLocation, or for a specific piece of PhysicalMedia. Although the
+ * same class is used to represent this data, at the instance level the object
+ * holds information for the Location (independent of the Media), OR for the
+ * Media (independent of its StorageMediaLocation). This class is deprecated in
+ * lieu of MediaPhysicalStatData, to take advantage of the simplified key
+ * structure defined there.
  * 
  */
 
@@ -30,9 +36,18 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  Statistics related to reading physical labels and picks/puts at a specific
+ * StorageMediaLocation, or for a specific piece of PhysicalMedia. Although the
+ * same class is used to represent this data, at the instance level the object
+ * holds information for the Location (independent of the Media), OR for the
+ * Media (independent of its StorageMediaLocation). This class is deprecated in
+ * lieu of MediaPhysicalStatData, to take advantage of the simplified key
+ * structure defined there.
+ */
 public class CIM_MediaPhysicalStatInfo extends CIM_PhysicalStatisticalInformation  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_MediaPhysicalStatInfo";
+	public final static String CIM_CLASS_NAME = "CIM_MediaPhysicalStatInfo"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -266,7 +281,7 @@ public class CIM_MediaPhysicalStatInfo extends CIM_PhysicalStatisticalInformatio
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

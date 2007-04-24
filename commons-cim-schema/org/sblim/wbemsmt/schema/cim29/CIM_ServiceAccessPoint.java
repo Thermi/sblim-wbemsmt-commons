@@ -1,7 +1,7 @@
 /** 
  * CIM_ServiceAccessPoint.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: CIM_ServiceAccessPoint represents the ability to utilize or invoke a Service. Access points represent that a Service is made available to other entities for use.
+ * Description:  CIM_ServiceAccessPoint represents the ability to utilize or invoke a Service.
+ * Access points represent that a Service is made available to other entities
+ * for use.
  * 
  */
 
@@ -33,24 +35,28 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  CIM_ServiceAccessPoint represents the ability to utilize or invoke a Service.
+ * Access points represent that a Service is made available to other entities
+ * for use.
+ */
 public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ServiceAccessPoint";
+	public final static String CIM_CLASS_NAME = "CIM_ServiceAccessPoint"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_BINDSTO = "CIM_BindsTo";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_BINDSTOLANENDPOINT = "CIM_BindsToLANEndpoint";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESAPIMPLEMENTATION = "CIM_DeviceSAPImplementation";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDACCESSPOINT = "CIM_HostedAccessPoint";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SAPAVAILABLEFORELEMENT = "CIM_SAPAvailableForElement";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SAPSTATISTICS = "CIM_SAPStatistics";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEACCESSBYSAP = "CIM_ServiceAccessBySAP";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICESAPDEPENDENCY = "CIM_ServiceSAPDependency";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTSAPIMPLEMENTATION = "CIM_SoftwareElementSAPImplementation";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREFEATURESAPIMPLEMENTATION = "CIM_SoftwareFeatureSAPImplementation";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_BINDSTO = "CIM_BindsTo"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESAPIMPLEMENTATION = "CIM_DeviceSAPImplementation"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDACCESSPOINT = "CIM_HostedAccessPoint"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SAPAVAILABLEFORELEMENT = "CIM_SAPAvailableForElement"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SAPSTATISTICS = "CIM_SAPStatistics"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEACCESSBYSAP = "CIM_ServiceAccessBySAP"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICESAPDEPENDENCY = "CIM_ServiceSAPDependency"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTSAPIMPLEMENTATION = "CIM_SoftwareElementSAPImplementation"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREFEATURESAPIMPLEMENTATION = "CIM_SoftwareFeatureSAPImplementation"; //$NON-NLS-1$
 	
 	
 	/**
@@ -263,7 +269,7 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -388,8 +394,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_BINDSTO, 
 					CIM_ProtocolEndpoint.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -402,9 +408,9 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_ServiceAccessPoint.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_ServiceAccessPoint.Java_Package_List.get(i)) + cimClassName;
 
@@ -474,8 +480,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_BINDSTO, 
 					CIM_ProtocolEndpoint.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -483,133 +489,6 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 			
 				if (obj instanceof CIMObjectPath) {
 					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_ProtocolEndpoint.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_LANEndpoint_CIM_BindsToLANEndpoints(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_BINDSTOLANENDPOINT, 
-					CIM_LANEndpoint.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ServiceAccessPoint.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_ServiceAccessPoint.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_LANEndpoint(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_LANEndpoint(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_LANEndpoint(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_LANEndpoint_CIM_BindsToLANEndpoint_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_BINDSTOLANENDPOINT, 
-					CIM_LANEndpoint.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_LANEndpoint.CIM_CLASS_NAME)) {
 						resultArrayList.add(obj);
 					}
 				}
@@ -642,8 +521,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESAPIMPLEMENTATION, 
 					CIM_LogicalDevice.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -656,9 +535,9 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_ServiceAccessPoint.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_ServiceAccessPoint.Java_Package_List.get(i)) + cimClassName;
 
@@ -728,8 +607,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESAPIMPLEMENTATION, 
 					CIM_LogicalDevice.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -769,8 +648,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDACCESSPOINT, 
 					CIM_System.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -783,9 +662,9 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_ServiceAccessPoint.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_ServiceAccessPoint.Java_Package_List.get(i)) + cimClassName;
 
@@ -855,8 +734,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDACCESSPOINT, 
 					CIM_System.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -896,8 +775,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SAPAVAILABLEFORELEMENT, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"AvailableSAP",
-					"ManagedElement",
+					"AvailableSAP", //$NON-NLS-1$
+					"ManagedElement", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -910,9 +789,9 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_ServiceAccessPoint.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_ServiceAccessPoint.Java_Package_List.get(i)) + cimClassName;
 
@@ -982,8 +861,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SAPAVAILABLEFORELEMENT, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"AvailableSAP",
-					"ManagedElement");
+					"AvailableSAP", //$NON-NLS-1$
+					"ManagedElement"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1023,8 +902,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SAPSTATISTICS, 
 					CIM_SAPStatisticalInformation.CIM_CLASS_NAME, 
-					"Element",
-					"Stats",
+					"Element", //$NON-NLS-1$
+					"Stats", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1037,9 +916,9 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_ServiceAccessPoint.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_ServiceAccessPoint.Java_Package_List.get(i)) + cimClassName;
 
@@ -1109,8 +988,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SAPSTATISTICS, 
 					CIM_SAPStatisticalInformation.CIM_CLASS_NAME, 
-					"Element",
-					"Stats");
+					"Element", //$NON-NLS-1$
+					"Stats"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1150,8 +1029,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEACCESSBYSAP, 
 					CIM_Service.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1164,9 +1043,9 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_ServiceAccessPoint.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_ServiceAccessPoint.Java_Package_List.get(i)) + cimClassName;
 
@@ -1236,8 +1115,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEACCESSBYSAP, 
 					CIM_Service.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1277,8 +1156,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICESAPDEPENDENCY, 
 					CIM_Service.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1291,9 +1170,9 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_ServiceAccessPoint.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_ServiceAccessPoint.Java_Package_List.get(i)) + cimClassName;
 
@@ -1363,8 +1242,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICESAPDEPENDENCY, 
 					CIM_Service.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1404,8 +1283,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTSAPIMPLEMENTATION, 
 					CIM_SoftwareElement.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1418,9 +1297,9 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_ServiceAccessPoint.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_ServiceAccessPoint.Java_Package_List.get(i)) + cimClassName;
 
@@ -1490,8 +1369,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTSAPIMPLEMENTATION, 
 					CIM_SoftwareElement.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1531,8 +1410,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREFEATURESAPIMPLEMENTATION, 
 					CIM_SoftwareFeature.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1545,9 +1424,9 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_ServiceAccessPoint.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_ServiceAccessPoint.Java_Package_List.setElementAt((String)(CIM_ServiceAccessPoint.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_ServiceAccessPoint.Java_Package_List.get(i)) + cimClassName;
 
@@ -1617,8 +1496,8 @@ public class CIM_ServiceAccessPoint extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREFEATURESAPIMPLEMENTATION, 
 					CIM_SoftwareFeature.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

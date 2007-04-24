@@ -1,7 +1,7 @@
 /** 
  * CIM_HostedBootService.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: HostedBootService defines the hosting System for a Boot Service. Since this relationship is subclassed from Hosted Service, it inherits the scoping/naming scheme defined for Service - where a Service is weak to its hosting System.
+ * Description:  HostedBootService defines the hosting System for a Boot Service. Since this
+ * relationship is subclassed from Hosted Service, it inherits the
+ * scoping/naming scheme defined for Service - where a Service is weak to its
+ * hosting System.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  HostedBootService defines the hosting System for a Boot Service. Since this
+ * relationship is subclassed from Hosted Service, it inherits the
+ * scoping/naming scheme defined for Service - where a Service is weak to its
+ * hosting System.
+ */
 public class CIM_HostedBootService extends CIM_HostedService  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_HostedBootService";
+	public final static String CIM_CLASS_NAME = "CIM_HostedBootService"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +200,7 @@ public class CIM_HostedBootService extends CIM_HostedService  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

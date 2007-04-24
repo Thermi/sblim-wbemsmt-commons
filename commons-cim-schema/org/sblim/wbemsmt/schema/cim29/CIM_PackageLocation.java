@@ -1,7 +1,7 @@
 /** 
  * CIM_PackageLocation.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,16 @@
  * Contributors:
  *
  *
- * Description: PackageLocation is a space/hole/shelf, possibly with mounting brackets or other connecting hardware, where other PhysicalPackages may be placed. This class describes an entity that holds something else and is not just a 'place' (as is conveyed by the CIM_Location object). This class has several corollaries to HostingBoard. Where a HostingBoard (backplane) has connectors/slots to describe the capabilities of holding additional PhysicalPackages, a PackageLocation is used to describe the same case for the general package, where there may or may not be no connectors. Examples of PackageLocations would include a disk cage in a tower PC or the chassis area where the power supply is mounted.
+ * Description:  PackageLocation is a space/hole/shelf, possibly with mounting brackets or other
+ * connecting hardware, where other PhysicalPackages may be placed. This class
+ * describes an entity that holds something else and is not just a 'place' (as
+ * is conveyed by the CIM_Location object). This class has several corollaries
+ * to HostingBoard. Where a HostingBoard (backplane) has connectors/slots to
+ * describe the capabilities of holding additional PhysicalPackages, a
+ * PackageLocation is used to describe the same case for the general package,
+ * where there may or may not be no connectors. Examples of PackageLocations
+ * would include a disk cage in a tower PC or the chassis area where the power
+ * supply is mounted.
  * 
  */
 
@@ -28,9 +37,21 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  PackageLocation is a space/hole/shelf, possibly with mounting brackets or other
+ * connecting hardware, where other PhysicalPackages may be placed. This class
+ * describes an entity that holds something else and is not just a 'place' (as
+ * is conveyed by the CIM_Location object). This class has several corollaries
+ * to HostingBoard. Where a HostingBoard (backplane) has connectors/slots to
+ * describe the capabilities of holding additional PhysicalPackages, a
+ * PackageLocation is used to describe the same case for the general package,
+ * where there may or may not be no connectors. Examples of PackageLocations
+ * would include a disk cage in a tower PC or the chassis area where the power
+ * supply is mounted.
+ */
 public class CIM_PackageLocation extends CIM_PhysicalPackage  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_PackageLocation";
+	public final static String CIM_CLASS_NAME = "CIM_PackageLocation"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -196,7 +217,7 @@ public class CIM_PackageLocation extends CIM_PhysicalPackage  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

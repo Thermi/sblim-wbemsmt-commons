@@ -1,7 +1,7 @@
 /** 
  * CIM_CompositeExtentBasedOn.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: This specialization defines how data is striped across StorageExtents. Additionally, it includes information on distribution of check data so that the 'usual case' RAID devices can be created in one step.
+ * Description:  This specialization defines how data is striped across StorageExtents.
+ * Additionally, it includes information on distribution of check data so that
+ * the 'usual case' RAID devices can be created in one step.
  * 
  */
 
@@ -28,9 +30,14 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  This specialization defines how data is striped across StorageExtents.
+ * Additionally, it includes information on distribution of check data so that
+ * the 'usual case' RAID devices can be created in one step.
+ */
 public class CIM_CompositeExtentBasedOn extends CIM_BasedOn  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_CompositeExtentBasedOn";
+	public final static String CIM_CLASS_NAME = "CIM_CompositeExtentBasedOn"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -274,7 +281,7 @@ public class CIM_CompositeExtentBasedOn extends CIM_BasedOn  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_SettingData.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,8 +16,19 @@
  * Contributors:
  *
  *
- * Description: The SettingData class represents configuration-related and operational parameters for one or more ManagedElement(s). A ManagedElement may have multiple SettingData objects associated with it. The current operational values for an Element's parameters are reflected by properties in the Element itself or by properties in its associations. These properties do not have to be the same values present in the SettingData object. For example, a modem may have a SettingData baud rate of 56Kb/sec but be operating at 19.2Kb/sec. 
-Note that the CIM_SettingData class is very similar to CIM_Setting, yet both classes are present in the model. This is because many implementations have successfully used CIM_Setting. However, issues have arisen that could not be resolved without defining a new class. Therefore, until a new major release occurs, both classes will exist in the model. Refer to the Core White Paper for additional information.
+ * Description:  The SettingData class represents configuration-related and operational
+ * parameters for one or more ManagedElement(s). A ManagedElement may have
+ * multiple SettingData objects associated with it. The current operational
+ * values for an Element's parameters are reflected by properties in the Element
+ * itself or by properties in its associations. These properties do not have to
+ * be the same values present in the SettingData object. For example, a modem
+ * may have a SettingData baud rate of 56Kb/sec but be operating at 19.2Kb/sec.
+ * Note that the CIM_SettingData class is very similar to CIM_Setting, yet both
+ * classes are present in the model. This is because many implementations have
+ * successfully used CIM_Setting. However, issues have arisen that could not be
+ * resolved without defining a new class. Therefore, until a new major release
+ * occurs, both classes will exist in the model. Refer to the Core White Paper
+ * for additional information.
  * 
  */
 
@@ -34,15 +45,30 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  The SettingData class represents configuration-related and operational
+ * parameters for one or more ManagedElement(s). A ManagedElement may have
+ * multiple SettingData objects associated with it. The current operational
+ * values for an Element's parameters are reflected by properties in the Element
+ * itself or by properties in its associations. These properties do not have to
+ * be the same values present in the SettingData object. For example, a modem
+ * may have a SettingData baud rate of 56Kb/sec but be operating at 19.2Kb/sec.
+ * Note that the CIM_SettingData class is very similar to CIM_Setting, yet both
+ * classes are present in the model. This is because many implementations have
+ * successfully used CIM_Setting. However, issues have arisen that could not be
+ * resolved without defining a new class. Therefore, until a new major release
+ * occurs, both classes will exist in the model. Refer to the Core White Paper
+ * for additional information.
+ */
 public class CIM_SettingData extends CIM_ManagedElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SettingData";
+	public final static String CIM_CLASS_NAME = "CIM_SettingData"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTINGDATA = "CIM_ElementSettingData";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTINGDATA = "CIM_ElementSettingData"; //$NON-NLS-1$
 	
 	
 	/**
@@ -229,7 +255,7 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -354,8 +380,8 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTINGDATA, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"SettingData",
-					"ManagedElement",
+					"SettingData", //$NON-NLS-1$
+					"ManagedElement", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -368,9 +394,9 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_SettingData.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SettingData.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SettingData.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SettingData.Java_Package_List.setElementAt((String)(CIM_SettingData.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_SettingData.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_SettingData.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_SettingData.Java_Package_List.setElementAt((String)(CIM_SettingData.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_SettingData.Java_Package_List.get(i)) + cimClassName;
 
@@ -440,8 +466,8 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTINGDATA, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"SettingData",
-					"ManagedElement");
+					"SettingData", //$NON-NLS-1$
+					"ManagedElement"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

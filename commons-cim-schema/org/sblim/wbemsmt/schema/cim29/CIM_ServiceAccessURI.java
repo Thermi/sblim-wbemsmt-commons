@@ -1,7 +1,7 @@
 /** 
  * CIM_ServiceAccessURI.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,14 @@
  * Contributors:
  *
  *
- * Description: CIM_ServiceAccessURI represents the ability to utilize or invoke a Service via a uniform resource identifier. RFC 1738 describes the Uniform Resource Locator which is a more specific form of a URI, and RFC 2396 describes the broader, inclusive URI. Quoting from the RFC, 'A Uniform Resource Identifier (URI) is a compact string of characters for identifying an abstract or physical resource.' In the context of a ServiceAccessPoint, a URI contains the information necessary to access an associated service (associated via ServiceAccessBySAP), using a syntax specific to that service.
+ * Description:  CIM_ServiceAccessURI represents the ability to utilize or invoke a Service via
+ * a uniform resource identifier. RFC 1738 describes the Uniform Resource
+ * Locator which is a more specific form of a URI, and RFC 2396 describes the
+ * broader, inclusive URI. Quoting from the RFC, 'A Uniform Resource Identifier
+ * (URI) is a compact string of characters for identifying an abstract or
+ * physical resource.' In the context of a ServiceAccessPoint, a URI contains
+ * the information necessary to access an associated service (associated via
+ * ServiceAccessBySAP), using a syntax specific to that service.
  * 
  */
 
@@ -28,9 +35,19 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_ServiceAccessURI represents the ability to utilize or invoke a Service via
+ * a uniform resource identifier. RFC 1738 describes the Uniform Resource
+ * Locator which is a more specific form of a URI, and RFC 2396 describes the
+ * broader, inclusive URI. Quoting from the RFC, 'A Uniform Resource Identifier
+ * (URI) is a compact string of characters for identifying an abstract or
+ * physical resource.' In the context of a ServiceAccessPoint, a URI contains
+ * the information necessary to access an associated service (associated via
+ * ServiceAccessBySAP), using a syntax specific to that service.
+ */
 public class CIM_ServiceAccessURI extends CIM_ServiceAccessPoint  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ServiceAccessURI";
+	public final static String CIM_CLASS_NAME = "CIM_ServiceAccessURI"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -203,7 +220,7 @@ public class CIM_ServiceAccessURI extends CIM_ServiceAccessPoint  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

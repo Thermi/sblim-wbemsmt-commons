@@ -1,7 +1,7 @@
 /** 
  * CIM_RemoteFileSystem.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,13 @@
  * Contributors:
  *
  *
- * Description: A class derived from FileSystem that represents access of the FileSystem via a network-related service. In this case, the file store is hosted by a computer, acting as a file server. For example, the file store for an NFS FileSystem is typically NOT on a ComputerSystem's locally controlled media, nor is it directly accessed through a device driver. Subclasses of RemoteFileSystem contain client-side configuration information related to the access of the FileSystem.
+ * Description:  A class derived from FileSystem that represents access of the FileSystem via a
+ * network-related service. In this case, the file store is hosted by a
+ * computer, acting as a file server. For example, the file store for an NFS
+ * FileSystem is typically NOT on a ComputerSystem's locally controlled media,
+ * nor is it directly accessed through a device driver. Subclasses of
+ * RemoteFileSystem contain client-side configuration information related to the
+ * access of the FileSystem.
  * 
  */
 
@@ -28,9 +34,18 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  A class derived from FileSystem that represents access of the FileSystem via a
+ * network-related service. In this case, the file store is hosted by a
+ * computer, acting as a file server. For example, the file store for an NFS
+ * FileSystem is typically NOT on a ComputerSystem's locally controlled media,
+ * nor is it directly accessed through a device driver. Subclasses of
+ * RemoteFileSystem contain client-side configuration information related to the
+ * access of the FileSystem.
+ */
 public class CIM_RemoteFileSystem extends CIM_FileSystem  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_RemoteFileSystem";
+	public final static String CIM_CLASS_NAME = "CIM_RemoteFileSystem"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -184,7 +199,7 @@ public class CIM_RemoteFileSystem extends CIM_FileSystem  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

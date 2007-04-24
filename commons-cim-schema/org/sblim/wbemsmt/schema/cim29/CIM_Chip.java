@@ -1,7 +1,7 @@
 /** 
  * CIM_Chip.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: The Chip class represents any type of integrated circuit hardware, including ASICs, processors, memory chips, etc.
+ * Description:  The Chip class represents any type of integrated circuit hardware, including
+ * ASICs, processors, memory chips, etc.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The Chip class represents any type of integrated circuit hardware, including
+ * ASICs, processors, memory chips, etc.
+ */
 public class CIM_Chip extends CIM_PhysicalComponent  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Chip";
+	public final static String CIM_CLASS_NAME = "CIM_Chip"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -222,7 +227,7 @@ public class CIM_Chip extends CIM_PhysicalComponent  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

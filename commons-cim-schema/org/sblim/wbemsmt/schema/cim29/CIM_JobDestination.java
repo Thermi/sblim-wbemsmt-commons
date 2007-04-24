@@ -1,7 +1,7 @@
 /** 
  * CIM_JobDestination.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: JobDestination is an EnabledLogicalElement representing where a Job is submitted for processing. It can refer to a queue that contains zero or more Jobs, such as a print queue containing print Jobs. JobDestinations are hosted on Systems, similar to the way that Services are hosted on Systems. Also, they may be enabled/disabled similar to Services.
+ * Description:  JobDestination is an EnabledLogicalElement representing where a Job is
+ * submitted for processing. It can refer to a queue that contains zero or more
+ * Jobs, such as a print queue containing print Jobs. JobDestinations are hosted
+ * on Systems, similar to the way that Services are hosted on Systems. Also,
+ * they may be enabled/disabled similar to Services.
  * 
  */
 
@@ -33,16 +37,23 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  JobDestination is an EnabledLogicalElement representing where a Job is
+ * submitted for processing. It can refer to a queue that contains zero or more
+ * Jobs, such as a print queue containing print Jobs. JobDestinations are hosted
+ * on Systems, similar to the way that Services are hosted on Systems. Also,
+ * they may be enabled/disabled similar to Services.
+ */
 public class CIM_JobDestination extends CIM_EnabledLogicalElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_JobDestination";
+	public final static String CIM_CLASS_NAME = "CIM_JobDestination"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDJOBDESTINATION = "CIM_HostedJobDestination";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_JOBDESTINATIONJOBS = "CIM_JobDestinationJobs";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDJOBDESTINATION = "CIM_HostedJobDestination"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_JOBDESTINATIONJOBS = "CIM_JobDestinationJobs"; //$NON-NLS-1$
 	
 	
 	/**
@@ -255,7 +266,7 @@ public class CIM_JobDestination extends CIM_EnabledLogicalElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -380,8 +391,8 @@ public class CIM_JobDestination extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDJOBDESTINATION, 
 					CIM_System.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -394,9 +405,9 @@ public class CIM_JobDestination extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_JobDestination.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_JobDestination.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_JobDestination.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_JobDestination.Java_Package_List.setElementAt((String)(CIM_JobDestination.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_JobDestination.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_JobDestination.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_JobDestination.Java_Package_List.setElementAt((String)(CIM_JobDestination.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_JobDestination.Java_Package_List.get(i)) + cimClassName;
 
@@ -466,8 +477,8 @@ public class CIM_JobDestination extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDJOBDESTINATION, 
 					CIM_System.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -507,8 +518,8 @@ public class CIM_JobDestination extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_JOBDESTINATIONJOBS, 
 					CIM_Job.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -521,9 +532,9 @@ public class CIM_JobDestination extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_JobDestination.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_JobDestination.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_JobDestination.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_JobDestination.Java_Package_List.setElementAt((String)(CIM_JobDestination.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_JobDestination.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_JobDestination.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_JobDestination.Java_Package_List.setElementAt((String)(CIM_JobDestination.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_JobDestination.Java_Package_List.get(i)) + cimClassName;
 
@@ -593,8 +604,8 @@ public class CIM_JobDestination extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_JOBDESTINATIONJOBS, 
 					CIM_Job.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

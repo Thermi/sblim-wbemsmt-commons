@@ -1,7 +1,7 @@
 /** 
  * CIM_ProductSupport.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: CIM_ProductSupport is an association between Product and SupportAccess that conveys how support is obtained for the Product. This is a many-to-many relationship, implying that various types of Support are available for a Product, and that the same Support object can provide assistance for multiple Products.
+ * Description:  CIM_ProductSupport is an association between Product and SupportAccess that
+ * conveys how support is obtained for the Product. This is a many-to-many
+ * relationship, implying that various types of Support are available for a
+ * Product, and that the same Support object can provide assistance for multiple
+ * Products.
  * 
  */
 
@@ -28,13 +32,20 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_ProductSupport is an association between Product and SupportAccess that
+ * conveys how support is obtained for the Product. This is a many-to-many
+ * relationship, implying that various types of Support are available for a
+ * Product, and that the same Support object can provide assistance for multiple
+ * Products.
+ */
 public class CIM_ProductSupport  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ProductSupport";
+	public final static String CIM_CLASS_NAME = "CIM_ProductSupport"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +189,7 @@ public class CIM_ProductSupport  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_Job.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: A Job is a LogicalElement representing an executing unit of work, such as a script or a print job. A Job is distinct from a Process in that a Job can be scheduled, queued, and its execution is not limited to a single system.
+ * Description:  A Job is a LogicalElement representing an executing unit of work, such as a
+ * script or a print job. A Job is distinct from a Process in that a Job can be
+ * scheduled, queued, and its execution is not limited to a single system.
  * 
  */
 
@@ -34,18 +36,23 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A Job is a LogicalElement representing an executing unit of work, such as a
+ * script or a print job. A Job is distinct from a Process in that a Job can be
+ * scheduled, queued, and its execution is not limited to a single system.
+ */
 public class CIM_Job extends CIM_LogicalElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Job";
+	public final static String CIM_CLASS_NAME = "CIM_Job"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.8.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_AFFECTEDJOBELEMENT = "CIM_AffectedJobElement";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_JOBDESTINATIONJOBS = "CIM_JobDestinationJobs";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_OWNINGJOBELEMENT = "CIM_OwningJobElement";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PROCESSOFJOB = "CIM_ProcessOfJob";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_AFFECTEDJOBELEMENT = "CIM_AffectedJobElement"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_JOBDESTINATIONJOBS = "CIM_JobDestinationJobs"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_OWNINGJOBELEMENT = "CIM_OwningJobElement"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PROCESSOFJOB = "CIM_ProcessOfJob"; //$NON-NLS-1$
 	
 	
 	/**
@@ -425,7 +432,7 @@ A method to kill this job and any underlying processes, and to remove any 'dangl
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -550,8 +557,8 @@ A method to kill this job and any underlying processes, and to remove any 'dangl
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_AFFECTEDJOBELEMENT, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"AffectingElement",
-					"AffectedElement",
+					"AffectingElement", //$NON-NLS-1$
+					"AffectedElement", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -564,9 +571,9 @@ A method to kill this job and any underlying processes, and to remove any 'dangl
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Job.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Job.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Job.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Job.Java_Package_List.setElementAt((String)(CIM_Job.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Job.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Job.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Job.Java_Package_List.setElementAt((String)(CIM_Job.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Job.Java_Package_List.get(i)) + cimClassName;
 
@@ -636,8 +643,8 @@ A method to kill this job and any underlying processes, and to remove any 'dangl
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_AFFECTEDJOBELEMENT, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"AffectingElement",
-					"AffectedElement");
+					"AffectingElement", //$NON-NLS-1$
+					"AffectedElement"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -677,8 +684,8 @@ A method to kill this job and any underlying processes, and to remove any 'dangl
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_JOBDESTINATIONJOBS, 
 					CIM_JobDestination.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -691,9 +698,9 @@ A method to kill this job and any underlying processes, and to remove any 'dangl
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Job.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Job.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Job.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Job.Java_Package_List.setElementAt((String)(CIM_Job.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Job.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Job.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Job.Java_Package_List.setElementAt((String)(CIM_Job.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Job.Java_Package_List.get(i)) + cimClassName;
 
@@ -763,8 +770,8 @@ A method to kill this job and any underlying processes, and to remove any 'dangl
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_JOBDESTINATIONJOBS, 
 					CIM_JobDestination.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -804,8 +811,8 @@ A method to kill this job and any underlying processes, and to remove any 'dangl
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_OWNINGJOBELEMENT, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"OwnedElement",
-					"OwningElement",
+					"OwnedElement", //$NON-NLS-1$
+					"OwningElement", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -818,9 +825,9 @@ A method to kill this job and any underlying processes, and to remove any 'dangl
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Job.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Job.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Job.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Job.Java_Package_List.setElementAt((String)(CIM_Job.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Job.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Job.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Job.Java_Package_List.setElementAt((String)(CIM_Job.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Job.Java_Package_List.get(i)) + cimClassName;
 
@@ -890,8 +897,8 @@ A method to kill this job and any underlying processes, and to remove any 'dangl
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_OWNINGJOBELEMENT, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"OwnedElement",
-					"OwningElement");
+					"OwnedElement", //$NON-NLS-1$
+					"OwningElement"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -931,8 +938,8 @@ A method to kill this job and any underlying processes, and to remove any 'dangl
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PROCESSOFJOB, 
 					CIM_Process.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -945,9 +952,9 @@ A method to kill this job and any underlying processes, and to remove any 'dangl
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Job.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Job.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Job.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Job.Java_Package_List.setElementAt((String)(CIM_Job.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Job.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Job.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Job.Java_Package_List.setElementAt((String)(CIM_Job.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Job.Java_Package_List.get(i)) + cimClassName;
 
@@ -1017,8 +1024,8 @@ A method to kill this job and any underlying processes, and to remove any 'dangl
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PROCESSOFJOB, 
 					CIM_Process.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

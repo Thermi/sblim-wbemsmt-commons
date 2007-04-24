@@ -1,7 +1,7 @@
 /** 
  * CIM_LogicalDisk.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,18 @@
  * Contributors:
  *
  *
- * Description: A LogicalDisk is a presentation of a contiguous range of logical blocks that is identifiable by a FileSystem via the Disk's DeviceId (key) field. For example in a Windows environment, the DeviceID field would contain a drive letter. In a Unix environment, it would contain the access path; and in a NetWare environment, DeviceID would contain the volume name. LogicalDisks are typically built on a DiskPartition or Storage Volume (for example, exposed by a software volume manager) using the LogicalDiskBasedOnPartition or LogicalDiskBasedOn Volume associations. However, it can be based on other StorageExtents, like CIM_Memory, in the case of a RAM disk. The latter is described using the LogicalDiskBasedOnExtent relationship. (Indeed, the BasedOnExtent association is the superclass for the BasedOnPartition and BasedOnVolume relationships.)
+ * Description:  A LogicalDisk is a presentation of a contiguous range of logical blocks that is
+ * identifiable by a FileSystem via the Disk's DeviceId (key) field. For example
+ * in a Windows environment, the DeviceID field would contain a drive letter. In
+ * a Unix environment, it would contain the access path; and in a NetWare
+ * environment, DeviceID would contain the volume name. LogicalDisks are
+ * typically built on a DiskPartition or Storage Volume (for example, exposed by
+ * a software volume manager) using the LogicalDiskBasedOnPartition or
+ * LogicalDiskBasedOn Volume associations. However, it can be based on other
+ * StorageExtents, like CIM_Memory, in the case of a RAM disk. The latter is
+ * described using the LogicalDiskBasedOnExtent relationship. (Indeed, the
+ * BasedOnExtent association is the superclass for the BasedOnPartition and
+ * BasedOnVolume relationships.)
  * 
  */
 
@@ -33,17 +44,31 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A LogicalDisk is a presentation of a contiguous range of logical blocks that is
+ * identifiable by a FileSystem via the Disk's DeviceId (key) field. For example
+ * in a Windows environment, the DeviceID field would contain a drive letter. In
+ * a Unix environment, it would contain the access path; and in a NetWare
+ * environment, DeviceID would contain the volume name. LogicalDisks are
+ * typically built on a DiskPartition or Storage Volume (for example, exposed by
+ * a software volume manager) using the LogicalDiskBasedOnPartition or
+ * LogicalDiskBasedOn Volume associations. However, it can be based on other
+ * StorageExtents, like CIM_Memory, in the case of a RAM disk. The latter is
+ * described using the LogicalDiskBasedOnExtent relationship. (Indeed, the
+ * BasedOnExtent association is the superclass for the BasedOnPartition and
+ * BasedOnVolume relationships.)
+ */
 public class CIM_LogicalDisk extends CIM_StorageExtent  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_LogicalDisk";
+	public final static String CIM_CLASS_NAME = "CIM_LogicalDisk"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONEXTENT = "CIM_LogicalDiskBasedOnExtent";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONPARTITION = "CIM_LogicalDiskBasedOnPartition";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONVOLUME = "CIM_LogicalDiskBasedOnVolume";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONEXTENT = "CIM_LogicalDiskBasedOnExtent"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONPARTITION = "CIM_LogicalDiskBasedOnPartition"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONVOLUME = "CIM_LogicalDiskBasedOnVolume"; //$NON-NLS-1$
 	
 	
 	
@@ -192,7 +217,7 @@ public class CIM_LogicalDisk extends CIM_StorageExtent  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -317,8 +342,8 @@ public class CIM_LogicalDisk extends CIM_StorageExtent  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONEXTENT, 
 					CIM_StorageExtent.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -331,9 +356,9 @@ public class CIM_LogicalDisk extends CIM_StorageExtent  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_LogicalDisk.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_LogicalDisk.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_LogicalDisk.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_LogicalDisk.Java_Package_List.setElementAt((String)(CIM_LogicalDisk.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_LogicalDisk.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_LogicalDisk.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_LogicalDisk.Java_Package_List.setElementAt((String)(CIM_LogicalDisk.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_LogicalDisk.Java_Package_List.get(i)) + cimClassName;
 
@@ -403,8 +428,8 @@ public class CIM_LogicalDisk extends CIM_StorageExtent  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONEXTENT, 
 					CIM_StorageExtent.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -444,8 +469,8 @@ public class CIM_LogicalDisk extends CIM_StorageExtent  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONPARTITION, 
 					CIM_DiskPartition.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -458,9 +483,9 @@ public class CIM_LogicalDisk extends CIM_StorageExtent  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_LogicalDisk.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_LogicalDisk.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_LogicalDisk.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_LogicalDisk.Java_Package_List.setElementAt((String)(CIM_LogicalDisk.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_LogicalDisk.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_LogicalDisk.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_LogicalDisk.Java_Package_List.setElementAt((String)(CIM_LogicalDisk.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_LogicalDisk.Java_Package_List.get(i)) + cimClassName;
 
@@ -530,8 +555,8 @@ public class CIM_LogicalDisk extends CIM_StorageExtent  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONPARTITION, 
 					CIM_DiskPartition.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -571,8 +596,8 @@ public class CIM_LogicalDisk extends CIM_StorageExtent  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONVOLUME, 
 					CIM_StorageVolume.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -585,9 +610,9 @@ public class CIM_LogicalDisk extends CIM_StorageExtent  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_LogicalDisk.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_LogicalDisk.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_LogicalDisk.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_LogicalDisk.Java_Package_List.setElementAt((String)(CIM_LogicalDisk.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_LogicalDisk.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_LogicalDisk.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_LogicalDisk.Java_Package_List.setElementAt((String)(CIM_LogicalDisk.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_LogicalDisk.Java_Package_List.get(i)) + cimClassName;
 
@@ -657,8 +682,8 @@ public class CIM_LogicalDisk extends CIM_StorageExtent  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONVOLUME, 
 					CIM_StorageVolume.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

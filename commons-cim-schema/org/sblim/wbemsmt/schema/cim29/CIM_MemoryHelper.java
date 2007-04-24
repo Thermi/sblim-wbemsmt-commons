@@ -1,7 +1,7 @@
 /** 
  * CIM_MemoryHelper.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -105,9 +105,9 @@ public final class CIM_MemoryHelper {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i=0; clazz==null && i<CIM_Memory.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Memory.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Memory.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Memory.Java_Package_List.setElementAt((String)(CIM_Memory.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Memory.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Memory.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Memory.Java_Package_List.setElementAt((String)(CIM_Memory.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Memory.Java_Package_List.get(i)) + cimClassName;
 					
@@ -302,28 +302,6 @@ public final class CIM_MemoryHelper {
 		
 		} else if (!dataInstance.isValidCimInstance()) {
 			throw new InvalidParameterException("The specified dataInstance does not contain a CIMInstance retrieved from a CIMServer.");
-		}
-		
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.referenceNames(dataInstance.getCimObjectPath());
-			
-			while (enumeration.hasMoreElements()) {
-				CIMObjectPath objectPath = (CIMObjectPath)enumeration.nextElement();
-				
-				cimClient.deleteInstance(objectPath);
-			}
-			
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-				
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
 		}
 		
 		cimClient.deleteInstance(dataInstance.getCimObjectPath());

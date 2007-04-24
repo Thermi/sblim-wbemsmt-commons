@@ -1,7 +1,7 @@
 /** 
  * CIM_SoftwareElementSAPImplementation.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,11 +16,30 @@
  * Contributors:
  *
  *
- * Description: An association between a ServiceAccessPoint and how it is implemented by one or more executable SoftwareElements. Note that this association is restricted to 'executable' Elements. In earlier phases of deployment, the Software FeatureSAPImplementation association is adequate and recommended. 
-The relationship between this association and Software FeatureSAPImplementation is more fully described here. SoftwareElementSAPImplementation allows the description of greater granularity than SoftwareFeatureSAPImplementation, when a SoftwareFeature is fully deployed and results in several executable Elements. These Elements may implement several different ServiceAccessPoints. 
-Since SoftwareFeatures decompose into SoftwareElements, it is possible to describe how software implements a SAP by using either this association or the SoftwareFeatureSAP Implementation relationship. One or the other should be chosen. Both associations should not be used for a particular AccessPoint, since their information is redundant. 
-This relationship is especially important when the SoftwareFeature and Product aspects are not described for a SoftwareElement (ie, when the acquisition and deployment of the software is not detailed). In this case, the Software ElementSAPImplementation association is the only one available to describe how an AccessPoint is implemented in software. Since SoftwareFeatures are not instantiated, it is not possible to use the SoftwareFeatureSAP Implementation association. 
-The cardinality of this association is many-to-many. A ServiceAccessPoint may be provided by more than one Software Element. (If this is true, it is assumed that the Software Elements operate in conjunction.) And, any SoftwareElement may provide more than one SAP.
+ * Description:  An association between a ServiceAccessPoint and how it is implemented by one or
+ * more executable SoftwareElements. Note that this association is restricted to
+ * 'executable' Elements. In earlier phases of deployment, the Software
+ * FeatureSAPImplementation association is adequate and recommended. The
+ * relationship between this association and Software FeatureSAPImplementation
+ * is more fully described here. SoftwareElementSAPImplementation allows the
+ * description of greater granularity than SoftwareFeatureSAPImplementation,
+ * when a SoftwareFeature is fully deployed and results in several executable
+ * Elements. These Elements may implement several different ServiceAccessPoints.
+ * Since SoftwareFeatures decompose into SoftwareElements, it is possible to
+ * describe how software implements a SAP by using either this association or
+ * the SoftwareFeatureSAP Implementation relationship. One or the other should
+ * be chosen. Both associations should not be used for a particular AccessPoint,
+ * since their information is redundant. This relationship is especially
+ * important when the SoftwareFeature and Product aspects are not described for
+ * a SoftwareElement (ie, when the acquisition and deployment of the software is
+ * not detailed). In this case, the Software ElementSAPImplementation
+ * association is the only one available to describe how an AccessPoint is
+ * implemented in software. Since SoftwareFeatures are not instantiated, it is
+ * not possible to use the SoftwareFeatureSAP Implementation association. The
+ * cardinality of this association is many-to-many. A ServiceAccessPoint may be
+ * provided by more than one Software Element. (If this is true, it is assumed
+ * that the Software Elements operate in conjunction.) And, any SoftwareElement
+ * may provide more than one SAP.
  * 
  */
 
@@ -32,9 +51,35 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  An association between a ServiceAccessPoint and how it is implemented by one or
+ * more executable SoftwareElements. Note that this association is restricted to
+ * 'executable' Elements. In earlier phases of deployment, the Software
+ * FeatureSAPImplementation association is adequate and recommended. The
+ * relationship between this association and Software FeatureSAPImplementation
+ * is more fully described here. SoftwareElementSAPImplementation allows the
+ * description of greater granularity than SoftwareFeatureSAPImplementation,
+ * when a SoftwareFeature is fully deployed and results in several executable
+ * Elements. These Elements may implement several different ServiceAccessPoints.
+ * Since SoftwareFeatures decompose into SoftwareElements, it is possible to
+ * describe how software implements a SAP by using either this association or
+ * the SoftwareFeatureSAP Implementation relationship. One or the other should
+ * be chosen. Both associations should not be used for a particular AccessPoint,
+ * since their information is redundant. This relationship is especially
+ * important when the SoftwareFeature and Product aspects are not described for
+ * a SoftwareElement (ie, when the acquisition and deployment of the software is
+ * not detailed). In this case, the Software ElementSAPImplementation
+ * association is the only one available to describe how an AccessPoint is
+ * implemented in software. Since SoftwareFeatures are not instantiated, it is
+ * not possible to use the SoftwareFeatureSAP Implementation association. The
+ * cardinality of this association is many-to-many. A ServiceAccessPoint may be
+ * provided by more than one Software Element. (If this is true, it is assumed
+ * that the Software Elements operate in conjunction.) And, any SoftwareElement
+ * may provide more than one SAP.
+ */
 public class CIM_SoftwareElementSAPImplementation extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SoftwareElementSAPImplementation";
+	public final static String CIM_CLASS_NAME = "CIM_SoftwareElementSAPImplementation"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -195,7 +240,7 @@ public class CIM_SoftwareElementSAPImplementation extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

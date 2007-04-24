@@ -1,7 +1,7 @@
 /** 
  * CIM_InstIndication.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: CIM_InstIndication is an abstract superclass describing changes to instances. Subclasses represent specific types of change notifications, such as instance creation, deletion and modification.
+ * Description:  CIM_InstIndication is an abstract superclass describing changes to instances.
+ * Subclasses represent specific types of change notifications, such as instance
+ * creation, deletion and modification.
  * 
  */
 
@@ -28,9 +30,14 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_InstIndication is an abstract superclass describing changes to instances.
+ * Subclasses represent specific types of change notifications, such as instance
+ * creation, deletion and modification.
+ */
 public class CIM_InstIndication extends CIM_Indication  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_InstIndication";
+	public final static String CIM_CLASS_NAME = "CIM_InstIndication"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -203,7 +210,7 @@ public class CIM_InstIndication extends CIM_Indication  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

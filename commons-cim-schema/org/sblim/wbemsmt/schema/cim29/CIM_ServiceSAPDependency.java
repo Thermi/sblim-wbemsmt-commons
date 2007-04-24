@@ -1,7 +1,7 @@
 /** 
  * CIM_ServiceSAPDependency.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: CIM_ServiceSAPDependency is an association between a Service and a ServiceAccessPoint indicating that the referenced SAP is utilized by the Service to provide its functionality. For example, Boot Services may invoke BIOS' Disk Services (interrupts) in order to function.
+ * Description:  CIM_ServiceSAPDependency is an association between a Service and a
+ * ServiceAccessPoint indicating that the referenced SAP is utilized by the
+ * Service to provide its functionality. For example, Boot Services may invoke
+ * BIOS' Disk Services (interrupts) in order to function.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_ServiceSAPDependency is an association between a Service and a
+ * ServiceAccessPoint indicating that the referenced SAP is utilized by the
+ * Service to provide its functionality. For example, Boot Services may invoke
+ * BIOS' Disk Services (interrupts) in order to function.
+ */
 public class CIM_ServiceSAPDependency extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ServiceSAPDependency";
+	public final static String CIM_CLASS_NAME = "CIM_ServiceSAPDependency"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +200,7 @@ public class CIM_ServiceSAPDependency extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

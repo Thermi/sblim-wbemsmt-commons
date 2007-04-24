@@ -1,7 +1,7 @@
 /** 
  * CIM_FibrePortEventCounters.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: The use of the FibrePortEventCounters class is deprecated, since FibrePort is deprecated. FCPortStatistics should be used instead, but redefines the level at which data is collected. This is why there is no direct translation of the individual counters between the two classes. This object defines error counters specific to a FibrePort.
+ * Description:  The use of the FibrePortEventCounters class is deprecated, since FibrePort is
+ * deprecated. FCPortStatistics should be used instead, but redefines the level
+ * at which data is collected. This is why there is no direct translation of the
+ * individual counters between the two classes. This object defines error
+ * counters specific to a FibrePort.
  * 
  */
 
@@ -30,9 +34,16 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  The use of the FibrePortEventCounters class is deprecated, since FibrePort is
+ * deprecated. FCPortStatistics should be used instead, but redefines the level
+ * at which data is collected. This is why there is no direct translation of the
+ * individual counters between the two classes. This object defines error
+ * counters specific to a FibrePort.
+ */
 public class CIM_FibrePortEventCounters extends CIM_DeviceStatisticalInformation  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_FibrePortEventCounters";
+	public final static String CIM_CLASS_NAME = "CIM_FibrePortEventCounters"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -259,7 +270,7 @@ In a subclass, the set of possible return codes could be specified, using a Valu
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

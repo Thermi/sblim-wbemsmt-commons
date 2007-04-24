@@ -1,7 +1,7 @@
 /** 
  * CIM_PortImplementsEndpoint.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: PortImplementsEndpoint associates a LogicalPort with one or more ProtocolEndpoints that are implemented on it. This class specializes the DeviceSAPImplementation association. It indicates that the referenced Endpoint is dependent on the operations of the Port Device.
+ * Description:  PortImplementsEndpoint associates a LogicalPort with one or more
+ * ProtocolEndpoints that are implemented on it. This class specializes the
+ * DeviceSAPImplementation association. It indicates that the referenced
+ * Endpoint is dependent on the operations of the Port Device.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  PortImplementsEndpoint associates a LogicalPort with one or more
+ * ProtocolEndpoints that are implemented on it. This class specializes the
+ * DeviceSAPImplementation association. It indicates that the referenced
+ * Endpoint is dependent on the operations of the Port Device.
+ */
 public class CIM_PortImplementsEndpoint extends CIM_DeviceSAPImplementation  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_PortImplementsEndpoint";
+	public final static String CIM_CLASS_NAME = "CIM_PortImplementsEndpoint"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +200,7 @@ public class CIM_PortImplementsEndpoint extends CIM_DeviceSAPImplementation  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

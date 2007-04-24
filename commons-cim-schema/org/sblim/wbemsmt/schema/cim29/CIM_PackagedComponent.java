@@ -1,7 +1,7 @@
 /** 
  * CIM_PackagedComponent.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: A Component is typically contained by a PhysicalPackage, such as a Chassis or Card. The PackagedComponent association makes this relationship explicit. In the first sentence, the word, 'typically', is used. This is because a Component may be removed from, or not yet inserted into, its containing Package (ie, the Removable boolean is TRUE). Therefore, a Component may not always be associated with a container.
+ * Description:  A Component is typically contained by a PhysicalPackage, such as a Chassis or
+ * Card. The PackagedComponent association makes this relationship explicit. In
+ * the first sentence, the word, 'typically', is used. This is because a
+ * Component may be removed from, or not yet inserted into, its containing
+ * Package (ie, the Removable boolean is TRUE). Therefore, a Component may not
+ * always be associated with a container.
  * 
  */
 
@@ -28,9 +33,17 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  A Component is typically contained by a PhysicalPackage, such as a Chassis or
+ * Card. The PackagedComponent association makes this relationship explicit. In
+ * the first sentence, the word, 'typically', is used. This is because a
+ * Component may be removed from, or not yet inserted into, its containing
+ * Package (ie, the Removable boolean is TRUE). Therefore, a Component may not
+ * always be associated with a container.
+ */
 public class CIM_PackagedComponent extends CIM_Container  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_PackagedComponent";
+	public final static String CIM_CLASS_NAME = "CIM_PackagedComponent"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +204,7 @@ public class CIM_PackagedComponent extends CIM_Container  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

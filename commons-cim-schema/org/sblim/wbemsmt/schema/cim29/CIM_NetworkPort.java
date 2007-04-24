@@ -1,7 +1,7 @@
 /** 
  * CIM_NetworkPort.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: NetworkPort is the logical representation of network communications hardware - a physical connector and the setup/operation of the network chips, at the lowest layers of a network stack.
+ * Description:  NetworkPort is the logical representation of network communications hardware -
+ * a physical connector and the setup/operation of the network chips, at the
+ * lowest layers of a network stack.
  * 
  */
 
@@ -33,18 +35,23 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  NetworkPort is the logical representation of network communications hardware -
+ * a physical connector and the setup/operation of the network chips, at the
+ * lowest layers of a network stack.
+ */
 public class CIM_NetworkPort extends CIM_LogicalPort  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_NetworkPort";
+	public final static String CIM_CLASS_NAME = "CIM_NetworkPort"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.8.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_MODULEPORT = "CIM_ModulePort";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_OOBALERTSERVICEONNETWORKPORT = "CIM_OOBAlertServiceOnNetworkPort";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PORTACTIVECONNECTION = "CIM_PortActiveConnection";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_WAKEUPSERVICEONNETWORKPORT = "CIM_WakeUpServiceOnNetworkPort";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_MODULEPORT = "CIM_ModulePort"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_OOBALERTSERVICEONNETWORKPORT = "CIM_OOBAlertServiceOnNetworkPort"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PORTACTIVECONNECTION = "CIM_PortActiveConnection"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_WAKEUPSERVICEONNETWORKPORT = "CIM_WakeUpServiceOnNetworkPort"; //$NON-NLS-1$
 	
 	
 	/**
@@ -314,7 +321,7 @@ public class CIM_NetworkPort extends CIM_LogicalPort  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -439,8 +446,8 @@ public class CIM_NetworkPort extends CIM_LogicalPort  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_MODULEPORT, 
 					CIM_LogicalModule.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -453,9 +460,9 @@ public class CIM_NetworkPort extends CIM_LogicalPort  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_NetworkPort.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_NetworkPort.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_NetworkPort.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_NetworkPort.Java_Package_List.setElementAt((String)(CIM_NetworkPort.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_NetworkPort.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_NetworkPort.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_NetworkPort.Java_Package_List.setElementAt((String)(CIM_NetworkPort.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_NetworkPort.Java_Package_List.get(i)) + cimClassName;
 
@@ -525,8 +532,8 @@ public class CIM_NetworkPort extends CIM_LogicalPort  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_MODULEPORT, 
 					CIM_LogicalModule.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -566,8 +573,8 @@ public class CIM_NetworkPort extends CIM_LogicalPort  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_OOBALERTSERVICEONNETWORKPORT, 
 					CIM_OOBAlertService.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -580,9 +587,9 @@ public class CIM_NetworkPort extends CIM_LogicalPort  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_NetworkPort.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_NetworkPort.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_NetworkPort.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_NetworkPort.Java_Package_List.setElementAt((String)(CIM_NetworkPort.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_NetworkPort.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_NetworkPort.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_NetworkPort.Java_Package_List.setElementAt((String)(CIM_NetworkPort.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_NetworkPort.Java_Package_List.get(i)) + cimClassName;
 
@@ -652,8 +659,8 @@ public class CIM_NetworkPort extends CIM_LogicalPort  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_OOBALERTSERVICEONNETWORKPORT, 
 					CIM_OOBAlertService.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -693,8 +700,8 @@ public class CIM_NetworkPort extends CIM_LogicalPort  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PORTACTIVECONNECTION, 
 					CIM_PhysicalConnector.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -707,9 +714,9 @@ public class CIM_NetworkPort extends CIM_LogicalPort  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_NetworkPort.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_NetworkPort.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_NetworkPort.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_NetworkPort.Java_Package_List.setElementAt((String)(CIM_NetworkPort.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_NetworkPort.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_NetworkPort.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_NetworkPort.Java_Package_List.setElementAt((String)(CIM_NetworkPort.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_NetworkPort.Java_Package_List.get(i)) + cimClassName;
 
@@ -779,8 +786,8 @@ public class CIM_NetworkPort extends CIM_LogicalPort  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PORTACTIVECONNECTION, 
 					CIM_PhysicalConnector.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -820,8 +827,8 @@ public class CIM_NetworkPort extends CIM_LogicalPort  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_WAKEUPSERVICEONNETWORKPORT, 
 					CIM_WakeUpService.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -834,9 +841,9 @@ public class CIM_NetworkPort extends CIM_LogicalPort  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_NetworkPort.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_NetworkPort.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_NetworkPort.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_NetworkPort.Java_Package_List.setElementAt((String)(CIM_NetworkPort.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_NetworkPort.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_NetworkPort.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_NetworkPort.Java_Package_List.setElementAt((String)(CIM_NetworkPort.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_NetworkPort.Java_Package_List.get(i)) + cimClassName;
 
@@ -906,8 +913,8 @@ public class CIM_NetworkPort extends CIM_LogicalPort  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_WAKEUPSERVICEONNETWORKPORT, 
 					CIM_WakeUpService.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

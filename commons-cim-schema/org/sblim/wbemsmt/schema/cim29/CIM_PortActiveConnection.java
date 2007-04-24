@@ -1,7 +1,7 @@
 /** 
  * CIM_PortActiveConnection.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: The PortActiveConnection relationship indicates that a NetworkPort is using the referenced PhysicalConnector to output to the network. This relationship is important when the port can choose to output from one of several connectors. The connectors may be associated with the NetworkPort in a Realizes relationship - but this is not required. This association provides additional information (i.e., 'in use for communication') different than Realizes.
+ * Description:  The PortActiveConnection relationship indicates that a NetworkPort is using the
+ * referenced PhysicalConnector to output to the network. This relationship is
+ * important when the port can choose to output from one of several connectors.
+ * The connectors may be associated with the NetworkPort in a Realizes
+ * relationship - but this is not required. This association provides additional
+ * information (i.e., 'in use for communication') different than Realizes.
  * 
  */
 
@@ -28,9 +33,17 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The PortActiveConnection relationship indicates that a NetworkPort is using the
+ * referenced PhysicalConnector to output to the network. This relationship is
+ * important when the port can choose to output from one of several connectors.
+ * The connectors may be associated with the NetworkPort in a Realizes
+ * relationship - but this is not required. This association provides additional
+ * information (i.e., 'in use for communication') different than Realizes.
+ */
 public class CIM_PortActiveConnection extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_PortActiveConnection";
+	public final static String CIM_CLASS_NAME = "CIM_PortActiveConnection"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +204,7 @@ public class CIM_PortActiveConnection extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

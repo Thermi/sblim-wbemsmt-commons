@@ -1,7 +1,7 @@
 /** 
  * CIM_IndicationSubscription.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,13 @@
  * Contributors:
  *
  *
- * Description: CIM_IndicationSubscription describes a flow of Indications. The flow is specified by the referenced Filter, and directed to the referenced destination or process in the Handler. Property values of the referenced CIM_IndicationFilter instance and CIM_ListenerDestination instance MAY significantly effect the definition of the subscription. E.g., a subscription associated with a "Transient" destination MAY be deleted when the destination terminates or is no longer available.
+ * Description:  CIM_IndicationSubscription describes a flow of Indications. The flow is
+ * specified by the referenced Filter, and directed to the referenced
+ * destination or process in the Handler. Property values of the referenced
+ * CIM_IndicationFilter instance and CIM_ListenerDestination instance MAY
+ * significantly effect the definition of the subscription. E.g., a subscription
+ * associated with a "Transient" destination MAY be deleted when the destination
+ * terminates or is no longer available.
  * 
  */
 
@@ -29,13 +35,22 @@ import org.sblim.wbem.cim.*;
 import java.util.Calendar;
 
 
+/**
+ *  CIM_IndicationSubscription describes a flow of Indications. The flow is
+ * specified by the referenced Filter, and directed to the referenced
+ * destination or process in the Handler. Property values of the referenced
+ * CIM_IndicationFilter instance and CIM_ListenerDestination instance MAY
+ * significantly effect the definition of the subscription. E.g., a subscription
+ * associated with a "Transient" destination MAY be deleted when the destination
+ * terminates or is no longer available.
+ */
 public class CIM_IndicationSubscription  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_IndicationSubscription";
+	public final static String CIM_CLASS_NAME = "CIM_IndicationSubscription"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -283,7 +298,7 @@ public class CIM_IndicationSubscription  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

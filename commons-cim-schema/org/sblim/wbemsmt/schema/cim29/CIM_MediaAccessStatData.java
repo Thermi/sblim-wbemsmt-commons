@@ -1,7 +1,7 @@
 /** 
  * CIM_MediaAccessStatData.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,14 @@
  * Contributors:
  *
  *
- * Description: Statistics related to reading and writing at a specific MediaAccessDevice, or for a specific StorageExtent. The same class is used to represent this data - whether for the MediaAccessDevice (independent of the StorageExtent), OR for the Extent (independent of its AccessDevice). The element whose statistics are described is associated using the relationship, ElementStatisticalData. Note that this class models the same properties as MediaAccessStatInfo. This class, however, uses the simplified key mechanisms of its superclass, StatisticalData.
+ * Description:  Statistics related to reading and writing at a specific MediaAccessDevice, or
+ * for a specific StorageExtent. The same class is used to represent this data -
+ * whether for the MediaAccessDevice (independent of the StorageExtent), OR for
+ * the Extent (independent of its AccessDevice). The element whose statistics
+ * are described is associated using the relationship, ElementStatisticalData.
+ * Note that this class models the same properties as MediaAccessStatInfo. This
+ * class, however, uses the simplified key mechanisms of its superclass,
+ * StatisticalData.
  * 
  */
 
@@ -28,9 +35,19 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Statistics related to reading and writing at a specific MediaAccessDevice, or
+ * for a specific StorageExtent. The same class is used to represent this data -
+ * whether for the MediaAccessDevice (independent of the StorageExtent), OR for
+ * the Extent (independent of its AccessDevice). The element whose statistics
+ * are described is associated using the relationship, ElementStatisticalData.
+ * Note that this class models the same properties as MediaAccessStatInfo. This
+ * class, however, uses the simplified key mechanisms of its superclass,
+ * StatisticalData.
+ */
 public class CIM_MediaAccessStatData extends CIM_StatisticalData  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_MediaAccessStatData";
+	public final static String CIM_CLASS_NAME = "CIM_MediaAccessStatData"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -252,7 +269,7 @@ public class CIM_MediaAccessStatData extends CIM_StatisticalData  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

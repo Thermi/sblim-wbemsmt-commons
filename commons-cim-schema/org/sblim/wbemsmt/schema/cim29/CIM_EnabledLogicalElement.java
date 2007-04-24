@@ -1,7 +1,7 @@
 /** 
  * CIM_EnabledLogicalElement.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: This class extends LogicalElement to abstract the concept of an element that is enabled and disabled, such as a LogicalDevice or a ServiceAccessPoint.
+ * Description:  This class extends LogicalElement to abstract the concept of an element that is
+ * enabled and disabled, such as a LogicalDevice or a ServiceAccessPoint.
  * 
  */
 
@@ -31,9 +32,13 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  This class extends LogicalElement to abstract the concept of an element that is
+ * enabled and disabled, such as a LogicalDevice or a ServiceAccessPoint.
+ */
 public class CIM_EnabledLogicalElement extends CIM_LogicalElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_EnabledLogicalElement";
+	public final static String CIM_CLASS_NAME = "CIM_EnabledLogicalElement"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -287,7 +292,7 @@ If 0 is returned, then the task completed successfully and the use of ConcreteJo
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

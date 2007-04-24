@@ -1,7 +1,7 @@
 /** 
  * CIM_StatisticalSetting.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: CIM_StatisticalSetting is the class for setting the collection criteria of statistical data and/or metrics applicable to one or more ManagedElements.
+ * Description:  CIM_StatisticalSetting is the class for setting the collection criteria of
+ * statistical data and/or metrics applicable to one or more ManagedElements.
  * 
  */
 
@@ -29,9 +30,13 @@ import org.sblim.wbem.cim.*;
 import java.util.Calendar;
 
 
+/**
+ *  CIM_StatisticalSetting is the class for setting the collection criteria of
+ * statistical data and/or metrics applicable to one or more ManagedElements.
+ */
 public class CIM_StatisticalSetting extends CIM_SettingData  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_StatisticalSetting";
+	public final static String CIM_CLASS_NAME = "CIM_StatisticalSetting"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -213,7 +218,7 @@ public class CIM_StatisticalSetting extends CIM_SettingData  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_SystemPartition.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,14 @@
  * Contributors:
  *
  *
- * Description: A Partition is an instance of a UnitaryComputerSystem (with its own OperatingSystem and Devices dedicated to the Partition) that is supported by underlying hardware and software. A Partition is not a virtualization of a Computer System, but the segmentation of the System's compute capabilities. Partitions can run independent copies of possibly different OperatingSystems and have dedicated Devices. The 'real', underlying System (perhaps a Cluster or another UnitaryComputerSystem) aggregates its Partitions. These semantics are described by the System Partition association.
+ * Description:  A Partition is an instance of a UnitaryComputerSystem (with its own
+ * OperatingSystem and Devices dedicated to the Partition) that is supported by
+ * underlying hardware and software. A Partition is not a virtualization of a
+ * Computer System, but the segmentation of the System's compute capabilities.
+ * Partitions can run independent copies of possibly different OperatingSystems
+ * and have dedicated Devices. The 'real', underlying System (perhaps a Cluster
+ * or another UnitaryComputerSystem) aggregates its Partitions. These semantics
+ * are described by the System Partition association.
  * 
  */
 
@@ -28,9 +35,19 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  A Partition is an instance of a UnitaryComputerSystem (with its own
+ * OperatingSystem and Devices dedicated to the Partition) that is supported by
+ * underlying hardware and software. A Partition is not a virtualization of a
+ * Computer System, but the segmentation of the System's compute capabilities.
+ * Partitions can run independent copies of possibly different OperatingSystems
+ * and have dedicated Devices. The 'real', underlying System (perhaps a Cluster
+ * or another UnitaryComputerSystem) aggregates its Partitions. These semantics
+ * are described by the System Partition association.
+ */
 public class CIM_SystemPartition extends CIM_ComponentCS  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SystemPartition";
+	public final static String CIM_CLASS_NAME = "CIM_SystemPartition"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +208,7 @@ public class CIM_SystemPartition extends CIM_ComponentCS  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_FIFOPipeFile.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,14 @@
  * Contributors:
  *
  *
- * Description: FIFOPipeFile is a special type of LogicalFile that represents an interprocess FIFO (sometimes referred to as a "named pipe"). Operating systems use this convention to manage interprocess communication through processes reading and writing the FIFO. The FIFO can be accessed by unrelated processes, in contrast to the more well-known command line redirection mechanism (e.g. UNIX's 'ps -eaf | grep foo', also known as an "unnamed pipe"). An exemplary operating system implementation (using the FIFO concept) is the UNIX S_IFIFO file type.
+ * Description:  FIFOPipeFile is a special type of LogicalFile that represents an interprocess
+ * FIFO (sometimes referred to as a "named pipe"). Operating systems use this
+ * convention to manage interprocess communication through processes reading and
+ * writing the FIFO. The FIFO can be accessed by unrelated processes, in
+ * contrast to the more well-known command line redirection mechanism (e.g.
+ * UNIX's 'ps -eaf | grep foo', also known as an "unnamed pipe"). An exemplary
+ * operating system implementation (using the FIFO concept) is the UNIX S_IFIFO
+ * file type.
  * 
  */
 
@@ -28,9 +35,19 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  FIFOPipeFile is a special type of LogicalFile that represents an interprocess
+ * FIFO (sometimes referred to as a "named pipe"). Operating systems use this
+ * convention to manage interprocess communication through processes reading and
+ * writing the FIFO. The FIFO can be accessed by unrelated processes, in
+ * contrast to the more well-known command line redirection mechanism (e.g.
+ * UNIX's 'ps -eaf | grep foo', also known as an "unnamed pipe"). An exemplary
+ * operating system implementation (using the FIFO concept) is the UNIX S_IFIFO
+ * file type.
+ */
 public class CIM_FIFOPipeFile extends CIM_LogicalFile  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_FIFOPipeFile";
+	public final static String CIM_CLASS_NAME = "CIM_FIFOPipeFile"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -184,7 +201,7 @@ public class CIM_FIFOPipeFile extends CIM_LogicalFile  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

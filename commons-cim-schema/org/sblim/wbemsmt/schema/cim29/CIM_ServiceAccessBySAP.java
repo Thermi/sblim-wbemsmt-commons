@@ -1,7 +1,7 @@
 /** 
  * CIM_ServiceAccessBySAP.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: CIM_ServiceAccessBySAP is an association that identifies the access points for a Service. For example, a printer may be accessed by Netware, MacIntosh or Windows ServiceAccess Points, potentially hosted on different Systems.
+ * Description:  CIM_ServiceAccessBySAP is an association that identifies the access points for
+ * a Service. For example, a printer may be accessed by Netware, MacIntosh or
+ * Windows ServiceAccess Points, potentially hosted on different Systems.
  * 
  */
 
@@ -28,9 +30,14 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_ServiceAccessBySAP is an association that identifies the access points for
+ * a Service. For example, a printer may be accessed by Netware, MacIntosh or
+ * Windows ServiceAccess Points, potentially hosted on different Systems.
+ */
 public class CIM_ServiceAccessBySAP extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ServiceAccessBySAP";
+	public final static String CIM_CLASS_NAME = "CIM_ServiceAccessBySAP"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +198,7 @@ public class CIM_ServiceAccessBySAP extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

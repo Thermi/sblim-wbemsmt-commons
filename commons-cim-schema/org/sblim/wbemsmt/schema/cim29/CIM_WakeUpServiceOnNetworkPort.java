@@ -1,7 +1,7 @@
 /** 
  * CIM_WakeUpServiceOnNetworkPort.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: WakeUpServiceOnNetworkPort defines where the WakeUpService is implemented. Currently, the Service can either employ a Modem or a NetworkPort for wakeup.
+ * Description:  WakeUpServiceOnNetworkPort defines where the WakeUpService is implemented.
+ * Currently, the Service can either employ a Modem or a NetworkPort for wakeup.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  WakeUpServiceOnNetworkPort defines where the WakeUpService is implemented.
+ * Currently, the Service can either employ a Modem or a NetworkPort for wakeup.
+ */
 public class CIM_WakeUpServiceOnNetworkPort extends CIM_DeviceServiceImplementation  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_WakeUpServiceOnNetworkPort";
+	public final static String CIM_CLASS_NAME = "CIM_WakeUpServiceOnNetworkPort"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +196,7 @@ public class CIM_WakeUpServiceOnNetworkPort extends CIM_DeviceServiceImplementat
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

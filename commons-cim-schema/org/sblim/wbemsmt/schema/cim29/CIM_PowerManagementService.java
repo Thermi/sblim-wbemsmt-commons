@@ -1,7 +1,7 @@
 /** 
  * CIM_PowerManagementService.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: A class derived from Service that describes power management functionality, hosted on a System. The fact that this service may be used to affect the power state of a particular element is defined by the CIM_ServiceAvailable ToElement association.
+ * Description:  A class derived from Service that describes power management functionality,
+ * hosted on a System. The fact that this service may be used to affect the
+ * power state of a particular element is defined by the CIM_ServiceAvailable
+ * ToElement association.
  * 
  */
 
@@ -31,9 +34,15 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A class derived from Service that describes power management functionality,
+ * hosted on a System. The fact that this service may be used to affect the
+ * power state of a particular element is defined by the CIM_ServiceAvailable
+ * ToElement association.
+ */
 public class CIM_PowerManagementService extends CIM_Service  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_PowerManagementService";
+	public final static String CIM_CLASS_NAME = "CIM_PowerManagementService"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -196,7 +205,7 @@ SetPowerState should return 0 if successful, 1 if the specified State and Time r
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

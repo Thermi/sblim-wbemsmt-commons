@@ -1,7 +1,7 @@
 /** 
  * CIM_SAPAvailableForElement.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: CIM_SAPAvailableForElement conveys the semantics of a Service Access Point being available for a ManagedElement. When CIM_SAPAvailableForElement is not instantiated then the SAP is assumed to be generally available. If instantiated, the SAP is only available for the associated ManagedElements. For example, a device might provide management access through a URL. This association allows the URL to be advertised for the device.
+ * Description:  CIM_SAPAvailableForElement conveys the semantics of a Service Access Point
+ * being available for a ManagedElement. When CIM_SAPAvailableForElement is not
+ * instantiated then the SAP is assumed to be generally available. If
+ * instantiated, the SAP is only available for the associated ManagedElements.
+ * For example, a device might provide management access through a URL. This
+ * association allows the URL to be advertised for the device.
  * 
  */
 
@@ -28,13 +33,21 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_SAPAvailableForElement conveys the semantics of a Service Access Point
+ * being available for a ManagedElement. When CIM_SAPAvailableForElement is not
+ * instantiated then the SAP is assumed to be generally available. If
+ * instantiated, the SAP is only available for the associated ManagedElements.
+ * For example, a device might provide management access through a URL. This
+ * association allows the URL to be advertised for the device.
+ */
 public class CIM_SAPAvailableForElement  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_SAPAvailableForElement";
+	public final static String CIM_CLASS_NAME = "CIM_SAPAvailableForElement"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +191,7 @@ public class CIM_SAPAvailableForElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

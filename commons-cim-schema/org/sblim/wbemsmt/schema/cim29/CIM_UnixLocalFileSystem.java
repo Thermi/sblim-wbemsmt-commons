@@ -1,7 +1,7 @@
 /** 
  * CIM_UnixLocalFileSystem.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,13 @@
  * Contributors:
  *
  *
- * Description: A class derived from LocalFileSystem that represents the Unix environment view of a file store controlled by a ComputerSystem through local means (e.g., direct device driver access). In this case, the file store is managed directly by the ComputerSystem without the need for another computer to act as a file server. This definition does not breakdown in the case of a Clustered File System. In this scenario, the FileSystem is a LocalFileSystem, weak to the Cluster.
+ * Description:  A class derived from LocalFileSystem that represents the Unix environment view
+ * of a file store controlled by a ComputerSystem through local means (e.g.,
+ * direct device driver access). In this case, the file store is managed
+ * directly by the ComputerSystem without the need for another computer to act
+ * as a file server. This definition does not breakdown in the case of a
+ * Clustered File System. In this scenario, the FileSystem is a LocalFileSystem,
+ * weak to the Cluster.
  * 
  */
 
@@ -28,9 +34,18 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  A class derived from LocalFileSystem that represents the Unix environment view
+ * of a file store controlled by a ComputerSystem through local means (e.g.,
+ * direct device driver access). In this case, the file store is managed
+ * directly by the ComputerSystem without the need for another computer to act
+ * as a file server. This definition does not breakdown in the case of a
+ * Clustered File System. In this scenario, the FileSystem is a LocalFileSystem,
+ * weak to the Cluster.
+ */
 public class CIM_UnixLocalFileSystem extends CIM_LocalFileSystem  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_UnixLocalFileSystem";
+	public final static String CIM_CLASS_NAME = "CIM_UnixLocalFileSystem"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -212,7 +227,7 @@ public class CIM_UnixLocalFileSystem extends CIM_LocalFileSystem  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

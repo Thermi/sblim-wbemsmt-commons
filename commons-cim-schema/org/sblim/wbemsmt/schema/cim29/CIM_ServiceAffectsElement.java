@@ -1,7 +1,7 @@
 /** 
  * CIM_ServiceAffectsElement.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: ServiceAffectsElement represents an association between a Service and the ManagedElement(s) that may be affected by its execution. Instantiating this association indicates that running the service will pose some burden on the ManagedElement that may affect performance, throughput, availability, etc.
+ * Description:  ServiceAffectsElement represents an association between a Service and the
+ * ManagedElement(s) that may be affected by its execution. Instantiating this
+ * association indicates that running the service will pose some burden on the
+ * ManagedElement that may affect performance, throughput, availability, etc.
  * 
  */
 
@@ -28,13 +31,19 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  ServiceAffectsElement represents an association between a Service and the
+ * ManagedElement(s) that may be affected by its execution. Instantiating this
+ * association indicates that running the service will pose some burden on the
+ * ManagedElement that may affect performance, throughput, availability, etc.
+ */
 public class CIM_ServiceAffectsElement  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ServiceAffectsElement";
+	public final static String CIM_CLASS_NAME = "CIM_ServiceAffectsElement"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -197,7 +206,7 @@ public class CIM_ServiceAffectsElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

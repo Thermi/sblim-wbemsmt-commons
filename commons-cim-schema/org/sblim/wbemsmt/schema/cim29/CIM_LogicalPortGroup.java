@@ -1,7 +1,7 @@
 /** 
  * CIM_LogicalPortGroup.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: A collection of one or more ports logically grouped for administrative and discovery/topology purposes. LogicalPortGroups define port collections for access control, or for use in routing policy or other management tasks. For example, in Fibre Channel and Infiniband, a LogicalPortGroup represents the concept of a 'node'.
+ * Description:  A collection of one or more ports logically grouped for administrative and
+ * discovery/topology purposes. LogicalPortGroups define port collections for
+ * access control, or for use in routing policy or other management tasks. For
+ * example, in Fibre Channel and Infiniband, a LogicalPortGroup represents the
+ * concept of a 'node'.
  * 
  */
 
@@ -28,9 +32,16 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  A collection of one or more ports logically grouped for administrative and
+ * discovery/topology purposes. LogicalPortGroups define port collections for
+ * access control, or for use in routing policy or other management tasks. For
+ * example, in Fibre Channel and Infiniband, a LogicalPortGroup represents the
+ * concept of a 'node'.
+ */
 public class CIM_LogicalPortGroup extends CIM_SystemSpecificCollection  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_LogicalPortGroup";
+	public final static String CIM_CLASS_NAME = "CIM_LogicalPortGroup"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -218,7 +229,7 @@ public class CIM_LogicalPortGroup extends CIM_SystemSpecificCollection  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

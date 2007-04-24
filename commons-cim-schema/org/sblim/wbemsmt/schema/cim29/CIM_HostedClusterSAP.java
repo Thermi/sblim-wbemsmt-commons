@@ -1,7 +1,7 @@
 /** 
  * CIM_HostedClusterSAP.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: HostedClusterSAP defines the hosting ComputerSystem for a ClusteringSAP. Since this relationship is subclassed from HostedAccessPoint, it inherits the scoping/naming scheme defined for AccessPoint - where an AccessPoint is weak to its hosting System. In this case, a ClusteringSAP must be weak to its hosting ComputerSystem.
+ * Description:  HostedClusterSAP defines the hosting ComputerSystem for a ClusteringSAP. Since
+ * this relationship is subclassed from HostedAccessPoint, it inherits the
+ * scoping/naming scheme defined for AccessPoint - where an AccessPoint is weak
+ * to its hosting System. In this case, a ClusteringSAP must be weak to its
+ * hosting ComputerSystem.
  * 
  */
 
@@ -28,9 +32,16 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  HostedClusterSAP defines the hosting ComputerSystem for a ClusteringSAP. Since
+ * this relationship is subclassed from HostedAccessPoint, it inherits the
+ * scoping/naming scheme defined for AccessPoint - where an AccessPoint is weak
+ * to its hosting System. In this case, a ClusteringSAP must be weak to its
+ * hosting ComputerSystem.
+ */
 public class CIM_HostedClusterSAP extends CIM_HostedAccessPoint  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_HostedClusterSAP";
+	public final static String CIM_CLASS_NAME = "CIM_HostedClusterSAP"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +202,7 @@ public class CIM_HostedClusterSAP extends CIM_HostedAccessPoint  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

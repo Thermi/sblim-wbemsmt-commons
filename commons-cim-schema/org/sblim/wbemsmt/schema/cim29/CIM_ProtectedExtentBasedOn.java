@@ -1,7 +1,7 @@
 /** 
  * CIM_ProtectedExtentBasedOn.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: Protected StorageExtents map to an underlying StorageExtent. This mapping includes information about the placement of check data on the underlying extent. The mapping is made explicit in this association.
+ * Description:  Protected StorageExtents map to an underlying StorageExtent. This mapping
+ * includes information about the placement of check data on the underlying
+ * extent. The mapping is made explicit in this association.
  * 
  */
 
@@ -28,9 +30,14 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Protected StorageExtents map to an underlying StorageExtent. This mapping
+ * includes information about the placement of check data on the underlying
+ * extent. The mapping is made explicit in this association.
+ */
 public class CIM_ProtectedExtentBasedOn extends CIM_BasedOn  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ProtectedExtentBasedOn";
+	public final static String CIM_CLASS_NAME = "CIM_ProtectedExtentBasedOn"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -243,7 +250,7 @@ public class CIM_ProtectedExtentBasedOn extends CIM_BasedOn  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

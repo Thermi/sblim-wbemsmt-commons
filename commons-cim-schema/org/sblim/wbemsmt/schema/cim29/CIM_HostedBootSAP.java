@@ -1,7 +1,7 @@
 /** 
  * CIM_HostedBootSAP.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: HostedBootSAP defines the hosting UnitaryComputerSystem for a BootSAP. Since this relationship is subclassed from HostedAccessPoint, it inherits the scoping/naming scheme defined for AccessPoint - where an AccessPoint is weak to its hosting System. In this case, a BootSAP must be weak to its hosting UnitaryComputerSystem.
+ * Description:  HostedBootSAP defines the hosting UnitaryComputerSystem for a BootSAP. Since
+ * this relationship is subclassed from HostedAccessPoint, it inherits the
+ * scoping/naming scheme defined for AccessPoint - where an AccessPoint is weak
+ * to its hosting System. In this case, a BootSAP must be weak to its hosting
+ * UnitaryComputerSystem.
  * 
  */
 
@@ -28,9 +32,16 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  HostedBootSAP defines the hosting UnitaryComputerSystem for a BootSAP. Since
+ * this relationship is subclassed from HostedAccessPoint, it inherits the
+ * scoping/naming scheme defined for AccessPoint - where an AccessPoint is weak
+ * to its hosting System. In this case, a BootSAP must be weak to its hosting
+ * UnitaryComputerSystem.
+ */
 public class CIM_HostedBootSAP extends CIM_HostedAccessPoint  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_HostedBootSAP";
+	public final static String CIM_CLASS_NAME = "CIM_HostedBootSAP"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +202,7 @@ public class CIM_HostedBootSAP extends CIM_HostedAccessPoint  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

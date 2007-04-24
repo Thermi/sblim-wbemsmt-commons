@@ -1,7 +1,7 @@
 /** 
  * CIM_SoftwareIdentity.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,9 +16,28 @@
  * Contributors:
  *
  *
- * Description: SoftwareIdentity represents software, viewed as an asset and/or individually identifiable entity (similar to Physical Element). It does NOT indicate whether the software is installed, executing, etc. (The latter is the role of the SoftwareFeature/ SoftwareElement classes and the Application Model.) Since software may be acquired, SoftwareIdentity can be associated with a Product using the ProductSoftwareComponent relationship. 
-Note that the Application Model manages the deployment and installation of software via the classes, SoftwareFeatures and SoftwareElements. The deployment/installation concepts are related to the asset/identity one. In fact, a SoftwareIdentity may correspond to a Product, or to one or more SoftwareFeatures or SoftwareElements - depending on the granularity of these classes and the deployment model. The correspondence of Software Identity to Product, SoftwareFeature or SoftwareElement is indicated using the ConcreteIdentity association. Note that there may not be sufficient detail or instrumentation to instantiate ConcreteIdentity. And, if the association is instantiated, some duplication of information may result. For example, the Vendor described in the instances of Product and SoftwareIdentity MAY be the same. However, this is not necessarily true, and it is why vendor and similar information are duplicated in this class. 
-Note that ConcreteIdentity can also be used to describe the relationship of the software to any LogicalFiles that result from installing it. As above, there may not be sufficient detail or instrumentation to instantiate this association.
+ * Description:  SoftwareIdentity represents software, viewed as an asset and/or individually
+ * identifiable entity (similar to Physical Element). It does NOT indicate
+ * whether the software is installed, executing, etc. (The latter is the role of
+ * the SoftwareFeature/ SoftwareElement classes and the Application Model.)
+ * Since software may be acquired, SoftwareIdentity can be associated with a
+ * Product using the ProductSoftwareComponent relationship. Note that the
+ * Application Model manages the deployment and installation of software via the
+ * classes, SoftwareFeatures and SoftwareElements. The deployment/installation
+ * concepts are related to the asset/identity one. In fact, a SoftwareIdentity
+ * may correspond to a Product, or to one or more SoftwareFeatures or
+ * SoftwareElements - depending on the granularity of these classes and the
+ * deployment model. The correspondence of Software Identity to Product,
+ * SoftwareFeature or SoftwareElement is indicated using the ConcreteIdentity
+ * association. Note that there may not be sufficient detail or instrumentation
+ * to instantiate ConcreteIdentity. And, if the association is instantiated,
+ * some duplication of information may result. For example, the Vendor described
+ * in the instances of Product and SoftwareIdentity MAY be the same. However,
+ * this is not necessarily true, and it is why vendor and similar information
+ * are duplicated in this class. Note that ConcreteIdentity can also be used to
+ * describe the relationship of the software to any LogicalFiles that result
+ * from installing it. As above, there may not be sufficient detail or
+ * instrumentation to instantiate this association.
  * 
  */
 
@@ -36,17 +55,41 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  SoftwareIdentity represents software, viewed as an asset and/or individually
+ * identifiable entity (similar to Physical Element). It does NOT indicate
+ * whether the software is installed, executing, etc. (The latter is the role of
+ * the SoftwareFeature/ SoftwareElement classes and the Application Model.)
+ * Since software may be acquired, SoftwareIdentity can be associated with a
+ * Product using the ProductSoftwareComponent relationship. Note that the
+ * Application Model manages the deployment and installation of software via the
+ * classes, SoftwareFeatures and SoftwareElements. The deployment/installation
+ * concepts are related to the asset/identity one. In fact, a SoftwareIdentity
+ * may correspond to a Product, or to one or more SoftwareFeatures or
+ * SoftwareElements - depending on the granularity of these classes and the
+ * deployment model. The correspondence of Software Identity to Product,
+ * SoftwareFeature or SoftwareElement is indicated using the ConcreteIdentity
+ * association. Note that there may not be sufficient detail or instrumentation
+ * to instantiate ConcreteIdentity. And, if the association is instantiated,
+ * some duplication of information may result. For example, the Vendor described
+ * in the instances of Product and SoftwareIdentity MAY be the same. However,
+ * this is not necessarily true, and it is why vendor and similar information
+ * are duplicated in this class. Note that ConcreteIdentity can also be used to
+ * describe the relationship of the software to any LogicalFiles that result
+ * from installing it. As above, there may not be sufficient detail or
+ * instrumentation to instantiate this association.
+ */
 public class CIM_SoftwareIdentity extends CIM_LogicalElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SoftwareIdentity";
+	public final static String CIM_CLASS_NAME = "CIM_SoftwareIdentity"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.8.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSOFTWAREIDENTITY = "CIM_ElementSoftwareIdentity";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDSOFTWAREIDENTITY = "CIM_InstalledSoftwareIdentity";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSOFTWARECOMPONENT = "CIM_ProductSoftwareComponent";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSOFTWAREIDENTITY = "CIM_ElementSoftwareIdentity"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDSOFTWAREIDENTITY = "CIM_InstalledSoftwareIdentity"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSOFTWARECOMPONENT = "CIM_ProductSoftwareComponent"; //$NON-NLS-1$
 	
 	
 	/**
@@ -330,7 +373,7 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -455,8 +498,8 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSOFTWAREIDENTITY, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -469,9 +512,9 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_SoftwareIdentity.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SoftwareIdentity.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SoftwareIdentity.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SoftwareIdentity.Java_Package_List.setElementAt((String)(CIM_SoftwareIdentity.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_SoftwareIdentity.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_SoftwareIdentity.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_SoftwareIdentity.Java_Package_List.setElementAt((String)(CIM_SoftwareIdentity.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_SoftwareIdentity.Java_Package_List.get(i)) + cimClassName;
 
@@ -541,8 +584,8 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSOFTWAREIDENTITY, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -582,8 +625,8 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDSOFTWAREIDENTITY, 
 					CIM_System.CIM_CLASS_NAME, 
-					"InstalledSoftware",
-					"System",
+					"InstalledSoftware", //$NON-NLS-1$
+					"System", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -596,9 +639,9 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_SoftwareIdentity.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SoftwareIdentity.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SoftwareIdentity.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SoftwareIdentity.Java_Package_List.setElementAt((String)(CIM_SoftwareIdentity.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_SoftwareIdentity.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_SoftwareIdentity.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_SoftwareIdentity.Java_Package_List.setElementAt((String)(CIM_SoftwareIdentity.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_SoftwareIdentity.Java_Package_List.get(i)) + cimClassName;
 
@@ -668,8 +711,8 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDSOFTWAREIDENTITY, 
 					CIM_System.CIM_CLASS_NAME, 
-					"InstalledSoftware",
-					"System");
+					"InstalledSoftware", //$NON-NLS-1$
+					"System"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -709,8 +752,8 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSOFTWARECOMPONENT, 
 					CIM_Product.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -723,9 +766,9 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_SoftwareIdentity.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SoftwareIdentity.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SoftwareIdentity.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SoftwareIdentity.Java_Package_List.setElementAt((String)(CIM_SoftwareIdentity.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_SoftwareIdentity.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_SoftwareIdentity.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_SoftwareIdentity.Java_Package_List.setElementAt((String)(CIM_SoftwareIdentity.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_SoftwareIdentity.Java_Package_List.get(i)) + cimClassName;
 
@@ -795,8 +838,8 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSOFTWARECOMPONENT, 
 					CIM_Product.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

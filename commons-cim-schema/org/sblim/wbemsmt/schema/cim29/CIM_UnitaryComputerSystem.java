@@ -1,7 +1,7 @@
 /** 
  * CIM_UnitaryComputerSystem.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: A class derived from ComputerSystem that represents a Desktop, Mobile, NetPC, Server or other type of a single node Computer System.
+ * Description:  A class derived from ComputerSystem that represents a Desktop, Mobile, NetPC,
+ * Server or other type of a single node Computer System.
  * 
  */
 
@@ -33,17 +34,21 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A class derived from ComputerSystem that represents a Desktop, Mobile, NetPC,
+ * Server or other type of a single node Computer System.
+ */
 public class CIM_UnitaryComputerSystem extends CIM_ComputerSystem  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_UnitaryComputerSystem";
+	public final static String CIM_CLASS_NAME = "CIM_UnitaryComputerSystem"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.8.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY = "CIM_ComputerSystemMemory";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR = "CIM_ComputerSystemProcessor";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION = "CIM_SystemPartition";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY = "CIM_ComputerSystemMemory"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR = "CIM_ComputerSystemProcessor"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION = "CIM_SystemPartition"; //$NON-NLS-1$
 	
 	
 	/**
@@ -262,7 +267,7 @@ Values 8 and 9 describe the ACPI "Hibernate" and "Soft Off" states.
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -387,8 +392,8 @@ Values 8 and 9 describe the ACPI "Hibernate" and "Soft Off" states.
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY, 
 					CIM_Memory.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -401,9 +406,9 @@ Values 8 and 9 describe the ACPI "Hibernate" and "Soft Off" states.
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_UnitaryComputerSystem.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_UnitaryComputerSystem.Java_Package_List.setElementAt((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_UnitaryComputerSystem.Java_Package_List.setElementAt((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_UnitaryComputerSystem.Java_Package_List.get(i)) + cimClassName;
 
@@ -473,8 +478,8 @@ Values 8 and 9 describe the ACPI "Hibernate" and "Soft Off" states.
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY, 
 					CIM_Memory.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -514,8 +519,8 @@ Values 8 and 9 describe the ACPI "Hibernate" and "Soft Off" states.
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR, 
 					CIM_Processor.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -528,9 +533,9 @@ Values 8 and 9 describe the ACPI "Hibernate" and "Soft Off" states.
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_UnitaryComputerSystem.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_UnitaryComputerSystem.Java_Package_List.setElementAt((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_UnitaryComputerSystem.Java_Package_List.setElementAt((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_UnitaryComputerSystem.Java_Package_List.get(i)) + cimClassName;
 
@@ -600,8 +605,8 @@ Values 8 and 9 describe the ACPI "Hibernate" and "Soft Off" states.
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR, 
 					CIM_Processor.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -641,8 +646,8 @@ Values 8 and 9 describe the ACPI "Hibernate" and "Soft Off" states.
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION, 
 					CIM_ComputerSystem.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -655,9 +660,9 @@ Values 8 and 9 describe the ACPI "Hibernate" and "Soft Off" states.
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_UnitaryComputerSystem.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_UnitaryComputerSystem.Java_Package_List.setElementAt((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_UnitaryComputerSystem.Java_Package_List.setElementAt((String)(CIM_UnitaryComputerSystem.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_UnitaryComputerSystem.Java_Package_List.get(i)) + cimClassName;
 
@@ -727,8 +732,8 @@ Values 8 and 9 describe the ACPI "Hibernate" and "Soft Off" states.
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION, 
 					CIM_ComputerSystem.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

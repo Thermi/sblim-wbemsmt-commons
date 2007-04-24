@@ -1,7 +1,7 @@
 /** 
  * CIM_UnixProcessStatisticalInformation.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,7 @@
  * Contributors:
  *
  *
- * Description: The statistics associated with a Unix process.
+ * Description:  The statistics associated with a Unix process.
  * 
  */
 
@@ -33,15 +33,18 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  The statistics associated with a Unix process.
+ */
 public class CIM_UnixProcessStatisticalInformation extends CIM_StatisticalInformation  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_UnixProcessStatisticalInformation";
+	public final static String CIM_CLASS_NAME = "CIM_UnixProcessStatisticalInformation"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_UNIXPROCESSSTATISTICS = "CIM_UnixProcessStatistics";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_UNIXPROCESSSTATISTICS = "CIM_UnixProcessStatistics"; //$NON-NLS-1$
 	
 	
 	/**
@@ -387,7 +390,7 @@ public class CIM_UnixProcessStatisticalInformation extends CIM_StatisticalInform
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -512,8 +515,8 @@ public class CIM_UnixProcessStatisticalInformation extends CIM_StatisticalInform
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_UNIXPROCESSSTATISTICS, 
 					CIM_UnixProcess.CIM_CLASS_NAME, 
-					"Stats",
-					"Element",
+					"Stats", //$NON-NLS-1$
+					"Element", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -526,9 +529,9 @@ public class CIM_UnixProcessStatisticalInformation extends CIM_StatisticalInform
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_UnixProcessStatisticalInformation.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_UnixProcessStatisticalInformation.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_UnixProcessStatisticalInformation.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_UnixProcessStatisticalInformation.Java_Package_List.setElementAt((String)(CIM_UnixProcessStatisticalInformation.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_UnixProcessStatisticalInformation.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_UnixProcessStatisticalInformation.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_UnixProcessStatisticalInformation.Java_Package_List.setElementAt((String)(CIM_UnixProcessStatisticalInformation.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_UnixProcessStatisticalInformation.Java_Package_List.get(i)) + cimClassName;
 
@@ -598,8 +601,8 @@ public class CIM_UnixProcessStatisticalInformation extends CIM_StatisticalInform
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_UNIXPROCESSSTATISTICS, 
 					CIM_UnixProcess.CIM_CLASS_NAME, 
-					"Stats",
-					"Element");
+					"Stats", //$NON-NLS-1$
+					"Element"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

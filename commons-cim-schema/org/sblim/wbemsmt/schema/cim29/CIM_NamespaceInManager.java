@@ -1,7 +1,7 @@
 /** 
  * CIM_NamespaceInManager.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: NamespaceInManager is an association describing the Namespaces hosted by a CIM ObjectManager.
+ * Description:  NamespaceInManager is an association describing the Namespaces hosted by a CIM
+ * ObjectManager.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  NamespaceInManager is an association describing the Namespaces hosted by a CIM
+ * ObjectManager.
+ */
 public class CIM_NamespaceInManager extends CIM_HostedDependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_NamespaceInManager";
+	public final static String CIM_CLASS_NAME = "CIM_NamespaceInManager"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +196,7 @@ public class CIM_NamespaceInManager extends CIM_HostedDependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

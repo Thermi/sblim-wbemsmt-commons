@@ -1,7 +1,7 @@
 /** 
  * CIM_ResidesOnExtent.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: An association between a LogicalElement and the StorageExtent where it is located. Typically, a FileSystem ResidesOn a LogicalDisk. However, it is possible for a logical file or other internal data store to reside directly on a StorageExtent or appropriate subclass.
+ * Description:  An association between a LogicalElement and the StorageExtent where it is
+ * located. Typically, a FileSystem ResidesOn a LogicalDisk. However, it is
+ * possible for a logical file or other internal data store to reside directly
+ * on a StorageExtent or appropriate subclass.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  An association between a LogicalElement and the StorageExtent where it is
+ * located. Typically, a FileSystem ResidesOn a LogicalDisk. However, it is
+ * possible for a logical file or other internal data store to reside directly
+ * on a StorageExtent or appropriate subclass.
+ */
 public class CIM_ResidesOnExtent extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ResidesOnExtent";
+	public final static String CIM_CLASS_NAME = "CIM_ResidesOnExtent"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +200,7 @@ public class CIM_ResidesOnExtent extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

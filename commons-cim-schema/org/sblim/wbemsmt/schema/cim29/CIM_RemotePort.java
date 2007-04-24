@@ -1,7 +1,7 @@
 /** 
  * CIM_RemotePort.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: RemotePort adds port information to the access data (such as IP Address), specified in and inherited from RemoteServiceAccessPoint. For example, using the additional properties in this class, one could indicate that UDP Port 123 is accessed at IP Address xyz. The IP Address would be specified in the inherited AccessInfo property, while the UDP Port number would be specified in this class' property, PortInfo.
+ * Description:  RemotePort adds port information to the access data (such as IP Address),
+ * specified in and inherited from RemoteServiceAccessPoint. For example, using
+ * the additional properties in this class, one could indicate that UDP Port 123
+ * is accessed at IP Address xyz. The IP Address would be specified in the
+ * inherited AccessInfo property, while the UDP Port number would be specified
+ * in this class' property, PortInfo.
  * 
  */
 
@@ -28,9 +33,17 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  RemotePort adds port information to the access data (such as IP Address),
+ * specified in and inherited from RemoteServiceAccessPoint. For example, using
+ * the additional properties in this class, one could indicate that UDP Port 123
+ * is accessed at IP Address xyz. The IP Address would be specified in the
+ * inherited AccessInfo property, while the UDP Port number would be specified
+ * in this class' property, PortInfo.
+ */
 public class CIM_RemotePort extends CIM_RemoteServiceAccessPoint  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_RemotePort";
+	public final static String CIM_CLASS_NAME = "CIM_RemotePort"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -218,7 +231,7 @@ public class CIM_RemotePort extends CIM_RemoteServiceAccessPoint  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

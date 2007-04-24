@@ -1,7 +1,7 @@
 /** 
  * CIM_Mount.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,19 @@
  * Contributors:
  *
  *
- * Description: An association between a FileSystem and a Directory which indicates that the Directory is being attached to the FileSystem. The semantics of this relationship require that the mounted Directory be contained by a FileSystem (via the FileStorage association) that is different from the FileSystem referenced as the Dependent. The Directory's containing FileSystem could be either local or remote. For example, a LocalFileSystem on a Solaris ComputerSystem can mount a Directory from the FileSystem accessed via the machine's CDROM drive, i.e., another LocalFile System. On the other hand, in a 'remote' case, the Directory is first exported by its FileSystem, which is hosted on another ComputerSystem acting (for example) as a file server. In order to distinguish these two types of Mount, it is recommended that a CIM_Export association always be defined for the remotely accessed/mounted Directories.
+ * Description:  An association between a FileSystem and a Directory which indicates that the
+ * Directory is being attached to the FileSystem. The semantics of this
+ * relationship require that the mounted Directory be contained by a FileSystem
+ * (via the FileStorage association) that is different from the FileSystem
+ * referenced as the Dependent. The Directory's containing FileSystem could be
+ * either local or remote. For example, a LocalFileSystem on a Solaris
+ * ComputerSystem can mount a Directory from the FileSystem accessed via the
+ * machine's CDROM drive, i.e., another LocalFile System. On the other hand, in
+ * a 'remote' case, the Directory is first exported by its FileSystem, which is
+ * hosted on another ComputerSystem acting (for example) as a file server. In
+ * order to distinguish these two types of Mount, it is recommended that a
+ * CIM_Export association always be defined for the remotely accessed/mounted
+ * Directories.
  * 
  */
 
@@ -28,9 +40,24 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  An association between a FileSystem and a Directory which indicates that the
+ * Directory is being attached to the FileSystem. The semantics of this
+ * relationship require that the mounted Directory be contained by a FileSystem
+ * (via the FileStorage association) that is different from the FileSystem
+ * referenced as the Dependent. The Directory's containing FileSystem could be
+ * either local or remote. For example, a LocalFileSystem on a Solaris
+ * ComputerSystem can mount a Directory from the FileSystem accessed via the
+ * machine's CDROM drive, i.e., another LocalFile System. On the other hand, in
+ * a 'remote' case, the Directory is first exported by its FileSystem, which is
+ * hosted on another ComputerSystem acting (for example) as a file server. In
+ * order to distinguish these two types of Mount, it is recommended that a
+ * CIM_Export association always be defined for the remotely accessed/mounted
+ * Directories.
+ */
 public class CIM_Mount extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Mount";
+	public final static String CIM_CLASS_NAME = "CIM_Mount"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +218,7 @@ public class CIM_Mount extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_NetworkAdapterRedundancyComponent.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: The use of the CIM_NetworkAdapterRedundancyComponent class has been deprecated since a specific association is not needed. Instead use the CIM_ OrderedMemberOf Collection class. CIM_NetworkAdapterRedundancyComponent indicates the role that a NetworkAdapter plays in a ExtraCapacityGroup, providing load balancing.
+ * Description:  The use of the CIM_NetworkAdapterRedundancyComponent class has been deprecated
+ * since a specific association is not needed. Instead use the CIM_
+ * OrderedMemberOf Collection class. CIM_NetworkAdapterRedundancyComponent
+ * indicates the role that a NetworkAdapter plays in a ExtraCapacityGroup,
+ * providing load balancing.
  * 
  */
 
@@ -28,9 +32,16 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The use of the CIM_NetworkAdapterRedundancyComponent class has been deprecated
+ * since a specific association is not needed. Instead use the CIM_
+ * OrderedMemberOf Collection class. CIM_NetworkAdapterRedundancyComponent
+ * indicates the role that a NetworkAdapter plays in a ExtraCapacityGroup,
+ * providing load balancing.
+ */
 public class CIM_NetworkAdapterRedundancyComponent extends CIM_RedundancyComponent  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_NetworkAdapterRedundancyComponent";
+	public final static String CIM_CLASS_NAME = "CIM_NetworkAdapterRedundancyComponent"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -224,7 +235,7 @@ public class CIM_NetworkAdapterRedundancyComponent extends CIM_RedundancyCompone
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

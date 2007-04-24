@@ -1,7 +1,7 @@
 /** 
  * CIM_ClassModification.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: CIM_ClassModification notifies when a class definition in the schema is modified.
+ * Description:  CIM_ClassModification notifies when a class definition in the schema is
+ * modified.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_ClassModification notifies when a class definition in the schema is
+ * modified.
+ */
 public class CIM_ClassModification extends CIM_ClassIndication  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ClassModification";
+	public final static String CIM_CLASS_NAME = "CIM_ClassModification"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -203,7 +208,7 @@ public class CIM_ClassModification extends CIM_ClassIndication  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

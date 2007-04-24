@@ -1,7 +1,7 @@
 /** 
  * CIM_ObjectManagerAdapter.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: A ObjectManagerAdapter is a Service of the CIM Object Manager. An adapter can be any service of the Object Manager that needs to be managed (e.g. started, stopped, monitored, ...). There MUST be an instance for each Adapter type.
+ * Description:  A ObjectManagerAdapter is a Service of the CIM Object Manager. An adapter can
+ * be any service of the Object Manager that needs to be managed (e.g. started,
+ * stopped, monitored, ...). There MUST be an instance for each Adapter type.
  * 
  */
 
@@ -33,15 +35,20 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A ObjectManagerAdapter is a Service of the CIM Object Manager. An adapter can
+ * be any service of the Object Manager that needs to be managed (e.g. started,
+ * stopped, monitored, ...). There MUST be an instance for each Adapter type.
+ */
 public class CIM_ObjectManagerAdapter extends CIM_WBEMService  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ObjectManagerAdapter";
+	public final static String CIM_CLASS_NAME = "CIM_ObjectManagerAdapter"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.8.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER = "CIM_CommMechanismForObjectManagerAdapter";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER = "CIM_CommMechanismForObjectManagerAdapter"; //$NON-NLS-1$
 	
 	
 	/**
@@ -260,7 +267,7 @@ Repository - A repository is an adapter that can store/retrieve persistent data,
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -385,8 +392,8 @@ Repository - A repository is an adapter that can store/retrieve persistent data,
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER, 
 					CIM_ObjectManagerCommunicationMechanism.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -399,9 +406,9 @@ Repository - A repository is an adapter that can store/retrieve persistent data,
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_ObjectManagerAdapter.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ObjectManagerAdapter.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ObjectManagerAdapter.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ObjectManagerAdapter.Java_Package_List.setElementAt((String)(CIM_ObjectManagerAdapter.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_ObjectManagerAdapter.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_ObjectManagerAdapter.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_ObjectManagerAdapter.Java_Package_List.setElementAt((String)(CIM_ObjectManagerAdapter.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_ObjectManagerAdapter.Java_Package_List.get(i)) + cimClassName;
 
@@ -471,8 +478,8 @@ Repository - A repository is an adapter that can store/retrieve persistent data,
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER, 
 					CIM_ObjectManagerCommunicationMechanism.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

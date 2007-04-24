@@ -1,7 +1,7 @@
 /** 
  * CIM_ReferencedProfile.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,7 @@
  * Contributors:
  *
  *
- * Description: A profile that is referenced by another RegisteredProfile.
+ * Description:  A profile that is referenced by another RegisteredProfile.
  * 
  */
 
@@ -28,9 +28,12 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  A profile that is referenced by another RegisteredProfile.
+ */
 public class CIM_ReferencedProfile extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ReferencedProfile";
+	public final static String CIM_CLASS_NAME = "CIM_ReferencedProfile"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +194,7 @@ public class CIM_ReferencedProfile extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

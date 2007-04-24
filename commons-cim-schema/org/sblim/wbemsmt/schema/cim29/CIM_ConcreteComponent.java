@@ -1,7 +1,7 @@
 /** 
  * CIM_ConcreteComponent.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,9 +16,17 @@
  * Contributors:
  *
  *
- * Description: CIM_ConcreteComponent is a generic association used to establish 'part of' relationships between ManagedElements. It is defined as a concrete subclass of the abstract CIM_Component class, to be used in place of many specific subclasses of Component that add no semantics - i.e., that do not clarify the type of composition, update cardinalities, or add/remove qualifiers. Note that when defining additional semantics for Component that this class MUST NOT be subclassed. Specific semantics continue to be defined as subclasses of the abstract CIM_Component. ConcreteComponent is limited in its use as a concrete form of a general composition. 
-
-It was deemed more prudent to create this concrete subclass than to change Component from an abstract to a concrete class. Industry usage and impact could not be anticipated.
+ * Description:  CIM_ConcreteComponent is a generic association used to establish 'part of'
+ * relationships between ManagedElements. It is defined as a concrete subclass
+ * of the abstract CIM_Component class, to be used in place of many specific
+ * subclasses of Component that add no semantics - i.e., that do not clarify the
+ * type of composition, update cardinalities, or add/remove qualifiers. Note
+ * that when defining additional semantics for Component that this class MUST
+ * NOT be subclassed. Specific semantics continue to be defined as subclasses of
+ * the abstract CIM_Component. ConcreteComponent is limited in its use as a
+ * concrete form of a general composition. It was deemed more prudent to create
+ * this concrete subclass than to change Component from an abstract to a
+ * concrete class. Industry usage and impact could not be anticipated.
  * 
  */
 
@@ -30,9 +38,22 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_ConcreteComponent is a generic association used to establish 'part of'
+ * relationships between ManagedElements. It is defined as a concrete subclass
+ * of the abstract CIM_Component class, to be used in place of many specific
+ * subclasses of Component that add no semantics - i.e., that do not clarify the
+ * type of composition, update cardinalities, or add/remove qualifiers. Note
+ * that when defining additional semantics for Component that this class MUST
+ * NOT be subclassed. Specific semantics continue to be defined as subclasses of
+ * the abstract CIM_Component. ConcreteComponent is limited in its use as a
+ * concrete form of a general composition. It was deemed more prudent to create
+ * this concrete subclass than to change Component from an abstract to a
+ * concrete class. Industry usage and impact could not be anticipated.
+ */
 public class CIM_ConcreteComponent extends CIM_Component  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ConcreteComponent";
+	public final static String CIM_CLASS_NAME = "CIM_ConcreteComponent"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -193,7 +214,7 @@ public class CIM_ConcreteComponent extends CIM_Component  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_CollectedMSEs.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: CIM_CollectedMSEs is a generic association used to establish the members of the grouping object, CollectionOf MSEs.
+ * Description:  CIM_CollectedMSEs is a generic association used to establish the members of the
+ * grouping object, CollectionOf MSEs.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_CollectedMSEs is a generic association used to establish the members of the
+ * grouping object, CollectionOf MSEs.
+ */
 public class CIM_CollectedMSEs extends CIM_MemberOfCollection  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_CollectedMSEs";
+	public final static String CIM_CLASS_NAME = "CIM_CollectedMSEs"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +196,7 @@ public class CIM_CollectedMSEs extends CIM_MemberOfCollection  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

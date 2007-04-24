@@ -1,7 +1,7 @@
 /** 
  * CIM_PhysicalElement.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,18 @@
  * Contributors:
  *
  *
- * Description: Subclasses of CIM_PhysicalElement define any component of a System that has a distinct physical identity. Instances of this class can be defined in terms of labels that can be physically attached to the object. All Processes, Files, and LogicalDevices are considered not to be Physical Elements. For example, it is not possible to attach a label to a modem. It is only possible to attach a label to the card that implements the modem. The same card could also implement a LAN adapter. These are tangible Managed SystemElements (usually actual hardware items) that have a physical manifestation of some sort. A ManagedSystem Element is not necessarily a discrete component. For example, it is possible for a single Card (which is a type of PhysicalElement) to host more than one LogicalDevice. The card would be represented by a single PhysicalElement associated with multiple Devices.
+ * Description:  Subclasses of CIM_PhysicalElement define any component of a System that has a
+ * distinct physical identity. Instances of this class can be defined in terms
+ * of labels that can be physically attached to the object. All Processes,
+ * Files, and LogicalDevices are considered not to be Physical Elements. For
+ * example, it is not possible to attach a label to a modem. It is only possible
+ * to attach a label to the card that implements the modem. The same card could
+ * also implement a LAN adapter. These are tangible Managed SystemElements
+ * (usually actual hardware items) that have a physical manifestation of some
+ * sort. A ManagedSystem Element is not necessarily a discrete component. For
+ * example, it is possible for a single Card (which is a type of
+ * PhysicalElement) to host more than one LogicalDevice. The card would be
+ * represented by a single PhysicalElement associated with multiple Devices.
  * 
  */
 
@@ -34,26 +45,36 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  Subclasses of CIM_PhysicalElement define any component of a System that has a
+ * distinct physical identity. Instances of this class can be defined in terms
+ * of labels that can be physically attached to the object. All Processes,
+ * Files, and LogicalDevices are considered not to be Physical Elements. For
+ * example, it is not possible to attach a label to a modem. It is only possible
+ * to attach a label to the card that implements the modem. The same card could
+ * also implement a LAN adapter. These are tangible Managed SystemElements
+ * (usually actual hardware items) that have a physical manifestation of some
+ * sort. A ManagedSystem Element is not necessarily a discrete component. For
+ * example, it is possible for a single Card (which is a type of
+ * PhysicalElement) to host more than one LogicalDevice. The card would be
+ * represented by a single PhysicalElement associated with multiple Devices.
+ */
 public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_PhysicalElement";
+	public final static String CIM_CLASS_NAME = "CIM_PhysicalElement"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.8.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_CONTAINER = "CIM_Container";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DOORACCESSTOPHYSICALELEMENT = "CIM_DoorAccessToPhysicalElement";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTCAPACITY = "CIM_ElementCapacity";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSLINKED = "CIM_ElementsLinked";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_FRUPHYSICALELEMENTS = "CIM_FRUPhysicalElements";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PARTICIPATESINSET = "CIM_ParticipatesInSet";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PHYSICALELEMENTLOCATION = "CIM_PhysicalElementLocation";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PHYSICALSTATISTICS = "CIM_PhysicalStatistics";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPHYSICALCOMPONENT = "CIM_ProductPhysicalComponent";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPHYSICALELEMENTS = "CIM_ProductPhysicalElements";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_REALIZES = "CIM_Realizes";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPACKAGING = "CIM_SystemPackaging";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_CONTAINER = "CIM_Container"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_FRUPHYSICALELEMENTS = "CIM_FRUPhysicalElements"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PHYSICALELEMENTLOCATION = "CIM_PhysicalElementLocation"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PHYSICALSTATISTICS = "CIM_PhysicalStatistics"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPHYSICALCOMPONENT = "CIM_ProductPhysicalComponent"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPHYSICALELEMENTS = "CIM_ProductPhysicalElements"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_REALIZES = "CIM_Realizes"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPACKAGING = "CIM_SystemPackaging"; //$NON-NLS-1$
 	
 	
 	/**
@@ -340,7 +361,7 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -465,8 +486,8 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_CONTAINER, 
 					CIM_PhysicalPackage.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -479,9 +500,9 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_PhysicalElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_PhysicalElement.Java_Package_List.get(i)) + cimClassName;
 
@@ -551,8 +572,8 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_CONTAINER, 
 					CIM_PhysicalPackage.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -560,387 +581,6 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 			
 				if (obj instanceof CIMObjectPath) {
 					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_PhysicalPackage.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Door_CIM_DoorAccessToPhysicalElements(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_DOORACCESSTOPHYSICALELEMENT, 
-					CIM_Door.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_PhysicalElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_PhysicalElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Door(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Door(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Door(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Door_CIM_DoorAccessToPhysicalElement_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_DOORACCESSTOPHYSICALELEMENT, 
-					CIM_Door.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_Door.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_PhysicalCapacity_CIM_ElementCapacitys(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTCAPACITY, 
-					CIM_PhysicalCapacity.CIM_CLASS_NAME, 
-					"Element",
-					"Capacity",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_PhysicalElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_PhysicalElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PhysicalCapacity(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PhysicalCapacity(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PhysicalCapacity(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_PhysicalCapacity_CIM_ElementCapacity_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTCAPACITY, 
-					CIM_PhysicalCapacity.CIM_CLASS_NAME, 
-					"Element",
-					"Capacity");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_PhysicalCapacity.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_PhysicalLink_CIM_ElementsLinkeds(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSLINKED, 
-					CIM_PhysicalLink.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_PhysicalElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_PhysicalElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PhysicalLink(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PhysicalLink(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PhysicalLink(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_PhysicalLink_CIM_ElementsLinked_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSLINKED, 
-					CIM_PhysicalLink.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_PhysicalLink.CIM_CLASS_NAME)) {
 						resultArrayList.add(obj);
 					}
 				}
@@ -973,8 +613,8 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_FRUPHYSICALELEMENTS, 
 					CIM_FRU.CIM_CLASS_NAME, 
-					"Component",
-					"FRU",
+					"Component", //$NON-NLS-1$
+					"FRU", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -987,9 +627,9 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_PhysicalElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_PhysicalElement.Java_Package_List.get(i)) + cimClassName;
 
@@ -1059,8 +699,8 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_FRUPHYSICALELEMENTS, 
 					CIM_FRU.CIM_CLASS_NAME, 
-					"Component",
-					"FRU");
+					"Component", //$NON-NLS-1$
+					"FRU"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1068,133 +708,6 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 			
 				if (obj instanceof CIMObjectPath) {
 					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_FRU.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_ReplacementSet_CIM_ParticipatesInSets(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_PARTICIPATESINSET, 
-					CIM_ReplacementSet.CIM_CLASS_NAME, 
-					"Element",
-					"Set",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_PhysicalElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_PhysicalElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ReplacementSet(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ReplacementSet(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ReplacementSet(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_ReplacementSet_CIM_ParticipatesInSet_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_PARTICIPATESINSET, 
-					CIM_ReplacementSet.CIM_CLASS_NAME, 
-					"Element",
-					"Set");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_ReplacementSet.CIM_CLASS_NAME)) {
 						resultArrayList.add(obj);
 					}
 				}
@@ -1227,8 +740,8 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PHYSICALELEMENTLOCATION, 
 					CIM_Location.CIM_CLASS_NAME, 
-					"Element",
-					"PhysicalLocation",
+					"Element", //$NON-NLS-1$
+					"PhysicalLocation", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1241,9 +754,9 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_PhysicalElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_PhysicalElement.Java_Package_List.get(i)) + cimClassName;
 
@@ -1313,8 +826,8 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PHYSICALELEMENTLOCATION, 
 					CIM_Location.CIM_CLASS_NAME, 
-					"Element",
-					"PhysicalLocation");
+					"Element", //$NON-NLS-1$
+					"PhysicalLocation"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1354,8 +867,8 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PHYSICALSTATISTICS, 
 					CIM_PhysicalStatisticalInformation.CIM_CLASS_NAME, 
-					"Element",
-					"Stats",
+					"Element", //$NON-NLS-1$
+					"Stats", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1368,9 +881,9 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_PhysicalElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_PhysicalElement.Java_Package_List.get(i)) + cimClassName;
 
@@ -1440,8 +953,8 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PHYSICALSTATISTICS, 
 					CIM_PhysicalStatisticalInformation.CIM_CLASS_NAME, 
-					"Element",
-					"Stats");
+					"Element", //$NON-NLS-1$
+					"Stats"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1481,8 +994,8 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPHYSICALCOMPONENT, 
 					CIM_Product.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1495,9 +1008,9 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_PhysicalElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_PhysicalElement.Java_Package_List.get(i)) + cimClassName;
 
@@ -1567,8 +1080,8 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPHYSICALCOMPONENT, 
 					CIM_Product.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1608,8 +1121,8 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPHYSICALELEMENTS, 
 					CIM_Product.CIM_CLASS_NAME, 
-					"Component",
-					"Product",
+					"Component", //$NON-NLS-1$
+					"Product", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1622,9 +1135,9 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_PhysicalElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_PhysicalElement.Java_Package_List.get(i)) + cimClassName;
 
@@ -1694,8 +1207,8 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTPHYSICALELEMENTS, 
 					CIM_Product.CIM_CLASS_NAME, 
-					"Component",
-					"Product");
+					"Component", //$NON-NLS-1$
+					"Product"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1735,8 +1248,8 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_REALIZES, 
 					CIM_LogicalDevice.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1749,9 +1262,9 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_PhysicalElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_PhysicalElement.Java_Package_List.get(i)) + cimClassName;
 
@@ -1821,8 +1334,8 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_REALIZES, 
 					CIM_LogicalDevice.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1862,8 +1375,8 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPACKAGING, 
 					CIM_System.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1876,9 +1389,9 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_PhysicalElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_PhysicalElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_PhysicalElement.Java_Package_List.setElementAt((String)(CIM_PhysicalElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_PhysicalElement.Java_Package_List.get(i)) + cimClassName;
 
@@ -1948,8 +1461,8 @@ public class CIM_PhysicalElement extends CIM_ManagedSystemElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPACKAGING, 
 					CIM_System.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

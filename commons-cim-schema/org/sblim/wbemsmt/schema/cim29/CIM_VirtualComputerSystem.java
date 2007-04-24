@@ -1,7 +1,7 @@
 /** 
  * CIM_VirtualComputerSystem.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: A class derived from ComputerSystem that represents the ability to virtualize or emulate another ComputerSystem.
+ * Description:  A class derived from ComputerSystem that represents the ability to virtualize
+ * or emulate another ComputerSystem.
  * 
  */
 
@@ -33,15 +34,19 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A class derived from ComputerSystem that represents the ability to virtualize
+ * or emulate another ComputerSystem.
+ */
 public class CIM_VirtualComputerSystem extends CIM_ComputerSystem  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_VirtualComputerSystem";
+	public final static String CIM_CLASS_NAME = "CIM_VirtualComputerSystem"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTINGCS = "CIM_HostingCS";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTINGCS = "CIM_HostingCS"; //$NON-NLS-1$
 	
 	
 	/**
@@ -202,7 +207,7 @@ public class CIM_VirtualComputerSystem extends CIM_ComputerSystem  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -327,8 +332,8 @@ public class CIM_VirtualComputerSystem extends CIM_ComputerSystem  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTINGCS, 
 					CIM_ComputerSystem.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -341,9 +346,9 @@ public class CIM_VirtualComputerSystem extends CIM_ComputerSystem  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_VirtualComputerSystem.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_VirtualComputerSystem.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_VirtualComputerSystem.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_VirtualComputerSystem.Java_Package_List.setElementAt((String)(CIM_VirtualComputerSystem.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_VirtualComputerSystem.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_VirtualComputerSystem.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_VirtualComputerSystem.Java_Package_List.setElementAt((String)(CIM_VirtualComputerSystem.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_VirtualComputerSystem.Java_Package_List.get(i)) + cimClassName;
 
@@ -413,8 +418,8 @@ public class CIM_VirtualComputerSystem extends CIM_ComputerSystem  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTINGCS, 
 					CIM_ComputerSystem.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

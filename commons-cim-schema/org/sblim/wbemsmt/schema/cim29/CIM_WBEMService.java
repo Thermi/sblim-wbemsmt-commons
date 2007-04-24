@@ -1,7 +1,7 @@
 /** 
  * CIM_WBEMService.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: An abstract class for WBEM services such as the ObjectManager (CIM Server), Providers, protocol adapters, or other pluggable components. A type of CIM_Service that provides associated capabilities and details about the communication capabilities, namespaces, etc. for a specific WBEMService.
+ * Description:  An abstract class for WBEM services such as the ObjectManager (CIM Server),
+ * Providers, protocol adapters, or other pluggable components. A type of
+ * CIM_Service that provides associated capabilities and details about the
+ * communication capabilities, namespaces, etc. for a specific WBEMService.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  An abstract class for WBEM services such as the ObjectManager (CIM Server),
+ * Providers, protocol adapters, or other pluggable components. A type of
+ * CIM_Service that provides associated capabilities and details about the
+ * communication capabilities, namespaces, etc. for a specific WBEMService.
+ */
 public class CIM_WBEMService extends CIM_Service  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_WBEMService";
+	public final static String CIM_CLASS_NAME = "CIM_WBEMService"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -184,7 +193,7 @@ public class CIM_WBEMService extends CIM_Service  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

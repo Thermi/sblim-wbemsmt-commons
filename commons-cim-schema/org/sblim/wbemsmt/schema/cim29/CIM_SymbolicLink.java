@@ -1,7 +1,7 @@
 /** 
  * CIM_SymbolicLink.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: This class is a special type of LogicalFile that represents a Symbolic Link. This convention is useful for some operating systems that want to represent a single file in multiple places or a single file that is represented via multiple names.
+ * Description:  This class is a special type of LogicalFile that represents a Symbolic Link.
+ * This convention is useful for some operating systems that want to represent a
+ * single file in multiple places or a single file that is represented via
+ * multiple names.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  This class is a special type of LogicalFile that represents a Symbolic Link.
+ * This convention is useful for some operating systems that want to represent a
+ * single file in multiple places or a single file that is represented via
+ * multiple names.
+ */
 public class CIM_SymbolicLink extends CIM_LogicalFile  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SymbolicLink";
+	public final static String CIM_CLASS_NAME = "CIM_SymbolicLink"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -203,7 +212,7 @@ public class CIM_SymbolicLink extends CIM_LogicalFile  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

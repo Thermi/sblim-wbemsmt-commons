@@ -1,7 +1,7 @@
 /** 
  * CIM_InstalledOS.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: A link between the ComputerSystem and the OperatingSystem(s) installed or loaded on it. An OperatingSystem is 'installed' on a ComputerSystem, when placed on one of its StorageExtents - for example, copied to a disk drive or downloaded to Memory. Using this definition, an OperatingSystem is 'installed' on a NetPC when downloaded via the network.
+ * Description:  A link between the ComputerSystem and the OperatingSystem(s) installed or
+ * loaded on it. An OperatingSystem is 'installed' on a ComputerSystem, when
+ * placed on one of its StorageExtents - for example, copied to a disk drive or
+ * downloaded to Memory. Using this definition, an OperatingSystem is
+ * 'installed' on a NetPC when downloaded via the network.
  * 
  */
 
@@ -28,9 +32,16 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  A link between the ComputerSystem and the OperatingSystem(s) installed or
+ * loaded on it. An OperatingSystem is 'installed' on a ComputerSystem, when
+ * placed on one of its StorageExtents - for example, copied to a disk drive or
+ * downloaded to Memory. Using this definition, an OperatingSystem is
+ * 'installed' on a NetPC when downloaded via the network.
+ */
 public class CIM_InstalledOS extends CIM_SystemComponent  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_InstalledOS";
+	public final static String CIM_CLASS_NAME = "CIM_InstalledOS"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -203,7 +214,7 @@ public class CIM_InstalledOS extends CIM_SystemComponent  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

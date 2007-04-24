@@ -1,7 +1,7 @@
 /** 
  * CIM_Realizes.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: CIM_Realizes is the association that defines the mapping between LogicalDevices and the PhysicalElements that implement them.
+ * Description:  CIM_Realizes is the association that defines the mapping between LogicalDevices
+ * and the PhysicalElements that implement them.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_Realizes is the association that defines the mapping between LogicalDevices
+ * and the PhysicalElements that implement them.
+ */
 public class CIM_Realizes extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Realizes";
+	public final static String CIM_CLASS_NAME = "CIM_Realizes"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +196,7 @@ public class CIM_Realizes extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

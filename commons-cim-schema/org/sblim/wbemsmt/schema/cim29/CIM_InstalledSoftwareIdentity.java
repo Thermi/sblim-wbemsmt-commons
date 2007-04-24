@@ -1,7 +1,7 @@
 /** 
  * CIM_InstalledSoftwareIdentity.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: The InstalledSoftwareIdentity association identifies the System on which a SoftwareIdentity is installed. This class is a corollary to InstalledSoftwareElement, but deals with the asset aspects of software (as indicated by SoftwareIdentity), versus the deployment aspects (as indicated by SoftwareElement).
+ * Description:  The InstalledSoftwareIdentity association identifies the System on which a
+ * SoftwareIdentity is installed. This class is a corollary to
+ * InstalledSoftwareElement, but deals with the asset aspects of software (as
+ * indicated by SoftwareIdentity), versus the deployment aspects (as indicated
+ * by SoftwareElement).
  * 
  */
 
@@ -28,13 +32,20 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The InstalledSoftwareIdentity association identifies the System on which a
+ * SoftwareIdentity is installed. This class is a corollary to
+ * InstalledSoftwareElement, but deals with the asset aspects of software (as
+ * indicated by SoftwareIdentity), versus the deployment aspects (as indicated
+ * by SoftwareElement).
+ */
 public class CIM_InstalledSoftwareIdentity  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_InstalledSoftwareIdentity";
+	public final static String CIM_CLASS_NAME = "CIM_InstalledSoftwareIdentity"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +189,7 @@ public class CIM_InstalledSoftwareIdentity  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

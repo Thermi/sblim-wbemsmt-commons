@@ -1,7 +1,7 @@
 /** 
  * CIM_SettingContext.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,17 @@
  * Contributors:
  *
  *
- * Description: This relationship associates Configuration objects with Setting objects. For example, a NetworkAdapter's Settings could change based on the site/network to which its hosting ComputerSystem is attached. In this case, the ComputerSystem would have two different Configuration objects, corresponding to the differences in network configuration for the two network segments. Configuration A would aggregate a Setting object for the NetworkAdapter when operating on segment "ANet", whereas Configuration B would aggregate a different NetworkAdapter Setting object, specific to segment "BNet". Note that many Settings of the computer are independent of the network Configuration. For example, both Configurations A and B would aggregate the same Setting object for the ComputerSystem's MonitorResolution.
+ * Description:  This relationship associates Configuration objects with Setting objects. For
+ * example, a NetworkAdapter's Settings could change based on the site/network
+ * to which its hosting ComputerSystem is attached. In this case, the
+ * ComputerSystem would have two different Configuration objects, corresponding
+ * to the differences in network configuration for the two network segments.
+ * Configuration A would aggregate a Setting object for the NetworkAdapter when
+ * operating on segment "ANet", whereas Configuration B would aggregate a
+ * different NetworkAdapter Setting object, specific to segment "BNet". Note
+ * that many Settings of the computer are independent of the network
+ * Configuration. For example, both Configurations A and B would aggregate the
+ * same Setting object for the ComputerSystem's MonitorResolution.
  * 
  */
 
@@ -28,13 +38,26 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  This relationship associates Configuration objects with Setting objects. For
+ * example, a NetworkAdapter's Settings could change based on the site/network
+ * to which its hosting ComputerSystem is attached. In this case, the
+ * ComputerSystem would have two different Configuration objects, corresponding
+ * to the differences in network configuration for the two network segments.
+ * Configuration A would aggregate a Setting object for the NetworkAdapter when
+ * operating on segment "ANet", whereas Configuration B would aggregate a
+ * different NetworkAdapter Setting object, specific to segment "BNet". Note
+ * that many Settings of the computer are independent of the network
+ * Configuration. For example, both Configurations A and B would aggregate the
+ * same Setting object for the ComputerSystem's MonitorResolution.
+ */
 public class CIM_SettingContext  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_SettingContext";
+	public final static String CIM_CLASS_NAME = "CIM_SettingContext"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +201,7 @@ public class CIM_SettingContext  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_TokenRingPortStatistics.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: The TokenRingPortStatistics class describes the statistics for the TokenRingPort.
+ * Description:  The TokenRingPortStatistics class describes the statistics for the
+ * TokenRingPort.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The TokenRingPortStatistics class describes the statistics for the
+ * TokenRingPort.
+ */
 public class CIM_TokenRingPortStatistics extends CIM_NetworkPortStatistics  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_TokenRingPortStatistics";
+	public final static String CIM_CLASS_NAME = "CIM_TokenRingPortStatistics"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -324,7 +329,7 @@ public class CIM_TokenRingPortStatistics extends CIM_NetworkPortStatistics  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

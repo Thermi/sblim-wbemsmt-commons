@@ -1,7 +1,7 @@
 /** 
  * CIM_Synchronized.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: Indicates that two ManagedElements were aligned or made to be equivalent at the specified point in time. If the boolean property SyncMaintained is TRUE, then synchronization of the Elements is preserved. Both like and unlike objects may be synchronized. For example, two WatchDog timers may be aligned, or the contents of a LogicalFile may be synchronized with the contents of a StorageExtent.
+ * Description:  Indicates that two ManagedElements were aligned or made to be equivalent at the
+ * specified point in time. If the boolean property SyncMaintained is TRUE, then
+ * synchronization of the Elements is preserved. Both like and unlike objects
+ * may be synchronized. For example, two WatchDog timers may be aligned, or the
+ * contents of a LogicalFile may be synchronized with the contents of a
+ * StorageExtent.
  * 
  */
 
@@ -29,13 +34,21 @@ import org.sblim.wbem.cim.*;
 import java.util.Calendar;
 
 
+/**
+ *  Indicates that two ManagedElements were aligned or made to be equivalent at the
+ * specified point in time. If the boolean property SyncMaintained is TRUE, then
+ * synchronization of the Elements is preserved. Both like and unlike objects
+ * may be synchronized. For example, two WatchDog timers may be aligned, or the
+ * contents of a LogicalFile may be synchronized with the contents of a
+ * StorageExtent.
+ */
 public class CIM_Synchronized  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_Synchronized";
+	public final static String CIM_CLASS_NAME = "CIM_Synchronized"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +204,7 @@ public class CIM_Synchronized  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

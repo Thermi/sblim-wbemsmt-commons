@@ -1,7 +1,7 @@
 /** 
  * CIM_SpareGroup.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,13 @@
  * Contributors:
  *
  *
- * Description: A class derived from RedundancyGroup indicating that one or more of the aggregated elements can be spared. (The actual Spares are defined using the ActsAsSpare association.) An example is the use of redundant NICs in a ComputerSystem - where one NIC is primary and the other is Spare. The 'primary' NIC would be a member of the SpareGroup (associated using the RedundancyComponent class) and the 'other' NIC would be associated using the ActsAsSpare relationship.
+ * Description:  A class derived from RedundancyGroup indicating that one or more of the
+ * aggregated elements can be spared. (The actual Spares are defined using the
+ * ActsAsSpare association.) An example is the use of redundant NICs in a
+ * ComputerSystem - where one NIC is primary and the other is Spare. The
+ * 'primary' NIC would be a member of the SpareGroup (associated using the
+ * RedundancyComponent class) and the 'other' NIC would be associated using the
+ * ActsAsSpare relationship.
  * 
  */
 
@@ -33,15 +39,24 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A class derived from RedundancyGroup indicating that one or more of the
+ * aggregated elements can be spared. (The actual Spares are defined using the
+ * ActsAsSpare association.) An example is the use of redundant NICs in a
+ * ComputerSystem - where one NIC is primary and the other is Spare. The
+ * 'primary' NIC would be a member of the SpareGroup (associated using the
+ * RedundancyComponent class) and the 'other' NIC would be associated using the
+ * ActsAsSpare relationship.
+ */
 public class CIM_SpareGroup extends CIM_RedundancyGroup  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SpareGroup";
+	public final static String CIM_CLASS_NAME = "CIM_SpareGroup"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ACTSASSPARE = "CIM_ActsAsSpare";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ACTSASSPARE = "CIM_ActsAsSpare"; //$NON-NLS-1$
 	
 	
 	
@@ -194,7 +209,7 @@ public class CIM_SpareGroup extends CIM_RedundancyGroup  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -319,8 +334,8 @@ public class CIM_SpareGroup extends CIM_RedundancyGroup  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ACTSASSPARE, 
 					CIM_ManagedSystemElement.CIM_CLASS_NAME, 
-					"Group",
-					"Spare",
+					"Group", //$NON-NLS-1$
+					"Spare", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -333,9 +348,9 @@ public class CIM_SpareGroup extends CIM_RedundancyGroup  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_SpareGroup.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SpareGroup.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SpareGroup.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SpareGroup.Java_Package_List.setElementAt((String)(CIM_SpareGroup.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_SpareGroup.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_SpareGroup.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_SpareGroup.Java_Package_List.setElementAt((String)(CIM_SpareGroup.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_SpareGroup.Java_Package_List.get(i)) + cimClassName;
 
@@ -405,8 +420,8 @@ public class CIM_SpareGroup extends CIM_RedundancyGroup  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ACTSASSPARE, 
 					CIM_ManagedSystemElement.CIM_CLASS_NAME, 
-					"Group",
-					"Spare");
+					"Group", //$NON-NLS-1$
+					"Spare"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

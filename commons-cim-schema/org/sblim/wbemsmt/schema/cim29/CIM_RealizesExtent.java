@@ -1,7 +1,7 @@
 /** 
  * CIM_RealizesExtent.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: StorageExtents can be realized by PhysicalComponents. For example, disks or tapes are realized by PhysicalMedia. Memory is realized by PhysicalMemory. This relationship of Extents to PhysicalComponents is made explicit by the RealizesExtent association. In addition, the StartingAddress of the StorageExtent on the Component is specified here.
+ * Description:  StorageExtents can be realized by PhysicalComponents. For example, disks or
+ * tapes are realized by PhysicalMedia. Memory is realized by PhysicalMemory.
+ * This relationship of Extents to PhysicalComponents is made explicit by the
+ * RealizesExtent association. In addition, the StartingAddress of the
+ * StorageExtent on the Component is specified here.
  * 
  */
 
@@ -28,9 +32,16 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  StorageExtents can be realized by PhysicalComponents. For example, disks or
+ * tapes are realized by PhysicalMedia. Memory is realized by PhysicalMemory.
+ * This relationship of Extents to PhysicalComponents is made explicit by the
+ * RealizesExtent association. In addition, the StartingAddress of the
+ * StorageExtent on the Component is specified here.
+ */
 public class CIM_RealizesExtent extends CIM_Realizes  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_RealizesExtent";
+	public final static String CIM_CLASS_NAME = "CIM_RealizesExtent"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -203,7 +214,7 @@ public class CIM_RealizesExtent extends CIM_Realizes  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

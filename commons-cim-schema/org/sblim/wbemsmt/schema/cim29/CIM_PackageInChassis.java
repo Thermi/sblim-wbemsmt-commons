@@ -1,7 +1,7 @@
 /** 
  * CIM_PackageInChassis.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: A Chassis can contain other Packages, such as other Chassis and Cards. The PackageInChassis association makes explicit this relationship.
+ * Description:  A Chassis can contain other Packages, such as other Chassis and Cards. The
+ * PackageInChassis association makes explicit this relationship.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  A Chassis can contain other Packages, such as other Chassis and Cards. The
+ * PackageInChassis association makes explicit this relationship.
+ */
 public class CIM_PackageInChassis extends CIM_Container  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_PackageInChassis";
+	public final static String CIM_CLASS_NAME = "CIM_PackageInChassis"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +196,7 @@ public class CIM_PackageInChassis extends CIM_Container  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_Profile.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,9 +16,21 @@
  * Contributors:
  *
  *
- * Description: Profile specifies a general collection of Settings/SettingData that are logically grouped together. Note that the CIM_Profile class uses simplified naming/identity and collection algorithms, as compared to CIM_Configuration. The settings are 'collected' into the Profile using the MemberOfCollection association. Note that a Profile obtains its setting data and other necessary information from collected Setting/SettingData instances, and by the definition of additional properties in subclasses. One example of a Profile is to define the collection of settings for a particular person. Another is to define the collection of settings appropriate when initializing a system. 
-
-Profile is tied to a ManagedElement using the ElementProfile association. The ManagedElement provides context for the Profile, and the settings collected by Profile SHOULD be settings of the associated ManagedElement. Note that a ManagedElement MAY NOT exist when the Profile is instantiated. This is true when the Profile is used in the creation of the real world entity represented by (and then instantiated in) the ManagedElement.
+ * Description:  Profile specifies a general collection of Settings/SettingData that are
+ * logically grouped together. Note that the CIM_Profile class uses simplified
+ * naming/identity and collection algorithms, as compared to CIM_Configuration.
+ * The settings are 'collected' into the Profile using the MemberOfCollection
+ * association. Note that a Profile obtains its setting data and other necessary
+ * information from collected Setting/SettingData instances, and by the
+ * definition of additional properties in subclasses. One example of a Profile
+ * is to define the collection of settings for a particular person. Another is
+ * to define the collection of settings appropriate when initializing a system.
+ * Profile is tied to a ManagedElement using the ElementProfile association. The
+ * ManagedElement provides context for the Profile, and the settings collected
+ * by Profile SHOULD be settings of the associated ManagedElement. Note that a
+ * ManagedElement MAY NOT exist when the Profile is instantiated. This is true
+ * when the Profile is used in the creation of the real world entity represented
+ * by (and then instantiated in) the ManagedElement.
  * 
  */
 
@@ -35,15 +47,32 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  Profile specifies a general collection of Settings/SettingData that are
+ * logically grouped together. Note that the CIM_Profile class uses simplified
+ * naming/identity and collection algorithms, as compared to CIM_Configuration.
+ * The settings are 'collected' into the Profile using the MemberOfCollection
+ * association. Note that a Profile obtains its setting data and other necessary
+ * information from collected Setting/SettingData instances, and by the
+ * definition of additional properties in subclasses. One example of a Profile
+ * is to define the collection of settings for a particular person. Another is
+ * to define the collection of settings appropriate when initializing a system.
+ * Profile is tied to a ManagedElement using the ElementProfile association. The
+ * ManagedElement provides context for the Profile, and the settings collected
+ * by Profile SHOULD be settings of the associated ManagedElement. Note that a
+ * ManagedElement MAY NOT exist when the Profile is instantiated. This is true
+ * when the Profile is used in the creation of the real world entity represented
+ * by (and then instantiated in) the ManagedElement.
+ */
 public class CIM_Profile extends CIM_Collection  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Profile";
+	public final static String CIM_CLASS_NAME = "CIM_Profile"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTPROFILE = "CIM_ElementProfile";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTPROFILE = "CIM_ElementProfile"; //$NON-NLS-1$
 	
 	
 	/**
@@ -215,7 +244,7 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -340,8 +369,8 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTPROFILE, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Profile",
-					"ManagedElement",
+					"Profile", //$NON-NLS-1$
+					"ManagedElement", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -354,9 +383,9 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Profile.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Profile.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Profile.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Profile.Java_Package_List.setElementAt((String)(CIM_Profile.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Profile.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Profile.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Profile.Java_Package_List.setElementAt((String)(CIM_Profile.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Profile.Java_Package_List.get(i)) + cimClassName;
 
@@ -426,8 +455,8 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTPROFILE, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Profile",
-					"ManagedElement");
+					"Profile", //$NON-NLS-1$
+					"ManagedElement"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

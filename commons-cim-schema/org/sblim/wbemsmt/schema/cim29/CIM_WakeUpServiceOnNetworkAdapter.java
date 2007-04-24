@@ -1,7 +1,7 @@
 /** 
  * CIM_WakeUpServiceOnNetworkAdapter.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: The use of the CIM_WakeUpServiceOnNetworkAdapter class has been deprecated, since NetworkAdapter is deprecated. Instead use the CIM_WakeUpServiceOnNetworkPort class. WakeUpServiceOnNetworkAdapter defines where the WakeUpService is implemented.
+ * Description:  The use of the CIM_WakeUpServiceOnNetworkAdapter class has been deprecated,
+ * since NetworkAdapter is deprecated. Instead use the
+ * CIM_WakeUpServiceOnNetworkPort class. WakeUpServiceOnNetworkAdapter defines
+ * where the WakeUpService is implemented.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The use of the CIM_WakeUpServiceOnNetworkAdapter class has been deprecated,
+ * since NetworkAdapter is deprecated. Instead use the
+ * CIM_WakeUpServiceOnNetworkPort class. WakeUpServiceOnNetworkAdapter defines
+ * where the WakeUpService is implemented.
+ */
 public class CIM_WakeUpServiceOnNetworkAdapter extends CIM_DeviceServiceImplementation  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_WakeUpServiceOnNetworkAdapter";
+	public final static String CIM_CLASS_NAME = "CIM_WakeUpServiceOnNetworkAdapter"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +200,7 @@ public class CIM_WakeUpServiceOnNetworkAdapter extends CIM_DeviceServiceImplemen
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

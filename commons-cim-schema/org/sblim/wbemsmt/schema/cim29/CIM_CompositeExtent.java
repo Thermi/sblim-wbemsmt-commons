@@ -1,7 +1,7 @@
 /** 
  * CIM_CompositeExtent.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,13 @@
  * Contributors:
  *
  *
- * Description: A CompositeExtent is used to model the distribution of user data across one or more underlying StorageExtents, which may or not be protected by some redundancy mechanism. CompositeExtents represent a contiguous range of logical blocks. CompositeExtents may overlap, however, the underlying StorageExtents within the overlap shall not contain any check data. Distribution of check data may be specified using the CompositeExtentBasedOn association.
+ * Description:  A CompositeExtent is used to model the distribution of user data across one or
+ * more underlying StorageExtents, which may or not be protected by some
+ * redundancy mechanism. CompositeExtents represent a contiguous range of
+ * logical blocks. CompositeExtents may overlap, however, the underlying
+ * StorageExtents within the overlap shall not contain any check data.
+ * Distribution of check data may be specified using the CompositeExtentBasedOn
+ * association.
  * 
  */
 
@@ -33,15 +39,24 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A CompositeExtent is used to model the distribution of user data across one or
+ * more underlying StorageExtents, which may or not be protected by some
+ * redundancy mechanism. CompositeExtents represent a contiguous range of
+ * logical blocks. CompositeExtents may overlap, however, the underlying
+ * StorageExtents within the overlap shall not contain any check data.
+ * Distribution of check data may be specified using the CompositeExtentBasedOn
+ * association.
+ */
 public class CIM_CompositeExtent extends CIM_StorageExtent  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_CompositeExtent";
+	public final static String CIM_CLASS_NAME = "CIM_CompositeExtent"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPOSITEEXTENTBASEDON = "CIM_CompositeExtentBasedOn";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPOSITEEXTENTBASEDON = "CIM_CompositeExtentBasedOn"; //$NON-NLS-1$
 	
 	
 	/**
@@ -226,7 +241,7 @@ public class CIM_CompositeExtent extends CIM_StorageExtent  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -351,8 +366,8 @@ public class CIM_CompositeExtent extends CIM_StorageExtent  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPOSITEEXTENTBASEDON, 
 					CIM_StorageExtent.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -365,9 +380,9 @@ public class CIM_CompositeExtent extends CIM_StorageExtent  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_CompositeExtent.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_CompositeExtent.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_CompositeExtent.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_CompositeExtent.Java_Package_List.setElementAt((String)(CIM_CompositeExtent.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_CompositeExtent.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_CompositeExtent.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_CompositeExtent.Java_Package_List.setElementAt((String)(CIM_CompositeExtent.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_CompositeExtent.Java_Package_List.get(i)) + cimClassName;
 
@@ -437,8 +452,8 @@ public class CIM_CompositeExtent extends CIM_StorageExtent  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPOSITEEXTENTBASEDON, 
 					CIM_StorageExtent.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

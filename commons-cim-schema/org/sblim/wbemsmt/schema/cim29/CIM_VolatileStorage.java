@@ -1,7 +1,7 @@
 /** 
  * CIM_VolatileStorage.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,7 @@
  * Contributors:
  *
  *
- * Description: Capabilities and management of Volatile Storage.
+ * Description:  Capabilities and management of Volatile Storage.
  * 
  */
 
@@ -28,9 +28,12 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Capabilities and management of Volatile Storage.
+ */
 public class CIM_VolatileStorage extends CIM_Memory  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_VolatileStorage";
+	public final static String CIM_CLASS_NAME = "CIM_VolatileStorage"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -211,7 +214,7 @@ public class CIM_VolatileStorage extends CIM_Memory  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

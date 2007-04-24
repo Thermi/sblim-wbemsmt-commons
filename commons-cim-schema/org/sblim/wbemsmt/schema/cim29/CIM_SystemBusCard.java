@@ -1,7 +1,7 @@
 /** 
  * CIM_SystemBusCard.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: The SystemBusCard class represents additional information for a CIM_Card, detailing the Card's bus type and data width. These properties dictate the type of Slot into which the Card can be inserted. For example, using the properties of this class, one can define that a Card is a PCI, 64 bit adapter.
+ * Description:  The SystemBusCard class represents additional information for a CIM_Card,
+ * detailing the Card's bus type and data width. These properties dictate the
+ * type of Slot into which the Card can be inserted. For example, using the
+ * properties of this class, one can define that a Card is a PCI, 64 bit
+ * adapter.
  * 
  */
 
@@ -28,9 +32,16 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The SystemBusCard class represents additional information for a CIM_Card,
+ * detailing the Card's bus type and data width. These properties dictate the
+ * type of Slot into which the Card can be inserted. For example, using the
+ * properties of this class, one can define that a Card is a PCI, 64 bit
+ * adapter.
+ */
 public class CIM_SystemBusCard extends CIM_Card  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SystemBusCard";
+	public final static String CIM_CLASS_NAME = "CIM_SystemBusCard"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -254,7 +265,7 @@ public class CIM_SystemBusCard extends CIM_Card  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_LocalizationCapabilities.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: Describes the input and output localization capabilities of the entity associated via ElementCapabilities.
+ * Description:  Describes the input and output localization capabilities of the entity
+ * associated via ElementCapabilities.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Describes the input and output localization capabilities of the entity
+ * associated via ElementCapabilities.
+ */
 public class CIM_LocalizationCapabilities extends CIM_Capabilities  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_LocalizationCapabilities";
+	public final static String CIM_CLASS_NAME = "CIM_LocalizationCapabilities"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -222,7 +227,7 @@ The language and country codes are required; the variant may be empty.
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

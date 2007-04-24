@@ -1,7 +1,7 @@
 /** 
  * CIM_PhysicalComponent.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,14 @@
  * Contributors:
  *
  *
- * Description: The PhysicalComponent class represents any low-level or basic Component within a Package. A Component object either can not or does not need to be decomposed into its constituent parts. For example, an ASIC (or Chip) can not be further decomposed. A tape for data storage (PhysicalMedia) does not need to be decomposed. Any PhysicalElement that is not a Link, Connector, or Package is a descendent (or member) of this class. For example, the UART chipset on an internal modem Card would be a subclass (if additional properties or associations are defined) or an instance of PhysicalComponent.
+ * Description:  The PhysicalComponent class represents any low-level or basic Component within
+ * a Package. A Component object either can not or does not need to be
+ * decomposed into its constituent parts. For example, an ASIC (or Chip) can not
+ * be further decomposed. A tape for data storage (PhysicalMedia) does not need
+ * to be decomposed. Any PhysicalElement that is not a Link, Connector, or
+ * Package is a descendent (or member) of this class. For example, the UART
+ * chipset on an internal modem Card would be a subclass (if additional
+ * properties or associations are defined) or an instance of PhysicalComponent.
  * 
  */
 
@@ -33,16 +40,26 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  The PhysicalComponent class represents any low-level or basic Component within
+ * a Package. A Component object either can not or does not need to be
+ * decomposed into its constituent parts. For example, an ASIC (or Chip) can not
+ * be further decomposed. A tape for data storage (PhysicalMedia) does not need
+ * to be decomposed. Any PhysicalElement that is not a Link, Connector, or
+ * Package is a descendent (or member) of this class. For example, the UART
+ * chipset on an internal modem Card would be a subclass (if additional
+ * properties or associations are defined) or an instance of PhysicalComponent.
+ */
 public class CIM_PhysicalComponent extends CIM_PhysicalElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_PhysicalComponent";
+	public final static String CIM_CLASS_NAME = "CIM_PhysicalComponent"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.8.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PACKAGEDCOMPONENT = "CIM_PackagedComponent";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_REALIZESEXTENT = "CIM_RealizesExtent";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PACKAGEDCOMPONENT = "CIM_PackagedComponent"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_REALIZESEXTENT = "CIM_RealizesExtent"; //$NON-NLS-1$
 	
 	
 	/**
@@ -237,7 +254,7 @@ A PhysicalComponent is Removable if it is designed to be taken in and out of the
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -362,8 +379,8 @@ A PhysicalComponent is Removable if it is designed to be taken in and out of the
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PACKAGEDCOMPONENT, 
 					CIM_PhysicalPackage.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -376,9 +393,9 @@ A PhysicalComponent is Removable if it is designed to be taken in and out of the
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_PhysicalComponent.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalComponent.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_PhysicalComponent.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_PhysicalComponent.Java_Package_List.setElementAt((String)(CIM_PhysicalComponent.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_PhysicalComponent.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_PhysicalComponent.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_PhysicalComponent.Java_Package_List.setElementAt((String)(CIM_PhysicalComponent.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_PhysicalComponent.Java_Package_List.get(i)) + cimClassName;
 
@@ -448,8 +465,8 @@ A PhysicalComponent is Removable if it is designed to be taken in and out of the
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PACKAGEDCOMPONENT, 
 					CIM_PhysicalPackage.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -489,8 +506,8 @@ A PhysicalComponent is Removable if it is designed to be taken in and out of the
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_REALIZESEXTENT, 
 					CIM_StorageExtent.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -503,9 +520,9 @@ A PhysicalComponent is Removable if it is designed to be taken in and out of the
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_PhysicalComponent.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalComponent.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_PhysicalComponent.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_PhysicalComponent.Java_Package_List.setElementAt((String)(CIM_PhysicalComponent.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_PhysicalComponent.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_PhysicalComponent.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_PhysicalComponent.Java_Package_List.setElementAt((String)(CIM_PhysicalComponent.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_PhysicalComponent.Java_Package_List.get(i)) + cimClassName;
 
@@ -575,8 +592,8 @@ A PhysicalComponent is Removable if it is designed to be taken in and out of the
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_REALIZESEXTENT, 
 					CIM_StorageExtent.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

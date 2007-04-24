@@ -1,7 +1,7 @@
 /** 
  * CIM_LogicalElementHelper.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -104,9 +104,9 @@ public final class CIM_LogicalElementHelper {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i=0; clazz==null && i<CIM_LogicalElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_LogicalElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_LogicalElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_LogicalElement.Java_Package_List.setElementAt((String)(CIM_LogicalElement.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_LogicalElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_LogicalElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_LogicalElement.Java_Package_List.setElementAt((String)(CIM_LogicalElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_LogicalElement.Java_Package_List.get(i)) + cimClassName;
 					

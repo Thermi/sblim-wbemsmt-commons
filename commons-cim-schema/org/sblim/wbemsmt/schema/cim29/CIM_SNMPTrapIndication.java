@@ -1,7 +1,7 @@
 /** 
  * CIM_SNMPTrapIndication.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: A concrete class for mapping an SNMP Trap to CIM based on the IETF RFC 1157. The usefulness of this class is to describe common trap semantics. But, a complete understanding of any trap data received relies on the Indicaton recipient having access to the sender's MIB. Understanding can be improved by mapping the SNMP domain to CIM, and using CIM LifeCycle and standard subclasses of CIM_ProcessIndication.
+ * Description:  A concrete class for mapping an SNMP Trap to CIM based on the IETF RFC 1157.
+ * The usefulness of this class is to describe common trap semantics. But, a
+ * complete understanding of any trap data received relies on the Indicaton
+ * recipient having access to the sender's MIB. Understanding can be improved by
+ * mapping the SNMP domain to CIM, and using CIM LifeCycle and standard
+ * subclasses of CIM_ProcessIndication.
  * 
  */
 
@@ -29,9 +34,17 @@ import org.sblim.wbem.cim.*;
 import java.util.Calendar;
 
 
+/**
+ *  A concrete class for mapping an SNMP Trap to CIM based on the IETF RFC 1157.
+ * The usefulness of this class is to describe common trap semantics. But, a
+ * complete understanding of any trap data received relies on the Indicaton
+ * recipient having access to the sender's MIB. Understanding can be improved by
+ * mapping the SNMP domain to CIM, and using CIM LifeCycle and standard
+ * subclasses of CIM_ProcessIndication.
+ */
 public class CIM_SNMPTrapIndication extends CIM_ProcessIndication  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SNMPTrapIndication";
+	public final static String CIM_CLASS_NAME = "CIM_SNMPTrapIndication"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -279,7 +292,7 @@ public class CIM_SNMPTrapIndication extends CIM_ProcessIndication  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

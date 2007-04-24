@@ -1,7 +1,7 @@
 /** 
  * CIM_Process.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,13 @@
  * Contributors:
  *
  *
- * Description: Each instance of the CIM_Process class represents a single instance of a running program. A user of the OperatingSystem will typically see a Process as an application or task. Within an OperatingSystem, a Process is defined by a workspace of memory resources and environmental settings that are allocated to it. On a multitasking System, this workspace prevents intrusion of resources by other Processes. Additionally, a Process can execute as multiple Threads, all which run within the same workspace.
+ * Description:  Each instance of the CIM_Process class represents a single instance of a
+ * running program. A user of the OperatingSystem will typically see a Process
+ * as an application or task. Within an OperatingSystem, a Process is defined by
+ * a workspace of memory resources and environmental settings that are allocated
+ * to it. On a multitasking System, this workspace prevents intrusion of
+ * resources by other Processes. Additionally, a Process can execute as multiple
+ * Threads, all which run within the same workspace.
  * 
  */
 
@@ -34,19 +40,28 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  Each instance of the CIM_Process class represents a single instance of a
+ * running program. A user of the OperatingSystem will typically see a Process
+ * as an application or task. Within an OperatingSystem, a Process is defined by
+ * a workspace of memory resources and environmental settings that are allocated
+ * to it. On a multitasking System, this workspace prevents intrusion of
+ * resources by other Processes. Additionally, a Process can execute as multiple
+ * Threads, all which run within the same workspace.
+ */
 public class CIM_Process extends CIM_EnabledLogicalElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Process";
+	public final static String CIM_CLASS_NAME = "CIM_Process"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_OSPROCESS = "CIM_OSProcess";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PROCESSEXECUTABLE = "CIM_ProcessExecutable";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PROCESSOFJOB = "CIM_ProcessOfJob";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PROCESSTHREAD = "CIM_ProcessThread";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEPROCESS = "CIM_ServiceProcess";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_OSPROCESS = "CIM_OSProcess"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PROCESSEXECUTABLE = "CIM_ProcessExecutable"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PROCESSOFJOB = "CIM_ProcessOfJob"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PROCESSTHREAD = "CIM_ProcessThread"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEPROCESS = "CIM_ServiceProcess"; //$NON-NLS-1$
 	
 	
 	/**
@@ -379,7 +394,7 @@ public class CIM_Process extends CIM_EnabledLogicalElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -504,8 +519,8 @@ public class CIM_Process extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_OSPROCESS, 
 					CIM_OperatingSystem.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -518,9 +533,9 @@ public class CIM_Process extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Process.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Process.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Process.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Process.Java_Package_List.setElementAt((String)(CIM_Process.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Process.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Process.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Process.Java_Package_List.setElementAt((String)(CIM_Process.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Process.Java_Package_List.get(i)) + cimClassName;
 
@@ -590,8 +605,8 @@ public class CIM_Process extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_OSPROCESS, 
 					CIM_OperatingSystem.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -631,8 +646,8 @@ public class CIM_Process extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PROCESSEXECUTABLE, 
 					CIM_DataFile.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -645,9 +660,9 @@ public class CIM_Process extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Process.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Process.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Process.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Process.Java_Package_List.setElementAt((String)(CIM_Process.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Process.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Process.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Process.Java_Package_List.setElementAt((String)(CIM_Process.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Process.Java_Package_List.get(i)) + cimClassName;
 
@@ -717,8 +732,8 @@ public class CIM_Process extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PROCESSEXECUTABLE, 
 					CIM_DataFile.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -758,8 +773,8 @@ public class CIM_Process extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PROCESSOFJOB, 
 					CIM_Job.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -772,9 +787,9 @@ public class CIM_Process extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Process.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Process.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Process.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Process.Java_Package_List.setElementAt((String)(CIM_Process.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Process.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Process.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Process.Java_Package_List.setElementAt((String)(CIM_Process.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Process.Java_Package_List.get(i)) + cimClassName;
 
@@ -844,8 +859,8 @@ public class CIM_Process extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PROCESSOFJOB, 
 					CIM_Job.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -885,8 +900,8 @@ public class CIM_Process extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PROCESSTHREAD, 
 					CIM_Thread.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -899,9 +914,9 @@ public class CIM_Process extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Process.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Process.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Process.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Process.Java_Package_List.setElementAt((String)(CIM_Process.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Process.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Process.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Process.Java_Package_List.setElementAt((String)(CIM_Process.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Process.Java_Package_List.get(i)) + cimClassName;
 
@@ -971,8 +986,8 @@ public class CIM_Process extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PROCESSTHREAD, 
 					CIM_Thread.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1012,8 +1027,8 @@ public class CIM_Process extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEPROCESS, 
 					CIM_Service.CIM_CLASS_NAME, 
-					"Process",
-					"Service",
+					"Process", //$NON-NLS-1$
+					"Service", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1026,9 +1041,9 @@ public class CIM_Process extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Process.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Process.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Process.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Process.Java_Package_List.setElementAt((String)(CIM_Process.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Process.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Process.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Process.Java_Package_List.setElementAt((String)(CIM_Process.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Process.Java_Package_List.get(i)) + cimClassName;
 
@@ -1098,8 +1113,8 @@ public class CIM_Process extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEPROCESS, 
 					CIM_Service.CIM_CLASS_NAME, 
-					"Process",
-					"Service");
+					"Process", //$NON-NLS-1$
+					"Service"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

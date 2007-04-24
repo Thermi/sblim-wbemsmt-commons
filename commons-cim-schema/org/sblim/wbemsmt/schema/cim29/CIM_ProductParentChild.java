@@ -1,7 +1,7 @@
 /** 
  * CIM_ProductParentChild.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: The CIM_ProductParentChild association defines a parent child hierarchy among Products. For example, a Product may come bundled with other Products.
+ * Description:  The CIM_ProductParentChild association defines a parent child hierarchy among
+ * Products. For example, a Product may come bundled with other Products.
  * 
  */
 
@@ -28,13 +29,17 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The CIM_ProductParentChild association defines a parent child hierarchy among
+ * Products. For example, a Product may come bundled with other Products.
+ */
 public class CIM_ProductParentChild  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ProductParentChild";
+	public final static String CIM_CLASS_NAME = "CIM_ProductParentChild"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +183,7 @@ public class CIM_ProductParentChild  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

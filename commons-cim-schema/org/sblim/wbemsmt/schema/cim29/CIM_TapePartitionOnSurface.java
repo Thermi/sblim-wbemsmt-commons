@@ -1,7 +1,7 @@
 /** 
  * CIM_TapePartitionOnSurface.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: TapePartitionOnSurface represents the ability to have one or more TapePartitions on each surface of a PhysicalTape. The individual surfaces are represented as instances of CIM_StorageExtent.
+ * Description:  TapePartitionOnSurface represents the ability to have one or more
+ * TapePartitions on each surface of a PhysicalTape. The individual surfaces are
+ * represented as instances of CIM_StorageExtent.
  * 
  */
 
@@ -28,9 +30,14 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  TapePartitionOnSurface represents the ability to have one or more
+ * TapePartitions on each surface of a PhysicalTape. The individual surfaces are
+ * represented as instances of CIM_StorageExtent.
+ */
 public class CIM_TapePartitionOnSurface extends CIM_BasedOn  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_TapePartitionOnSurface";
+	public final static String CIM_CLASS_NAME = "CIM_TapePartitionOnSurface"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +198,7 @@ public class CIM_TapePartitionOnSurface extends CIM_BasedOn  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

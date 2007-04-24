@@ -1,7 +1,7 @@
 /** 
  * CIM_SystemDevice.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: LogicalDevices may be aggregated by a System. This relationship is made explicit by the SystemDevice association.
+ * Description:  LogicalDevices may be aggregated by a System. This relationship is made
+ * explicit by the SystemDevice association.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  LogicalDevices may be aggregated by a System. This relationship is made
+ * explicit by the SystemDevice association.
+ */
 public class CIM_SystemDevice extends CIM_SystemComponent  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SystemDevice";
+	public final static String CIM_CLASS_NAME = "CIM_SystemDevice"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +196,7 @@ public class CIM_SystemDevice extends CIM_SystemComponent  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

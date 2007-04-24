@@ -1,7 +1,7 @@
 /** 
  * CIM_IndicationFilter.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: CIM_IndicationFilter defines the criteria for generating an Indication and what data should be returned in the Indication. It is derived from CIM_ManagedElement to allow modeling the dependency of the filter on a specific service.
+ * Description:  CIM_IndicationFilter defines the criteria for generating an Indication and what
+ * data should be returned in the Indication. It is derived from
+ * CIM_ManagedElement to allow modeling the dependency of the filter on a
+ * specific service.
  * 
  */
 
@@ -33,15 +36,21 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  CIM_IndicationFilter defines the criteria for generating an Indication and what
+ * data should be returned in the Indication. It is derived from
+ * CIM_ManagedElement to allow modeling the dependency of the filter on a
+ * specific service.
+ */
 public class CIM_IndicationFilter extends CIM_ManagedElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_IndicationFilter";
+	public final static String CIM_CLASS_NAME = "CIM_IndicationFilter"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_INDICATIONSUBSCRIPTION = "CIM_IndicationSubscription";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_INDICATIONSUBSCRIPTION = "CIM_IndicationSubscription"; //$NON-NLS-1$
 	
 	
 	/**
@@ -292,7 +301,7 @@ public class CIM_IndicationFilter extends CIM_ManagedElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -417,8 +426,8 @@ public class CIM_IndicationFilter extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_INDICATIONSUBSCRIPTION, 
 					CIM_ListenerDestination.CIM_CLASS_NAME, 
-					"Filter",
-					"Handler",
+					"Filter", //$NON-NLS-1$
+					"Handler", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -431,9 +440,9 @@ public class CIM_IndicationFilter extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_IndicationFilter.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_IndicationFilter.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_IndicationFilter.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_IndicationFilter.Java_Package_List.setElementAt((String)(CIM_IndicationFilter.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_IndicationFilter.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_IndicationFilter.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_IndicationFilter.Java_Package_List.setElementAt((String)(CIM_IndicationFilter.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_IndicationFilter.Java_Package_List.get(i)) + cimClassName;
 
@@ -503,8 +512,8 @@ public class CIM_IndicationFilter extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_INDICATIONSUBSCRIPTION, 
 					CIM_ListenerDestination.CIM_CLASS_NAME, 
-					"Filter",
-					"Handler");
+					"Filter", //$NON-NLS-1$
+					"Handler"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

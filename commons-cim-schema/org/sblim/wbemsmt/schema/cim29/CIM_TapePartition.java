@@ -1,7 +1,7 @@
 /** 
  * CIM_TapePartition.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: Capabilities and management of a TapePartition StorageExtent. Note that if a PhysicalTape is not partitioned, only a generic StorageExtent that represents the entire Tape should be instantiated. TapePartitions may be BasedOn other StorageExtents or directly Realized on a PhysicalTape.
+ * Description:  Capabilities and management of a TapePartition StorageExtent. Note that if a
+ * PhysicalTape is not partitioned, only a generic StorageExtent that represents
+ * the entire Tape should be instantiated. TapePartitions may be BasedOn other
+ * StorageExtents or directly Realized on a PhysicalTape.
  * 
  */
 
@@ -33,16 +36,22 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  Capabilities and management of a TapePartition StorageExtent. Note that if a
+ * PhysicalTape is not partitioned, only a generic StorageExtent that represents
+ * the entire Tape should be instantiated. TapePartitions may be BasedOn other
+ * StorageExtents or directly Realized on a PhysicalTape.
+ */
 public class CIM_TapePartition extends CIM_MediaPartition  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_TapePartition";
+	public final static String CIM_CLASS_NAME = "CIM_TapePartition"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_REALIZESTAPEPARTITION = "CIM_RealizesTapePartition";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_TAPEPARTITIONONSURFACE = "CIM_TapePartitionOnSurface";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_REALIZESTAPEPARTITION = "CIM_RealizesTapePartition"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_TAPEPARTITIONONSURFACE = "CIM_TapePartitionOnSurface"; //$NON-NLS-1$
 	
 	
 	/**
@@ -203,7 +212,7 @@ public class CIM_TapePartition extends CIM_MediaPartition  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -328,8 +337,8 @@ public class CIM_TapePartition extends CIM_MediaPartition  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_REALIZESTAPEPARTITION, 
 					CIM_PhysicalTape.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -342,9 +351,9 @@ public class CIM_TapePartition extends CIM_MediaPartition  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_TapePartition.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_TapePartition.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_TapePartition.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_TapePartition.Java_Package_List.setElementAt((String)(CIM_TapePartition.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_TapePartition.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_TapePartition.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_TapePartition.Java_Package_List.setElementAt((String)(CIM_TapePartition.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_TapePartition.Java_Package_List.get(i)) + cimClassName;
 
@@ -414,8 +423,8 @@ public class CIM_TapePartition extends CIM_MediaPartition  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_REALIZESTAPEPARTITION, 
 					CIM_PhysicalTape.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -455,8 +464,8 @@ public class CIM_TapePartition extends CIM_MediaPartition  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_TAPEPARTITIONONSURFACE, 
 					CIM_StorageExtent.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -469,9 +478,9 @@ public class CIM_TapePartition extends CIM_MediaPartition  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_TapePartition.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_TapePartition.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_TapePartition.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_TapePartition.Java_Package_List.setElementAt((String)(CIM_TapePartition.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_TapePartition.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_TapePartition.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_TapePartition.Java_Package_List.setElementAt((String)(CIM_TapePartition.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_TapePartition.Java_Package_List.get(i)) + cimClassName;
 
@@ -541,8 +550,8 @@ public class CIM_TapePartition extends CIM_MediaPartition  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_TAPEPARTITIONONSURFACE, 
 					CIM_StorageExtent.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

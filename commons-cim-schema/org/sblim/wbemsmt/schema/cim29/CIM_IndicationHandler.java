@@ -1,7 +1,7 @@
 /** 
  * CIM_IndicationHandler.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: CIM_IndicationHandler is an abstract superclass describing how an Indication is to be processd/delivered/'handled'. This may define a destination and protocol for delivering Indications, or it may define a process to invoke. This class is derived from CIM_ManagedElement to allow modeling the dependency of the Handler on a specific service.
+ * Description:  CIM_IndicationHandler is an abstract superclass describing how an Indication is
+ * to be processd/delivered/'handled'. This may define a destination and
+ * protocol for delivering Indications, or it may define a process to invoke.
+ * This class is derived from CIM_ManagedElement to allow modeling the
+ * dependency of the Handler on a specific service.
  * 
  */
 
@@ -28,9 +32,16 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_IndicationHandler is an abstract superclass describing how an Indication is
+ * to be processd/delivered/'handled'. This may define a destination and
+ * protocol for delivering Indications, or it may define a process to invoke.
+ * This class is derived from CIM_ManagedElement to allow modeling the
+ * dependency of the Handler on a specific service.
+ */
 public class CIM_IndicationHandler extends CIM_ListenerDestination  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_IndicationHandler";
+	public final static String CIM_CLASS_NAME = "CIM_IndicationHandler"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -196,7 +207,7 @@ public class CIM_IndicationHandler extends CIM_ListenerDestination  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

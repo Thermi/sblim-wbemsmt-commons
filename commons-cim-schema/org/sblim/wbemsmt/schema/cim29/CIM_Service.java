@@ -1,7 +1,7 @@
 /** 
  * CIM_Service.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: A CIM_Service is a Logical Element that contains the information necessary to represent and manage the functionality provided by a Device and/or SoftwareFeature. A Service is a general-purpose object to configure and manage the implementation of functionality. It is not the functionality itself.
+ * Description:  A CIM_Service is a Logical Element that contains the information necessary to
+ * represent and manage the functionality provided by a Device and/or
+ * SoftwareFeature. A Service is a general-purpose object to configure and
+ * manage the implementation of functionality. It is not the functionality
+ * itself.
  * 
  */
 
@@ -33,30 +37,36 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A CIM_Service is a Logical Element that contains the information necessary to
+ * represent and manage the functionality provided by a Device and/or
+ * SoftwareFeature. A Service is a general-purpose object to configure and
+ * manage the implementation of functionality. It is not the functionality
+ * itself.
+ */
 public class CIM_Service extends CIM_EnabledLogicalElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Service";
+	public final static String CIM_CLASS_NAME = "CIM_Service"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESERVICEIMPLEMENTATION = "CIM_DeviceServiceImplementation";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDSERVICE = "CIM_HostedService";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSERVICECOMPONENT = "CIM_ProductServiceComponent";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PROVIDESENDPOINT = "CIM_ProvidesEndpoint";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PROVIDESSERVICETOELEMENT = "CIM_ProvidesServiceToElement";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEACCESSBYSAP = "CIM_ServiceAccessBySAP";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEAFFECTSELEMENT = "CIM_ServiceAffectsElement";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEAVAILABLETOELEMENT = "CIM_ServiceAvailableToElement";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICECOMPONENT = "CIM_ServiceComponent";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEPROCESS = "CIM_ServiceProcess";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICESAPDEPENDENCY = "CIM_ServiceSAPDependency";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICESERVICEDEPENDENCY = "CIM_ServiceServiceDependency";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICESTATISTICS = "CIM_ServiceStatistics";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEUSESSECURITYSERVICE = "CIM_ServiceUsesSecurityService";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTSERVICEIMPLEMENTATION = "CIM_SoftwareElementServiceImplementation";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREFEATURESERVICEIMPLEMENTATION = "CIM_SoftwareFeatureServiceImplementation";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESERVICEIMPLEMENTATION = "CIM_DeviceServiceImplementation"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDSERVICE = "CIM_HostedService"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSERVICECOMPONENT = "CIM_ProductServiceComponent"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PROVIDESENDPOINT = "CIM_ProvidesEndpoint"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PROVIDESSERVICETOELEMENT = "CIM_ProvidesServiceToElement"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEACCESSBYSAP = "CIM_ServiceAccessBySAP"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEAFFECTSELEMENT = "CIM_ServiceAffectsElement"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEAVAILABLETOELEMENT = "CIM_ServiceAvailableToElement"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICECOMPONENT = "CIM_ServiceComponent"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEPROCESS = "CIM_ServiceProcess"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICESAPDEPENDENCY = "CIM_ServiceSAPDependency"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICESERVICEDEPENDENCY = "CIM_ServiceServiceDependency"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICESTATISTICS = "CIM_ServiceStatistics"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTSERVICEIMPLEMENTATION = "CIM_SoftwareElementServiceImplementation"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREFEATURESERVICEIMPLEMENTATION = "CIM_SoftwareFeatureServiceImplementation"; //$NON-NLS-1$
 	
 	
 	/**
@@ -317,7 +327,7 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -442,8 +452,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESERVICEIMPLEMENTATION, 
 					CIM_LogicalDevice.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -456,9 +466,9 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
 
@@ -528,8 +538,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESERVICEIMPLEMENTATION, 
 					CIM_LogicalDevice.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -569,8 +579,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDSERVICE, 
 					CIM_System.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -583,9 +593,9 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
 
@@ -655,8 +665,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_HOSTEDSERVICE, 
 					CIM_System.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -696,8 +706,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSERVICECOMPONENT, 
 					CIM_Product.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -710,9 +720,9 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
 
@@ -782,8 +792,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PRODUCTSERVICECOMPONENT, 
 					CIM_Product.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -823,8 +833,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PROVIDESENDPOINT, 
 					CIM_ProtocolEndpoint.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -837,9 +847,9 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
 
@@ -909,8 +919,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PROVIDESENDPOINT, 
 					CIM_ProtocolEndpoint.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -950,8 +960,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PROVIDESSERVICETOELEMENT, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -964,9 +974,9 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
 
@@ -1036,8 +1046,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PROVIDESSERVICETOELEMENT, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1077,8 +1087,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEACCESSBYSAP, 
 					CIM_ServiceAccessPoint.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1091,9 +1101,9 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
 
@@ -1163,8 +1173,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEACCESSBYSAP, 
 					CIM_ServiceAccessPoint.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1204,8 +1214,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEAFFECTSELEMENT, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"AffectingElement",
-					"AffectedElement",
+					"AffectingElement", //$NON-NLS-1$
+					"AffectedElement", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1218,9 +1228,9 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
 
@@ -1290,8 +1300,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEAFFECTSELEMENT, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"AffectingElement",
-					"AffectedElement");
+					"AffectingElement", //$NON-NLS-1$
+					"AffectedElement"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1331,8 +1341,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEAVAILABLETOELEMENT, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"ServiceProvided",
-					"UserOfService",
+					"ServiceProvided", //$NON-NLS-1$
+					"UserOfService", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1345,9 +1355,9 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
 
@@ -1417,8 +1427,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEAVAILABLETOELEMENT, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"ServiceProvided",
-					"UserOfService");
+					"ServiceProvided", //$NON-NLS-1$
+					"UserOfService"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1458,8 +1468,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICECOMPONENT, 
 					CIM_Service.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1472,9 +1482,9 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
 
@@ -1544,8 +1554,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICECOMPONENT, 
 					CIM_Service.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1585,8 +1595,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEPROCESS, 
 					CIM_Process.CIM_CLASS_NAME, 
-					"Service",
-					"Process",
+					"Service", //$NON-NLS-1$
+					"Process", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1599,9 +1609,9 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
 
@@ -1671,8 +1681,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEPROCESS, 
 					CIM_Process.CIM_CLASS_NAME, 
-					"Service",
-					"Process");
+					"Service", //$NON-NLS-1$
+					"Process"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1712,8 +1722,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICESAPDEPENDENCY, 
 					CIM_ServiceAccessPoint.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1726,9 +1736,9 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
 
@@ -1798,8 +1808,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICESAPDEPENDENCY, 
 					CIM_ServiceAccessPoint.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1839,8 +1849,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICESERVICEDEPENDENCY, 
 					CIM_Service.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1853,9 +1863,9 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
 
@@ -1925,8 +1935,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICESERVICEDEPENDENCY, 
 					CIM_Service.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1966,8 +1976,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICESTATISTICS, 
 					CIM_ServiceStatisticalInformation.CIM_CLASS_NAME, 
-					"Element",
-					"Stats",
+					"Element", //$NON-NLS-1$
+					"Stats", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1980,9 +1990,9 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
 
@@ -2052,8 +2062,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICESTATISTICS, 
 					CIM_ServiceStatisticalInformation.CIM_CLASS_NAME, 
-					"Element",
-					"Stats");
+					"Element", //$NON-NLS-1$
+					"Stats"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -2061,133 +2071,6 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 			
 				if (obj instanceof CIMObjectPath) {
 					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_ServiceStatisticalInformation.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_SecurityService_CIM_ServiceUsesSecurityServices(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEUSESSECURITYSERVICE, 
-					CIM_SecurityService.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_SecurityService(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_SecurityService(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_SecurityService(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_SecurityService_CIM_ServiceUsesSecurityService_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SERVICEUSESSECURITYSERVICE, 
-					CIM_SecurityService.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_SecurityService.CIM_CLASS_NAME)) {
 						resultArrayList.add(obj);
 					}
 				}
@@ -2220,8 +2103,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTSERVICEIMPLEMENTATION, 
 					CIM_SoftwareElement.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -2234,9 +2117,9 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
 
@@ -2306,8 +2189,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTSERVICEIMPLEMENTATION, 
 					CIM_SoftwareElement.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -2347,8 +2230,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREFEATURESERVICEIMPLEMENTATION, 
 					CIM_SoftwareFeature.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -2361,9 +2244,9 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
 
@@ -2433,8 +2316,8 @@ Note that this method overlaps in semantics with the RequestStateChange method i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREFEATURESERVICEIMPLEMENTATION, 
 					CIM_SoftwareFeature.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

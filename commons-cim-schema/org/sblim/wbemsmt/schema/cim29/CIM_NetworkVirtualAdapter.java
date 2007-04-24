@@ -1,7 +1,7 @@
 /** 
  * CIM_NetworkVirtualAdapter.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: The use of the CIM_NetworkVirtualAdapter class has been deprecated. A specific association is not needed. Instead use the CIM_ConcreteIdentity class. NetworkVirtual Adapter describes that an instance of NetworkAdapter is actually the result of several Adapters participating in a load balanced RedundancyGroup.
+ * Description:  The use of the CIM_NetworkVirtualAdapter class has been deprecated. A specific
+ * association is not needed. Instead use the CIM_ConcreteIdentity class.
+ * NetworkVirtual Adapter describes that an instance of NetworkAdapter is
+ * actually the result of several Adapters participating in a load balanced
+ * RedundancyGroup.
  * 
  */
 
@@ -28,9 +32,16 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The use of the CIM_NetworkVirtualAdapter class has been deprecated. A specific
+ * association is not needed. Instead use the CIM_ConcreteIdentity class.
+ * NetworkVirtual Adapter describes that an instance of NetworkAdapter is
+ * actually the result of several Adapters participating in a load balanced
+ * RedundancyGroup.
+ */
 public class CIM_NetworkVirtualAdapter extends CIM_LogicalIdentity  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_NetworkVirtualAdapter";
+	public final static String CIM_CLASS_NAME = "CIM_NetworkVirtualAdapter"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +202,7 @@ public class CIM_NetworkVirtualAdapter extends CIM_LogicalIdentity  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

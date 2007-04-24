@@ -1,7 +1,7 @@
 /** 
  * CIM_ElementStatisticalData.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,13 @@
  * Contributors:
  *
  *
- * Description: CIM_ElementStatisticalData is an association that relates a ManagedElement to its StatisticalData. Note that the cardinality of the ManagedElement reference is Min(1), Max(1). This cardinality mandates the instantiation of the ElementStatisticalData association for the referenced instance of CIM_StatisticalData. ElementStatisticalData describes the existence requirements and context for the CIM_StatisticalData, relative to a specific ManagedElement.
+ * Description:  CIM_ElementStatisticalData is an association that relates a ManagedElement to
+ * its StatisticalData. Note that the cardinality of the ManagedElement
+ * reference is Min(1), Max(1). This cardinality mandates the instantiation of
+ * the ElementStatisticalData association for the referenced instance of
+ * CIM_StatisticalData. ElementStatisticalData describes the existence
+ * requirements and context for the CIM_StatisticalData, relative to a specific
+ * ManagedElement.
  * 
  */
 
@@ -28,13 +34,22 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_ElementStatisticalData is an association that relates a ManagedElement to
+ * its StatisticalData. Note that the cardinality of the ManagedElement
+ * reference is Min(1), Max(1). This cardinality mandates the instantiation of
+ * the ElementStatisticalData association for the referenced instance of
+ * CIM_StatisticalData. ElementStatisticalData describes the existence
+ * requirements and context for the CIM_StatisticalData, relative to a specific
+ * ManagedElement.
+ */
 public class CIM_ElementStatisticalData  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ElementStatisticalData";
+	public final static String CIM_CLASS_NAME = "CIM_ElementStatisticalData"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +193,7 @@ public class CIM_ElementStatisticalData  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

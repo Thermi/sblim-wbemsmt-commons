@@ -1,7 +1,7 @@
 /** 
  * CIM_StatisticalData.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: CIM_StatisticalData is a root class for any arbitrary collection of statistical data and/or metrics applicable to one or more ManagedElements. These statistics MUST represent the most recent observations and MUST NOT be provided if irrelevant or stale. Note that this class uses a simplified naming/identity algorithm as compared to CIM_StatisticalInformation.
+ * Description:  CIM_StatisticalData is a root class for any arbitrary collection of statistical
+ * data and/or metrics applicable to one or more ManagedElements. These
+ * statistics MUST represent the most recent observations and MUST NOT be
+ * provided if irrelevant or stale. Note that this class uses a simplified
+ * naming/identity algorithm as compared to CIM_StatisticalInformation.
  * 
  */
 
@@ -34,15 +38,22 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  CIM_StatisticalData is a root class for any arbitrary collection of statistical
+ * data and/or metrics applicable to one or more ManagedElements. These
+ * statistics MUST represent the most recent observations and MUST NOT be
+ * provided if irrelevant or stale. Note that this class uses a simplified
+ * naming/identity algorithm as compared to CIM_StatisticalInformation.
+ */
 public class CIM_StatisticalData extends CIM_ManagedElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_StatisticalData";
+	public final static String CIM_CLASS_NAME = "CIM_StatisticalData"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.8.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA = "CIM_ElementStatisticalData";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA = "CIM_ElementStatisticalData"; //$NON-NLS-1$
 	
 	
 	/**
@@ -259,7 +270,7 @@ In a subclass, the set of possible return codes could be specified, using a Valu
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -384,8 +395,8 @@ In a subclass, the set of possible return codes could be specified, using a Valu
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Stats",
-					"ManagedElement",
+					"Stats", //$NON-NLS-1$
+					"ManagedElement", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -398,9 +409,9 @@ In a subclass, the set of possible return codes could be specified, using a Valu
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_StatisticalData.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_StatisticalData.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_StatisticalData.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_StatisticalData.Java_Package_List.setElementAt((String)(CIM_StatisticalData.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_StatisticalData.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_StatisticalData.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_StatisticalData.Java_Package_List.setElementAt((String)(CIM_StatisticalData.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_StatisticalData.Java_Package_List.get(i)) + cimClassName;
 
@@ -470,8 +481,8 @@ In a subclass, the set of possible return codes could be specified, using a Valu
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Stats",
-					"ManagedElement");
+					"Stats", //$NON-NLS-1$
+					"ManagedElement"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

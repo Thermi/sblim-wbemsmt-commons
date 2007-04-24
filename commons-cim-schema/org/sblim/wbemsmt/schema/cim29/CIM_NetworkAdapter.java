@@ -1,7 +1,7 @@
 /** 
  * CIM_NetworkAdapter.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: The use of the CIM_NetworkAdpater class has been deprecated in lieu of CIM_NetworkPort. This better reflects that the hardware of a single port is described and managed. NetworkAdapter is an Abstract class defining general networking hardware concepts (for example, PermanentAddress or Speed of operation).
+ * Description:  The use of the CIM_NetworkAdpater class has been deprecated in lieu of
+ * CIM_NetworkPort. This better reflects that the hardware of a single port is
+ * described and managed. NetworkAdapter is an Abstract class defining general
+ * networking hardware concepts (for example, PermanentAddress or Speed of
+ * operation).
  * 
  */
 
@@ -33,19 +37,26 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  The use of the CIM_NetworkAdpater class has been deprecated in lieu of
+ * CIM_NetworkPort. This better reflects that the hardware of a single port is
+ * described and managed. NetworkAdapter is an Abstract class defining general
+ * networking hardware concepts (for example, PermanentAddress or Speed of
+ * operation).
+ */
 public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_NetworkAdapter";
+	public final static String CIM_CLASS_NAME = "CIM_NetworkAdapter"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ADAPTERACTIVECONNECTION = "CIM_AdapterActiveConnection";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_NETWORKADAPTERREDUNDANCYCOMPONENT = "CIM_NetworkAdapterRedundancyComponent";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_NETWORKVIRTUALADAPTER = "CIM_NetworkVirtualAdapter";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_OOBALERTSERVICEONNETWORKADAPTER = "CIM_OOBAlertServiceOnNetworkAdapter";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_WAKEUPSERVICEONNETWORKADAPTER = "CIM_WakeUpServiceOnNetworkAdapter";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ADAPTERACTIVECONNECTION = "CIM_AdapterActiveConnection"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_NETWORKADAPTERREDUNDANCYCOMPONENT = "CIM_NetworkAdapterRedundancyComponent"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_NETWORKVIRTUALADAPTER = "CIM_NetworkVirtualAdapter"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_OOBALERTSERVICEONNETWORKADAPTER = "CIM_OOBAlertServiceOnNetworkAdapter"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_WAKEUPSERVICEONNETWORKADAPTER = "CIM_WakeUpServiceOnNetworkAdapter"; //$NON-NLS-1$
 	
 	
 	/**
@@ -262,7 +273,7 @@ public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -387,8 +398,8 @@ public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ADAPTERACTIVECONNECTION, 
 					CIM_PhysicalConnector.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -401,9 +412,9 @@ public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_NetworkAdapter.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_NetworkAdapter.Java_Package_List.setElementAt((String)(CIM_NetworkAdapter.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_NetworkAdapter.Java_Package_List.setElementAt((String)(CIM_NetworkAdapter.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_NetworkAdapter.Java_Package_List.get(i)) + cimClassName;
 
@@ -473,8 +484,8 @@ public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_ADAPTERACTIVECONNECTION, 
 					CIM_PhysicalConnector.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -514,8 +525,8 @@ public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_NETWORKADAPTERREDUNDANCYCOMPONENT, 
 					CIM_ExtraCapacityGroup.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -528,9 +539,9 @@ public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_NetworkAdapter.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_NetworkAdapter.Java_Package_List.setElementAt((String)(CIM_NetworkAdapter.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_NetworkAdapter.Java_Package_List.setElementAt((String)(CIM_NetworkAdapter.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_NetworkAdapter.Java_Package_List.get(i)) + cimClassName;
 
@@ -600,8 +611,8 @@ public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_NETWORKADAPTERREDUNDANCYCOMPONENT, 
 					CIM_ExtraCapacityGroup.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -641,8 +652,8 @@ public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_NETWORKVIRTUALADAPTER, 
 					CIM_ExtraCapacityGroup.CIM_CLASS_NAME, 
-					"SystemElement",
-					"SameElement",
+					"SystemElement", //$NON-NLS-1$
+					"SameElement", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -655,9 +666,9 @@ public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_NetworkAdapter.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_NetworkAdapter.Java_Package_List.setElementAt((String)(CIM_NetworkAdapter.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_NetworkAdapter.Java_Package_List.setElementAt((String)(CIM_NetworkAdapter.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_NetworkAdapter.Java_Package_List.get(i)) + cimClassName;
 
@@ -727,8 +738,8 @@ public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_NETWORKVIRTUALADAPTER, 
 					CIM_ExtraCapacityGroup.CIM_CLASS_NAME, 
-					"SystemElement",
-					"SameElement");
+					"SystemElement", //$NON-NLS-1$
+					"SameElement"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -768,8 +779,8 @@ public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_OOBALERTSERVICEONNETWORKADAPTER, 
 					CIM_OOBAlertService.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -782,9 +793,9 @@ public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_NetworkAdapter.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_NetworkAdapter.Java_Package_List.setElementAt((String)(CIM_NetworkAdapter.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_NetworkAdapter.Java_Package_List.setElementAt((String)(CIM_NetworkAdapter.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_NetworkAdapter.Java_Package_List.get(i)) + cimClassName;
 
@@ -854,8 +865,8 @@ public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_OOBALERTSERVICEONNETWORKADAPTER, 
 					CIM_OOBAlertService.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -895,8 +906,8 @@ public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_WAKEUPSERVICEONNETWORKADAPTER, 
 					CIM_WakeUpService.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -909,9 +920,9 @@ public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_NetworkAdapter.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_NetworkAdapter.Java_Package_List.setElementAt((String)(CIM_NetworkAdapter.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_NetworkAdapter.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_NetworkAdapter.Java_Package_List.setElementAt((String)(CIM_NetworkAdapter.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_NetworkAdapter.Java_Package_List.get(i)) + cimClassName;
 
@@ -981,8 +992,8 @@ public class CIM_NetworkAdapter extends CIM_LogicalDevice  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_WAKEUPSERVICEONNETWORKADAPTER, 
 					CIM_WakeUpService.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

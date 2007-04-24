@@ -1,7 +1,7 @@
 /** 
  * CIM_Watchdog.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,14 @@
  * Contributors:
  *
  *
- * Description: CIM_Watchdog is a timer implemented in system hardware. It allows the hardware to monitor the state of the Operating System, BIOS or a software component installed on the System. If the monitored component fails to re-arm the timer before its expiration, the hardware assumes that the System is in a critical state, and could reset the ComputerSystem. This feature can also be used as an application watchdog timer for a mission-critical application. In this case, the application would assume responsibility for re-arming the timer before expiration.
+ * Description:  CIM_Watchdog is a timer implemented in system hardware. It allows the hardware
+ * to monitor the state of the Operating System, BIOS or a software component
+ * installed on the System. If the monitored component fails to re-arm the timer
+ * before its expiration, the hardware assumes that the System is in a critical
+ * state, and could reset the ComputerSystem. This feature can also be used as
+ * an application watchdog timer for a mission-critical application. In this
+ * case, the application would assume responsibility for re-arming the timer
+ * before expiration.
  * 
  */
 
@@ -31,9 +38,19 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  CIM_Watchdog is a timer implemented in system hardware. It allows the hardware
+ * to monitor the state of the Operating System, BIOS or a software component
+ * installed on the System. If the monitored component fails to re-arm the timer
+ * before its expiration, the hardware assumes that the System is in a critical
+ * state, and could reset the ComputerSystem. This feature can also be used as
+ * an application watchdog timer for a mission-critical application. In this
+ * case, the application would assume responsibility for re-arming the timer
+ * before expiration.
+ */
 public class CIM_Watchdog extends CIM_LogicalDevice  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Watchdog";
+	public final static String CIM_CLASS_NAME = "CIM_Watchdog"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -281,7 +298,7 @@ public class CIM_Watchdog extends CIM_LogicalDevice  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

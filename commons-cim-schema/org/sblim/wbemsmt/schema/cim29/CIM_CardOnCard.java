@@ -1,7 +1,7 @@
 /** 
  * CIM_CardOnCard.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: Cards may be plugged into Motherboards/baseboards, are daughtercards of an adapter, or support special Card-like modules. These relationships are described by the CardOnCard association.
+ * Description:  Cards may be plugged into Motherboards/baseboards, are daughtercards of an
+ * adapter, or support special Card-like modules. These relationships are
+ * described by the CardOnCard association.
  * 
  */
 
@@ -28,9 +30,14 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Cards may be plugged into Motherboards/baseboards, are daughtercards of an
+ * adapter, or support special Card-like modules. These relationships are
+ * described by the CardOnCard association.
+ */
 public class CIM_CardOnCard extends CIM_Container  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_CardOnCard";
+	public final static String CIM_CLASS_NAME = "CIM_CardOnCard"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -203,7 +210,7 @@ public class CIM_CardOnCard extends CIM_Container  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

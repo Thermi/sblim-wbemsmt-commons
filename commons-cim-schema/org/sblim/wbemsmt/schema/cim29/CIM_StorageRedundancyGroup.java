@@ -1,7 +1,7 @@
 /** 
  * CIM_StorageRedundancyGroup.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,14 @@
  * Contributors:
  *
  *
- * Description: A class derived from RedundancyGroup containing mass storage-related redundancy information. StorageRedundancy Groups are used to protect user data. They act on one or more underlying StorageExtents, associated via ExtentRedundancyComponent and produce one or more protected StorageExtents that are associated to the underlying StorageExtents via ProtectedExtentBasedOn or CompositeExtentBasedOn. StorageRedundancyGroups may overlap. However, the underlying StorageExtents within the overlap should not contain any check data.
+ * Description:  A class derived from RedundancyGroup containing mass storage-related redundancy
+ * information. StorageRedundancy Groups are used to protect user data. They act
+ * on one or more underlying StorageExtents, associated via
+ * ExtentRedundancyComponent and produce one or more protected StorageExtents
+ * that are associated to the underlying StorageExtents via
+ * ProtectedExtentBasedOn or CompositeExtentBasedOn. StorageRedundancyGroups may
+ * overlap. However, the underlying StorageExtents within the overlap should not
+ * contain any check data.
  * 
  */
 
@@ -33,17 +40,25 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A class derived from RedundancyGroup containing mass storage-related redundancy
+ * information. StorageRedundancy Groups are used to protect user data. They act
+ * on one or more underlying StorageExtents, associated via
+ * ExtentRedundancyComponent and produce one or more protected StorageExtents
+ * that are associated to the underlying StorageExtents via
+ * ProtectedExtentBasedOn or CompositeExtentBasedOn. StorageRedundancyGroups may
+ * overlap. However, the underlying StorageExtents within the overlap should not
+ * contain any check data.
+ */
 public class CIM_StorageRedundancyGroup extends CIM_RedundancyGroup  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_StorageRedundancyGroup";
+	public final static String CIM_CLASS_NAME = "CIM_StorageRedundancyGroup"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_AGGREGATEREDUNDANCYCOMPONENT = "CIM_AggregateRedundancyComponent";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_EXTENTREDUNDANCYCOMPONENT = "CIM_ExtentRedundancyComponent";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PEXTENTREDUNDANCYCOMPONENT = "CIM_PExtentRedundancyComponent";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_EXTENTREDUNDANCYCOMPONENT = "CIM_ExtentRedundancyComponent"; //$NON-NLS-1$
 	
 	
 	/**
@@ -249,7 +264,7 @@ public class CIM_StorageRedundancyGroup extends CIM_RedundancyGroup  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -359,133 +374,6 @@ public class CIM_StorageRedundancyGroup extends CIM_RedundancyGroup  {
 	// Associators methods
 	//*****************************************************
 	
-	public ArrayList getAssociated_CIM_AggregatePExtent_CIM_AggregateRedundancyComponents(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_AGGREGATEREDUNDANCYCOMPONENT, 
-					CIM_AggregatePExtent.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_StorageRedundancyGroup.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_StorageRedundancyGroup.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_StorageRedundancyGroup.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_StorageRedundancyGroup.Java_Package_List.setElementAt((String)(CIM_StorageRedundancyGroup.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_StorageRedundancyGroup.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_AggregatePExtent(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_AggregatePExtent(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_AggregatePExtent(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_AggregatePExtent_CIM_AggregateRedundancyComponent_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_AGGREGATEREDUNDANCYCOMPONENT, 
-					CIM_AggregatePExtent.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_AggregatePExtent.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
 	public ArrayList getAssociated_CIM_StorageExtent_CIM_ExtentRedundancyComponents(CIMClient cimClient,
 	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
 
@@ -501,8 +389,8 @@ public class CIM_StorageRedundancyGroup extends CIM_RedundancyGroup  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_EXTENTREDUNDANCYCOMPONENT, 
 					CIM_StorageExtent.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -515,9 +403,9 @@ public class CIM_StorageRedundancyGroup extends CIM_RedundancyGroup  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_StorageRedundancyGroup.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_StorageRedundancyGroup.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_StorageRedundancyGroup.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_StorageRedundancyGroup.Java_Package_List.setElementAt((String)(CIM_StorageRedundancyGroup.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_StorageRedundancyGroup.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_StorageRedundancyGroup.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_StorageRedundancyGroup.Java_Package_List.setElementAt((String)(CIM_StorageRedundancyGroup.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_StorageRedundancyGroup.Java_Package_List.get(i)) + cimClassName;
 
@@ -587,8 +475,8 @@ public class CIM_StorageRedundancyGroup extends CIM_RedundancyGroup  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_EXTENTREDUNDANCYCOMPONENT, 
 					CIM_StorageExtent.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -596,133 +484,6 @@ public class CIM_StorageRedundancyGroup extends CIM_RedundancyGroup  {
 			
 				if (obj instanceof CIMObjectPath) {
 					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_StorageExtent.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_PhysicalExtent_CIM_PExtentRedundancyComponents(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_PEXTENTREDUNDANCYCOMPONENT, 
-					CIM_PhysicalExtent.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_StorageRedundancyGroup.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_StorageRedundancyGroup.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_StorageRedundancyGroup.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_StorageRedundancyGroup.Java_Package_List.setElementAt((String)(CIM_StorageRedundancyGroup.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_StorageRedundancyGroup.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PhysicalExtent(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PhysicalExtent(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_PhysicalExtent(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_PhysicalExtent_CIM_PExtentRedundancyComponent_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_PEXTENTREDUNDANCYCOMPONENT, 
-					CIM_PhysicalExtent.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_PhysicalExtent.CIM_CLASS_NAME)) {
 						resultArrayList.add(obj);
 					}
 				}

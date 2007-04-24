@@ -1,7 +1,7 @@
 /** 
  * CIM_BindsTo.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: This association establishes a ServiceAccessPoint as a requestor of protocol services from a ProtocolEndpoint. Typically, this association runs between SAPs and endpoints on a single system. Since a ProtocolEndpoint is a kind of ServiceAccessPoint, this binding can be used to establish a layering of two protocols, the upper layer represented by the Dependent and the lower layer represented by the Antecedent.
+ * Description:  This association establishes a ServiceAccessPoint as a requestor of protocol
+ * services from a ProtocolEndpoint. Typically, this association runs between
+ * SAPs and endpoints on a single system. Since a ProtocolEndpoint is a kind of
+ * ServiceAccessPoint, this binding can be used to establish a layering of two
+ * protocols, the upper layer represented by the Dependent and the lower layer
+ * represented by the Antecedent.
  * 
  */
 
@@ -28,9 +33,17 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  This association establishes a ServiceAccessPoint as a requestor of protocol
+ * services from a ProtocolEndpoint. Typically, this association runs between
+ * SAPs and endpoints on a single system. Since a ProtocolEndpoint is a kind of
+ * ServiceAccessPoint, this binding can be used to establish a layering of two
+ * protocols, the upper layer represented by the Dependent and the lower layer
+ * represented by the Antecedent.
+ */
 public class CIM_BindsTo extends CIM_SAPSAPDependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_BindsTo";
+	public final static String CIM_CLASS_NAME = "CIM_BindsTo"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +204,7 @@ public class CIM_BindsTo extends CIM_SAPSAPDependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_ComputerSystemNodeCapabilities.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: Indicates general capabilities of a ComputerSystem node, such as the ability to support a battery (and be portable), and ECC memory. To tie these capabilities to a ComputerSystem instance, the ElementCapabilities association is used.
+ * Description:  Indicates general capabilities of a ComputerSystem node, such as the ability to
+ * support a battery (and be portable), and ECC memory. To tie these
+ * capabilities to a ComputerSystem instance, the ElementCapabilities
+ * association is used.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Indicates general capabilities of a ComputerSystem node, such as the ability to
+ * support a battery (and be portable), and ECC memory. To tie these
+ * capabilities to a ComputerSystem instance, the ElementCapabilities
+ * association is used.
+ */
 public class CIM_ComputerSystemNodeCapabilities extends CIM_Capabilities  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ComputerSystemNodeCapabilities";
+	public final static String CIM_CLASS_NAME = "CIM_ComputerSystemNodeCapabilities"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -228,7 +237,7 @@ public class CIM_ComputerSystemNodeCapabilities extends CIM_Capabilities  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

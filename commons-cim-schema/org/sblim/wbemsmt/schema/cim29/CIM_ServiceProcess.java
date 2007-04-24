@@ -1,7 +1,7 @@
 /** 
  * CIM_ServiceProcess.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,13 @@
  * Contributors:
  *
  *
- * Description: CIM_ServiceProcess is an association used to establish relationships between Services and Processes. It is used to indicate if a Service is running in a particular Process. It is also used to indicate, via the ExecutionType property, if the Service started and is wholly responsible for the Process, or if the Service is running in an existing Process, perhaps with other unrelated Services, which is owned or started by a different entity. This association relates a Service with an externally visible system signature.
+ * Description:  CIM_ServiceProcess is an association used to establish relationships between
+ * Services and Processes. It is used to indicate if a Service is running in a
+ * particular Process. It is also used to indicate, via the ExecutionType
+ * property, if the Service started and is wholly responsible for the Process,
+ * or if the Service is running in an existing Process, perhaps with other
+ * unrelated Services, which is owned or started by a different entity. This
+ * association relates a Service with an externally visible system signature.
  * 
  */
 
@@ -28,13 +34,22 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_ServiceProcess is an association used to establish relationships between
+ * Services and Processes. It is used to indicate if a Service is running in a
+ * particular Process. It is also used to indicate, via the ExecutionType
+ * property, if the Service started and is wholly responsible for the Process,
+ * or if the Service is running in an existing Process, perhaps with other
+ * unrelated Services, which is owned or started by a different entity. This
+ * association relates a Service with an externally visible system signature.
+ */
 public class CIM_ServiceProcess  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ServiceProcess";
+	public final static String CIM_CLASS_NAME = "CIM_ServiceProcess"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -190,7 +205,7 @@ public class CIM_ServiceProcess  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

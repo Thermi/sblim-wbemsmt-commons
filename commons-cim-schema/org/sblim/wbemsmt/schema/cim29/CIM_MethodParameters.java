@@ -1,7 +1,7 @@
 /** 
  * CIM_MethodParameters.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,8 +16,29 @@
  * Contributors:
  *
  *
- * Description: CIM_MethodParameters represents a set of values to be used as the parameters of a method. These parameters may be passed to the method, diretly used by the method in its invocation, or accessed by the method when it is called. The properties of a concrete subclass of MethodParameters are mapped to the parameters of a method by the method itself or by the method caller. This is an implementation detail independent of the definition of the class. For ease of use, property names should match parameter names. 
-Property values should be set before the method is invoked. The ModelCorrespondence qualifier can be used to indicate if the property value should come from another class's property. The instances that the property values should be gleaned from should be associated with MethodParameters using the Parameter ValueSources association. If the property is declared as an array, then the same property value (identified by the Model Correspondence) will be retrieved from all appropriate ParameterValueSources instances and stored in the array. If the property is declared as an array and the Model Correspondence is to an array property, then only one instance of the array will be copied from one ParameterValueSource. If the property is not declared as an array and there are multiple instances of the class and property associated with it through ModelCorrespondence where the values are not all the same, then an error will occur and the property's value will not be set. Several MethodParameters instances can be associated with any ManagedElement's methods. This allows the maintenance of 'canned' method invocation and reduces the overhead of recreating all method parameters for every method invocation.
+ * Description:  CIM_MethodParameters represents a set of values to be used as the parameters of
+ * a method. These parameters may be passed to the method, diretly used by the
+ * method in its invocation, or accessed by the method when it is called. The
+ * properties of a concrete subclass of MethodParameters are mapped to the
+ * parameters of a method by the method itself or by the method caller. This is
+ * an implementation detail independent of the definition of the class. For ease
+ * of use, property names should match parameter names. Property values should
+ * be set before the method is invoked. The ModelCorrespondence qualifier can be
+ * used to indicate if the property value should come from another class's
+ * property. The instances that the property values should be gleaned from
+ * should be associated with MethodParameters using the Parameter ValueSources
+ * association. If the property is declared as an array, then the same property
+ * value (identified by the Model Correspondence) will be retrieved from all
+ * appropriate ParameterValueSources instances and stored in the array. If the
+ * property is declared as an array and the Model Correspondence is to an array
+ * property, then only one instance of the array will be copied from one
+ * ParameterValueSource. If the property is not declared as an array and there
+ * are multiple instances of the class and property associated with it through
+ * ModelCorrespondence where the values are not all the same, then an error will
+ * occur and the property's value will not be set. Several MethodParameters
+ * instances can be associated with any ManagedElement's methods. This allows
+ * the maintenance of 'canned' method invocation and reduces the overhead of
+ * recreating all method parameters for every method invocation.
  * 
  */
 
@@ -34,16 +55,41 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  CIM_MethodParameters represents a set of values to be used as the parameters of
+ * a method. These parameters may be passed to the method, diretly used by the
+ * method in its invocation, or accessed by the method when it is called. The
+ * properties of a concrete subclass of MethodParameters are mapped to the
+ * parameters of a method by the method itself or by the method caller. This is
+ * an implementation detail independent of the definition of the class. For ease
+ * of use, property names should match parameter names. Property values should
+ * be set before the method is invoked. The ModelCorrespondence qualifier can be
+ * used to indicate if the property value should come from another class's
+ * property. The instances that the property values should be gleaned from
+ * should be associated with MethodParameters using the Parameter ValueSources
+ * association. If the property is declared as an array, then the same property
+ * value (identified by the Model Correspondence) will be retrieved from all
+ * appropriate ParameterValueSources instances and stored in the array. If the
+ * property is declared as an array and the Model Correspondence is to an array
+ * property, then only one instance of the array will be copied from one
+ * ParameterValueSource. If the property is not declared as an array and there
+ * are multiple instances of the class and property associated with it through
+ * ModelCorrespondence where the values are not all the same, then an error will
+ * occur and the property's value will not be set. Several MethodParameters
+ * instances can be associated with any ManagedElement's methods. This allows
+ * the maintenance of 'canned' method invocation and reduces the overhead of
+ * recreating all method parameters for every method invocation.
+ */
 public class CIM_MethodParameters extends CIM_ManagedElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_MethodParameters";
+	public final static String CIM_CLASS_NAME = "CIM_MethodParameters"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PARAMETERVALUESOURCES = "CIM_ParameterValueSources";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PARAMETERSFORMETHOD = "CIM_ParametersForMethod";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PARAMETERVALUESOURCES = "CIM_ParameterValueSources"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_PARAMETERSFORMETHOD = "CIM_ParametersForMethod"; //$NON-NLS-1$
 	
 	
 	/**
@@ -208,7 +254,7 @@ public class CIM_MethodParameters extends CIM_ManagedElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -333,8 +379,8 @@ public class CIM_MethodParameters extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PARAMETERVALUESOURCES, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Parameters",
-					"ValueSource",
+					"Parameters", //$NON-NLS-1$
+					"ValueSource", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -347,9 +393,9 @@ public class CIM_MethodParameters extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_MethodParameters.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_MethodParameters.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_MethodParameters.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_MethodParameters.Java_Package_List.setElementAt((String)(CIM_MethodParameters.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_MethodParameters.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_MethodParameters.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_MethodParameters.Java_Package_List.setElementAt((String)(CIM_MethodParameters.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_MethodParameters.Java_Package_List.get(i)) + cimClassName;
 
@@ -419,8 +465,8 @@ public class CIM_MethodParameters extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PARAMETERVALUESOURCES, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Parameters",
-					"ValueSource");
+					"Parameters", //$NON-NLS-1$
+					"ValueSource"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -460,8 +506,8 @@ public class CIM_MethodParameters extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PARAMETERSFORMETHOD, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Parameters",
-					"TheMethod",
+					"Parameters", //$NON-NLS-1$
+					"TheMethod", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -474,9 +520,9 @@ public class CIM_MethodParameters extends CIM_ManagedElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_MethodParameters.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_MethodParameters.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_MethodParameters.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_MethodParameters.Java_Package_List.setElementAt((String)(CIM_MethodParameters.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_MethodParameters.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_MethodParameters.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_MethodParameters.Java_Package_List.setElementAt((String)(CIM_MethodParameters.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_MethodParameters.Java_Package_List.get(i)) + cimClassName;
 
@@ -546,8 +592,8 @@ public class CIM_MethodParameters extends CIM_ManagedElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_PARAMETERSFORMETHOD, 
 					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Parameters",
-					"TheMethod");
+					"Parameters", //$NON-NLS-1$
+					"TheMethod"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

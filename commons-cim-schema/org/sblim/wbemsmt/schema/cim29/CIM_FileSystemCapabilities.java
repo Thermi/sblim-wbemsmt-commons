@@ -1,7 +1,7 @@
 /** 
  * CIM_FileSystemCapabilities.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: This class defines the abilities for persistence and recoverability of a FileSystem. This information is tied to the FileSystem using the ElementCapabilities association.
+ * Description:  This class defines the abilities for persistence and recoverability of a
+ * FileSystem. This information is tied to the FileSystem using the
+ * ElementCapabilities association.
  * 
  */
 
@@ -28,9 +30,14 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  This class defines the abilities for persistence and recoverability of a
+ * FileSystem. This information is tied to the FileSystem using the
+ * ElementCapabilities association.
+ */
 public class CIM_FileSystemCapabilities extends CIM_Capabilities  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_FileSystemCapabilities";
+	public final static String CIM_CLASS_NAME = "CIM_FileSystemCapabilities"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -210,7 +217,7 @@ public class CIM_FileSystemCapabilities extends CIM_Capabilities  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

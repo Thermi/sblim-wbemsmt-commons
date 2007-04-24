@@ -1,7 +1,7 @@
 /** 
  * CIM_ProductPhysicalElements.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: Indicates the PhysicalElement(s) that make up a Product. This association is deprecated in order to correctly place it in the inheritance hierarchy and align the definition with other new classes that are being added to the model, such as CIM_ProductServiceComponent. ProductPhysicalElements was defined in the original CIM V2.0 release, when a Managed Element and a Component relationship between ManagedElements did not exist.
+ * Description:  Indicates the PhysicalElement(s) that make up a Product. This association is
+ * deprecated in order to correctly place it in the inheritance hierarchy and
+ * align the definition with other new classes that are being added to the
+ * model, such as CIM_ProductServiceComponent. ProductPhysicalElements was
+ * defined in the original CIM V2.0 release, when a Managed Element and a
+ * Component relationship between ManagedElements did not exist.
  * 
  */
 
@@ -28,13 +33,21 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Indicates the PhysicalElement(s) that make up a Product. This association is
+ * deprecated in order to correctly place it in the inheritance hierarchy and
+ * align the definition with other new classes that are being added to the
+ * model, such as CIM_ProductServiceComponent. ProductPhysicalElements was
+ * defined in the original CIM V2.0 release, when a Managed Element and a
+ * Component relationship between ManagedElements did not exist.
+ */
 public class CIM_ProductPhysicalElements  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ProductPhysicalElements";
+	public final static String CIM_CLASS_NAME = "CIM_ProductPhysicalElements"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +191,7 @@ public class CIM_ProductPhysicalElements  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

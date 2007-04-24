@@ -1,7 +1,7 @@
 /** 
  * CIM_ElementConformsToProfile.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: The CIM_ElementConformsToProfile association defines the RegisteredProfiles to which the referenced ManagedElement is conformant. Note: This association may apply to any Managed Element. Typical usage will apply it to a higher level instance, such as a System, NameSpace, or Service. When applied to a higher level instance, all constituent parts MUST behave appropriately in support of the ManagedElement's conformance to the named RegisteredProfile.
+ * Description:  The CIM_ElementConformsToProfile association defines the RegisteredProfiles to
+ * which the referenced ManagedElement is conformant. Note: This association may
+ * apply to any Managed Element. Typical usage will apply it to a higher level
+ * instance, such as a System, NameSpace, or Service. When applied to a higher
+ * level instance, all constituent parts MUST behave appropriately in support of
+ * the ManagedElement's conformance to the named RegisteredProfile.
  * 
  */
 
@@ -28,13 +33,21 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The CIM_ElementConformsToProfile association defines the RegisteredProfiles to
+ * which the referenced ManagedElement is conformant. Note: This association may
+ * apply to any Managed Element. Typical usage will apply it to a higher level
+ * instance, such as a System, NameSpace, or Service. When applied to a higher
+ * level instance, all constituent parts MUST behave appropriately in support of
+ * the ManagedElement's conformance to the named RegisteredProfile.
+ */
 public class CIM_ElementConformsToProfile  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ElementConformsToProfile";
+	public final static String CIM_CLASS_NAME = "CIM_ElementConformsToProfile"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +191,7 @@ public class CIM_ElementConformsToProfile  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

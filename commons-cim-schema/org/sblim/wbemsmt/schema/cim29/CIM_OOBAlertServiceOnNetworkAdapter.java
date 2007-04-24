@@ -1,7 +1,7 @@
 /** 
  * CIM_OOBAlertServiceOnNetworkAdapter.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: The use of the CIM_OOBAlertServiceOnNetworkAdapter class has been deprecated, since NetworkAdapter has been deprecated. Instead use the CIM_OOBAlertServiceOnNetworkPort class. OOBAlertServiceOnNetworkAdapter defines where the out of band alerting Service is implemented.
+ * Description:  The use of the CIM_OOBAlertServiceOnNetworkAdapter class has been deprecated,
+ * since NetworkAdapter has been deprecated. Instead use the
+ * CIM_OOBAlertServiceOnNetworkPort class. OOBAlertServiceOnNetworkAdapter
+ * defines where the out of band alerting Service is implemented.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The use of the CIM_OOBAlertServiceOnNetworkAdapter class has been deprecated,
+ * since NetworkAdapter has been deprecated. Instead use the
+ * CIM_OOBAlertServiceOnNetworkPort class. OOBAlertServiceOnNetworkAdapter
+ * defines where the out of band alerting Service is implemented.
+ */
 public class CIM_OOBAlertServiceOnNetworkAdapter extends CIM_DeviceServiceImplementation  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_OOBAlertServiceOnNetworkAdapter";
+	public final static String CIM_CLASS_NAME = "CIM_OOBAlertServiceOnNetworkAdapter"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +200,7 @@ public class CIM_OOBAlertServiceOnNetworkAdapter extends CIM_DeviceServiceImplem
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

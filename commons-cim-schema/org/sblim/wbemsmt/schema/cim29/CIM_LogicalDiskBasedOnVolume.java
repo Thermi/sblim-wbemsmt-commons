@@ -1,7 +1,7 @@
 /** 
  * CIM_LogicalDiskBasedOnVolume.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: LogicalDisks can be BasedOn a single Volume (for example, exposed by a software volume manager), or be BasedOn a Disk Partition directly. The former relationship is made explicit in this association.
+ * Description:  LogicalDisks can be BasedOn a single Volume (for example, exposed by a software
+ * volume manager), or be BasedOn a Disk Partition directly. The former
+ * relationship is made explicit in this association.
  * 
  */
 
@@ -28,9 +30,14 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  LogicalDisks can be BasedOn a single Volume (for example, exposed by a software
+ * volume manager), or be BasedOn a Disk Partition directly. The former
+ * relationship is made explicit in this association.
+ */
 public class CIM_LogicalDiskBasedOnVolume extends CIM_LogicalDiskBasedOnExtent  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_LogicalDiskBasedOnVolume";
+	public final static String CIM_CLASS_NAME = "CIM_LogicalDiskBasedOnVolume"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +198,7 @@ public class CIM_LogicalDiskBasedOnVolume extends CIM_LogicalDiskBasedOnExtent  
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

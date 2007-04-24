@@ -1,7 +1,7 @@
 /** 
  * CIM_FCAdapterEventCounters.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: The use of the FCAdapterEventCounters class is deprecated since FibreChannelAdapter is deprecated. FCPortStatistics should be used instead, but redefines the level at which data is collected. This is why there is no direct translation of the individual counters between the two classes. This object describes event counters specific to a FibreChannelAdapter.
+ * Description:  The use of the FCAdapterEventCounters class is deprecated since
+ * FibreChannelAdapter is deprecated. FCPortStatistics should be used instead,
+ * but redefines the level at which data is collected. This is why there is no
+ * direct translation of the individual counters between the two classes. This
+ * object describes event counters specific to a FibreChannelAdapter.
  * 
  */
 
@@ -30,9 +34,16 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  The use of the FCAdapterEventCounters class is deprecated since
+ * FibreChannelAdapter is deprecated. FCPortStatistics should be used instead,
+ * but redefines the level at which data is collected. This is why there is no
+ * direct translation of the individual counters between the two classes. This
+ * object describes event counters specific to a FibreChannelAdapter.
+ */
 public class CIM_FCAdapterEventCounters extends CIM_DeviceStatisticalInformation  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_FCAdapterEventCounters";
+	public final static String CIM_CLASS_NAME = "CIM_FCAdapterEventCounters"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -283,7 +294,7 @@ In a subclass, the set of possible return codes could be specified, using a Valu
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_NetworkPortStatistics.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,7 @@
  * Contributors:
  *
  *
- * Description: The NetworkPortStatistics class describes the statistics for the NetworkPort.
+ * Description:  The NetworkPortStatistics class describes the statistics for the NetworkPort.
  * 
  */
 
@@ -28,9 +28,12 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The NetworkPortStatistics class describes the statistics for the NetworkPort.
+ */
 public class CIM_NetworkPortStatistics extends CIM_StatisticalData  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_NetworkPortStatistics";
+	public final static String CIM_CLASS_NAME = "CIM_NetworkPortStatistics"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -220,7 +223,7 @@ public class CIM_NetworkPortStatistics extends CIM_StatisticalData  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

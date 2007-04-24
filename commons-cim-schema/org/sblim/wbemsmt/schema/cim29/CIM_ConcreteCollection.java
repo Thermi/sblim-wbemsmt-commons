@@ -1,7 +1,7 @@
 /** 
  * CIM_ConcreteCollection.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,17 @@
  * Contributors:
  *
  *
- * Description: A concrete version of Collection. This class represents a generic and instantiable collection, such as a group of ComputerSystems (e.g., a pool of hosts available for executing Jobs). It is defined as a concrete subclass of the abstract CIM_Collection class, to be used in place of many specific subclasses that add no semantics. Note that when defining additional semantics for Collection that this class MUST NOT be subclassed. Specific semantics continue to be defined as subclasses of the abstract CIM_Collection. ConcreteCollection is limited in its use as a concrete form of a general collection or bag. It was deemed more prudent to create this concrete subclass than to change Collection from an abstract to a concrete class.
+ * Description:  A concrete version of Collection. This class represents a generic and
+ * instantiable collection, such as a group of ComputerSystems (e.g., a pool of
+ * hosts available for executing Jobs). It is defined as a concrete subclass of
+ * the abstract CIM_Collection class, to be used in place of many specific
+ * subclasses that add no semantics. Note that when defining additional
+ * semantics for Collection that this class MUST NOT be subclassed. Specific
+ * semantics continue to be defined as subclasses of the abstract
+ * CIM_Collection. ConcreteCollection is limited in its use as a concrete form
+ * of a general collection or bag. It was deemed more prudent to create this
+ * concrete subclass than to change Collection from an abstract to a concrete
+ * class.
  * 
  */
 
@@ -28,9 +38,22 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  A concrete version of Collection. This class represents a generic and
+ * instantiable collection, such as a group of ComputerSystems (e.g., a pool of
+ * hosts available for executing Jobs). It is defined as a concrete subclass of
+ * the abstract CIM_Collection class, to be used in place of many specific
+ * subclasses that add no semantics. Note that when defining additional
+ * semantics for Collection that this class MUST NOT be subclassed. Specific
+ * semantics continue to be defined as subclasses of the abstract
+ * CIM_Collection. ConcreteCollection is limited in its use as a concrete form
+ * of a general collection or bag. It was deemed more prudent to create this
+ * concrete subclass than to change Collection from an abstract to a concrete
+ * class.
+ */
 public class CIM_ConcreteCollection extends CIM_Collection  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ConcreteCollection";
+	public final static String CIM_CLASS_NAME = "CIM_ConcreteCollection"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -207,7 +230,7 @@ Where <OrgID> and <LocalID> are separated by a colon ':', and where <OrgID> MUST
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

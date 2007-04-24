@@ -1,7 +1,7 @@
 /** 
  * CIM_ProductServiceComponent.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,17 @@
  * Contributors:
  *
  *
- * Description: Indicates that the referenced Service is acquired as part of a Product. Examples of Services that may be acquired are outsourced storage and networking services, or support and warranty services. Expanding on the examples, Services represent generic functionality - so, it is possible to model the existence of storage volume management or warranty services as individual instances of subclasses of CIM_Service. These 'Services' may be enabled/disabled, started/stopped, signal an error, etc. (They behave as standard ManagedSystemElements.) Specific requests against the Services - for example, a request for warranty service or increased storage space - are NOT new instances of Service, but may be requested via the methods of the Service subclass, or be instantiated as specific subclasses of ManagedElement.
+ * Description:  Indicates that the referenced Service is acquired as part of a Product.
+ * Examples of Services that may be acquired are outsourced storage and
+ * networking services, or support and warranty services. Expanding on the
+ * examples, Services represent generic functionality - so, it is possible to
+ * model the existence of storage volume management or warranty services as
+ * individual instances of subclasses of CIM_Service. These 'Services' may be
+ * enabled/disabled, started/stopped, signal an error, etc. (They behave as
+ * standard ManagedSystemElements.) Specific requests against the Services - for
+ * example, a request for warranty service or increased storage space - are NOT
+ * new instances of Service, but may be requested via the methods of the Service
+ * subclass, or be instantiated as specific subclasses of ManagedElement.
  * 
  */
 
@@ -28,9 +38,22 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Indicates that the referenced Service is acquired as part of a Product.
+ * Examples of Services that may be acquired are outsourced storage and
+ * networking services, or support and warranty services. Expanding on the
+ * examples, Services represent generic functionality - so, it is possible to
+ * model the existence of storage volume management or warranty services as
+ * individual instances of subclasses of CIM_Service. These 'Services' may be
+ * enabled/disabled, started/stopped, signal an error, etc. (They behave as
+ * standard ManagedSystemElements.) Specific requests against the Services - for
+ * example, a request for warranty service or increased storage space - are NOT
+ * new instances of Service, but may be requested via the methods of the Service
+ * subclass, or be instantiated as specific subclasses of ManagedElement.
+ */
 public class CIM_ProductServiceComponent extends CIM_Component  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ProductServiceComponent";
+	public final static String CIM_CLASS_NAME = "CIM_ProductServiceComponent"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +214,7 @@ public class CIM_ProductServiceComponent extends CIM_Component  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

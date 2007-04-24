@@ -1,7 +1,7 @@
 /** 
  * CIM_UnixThread.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: Threads represent the ability to execute units of a Process or task in parallel. A UnixThread inherits from the superclass, CIM_Thread, which is weak to the Process. The values used are defined in sched.h and psched.h.
+ * Description:  Threads represent the ability to execute units of a Process or task in
+ * parallel. A UnixThread inherits from the superclass, CIM_Thread, which is
+ * weak to the Process. The values used are defined in sched.h and psched.h.
  * 
  */
 
@@ -28,9 +30,14 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Threads represent the ability to execute units of a Process or task in
+ * parallel. A UnixThread inherits from the superclass, CIM_Thread, which is
+ * weak to the Process. The values used are defined in sched.h and psched.h.
+ */
 public class CIM_UnixThread extends CIM_Thread  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_UnixThread";
+	public final static String CIM_CLASS_NAME = "CIM_UnixThread"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -299,7 +306,7 @@ public class CIM_UnixThread extends CIM_Thread  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

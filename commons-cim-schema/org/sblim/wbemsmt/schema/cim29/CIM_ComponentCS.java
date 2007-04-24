@@ -1,7 +1,7 @@
 /** 
  * CIM_ComponentCS.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,9 +16,24 @@
  * Contributors:
  *
  *
- * Description: A ComputerSystem can aggregate another ComputerSystem. This association can be used to model MPP Systems with workstation frontends, an I2O subsystem embedded in a Unitary ComputerSystem, or a System that splits functionality between two processors, potentially running different Operating Systems. For example, if a CISC Processor and its associated OperatingSystem, are used for user interface and file support, and a RISC Processor and its OS are used for complex mathematical operations, this could be modeled as two ComputerSystems where one aggregates the other. In some cases, this could be modeled as a Cluster. The difference is the focus of the relationship. ComponentCS represents that unique and distinct ComputerSystems are aggregated by a higher level CS object. However, each of the component CSs are still distinguishable entities and are only viewed as such. Alternately, with a Cluster, the ComputerSystems that participate in it are inconsequential, when viewed through the 'Cluster System'. 
-
-When instantiating or subclassing the ComponentCS relationship, care should be taken that the component ComputerSystem meets the definitional requirements of a ComputerSystem - ie, a functional whole that provides compute capabilities and aggregates System Devices, an OperatingSystem, etc.
+ * Description:  A ComputerSystem can aggregate another ComputerSystem. This association can be
+ * used to model MPP Systems with workstation frontends, an I2O subsystem
+ * embedded in a Unitary ComputerSystem, or a System that splits functionality
+ * between two processors, potentially running different Operating Systems. For
+ * example, if a CISC Processor and its associated OperatingSystem, are used for
+ * user interface and file support, and a RISC Processor and its OS are used for
+ * complex mathematical operations, this could be modeled as two ComputerSystems
+ * where one aggregates the other. In some cases, this could be modeled as a
+ * Cluster. The difference is the focus of the relationship. ComponentCS
+ * represents that unique and distinct ComputerSystems are aggregated by a
+ * higher level CS object. However, each of the component CSs are still
+ * distinguishable entities and are only viewed as such. Alternately, with a
+ * Cluster, the ComputerSystems that participate in it are inconsequential, when
+ * viewed through the 'Cluster System'. When instantiating or subclassing the
+ * ComponentCS relationship, care should be taken that the component
+ * ComputerSystem meets the definitional requirements of a ComputerSystem - ie,
+ * a functional whole that provides compute capabilities and aggregates System
+ * Devices, an OperatingSystem, etc.
  * 
  */
 
@@ -30,9 +45,29 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  A ComputerSystem can aggregate another ComputerSystem. This association can be
+ * used to model MPP Systems with workstation frontends, an I2O subsystem
+ * embedded in a Unitary ComputerSystem, or a System that splits functionality
+ * between two processors, potentially running different Operating Systems. For
+ * example, if a CISC Processor and its associated OperatingSystem, are used for
+ * user interface and file support, and a RISC Processor and its OS are used for
+ * complex mathematical operations, this could be modeled as two ComputerSystems
+ * where one aggregates the other. In some cases, this could be modeled as a
+ * Cluster. The difference is the focus of the relationship. ComponentCS
+ * represents that unique and distinct ComputerSystems are aggregated by a
+ * higher level CS object. However, each of the component CSs are still
+ * distinguishable entities and are only viewed as such. Alternately, with a
+ * Cluster, the ComputerSystems that participate in it are inconsequential, when
+ * viewed through the 'Cluster System'. When instantiating or subclassing the
+ * ComponentCS relationship, care should be taken that the component
+ * ComputerSystem meets the definitional requirements of a ComputerSystem - ie,
+ * a functional whole that provides compute capabilities and aggregates System
+ * Devices, an OperatingSystem, etc.
+ */
 public class CIM_ComponentCS extends CIM_SystemComponent  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ComponentCS";
+	public final static String CIM_CLASS_NAME = "CIM_ComponentCS"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -193,7 +228,7 @@ public class CIM_ComponentCS extends CIM_SystemComponent  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_AdapterActiveConnection.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,15 @@
  * Contributors:
  *
  *
- * Description: The use of the CIM_AdapterActiveConnection class has been deprecated, since NetworkAdapter is deprecated. Instead use the CIM_PortActiveConnection class. The AdapterActiveConnection relationship indicates that a NetworkAdapter is using the referenced PhysicalConnector to output to the network. This relationship is important when the Adapter can choose to output from one of several Connectors. The Connectors may be associated with the NetworkAdapter in a Realizes relationship - but this is not required. This association provides additional information (i.e., 'in use for communication') different than Realizes.
+ * Description:  The use of the CIM_AdapterActiveConnection class has been deprecated, since
+ * NetworkAdapter is deprecated. Instead use the CIM_PortActiveConnection class.
+ * The AdapterActiveConnection relationship indicates that a NetworkAdapter is
+ * using the referenced PhysicalConnector to output to the network. This
+ * relationship is important when the Adapter can choose to output from one of
+ * several Connectors. The Connectors may be associated with the NetworkAdapter
+ * in a Realizes relationship - but this is not required. This association
+ * provides additional information (i.e., 'in use for communication') different
+ * than Realizes.
  * 
  */
 
@@ -28,9 +36,20 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The use of the CIM_AdapterActiveConnection class has been deprecated, since
+ * NetworkAdapter is deprecated. Instead use the CIM_PortActiveConnection class.
+ * The AdapterActiveConnection relationship indicates that a NetworkAdapter is
+ * using the referenced PhysicalConnector to output to the network. This
+ * relationship is important when the Adapter can choose to output from one of
+ * several Connectors. The Connectors may be associated with the NetworkAdapter
+ * in a Realizes relationship - but this is not required. This association
+ * provides additional information (i.e., 'in use for communication') different
+ * than Realizes.
+ */
 public class CIM_AdapterActiveConnection extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_AdapterActiveConnection";
+	public final static String CIM_CLASS_NAME = "CIM_AdapterActiveConnection"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +210,7 @@ public class CIM_AdapterActiveConnection extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

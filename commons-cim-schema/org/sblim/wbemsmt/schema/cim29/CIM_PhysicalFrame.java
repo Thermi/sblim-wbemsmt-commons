@@ -1,7 +1,7 @@
 /** 
  * CIM_PhysicalFrame.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: PhysicalFrame is a superclass of Rack, Chassis and other frame enclosures, as they are defined in extension classes. Properties like visible or audible alarm, and data related to security breaches are in this superclass.
+ * Description:  PhysicalFrame is a superclass of Rack, Chassis and other frame enclosures, as
+ * they are defined in extension classes. Properties like visible or audible
+ * alarm, and data related to security breaches are in this superclass.
  * 
  */
 
@@ -28,9 +30,14 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  PhysicalFrame is a superclass of Rack, Chassis and other frame enclosures, as
+ * they are defined in extension classes. Properties like visible or audible
+ * alarm, and data related to security breaches are in this superclass.
+ */
 public class CIM_PhysicalFrame extends CIM_PhysicalPackage  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_PhysicalFrame";
+	public final static String CIM_CLASS_NAME = "CIM_PhysicalFrame"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -278,7 +285,7 @@ public class CIM_PhysicalFrame extends CIM_PhysicalPackage  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

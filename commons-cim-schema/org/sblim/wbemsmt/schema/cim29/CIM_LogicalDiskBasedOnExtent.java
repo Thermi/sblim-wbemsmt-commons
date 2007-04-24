@@ -1,7 +1,7 @@
 /** 
  * CIM_LogicalDiskBasedOnExtent.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: LogicalDisks can be BasedOn a single StorageVolume, Memory (in the case of a RAM Disk), a DiskPartition or other StorageExtent. These relationships are made explicit in this association. Subclasses of the association, LogicalDiskBasedOn Partition and LogicalDiskBasedOnVolume, detail the 'typical' semantics.
+ * Description:  LogicalDisks can be BasedOn a single StorageVolume, Memory (in the case of a
+ * RAM Disk), a DiskPartition or other StorageExtent. These relationships are
+ * made explicit in this association. Subclasses of the association,
+ * LogicalDiskBasedOn Partition and LogicalDiskBasedOnVolume, detail the
+ * 'typical' semantics.
  * 
  */
 
@@ -28,9 +32,16 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  LogicalDisks can be BasedOn a single StorageVolume, Memory (in the case of a
+ * RAM Disk), a DiskPartition or other StorageExtent. These relationships are
+ * made explicit in this association. Subclasses of the association,
+ * LogicalDiskBasedOn Partition and LogicalDiskBasedOnVolume, detail the
+ * 'typical' semantics.
+ */
 public class CIM_LogicalDiskBasedOnExtent extends CIM_BasedOn  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_LogicalDiskBasedOnExtent";
+	public final static String CIM_CLASS_NAME = "CIM_LogicalDiskBasedOnExtent"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +202,7 @@ public class CIM_LogicalDiskBasedOnExtent extends CIM_BasedOn  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

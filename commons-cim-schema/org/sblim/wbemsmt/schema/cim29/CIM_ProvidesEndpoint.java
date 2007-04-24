@@ -1,7 +1,7 @@
 /** 
  * CIM_ProvidesEndpoint.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: This association represents a ProtocolEndpoint provided by a Service, to allow access to the Service.
+ * Description:  This association represents a ProtocolEndpoint provided by a Service, to allow
+ * access to the Service.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  This association represents a ProtocolEndpoint provided by a Service, to allow
+ * access to the Service.
+ */
 public class CIM_ProvidesEndpoint extends CIM_ServiceAccessBySAP  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ProvidesEndpoint";
+	public final static String CIM_CLASS_NAME = "CIM_ProvidesEndpoint"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +196,7 @@ public class CIM_ProvidesEndpoint extends CIM_ServiceAccessBySAP  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_Indication.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,9 +16,13 @@
  * Contributors:
  *
  *
- * Description: CIM_Indication is the abstract root class for all notifications about changes in schema, objects and their data, and about events detected by providers and instrumentation. Subclasses represent specific types of notifications. 
-
-To receive an Indication, a consumer (or subscriber) must create an instance of CIM_IndicationFilter describing the criteria of the notification, an instance of CIM_ListenerDestination describing the delivery of the notification, and an instance of CIM_IndicationSubscription associating the Filter and Handler.
+ * Description:  CIM_Indication is the abstract root class for all notifications about changes
+ * in schema, objects and their data, and about events detected by providers and
+ * instrumentation. Subclasses represent specific types of notifications. To
+ * receive an Indication, a consumer (or subscriber) must create an instance of
+ * CIM_IndicationFilter describing the criteria of the notification, an instance
+ * of CIM_ListenerDestination describing the delivery of the notification, and
+ * an instance of CIM_IndicationSubscription associating the Filter and Handler.
  * 
  */
 
@@ -31,13 +35,22 @@ import org.sblim.wbem.cim.*;
 import java.util.Calendar;
 
 
+/**
+ *  CIM_Indication is the abstract root class for all notifications about changes
+ * in schema, objects and their data, and about events detected by providers and
+ * instrumentation. Subclasses represent specific types of notifications. To
+ * receive an Indication, a consumer (or subscriber) must create an instance of
+ * CIM_IndicationFilter describing the criteria of the notification, an instance
+ * of CIM_ListenerDestination describing the delivery of the notification, and
+ * an instance of CIM_IndicationSubscription associating the Filter and Handler.
+ */
 public class CIM_Indication  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_Indication";
+	public final static String CIM_CLASS_NAME = "CIM_Indication"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -192,7 +205,7 @@ public class CIM_Indication  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

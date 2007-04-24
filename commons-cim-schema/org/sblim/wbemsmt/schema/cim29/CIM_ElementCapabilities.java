@@ -1,7 +1,7 @@
 /** 
  * CIM_ElementCapabilities.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,13 @@
  * Contributors:
  *
  *
- * Description: ElementCapabilities represents the association between ManagedElements and their Capabilities. Note that the cardinality of the ManagedElement reference is Min(1), Max(1). This cardinality mandates the instantiation of the ElementCapabilities association for the referenced instance of Capabilities. ElementCapabilities describes the existence requirements and context for the referenced instance of ManagedElement. Specifically, the ManagedElement MUST exist and provides the context for the Capabilities.
+ * Description:  ElementCapabilities represents the association between ManagedElements and
+ * their Capabilities. Note that the cardinality of the ManagedElement reference
+ * is Min(1), Max(1). This cardinality mandates the instantiation of the
+ * ElementCapabilities association for the referenced instance of Capabilities.
+ * ElementCapabilities describes the existence requirements and context for the
+ * referenced instance of ManagedElement. Specifically, the ManagedElement MUST
+ * exist and provides the context for the Capabilities.
  * 
  */
 
@@ -28,13 +34,22 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  ElementCapabilities represents the association between ManagedElements and
+ * their Capabilities. Note that the cardinality of the ManagedElement reference
+ * is Min(1), Max(1). This cardinality mandates the instantiation of the
+ * ElementCapabilities association for the referenced instance of Capabilities.
+ * ElementCapabilities describes the existence requirements and context for the
+ * referenced instance of ManagedElement. Specifically, the ManagedElement MUST
+ * exist and provides the context for the Capabilities.
+ */
 public class CIM_ElementCapabilities  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ElementCapabilities";
+	public final static String CIM_CLASS_NAME = "CIM_ElementCapabilities"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +193,7 @@ public class CIM_ElementCapabilities  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

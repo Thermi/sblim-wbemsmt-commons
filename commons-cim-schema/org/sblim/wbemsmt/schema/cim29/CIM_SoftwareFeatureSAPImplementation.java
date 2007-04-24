@@ -1,7 +1,7 @@
 /** 
  * CIM_SoftwareFeatureSAPImplementation.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,8 +16,16 @@
  * Contributors:
  *
  *
- * Description: An association between a ServiceAccessPoint and how it is implemented in software. The cardinality of this association is many-to-many. A SAP may be provided by more than one SoftwareFeature. When multiple SoftwareFeatures are associated with a single SAP, it is assumed that these elements operate in conjunction to provide the AccessPoint. Note that any SoftwareFeature may provide more than one ServiceAccessPoint. 
-If different implementations of a SAP exist, each of these implementations would result in individual instantiations of the ServiceAccessPoint object. These individual instantiations would then have their own associations to the unique implementations.
+ * Description:  An association between a ServiceAccessPoint and how it is implemented in
+ * software. The cardinality of this association is many-to-many. A SAP may be
+ * provided by more than one SoftwareFeature. When multiple SoftwareFeatures are
+ * associated with a single SAP, it is assumed that these elements operate in
+ * conjunction to provide the AccessPoint. Note that any SoftwareFeature may
+ * provide more than one ServiceAccessPoint. If different implementations of a
+ * SAP exist, each of these implementations would result in individual
+ * instantiations of the ServiceAccessPoint object. These individual
+ * instantiations would then have their own associations to the unique
+ * implementations.
  * 
  */
 
@@ -29,9 +37,21 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  An association between a ServiceAccessPoint and how it is implemented in
+ * software. The cardinality of this association is many-to-many. A SAP may be
+ * provided by more than one SoftwareFeature. When multiple SoftwareFeatures are
+ * associated with a single SAP, it is assumed that these elements operate in
+ * conjunction to provide the AccessPoint. Note that any SoftwareFeature may
+ * provide more than one ServiceAccessPoint. If different implementations of a
+ * SAP exist, each of these implementations would result in individual
+ * instantiations of the ServiceAccessPoint object. These individual
+ * instantiations would then have their own associations to the unique
+ * implementations.
+ */
 public class CIM_SoftwareFeatureSAPImplementation extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SoftwareFeatureSAPImplementation";
+	public final static String CIM_CLASS_NAME = "CIM_SoftwareFeatureSAPImplementation"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -192,7 +212,7 @@ public class CIM_SoftwareFeatureSAPImplementation extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

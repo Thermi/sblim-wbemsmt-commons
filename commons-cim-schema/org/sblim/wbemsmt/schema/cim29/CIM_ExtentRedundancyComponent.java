@@ -1,7 +1,7 @@
 /** 
  * CIM_ExtentRedundancyComponent.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,7 @@
  * Contributors:
  *
  *
- * Description: Describes the StorageExtents participating in a Storage RedundancyGroup.
+ * Description:  Describes the StorageExtents participating in a Storage RedundancyGroup.
  * 
  */
 
@@ -28,9 +28,12 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Describes the StorageExtents participating in a Storage RedundancyGroup.
+ */
 public class CIM_ExtentRedundancyComponent extends CIM_RedundancyComponent  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ExtentRedundancyComponent";
+	public final static String CIM_CLASS_NAME = "CIM_ExtentRedundancyComponent"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +194,7 @@ public class CIM_ExtentRedundancyComponent extends CIM_RedundancyComponent  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

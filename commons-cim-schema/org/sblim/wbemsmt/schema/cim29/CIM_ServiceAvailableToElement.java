@@ -1,7 +1,7 @@
 /** 
  * CIM_ServiceAvailableToElement.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,15 @@
  * Contributors:
  *
  *
- * Description: CIM_ServiceAvailableToElement conveys the semantics of a Service being available for the 'use' of a ManagedElement. An example is that a Processor and an enclosure (a PhysicalElement) may use AlertOnLAN Services to signal an incomplete or erroneous boot. In reality, AlertOnLAN is simply a HostedService on a computer system that is generally 'available for use', and not a dependency of the processor or enclosure. To describe that use of this service is restricted or has limited availability/applicability, then the CIM_ServiceAvailableToElement association would be instantiated between the Service and specific CIM_Processors and CIM_Chassis .
+ * Description:  CIM_ServiceAvailableToElement conveys the semantics of a Service being
+ * available for the 'use' of a ManagedElement. An example is that a Processor
+ * and an enclosure (a PhysicalElement) may use AlertOnLAN Services to signal an
+ * incomplete or erroneous boot. In reality, AlertOnLAN is simply a
+ * HostedService on a computer system that is generally 'available for use', and
+ * not a dependency of the processor or enclosure. To describe that use of this
+ * service is restricted or has limited availability/applicability, then the
+ * CIM_ServiceAvailableToElement association would be instantiated between the
+ * Service and specific CIM_Processors and CIM_Chassis .
  * 
  */
 
@@ -28,13 +36,24 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_ServiceAvailableToElement conveys the semantics of a Service being
+ * available for the 'use' of a ManagedElement. An example is that a Processor
+ * and an enclosure (a PhysicalElement) may use AlertOnLAN Services to signal an
+ * incomplete or erroneous boot. In reality, AlertOnLAN is simply a
+ * HostedService on a computer system that is generally 'available for use', and
+ * not a dependency of the processor or enclosure. To describe that use of this
+ * service is restricted or has limited availability/applicability, then the
+ * CIM_ServiceAvailableToElement association would be instantiated between the
+ * Service and specific CIM_Processors and CIM_Chassis .
+ */
 public class CIM_ServiceAvailableToElement  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ServiceAvailableToElement";
+	public final static String CIM_CLASS_NAME = "CIM_ServiceAvailableToElement"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +197,7 @@ public class CIM_ServiceAvailableToElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

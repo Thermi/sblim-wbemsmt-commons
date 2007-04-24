@@ -1,7 +1,7 @@
 /** 
  * CIM_OrderedMemberOfCollection.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: CIM_OrderedMemberOfCollection is an aggregation used to establish an ordered membership of ManagedElements in a Collection.
+ * Description:  CIM_OrderedMemberOfCollection is an aggregation used to establish an ordered
+ * membership of ManagedElements in a Collection.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_OrderedMemberOfCollection is an aggregation used to establish an ordered
+ * membership of ManagedElements in a Collection.
+ */
 public class CIM_OrderedMemberOfCollection extends CIM_MemberOfCollection  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_OrderedMemberOfCollection";
+	public final static String CIM_CLASS_NAME = "CIM_OrderedMemberOfCollection"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -212,7 +217,7 @@ Note that the non-zero sequence numbers need not start with '1', and they need n
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

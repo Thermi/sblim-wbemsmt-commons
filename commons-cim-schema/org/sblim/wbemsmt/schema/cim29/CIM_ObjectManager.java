@@ -1,7 +1,7 @@
 /** 
  * CIM_ObjectManager.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,13 @@
  * Contributors:
  *
  *
- * Description: A type of CIM_Service that defines the capabilities of the CIM Server in which this ObjectManager class resides. Details related to communicating with the ObjectManager, and the Manager's basic capabilities, are stored in instances of the associated CommunicationMechanism class available through the CommMechanismForManager association. It is assumed that Basic Read operations must be supported by all ObjectManager's in order to retrieve any additional detail.
+ * Description:  A type of CIM_Service that defines the capabilities of the CIM Server in which
+ * this ObjectManager class resides. Details related to communicating with the
+ * ObjectManager, and the Manager's basic capabilities, are stored in instances
+ * of the associated CommunicationMechanism class available through the
+ * CommMechanismForManager association. It is assumed that Basic Read operations
+ * must be supported by all ObjectManager's in order to retrieve any additional
+ * detail.
  * 
  */
 
@@ -33,16 +39,25 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A type of CIM_Service that defines the capabilities of the CIM Server in which
+ * this ObjectManager class resides. Details related to communicating with the
+ * ObjectManager, and the Manager's basic capabilities, are stored in instances
+ * of the associated CommunicationMechanism class available through the
+ * CommMechanismForManager association. It is assumed that Basic Read operations
+ * must be supported by all ObjectManager's in order to retrieve any additional
+ * detail.
+ */
 public class CIM_ObjectManager extends CIM_WBEMService  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ObjectManager";
+	public final static String CIM_CLASS_NAME = "CIM_ObjectManager"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.8.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER = "CIM_CommMechanismForManager";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_NAMESPACEINMANAGER = "CIM_NamespaceInManager";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER = "CIM_CommMechanismForManager"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_NAMESPACEINMANAGER = "CIM_NamespaceInManager"; //$NON-NLS-1$
 	
 	
 	/**
@@ -230,7 +245,7 @@ Note: Name is semantically the same as InstanceID. In the next major version of 
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -355,8 +370,8 @@ Note: Name is semantically the same as InstanceID. In the next major version of 
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER, 
 					CIM_ObjectManagerCommunicationMechanism.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -369,9 +384,9 @@ Note: Name is semantically the same as InstanceID. In the next major version of 
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_ObjectManager.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ObjectManager.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ObjectManager.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ObjectManager.Java_Package_List.setElementAt((String)(CIM_ObjectManager.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_ObjectManager.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_ObjectManager.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_ObjectManager.Java_Package_List.setElementAt((String)(CIM_ObjectManager.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_ObjectManager.Java_Package_List.get(i)) + cimClassName;
 
@@ -441,8 +456,8 @@ Note: Name is semantically the same as InstanceID. In the next major version of 
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER, 
 					CIM_ObjectManagerCommunicationMechanism.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -482,8 +497,8 @@ Note: Name is semantically the same as InstanceID. In the next major version of 
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_NAMESPACEINMANAGER, 
 					CIM_Namespace.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -496,9 +511,9 @@ Note: Name is semantically the same as InstanceID. In the next major version of 
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_ObjectManager.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ObjectManager.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_ObjectManager.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_ObjectManager.Java_Package_List.setElementAt((String)(CIM_ObjectManager.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_ObjectManager.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_ObjectManager.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_ObjectManager.Java_Package_List.setElementAt((String)(CIM_ObjectManager.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_ObjectManager.Java_Package_List.get(i)) + cimClassName;
 
@@ -568,8 +583,8 @@ Note: Name is semantically the same as InstanceID. In the next major version of 
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_NAMESPACEINMANAGER, 
 					CIM_Namespace.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

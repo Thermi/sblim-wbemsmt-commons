@@ -1,7 +1,7 @@
 /** 
  * CIM_SoftwareElementComponent.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: SoftwareElements may have an arbitrarily complex hierarchy. SoftwareElementComponent is used to construct that hierarchy. It should not be used to represent dependency.
+ * Description:  SoftwareElements may have an arbitrarily complex hierarchy.
+ * SoftwareElementComponent is used to construct that hierarchy. It should not
+ * be used to represent dependency.
  * 
  */
 
@@ -28,9 +30,14 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  SoftwareElements may have an arbitrarily complex hierarchy.
+ * SoftwareElementComponent is used to construct that hierarchy. It should not
+ * be used to represent dependency.
+ */
 public class CIM_SoftwareElementComponent extends CIM_Component  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SoftwareElementComponent";
+	public final static String CIM_CLASS_NAME = "CIM_SoftwareElementComponent"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +198,7 @@ public class CIM_SoftwareElementComponent extends CIM_Component  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

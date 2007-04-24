@@ -1,7 +1,7 @@
 /** 
  * CIM_UnixFile.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,19 @@
  * Contributors:
  *
  *
- * Description: The UnixFile class holds properties that are valid for various subclasses of LogicalFile, in a Unix environment. This is defined as a separate and unique class since it is applicable to Unix files, directories, etc. It is associated via a FileIdentity relationship to these subclasses of LogicalFile. Unless this approach of creating and associating a separate class is used, it is necessary to subclass each of the inheritance hierarchies under LogicalFile, duplicating the properties in this class. The referenced _PC* and _POSIX* constants are defined in unistd.h. Some properties indicate whether the UNIX implementation support a feature such as asynchronous I/O or priority I/O. If supported, sysconf returns the value as defined in the appropriate header file such as unistd.h. If a feature is not supported, then pathconf returns a -1. In this case, the corresponding property should be returned without any value.
+ * Description:  The UnixFile class holds properties that are valid for various subclasses of
+ * LogicalFile, in a Unix environment. This is defined as a separate and unique
+ * class since it is applicable to Unix files, directories, etc. It is
+ * associated via a FileIdentity relationship to these subclasses of
+ * LogicalFile. Unless this approach of creating and associating a separate
+ * class is used, it is necessary to subclass each of the inheritance
+ * hierarchies under LogicalFile, duplicating the properties in this class. The
+ * referenced _PC* and _POSIX* constants are defined in unistd.h. Some
+ * properties indicate whether the UNIX implementation support a feature such as
+ * asynchronous I/O or priority I/O. If supported, sysconf returns the value as
+ * defined in the appropriate header file such as unistd.h. If a feature is not
+ * supported, then pathconf returns a -1. In this case, the corresponding
+ * property should be returned without any value.
  * 
  */
 
@@ -34,15 +46,30 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  The UnixFile class holds properties that are valid for various subclasses of
+ * LogicalFile, in a Unix environment. This is defined as a separate and unique
+ * class since it is applicable to Unix files, directories, etc. It is
+ * associated via a FileIdentity relationship to these subclasses of
+ * LogicalFile. Unless this approach of creating and associating a separate
+ * class is used, it is necessary to subclass each of the inheritance
+ * hierarchies under LogicalFile, duplicating the properties in this class. The
+ * referenced _PC* and _POSIX* constants are defined in unistd.h. Some
+ * properties indicate whether the UNIX implementation support a feature such as
+ * asynchronous I/O or priority I/O. If supported, sysconf returns the value as
+ * defined in the appropriate header file such as unistd.h. If a feature is not
+ * supported, then pathconf returns a -1. In this case, the corresponding
+ * property should be returned without any value.
+ */
 public class CIM_UnixFile extends CIM_LogicalElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_UnixFile";
+	public final static String CIM_CLASS_NAME = "CIM_UnixFile"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_FILEIDENTITY = "CIM_FileIdentity";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_FILEIDENTITY = "CIM_FileIdentity"; //$NON-NLS-1$
 	
 	
 	/**
@@ -427,7 +454,7 @@ public class CIM_UnixFile extends CIM_LogicalElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -552,8 +579,8 @@ public class CIM_UnixFile extends CIM_LogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_FILEIDENTITY, 
 					CIM_LogicalFile.CIM_CLASS_NAME, 
-					"SameElement",
-					"SystemElement",
+					"SameElement", //$NON-NLS-1$
+					"SystemElement", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -566,9 +593,9 @@ public class CIM_UnixFile extends CIM_LogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_UnixFile.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_UnixFile.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_UnixFile.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_UnixFile.Java_Package_List.setElementAt((String)(CIM_UnixFile.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_UnixFile.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_UnixFile.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_UnixFile.Java_Package_List.setElementAt((String)(CIM_UnixFile.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_UnixFile.Java_Package_List.get(i)) + cimClassName;
 
@@ -638,8 +665,8 @@ public class CIM_UnixFile extends CIM_LogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_FILEIDENTITY, 
 					CIM_LogicalFile.CIM_CLASS_NAME, 
-					"SameElement",
-					"SystemElement");
+					"SameElement", //$NON-NLS-1$
+					"SystemElement"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

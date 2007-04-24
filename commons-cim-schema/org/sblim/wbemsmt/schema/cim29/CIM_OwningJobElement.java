@@ -1,7 +1,7 @@
 /** 
  * CIM_OwningJobElement.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,13 @@
  * Contributors:
  *
  *
- * Description: OwningJobElement represents an association between a Job and the ManagedElement responsible for the creation of the Job. This association may not be possible, given that the execution of jobs can move between systems and that the lifecycle of the creating entity may not persist for the total duration of the job. However, this can be very useful information when available. This association defines a more specific 'owner' than is provided by the CIM_Job.Owner string.
+ * Description:  OwningJobElement represents an association between a Job and the ManagedElement
+ * responsible for the creation of the Job. This association may not be
+ * possible, given that the execution of jobs can move between systems and that
+ * the lifecycle of the creating entity may not persist for the total duration
+ * of the job. However, this can be very useful information when available. This
+ * association defines a more specific 'owner' than is provided by the
+ * CIM_Job.Owner string.
  * 
  */
 
@@ -28,13 +34,22 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  OwningJobElement represents an association between a Job and the ManagedElement
+ * responsible for the creation of the Job. This association may not be
+ * possible, given that the execution of jobs can move between systems and that
+ * the lifecycle of the creating entity may not persist for the total duration
+ * of the job. However, this can be very useful information when available. This
+ * association defines a more specific 'owner' than is provided by the
+ * CIM_Job.Owner string.
+ */
 public class CIM_OwningJobElement  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_OwningJobElement";
+	public final static String CIM_CLASS_NAME = "CIM_OwningJobElement"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +193,7 @@ public class CIM_OwningJobElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

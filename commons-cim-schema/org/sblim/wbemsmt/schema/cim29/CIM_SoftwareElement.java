@@ -1,7 +1,7 @@
 /** 
  * CIM_SoftwareElement.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,18 @@
  * Contributors:
  *
  *
- * Description: The CIM_SoftwareElement class is used to decompose a CIM_SoftwareFeature object into a set of individually manageable or deployable parts, for a particular platform. A SoftwareElement's platform is uniquely identified by its underlying hardware architecture and operating system (for example Sun Solaris on Sun Sparc or Windows NT on Intel platforms). As such, to understand the details of how the functionality of a particular SoftwareFeature is provided on a particular platform, the CIM_SoftwareElement objects referenced by CIM_SoftwareFeatureSoftwareElements associations are organized in disjoint sets based on the TargetOperatingSystem property. A CIM_SoftwareElement object captures the management details of a part or component in one of four states characterized by the SoftwareElementState property.
+ * Description:  The CIM_SoftwareElement class is used to decompose a CIM_SoftwareFeature object
+ * into a set of individually manageable or deployable parts, for a particular
+ * platform. A SoftwareElement's platform is uniquely identified by its
+ * underlying hardware architecture and operating system (for example Sun
+ * Solaris on Sun Sparc or Windows NT on Intel platforms). As such, to
+ * understand the details of how the functionality of a particular
+ * SoftwareFeature is provided on a particular platform, the CIM_SoftwareElement
+ * objects referenced by CIM_SoftwareFeatureSoftwareElements associations are
+ * organized in disjoint sets based on the TargetOperatingSystem property. A
+ * CIM_SoftwareElement object captures the management details of a part or
+ * component in one of four states characterized by the SoftwareElementState
+ * property.
  * 
  */
 
@@ -33,24 +44,32 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  The CIM_SoftwareElement class is used to decompose a CIM_SoftwareFeature object
+ * into a set of individually manageable or deployable parts, for a particular
+ * platform. A SoftwareElement's platform is uniquely identified by its
+ * underlying hardware architecture and operating system (for example Sun
+ * Solaris on Sun Sparc or Windows NT on Intel platforms). As such, to
+ * understand the details of how the functionality of a particular
+ * SoftwareFeature is provided on a particular platform, the CIM_SoftwareElement
+ * objects referenced by CIM_SoftwareFeatureSoftwareElements associations are
+ * organized in disjoint sets based on the TargetOperatingSystem property. A
+ * CIM_SoftwareElement object captures the management details of a part or
+ * component in one of four states characterized by the SoftwareElementState
+ * property.
+ */
 public class CIM_SoftwareElement extends CIM_LogicalElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_SoftwareElement";
+	public final static String CIM_CLASS_NAME = "CIM_SoftwareElement"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTEDSOFTWAREELEMENTS = "CIM_CollectedSoftwareElements";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESOFTWARE = "CIM_DeviceSoftware";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DIAGNOSTICTESTSOFTWARE = "CIM_DiagnosticTestSoftware";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDSOFTWAREELEMENT = "CIM_InstalledSoftwareElement";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTACTIONS = "CIM_SoftwareElementActions";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTCHECKS = "CIM_SoftwareElementChecks";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTCOMPONENT = "CIM_SoftwareElementComponent";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTSAPIMPLEMENTATION = "CIM_SoftwareElementSAPImplementation";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTSERVICEIMPLEMENTATION = "CIM_SoftwareElementServiceImplementation";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREFEATURESOFTWAREELEMENTS = "CIM_SoftwareFeatureSoftwareElements";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTCOMPONENT = "CIM_SoftwareElementComponent"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTSAPIMPLEMENTATION = "CIM_SoftwareElementSAPImplementation"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTSERVICEIMPLEMENTATION = "CIM_SoftwareElementServiceImplementation"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREFEATURESOFTWAREELEMENTS = "CIM_SoftwareFeatureSoftwareElements"; //$NON-NLS-1$
 	
 	
 	/**
@@ -415,7 +434,7 @@ public class CIM_SoftwareElement extends CIM_LogicalElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -525,768 +544,6 @@ public class CIM_SoftwareElement extends CIM_LogicalElement  {
 	// Associators methods
 	//*****************************************************
 	
-	public ArrayList getAssociated_CIM_InstalledProduct_CIM_CollectedSoftwareElementss(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTEDSOFTWAREELEMENTS, 
-					CIM_InstalledProduct.CIM_CLASS_NAME, 
-					"Member",
-					"Collection",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_SoftwareElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SoftwareElement.Java_Package_List.setElementAt((String)(CIM_SoftwareElement.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_SoftwareElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_InstalledProduct(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_InstalledProduct(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_InstalledProduct(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_InstalledProduct_CIM_CollectedSoftwareElements_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTEDSOFTWAREELEMENTS, 
-					CIM_InstalledProduct.CIM_CLASS_NAME, 
-					"Member",
-					"Collection");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_InstalledProduct.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_LogicalDevice_CIM_DeviceSoftwares(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESOFTWARE, 
-					CIM_LogicalDevice.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_SoftwareElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SoftwareElement.Java_Package_List.setElementAt((String)(CIM_SoftwareElement.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_SoftwareElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_LogicalDevice(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_LogicalDevice(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_LogicalDevice(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_LogicalDevice_CIM_DeviceSoftware_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESOFTWARE, 
-					CIM_LogicalDevice.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_LogicalDevice.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_DiagnosticTest_CIM_DiagnosticTestSoftwares(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_DIAGNOSTICTESTSOFTWARE, 
-					CIM_DiagnosticTest.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_SoftwareElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SoftwareElement.Java_Package_List.setElementAt((String)(CIM_SoftwareElement.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_SoftwareElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_DiagnosticTest(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_DiagnosticTest(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_DiagnosticTest(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_DiagnosticTest_CIM_DiagnosticTestSoftware_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_DIAGNOSTICTESTSOFTWARE, 
-					CIM_DiagnosticTest.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_DiagnosticTest.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_ComputerSystem_CIM_InstalledSoftwareElements(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDSOFTWAREELEMENT, 
-					CIM_ComputerSystem.CIM_CLASS_NAME, 
-					"Software",
-					"System",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_SoftwareElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SoftwareElement.Java_Package_List.setElementAt((String)(CIM_SoftwareElement.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_SoftwareElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ComputerSystem(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ComputerSystem(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ComputerSystem(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_ComputerSystem_CIM_InstalledSoftwareElement_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDSOFTWAREELEMENT, 
-					CIM_ComputerSystem.CIM_CLASS_NAME, 
-					"Software",
-					"System");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_ComputerSystem.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Action_CIM_SoftwareElementActionss(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTACTIONS, 
-					CIM_Action.CIM_CLASS_NAME, 
-					"Element",
-					"Action",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_SoftwareElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SoftwareElement.Java_Package_List.setElementAt((String)(CIM_SoftwareElement.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_SoftwareElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Action(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Action(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Action(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Action_CIM_SoftwareElementActions_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTACTIONS, 
-					CIM_Action.CIM_CLASS_NAME, 
-					"Element",
-					"Action");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_Action.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Check_CIM_SoftwareElementCheckss(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTCHECKS, 
-					CIM_Check.CIM_CLASS_NAME, 
-					"Element",
-					"Check",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_SoftwareElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SoftwareElement.Java_Package_List.setElementAt((String)(CIM_SoftwareElement.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_SoftwareElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Check(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Check(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Check(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_Check_CIM_SoftwareElementChecks_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTCHECKS, 
-					CIM_Check.CIM_CLASS_NAME, 
-					"Element",
-					"Check");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_Check.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
 	public ArrayList getAssociated_CIM_SoftwareElement_CIM_SoftwareElementComponents(CIMClient cimClient,
 	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
 
@@ -1302,8 +559,8 @@ public class CIM_SoftwareElement extends CIM_LogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTCOMPONENT, 
 					CIM_SoftwareElement.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1316,9 +573,9 @@ public class CIM_SoftwareElement extends CIM_LogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_SoftwareElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SoftwareElement.Java_Package_List.setElementAt((String)(CIM_SoftwareElement.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_SoftwareElement.Java_Package_List.setElementAt((String)(CIM_SoftwareElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_SoftwareElement.Java_Package_List.get(i)) + cimClassName;
 
@@ -1388,8 +645,8 @@ public class CIM_SoftwareElement extends CIM_LogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTCOMPONENT, 
 					CIM_SoftwareElement.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1429,8 +686,8 @@ public class CIM_SoftwareElement extends CIM_LogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTSAPIMPLEMENTATION, 
 					CIM_ServiceAccessPoint.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1443,9 +700,9 @@ public class CIM_SoftwareElement extends CIM_LogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_SoftwareElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SoftwareElement.Java_Package_List.setElementAt((String)(CIM_SoftwareElement.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_SoftwareElement.Java_Package_List.setElementAt((String)(CIM_SoftwareElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_SoftwareElement.Java_Package_List.get(i)) + cimClassName;
 
@@ -1515,8 +772,8 @@ public class CIM_SoftwareElement extends CIM_LogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTSAPIMPLEMENTATION, 
 					CIM_ServiceAccessPoint.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1556,8 +813,8 @@ public class CIM_SoftwareElement extends CIM_LogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTSERVICEIMPLEMENTATION, 
 					CIM_Service.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1570,9 +827,9 @@ public class CIM_SoftwareElement extends CIM_LogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_SoftwareElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SoftwareElement.Java_Package_List.setElementAt((String)(CIM_SoftwareElement.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_SoftwareElement.Java_Package_List.setElementAt((String)(CIM_SoftwareElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_SoftwareElement.Java_Package_List.get(i)) + cimClassName;
 
@@ -1642,8 +899,8 @@ public class CIM_SoftwareElement extends CIM_LogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREELEMENTSERVICEIMPLEMENTATION, 
 					CIM_Service.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -1683,8 +940,8 @@ public class CIM_SoftwareElement extends CIM_LogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREFEATURESOFTWAREELEMENTS, 
 					CIM_SoftwareFeature.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1697,9 +954,9 @@ public class CIM_SoftwareElement extends CIM_LogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_SoftwareElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_SoftwareElement.Java_Package_List.setElementAt((String)(CIM_SoftwareElement.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_SoftwareElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_SoftwareElement.Java_Package_List.setElementAt((String)(CIM_SoftwareElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_SoftwareElement.Java_Package_List.get(i)) + cimClassName;
 
@@ -1769,8 +1026,8 @@ public class CIM_SoftwareElement extends CIM_LogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SOFTWAREFEATURESOFTWAREELEMENTS, 
 					CIM_SoftwareFeature.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

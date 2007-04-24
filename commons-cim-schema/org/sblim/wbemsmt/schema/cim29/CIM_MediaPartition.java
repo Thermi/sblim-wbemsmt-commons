@@ -1,7 +1,7 @@
 /** 
  * CIM_MediaPartition.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: A MediaPartition is a presentation of a contiguous range of logical blocks and has identifying data written on/to it. It may include a signature written by the OS or by an application. This class is a common superclass for Disk and TapePartions. Partitions are directly realized by Physical Media (indicated by the RealizesExtent association) or built on StorageVolumes (indicated by the BasedOn association).
+ * Description:  A MediaPartition is a presentation of a contiguous range of logical blocks and
+ * has identifying data written on/to it. It may include a signature written by
+ * the OS or by an application. This class is a common superclass for Disk and
+ * TapePartions. Partitions are directly realized by Physical Media (indicated
+ * by the RealizesExtent association) or built on StorageVolumes (indicated by
+ * the BasedOn association).
  * 
  */
 
@@ -28,9 +33,17 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  A MediaPartition is a presentation of a contiguous range of logical blocks and
+ * has identifying data written on/to it. It may include a signature written by
+ * the OS or by an application. This class is a common superclass for Disk and
+ * TapePartions. Partitions are directly realized by Physical Media (indicated
+ * by the RealizesExtent association) or built on StorageVolumes (indicated by
+ * the BasedOn association).
+ */
 public class CIM_MediaPartition extends CIM_StorageExtent  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_MediaPartition";
+	public final static String CIM_CLASS_NAME = "CIM_MediaPartition"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -244,7 +257,7 @@ public class CIM_MediaPartition extends CIM_StorageExtent  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

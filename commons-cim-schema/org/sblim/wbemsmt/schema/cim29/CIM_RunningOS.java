@@ -1,7 +1,7 @@
 /** 
  * CIM_RunningOS.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: RunningOS indicates the currently executing OperatingSystem. At most one OperatingSystem can execute at any time on a ComputerSystem. 'At most one' is specified, since the Computer System may not be currently booted, or its OperatingSystem may be unknown.
+ * Description:  RunningOS indicates the currently executing OperatingSystem. At most one
+ * OperatingSystem can execute at any time on a ComputerSystem. 'At most one' is
+ * specified, since the Computer System may not be currently booted, or its
+ * OperatingSystem may be unknown.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  RunningOS indicates the currently executing OperatingSystem. At most one
+ * OperatingSystem can execute at any time on a ComputerSystem. 'At most one' is
+ * specified, since the Computer System may not be currently booted, or its
+ * OperatingSystem may be unknown.
+ */
 public class CIM_RunningOS extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_RunningOS";
+	public final static String CIM_CLASS_NAME = "CIM_RunningOS"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +200,7 @@ public class CIM_RunningOS extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

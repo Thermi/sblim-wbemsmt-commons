@@ -1,7 +1,7 @@
 /** 
  * CIM_NFS.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: A class derived from RemoteFileSystem representing that the FileSystem is mounted, using the NFS protocol, from a ComputerSystem. The properties of the NFS object deal with the operational aspects of the mount and represent the client-side configuration for NFS access. The FileSystemType (inherited from FileSystem) should be set to indicate the type of this FileSystem as it appears to the client.
+ * Description:  A class derived from RemoteFileSystem representing that the FileSystem is
+ * mounted, using the NFS protocol, from a ComputerSystem. The properties of the
+ * NFS object deal with the operational aspects of the mount and represent the
+ * client-side configuration for NFS access. The FileSystemType (inherited from
+ * FileSystem) should be set to indicate the type of this FileSystem as it
+ * appears to the client.
  * 
  */
 
@@ -28,9 +33,17 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  A class derived from RemoteFileSystem representing that the FileSystem is
+ * mounted, using the NFS protocol, from a ComputerSystem. The properties of the
+ * NFS object deal with the operational aspects of the mount and represent the
+ * client-side configuration for NFS access. The FileSystemType (inherited from
+ * FileSystem) should be set to indicate the type of this FileSystem as it
+ * appears to the client.
+ */
 public class CIM_NFS extends CIM_RemoteFileSystem  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_NFS";
+	public final static String CIM_CLASS_NAME = "CIM_NFS"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -304,7 +317,7 @@ If set to false : Interrupts are ignored for hard mounts.
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

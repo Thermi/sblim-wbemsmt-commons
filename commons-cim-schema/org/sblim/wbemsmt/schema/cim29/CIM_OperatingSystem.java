@@ -1,7 +1,7 @@
 /** 
  * CIM_OperatingSystem.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: An OperatingSystem is software/firmware that makes a ComputerSystem's hardware usable, and implements and/or manages the resources, file systems, processes, user interfaces, services, ... available on the ComputerSystem.
+ * Description:  An OperatingSystem is software/firmware that makes a ComputerSystem's hardware
+ * usable, and implements and/or manages the resources, file systems, processes,
+ * user interfaces, services, ... available on the ComputerSystem.
  * 
  */
 
@@ -34,19 +36,23 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  An OperatingSystem is software/firmware that makes a ComputerSystem's hardware
+ * usable, and implements and/or manages the resources, file systems, processes,
+ * user interfaces, services, ... available on the ComputerSystem.
+ */
 public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_OperatingSystem";
+	public final static String CIM_CLASS_NAME = "CIM_OperatingSystem"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_BOOTOSFROMFS = "CIM_BootOSFromFS";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDOS = "CIM_InstalledOS";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_OSPROCESS = "CIM_OSProcess";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_OPERATINGSYSTEMSOFTWAREFEATURE = "CIM_OperatingSystemSoftwareFeature";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_RUNNINGOS = "CIM_RunningOS";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_BOOTOSFROMFS = "CIM_BootOSFromFS"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDOS = "CIM_InstalledOS"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_OSPROCESS = "CIM_OSProcess"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_RUNNINGOS = "CIM_RunningOS"; //$NON-NLS-1$
 	
 	
 	/**
@@ -498,7 +504,7 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -623,8 +629,8 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_BOOTOSFROMFS, 
 					CIM_FileSystem.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -637,9 +643,9 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_OperatingSystem.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_OperatingSystem.Java_Package_List.setElementAt((String)(CIM_OperatingSystem.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_OperatingSystem.Java_Package_List.setElementAt((String)(CIM_OperatingSystem.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_OperatingSystem.Java_Package_List.get(i)) + cimClassName;
 
@@ -709,8 +715,8 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_BOOTOSFROMFS, 
 					CIM_FileSystem.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -750,8 +756,8 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDOS, 
 					CIM_ComputerSystem.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -764,9 +770,9 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_OperatingSystem.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_OperatingSystem.Java_Package_List.setElementAt((String)(CIM_OperatingSystem.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_OperatingSystem.Java_Package_List.setElementAt((String)(CIM_OperatingSystem.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_OperatingSystem.Java_Package_List.get(i)) + cimClassName;
 
@@ -836,8 +842,8 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_INSTALLEDOS, 
 					CIM_ComputerSystem.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -877,8 +883,8 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_OSPROCESS, 
 					CIM_Process.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -891,9 +897,9 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_OperatingSystem.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_OperatingSystem.Java_Package_List.setElementAt((String)(CIM_OperatingSystem.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_OperatingSystem.Java_Package_List.setElementAt((String)(CIM_OperatingSystem.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_OperatingSystem.Java_Package_List.get(i)) + cimClassName;
 
@@ -963,8 +969,8 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_OSPROCESS, 
 					CIM_Process.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -972,133 +978,6 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 			
 				if (obj instanceof CIMObjectPath) {
 					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_Process.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_SoftwareFeature_CIM_OperatingSystemSoftwareFeatures(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_OPERATINGSYSTEMSOFTWAREFEATURE, 
-					CIM_SoftwareFeature.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_OperatingSystem.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_OperatingSystem.Java_Package_List.setElementAt((String)(CIM_OperatingSystem.Java_Package_List.get(i)) + ("."), i);
-						}
-						cimClassName = (CIM_OperatingSystem.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_SoftwareFeature(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_SoftwareFeature(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_SoftwareFeature(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
-
-	public ArrayList getAssociated_CIM_SoftwareFeature_CIM_OperatingSystemSoftwareFeature_Names(CIMClient cimClient, boolean deep) {
-
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
-
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_OPERATINGSYSTEMSOFTWAREFEATURE, 
-					CIM_SoftwareFeature.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_SoftwareFeature.CIM_CLASS_NAME)) {
 						resultArrayList.add(obj);
 					}
 				}
@@ -1131,8 +1010,8 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_RUNNINGOS, 
 					CIM_ComputerSystem.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -1145,9 +1024,9 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_OperatingSystem.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_OperatingSystem.Java_Package_List.setElementAt((String)(CIM_OperatingSystem.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_OperatingSystem.Java_Package_List.setElementAt((String)(CIM_OperatingSystem.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_OperatingSystem.Java_Package_List.get(i)) + cimClassName;
 
@@ -1217,8 +1096,8 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_RUNNINGOS, 
 					CIM_ComputerSystem.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

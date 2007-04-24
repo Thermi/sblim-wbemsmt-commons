@@ -1,7 +1,7 @@
 /** 
  * CIM_ProductProductDependency.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: CIM_ProductProductDependency is an association between two Products, indicating that one must be installed, or must be absent, for the other to function. This is conceptually equivalent to the ServiceServiceDependency association.
+ * Description:  CIM_ProductProductDependency is an association between two Products, indicating
+ * that one must be installed, or must be absent, for the other to function.
+ * This is conceptually equivalent to the ServiceServiceDependency association.
  * 
  */
 
@@ -28,13 +30,18 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_ProductProductDependency is an association between two Products, indicating
+ * that one must be installed, or must be absent, for the other to function.
+ * This is conceptually equivalent to the ServiceServiceDependency association.
+ */
 public class CIM_ProductProductDependency  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ProductProductDependency";
+	public final static String CIM_CLASS_NAME = "CIM_ProductProductDependency"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -190,7 +197,7 @@ public class CIM_ProductProductDependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

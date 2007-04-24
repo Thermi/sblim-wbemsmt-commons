@@ -1,7 +1,7 @@
 /** 
  * CIM_NonVolatileStorage.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,15 @@
  * Contributors:
  *
  *
- * Description: This class has been deprecated in favor of CIM_Memory with the volatile parameter set to false. Capabilities and management of NV Storage. Non-volatile memory natively includes flash and ROM storage. In addition, NV memory can be BasedOn VolatileStorage, if the volatile memory is backed by a Battery. This scenario would be completely described by an instance of the AssociatedBattery relationship, referencing the NonVolatileStorage as the Dependent and the Battery as the Antecedent, and an instance of the BasedOn relationship, referencing the NonVolatileStorage as the Dependent and the VolatileStorage as the Antecedent.
+ * Description:  This class has been deprecated in favor of CIM_Memory with the volatile
+ * parameter set to false. Capabilities and management of NV Storage.
+ * Non-volatile memory natively includes flash and ROM storage. In addition, NV
+ * memory can be BasedOn VolatileStorage, if the volatile memory is backed by a
+ * Battery. This scenario would be completely described by an instance of the
+ * AssociatedBattery relationship, referencing the NonVolatileStorage as the
+ * Dependent and the Battery as the Antecedent, and an instance of the BasedOn
+ * relationship, referencing the NonVolatileStorage as the Dependent and the
+ * VolatileStorage as the Antecedent.
  * 
  */
 
@@ -28,9 +36,20 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  This class has been deprecated in favor of CIM_Memory with the volatile
+ * parameter set to false. Capabilities and management of NV Storage.
+ * Non-volatile memory natively includes flash and ROM storage. In addition, NV
+ * memory can be BasedOn VolatileStorage, if the volatile memory is backed by a
+ * Battery. This scenario would be completely described by an instance of the
+ * AssociatedBattery relationship, referencing the NonVolatileStorage as the
+ * Dependent and the Battery as the Antecedent, and an instance of the BasedOn
+ * relationship, referencing the NonVolatileStorage as the Dependent and the
+ * VolatileStorage as the Antecedent.
+ */
 public class CIM_NonVolatileStorage extends CIM_Memory  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_NonVolatileStorage";
+	public final static String CIM_CLASS_NAME = "CIM_NonVolatileStorage"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -220,7 +239,7 @@ public class CIM_NonVolatileStorage extends CIM_Memory  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

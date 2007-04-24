@@ -1,7 +1,7 @@
 /** 
  * CIM_DefaultSetting.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: DefaultSetting represents the association between a Managed SystemElement and the single Setting class that is defined to be the default setting for this Element.
+ * Description:  DefaultSetting represents the association between a Managed SystemElement and
+ * the single Setting class that is defined to be the default setting for this
+ * Element.
  * 
  */
 
@@ -28,9 +30,14 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  DefaultSetting represents the association between a Managed SystemElement and
+ * the single Setting class that is defined to be the default setting for this
+ * Element.
+ */
 public class CIM_DefaultSetting extends CIM_ElementSetting  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_DefaultSetting";
+	public final static String CIM_CLASS_NAME = "CIM_DefaultSetting"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -188,7 +195,7 @@ public class CIM_DefaultSetting extends CIM_ElementSetting  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

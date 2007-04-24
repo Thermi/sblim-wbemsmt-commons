@@ -1,7 +1,7 @@
 /** 
  * CIM_ParametersForMethod.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,14 @@
  * Contributors:
  *
  *
- * Description: ParametersForMethod represents the association between MethodParameters class(es) and a ManagedElement which has a method that may use the MethodParameters during its invocation. This association is optional, as the Method Parameters instance may be passed as a parameter to a method or used to create a method signature before the method is invoked. This association is useful for finding all the valid MethodParameters instances for a particular method. It may be particularly useful for user-oriented interfaces and automated or policy driven method invocations.
+ * Description:  ParametersForMethod represents the association between MethodParameters
+ * class(es) and a ManagedElement which has a method that may use the
+ * MethodParameters during its invocation. This association is optional, as the
+ * Method Parameters instance may be passed as a parameter to a method or used
+ * to create a method signature before the method is invoked. This association
+ * is useful for finding all the valid MethodParameters instances for a
+ * particular method. It may be particularly useful for user-oriented interfaces
+ * and automated or policy driven method invocations.
  * 
  */
 
@@ -28,13 +35,23 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  ParametersForMethod represents the association between MethodParameters
+ * class(es) and a ManagedElement which has a method that may use the
+ * MethodParameters during its invocation. This association is optional, as the
+ * Method Parameters instance may be passed as a parameter to a method or used
+ * to create a method signature before the method is invoked. This association
+ * is useful for finding all the valid MethodParameters instances for a
+ * particular method. It may be particularly useful for user-oriented interfaces
+ * and automated or policy driven method invocations.
+ */
 public class CIM_ParametersForMethod  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ParametersForMethod";
+	public final static String CIM_CLASS_NAME = "CIM_ParametersForMethod"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +208,7 @@ public class CIM_ParametersForMethod  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

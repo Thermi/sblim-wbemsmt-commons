@@ -1,7 +1,7 @@
 /** 
  * CIM_Rack.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: A Rack is a PhysicalFrame that represents an enclosure in which Chassis are placed. Typically a Rack is nothing more than the enclosure, and all the functioning componentry is packaged in the Chassis, loaded in the Rack.
+ * Description:  A Rack is a PhysicalFrame that represents an enclosure in which Chassis are
+ * placed. Typically a Rack is nothing more than the enclosure, and all the
+ * functioning componentry is packaged in the Chassis, loaded in the Rack.
  * 
  */
 
@@ -33,15 +35,20 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A Rack is a PhysicalFrame that represents an enclosure in which Chassis are
+ * placed. Typically a Rack is nothing more than the enclosure, and all the
+ * functioning componentry is packaged in the Chassis, loaded in the Rack.
+ */
 public class CIM_Rack extends CIM_PhysicalFrame  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Rack";
+	public final static String CIM_CLASS_NAME = "CIM_Rack"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_CHASSISINRACK = "CIM_ChassisInRack";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_CHASSISINRACK = "CIM_ChassisInRack"; //$NON-NLS-1$
 	
 	
 	/**
@@ -225,7 +232,7 @@ public class CIM_Rack extends CIM_PhysicalFrame  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -350,8 +357,8 @@ public class CIM_Rack extends CIM_PhysicalFrame  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_CHASSISINRACK, 
 					CIM_Chassis.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -364,9 +371,9 @@ public class CIM_Rack extends CIM_PhysicalFrame  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Rack.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Rack.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Rack.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Rack.Java_Package_List.setElementAt((String)(CIM_Rack.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Rack.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Rack.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Rack.Java_Package_List.setElementAt((String)(CIM_Rack.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Rack.Java_Package_List.get(i)) + cimClassName;
 
@@ -436,8 +443,8 @@ public class CIM_Rack extends CIM_PhysicalFrame  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_CHASSISINRACK, 
 					CIM_Chassis.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

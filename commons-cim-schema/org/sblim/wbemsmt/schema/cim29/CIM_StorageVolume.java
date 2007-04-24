@@ -1,7 +1,7 @@
 /** 
  * CIM_StorageVolume.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: A StorageVolume is an Extent that is presented to the Operating System (for example, by a hardware RAID cabinet), to a File System (for example, by a software volume manager) or to another entity. StorageVolumes do NOT participate in StorageRedundancy Groups. They are directly Realized in hardware or are the end result of assembling lower level Extents.
+ * Description:  A StorageVolume is an Extent that is presented to the Operating System (for
+ * example, by a hardware RAID cabinet), to a File System (for example, by a
+ * software volume manager) or to another entity. StorageVolumes do NOT
+ * participate in StorageRedundancy Groups. They are directly Realized in
+ * hardware or are the end result of assembling lower level Extents.
  * 
  */
 
@@ -33,16 +37,23 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  A StorageVolume is an Extent that is presented to the Operating System (for
+ * example, by a hardware RAID cabinet), to a File System (for example, by a
+ * software volume manager) or to another entity. StorageVolumes do NOT
+ * participate in StorageRedundancy Groups. They are directly Realized in
+ * hardware or are the end result of assembling lower level Extents.
+ */
 public class CIM_StorageVolume extends CIM_StorageExtent  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_StorageVolume";
+	public final static String CIM_CLASS_NAME = "CIM_StorageVolume"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.8.2";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DISKPARTITIONBASEDONVOLUME = "CIM_DiskPartitionBasedOnVolume";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONVOLUME = "CIM_LogicalDiskBasedOnVolume";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DISKPARTITIONBASEDONVOLUME = "CIM_DiskPartitionBasedOnVolume"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONVOLUME = "CIM_LogicalDiskBasedOnVolume"; //$NON-NLS-1$
 	
 	
 	/**
@@ -276,7 +287,7 @@ Formatted as 16 unseparated uppercase hex characters (2 per binary byte)
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -401,8 +412,8 @@ Formatted as 16 unseparated uppercase hex characters (2 per binary byte)
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_DISKPARTITIONBASEDONVOLUME, 
 					CIM_DiskPartition.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -415,9 +426,9 @@ Formatted as 16 unseparated uppercase hex characters (2 per binary byte)
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_StorageVolume.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_StorageVolume.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_StorageVolume.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_StorageVolume.Java_Package_List.setElementAt((String)(CIM_StorageVolume.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_StorageVolume.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_StorageVolume.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_StorageVolume.Java_Package_List.setElementAt((String)(CIM_StorageVolume.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_StorageVolume.Java_Package_List.get(i)) + cimClassName;
 
@@ -487,8 +498,8 @@ Formatted as 16 unseparated uppercase hex characters (2 per binary byte)
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_DISKPARTITIONBASEDONVOLUME, 
 					CIM_DiskPartition.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -528,8 +539,8 @@ Formatted as 16 unseparated uppercase hex characters (2 per binary byte)
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONVOLUME, 
 					CIM_LogicalDisk.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -542,9 +553,9 @@ Formatted as 16 unseparated uppercase hex characters (2 per binary byte)
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_StorageVolume.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_StorageVolume.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_StorageVolume.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_StorageVolume.Java_Package_List.setElementAt((String)(CIM_StorageVolume.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_StorageVolume.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_StorageVolume.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_StorageVolume.Java_Package_List.setElementAt((String)(CIM_StorageVolume.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_StorageVolume.Java_Package_List.get(i)) + cimClassName;
 
@@ -614,8 +625,8 @@ Formatted as 16 unseparated uppercase hex characters (2 per binary byte)
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_LOGICALDISKBASEDONVOLUME, 
 					CIM_LogicalDisk.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

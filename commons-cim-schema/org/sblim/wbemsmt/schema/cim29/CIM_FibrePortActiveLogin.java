@@ -1,7 +1,7 @@
 /** 
  * CIM_FibrePortActiveLogin.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: The use of FibrePortActiveLogin is deprecated since FibrePort is deprecated. Its information is found by examining the individual FCPorts, and an ActiveConnection between the FCProtocolEndpoints associated with the ports. FibrePortActiveLogin indicates that two FibrePorts are connected via a login and have negotiated their Class Of Service, frame size and other link characteristics, as specified by an instance of this class.
+ * Description:  The use of FibrePortActiveLogin is deprecated since FibrePort is deprecated.
+ * Its information is found by examining the individual FCPorts, and an
+ * ActiveConnection between the FCProtocolEndpoints associated with the ports.
+ * FibrePortActiveLogin indicates that two FibrePorts are connected via a login
+ * and have negotiated their Class Of Service, frame size and other link
+ * characteristics, as specified by an instance of this class.
  * 
  */
 
@@ -28,13 +33,21 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The use of FibrePortActiveLogin is deprecated since FibrePort is deprecated.
+ * Its information is found by examining the individual FCPorts, and an
+ * ActiveConnection between the FCProtocolEndpoints associated with the ports.
+ * FibrePortActiveLogin indicates that two FibrePorts are connected via a login
+ * and have negotiated their Class Of Service, frame size and other link
+ * characteristics, as specified by an instance of this class.
+ */
 public class CIM_FibrePortActiveLogin  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_FibrePortActiveLogin";
+	public final static String CIM_CLASS_NAME = "CIM_FibrePortActiveLogin"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -259,7 +272,7 @@ public class CIM_FibrePortActiveLogin  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

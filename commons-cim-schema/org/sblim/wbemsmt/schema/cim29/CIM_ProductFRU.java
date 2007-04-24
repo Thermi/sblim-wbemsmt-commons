@@ -1,7 +1,7 @@
 /** 
  * CIM_ProductFRU.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: CIM_ProductFRU is an association between Product and FRU that provides information regarding what Product components have been or are being replaced. The association is one to many, conveying that a Product can have many FRUs, and that a particular instance of a FRU is only applied to one (instance of a) Product.
+ * Description:  CIM_ProductFRU is an association between Product and FRU that provides
+ * information regarding what Product components have been or are being
+ * replaced. The association is one to many, conveying that a Product can have
+ * many FRUs, and that a particular instance of a FRU is only applied to one
+ * (instance of a) Product.
  * 
  */
 
@@ -28,13 +32,20 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_ProductFRU is an association between Product and FRU that provides
+ * information regarding what Product components have been or are being
+ * replaced. The association is one to many, conveying that a Product can have
+ * many FRUs, and that a particular instance of a FRU is only applied to one
+ * (instance of a) Product.
+ */
 public class CIM_ProductFRU  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_ProductFRU";
+	public final static String CIM_CLASS_NAME = "CIM_ProductFRU"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -178,7 +189,7 @@ public class CIM_ProductFRU  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
