@@ -1,7 +1,7 @@
 /** 
  * CIM_ActiveConnection.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: This association defines a connection that is currently communicating, or is configured to communicate, between two ServiceAccessPoints. It is used when the connection is not treated as a ManagedElement itself (i.e., with Status, statistics, etc.), but its existence is known. The SAPs that are connected are typically at the same networking or application layer.
+ * Description:  This association defines a connection that is currently communicating, or is
+ * configured to communicate, between two ServiceAccessPoints. It is used when
+ * the connection is not treated as a ManagedElement itself (i.e., with Status,
+ * statistics, etc.), but its existence is known. The SAPs that are connected
+ * are typically at the same networking or application layer.
  * 
  */
 
@@ -28,9 +32,16 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  This association defines a connection that is currently communicating, or is
+ * configured to communicate, between two ServiceAccessPoints. It is used when
+ * the connection is not treated as a ManagedElement itself (i.e., with Status,
+ * statistics, etc.), but its existence is known. The SAPs that are connected
+ * are typically at the same networking or application layer.
+ */
 public class CIM_ActiveConnection extends CIM_SAPSAPDependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ActiveConnection";
+	public final static String CIM_CLASS_NAME = "CIM_ActiveConnection"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -227,7 +238,7 @@ public class CIM_ActiveConnection extends CIM_SAPSAPDependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
