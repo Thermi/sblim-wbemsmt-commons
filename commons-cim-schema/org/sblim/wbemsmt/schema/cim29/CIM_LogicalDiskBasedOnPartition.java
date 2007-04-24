@@ -1,7 +1,7 @@
 /** 
  * CIM_LogicalDiskBasedOnPartition.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,16 @@
  * Contributors:
  *
  *
- * Description: LogicalDisks can be BasedOn a DiskPartition. For example, a personal computer's C: drive may be located on a Partition on local PhysicalMedia. In this association of LogicalDisks to Partitions, note that the cardinality of the Antecedent, Disk Partition, is Max (1). This dictates that a LogicalDisk can not span more than one Partition. However, there are cases where this is true. When it occurs, the LogicalDisk is really based on some kind of RAID configuration (for example, a mirror or stripe set). In these scenarios, the LogicalDisk is more correctly BasedOn a StorageVolume. To prevent incorrectly using the LogicalDiskBasedOnPartition association, the Max (1) qualifier was put on the Antecedent reference to the DiskPartition.
+ * Description:  LogicalDisks can be BasedOn a DiskPartition. For example, a personal computer's
+ * C: drive may be located on a Partition on local PhysicalMedia. In this
+ * association of LogicalDisks to Partitions, note that the cardinality of the
+ * Antecedent, Disk Partition, is Max (1). This dictates that a LogicalDisk can
+ * not span more than one Partition. However, there are cases where this is
+ * true. When it occurs, the LogicalDisk is really based on some kind of RAID
+ * configuration (for example, a mirror or stripe set). In these scenarios, the
+ * LogicalDisk is more correctly BasedOn a StorageVolume. To prevent incorrectly
+ * using the LogicalDiskBasedOnPartition association, the Max (1) qualifier was
+ * put on the Antecedent reference to the DiskPartition.
  * 
  */
 
@@ -28,9 +37,21 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  LogicalDisks can be BasedOn a DiskPartition. For example, a personal computer's
+ * C: drive may be located on a Partition on local PhysicalMedia. In this
+ * association of LogicalDisks to Partitions, note that the cardinality of the
+ * Antecedent, Disk Partition, is Max (1). This dictates that a LogicalDisk can
+ * not span more than one Partition. However, there are cases where this is
+ * true. When it occurs, the LogicalDisk is really based on some kind of RAID
+ * configuration (for example, a mirror or stripe set). In these scenarios, the
+ * LogicalDisk is more correctly BasedOn a StorageVolume. To prevent incorrectly
+ * using the LogicalDiskBasedOnPartition association, the Max (1) qualifier was
+ * put on the Antecedent reference to the DiskPartition.
+ */
 public class CIM_LogicalDiskBasedOnPartition extends CIM_LogicalDiskBasedOnExtent  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_LogicalDiskBasedOnPartition";
+	public final static String CIM_CLASS_NAME = "CIM_LogicalDiskBasedOnPartition"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +212,7 @@ public class CIM_LogicalDiskBasedOnPartition extends CIM_LogicalDiskBasedOnExten
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

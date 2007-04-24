@@ -1,7 +1,7 @@
 /** 
  * CIM_Directory.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: Directory is a type of File that logically groups Files 'contained' in it, and provides path information for the grouped Files.
+ * Description:  Directory is a type of File that logically groups Files 'contained' in it, and
+ * provides path information for the grouped Files.
  * 
  */
 
@@ -33,18 +34,22 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  Directory is a type of File that logically groups Files 'contained' in it, and
+ * provides path information for the grouped Files.
+ */
 public class CIM_Directory extends CIM_LogicalFile  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Directory";
+	public final static String CIM_CLASS_NAME = "CIM_Directory"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_APPLICATIONSYSTEMDIRECTORY = "CIM_ApplicationSystemDirectory";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DIRECTORYCONTAINSFILE = "CIM_DirectoryContainsFile";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_EXPORT = "CIM_Export";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_MOUNT = "CIM_Mount";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_APPLICATIONSYSTEMDIRECTORY = "CIM_ApplicationSystemDirectory"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DIRECTORYCONTAINSFILE = "CIM_DirectoryContainsFile"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_EXPORT = "CIM_Export"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_MOUNT = "CIM_Mount"; //$NON-NLS-1$
 	
 	
 	
@@ -193,7 +198,7 @@ public class CIM_Directory extends CIM_LogicalFile  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -318,8 +323,8 @@ public class CIM_Directory extends CIM_LogicalFile  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_APPLICATIONSYSTEMDIRECTORY, 
 					CIM_ApplicationSystem.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -332,9 +337,9 @@ public class CIM_Directory extends CIM_LogicalFile  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Directory.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Directory.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Directory.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Directory.Java_Package_List.setElementAt((String)(CIM_Directory.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Directory.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Directory.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Directory.Java_Package_List.setElementAt((String)(CIM_Directory.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Directory.Java_Package_List.get(i)) + cimClassName;
 
@@ -404,8 +409,8 @@ public class CIM_Directory extends CIM_LogicalFile  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_APPLICATIONSYSTEMDIRECTORY, 
 					CIM_ApplicationSystem.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -445,8 +450,8 @@ public class CIM_Directory extends CIM_LogicalFile  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_DIRECTORYCONTAINSFILE, 
 					CIM_LogicalFile.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent",
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -459,9 +464,9 @@ public class CIM_Directory extends CIM_LogicalFile  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Directory.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Directory.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Directory.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Directory.Java_Package_List.setElementAt((String)(CIM_Directory.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Directory.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Directory.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Directory.Java_Package_List.setElementAt((String)(CIM_Directory.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Directory.Java_Package_List.get(i)) + cimClassName;
 
@@ -531,8 +536,8 @@ public class CIM_Directory extends CIM_LogicalFile  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_DIRECTORYCONTAINSFILE, 
 					CIM_LogicalFile.CIM_CLASS_NAME, 
-					"GroupComponent",
-					"PartComponent");
+					"GroupComponent", //$NON-NLS-1$
+					"PartComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -572,8 +577,8 @@ public class CIM_Directory extends CIM_LogicalFile  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_EXPORT, 
 					CIM_LocalFileSystem.CIM_CLASS_NAME, 
-					"Directory",
-					"LocalFS",
+					"Directory", //$NON-NLS-1$
+					"LocalFS", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -586,9 +591,9 @@ public class CIM_Directory extends CIM_LogicalFile  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Directory.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Directory.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Directory.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Directory.Java_Package_List.setElementAt((String)(CIM_Directory.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Directory.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Directory.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Directory.Java_Package_List.setElementAt((String)(CIM_Directory.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Directory.Java_Package_List.get(i)) + cimClassName;
 
@@ -658,8 +663,8 @@ public class CIM_Directory extends CIM_LogicalFile  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_EXPORT, 
 					CIM_LocalFileSystem.CIM_CLASS_NAME, 
-					"Directory",
-					"LocalFS");
+					"Directory", //$NON-NLS-1$
+					"LocalFS"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -699,8 +704,8 @@ public class CIM_Directory extends CIM_LogicalFile  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_MOUNT, 
 					CIM_FileSystem.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -713,9 +718,9 @@ public class CIM_Directory extends CIM_LogicalFile  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_Directory.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Directory.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_Directory.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_Directory.Java_Package_List.setElementAt((String)(CIM_Directory.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_Directory.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_Directory.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_Directory.Java_Package_List.setElementAt((String)(CIM_Directory.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_Directory.Java_Package_List.get(i)) + cimClassName;
 
@@ -785,8 +790,8 @@ public class CIM_Directory extends CIM_LogicalFile  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_MOUNT, 
 					CIM_FileSystem.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

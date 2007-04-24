@@ -1,7 +1,7 @@
 /** 
  * CIM_Magazine.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,13 @@
  * Contributors:
  *
  *
- * Description: StorageMediaLocations are typically slots or spaces where removable media are located. However, a specific kind of MediaLocation is a Magazine. This entity represents a single physical container with multiple StorageMediaLocations in it. All the MediaLocations within the Magazine are added/removed together. Often, this container has a Barcode or other label for identification. This is the unique data captured in the CIM_Magazine class. Magazine's label properties are defined exactly as are labels for PhysicalMedia.
+ * Description:  StorageMediaLocations are typically slots or spaces where removable media are
+ * located. However, a specific kind of MediaLocation is a Magazine. This entity
+ * represents a single physical container with multiple StorageMediaLocations in
+ * it. All the MediaLocations within the Magazine are added/removed together.
+ * Often, this container has a Barcode or other label for identification. This
+ * is the unique data captured in the CIM_Magazine class. Magazine's label
+ * properties are defined exactly as are labels for PhysicalMedia.
  * 
  */
 
@@ -28,9 +34,18 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  StorageMediaLocations are typically slots or spaces where removable media are
+ * located. However, a specific kind of MediaLocation is a Magazine. This entity
+ * represents a single physical container with multiple StorageMediaLocations in
+ * it. All the MediaLocations within the Magazine are added/removed together.
+ * Often, this container has a Barcode or other label for identification. This
+ * is the unique data captured in the CIM_Magazine class. Magazine's label
+ * properties are defined exactly as are labels for PhysicalMedia.
+ */
 public class CIM_Magazine extends CIM_StorageMediaLocation  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Magazine";
+	public final static String CIM_CLASS_NAME = "CIM_Magazine"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -225,7 +240,7 @@ public class CIM_Magazine extends CIM_StorageMediaLocation  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

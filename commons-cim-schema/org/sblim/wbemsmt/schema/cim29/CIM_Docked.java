@@ -1,7 +1,7 @@
 /** 
  * CIM_Docked.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: A laptop, a type of Chassis, may be docked in another type of Chassis, a Docking Station. This is the relationship represented by the Docked association. Because this is such a typical relationship, it is explicitly described.
+ * Description:  A laptop, a type of Chassis, may be docked in another type of Chassis, a
+ * Docking Station. This is the relationship represented by the Docked
+ * association. Because this is such a typical relationship, it is explicitly
+ * described.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  A laptop, a type of Chassis, may be docked in another type of Chassis, a
+ * Docking Station. This is the relationship represented by the Docked
+ * association. Because this is such a typical relationship, it is explicitly
+ * described.
+ */
 public class CIM_Docked extends CIM_Dependency  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Docked";
+	public final static String CIM_CLASS_NAME = "CIM_Docked"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +200,7 @@ public class CIM_Docked extends CIM_Dependency  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

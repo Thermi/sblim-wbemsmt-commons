@@ -1,7 +1,7 @@
 /** 
  * CIM_LogicalIdentity.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,9 +16,14 @@
  * Contributors:
  *
  *
- * Description: CIM_LogicalIdentity is an abstract and generic association, indicating that two ManagedElements represent different aspects of the same underlying entity. This relationship conveys what could be defined with multiple inheritance. In most scenarios, the Identity relationship is determined by the equivalence of Keys or some other identifying properties of the related Elements. 
-
-One of the scenarios where this relationship is reasonable is to represent that a LogicalDevice is both a 'bus' entity and a 'functional' entity. For example, a Device could be both a USB (bus) and a Keyboard (functional) entity.
+ * Description:  CIM_LogicalIdentity is an abstract and generic association, indicating that two
+ * ManagedElements represent different aspects of the same underlying entity.
+ * This relationship conveys what could be defined with multiple inheritance. In
+ * most scenarios, the Identity relationship is determined by the equivalence of
+ * Keys or some other identifying properties of the related Elements. One of the
+ * scenarios where this relationship is reasonable is to represent that a
+ * LogicalDevice is both a 'bus' entity and a 'functional' entity. For example,
+ * a Device could be both a USB (bus) and a Keyboard (functional) entity.
  * 
  */
 
@@ -30,13 +35,23 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  CIM_LogicalIdentity is an abstract and generic association, indicating that two
+ * ManagedElements represent different aspects of the same underlying entity.
+ * This relationship conveys what could be defined with multiple inheritance. In
+ * most scenarios, the Identity relationship is determined by the equivalence of
+ * Keys or some other identifying properties of the related Elements. One of the
+ * scenarios where this relationship is reasonable is to represent that a
+ * LogicalDevice is both a 'bus' entity and a 'functional' entity. For example,
+ * a Device could be both a USB (bus) and a Keyboard (functional) entity.
+ */
 public class CIM_LogicalIdentity  {
 	
 	protected CIMInstance cimInstance			= new CIMInstance();
 	protected CIMInstance original_cimInstance	= null;
 	protected CIMObjectPath cimObjectPath		= null; 
 	
-	public final static String CIM_CLASS_NAME = "CIM_LogicalIdentity";
+	public final static String CIM_CLASS_NAME = "CIM_LogicalIdentity"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -180,7 +195,7 @@ public class CIM_LogicalIdentity  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

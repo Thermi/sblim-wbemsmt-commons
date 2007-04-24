@@ -1,7 +1,7 @@
 /** 
  * CIM_Container.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: The Container association represents the relationship between a contained and a containing PhysicalElement. A containing object must be a PhysicalPackage.
+ * Description:  The Container association represents the relationship between a contained and a
+ * containing PhysicalElement. A containing object must be a PhysicalPackage.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The Container association represents the relationship between a contained and a
+ * containing PhysicalElement. A containing object must be a PhysicalPackage.
+ */
 public class CIM_Container extends CIM_Component  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Container";
+	public final static String CIM_CLASS_NAME = "CIM_Container"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -203,7 +208,7 @@ public class CIM_Container extends CIM_Component  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

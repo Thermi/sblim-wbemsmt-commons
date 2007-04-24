@@ -1,7 +1,7 @@
 /** 
  * CIM_ContainedDomain.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: A relationship that aggregates one or more lower-level AdminDomain instances into a higher-level AdminDomain.
+ * Description:  A relationship that aggregates one or more lower-level AdminDomain instances
+ * into a higher-level AdminDomain.
  * 
  */
 
@@ -28,9 +29,13 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  A relationship that aggregates one or more lower-level AdminDomain instances
+ * into a higher-level AdminDomain.
+ */
 public class CIM_ContainedDomain extends CIM_SystemComponent  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ContainedDomain";
+	public final static String CIM_CLASS_NAME = "CIM_ContainedDomain"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +196,7 @@ public class CIM_ContainedDomain extends CIM_SystemComponent  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /** 
  * CIM_MediaPhysicalStatData.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: Statistics related to reading physical labels and picks/puts at a specific StorageMediaLocation, or for a specific piece of PhysicalMedia. The same class is used to represent this data - whether for a Location (independent of the Media), OR for the Media (independent of its StorageMediaLocation). The element whose statistics are described is associated using the relationship, ElementStatisticalData.
+ * Description:  Statistics related to reading physical labels and picks/puts at a specific
+ * StorageMediaLocation, or for a specific piece of PhysicalMedia. The same
+ * class is used to represent this data - whether for a Location (independent of
+ * the Media), OR for the Media (independent of its StorageMediaLocation). The
+ * element whose statistics are described is associated using the relationship,
+ * ElementStatisticalData.
  * 
  */
 
@@ -28,9 +33,17 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  Statistics related to reading physical labels and picks/puts at a specific
+ * StorageMediaLocation, or for a specific piece of PhysicalMedia. The same
+ * class is used to represent this data - whether for a Location (independent of
+ * the Media), OR for the Media (independent of its StorageMediaLocation). The
+ * element whose statistics are described is associated using the relationship,
+ * ElementStatisticalData.
+ */
 public class CIM_MediaPhysicalStatData extends CIM_StatisticalData  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_MediaPhysicalStatData";
+	public final static String CIM_CLASS_NAME = "CIM_MediaPhysicalStatData"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -260,7 +273,7 @@ public class CIM_MediaPhysicalStatData extends CIM_StatisticalData  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

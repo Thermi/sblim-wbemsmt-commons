@@ -1,7 +1,7 @@
 /** 
  * CIM_DiskPartitionBasedOnVolume.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: DiskPartitions should be BasedOn a single StorageVolume (for example, exposed by a hardware RAID cabinet), an SCC VolumeSet, or realized directly in PhysicalMedia. The first two relationships are made explicit in this association. The latter is conveyed by the RealizesDiskPartition association.
+ * Description:  DiskPartitions should be BasedOn a single StorageVolume (for example, exposed
+ * by a hardware RAID cabinet), an SCC VolumeSet, or realized directly in
+ * PhysicalMedia. The first two relationships are made explicit in this
+ * association. The latter is conveyed by the RealizesDiskPartition association.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  DiskPartitions should be BasedOn a single StorageVolume (for example, exposed
+ * by a hardware RAID cabinet), an SCC VolumeSet, or realized directly in
+ * PhysicalMedia. The first two relationships are made explicit in this
+ * association. The latter is conveyed by the RealizesDiskPartition association.
+ */
 public class CIM_DiskPartitionBasedOnVolume extends CIM_BasedOn  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_DiskPartitionBasedOnVolume";
+	public final static String CIM_CLASS_NAME = "CIM_DiskPartitionBasedOnVolume"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +200,7 @@ public class CIM_DiskPartitionBasedOnVolume extends CIM_BasedOn  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

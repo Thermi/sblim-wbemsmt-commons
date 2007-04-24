@@ -1,7 +1,7 @@
 /** 
  * CIM_FibreChannelAdapter.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,9 @@
  * Contributors:
  *
  *
- * Description: The use of the CIM_FibreChannelAdapter class is deprecated, consistent with the deprecation of NetworkAdapter. Instead use CIM_FCPort. This class describes the capabilities and management aspects of a Fibre Channel Adapter.
+ * Description:  The use of the CIM_FibreChannelAdapter class is deprecated, consistent with the
+ * deprecation of NetworkAdapter. Instead use CIM_FCPort. This class describes
+ * the capabilities and management aspects of a Fibre Channel Adapter.
  * 
  */
 
@@ -33,15 +35,20 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  The use of the CIM_FibreChannelAdapter class is deprecated, consistent with the
+ * deprecation of NetworkAdapter. Instead use CIM_FCPort. This class describes
+ * the capabilities and management aspects of a Fibre Channel Adapter.
+ */
 public class CIM_FibreChannelAdapter extends CIM_NetworkAdapter  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_FibreChannelAdapter";
+	public final static String CIM_CLASS_NAME = "CIM_FibreChannelAdapter"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_FIBREPORTONFCADAPTER = "CIM_FibrePortOnFCAdapter";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_FIBREPORTONFCADAPTER = "CIM_FibrePortOnFCAdapter"; //$NON-NLS-1$
 	
 	
 	/**
@@ -525,7 +532,7 @@ public class CIM_FibreChannelAdapter extends CIM_NetworkAdapter  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -650,8 +657,8 @@ public class CIM_FibreChannelAdapter extends CIM_NetworkAdapter  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_FIBREPORTONFCADAPTER, 
 					CIM_FibrePort.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent",
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -664,9 +671,9 @@ public class CIM_FibreChannelAdapter extends CIM_NetworkAdapter  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_FibreChannelAdapter.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_FibreChannelAdapter.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_FibreChannelAdapter.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_FibreChannelAdapter.Java_Package_List.setElementAt((String)(CIM_FibreChannelAdapter.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_FibreChannelAdapter.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_FibreChannelAdapter.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_FibreChannelAdapter.Java_Package_List.setElementAt((String)(CIM_FibreChannelAdapter.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_FibreChannelAdapter.Java_Package_List.get(i)) + cimClassName;
 
@@ -736,8 +743,8 @@ public class CIM_FibreChannelAdapter extends CIM_NetworkAdapter  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_FIBREPORTONFCADAPTER, 
 					CIM_FibrePort.CIM_CLASS_NAME, 
-					"Antecedent",
-					"Dependent");
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {

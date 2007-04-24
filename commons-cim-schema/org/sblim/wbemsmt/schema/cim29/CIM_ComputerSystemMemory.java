@@ -1,7 +1,7 @@
 /** 
  * CIM_ComputerSystemMemory.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: The use of this association has be deprecated in lieu of SystemDevice. Association indicating that memory is installed and required for the UnitaryComputerSystem to operate. Note that this relationship inherits from the SystemDevice association, and therefore, the Memory StorageExtent is weak to the aggregating UnitaryComputerSystem.
+ * Description:  The use of this association has be deprecated in lieu of SystemDevice.
+ * Association indicating that memory is installed and required for the
+ * UnitaryComputerSystem to operate. Note that this relationship inherits from
+ * the SystemDevice association, and therefore, the Memory StorageExtent is weak
+ * to the aggregating UnitaryComputerSystem.
  * 
  */
 
@@ -28,9 +32,16 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The use of this association has be deprecated in lieu of SystemDevice.
+ * Association indicating that memory is installed and required for the
+ * UnitaryComputerSystem to operate. Note that this relationship inherits from
+ * the SystemDevice association, and therefore, the Memory StorageExtent is weak
+ * to the aggregating UnitaryComputerSystem.
+ */
 public class CIM_ComputerSystemMemory extends CIM_SystemDevice  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_ComputerSystemMemory";
+	public final static String CIM_CLASS_NAME = "CIM_ComputerSystemMemory"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +202,7 @@ public class CIM_ComputerSystemMemory extends CIM_SystemDevice  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

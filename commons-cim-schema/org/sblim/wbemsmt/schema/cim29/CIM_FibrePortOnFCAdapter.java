@@ -1,7 +1,7 @@
 /** 
  * CIM_FibrePortOnFCAdapter.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,10 @@
  * Contributors:
  *
  *
- * Description: The use of FibrePortOnFCAdapter is deprecated since both FibrePort and FibreChannelAdapter have been deprecated. No replacement is needed, since the 2 classes are combined into a single class. FibrePortOnFCAdapter associates a FibrePort with a FibreChannelAdapter.
+ * Description:  The use of FibrePortOnFCAdapter is deprecated since both FibrePort and
+ * FibreChannelAdapter have been deprecated. No replacement is needed, since the
+ * 2 classes are combined into a single class. FibrePortOnFCAdapter associates a
+ * FibrePort with a FibreChannelAdapter.
  * 
  */
 
@@ -28,9 +31,15 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  The use of FibrePortOnFCAdapter is deprecated since both FibrePort and
+ * FibreChannelAdapter have been deprecated. No replacement is needed, since the
+ * 2 classes are combined into a single class. FibrePortOnFCAdapter associates a
+ * FibrePort with a FibreChannelAdapter.
+ */
 public class CIM_FibrePortOnFCAdapter extends CIM_PortOnDevice  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_FibrePortOnFCAdapter";
+	public final static String CIM_CLASS_NAME = "CIM_FibrePortOnFCAdapter"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -191,7 +200,7 @@ public class CIM_FibrePortOnFCAdapter extends CIM_PortOnDevice  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

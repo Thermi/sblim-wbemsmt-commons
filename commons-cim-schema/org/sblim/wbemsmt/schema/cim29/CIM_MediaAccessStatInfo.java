@@ -1,7 +1,7 @@
 /** 
  * CIM_MediaAccessStatInfo.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,13 @@
  * Contributors:
  *
  *
- * Description: Statistics related to reading and writing at a specific MediaAccessDevice, or for a specific StorageExtent. Although the same class is used to represent this data, at the instance level the object holds information for the MediaAccessDevice (independent of the StorageExtent), OR for the Extent (independent of its AccessDevice). Note that this class models the same properties as MediaAccessStatData. The latter, however, uses the simplified key mechanisms of the StatisticalData class.
+ * Description:  Statistics related to reading and writing at a specific MediaAccessDevice, or
+ * for a specific StorageExtent. Although the same class is used to represent
+ * this data, at the instance level the object holds information for the
+ * MediaAccessDevice (independent of the StorageExtent), OR for the Extent
+ * (independent of its AccessDevice). Note that this class models the same
+ * properties as MediaAccessStatData. The latter, however, uses the simplified
+ * key mechanisms of the StatisticalData class.
  * 
  */
 
@@ -30,9 +36,18 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  Statistics related to reading and writing at a specific MediaAccessDevice, or
+ * for a specific StorageExtent. Although the same class is used to represent
+ * this data, at the instance level the object holds information for the
+ * MediaAccessDevice (independent of the StorageExtent), OR for the Extent
+ * (independent of its AccessDevice). Note that this class models the same
+ * properties as MediaAccessStatData. The latter, however, uses the simplified
+ * key mechanisms of the StatisticalData class.
+ */
 public class CIM_MediaAccessStatInfo extends CIM_DeviceStatisticalInformation  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_MediaAccessStatInfo";
+	public final static String CIM_CLASS_NAME = "CIM_MediaAccessStatInfo"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -259,7 +274,7 @@ In a subclass, the set of possible return codes should be specified in a ValueMa
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

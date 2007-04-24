@@ -1,7 +1,7 @@
 /** 
  * CIM_JobSettingData.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,13 @@
  * Contributors:
  *
  *
- * Description: JobSettingData represents job characteristics and scheduling information for a CIM_Job. The settings may be applied to a job handling Service, a JobQueue or other destination to which jobs are submitted, and/or to individual CIM_Jobs. The applicability of the settings are defined using the ElementSettingData relationship. Since the Settings may be defined in several contexts and applied to many types of elements, this class is defined as a subclass of SettingData, versus ScopedSettingData.
+ * Description:  JobSettingData represents job characteristics and scheduling information for a
+ * CIM_Job. The settings may be applied to a job handling Service, a JobQueue or
+ * other destination to which jobs are submitted, and/or to individual CIM_Jobs.
+ * The applicability of the settings are defined using the ElementSettingData
+ * relationship. Since the Settings may be defined in several contexts and
+ * applied to many types of elements, this class is defined as a subclass of
+ * SettingData, versus ScopedSettingData.
  * 
  */
 
@@ -28,9 +34,18 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  JobSettingData represents job characteristics and scheduling information for a
+ * CIM_Job. The settings may be applied to a job handling Service, a JobQueue or
+ * other destination to which jobs are submitted, and/or to individual CIM_Jobs.
+ * The applicability of the settings are defined using the ElementSettingData
+ * relationship. Since the Settings may be defined in several contexts and
+ * applied to many types of elements, this class is defined as a subclass of
+ * SettingData, versus ScopedSettingData.
+ */
 public class CIM_JobSettingData extends CIM_SettingData  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_JobSettingData";
+	public final static String CIM_CLASS_NAME = "CIM_JobSettingData"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -226,7 +241,7 @@ public class CIM_JobSettingData extends CIM_SettingData  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**

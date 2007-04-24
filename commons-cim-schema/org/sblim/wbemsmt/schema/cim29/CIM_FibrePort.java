@@ -1,7 +1,7 @@
 /** 
  * CIM_FibrePort.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,11 @@
  * Contributors:
  *
  *
- * Description: The use of the FibrePort class is deprecated, since FibreChannel Adapter has been deprecated in lieu of FCPort. And, this class overlaps with FCPort. The new FCPort class should be used in lieu of both FibreChannelAdapter and FibrePort. FibrePort describes the capabilities and management aspects of a Fibre Channel Port Device.
+ * Description:  The use of the FibrePort class is deprecated, since FibreChannel Adapter has
+ * been deprecated in lieu of FCPort. And, this class overlaps with FCPort. The
+ * new FCPort class should be used in lieu of both FibreChannelAdapter and
+ * FibrePort. FibrePort describes the capabilities and management aspects of a
+ * Fibre Channel Port Device.
  * 
  */
 
@@ -33,16 +37,23 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  The use of the FibrePort class is deprecated, since FibreChannel Adapter has
+ * been deprecated in lieu of FCPort. And, this class overlaps with FCPort. The
+ * new FCPort class should be used in lieu of both FibreChannelAdapter and
+ * FibrePort. FibrePort describes the capabilities and management aspects of a
+ * Fibre Channel Port Device.
+ */
 public class CIM_FibrePort extends CIM_LogicalPort  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_FibrePort";
+	public final static String CIM_CLASS_NAME = "CIM_FibrePort"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_FIBREPORTACTIVELOGIN = "CIM_FibrePortActiveLogin";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_FIBREPORTONFCADAPTER = "CIM_FibrePortOnFCAdapter";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_FIBREPORTACTIVELOGIN = "CIM_FibrePortActiveLogin"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_FIBREPORTONFCADAPTER = "CIM_FibrePortOnFCAdapter"; //$NON-NLS-1$
 	
 	
 	/**
@@ -394,7 +405,7 @@ A particular mode may be listed multiple times in the SupportedPortTypes array i
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -519,8 +530,8 @@ A particular mode may be listed multiple times in the SupportedPortTypes array i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_FIBREPORTACTIVELOGIN, 
 					CIM_FibrePort.CIM_CLASS_NAME, 
-					"LoginOriginator",
-					"LoginResponder",
+					"LoginOriginator", //$NON-NLS-1$
+					"LoginResponder", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -533,9 +544,9 @@ A particular mode may be listed multiple times in the SupportedPortTypes array i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_FibrePort.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_FibrePort.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_FibrePort.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_FibrePort.Java_Package_List.setElementAt((String)(CIM_FibrePort.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_FibrePort.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_FibrePort.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_FibrePort.Java_Package_List.setElementAt((String)(CIM_FibrePort.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_FibrePort.Java_Package_List.get(i)) + cimClassName;
 
@@ -605,8 +616,8 @@ A particular mode may be listed multiple times in the SupportedPortTypes array i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_FIBREPORTACTIVELOGIN, 
 					CIM_FibrePort.CIM_CLASS_NAME, 
-					"LoginOriginator",
-					"LoginResponder");
+					"LoginOriginator", //$NON-NLS-1$
+					"LoginResponder"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -646,8 +657,8 @@ A particular mode may be listed multiple times in the SupportedPortTypes array i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_FIBREPORTONFCADAPTER, 
 					CIM_FibreChannelAdapter.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -660,9 +671,9 @@ A particular mode may be listed multiple times in the SupportedPortTypes array i
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_FibrePort.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_FibrePort.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_FibrePort.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_FibrePort.Java_Package_List.setElementAt((String)(CIM_FibrePort.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_FibrePort.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_FibrePort.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_FibrePort.Java_Package_List.setElementAt((String)(CIM_FibrePort.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_FibrePort.Java_Package_List.get(i)) + cimClassName;
 
@@ -732,8 +743,8 @@ A particular mode may be listed multiple times in the SupportedPortTypes array i
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_FIBREPORTONFCADAPTER, 
 					CIM_FibreChannelAdapter.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
