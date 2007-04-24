@@ -1,7 +1,7 @@
 /** 
  * CIM_AGPSoftwareFeature.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,12 @@
  * Contributors:
  *
  *
- * Description: AGPSoftwareFeature adds two attributes to SoftwareFeature to represent the capabilities of an AGP device driver. An instance of this class would be associated with the Driver's SoftwareElement using the SoftwareFeatureSoftware Elements relationship. The driver's SoftwareElement is associated with the AGPVideoController via the Device Software relationship.
+ * Description:  AGPSoftwareFeature adds two attributes to SoftwareFeature to represent the
+ * capabilities of an AGP device driver. An instance of this class would be
+ * associated with the Driver's SoftwareElement using the
+ * SoftwareFeatureSoftware Elements relationship. The driver's SoftwareElement
+ * is associated with the AGPVideoController via the Device Software
+ * relationship.
  * 
  */
 
@@ -28,9 +33,17 @@ import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
 
+/**
+ *  AGPSoftwareFeature adds two attributes to SoftwareFeature to represent the
+ * capabilities of an AGP device driver. An instance of this class would be
+ * associated with the Driver's SoftwareElement using the
+ * SoftwareFeatureSoftware Elements relationship. The driver's SoftwareElement
+ * is associated with the AGPVideoController via the Device Software
+ * relationship.
+ */
 public class CIM_AGPSoftwareFeature extends CIM_SoftwareFeature  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_AGPSoftwareFeature";
+	public final static String CIM_CLASS_NAME = "CIM_AGPSoftwareFeature"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -213,7 +226,7 @@ public class CIM_AGPSoftwareFeature extends CIM_SoftwareFeature  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
