@@ -1,7 +1,7 @@
 /** 
  * CIM_BIOSElement.java
  *
- * © Copyright IBM Corp. 2005
+ * (C) Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -16,7 +16,8 @@
  * Contributors:
  *
  *
- * Description: BIOSElement represents the low-level software that is loaded into non-volatile storage and used to bring up and configure a ComputerSystem.
+ * Description:  BIOSElement represents the low-level software that is loaded into non-volatile
+ * storage and used to bring up and configure a ComputerSystem.
  * 
  */
 
@@ -34,17 +35,21 @@ import org.sblim.wbem.client.*;
 
 
 
+/**
+ *  BIOSElement represents the low-level software that is loaded into non-volatile
+ * storage and used to bring up and configure a ComputerSystem.
+ */
 public class CIM_BIOSElement extends CIM_SoftwareElement  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_BIOSElement";
+	public final static String CIM_CLASS_NAME = "CIM_BIOSElement"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
 	
 	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_BIOSFEATUREBIOSELEMENTS = "CIM_BIOSFeatureBIOSElements";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_BIOSLOADEDINNV = "CIM_BIOSLoadedInNV";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMBIOS = "CIM_SystemBIOS";
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_BIOSFEATUREBIOSELEMENTS = "CIM_BIOSFeatureBIOSElements"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_BIOSLOADEDINNV = "CIM_BIOSLoadedInNV"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMBIOS = "CIM_SystemBIOS"; //$NON-NLS-1$
 	
 	
 	/**
@@ -269,7 +274,7 @@ public class CIM_BIOSElement extends CIM_SoftwareElement  {
 	 * @return Returns the validCimInstance.
 	 */
 	public boolean isValidCimInstance() {
-		return validCimInstance;
+		return this.validCimInstance;
 	}
 	
 	/**
@@ -394,8 +399,8 @@ public class CIM_BIOSElement extends CIM_SoftwareElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_BIOSFEATUREBIOSELEMENTS, 
 					CIM_BIOSFeature.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -408,9 +413,9 @@ public class CIM_BIOSElement extends CIM_SoftwareElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_BIOSElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_BIOSElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_BIOSElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_BIOSElement.Java_Package_List.setElementAt((String)(CIM_BIOSElement.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_BIOSElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_BIOSElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_BIOSElement.Java_Package_List.setElementAt((String)(CIM_BIOSElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_BIOSElement.Java_Package_List.get(i)) + cimClassName;
 
@@ -480,8 +485,8 @@ public class CIM_BIOSElement extends CIM_SoftwareElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_BIOSFEATUREBIOSELEMENTS, 
 					CIM_BIOSFeature.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -521,8 +526,8 @@ public class CIM_BIOSElement extends CIM_SoftwareElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_BIOSLOADEDINNV, 
 					CIM_Memory.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent",
+					"Dependent", //$NON-NLS-1$
+					"Antecedent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -535,9 +540,9 @@ public class CIM_BIOSElement extends CIM_SoftwareElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_BIOSElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_BIOSElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_BIOSElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_BIOSElement.Java_Package_List.setElementAt((String)(CIM_BIOSElement.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_BIOSElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_BIOSElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_BIOSElement.Java_Package_List.setElementAt((String)(CIM_BIOSElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_BIOSElement.Java_Package_List.get(i)) + cimClassName;
 
@@ -607,8 +612,8 @@ public class CIM_BIOSElement extends CIM_SoftwareElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_BIOSLOADEDINNV, 
 					CIM_Memory.CIM_CLASS_NAME, 
-					"Dependent",
-					"Antecedent");
+					"Dependent", //$NON-NLS-1$
+					"Antecedent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
@@ -648,8 +653,8 @@ public class CIM_BIOSElement extends CIM_SoftwareElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMBIOS, 
 					CIM_ComputerSystem.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent",
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent", //$NON-NLS-1$
 					includeQualifiers,
 					includeClassOrigin,
 					propertyList);
@@ -662,9 +667,9 @@ public class CIM_BIOSElement extends CIM_SoftwareElement  {
 					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_BIOSElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_BIOSElement.Java_Package_List.get(i))).trim().equals("") &&
-								!((String)(CIM_BIOSElement.Java_Package_List.get(i))).endsWith(".")) {
-							CIM_BIOSElement.Java_Package_List.setElementAt((String)(CIM_BIOSElement.Java_Package_List.get(i)) + ("."), i);
+						if (!((String)(CIM_BIOSElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_BIOSElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_BIOSElement.Java_Package_List.setElementAt((String)(CIM_BIOSElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
 						cimClassName = (CIM_BIOSElement.Java_Package_List.get(i)) + cimClassName;
 
@@ -734,8 +739,8 @@ public class CIM_BIOSElement extends CIM_SoftwareElement  {
 					this.getCimObjectPath(),
 					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMBIOS, 
 					CIM_ComputerSystem.CIM_CLASS_NAME, 
-					"PartComponent",
-					"GroupComponent");
+					"PartComponent", //$NON-NLS-1$
+					"GroupComponent"); //$NON-NLS-1$
 		
 		
 			while (enumeration.hasMoreElements()) {
