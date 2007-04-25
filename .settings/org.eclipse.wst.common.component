@@ -3,8 +3,8 @@
     <wb-module deploy-name="wbemsmt-commons">
         <wb-resource deploy-path="/" source-path="/commons-eui"/>
         <wb-resource deploy-path="/" source-path="/commons-bl"/>
-        <wb-resource deploy-path="/" source-path="/commons-cim-schema"/>
         <wb-resource deploy-path="/" source-path="/commons-wizards"/>
-        <wb-resource deploy-path="/" source-path="/commons-test"/>
+<wb-resource deploy-path="/" source-path="/commons-test"/>
+<wb-resource deploy-path="/" source-path="/commons-cim-schema"/>
     </wb-module>
 </project-modules>

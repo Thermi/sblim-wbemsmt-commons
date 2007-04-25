@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="commons-eui"/>
+	<classpathentry kind="src" path="commons-cim-schema"/>
 	<classpathentry excluding="conf/|doc/|logging/" kind="src" path="commons-bl"/>
-	<classpathentry excluding="target/" kind="src" path="commons-cim-schema"/>
 	<classpathentry kind="src" path="commons-wizards"/>
 	<classpathentry kind="src" path="commons-test"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
