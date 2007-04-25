@@ -14,7 +14,7 @@ import org.apache.commons.cli.Options;
  /** 
  * WbemsmtOptions.java
  *
- * © Copyright IBM Corp. 2005
+ * Â© Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
