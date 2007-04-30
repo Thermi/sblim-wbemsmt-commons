@@ -22,6 +22,7 @@ import java.io.Serializable;
 
 import org.sblim.wbem.cim.CIMInstance;
 import org.sblim.wbem.client.CIMClient;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 import org.sblim.wbemsmt.bl.tree.ICIMInstanceNode;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.EventListenerDocument.EventListener;
@@ -36,6 +37,7 @@ public class CIMInstanceNode extends TaskLauncherTreeNode implements Serializabl
 {
 	static final long serialVersionUID = 1234l;
     private CIMInstance cimInstance;
+    private CIM_ObjectIf cimObject;
     
     public CIMInstanceNode(CIMClient cimClient, TreenodeDocument.Treenode xmlconfigNode, CIMInstance cimInstance)
     {
@@ -90,5 +92,15 @@ public class CIMInstanceNode extends TaskLauncherTreeNode implements Serializabl
 	public String getInfo() {
 		return CIMInstanceNode.class.getName() + name + "; " + cimInstance.getObjectPath();
 	}
+
+	public CIM_ObjectIf getCimObject() {
+		return cimObject;
+	}
+
+	public void setCimObject(CIM_ObjectIf cimObject) {
+		this.cimObject = cimObject;
+	}
+	
+	
     
 }

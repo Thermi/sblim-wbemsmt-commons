@@ -33,7 +33,6 @@ import org.sblim.wbem.cim.CIMInstance;
 import org.sblim.wbem.cim.CIMObjectPath;
 import org.sblim.wbem.cim.CIMProperty;
 import org.sblim.wbem.client.CIMClient;
-import org.sblim.wbem.util.ThreadPool;
 import org.sblim.wbemsmt.bl.tree.ICIMClassNode;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
@@ -44,6 +43,7 @@ import org.sblim.wbemsmt.tasklauncher.customtreeconfig.InstanceSubnodesDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument;
 import org.sblim.wbemsmt.tasklauncher.filter.CIMInstanceFilter;
 import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNaming;
+import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNamingFactory;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
@@ -56,14 +56,10 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
     
 	private static final Logger logger = Logger.getLogger(CIMClassNode.class.getName());
     
-	static ThreadPool threadPool = new ThreadPool();
-	
     private boolean showInstances = false;
     private String instanceNamingKey;
     private CIMInstanceNaming cimInstanceNaming;
     private CIMClass cimClass;
-    private SubnodesUpdater subnodesUpdater;
-    private boolean subnodesBuilt = false;
     private boolean instancesBuilt = false;
     private int maxDepth = DEPTH_INFINITE;
     private Vector instances;
@@ -93,7 +89,6 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
     {
         super(cimClient, xmlconfigNode, name);
         this.cimClass = cimClass;
-        this.subnodesUpdater = new SubnodesUpdater(cimClient, this);
         this.instances = new Vector();
         this.eventListener = new HashSet();
         this.instanceSubnodes = new Vector();
@@ -400,17 +395,15 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
 				}
             }  
         }
-    	
-        if(this.maxDepth != 0 && !this.subnodesBuilt && subnodesUpdater != null && !subnodesUpdater.isAlive())
-        {
-            logger.log(Level.FINER, "Getting subclasses of CIMClass " + this.getName() + " depth " + maxDepth);
-
-            threadPool.execute(subnodesUpdater);
-            subnodesUpdater = null;
-            this.subnodesBuilt = true;
-            subnodesRead = true;
-        }
         
+        subnodesRead = true;        
+    	
+//        if(this.maxDepth != 0 && !this.subnodesBuilt && subnodesUpdater != null && !subnodesUpdater.isAlive())
+//        {
+//            this.subnodesBuilt = true;
+//            
+//        }
+//        
         
         // call update on subnodes
         for(int i = 0; i < this.subnodes.size(); i++)
@@ -513,121 +506,6 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
     }
     
 
-    
-
-    
-    
-    
-    /**
-     * Small thread to gather all subclasses from the cim client.
-     * @author Marius Kreis
-     *
-     */
-    private class SubnodesUpdater implements Runnable, Cloneable
-    {
-        private CIMClassNode rootNode;
-        private CIMClient cimClient;
-		private boolean isAlive = false;
-
-        /**
-         * Constructs the Subnodes Updater thread
-         * @param cimClient to be used for the update
-         * @param rootNode to which subnodes will be added to
-         */
-        public SubnodesUpdater(CIMClient cimClient, CIMClassNode rootNode)
-        {
-            this.cimClient = cimClient;
-            this.rootNode = rootNode;
-        }
-        
-        public boolean isAlive() {
-			return isAlive;
-		}
-
-		public void run()
-        {
-			try
-			{
-				isAlive = true;
-				this.getSubnodes(rootNode, rootNode.getCIMClass(), maxDepth);
-			}
-			finally
-			{
-				rootNode = null;
-				cimClient = null;
-				isAlive = false;
-				logger.log(Level.FINE, "Building Tree finished");
-			}
-        }
-        
-        protected void finalize() throws Throwable {
-        	System.err.println("Finalize " + getName());
-        	super.finalize();
-        }
-        
-        public Object clone()
-        {
-        	try {
-				return super.clone();
-			} catch (CloneNotSupportedException e) {
-				e.printStackTrace();
-				return null;
-			}
-        }
-        
-        /**
-         * Recursive method to gather all subclasses. Catches errors of the {@link CIMClient}
-         * which may occur due to bugs in den CIMClient, misconfiguration (invalid CIM Classes)
-         * or too many connections.
-         * @param node Current node to which subnodes will be added to
-         * @param cimClass Current {@link CIMClass} from whose subclasses subnodes are built
-         * @param depth Counter of the current depth, to be compared with the maximum depth
-         */
-        private void getSubnodes(CIMClassNode node, CIMClass cimClass, int depth)
-        {
-            CIMObjectPath path = (cimClass != null) ? cimClass.getObjectPath() : new CIMObjectPath();
-            try
-            {
-                Enumeration cimClasses = this.cimClient.enumerateClasses(path);
-                while(cimClasses.hasMoreElements())
-                {
-                    CIMClass currentCimClass = (CIMClass) cimClasses.nextElement();
-                    if(!currentCimClass.isAssociation())
-                    {
-                        logger.log(Level.FINEST, "Got CIM Class: " + currentCimClass.getName());
-                        CIMClassNode newNode = new CIMClassNode(this.cimClient, null, currentCimClass.getName(), currentCimClass);
-                        
-                        // every child gets the same eventListener as the parent
-                        newNode.addEventListener(eventListener);
-                        
-                        node.addSubnode(newNode);
-                        
-                        if(maxDepth == DEPTH_INFINITE || (maxDepth > 0 && depth <= maxDepth))
-                        {
-                            this.getSubnodes(newNode, currentCimClass, depth+1);
-                        }
-                    }
-                    else logger.log(Level.FINEST, "Got CIM Association: " + currentCimClass.getName());
-                }
-            }
-            catch(Exception e)
-            {
-                if(logger.isLoggable(Level.SEVERE))
-                    logger.log(Level.SEVERE, "Error while enumerating Classes of Path " + path.toString() + ": " + e.getMessage());
-            }
-        }
-    }
-
-    
-
-    SubnodesUpdater getSubnodesUpdater() {
-		return subnodesUpdater;
-	}
-
-	void setSubnodesUpdater(SubnodesUpdater subnodesUpdater) {
-		this.subnodesUpdater = subnodesUpdater;
-	}
-
 	/**
 	 * Clones the Classnode
 	 * 
@@ -639,7 +517,6 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
         try
         {
         	CIMClassNode cloned = (CIMClassNode) super.clone();
-            cloned.setSubnodesUpdater((SubnodesUpdater)getSubnodesUpdater().clone());
             return cloned;
         }
         catch(Exception e)

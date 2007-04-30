@@ -995,9 +995,35 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 				result.add(clsNode);
 			}
 		}
-		for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
-			TaskLauncherTreeNode node = (TaskLauncherTreeNode) iter.next();
+		
+		Vector subnodes2 = getSubnodes();
+		for (int i=0; i < subnodes2.size(); i++)
+		{
+			TaskLauncherTreeNode node = (TaskLauncherTreeNode) subnodes2.get(i);
 			node.findInstanceNodes(cimClassName,result);
+		}
+	}
+	
+	public List findInstanceNodes(Class instanceClass) throws WbemSmtException {
+		List result = new ArrayList();
+		findInstanceNodes(instanceClass,result);
+		return result;
+	}
+
+	private void findInstanceNodes(Class instanceClass, List result) throws WbemSmtException {
+
+		if (this instanceof CIMInstanceNode) {
+			CIMInstanceNode clsNode = (CIMInstanceNode) this;
+			if (instanceClass.isAssignableFrom(clsNode.getCimObject().getWrappedObject().getClass()))
+			{
+				result.add(clsNode);
+			}
+		}
+		Vector subnodes2 = getSubnodes();
+		for (int i=0; i < subnodes2.size(); i++)
+		{
+			TaskLauncherTreeNode node = (TaskLauncherTreeNode) subnodes2.get(i);
+			node.findInstanceNodes(instanceClass,result);
 		}
 	}
 
@@ -1015,10 +1041,13 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 				result.add(clsNode);
 			}
 		}
-		for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
-			TaskLauncherTreeNode node = (TaskLauncherTreeNode) iter.next();
+		Vector subnodes2 = getSubnodes();
+		for (int i=0; i < subnodes2.size(); i++)
+		{
+			TaskLauncherTreeNode node = (TaskLauncherTreeNode) subnodes2.get(i);
 			node.findClassNodes(cimClassName,result);
 		}
+
 	}
 
 	public TaskLauncherTreeNode findInstanceNode(CIMObjectPath path) throws WbemSmtException {
@@ -1030,8 +1059,10 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			}
 		}
 
-		for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
-			TaskLauncherTreeNode node = (TaskLauncherTreeNode) iter.next();
+		Vector subnodes2 = getSubnodes();
+		for (int i=0; i < subnodes2.size(); i++)
+		{
+			TaskLauncherTreeNode node = (TaskLauncherTreeNode) subnodes2.get(i);
 			TaskLauncherTreeNode result = node.findInstanceNode(path);
 			if (result != null)
 			{
@@ -1114,7 +1145,6 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 		return parent;
 	}
 
-	
 
 
 	

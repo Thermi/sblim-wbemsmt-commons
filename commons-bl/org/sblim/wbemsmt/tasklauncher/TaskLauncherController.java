@@ -147,8 +147,9 @@ public class TaskLauncherController implements Cleanup
     		String cimomName = (String) entry.getKey();
 			if(cimClient != null && this.taskLauncherConfig != null)
 			{
+				Vector treeconfigsByHostname = taskLauncherConfig.getTreeConfigDataByHostname(cimClient.getNameSpace().getHost());
 				List treeConfigs = new ArrayList();
-				for (Iterator iter = taskLauncherConfig.getTreeConfigDataByHostname(cimClient.getNameSpace().getHost()).iterator(); iter.hasNext();) {
+				for (Iterator iter = treeconfigsByHostname.iterator(); iter.hasNext();) {
 					TaskLauncherConfig.TreeConfigData configData = (TaskLauncherConfig.TreeConfigData) iter.next();
 					addTreeConfig(cimClient, configData, treeConfigs);
 				}

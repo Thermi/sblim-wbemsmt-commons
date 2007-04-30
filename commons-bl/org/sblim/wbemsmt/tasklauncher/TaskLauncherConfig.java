@@ -292,8 +292,8 @@ public class TaskLauncherConfig
 				}
 			} catch (UnknownHostException e) {
 				//Try at least to compare the hostnames
-				logger.log(Level.SEVERE,"Cannot lookup host ",e);
-				if (cimomData.getHostname().equals(cimomHostname));
+				logger.log(Level.SEVERE,"Cannot lookup host " + cimomData.getHostname());
+				if (cimomData.getHostname().equals(cimomHostname))
 				{
 					return cimomData.getTreeConfigs();
 				}
