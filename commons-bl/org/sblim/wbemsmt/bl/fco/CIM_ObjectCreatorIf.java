@@ -14,7 +14,7 @@
   *
   * Contributors: 
   * 
-  * Description: TODO
+  * Description: Interface for Creator for a CIM Object
   * 
   */
 package org.sblim.wbemsmt.bl.fco;

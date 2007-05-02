@@ -14,7 +14,7 @@
   *
   * Contributors: 
   * 
-  * Description: TODO
+  * Description: Creator for a CIM Object
   * 
   */
 package org.sblim.wbemsmt.schema.cim_2_14.tools;
