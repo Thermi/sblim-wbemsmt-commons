@@ -19,8 +19,7 @@
   */
 package org.sblim.wbemsmt.exception;
 
-import org.sblim.wbemsmt.schema.cim29.CIM_Component;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 
 public class CountException extends WbemSmtException {
 
@@ -29,12 +28,12 @@ public class CountException extends WbemSmtException {
 	 */
 	private static final long serialVersionUID = 2292751288957357008L;
 
-	public CountException(CIM_ManagedElement cimElement, Throwable arg1) {
+	public CountException(CIM_ObjectIf cimElement, Throwable arg1) {
 		super(cimElement, arg1);
 		
 	}
 
-	public CountException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
+	public CountException(String arg0, CIM_ObjectIf cimElement, Throwable arg1) {
 		super(arg0, cimElement, arg1);
 		
 	}
@@ -44,15 +43,11 @@ public class CountException extends WbemSmtException {
 		
 	}
 
-	public CountException(CIM_ManagedElement cimElement) {
+	public CountException(CIM_ObjectIf cimElement) {
 		super(cimElement);
 		
 	}
 
-	public CountException(String msg, CIM_Component co, Throwable t) {
-		super(msg, co, t);
-		
-	}
 
 	public CountException(String arg0, Throwable arg1) {
 		super(arg0, arg1);

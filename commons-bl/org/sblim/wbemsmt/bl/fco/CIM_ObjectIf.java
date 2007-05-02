@@ -1,5 +1,5 @@
  /** 
-  * ICIMInstanceNode.java
+  * CIM_ObjectIf.java
   *
   * © Copyright IBM Corp. 2005
   *
@@ -14,21 +14,24 @@
   *
   * Contributors: 
   * 
-  * Description: Interface of a CIMInstance Node
+  * Description: Interface for all wrappers of a CIMObject
+  * 
+  * 
   * 
   */
-
-package org.sblim.wbemsmt.bl.tree;
+package org.sblim.wbemsmt.bl.fco;
 
 import org.sblim.wbem.cim.CIMInstance;
-import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
+import org.sblim.wbem.cim.CIMObjectPath;
 
-public interface ICIMInstanceNode extends ITaskLauncherTreeNode {
+public interface CIM_ObjectIf {
 
-	public abstract CIMInstance getCimInstance();
-
-	public CIM_ObjectIf getCimObject();
-
-	public void setCimObject(CIM_ObjectIf cimObject);	
+	public CIMObjectPath getCimObjectPath();
+	public Object getWrappedObject();
 	
+	public CIMInstance getCimInstance();
+	public void setCimInstance(CIMInstance cimInstance);
+
+	public String getClassDisplayName();
+	public boolean isModified();
 }

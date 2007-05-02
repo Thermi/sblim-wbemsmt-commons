@@ -19,20 +19,21 @@
   * Implemented because there is no baseclass for all CIM-Classes except java.lang.Object
   * 
   */
-package org.sblim.wbemsmt.bl.fco;
+package org.sblim.wbemsmt.schema.cim_2_14.tools;
 
 import java.util.Vector;
 import java.util.logging.Logger;
 
 import org.sblim.wbem.cim.CIMInstance;
 import org.sblim.wbem.cim.CIMObjectPath;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 import org.sblim.wbemsmt.exception.WbemSmtException;
-import org.sblim.wbemsmt.schema.cim29.CIM_Component;
-import org.sblim.wbemsmt.schema.cim29.CIM_Dependency;
-import org.sblim.wbemsmt.schema.cim29.CIM_ElementSettingData;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.schema.cim_2_14.CIM_Component;
+import org.sblim.wbemsmt.schema.cim_2_14.CIM_Dependency;
+import org.sblim.wbemsmt.schema.cim_2_14.CIM_ElementSettingData;
+import org.sblim.wbemsmt.schema.cim_2_14.CIM_ManagedElement;
 
-public abstract class CIM_Object {
+public abstract class CIM_Object implements CIM_ObjectIf {
 
 	public abstract CIMObjectPath getCimObjectPath();
 	public abstract Object getWrappedObject();
@@ -62,6 +63,12 @@ public abstract class CIM_Object {
 			public Object getWrappedObject() {
 				return cimElement;
 			}
+			public boolean isModified() {
+				return cimElement.isModified();
+			}
+			public void setCimInstance(CIMInstance cimInstance) {
+				cimElement.setCimInstance(cimInstance);
+			}
 		};
 		return retValue;
 	}
@@ -87,6 +94,12 @@ public abstract class CIM_Object {
 			}
 			public Object getWrappedObject() {
 				return cimElement;
+			}
+			public boolean isModified() {
+				return cimElement.isModified();
+			}
+			public void setCimInstance(CIMInstance cimInstance) {
+				cimElement.setCimInstance(cimInstance);
 			}
 		};
 		return retValue;
@@ -115,6 +128,12 @@ public abstract class CIM_Object {
 			public Object getWrappedObject() {
 				return cimElement;
 			}
+			public boolean isModified() {
+				return cimElement.isModified();
+			}
+			public void setCimInstance(CIMInstance cimInstance) {
+				cimElement.setCimInstance(cimInstance);
+			}
 		};
 		return retValue;
 	}
@@ -139,6 +158,12 @@ public abstract class CIM_Object {
 			}
 			public Object getWrappedObject() {
 				return cimElement;
+			}
+			public boolean isModified() {
+				return cimElement.isModified();
+			}
+			public void setCimInstance(CIMInstance cimInstance) {
+				cimElement.setCimInstance(cimInstance);
 			}
 		};
 		return retValue;
@@ -184,6 +209,23 @@ public abstract class CIM_Object {
 			}
 			public Object getWrappedObject() {
 				return cimElement;
+			}
+			public boolean isModified() {
+				try {
+					return ((Boolean) cimElement.getClass().getMethod("isModified",null).invoke(cimElement,null)).booleanValue();
+				} catch (Exception e) {
+					e.printStackTrace();
+					logger.severe("Cannot execute getClassDisplayName on object " + cimElement);
+					return false;
+				}
+			}
+			public void setCimInstance(CIMInstance cimInstance) {
+				try {
+					cimElement.getClass().getMethod("setCimInstance",new Class[]{CIMInstance.class}).invoke(cimElement,new Object[]{cimInstance});
+				} catch (Exception e) {
+					e.printStackTrace();
+					logger.severe("Cannot execute getClassDisplayName on object " + cimElement);
+				}
 			}
 		};
 		return retValue;

@@ -19,8 +19,7 @@
   */
 package org.sblim.wbemsmt.exception;
 
-import org.sblim.wbemsmt.schema.cim29.CIM_Component;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 
 public class CommandNotFoundException extends WbemSmtException {
 
@@ -29,12 +28,12 @@ public class CommandNotFoundException extends WbemSmtException {
 	 */
 	private static final long serialVersionUID = -3581683859182954257L;
 
-	public CommandNotFoundException(CIM_ManagedElement cimElement) {
+	public CommandNotFoundException(CIM_ObjectIf cimElement) {
 		super(cimElement);
 		
 	}
 
-	public CommandNotFoundException(String msg, CIM_Component co, Throwable t) {
+	public CommandNotFoundException(String msg, CIM_ObjectIf co, Throwable t) {
 		super(msg, co, t);
 		
 	}
@@ -49,15 +48,11 @@ public class CommandNotFoundException extends WbemSmtException {
 		
 	}
 
-	public CommandNotFoundException(CIM_ManagedElement cimElement, Throwable arg1) {
+	public CommandNotFoundException(CIM_ObjectIf cimElement, Throwable arg1) {
 		super(cimElement, arg1);
 		
 	}
 
-	public CommandNotFoundException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
-		super(arg0, cimElement, arg1);
-		
-	}
 
 	public CommandNotFoundException(WbemSmtException arg1) {
 		super(arg1);

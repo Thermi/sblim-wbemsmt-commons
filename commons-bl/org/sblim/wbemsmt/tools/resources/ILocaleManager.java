@@ -21,7 +21,7 @@ package org.sblim.wbemsmt.tools.resources;
 
 import java.util.Locale;
 
-import org.sblim.wbemsmt.bl.fco.CIM_Object;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 
 public interface ILocaleManager {
 
@@ -37,5 +37,5 @@ public interface ILocaleManager {
 	 * @param fcoClass
 	 * @return
 	 */
-	public WbemSmtResourceBundle getBundleByFco(CIM_Object me);
+	public WbemSmtResourceBundle getBundleByFco(CIM_ObjectIf me);
 }

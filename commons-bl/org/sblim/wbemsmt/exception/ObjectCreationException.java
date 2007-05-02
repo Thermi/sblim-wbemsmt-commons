@@ -22,9 +22,8 @@
  */
 package org.sblim.wbemsmt.exception;
 
-import org.sblim.wbemsmt.bl.fco.CIM_Object;
-import org.sblim.wbemsmt.schema.cim29.CIM_Component;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
+import org.sblim.wbemsmt.schema.cim_2_14.tools.CIM_Object;
 
 /**
  * Author Bauschert
@@ -37,17 +36,12 @@ public class ObjectCreationException extends ObjectSaveException {
 	 */
 	private static final long serialVersionUID = -3081456878731890565L;
 
-	public ObjectCreationException(String msg, CIM_Component co, Throwable t) {
-		super(msg, co, t);
-		
-	}
-
-	public ObjectCreationException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
+	public ObjectCreationException(String arg0, CIM_ObjectIf cimElement, Throwable arg1) {
 		super(arg0, cimElement, arg1);
 		
 	}
 
-	public ObjectCreationException(CIM_ManagedElement cimElement, Throwable arg1) {
+	public ObjectCreationException(CIM_ObjectIf cimElement, Throwable arg1) {
 		super(cimElement, arg1);
 		
 	}
@@ -57,7 +51,7 @@ public class ObjectCreationException extends ObjectSaveException {
 		
 	}
 
-	public ObjectCreationException(CIM_ManagedElement cimElement) {
+	public ObjectCreationException(CIM_ObjectIf cimElement) {
 		super(cimElement);
 		
 	}
@@ -69,11 +63,6 @@ public class ObjectCreationException extends ObjectSaveException {
 
 	public ObjectCreationException(String arg0) {
 		super(arg0);
-		
-	}
-
-	public ObjectCreationException(CIM_Component co, Throwable t) {
-		super(co, t);
 		
 	}
 

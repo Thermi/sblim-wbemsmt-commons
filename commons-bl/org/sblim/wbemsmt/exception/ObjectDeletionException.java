@@ -22,9 +22,8 @@
  */
 package org.sblim.wbemsmt.exception;
 
-import org.sblim.wbemsmt.bl.fco.CIM_Object;
-import org.sblim.wbemsmt.schema.cim29.CIM_Component;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
+import org.sblim.wbemsmt.schema.cim_2_14.tools.CIM_Object;
 
 /**
  * Author taphorn
@@ -37,12 +36,12 @@ public class ObjectDeletionException extends WbemSmtException {
 	 */
 	private static final long serialVersionUID = 2759098014655005891L;
 
-	public ObjectDeletionException(CIM_ManagedElement cimElement, Throwable arg1) {
+	public ObjectDeletionException(CIM_ObjectIf cimElement, Throwable arg1) {
 		super(cimElement, arg1);
 		
 	}
 
-	public ObjectDeletionException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
+	public ObjectDeletionException(String arg0, CIM_ObjectIf cimElement, Throwable arg1) {
 		super(arg0, cimElement, arg1);
 		
 	}
@@ -56,23 +55,13 @@ public class ObjectDeletionException extends WbemSmtException {
 		super(msg);
 	}
 
-	public ObjectDeletionException(CIM_ManagedElement cimElement) {
+	public ObjectDeletionException(CIM_ObjectIf cimElement) {
 		super(cimElement);
-		
-	}
-
-	public ObjectDeletionException(String msg, CIM_Component co, Throwable t) {
-		super(msg, co, t);
 		
 	}
 
 	public ObjectDeletionException(String arg0, Throwable arg1) {
 		super(arg0, arg1);
-		
-	}
-
-	public ObjectDeletionException(CIM_Component co, Throwable t) {
-		super(co, t);
 		
 	}
 
@@ -91,7 +80,7 @@ public class ObjectDeletionException extends WbemSmtException {
 		
 	}
 
-	public ObjectDeletionException(String msg, CIM_ManagedElement cimElement) {
+	public ObjectDeletionException(String msg, CIM_ObjectIf cimElement) {
 		super(msg,cimElement,null);
 	}
 

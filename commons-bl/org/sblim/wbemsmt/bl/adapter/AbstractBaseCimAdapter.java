@@ -37,6 +37,7 @@ import org.sblim.wbem.cim.CIMObjectPath;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.Cleanup;
 import org.sblim.wbemsmt.bl.adapter.refresh.RemoveDataContainerThread;
+import org.sblim.wbemsmt.bl.fco.FcoHelperIf;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.exception.CountException;
 import org.sblim.wbemsmt.exception.InitContainerException;
@@ -51,7 +52,6 @@ import org.sblim.wbemsmt.exception.ObjectUpdateException;
 import org.sblim.wbemsmt.exception.UpdateControlsException;
 import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
@@ -76,6 +76,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	protected CIMClient cimClient;
 	private MultiHashMap validators = new MultiHashMap();
 	private SelectionHierarchy selectionHierarchy;
+
+	private FcoHelperIf fcoHelper = null;
+	
 	/**
 	 * Defines the currently active Module
 	 * @see AbstractBaseCimAdapter#ACTIVE_EDIT
@@ -128,9 +131,10 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		this();
 	}
 
-	public void init(WbemSmtResourceBundle resourceBundle, SelectionHierarchy selectionHierarchy) {
+	public void init(WbemSmtResourceBundle resourceBundle, SelectionHierarchy selectionHierarchy, FcoHelperIf fcoHelperIf) {
 		this.bundle = resourceBundle;
 		this.selectionHierarchy = selectionHierarchy;
+		this.fcoHelper = fcoHelperIf;
 	}
 
 	/**
@@ -353,7 +357,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		}
 		
 		for (int i=0; i <  modelElements.size(); i++) {
-			CIM_ManagedElement modelElement = (CIM_ManagedElement) modelElements.get(i);
+			Object modelElement = modelElements.get(i);
 			DataContainer containerElement = (DataContainer)containerList.get(i);
 
 			Class modelClass = modelElement.getClass();
@@ -471,7 +475,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		MessageList result = new MessageList();
 		
 		for (int i=0; i <  modelElements.size(); i++) {
-			CIM_ManagedElement modelElement = (CIM_ManagedElement) modelElements.get(i);
+			Object modelElement = modelElements.get(i);
 			DataContainer containerElement = (DataContainer)containerList.get(i);
 
 			if (!DataContainerUtil.validateEnteredValues(containerElement))
@@ -609,7 +613,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		MessageList result = new MessageList();
 		
 		for (int i=0; i <  modelElements.size(); i++) {
-			CIM_ManagedElement modelElement = (CIM_ManagedElement) modelElements.get(i);
+			Object modelElement = modelElements.get(i);
 			DataContainer containerElement = (DataContainer)containerList.get(i);
 
 			if (!DataContainerUtil.validateEnteredValues(containerElement))
@@ -747,7 +751,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		}
 		
 		for (int i=0; i <  modelElements.size(); i++) {
-			CIM_ManagedElement modelElement = (CIM_ManagedElement) modelElements.get(i);
+			Object modelElement = modelElements.get(i);
 			DataContainer containerElement = (DataContainer)containerList.get(i);
 
 			Class modelClass = modelElement.getClass();
@@ -1251,6 +1255,15 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	{
 		return 100000l;
 	}
+
+	/**
+	 * returns the helper class for supporting fco actions 
+	 * @return
+	 */
+	public FcoHelperIf getFcoHelper() {
+		return fcoHelper;
+	}
+
 	
 	
 }

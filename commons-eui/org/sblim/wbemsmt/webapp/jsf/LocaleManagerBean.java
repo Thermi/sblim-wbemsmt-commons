@@ -37,7 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.sblim.wbemsmt.bl.Cleanup;
-import org.sblim.wbemsmt.bl.fco.CIM_Object;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
@@ -129,7 +129,7 @@ public class LocaleManagerBean implements ILocaleManager, Cleanup
 		return resourceBundleByAppName;
 	}
 
-	public WbemSmtResourceBundle getBundleByFco(CIM_Object co)
+	public WbemSmtResourceBundle getBundleByFco(CIM_ObjectIf co)
 	{
 		return getBundleByFco(co.getWrappedObject().getClass());
 	}

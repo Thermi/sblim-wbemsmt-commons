@@ -20,17 +20,17 @@
   */
 package org.sblim.wbemsmt.exception;
 
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 
 public class FilterException extends WbemSmtException {
 
 	private static final long serialVersionUID = -572530742347664243L;
 
-	public FilterException(CIM_ManagedElement cimElement, Throwable arg1) {
+	public FilterException(CIM_ObjectIf cimElement, Throwable arg1) {
 		super(cimElement, arg1);
 	}
 
-	public FilterException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
+	public FilterException(String arg0, CIM_ObjectIf cimElement, Throwable arg1) {
 		super(arg0, cimElement, arg1);
 	}
 

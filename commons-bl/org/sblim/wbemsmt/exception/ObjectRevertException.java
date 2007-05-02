@@ -22,9 +22,8 @@
  */
 package org.sblim.wbemsmt.exception;
 
-import org.sblim.wbemsmt.bl.fco.CIM_Object;
-import org.sblim.wbemsmt.schema.cim29.CIM_Component;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
+import org.sblim.wbemsmt.schema.cim_2_14.tools.CIM_Object;
 
 public class ObjectRevertException extends WbemSmtException {
 
@@ -33,12 +32,12 @@ public class ObjectRevertException extends WbemSmtException {
 	 */
 	private static final long serialVersionUID = -8375900149617127953L;
 
-	public ObjectRevertException(CIM_ManagedElement cimElement, Throwable arg1) {
+	public ObjectRevertException(CIM_ObjectIf cimElement, Throwable arg1) {
 		super(cimElement, arg1);
 		
 	}
 
-	public ObjectRevertException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
+	public ObjectRevertException(String arg0, CIM_ObjectIf cimElement, Throwable arg1) {
 		super(arg0, cimElement, arg1);
 		
 	}
@@ -48,7 +47,7 @@ public class ObjectRevertException extends WbemSmtException {
 		
 	}
 
-	public ObjectRevertException(CIM_ManagedElement cimElement) {
+	public ObjectRevertException(CIM_ObjectIf cimElement) {
 		super(cimElement);
 		
 	}
@@ -60,16 +59,6 @@ public class ObjectRevertException extends WbemSmtException {
 
 	public ObjectRevertException(String arg0) {
 		super(arg0);
-		
-	}
-
-	public ObjectRevertException(String msg, CIM_Component co, Throwable t) {
-		super(msg, co, t);
-		
-	}
-
-	public ObjectRevertException(CIM_Component co, Throwable t) {
-		super(co, t);
 		
 	}
 

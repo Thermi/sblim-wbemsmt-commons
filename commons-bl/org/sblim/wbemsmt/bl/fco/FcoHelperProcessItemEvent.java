@@ -29,18 +29,18 @@ public class FcoHelperProcessItemEvent {
 	public static int TYPE_AFTER_CREATE = 3;
 	public static int TYPE_BEFORE_DELETE = 4;
 	public static int TYPE_AFTER_DELETE = 5;
-	private CIM_Object object;
+	private CIM_ObjectIf object;
 	final int type;
 	private boolean doProcessing = true;
 	
-	public FcoHelperProcessItemEvent(CIM_Object object, int type) {
+	public FcoHelperProcessItemEvent(CIM_ObjectIf object, int type) {
 		this.object = object;
 		this.type = type;
 		
 	}
 
 
-	public CIM_Object getObject() {
+	public CIM_ObjectIf getObject() {
 		return object;
 	}
 

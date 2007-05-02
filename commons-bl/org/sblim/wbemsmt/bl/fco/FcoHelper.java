@@ -48,23 +48,29 @@ import org.sblim.wbemsmt.exception.ObjectSaveException;
 import org.sblim.wbemsmt.exception.ObjectUpdateException;
 import org.sblim.wbemsmt.exception.UpdateControlsException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
 
 public class FcoHelper
 {
+	
+	private CIM_ObjectCreatorIf creator;
 	
 	static MultiMap listeners = new MultiHashMap();
 	
 	public static final String PREFIX_LINUX = "Linux_";
 
 	static Logger logger = Logger.getLogger(FcoHelper.class.getName());
+	
+	public FcoHelper(CIM_ObjectCreatorIf creator) {
+		super();
+		this.creator = creator;
+	}
 
-	public static void delete(Collection c, CIMClient cimClient) throws ObjectDeletionException
+	public  void delete(Collection c, CIMClient cimClient) throws ObjectDeletionException
 	{
 		for (Iterator it = c.iterator(); it.hasNext();) {
 			Object obj = (Object) it.next();
-			delete(obj, cimClient);
+			delete((CIM_ObjectIf)obj, cimClient);
 		}
 	}
 	
@@ -74,36 +80,69 @@ public class FcoHelper
 	 * @param cimClient
 	 * @throws ObjectDeletionException
 	 */
-	public static void delete(Object fco, CIMClient cimClient) throws ObjectDeletionException 
+	public  void delete(CIM_ObjectIf fco, CIMClient cimClient) throws ObjectDeletionException 
 	{
 		delete(fco,cimClient,false);
 	}
+
 	/**
 	 * deletes the object
 	 * @param fco the firstClassObject or a Collection with first class objects
 	 * @param cimClient
 	 * @throws ObjectDeletionException
 	 */
-	public static void delete(Object fco, CIMClient cimClient, boolean testIfObjectRemovedAfterDeletion) throws ObjectDeletionException 
+	public  void delete(Object fco, CIMClient cimClient) throws ObjectDeletionException 
 	{
-		String helperName = fco.getClass().getName() + "Helper";
-		Class helperClass = null;
-		CIM_Object objectToDelete = null;
 		try {
-			helperClass = Class.forName(helperName,true,fco.getClass().getClassLoader());
-			objectToDelete = CIM_Object.create(fco);
-			FcoHelperProcessItemEvent event = fireEvent(FcoHelperProcessItemEvent.TYPE_BEFORE_DELETE,objectToDelete);
+			delete(creator.create(fco),cimClient,false);
+		} catch (WbemSmtException e) {
+			throw new ObjectDeletionException(e);
+		}
+	}
+
+	/**
+	 * deletes the object
+	 * @param fco the firstClassObject or a Collection with first class objects
+	 * @param cimClient
+	 * @throws ObjectDeletionException
+	 */
+	public  void delete(Object fco, CIMClient cimClient, boolean testIfObjectRemovedAfterDeletion) throws ObjectDeletionException 
+	{
+		try {
+			delete(creator.create(fco),cimClient,testIfObjectRemovedAfterDeletion);
+		} catch (WbemSmtException e) {
+			throw new ObjectDeletionException(e);
+		}
+	}
+
+	
+	/**
+	 * deletes the object
+	 * @param fco the firstClassObject or a Collection with first class objects
+	 * @param cimClient
+	 * @throws ObjectDeletionException
+	 */
+	public  void delete(CIM_ObjectIf cimObject, CIMClient cimClient, boolean testIfObjectRemovedAfterDeletion) throws ObjectDeletionException 
+	{
+		
+		Object objectToDelete = cimObject.getWrappedObject();
+		
+		String helperName = objectToDelete.getClass().getName() + "Helper";
+		Class helperClass = null;
+		try {
+			helperClass = Class.forName(helperName,true,objectToDelete.getClass().getClassLoader());
+			FcoHelperProcessItemEvent event = fireEvent(FcoHelperProcessItemEvent.TYPE_BEFORE_DELETE,cimObject);
 			if (!event.isDoProcessing())
 			{
 				logger.log(Level.WARNING,"Processing stopped by EventListener");
 				return;
 			}			
-			Method method = helperClass.getMethod("deleteInstance", new Class[]{CIMClient.class,fco.getClass()});
-			logger.fine("Calling " + helperName + "." + method.getName()  + " with fco " + fco.toString()+ " on " + cimClient.getNameSpace().toString());
-			method.invoke(null,new Object[]{cimClient,fco});
-			logger.info("Deleted " + getCIMObjectPath(fco).toString() + " on " + cimClient.getNameSpace().toString());
+			Method method = helperClass.getMethod("deleteInstance", new Class[]{CIMClient.class,objectToDelete.getClass()});
+			logger.fine("Calling " + helperName + "." + method.getName()  + " with fco " + objectToDelete.toString()+ " on " + cimClient.getNameSpace().toString());
+			method.invoke(null,new Object[]{cimClient,objectToDelete});
+			logger.info("Deleted " + cimObject.getCimObjectPath() + " on " + cimClient.getNameSpace().toString());
 			
-			fireEvent(FcoHelperProcessItemEvent.TYPE_AFTER_DELETE,objectToDelete);
+			fireEvent(FcoHelperProcessItemEvent.TYPE_AFTER_DELETE,cimObject);
 			
 		} catch (ClassNotFoundException e) {
 			logger.log(Level.SEVERE,"Cannot find Helper class " + helperName + " for deleting object",e);
@@ -116,13 +155,11 @@ public class FcoHelper
 			throw new ObjectDeletionException("Internal error");
 		} catch (InvocationTargetException e) {
 			logger.log(Level.SEVERE,"Cannot invoke deleteInstance-Method on class " + helperName + " for deleting object",e);
-			throw new ObjectDeletionException("Internal error",CIM_Object.createUnchecked(fco), e.getTargetException());
+			throw new ObjectDeletionException("Internal error",cimObject, e.getTargetException());
 			
 		} catch (RuntimeException e) {
 		    logger.log(Level.SEVERE,"Cannot execute deleteInstance-Method on class " + helperName + " for deleting object",e);
 			throw new ObjectDeletionException("Internal error");
-		} catch (WbemSmtException e) {
-		    throw new ObjectDeletionException(e);
 		}
 		
 		//test if deletion was ok
@@ -131,10 +168,10 @@ public class FcoHelper
 			try {
 				Method getInstanceMethod = helperClass.getMethod("getInstance", new Class[]{CIMClient.class,CIMObjectPath.class});
 
-				fco = getInstanceMethod.invoke(null,new Object[]{cimClient,objectToDelete.getCimObjectPath()});
-				if (fco != null)
+				objectToDelete = creator.create(getInstanceMethod.invoke(null,new Object[]{cimClient,cimObject.getCimObjectPath()}));
+				if (objectToDelete != null)
 				{
-					throw new ObjectDeletionException("After deleting the object " + objectToDelete.getCimObjectPath() + " on " + cimClient.getNameSpace().toString() + " the object was still found.");					
+					throw new ObjectDeletionException("After deleting the object " + cimObject.getCimObjectPath() + " on " + cimClient.getNameSpace().toString() + " the object was still found.");					
 				}
 			} 
 			catch (ObjectDeletionException e)
@@ -152,10 +189,10 @@ public class FcoHelper
 					}
 					else
 					{
-						throw new ObjectDeletionException("After deleting the object " + objectToDelete.getCimObjectPath() + " on " + cimClient.getNameSpace().toString() + " the object was still found.",e);
+						throw new ObjectDeletionException("After deleting the object " + cimObject.getCimObjectPath() + " on " + cimClient.getNameSpace().toString() + " the object was still found.",e);
 					}
 				}
-				throw new ObjectDeletionException("Verification if the deletion was done was not possible",objectToDelete,e);
+				throw new ObjectDeletionException("Verification if the deletion was done was not possible",cimObject,e);
 			}			
 		}		
 	}
@@ -166,35 +203,34 @@ public class FcoHelper
 	 * @param keyProperties
 	 * @param cimClient
 	 */
-	public static void delete(Class fcoClass, Vector keyProperties, CIMClient cimClient) throws ObjectDeletionException  {
+	public  void delete(Class fcoClass, Vector keyProperties, CIMClient cimClient) throws ObjectDeletionException  {
 		delete(fcoClass,keyProperties,cimClient,true);
 	}	
 	/**
-	 * Creates a new FCO with the given keyProperties and deletes it
+	 * load a FCO with the given keyProperties and deletes it
 	 * @param fcoClass
 	 * @param keyProperties
 	 * @param cimClient
 	 */
-	public static void delete(Class fcoClass, Vector keyProperties, CIMClient cimClient, boolean testIfObjectRemovedAfterDeletion) throws ObjectDeletionException  {
+	public  void delete(Class fcoClass, Vector keyProperties, CIMClient cimClient, boolean testIfObjectRemovedAfterDeletion) throws ObjectDeletionException  {
+		
 		
 		String helperName = fcoClass.getName() + "Helper";
+		CIM_ObjectIf cimObject = null;
 		
-		Object fco = null;
-		CIM_Object cimObject = null;
 		try {
 			Class helperClass = Class.forName(helperName,true,fcoClass.getClassLoader());
 			
 			//get the instance - if the instance was not found -> ready & return
 			
 			Constructor constructor = fcoClass.getConstructor(new Class[]{Vector.class});
-			Object newFco = constructor.newInstance(new Object[]{keyProperties});
-			cimObject = CIM_Object.create(newFco);
+			cimObject = creator.create(constructor.newInstance(new Object[]{keyProperties}));
 			cimObject.getCimObjectPath().setNameSpace(cimClient.getNameSpace());
 			
 			Method getInstanceMethod = helperClass.getMethod("getInstance", new Class[]{CIMClient.class,CIMObjectPath.class});
 			getInstanceMethod.setAccessible(true);
 			try {
-				fco = getInstanceMethod.invoke(null,new Object[]{cimClient,cimObject.getCimObjectPath()});
+				cimObject = creator.create(getInstanceMethod.invoke(null,new Object[]{cimClient,cimObject.getCimObjectPath()}));
 			} catch (CIMException e) {
 				if (e.getID().equals(CIMException.CIM_ERR_NOT_FOUND))
 				{
@@ -212,13 +248,12 @@ public class FcoHelper
 			}
 
 			
-			Method deleteMethod = helperClass.getMethod("deleteInstance", new Class[]{CIMClient.class,fco.getClass()});
+			Method deleteMethod = helperClass.getMethod("deleteInstance", new Class[]{CIMClient.class,fcoClass});
 			deleteMethod.setAccessible(true);
 			logger.fine("Calling " + helperName + "." + deleteMethod.getName()  + " with fco " + fcoClass.toString()+ " on " + cimClient.getNameSpace().toString());
-			deleteMethod.invoke(null,new Object[]{cimClient,fco});
+			deleteMethod.invoke(null,new Object[]{cimClient,cimObject});
 			
-			CIM_Object obj = CIM_Object.createUnchecked(fco);
-			String path = obj.getCimObjectPath().toString();
+			String path = cimObject.getCimObjectPath().toString();
 
 			//test if deletion was ok
 //			if (testIfObjectRemovedAfterDeletion)
@@ -254,7 +289,7 @@ public class FcoHelper
 			throw new ObjectDeletionException("Internal error");
 		} catch (InvocationTargetException e) {
 			logger.log(Level.SEVERE,"Cannot invoke deleteInstance-Method on class " + helperName + " for deleting object",e);
-			throw new ObjectDeletionException("Internal error",CIM_Object.createUnchecked(fco), e.getTargetException());
+			throw new ObjectDeletionException("Internal error",cimObject, e.getTargetException());
 		} catch (RuntimeException e) {
 		    logger.log(Level.SEVERE,"Cannot execute deleteInstance-Method on class " + helperName + " for deleting object",e);
 			throw new ObjectDeletionException("Internal error");
@@ -262,9 +297,9 @@ public class FcoHelper
 		    logger.log(Level.SEVERE,"Cannot execute createInstance-Method on constructor of class " + fcoClass.getName() + " for getting instance",e);
 			throw new ObjectDeletionException("Internal error",e);
 		} catch (WbemSmtException e) {
-			e.printStackTrace();
+		    logger.log(Level.SEVERE,"Cannot execute createInstance-Method on constructor of class " + fcoClass.getName() + " for getting instance",e);
+			throw new ObjectDeletionException("Internal error",e);
 		}
-		
 		fireEvent(FcoHelperProcessItemEvent.TYPE_AFTER_DELETE,cimObject);
 		
 	}
@@ -277,13 +312,13 @@ public class FcoHelper
 	 * @throws ObjectDeletionException
 	 */
 
-	public static Collection create(Collection c, CIMClient cimClient) throws ObjectCreationException 
+	public  Collection create(Collection c, CIMClient cimClient) throws ObjectCreationException 
 	{
 		List result = new ArrayList();
 		for (Iterator it = c.iterator(); it.hasNext();) {
 			Object o1 = (Object) it.next();
-			if (o1 instanceof CIM_ManagedElement) {
-				CIM_ManagedElement managedElement = (CIM_ManagedElement) o1;
+			if (o1 instanceof CIM_ObjectIf) {
+				CIM_ObjectIf managedElement = (CIM_ObjectIf) o1;
 				result.add(create(managedElement, cimClient));
 			}
 			else
@@ -305,9 +340,45 @@ public class FcoHelper
 	 * @throws ObjectCreationException
 	 */
 
-	public static Object create(Object fco, CIMClient cimClient) throws ObjectCreationException 
+	public  Object create(CIM_ObjectIf fco, CIMClient cimClient) throws ObjectCreationException 
 	{
 		return create(fco,cimClient,false);
+		
+	}
+	
+	/**
+	 * creates objects
+	 * @param fco the firstClassObject or a Collection with first class objects
+	 * @param cimClient
+	 * @return 
+	 * @throws ObjectCreationException
+	 */
+
+	public  Object create(Object fco, CIMClient cimClient) throws ObjectCreationException 
+	{
+		try {
+			return create(creator.create(fco),cimClient,false);
+		} catch (WbemSmtException e) {
+			throw new ObjectCreationException(e);
+		}
+		
+	}
+
+	/**
+	 * creates objects
+	 * @param fco the firstClassObject or a Collection with first class objects
+	 * @param cimClient
+	 * @return 
+	 * @throws ObjectCreationException
+	 */
+
+	public  Object create(Object fco, CIMClient cimClient, boolean testIfObjectExists) throws ObjectCreationException 
+	{
+		try {
+			return create(creator.create(fco),cimClient,testIfObjectExists);
+		} catch (WbemSmtException e) {
+			throw new ObjectCreationException(e);
+		}
 		
 	}
 	
@@ -319,19 +390,18 @@ public class FcoHelper
 	 * @throws ObjectCreationException
 	 */
 
-	public static Object create(Object fco, CIMClient cimClient, boolean testIfObjectExists) throws ObjectCreationException 
+	public  Object create(CIM_ObjectIf cimObject, CIMClient cimClient, boolean testIfObjectExists) throws ObjectCreationException 
 	{
-		checkFieldSet(fco, "get_InstanceID");
+		checkFieldSet(cimObject, "get_InstanceID");
 		
+		Object fco = cimObject.getWrappedObject();
 		
 		String helperName = fco.getClass().getName() + "Helper";
-		Object newInstance = null;
+		CIM_ObjectIf newInstance = null;
 		Class helperClass = null;
 		
-		CIM_Object cimObjectToCreate = null;
 		try {
-			cimObjectToCreate = CIM_Object.create(fco);
-			FcoHelperProcessItemEvent event = fireEvent(FcoHelperProcessItemEvent.TYPE_BEFORE_CREATE,cimObjectToCreate);
+			FcoHelperProcessItemEvent event = fireEvent(FcoHelperProcessItemEvent.TYPE_BEFORE_CREATE,cimObject);
 			if (!event.isDoProcessing())
 			{
 				logger.log(Level.WARNING,"Processing stopped by EventListener");
@@ -341,15 +411,16 @@ public class FcoHelper
 			helperClass = Class.forName(helperName,true,fco.getClass().getClassLoader());
 			Method method = helperClass.getMethod("createInstance", new Class[]{CIMClient.class,fco.getClass(),boolean.class});
 			logger.fine("Calling " + helperName + "." + method.getName()  + " with fco " + fco.toString()+ " on " + cimClient.getNameSpace().toString());
-			newInstance = method.invoke(null,new Object[]{cimClient,fco,Boolean.TRUE});
-			if (newInstance == null)
+			Object createdObject = method.invoke(null,new Object[]{cimClient,fco,Boolean.TRUE});
+			if (createdObject == null)
 			{
-				logger.log(Level.SEVERE,"Cannot create Object - The new created cimInstance could not retrieved properly from the server. Old: " + fco + " from server: " + newInstance);
+				logger.log(Level.SEVERE,"Cannot create Object - The new created cimInstance could not retrieved properly from the server. Old: " + fco + " from server: " + createdObject);
 				throw new ObjectCreationException("Internal error");
 			}
 			else
 			{
-				String path = getCIMObjectPath(newInstance).toString();
+				newInstance = creator.create(createdObject);
+				String path = newInstance.getCimObjectPath().toString();
 				logger.info("Created " + path + " on " + cimClient.getNameSpace().toString());
 			}
 			
@@ -364,7 +435,7 @@ public class FcoHelper
 			throw new ObjectCreationException("Internal error");
 		} catch (InvocationTargetException e) {
 			logger.log(Level.SEVERE,"Cannot access createInstance-Method on class " + helperName + " for creating object");
-			throw new ObjectCreationException("Internal error",CIM_Object.createUnchecked(fco),e.getTargetException());
+			throw new ObjectCreationException("Internal error",cimObject,e.getTargetException());
 		} catch (RuntimeException e) {
 			logger.log(Level.SEVERE,"Cannot execute createInstance-Method on class " + helperName + " for creating object",e);
 			throw new ObjectCreationException("Internal error",e);
@@ -383,8 +454,7 @@ public class FcoHelper
 				Method getInstanceMethod = helperClass.getMethod("getInstance", new Class[]{CIMClient.class,CIMObjectPath.class});
 				getInstanceMethod.setAccessible(true);
 
-				CIM_Object obj = cimObjectToCreate;
-				CIMObjectPath path = obj.getCimObjectPath();
+				CIMObjectPath path = cimObject.getCimObjectPath();
 
 				try {
 					Object createdFco = getInstanceMethod.invoke(null,new Object[]{cimClient,path});
@@ -409,16 +479,12 @@ public class FcoHelper
 			}
 		}
 		
-		try {
-			fireEvent(FcoHelperProcessItemEvent.TYPE_AFTER_CREATE,CIM_Object.create(newInstance));
-		} catch (WbemSmtException e) {
-			throw new ObjectCreationException(cimObjectToCreate,e);
-		}
-		return newInstance;
+		fireEvent(FcoHelperProcessItemEvent.TYPE_AFTER_CREATE,newInstance);
+		return newInstance.getWrappedObject();
 	
 	}
 
-	private static FcoHelperProcessItemEvent fireEvent(int type, CIM_Object cimObject) {
+	private  FcoHelperProcessItemEvent fireEvent(int type, CIM_ObjectIf cimObject) {
 		
 		FcoHelperProcessItemEvent event = new FcoHelperProcessItemEvent(cimObject,type);
 		
@@ -444,7 +510,8 @@ public class FcoHelper
 	 * @throws ObjectCreationException thrown if the value return by this Method is null
 	 * @return The Object returned by the Method or null if the method not exists
 	 */
-	private static Object checkFieldSet(Object fco, String getterMethodName) throws ObjectCreationException {
+	private  Object checkFieldSet(CIM_ObjectIf cimObject, String getterMethodName) throws ObjectCreationException {
+		Object fco = cimObject.getWrappedObject();
 		Object object = null;
 		try {
 			Method method = fco.getClass().getMethod(getterMethodName,new Class[]{});
@@ -468,56 +535,26 @@ public class FcoHelper
 		    throw new ObjectCreationException("Internal error");
 		} catch (InvocationTargetException e) {
 			logger.log(Level.SEVERE,"",e);
-			throw new ObjectCreationException("Internal error",CIM_Object.createUnchecked(fco),e.getTargetException());
+			throw new ObjectCreationException("Internal error",cimObject,e.getTargetException());
 
 		}
 		return object;
 	}
 
-	/**
-	 * Gets the info if the object has a CIMObjectPath
-	 * @param fco
-	 * @returnb false if the fco is not from Type CIM_ManagedElement or CIM_Component and cannot return a CIMObjectPathInstance
-	 * @throws WbemSmtException thrown 
-	 */
-	public static boolean hasCIMObjectPath(Object fco) throws WbemSmtException {
-		return CIM_Object.create(fco) != null;
-	}	
-	/**
-	 * Gets the CIMObjectPath of the given object
-	 * @param fco
-	 * @return the CIMObjectPath
-	 * @throws WbemSmtException thrown if the fco is not from Type CIM_ManagedElement or CIM_Component.
-	 * @see FcoHelper#hasCIMObjectPath(Object)
-	 */
-	public static CIMObjectPath getCIMObjectPath(Object fco) throws WbemSmtException {
-
-		CIM_Object object = CIM_Object.create(fco);
-		if (object != null)
-		{
-			return object.getCimObjectPath();
-		}
-		else
-		{
-			logger.log(Level.SEVERE,"fco is no CIMObject " + fco);
-		    throw new WbemSmtException("Internal error");
-		}
-	}
-
-	public static Object create(Class fcoClass, CIMClient cimClient, Vector keyProperties) throws ObjectCreationException {
+	public  Object create(Class fcoClass, CIMClient cimClient, Vector keyProperties) throws ObjectCreationException {
 		return create(fcoClass,cimClient,keyProperties,true);
 	}
 
-	public static Object create(Class fcoClass, CIMClient cimClient, Vector keyProperties, boolean b) throws ObjectCreationException {
+	public  Object create(Class fcoClass, CIMClient cimClient, Vector keyProperties, boolean b) throws ObjectCreationException {
 			
 		String helperName = fcoClass.getName() + "Helper";
-		Object o = null;
+		CIM_ObjectIf o = null;
 		
 		try
 		{
 			Constructor constructor = fcoClass.getConstructor(new Class[]{Vector.class});
 			constructor.setAccessible(true);
-			o = constructor.newInstance(new Object[]{keyProperties});
+			o = creator.create(constructor.newInstance(new Object[]{keyProperties}));
 		} catch (NoSuchMethodException e) {
 			logger.log(Level.SEVERE,"Cannot find constructor for creating fco with Vector",e);
 		    throw new ObjectCreationException("Internal error");
@@ -533,6 +570,9 @@ public class FcoHelper
 		} catch (InstantiationException e) {
 		    logger.log(Level.SEVERE,"Cannot create on class " + fcoClass.getName() + " for deleting object",e);
 		    throw new ObjectCreationException("Internal error");
+		} catch (WbemSmtException e) {
+			logger.log(Level.SEVERE,"Cannot create on class " + fcoClass.getName(),e);
+			throw new ObjectCreationException("Internal error",e);
 		}
 		
 		return create(o,cimClient,b);
@@ -544,7 +584,7 @@ public class FcoHelper
 	 * @param cimProperties
 	 * @return
 	 */
-	private static String toString(Collection cimProperties) {
+	private  String toString(Collection cimProperties) {
 		StringBuffer sb = new StringBuffer();
 		
 		for (Iterator iter = cimProperties.iterator(); iter.hasNext();) {
@@ -561,12 +601,12 @@ public class FcoHelper
 	 * @throws ObjectDeletionException
 	 */
 
-	public static void save(Collection c, CIMClient cimClient) throws ObjectSaveException 
+	public  void save(Collection c, CIMClient cimClient) throws ObjectSaveException 
 	{
 		for (Iterator it = c.iterator(); it.hasNext();) {
 			Object o1 = (Object) it.next();
-			if (o1 instanceof CIM_ManagedElement) {
-				CIM_ManagedElement managedElement = (CIM_ManagedElement) o1;
+			if (o1 instanceof CIM_ObjectIf) {
+				CIM_ObjectIf managedElement = (CIM_ObjectIf) o1;
 				save(managedElement, cimClient);
 			}
 			else
@@ -579,44 +619,62 @@ public class FcoHelper
 	
 	/**
 	 * saves objects, if it was modified
-	 * @param o the firstClassObject or a Collection with first class objects
+	 * @param fco the firstClassObject or a Collection with first class objects
 	 * @param cimClient
 	 * @throws ObjectSaveException
 	 * @return the modified instance - or the not modified instance if an event listener stopped the processing
 	 */
 
-	public static CIM_ManagedElement save(CIM_ManagedElement o, CIMClient cimClient) throws ObjectSaveException 
+	public  Object save(Object fco, CIMClient cimClient) throws ObjectSaveException 
+	{
+		try {
+			return save(creator.create(fco),cimClient);
+		} catch (WbemSmtException e) {
+			throw new ObjectSaveException(e);
+		}
+	}	
+	/**
+	 * saves objects, if it was modified
+	 * @param fco the firstClassObject or a Collection with first class objects
+	 * @param cimClient
+	 * @throws ObjectSaveException
+	 * @return the modified instance - or the not modified instance if an event listener stopped the processing
+	 */
+
+	public  Object save(CIM_ObjectIf cimObject, CIMClient cimClient) throws ObjectSaveException 
 	{
 		
-		if (!o.isModified())
+		Object fco = cimObject.getWrappedObject();
+		
+		if (!cimObject.isModified())
 		{
-			logger.info("The element with key " + o.getCimObjectPath().toString() + " was not modified and is not saved.");
-			return o;
+			logger.info("The element with key " + cimObject.getCimObjectPath().toString() + " was not modified and is not saved.");
+			return cimObject.getWrappedObject();
 		}
 		
-		FcoHelperProcessItemEvent event = fireEvent(FcoHelperProcessItemEvent.TYPE_BEFORE_UPDATE,CIM_Object.create(o));
+		FcoHelperProcessItemEvent event = fireEvent(FcoHelperProcessItemEvent.TYPE_BEFORE_UPDATE,cimObject);
 		if (!event.isDoProcessing())
 		{
 			logger.log(Level.WARNING,"Processing stopped by EventListener");
-			return o;
+			return cimObject.getWrappedObject();
 		}					
 		
-		String helperName = o.getClass().getName() + "Helper";
+		String helperName = fco.getClass().getName() + "Helper";
 		try {
-			Class helperClass = Class.forName(helperName,true,o.getClass().getClassLoader());
-			Method method = helperClass.getMethod("modifyInstance", new Class[]{CIMClient.class,o.getClass(),boolean.class});
-			logger.fine("Calling " + helperName + "." + method.getName()  + " with fco " + o.toString()+ " on " + cimClient.getNameSpace().toString());
-			o = (CIM_ManagedElement) method.invoke(null,new Object[]{cimClient,o,Boolean.FALSE});
-			logger.info("Saved " + o.getCimObjectPath() + " on " + cimClient.getNameSpace().toString());
+			Class helperClass = Class.forName(helperName,true,fco.getClass().getClassLoader());
+			Method method = helperClass.getMethod("modifyInstance", new Class[]{CIMClient.class,fco.getClass(),boolean.class});
+			logger.fine("Calling " + helperName + "." + method.getName()  + " with fco " + fco.toString()+ " on " + cimClient.getNameSpace().toString());
+			fco = creator.create(method.invoke(null,new Object[]{cimClient,fco,Boolean.FALSE}));
+			logger.info("Saved " + cimObject.getCimObjectPath() + " on " + cimClient.getNameSpace().toString());
 			
 			Method getInstance = helperClass.getMethod("getInstance", new Class[]{CIMClient.class,CIMObjectPath.class});
 			getInstance.setAccessible(true);
 			
-			o = (CIM_ManagedElement) getInstance.invoke(null,new Object[]{cimClient,o.getCimObjectPath()});
+			fco = creator.create(getInstance.invoke(null,new Object[]{cimClient,cimObject.getCimObjectPath()}));
 			
-			fireEvent(FcoHelperProcessItemEvent.TYPE_AFTER_UPDATE,CIM_Object.create(o));			
+			fireEvent(FcoHelperProcessItemEvent.TYPE_AFTER_UPDATE,cimObject);			
 			
-			return o;
+			return cimObject.getWrappedObject();
 			
 		} catch (ClassNotFoundException e) {
 			logger.log(Level.SEVERE,"Cannot find Helper class " + helperName + " for saving object",e);
@@ -629,10 +687,13 @@ public class FcoHelper
 		    throw new ObjectSaveException("Internal error");
 		} catch (InvocationTargetException e) {
 		    logger.log(Level.SEVERE,"Cannot access modifyInstance-Method on class " + helperName + " for saving object",e);
-		    throw new ObjectSaveException("Internal error",o,e.getTargetException());
+		    throw new ObjectSaveException("Internal error",cimObject,e.getTargetException());
 		} catch (RuntimeException e) {
 		    logger.log(Level.SEVERE,"Cannot execute modifyInstance-Method on class " + helperName + " for saving object",e);
 		    throw new ObjectSaveException("Internal error");
+		} catch (WbemSmtException e) {
+			logger.log(Level.SEVERE,"Cannot execute modifyInstance-Method on class " + helperName + " for saving object",e);
+			throw new ObjectCreationException("Internal error",e);
 		}
 	}
 	
@@ -647,7 +708,7 @@ public class FcoHelper
 	 * @param keyFields
 	 * @throws ModelUpdateException 
 	 */
-	public static void updateFcoContent(Object fco, DataContainer dataContainer, FcoHelperKeyHashSet keyFields) throws ObjectUpdateException {
+	public  void updateFcoContent(Object fco, DataContainer dataContainer, FcoHelperKeyHashSet keyFields) throws ObjectUpdateException {
 		
 		logger.fine("Updating FCO " + fco.getClass().getName());
 		
@@ -717,7 +778,7 @@ public class FcoHelper
 	 * @param dataContainer
 	 * @throws ModelUpdateException 
 	 */
-	public static void updateControlContent(Object fco, DataContainer dataContainer) throws UpdateControlsException {
+	public  void updateControlContent(Object fco, DataContainer dataContainer) throws UpdateControlsException {
 		
 		try {
 			Method[] methods = dataContainer.getClass().getMethods();
@@ -769,7 +830,7 @@ public class FcoHelper
 	 * @param value
 	 * @return -1 if not found the index within the valueMap if found
 	 */
-	public static int getIndex(String[] valueMap, String value) {
+	public  int getIndex(String[] valueMap, String value) {
 		
 		for (int i = 0; i < valueMap.length; i++) {
 			String valueMapEntry = valueMap[i];
@@ -781,7 +842,7 @@ public class FcoHelper
 		return -1;
 	}
 
-	public static void copyValues(CIM_ManagedElement source, CIM_ManagedElement target) throws ModelUpdateException {
+	public  void copyValues(CIM_ObjectIf source, CIM_ObjectIf target, Class managedElementClass) throws ModelUpdateException {
 		
 		if (!source.getClass().equals(target.getClass()))
 		{
@@ -795,7 +856,7 @@ public class FcoHelper
 			
 			int changeCount = 0;
 			
-			Field[] fields = CIM_ManagedElement.class.getDeclaredFields();
+			Field[] fields =managedElementClass.getDeclaredFields();
 			for (int i = 0; i < fields.length; i++) {
 				Field field = fields[i];
 				System.err.println("Field " + field.getName() + " Type " + field.getType());
@@ -832,23 +893,26 @@ public class FcoHelper
 	 * @return
 	 * @throws ModelLoadException 
 	 */
-	public static Object reload(CIM_ManagedElement fcoToReload, CIMClient cimClient) throws ModelLoadException {
+	public  Object reload(CIM_ObjectIf cimObject, CIMClient cimClient) throws ModelLoadException {
+		
+		Object fcoToReload = cimObject.getWrappedObject();
+		
 		String helperName = fcoToReload.getClass().getName() + "Helper";
 		try {
 			Class helperClass = Class.forName(helperName,true,fcoToReload.getClass().getClassLoader());
 			Method getInstanceMethod = helperClass.getMethod("getInstance", new Class[]{CIMClient.class,CIMObjectPath.class});
 			getInstanceMethod.setAccessible(true);
 
-			CIM_ManagedElement comp = (CIM_ManagedElement) fcoToReload;
-			CIMObjectPath path = comp.getCimObjectPath();
+			CIMObjectPath path = cimObject.getCimObjectPath();
 			try {
-				Object reloadedFco = getInstanceMethod.invoke(null,new Object[]{cimClient,path});
-				if (reloadedFco == null)
+				Object reloadedObject = getInstanceMethod.invoke(null,new Object[]{cimClient,path});
+				if (reloadedObject == null)
 				{
 					logger.log(Level.SEVERE,"Cannot find object with CimObjectPath " + path);						
 				    throw new ModelLoadException("Internal error");
 				}
-				return reloadedFco;
+				CIM_ObjectIf reloadedFco = creator.create(reloadedObject);
+				return reloadedFco.getWrappedObject();
 			} catch (CIMException e) {
 				if (e.getID().equals(CIMException.CIM_ERR_NOT_FOUND))
 				{
@@ -872,18 +936,18 @@ public class FcoHelper
 	 * @return
 	 * @throws ModelLoadException 
 	 */
-	public static Object reload(Class helperClass, CIMObjectPath path, CIMClient cimClient) throws ModelLoadException {
+	public  Object reload(Class helperClass, CIMObjectPath path, CIMClient cimClient) throws ModelLoadException {
 		try {
 			Method getInstanceMethod = helperClass.getMethod("getInstance", new Class[]{CIMClient.class,CIMObjectPath.class});
 			getInstanceMethod.setAccessible(true);
 			try {
-				Object reloadedFco = getInstanceMethod.invoke(null,new Object[]{cimClient,path});
+				CIM_ObjectIf reloadedFco = creator.create(getInstanceMethod.invoke(null,new Object[]{cimClient,path}));
 				if (reloadedFco == null)
 				{
 					logger.log(Level.SEVERE,"Cannot find object with CimObjectPath " + path);						
 				    throw new ModelLoadException("Internal error");
 				}
-				return reloadedFco;
+				return reloadedFco.getWrappedObject();
 			} catch (CIMException e) {
 				if (e.getID().equals(CIMException.CIM_ERR_NOT_FOUND))
 				{
@@ -907,18 +971,18 @@ public class FcoHelper
 	 * @return
 	 * @throws ModelLoadException 
 	 */
-	public static Object getInstance(Class helperClass, Vector keys, CIMClient cimClient) throws ModelLoadException {
+	public  Object getInstance(Class helperClass, Vector keys, CIMClient cimClient) throws ModelLoadException {
 		try {
 			Method getInstanceMethod = helperClass.getMethod("getInstance", new Class[]{CIMClient.class,Vector.class});
 			getInstanceMethod.setAccessible(true);
 			try {
-				Object reloadedFco = getInstanceMethod.invoke(null,new Object[]{cimClient,keys});
+				CIM_ObjectIf reloadedFco = creator.create(getInstanceMethod.invoke(null,new Object[]{cimClient,keys}));
 				if (reloadedFco == null)
 				{
 					logger.log(Level.SEVERE,"Cannot find object with Keys" + keys.toString());						
 				    throw new ModelLoadException("Internal error");
 				}
-				return reloadedFco;
+				return reloadedFco.getWrappedObject();
 			} catch (CIMException e) {
 				if (e.getID().equals(CIMException.CIM_ERR_NOT_FOUND))
 				{
@@ -936,11 +1000,11 @@ public class FcoHelper
 	}
 	
 	
-	public static CIMObjectPath getPath(Class fcoClass, String keyFieldName, Object keyFieldValue, CIMClient cimClient) throws ObjectNotFoundException {
+	public  CIMObjectPath getPath(Class fcoClass, String keyFieldName, Object keyFieldValue, CIMClient cimClient) throws ObjectNotFoundException {
 		return getPath(fcoClass,new String[]{keyFieldName},new Object[]{keyFieldValue},cimClient);
 	}
 	
-	public static CIMObjectPath getPath(Class fcoClass, String[] keyFieldNames, Object[] keyFieldValues, CIMClient cimClient) throws ObjectNotFoundException {
+	public  CIMObjectPath getPath(Class fcoClass, String[] keyFieldNames, Object[] keyFieldValues, CIMClient cimClient) throws ObjectNotFoundException {
 
 		String helperName = fcoClass.getName() + "Helper";
 		try {
@@ -957,10 +1021,10 @@ public class FcoHelper
 		    throw new ObjectNotFoundException("Internal error");
 		}
 	}
-	public static CIMObjectPath getPath(List objectPathList, String keyFieldName, String keyFieldValue) throws ObjectNotFoundException {
+	public  CIMObjectPath getPath(List objectPathList, String keyFieldName, String keyFieldValue) throws ObjectNotFoundException {
 		return getPath(objectPathList, new String[]{keyFieldName}, new String[]{keyFieldValue});
 	}
-	public static CIMObjectPath getPath(List objectPathList, String[] keyFieldNames, Object[] keyFieldValues) throws ObjectNotFoundException {
+	public  CIMObjectPath getPath(List objectPathList, String[] keyFieldNames, Object[] keyFieldValues) throws ObjectNotFoundException {
 
 		try {
 			for (Iterator iter = objectPathList.iterator(); iter.hasNext();) {
@@ -992,14 +1056,18 @@ public class FcoHelper
 	}
 
 
-	public static void addFcoHelperListener(Class fcoClass, FcoHelperListener listener)
+	public  void addFcoHelperListener(Class fcoClass, FcoHelperListener listener)
 	{
 		listeners.put(fcoClass.getName(),listener);
 	}
 
-	public static void removeFcoHelperListener(Class fcoClass, FcoHelperListener listener)
+	public  void removeFcoHelperListener(Class fcoClass, FcoHelperListener listener)
 	{
 		listeners.remove(fcoClass.getName(),listener);
+	}
+
+	public CIM_ObjectCreatorIf getCIM_ObjectCreator() {
+		return creator;
 	}
 
 }

@@ -1,5 +1,5 @@
  /** 
-  * ICIMInstanceNode.java
+  * CIM_ObjectCreator.java
   *
   * © Copyright IBM Corp. 2005
   *
@@ -14,21 +14,20 @@
   *
   * Contributors: 
   * 
-  * Description: Interface of a CIMInstance Node
+  * Description: TODO
   * 
   */
+package org.sblim.wbemsmt.bl.fco;
 
-package org.sblim.wbemsmt.bl.tree;
+import org.sblim.wbemsmt.exception.WbemSmtException;
 
-import org.sblim.wbem.cim.CIMInstance;
-import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
+/**
+ * @author Bauschert
+ *
+ */
+public interface CIM_ObjectCreatorIf {
 
-public interface ICIMInstanceNode extends ITaskLauncherTreeNode {
+	CIM_ObjectIf create(Object object)  throws WbemSmtException;
+	CIM_ObjectIf createUnhecked(Object object);
 
-	public abstract CIMInstance getCimInstance();
-
-	public CIM_ObjectIf getCimObject();
-
-	public void setCimObject(CIM_ObjectIf cimObject);	
-	
 }

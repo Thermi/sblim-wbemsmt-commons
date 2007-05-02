@@ -24,9 +24,8 @@
  */
 package org.sblim.wbemsmt.exception;
 
-import org.sblim.wbemsmt.bl.fco.CIM_Object;
-import org.sblim.wbemsmt.schema.cim29.CIM_Component;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
+import org.sblim.wbemsmt.schema.cim_2_14.tools.CIM_Object;
 
 /**
  * Author taphorn
@@ -39,12 +38,12 @@ public class SelectionNotValidException extends WbemSmtException {
 	 */
 	private static final long serialVersionUID = 8600442033186651495L;
 
-	public SelectionNotValidException(CIM_ManagedElement cimElement, Throwable arg1) {
+	public SelectionNotValidException(CIM_ObjectIf cimElement, Throwable arg1) {
 		super(cimElement, arg1);
 		
 	}
 
-	public SelectionNotValidException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
+	public SelectionNotValidException(String arg0, CIM_ObjectIf cimElement, Throwable arg1) {
 		super(arg0, cimElement, arg1);
 		
 	}
@@ -54,20 +53,12 @@ public class SelectionNotValidException extends WbemSmtException {
 		
 	}
 
-	public SelectionNotValidException(CIM_Component co, Throwable t) {
-		super(co, t);
-	}
-
-	public SelectionNotValidException(CIM_ManagedElement cimElement) {
+	public SelectionNotValidException(CIM_ObjectIf cimElement) {
 		super(cimElement);
 	}
 
 	public SelectionNotValidException(CIM_Object cimObject, Throwable arg1) {
 		super(cimObject, arg1);
-	}
-
-	public SelectionNotValidException(String msg, CIM_Component co, Throwable t) {
-		super(msg, co, t);
 	}
 
 	public SelectionNotValidException(String arg0, CIM_Object cimObject, Throwable arg1) {

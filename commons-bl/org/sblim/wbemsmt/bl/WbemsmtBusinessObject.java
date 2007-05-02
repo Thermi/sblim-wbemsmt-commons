@@ -27,7 +27,6 @@ import org.sblim.wbem.cim.CIMObjectPath;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.exception.ModelLoadException;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
 
 /**
  * @author Bauschert
@@ -91,14 +90,14 @@ public abstract class WbemsmtBusinessObject {
 			{
 				CIMObjectPath path = (CIMObjectPath) o;
 				String helper = mustReturnThis.getName() + "Helper";
-				CIM_ManagedElement fco = null;
+				Object fco = null;
 				try {
 					Class clsHelper = Class.forName(helper);
 					Method method = clsHelper.getMethod("getInstance",new Class[]{CIMClient.class,CIMObjectPath.class});
-					fco = (CIM_ManagedElement) method.invoke(null,new Object[]{client,path});
+					fco = method.invoke(null,new Object[]{client,path});
 					return fco;
 				} catch (Exception e) {
-					throw new ModelLoadException(fco, e);
+					throw new ModelLoadException("Cannot load element with path " + path, e);
 				}
 			}
 			else

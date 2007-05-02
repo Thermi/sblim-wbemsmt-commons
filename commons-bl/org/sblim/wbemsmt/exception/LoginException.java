@@ -22,8 +22,7 @@
  */
 package org.sblim.wbemsmt.exception;
 
-import org.sblim.wbemsmt.schema.cim29.CIM_Component;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 
 /**
  * Author Bauschert
@@ -36,13 +35,8 @@ public class LoginException extends ObjectSaveException {
 	 */
 	private static final long serialVersionUID = 7726662820716834494L;
 
-	public LoginException(CIM_ManagedElement cimElement) {
+	public LoginException(CIM_ObjectIf cimElement) {
 		super(cimElement);
-		
-	}
-
-	public LoginException(String msg, CIM_Component co, Throwable t) {
-		super(msg, co, t);
 		
 	}
 
@@ -61,12 +55,12 @@ public class LoginException extends ObjectSaveException {
 		
 	}
 
-	public LoginException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
+	public LoginException(String arg0, CIM_ObjectIf cimElement, Throwable arg1) {
 		super(arg0, cimElement, arg1);
 		
 	}
 
-	public LoginException(CIM_ManagedElement cimElement, Throwable arg1) {
+	public LoginException(CIM_ObjectIf cimElement, Throwable arg1) {
 		super(cimElement, arg1);
 		
 	}

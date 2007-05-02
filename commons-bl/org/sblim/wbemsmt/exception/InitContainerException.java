@@ -19,8 +19,7 @@
   */
 package org.sblim.wbemsmt.exception;
 
-import org.sblim.wbemsmt.schema.cim29.CIM_Component;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 
 public class InitContainerException extends WbemSmtException {
 
@@ -29,12 +28,8 @@ public class InitContainerException extends WbemSmtException {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public InitContainerException(CIM_ManagedElement cimElement, Throwable arg1) {
+	public InitContainerException(CIM_ObjectIf cimElement, Throwable arg1) {
 		super(cimElement, arg1);
-	}
-
-	public InitContainerException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
-		super(arg0, cimElement, arg1);
 	}
 
 	public InitContainerException(WbemSmtException arg1) {
@@ -45,12 +40,12 @@ public class InitContainerException extends WbemSmtException {
 		super(msg);
 	}
 
-	public InitContainerException(CIM_ManagedElement cimElement) {
+	public InitContainerException(CIM_ObjectIf cimElement) {
 		super(cimElement);
 		
 	}
 
-	public InitContainerException(String msg, CIM_Component co, Throwable t) {
+	public InitContainerException(String msg, CIM_ObjectIf co, Throwable t) {
 		super(msg, co, t);
 		
 	}

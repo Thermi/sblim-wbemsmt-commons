@@ -46,7 +46,7 @@ public class CIMPropertyBuilder {
 	 * @param object
 	 * @return
 	 */
-	public static CIMProperty create(String name, CIM_Object object) {
+	public static CIMProperty create(String name, CIM_ObjectIf object) {
 		return new CIMProperty(name, new CIMValue(object.getCimObjectPath(),new CIMDataType(object.getCimObjectPath().getObjectName())));
 	}
 

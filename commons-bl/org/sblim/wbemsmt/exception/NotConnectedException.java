@@ -22,7 +22,7 @@
  */
 package org.sblim.wbemsmt.exception;
 
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 
 /**
  * Author taphorn
@@ -35,12 +35,12 @@ public class NotConnectedException extends WbemSmtException {
 	 */
 	private static final long serialVersionUID = -1333253460088115917L;
 
-	public NotConnectedException(CIM_ManagedElement cimElement, Throwable arg1) {
+	public NotConnectedException(CIM_ObjectIf cimElement, Throwable arg1) {
 		super(cimElement, arg1);
 		
 	}
 
-	public NotConnectedException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
+	public NotConnectedException(String arg0, CIM_ObjectIf cimElement, Throwable arg1) {
 		super(arg0, cimElement, arg1);
 		
 	}

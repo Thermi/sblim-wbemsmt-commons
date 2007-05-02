@@ -22,7 +22,7 @@
  */
 package org.sblim.wbemsmt.exception;
 
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 
 /**
  * Author taphorn
@@ -35,7 +35,7 @@ public class ObjectUpdateException extends ObjectSaveException {
 	 */
 	private static final long serialVersionUID = 217342474936011723L;
 
-	public ObjectUpdateException(CIM_ManagedElement cimElement) {
+	public ObjectUpdateException(CIM_ObjectIf cimElement) {
 		super(cimElement);
 		
 	}
@@ -50,12 +50,12 @@ public class ObjectUpdateException extends ObjectSaveException {
 		
 	}
 
-	public ObjectUpdateException(CIM_ManagedElement cimElement, Throwable arg1) {
+	public ObjectUpdateException(CIM_ObjectIf cimElement, Throwable arg1) {
 		super(cimElement, arg1);
 		
 	}
 
-	public ObjectUpdateException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
+	public ObjectUpdateException(String arg0, CIM_ObjectIf cimElement, Throwable arg1) {
 		super(arg0, cimElement, arg1);
 		
 	}

@@ -24,9 +24,8 @@
  */
 package org.sblim.wbemsmt.exception;
 
-import org.sblim.wbemsmt.bl.fco.CIM_Object;
-import org.sblim.wbemsmt.schema.cim29.CIM_Component;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
+import org.sblim.wbemsmt.schema.cim_2_14.tools.CIM_Object;
 
 public class ModelNotLoadedException extends WbemSmtException {
 
@@ -35,11 +34,11 @@ public class ModelNotLoadedException extends WbemSmtException {
 	 */
 	private static final long serialVersionUID = 6123341206129786861L;
 
-	public ModelNotLoadedException(CIM_Component co, Throwable t) {
+	public ModelNotLoadedException(CIM_ObjectIf co, Throwable t) {
 		super(co, t);
 	}
 
-	public ModelNotLoadedException(CIM_ManagedElement cimElement) {
+	public ModelNotLoadedException(CIM_ObjectIf cimElement) {
 		super(cimElement);
 	}
 
@@ -47,7 +46,7 @@ public class ModelNotLoadedException extends WbemSmtException {
 		super(cimObject, arg1);
 	}
 
-	public ModelNotLoadedException(String msg, CIM_Component co, Throwable t) {
+	public ModelNotLoadedException(String msg, CIM_ObjectIf co, Throwable t) {
 		super(msg, co, t);
 	}
 
@@ -65,16 +64,6 @@ public class ModelNotLoadedException extends WbemSmtException {
 
 	public ModelNotLoadedException(Throwable arg1) {
 		super(arg1);
-	}
-
-	public ModelNotLoadedException(CIM_ManagedElement cimElement, Throwable arg1) {
-		super(cimElement, arg1);
-		
-	}
-
-	public ModelNotLoadedException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
-		super(arg0, cimElement, arg1);
-		
 	}
 
 	public ModelNotLoadedException(WbemSmtException arg1) {

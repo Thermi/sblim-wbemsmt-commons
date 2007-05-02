@@ -24,8 +24,7 @@
  */
 package org.sblim.wbemsmt.exception;
 
-import org.sblim.wbemsmt.schema.cim29.CIM_Component;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 
 /**
  * Author Bauschert
@@ -38,7 +37,7 @@ public class ObjectNotFoundException extends WbemSmtException {
 	 */
 	private static final long serialVersionUID = -5097698708919777783L;
 
-	public ObjectNotFoundException(String msg, CIM_Component co, Throwable t) {
+	public ObjectNotFoundException(String msg, CIM_ObjectIf co, Throwable t) {
 		super(msg, co, t);
 		
 	}
@@ -48,18 +47,13 @@ public class ObjectNotFoundException extends WbemSmtException {
 		
 	}
 
-	public ObjectNotFoundException(CIM_ManagedElement cimElement, Throwable arg1) {
+	public ObjectNotFoundException(CIM_ObjectIf cimElement, Throwable arg1) {
 		super(cimElement, arg1);
 		
 	}
 
-	public ObjectNotFoundException(CIM_ManagedElement cimElement) {
+	public ObjectNotFoundException(CIM_ObjectIf cimElement) {
 		super(cimElement);
-	}
-
-	public ObjectNotFoundException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
-		super(arg0, cimElement, arg1);
-		
 	}
 
 	public ObjectNotFoundException(WbemSmtException arg1) {

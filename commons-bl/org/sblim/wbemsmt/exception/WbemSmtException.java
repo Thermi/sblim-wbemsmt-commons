@@ -20,9 +20,7 @@
 
 package org.sblim.wbemsmt.exception;
 
-import org.sblim.wbemsmt.bl.fco.CIM_Object;
-import org.sblim.wbemsmt.schema.cim29.CIM_Component;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 
 public class WbemSmtException extends Exception {
 
@@ -30,7 +28,7 @@ public class WbemSmtException extends Exception {
 	 * 
 	 */
 	private static final long serialVersionUID = 8090752773000518419L;
-	protected CIM_Object cimObject;
+	protected CIM_ObjectIf cimObject;
 	protected String cimIdentifier;
 
 	public WbemSmtException(String arg0) {
@@ -41,23 +39,18 @@ public class WbemSmtException extends Exception {
 		super(arg0, arg1);
 	}
 
-	public WbemSmtException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
-		super(arg0, arg1);
-		this.cimObject = CIM_Object.create(cimElement);
-	}
-
-	public WbemSmtException(CIM_ManagedElement cimElement, Throwable arg1) {
-		super(arg1);
-		this.cimObject = CIM_Object.create(cimElement);
-	}
-
-	public WbemSmtException(String arg0, CIM_Object cimObject, Throwable arg1) {
+	public WbemSmtException(String arg0, CIM_ObjectIf cimObject, Throwable arg1) {
 		super(arg0, arg1);
 		this.cimObject = cimObject;
 	}
 
-	public WbemSmtException(CIM_Object cimObject, Throwable arg1) {
+	public WbemSmtException(CIM_ObjectIf cimObject, Throwable arg1) {
 		super(arg1);
+		this.cimObject = cimObject;
+	}
+
+	public WbemSmtException(CIM_ObjectIf cimObject) {
+		super();
 		this.cimObject = cimObject;
 	}
 
@@ -65,26 +58,11 @@ public class WbemSmtException extends Exception {
 		super(arg1);
 	}
 
-	public WbemSmtException(CIM_ManagedElement cimElement) {
-		super();
-		this.cimObject = CIM_Object.create(cimElement);
-	}
-
 	public WbemSmtException(WbemSmtException arg1) {
 		super(arg1);
 	}
 	
-	public WbemSmtException(String msg, CIM_Component co, Throwable t) {
-		super(msg,t);
-		this.cimObject = CIM_Object.create(co);
-	}
-	
-	public WbemSmtException(CIM_Component co, Throwable t) {
-		super(t);
-		this.cimObject = CIM_Object.create(co);
-	}
-
-	public CIM_Object getCIM_Object() {
+	public CIM_ObjectIf getCIM_Object() {
 		return this.cimObject;
 	}
 

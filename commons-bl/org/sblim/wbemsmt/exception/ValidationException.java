@@ -19,8 +19,7 @@
   */
 package org.sblim.wbemsmt.exception;
 
-import org.sblim.wbemsmt.schema.cim29.CIM_Component;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 
 public class ValidationException extends WbemSmtException {
 
@@ -29,12 +28,12 @@ public class ValidationException extends WbemSmtException {
 	 */
 	private static final long serialVersionUID = 8344408728184185351L;
 
-	public ValidationException(CIM_ManagedElement cimElement) {
+	public ValidationException(CIM_ObjectIf cimElement) {
 		super(cimElement);
 		
 	}
 
-	public ValidationException(String msg, CIM_Component co, Throwable t) {
+	public ValidationException(String msg, CIM_ObjectIf co, Throwable t) {
 		super(msg, co, t);
 		
 	}
@@ -49,13 +48,8 @@ public class ValidationException extends WbemSmtException {
 		
 	}
 
-	public ValidationException(CIM_ManagedElement cimElement, Throwable arg1) {
+	public ValidationException(CIM_ObjectIf cimElement, Throwable arg1) {
 		super(cimElement, arg1);
-		
-	}
-
-	public ValidationException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
-		super(arg0, cimElement, arg1);
 		
 	}
 

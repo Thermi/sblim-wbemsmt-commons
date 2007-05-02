@@ -22,9 +22,8 @@
  */
 package org.sblim.wbemsmt.exception;
 
-import org.sblim.wbemsmt.bl.fco.CIM_Object;
-import org.sblim.wbemsmt.schema.cim29.CIM_Component;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
+import org.sblim.wbemsmt.schema.cim_2_14.tools.CIM_Object;
 
 /**
  * Author taphorn
@@ -37,12 +36,12 @@ public class ObjectSaveException extends WbemSmtException {
 	 */
 	private static final long serialVersionUID = -8375900149617127953L;
 
-	public ObjectSaveException(CIM_ManagedElement cimElement, Throwable arg1) {
+	public ObjectSaveException(CIM_ObjectIf cimElement, Throwable arg1) {
 		super(cimElement, arg1);
 		
 	}
 
-	public ObjectSaveException(String arg0, CIM_ManagedElement cimElement, Throwable arg1) {
+	public ObjectSaveException(String arg0, CIM_ObjectIf cimElement, Throwable arg1) {
 		super(arg0, cimElement, arg1);
 		
 	}
@@ -52,7 +51,7 @@ public class ObjectSaveException extends WbemSmtException {
 		
 	}
 
-	public ObjectSaveException(CIM_ManagedElement cimElement) {
+	public ObjectSaveException(CIM_ObjectIf cimElement) {
 		super(cimElement);
 		
 	}
@@ -64,16 +63,6 @@ public class ObjectSaveException extends WbemSmtException {
 
 	public ObjectSaveException(String arg0) {
 		super(arg0);
-		
-	}
-
-	public ObjectSaveException(String msg, CIM_Component co, Throwable t) {
-		super(msg, co, t);
-		
-	}
-
-	public ObjectSaveException(CIM_Component co, Throwable t) {
-		super(co, t);
 		
 	}
 
@@ -91,6 +80,6 @@ public class ObjectSaveException extends WbemSmtException {
 		super(arg0, cimObject, arg1);
 		
 	}
-	
+
 	
 }
