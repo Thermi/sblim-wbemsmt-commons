@@ -37,7 +37,6 @@ public class LabeledJSFListComponent extends LabeledJSFInputComponent implements
 		HtmlSelectOneListbox menu = ((HtmlSelectOneListbox)component);
 		menu.setStyleClass("listBox");
 		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
-		menu.setValueBinding("size", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Size}"));
 		menu.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
 		UISelectItems items = (UISelectItems) FacesContext.getCurrentInstance().getApplication().createComponent(UISelectItems.COMPONENT_TYPE);
 		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
@@ -47,7 +46,7 @@ public class LabeledJSFListComponent extends LabeledJSFInputComponent implements
 
 	}
 	
-	public void sizeChanged(Size size) {
-		setSize(size);
-	}
+//	public void sizeChanged(Size size) {
+//		
+//	}
 }
