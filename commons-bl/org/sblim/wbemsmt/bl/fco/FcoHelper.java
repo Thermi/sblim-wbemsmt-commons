@@ -251,7 +251,7 @@ public class FcoHelper
 			Method deleteMethod = helperClass.getMethod("deleteInstance", new Class[]{CIMClient.class,fcoClass});
 			deleteMethod.setAccessible(true);
 			logger.fine("Calling " + helperName + "." + deleteMethod.getName()  + " with fco " + fcoClass.toString()+ " on " + cimClient.getNameSpace().toString());
-			deleteMethod.invoke(null,new Object[]{cimClient,cimObject});
+			deleteMethod.invoke(null,new Object[]{cimClient,cimObject.getWrappedObject()});
 			
 			String path = cimObject.getCimObjectPath().toString();
 
