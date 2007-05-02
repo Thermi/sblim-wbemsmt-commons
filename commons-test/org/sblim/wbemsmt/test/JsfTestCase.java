@@ -96,8 +96,8 @@ public class JsfTestCase extends WbemSmtTestCase {
 
     protected void doLogout(WbemSmtWebSession selenium) {
 		
-		WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages","messagesDns","org.sblim.wbemsmt.webapp.jsf.webapp_messages"}, Locale.ENGLISH);
-		selenium.click("link=logout");
+		WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages","org.sblim.wbemsmt.webapp.jsf.webapp_messages"}, Locale.ENGLISH);
+		selenium.clickText(bundle.getString("logout"));
 		selenium.click("langform:en");
 		WbemSmtAssert.assertTextFound(selenium, bundle.getString("pleaseLogin"));
 

@@ -27,7 +27,7 @@ import com.thoughtworks.selenium.Selenium;
 public class WbemSmtWebSession implements Selenium {
 
 	private Selenium selenium;
-	private String defaultWaitInterval = "30000";
+	private String defaultWaitInterval = "90000";
 
 	public WbemSmtWebSession(Selenium selenium) {
 		super();
@@ -363,7 +363,7 @@ public class WbemSmtWebSession implements Selenium {
 
 	public void assertSaveSuccess(WbemSmtResourceBundle bundle) {
 		WbemSmtAssert.assertTextNotFound(this, bundle.getString("error.while.execution"));
-		WbemSmtAssert.assertTextFound(this, bundle.getString("save.success"));
+		WbemSmtAssert.assertTextFound(this, bundle.getString("DIR.BLO.0002.save.success"));
 	}
 
 	public void assertCreateSuccess(WbemSmtResourceBundle bundle) {
