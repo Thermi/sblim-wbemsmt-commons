@@ -85,7 +85,7 @@ public class JsfTestCase extends WbemSmtTestCase {
 		selenium.type("connectFields:password", config.getPassword());
 		selenium.click("connectFields:login");
 		WbemSmtAssert.assertTextNotFound(selenium, bundle.getString("error.while.execution"));
-		WbemSmtAssert.assertTextFound(selenium, bundle.getString("task.supported", new Object[]{taskName,config.getHost()}));
+		WbemSmtAssert.assertTextFound(selenium, bundle.getString("DIR.WTR.0001.task.supported", new Object[]{taskName,config.getHost()}));
 		//TODO expand the tree
 //		selenium.mouseOver("xpath=//div[@id='mainForm_navMenu_menu']/table/tbody/tr//td[2]");
 //		selenium.mouseDown("xpath=//div[@id='mainForm_navMenu_menu']/table/tbody/tr//td[2]");
