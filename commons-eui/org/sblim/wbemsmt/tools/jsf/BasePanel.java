@@ -78,7 +78,7 @@ public abstract class BasePanel {
 		this.adapter = adapter;
 		this.bindingPrefix = bindingPrefix;
 		ILocaleManager localeManager = LocaleManager.getCurrent(FacesContext.getCurrentInstance());
-		bundle = ResourceBundleManager.getResourceBundle(getResourceBundleNames(),localeManager.getCurrentLocale());
+		bundle = adapter.getBundle();
 		if (keyForTitle != null)
 		{
 			this.keyForTitle = keyForTitle;
@@ -93,8 +93,6 @@ public abstract class BasePanel {
 		});
 	}
 	
-	public abstract String[] getResourceBundleNames();
-
 	public static void addComponent(UIComponentBase parentComponent, LabeledJSFInputComponent inputComponent)
 	{
 		if (inputComponent instanceof JSFButtonComponent) {
@@ -185,6 +183,8 @@ public abstract class BasePanel {
 		}
 		
 	}
+
+	
 	//set the title
 	protected void setFooter(HtmlPanelGrid panelGrid, String key) {
 

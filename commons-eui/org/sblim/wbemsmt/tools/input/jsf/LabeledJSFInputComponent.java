@@ -62,6 +62,7 @@ import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 import org.sblim.wbemsmt.tools.jsf.JsfBase;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.jsf.MultiLineBasePanel;
+import org.sblim.wbemsmt.tools.jsf.MultiLineBasePanel2;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.util.StringTokenizer;
@@ -93,12 +94,15 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	protected int orientation;
 	private boolean hasErrors;
 	private boolean isMultiline;
+	private boolean isHeader;
+
+	private List dependentChildFields = new ArrayList();
 	
 	public LabeledJSFInputComponent(DataContainer parent, String labelText, String pId, UIComponent component, Converter converter,boolean readOnly)
 	{
 		super(parent,labelText, converter);
 		
-		this.isMultiline = parent instanceof MultiLineBasePanel; 
+		this.isMultiline = parent instanceof MultiLineBasePanel || parent instanceof MultiLineBasePanel2; 
 		
 		this.id = asJsfId(pId);
 		this.component = component;
@@ -614,8 +618,11 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	
 	public void setHasErrors(boolean hasErrors)
 	{
-		this.hasErrors = hasErrors;
-		updateFieldIndicatorImage();
+		if (this.hasErrors != hasErrors)
+		{
+			this.hasErrors = hasErrors;
+			updateFieldIndicatorImage();
+		}
 	}
 
 	public boolean hasErrors()
@@ -623,37 +630,57 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		return this.hasErrors;
 	}
 
-	private void updateFieldIndicatorImage() {
+	public void updateFieldIndicatorImage() {
 	
-		StyleBean style = (StyleBean) BeanNameConstants.STYLE.getBoundValue(FacesContext.getCurrentInstance());
-		if (hasErrors && !isMultiline)
+		if (!isMultiline || isHeader)
 		{
-			//errors are not shown in Label if field is multiline (because there is only one label (column header) for all fields
-			if (!isMultiline)
+			StyleBean style = (StyleBean) BeanNameConstants.STYLE.getBoundValue(FacesContext.getCurrentInstance());
+			if (!isMultiline && hasErrors || isHeader && dependendFieldsHavingErrors())
 			{
+				//errors are not shown in Label if field is multiline (because there is only one label (column header) for all fields
 				fieldIndicatorImage = style.getResourceDir() + "/images/fieldIndicatorError.png";
 				fieldIndicatorRendered = true;
 				itemFieldIndicatorAltText = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance()).getString("fieldError");
 			}
+			else if (required)
+			{
+				fieldIndicatorImage = style.getResourceDir() + "/images/fieldIndicatorRequired.png";
+				fieldIndicatorRendered = true;
+				itemFieldIndicatorAltText = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance()).getString("fieldRequired");
+			}
+			else
+			{
+				fieldIndicatorRendered = false;
+				fieldIndicatorImage = style.getResourceDir() + "/images/fieldIndicatorEmpty.png";
+			}
+			
 		}
-		else if (required)
-		{
-			fieldIndicatorImage = style.getResourceDir() + "/images/fieldIndicatorRequired.png";
-			fieldIndicatorRendered = true;
-			itemFieldIndicatorAltText = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance()).getString("fieldRequired");
-		}
-		else
-		{
-			fieldIndicatorRendered = false;
-			fieldIndicatorImage = style.getResourceDir() + "/images/fieldIndicatorEmpty.png";
-		}
-		
 		if (isMultiline)
 		{
-			((MultiLineBasePanel)parent).setHasErrors(hasErrors);		
+			if (parent instanceof MultiLineBasePanel) {
+				MultiLineBasePanel panel = (MultiLineBasePanel) parent;
+				panel.setHasErrors(hasErrors);
+			}
+			if (parent instanceof MultiLineBasePanel2) {
+				MultiLineBasePanel2 panel = (MultiLineBasePanel2) parent;
+				panel.setHasErrors(hasErrors);
+			}
 		}
 	}
 
+
+	private boolean dependendFieldsHavingErrors()
+	{
+		for (Iterator iter = dependentChildFields.iterator(); iter.hasNext();)
+		{
+			LabeledBaseInputComponentIf child = (LabeledBaseInputComponentIf) iter.next();
+			if (child.hasErrors())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * externalized this statement into this method because the handling via JSF EL is too complex
@@ -842,6 +869,21 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	 */
 	public void setCssWith(Size size) {
 		addStyleSheetElement("width", ""+size.getValue() * 4);
-	}	
+	}
+
+	public void setHeader(boolean isHeader) {
+		this.isHeader = isHeader;
+	}
+
+	public List getDependentChildFields() {
+		return dependentChildFields;
+	}
+
+	public void setChildFields(List childFields) {
+		this.dependentChildFields = childFields;
+	}
+	
+	
+	
 }
 
