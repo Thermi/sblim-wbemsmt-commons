@@ -141,7 +141,7 @@ public abstract class MultiLinePanel extends BasePanel {
 		if (rows+1 < neededRows)
 		{
 			int columns = panelGrid.getColumns();
-			for (int i=0; i < (4-rows)*columns; i++)
+			for (int i=0; i < (3-rows)*columns; i++)
 			{
 				HtmlOutputText label = (HtmlOutputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
 				
