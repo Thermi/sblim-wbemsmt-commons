@@ -142,7 +142,7 @@ public abstract class ObjectList {
 		objectsByName.clear();
 		for (Iterator iter = objectsByCimObjectKey.values().iterator(); iter.hasNext();) {
 			Object o = iter.next();
-			String key = getKey(o);
+			Object key = getKey(o);
 			names.add(key);
 			objectsByName.put(key,o);
 		}
@@ -172,7 +172,7 @@ public abstract class ObjectList {
 	 * @param value
 	 * @return
 	 */
-	protected abstract String getKey(Object value);
+	protected abstract Object getKey(Object value);
 	
 	/**
 	 * Must return the fco belonging to this object
