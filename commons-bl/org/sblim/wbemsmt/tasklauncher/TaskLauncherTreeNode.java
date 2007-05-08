@@ -1145,6 +1145,27 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 		return parent;
 	}
 
+	public List findNodesByName(String name) throws WbemSmtException {
+		List result = new ArrayList();
+		findNodesByName(name, result);
+		return result;
+	}
+
+	public void findNodesByName(String name,List result) throws WbemSmtException {
+
+		if (name.equalsIgnoreCase(getName()))
+		{
+			result.add(this);
+		}
+
+		Vector subnodes2 = getSubnodes();
+		for (int i=0; i < subnodes2.size(); i++)
+		{
+			TaskLauncherTreeNode node = (TaskLauncherTreeNode) subnodes2.get(i);
+			node.findNodesByName(name,result);
+		}
+	}
+
 
 
 	

@@ -117,5 +117,7 @@ public interface ITaskLauncherTreeNode {
 
 	public abstract void setName(String string);
 
+	public abstract List findNodesByName(String name) throws WbemSmtException;
+
 
 }
