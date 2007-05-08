@@ -1,7 +1,7 @@
 /** 
  * CIM_OperatingSystem.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -24,15 +24,27 @@
 
 package org.sblim.wbemsmt.schema.cim_2_14;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
-import java.util.Calendar;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.lang.reflect.Constructor;
-import org.sblim.wbem.client.*;
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Vector;
+
+import org.sblim.wbem.cim.CIMDataType;
+import org.sblim.wbem.cim.CIMDateTime;
+import org.sblim.wbem.cim.CIMException;
+import org.sblim.wbem.cim.CIMInstance;
+import org.sblim.wbem.cim.CIMObjectPath;
+import org.sblim.wbem.cim.CIMProperty;
+import org.sblim.wbem.cim.CIMSimpleDateTime;
+import org.sblim.wbem.cim.CIMValue;
+import org.sblim.wbem.cim.UnsignedInt16;
+import org.sblim.wbem.cim.UnsignedInt32;
+import org.sblim.wbem.cim.UnsignedInt64;
+import org.sblim.wbem.client.CIMClient;
+import org.sblim.wbem.client.CIMEnumeration;
 
 
 
@@ -435,8 +447,8 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 		} else if (cimObjectPath == null){
 			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
 		
-		} else if (!CIM_CLASS_NAME.equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class of the cimInstance must be of type " + CIM_CLASS_NAME + ".");
+		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
+			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
 		}
 		
 		setCimInstance(cimInstance);
@@ -640,14 +652,13 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
 					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
 				
 					for (int i = 0; clazz == null && i < CIM_OperatingSystem.Java_Package_List.size(); i++) {
 						if (!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
 								!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
 							CIM_OperatingSystem.Java_Package_List.setElementAt((String)(CIM_OperatingSystem.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
-						cimClassName = (CIM_OperatingSystem.Java_Package_List.get(i)) + cimClassName;
+						String cimClassName = (CIM_OperatingSystem.Java_Package_List.get(i)) + cimInstance.getClassName();
 
 						try {
 							clazz = Class.forName(cimClassName);
@@ -767,14 +778,13 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
 					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
+
 					for (int i = 0; clazz == null && i < CIM_OperatingSystem.Java_Package_List.size(); i++) {
 						if (!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
 								!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
 							CIM_OperatingSystem.Java_Package_List.setElementAt((String)(CIM_OperatingSystem.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
-						cimClassName = (CIM_OperatingSystem.Java_Package_List.get(i)) + cimClassName;
+						String cimClassName = (CIM_OperatingSystem.Java_Package_List.get(i)) + cimInstance.getClassName();
 
 						try {
 							clazz = Class.forName(cimClassName);

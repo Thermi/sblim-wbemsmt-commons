@@ -1,5 +1,5 @@
 /** 
- * CIM_SettingContextHelper.java
+ * CIM_InstMethodCallHelper.java
  *
  * © Copyright IBM Corp. 2005
  *
@@ -33,9 +33,9 @@ import java.lang.reflect.Constructor;
 import org.sblim.wbem.cim.*;
 import org.sblim.wbem.client.*;
 
-public final class CIM_SettingContextHelper {
+public final class CIM_InstMethodCallHelper {
 
-	public final static String CIM_CLASS_NAME = "CIM_SettingContext";
+	public final static String CIM_CLASS_NAME = "CIM_InstMethodCall";
 	
 	/**
 	*	The method enumerates the instance names of a given CIM client with the same class name
@@ -97,18 +97,18 @@ public final class CIM_SettingContextHelper {
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
 					if (!deep && cimInstance.getClassName().equals(CIM_CLASS_NAME)) {
-						resultArrayList.add(new CIM_SettingContext(cimInstance.getObjectPath(), cimInstance));
+						resultArrayList.add(new CIM_InstMethodCall(cimInstance.getObjectPath(), cimInstance));
 						continue;
 					}
 					Class clazz = null;
 					String cimClassName = cimInstance.getClassName();
 				
-					for (int i=0; clazz==null && i<CIM_SettingContext.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_SettingContext.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_SettingContext.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_SettingContext.Java_Package_List.setElementAt((String)(CIM_SettingContext.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
+					for (int i=0; clazz==null && i<CIM_InstMethodCall.Java_Package_List.size(); i++) {
+						if (!((String)(CIM_InstMethodCall.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_InstMethodCall.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_InstMethodCall.Java_Package_List.setElementAt((String)(CIM_InstMethodCall.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
-						cimClassName = (CIM_SettingContext.Java_Package_List.get(i)) + cimClassName;
+						cimClassName = (CIM_InstMethodCall.Java_Package_List.get(i)) + cimClassName;
 					
 						try {
 							clazz = Class.forName(cimClassName);
@@ -116,8 +116,8 @@ public final class CIM_SettingContextHelper {
 						}
 					}
 					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of class CIM_SettingContext.");
-						resultArrayList.add(new CIM_SettingContext(cimInstance.getObjectPath(), cimInstance));
+						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of class CIM_InstMethodCall.");
+						resultArrayList.add(new CIM_InstMethodCall(cimInstance.getObjectPath(), cimInstance));
 						continue;
 					}
 				
@@ -129,8 +129,8 @@ public final class CIM_SettingContextHelper {
 						cons = clazz.getConstructor(constParams);
 					
 					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of class CIM_SettingContext.");
-						resultArrayList.add(new CIM_SettingContext(cimInstance.getObjectPath(), cimInstance));
+						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of class CIM_InstMethodCall.");
+						resultArrayList.add(new CIM_InstMethodCall(cimInstance.getObjectPath(), cimInstance));
 						continue;
 					}
 				
@@ -141,8 +141,8 @@ public final class CIM_SettingContextHelper {
 					
 						resultArrayList.add(dataObj);
 					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of class CIM_SettingContext.");
-						resultArrayList.add(new CIM_SettingContext(cimInstance.getObjectPath(), cimInstance));
+						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of class CIM_InstMethodCall.");
+						resultArrayList.add(new CIM_InstMethodCall(cimInstance.getObjectPath(), cimInstance));
 						continue;
 					}
 
@@ -165,7 +165,7 @@ public final class CIM_SettingContextHelper {
 	/**
 	*	The method returns an instance of a given CIM client at a given path
 	*/	
-	public final static CIM_SettingContext getInstance(CIMClient cimClient, Vector keyProperties) {
+	public final static CIM_InstMethodCall getInstance(CIMClient cimClient, Vector keyProperties) {
 		
 		if (cimClient == null) {
 			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
@@ -175,14 +175,14 @@ public final class CIM_SettingContextHelper {
 			
 		}
 		
-		return CIM_SettingContextHelper.getInstance(cimClient, new CIM_SettingContext(keyProperties));
+		return CIM_InstMethodCallHelper.getInstance(cimClient, new CIM_InstMethodCall(keyProperties));
 	}
 	
 	
 	/**
 	*	The method returns an instance of a given CIM client at a given path
 	*/	
-	public final static CIM_SettingContext getInstance(CIMClient cimClient, CIM_SettingContext dataInstance) {
+	public final static CIM_InstMethodCall getInstance(CIMClient cimClient, CIM_InstMethodCall dataInstance) {
 		
 		if (cimClient == null) {
 			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
@@ -192,14 +192,14 @@ public final class CIM_SettingContextHelper {
 			
 		}
 		
-		return CIM_SettingContextHelper.getInstance(cimClient, dataInstance.getCimObjectPath());
+		return CIM_InstMethodCallHelper.getInstance(cimClient, dataInstance.getCimObjectPath());
 	}
 	
 	
 	/**
 	*	The method returns an instance of a given CIM client at a given path
 	*/	
-	public final static CIM_SettingContext getInstance(CIMClient cimClient, CIMObjectPath cimObjectPath) {
+	public final static CIM_InstMethodCall getInstance(CIMClient cimClient, CIMObjectPath cimObjectPath) {
 	
 		if (cimClient == null) {
 			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
@@ -210,9 +210,9 @@ public final class CIM_SettingContextHelper {
 		
 		CIMInstance cimInstance = cimClient.getInstance(cimObjectPath);
 		
-		CIM_SettingContext dataInstance = null;
+		CIM_InstMethodCall dataInstance = null;
 		try {
-			dataInstance = new CIM_SettingContext(cimObjectPath, cimInstance);
+			dataInstance = new CIM_InstMethodCall(cimObjectPath, cimInstance);
 		} catch (Exception e) {
 			// This error should normally not happen, because the instance was received by the server with a valid CIMObjectPath
 			System.err.println("The received CIMInstance object was not valid.\nReceived values are:\n" + cimObjectPath + "\n" + cimInstance);
@@ -226,7 +226,7 @@ public final class CIM_SettingContextHelper {
 	/**
 	*	The method creates a class instance in a given CIM client
 	*/	
-	public final static CIM_SettingContext createInstance(CIMClient cimClient, CIM_SettingContext dataInstance, boolean notifyDifferencies){ 
+	public final static CIM_InstMethodCall createInstance(CIMClient cimClient, CIM_InstMethodCall dataInstance, boolean notifyDifferencies){ 
 	
 		if (cimClient == null) {
 			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
@@ -244,9 +244,9 @@ public final class CIM_SettingContextHelper {
 		CIMInstance serverBasedInstance = copyDataToServerInstance(cimClient, dataInstance, notifyDifferencies);
 		CIMObjectPath cimObjectPath = cimClient.createInstance(dataInstance.getCimObjectPath(), serverBasedInstance);
 		
-		CIM_SettingContext newDataInstance = null;
+		CIM_InstMethodCall newDataInstance = null;
 		try {
-			newDataInstance = CIM_SettingContextHelper.getInstance(cimClient, cimObjectPath);
+			newDataInstance = CIM_InstMethodCallHelper.getInstance(cimClient, cimObjectPath);
 		} catch (Exception e) {
 			// This error should normally never happen, except of a server or cimClient problem.
 			System.err.println("The new created cimInstance could not retrieved properly from the server.");
@@ -260,7 +260,7 @@ public final class CIM_SettingContextHelper {
 	/**
 	*	The method modifies a class instance in a given CIM client
 	*/	
-	public final static CIM_SettingContext modifyInstance(CIMClient cimClient, CIM_SettingContext dataInstance, boolean notifyDifferencies){ 
+	public final static CIM_InstMethodCall modifyInstance(CIMClient cimClient, CIM_InstMethodCall dataInstance, boolean notifyDifferencies){ 
 	
 		if (cimClient == null) {
 			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
@@ -281,7 +281,7 @@ public final class CIM_SettingContextHelper {
 		if (dataInstance.isModified()) {
 			CIMInstance serverBasedInstance = copyDataToServerInstance(cimClient, dataInstance, notifyDifferencies);
 			cimClient.setInstance(dataInstance.getCimObjectPath(), serverBasedInstance);
-			dataInstance = CIM_SettingContextHelper.getInstance(cimClient, dataInstance.getCimObjectPath());
+			dataInstance = CIM_InstMethodCallHelper.getInstance(cimClient, dataInstance.getCimObjectPath());
 		}
 		
 		return dataInstance;
@@ -291,7 +291,7 @@ public final class CIM_SettingContextHelper {
 	/**
 	*	The method deletes a class instance in a given CIM client
 	*/	
-	public final static void deleteInstance(CIMClient cimClient, CIM_SettingContext dataInstance){
+	public final static void deleteInstance(CIMClient cimClient, CIM_InstMethodCall dataInstance){
 	
 		if (cimClient == null) {
 			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
@@ -310,7 +310,7 @@ public final class CIM_SettingContextHelper {
 	/**
 	*	no description
 	*/
-	private final static CIMInstance copyDataToServerInstance(CIMClient cimClient, CIM_SettingContext dataInstance, boolean notifyDifferencies) {
+	private final static CIMInstance copyDataToServerInstance(CIMClient cimClient, CIM_InstMethodCall dataInstance, boolean notifyDifferencies) {
 		CIMClass cimClass = cimClient.getClass(new CIMObjectPath(CIM_CLASS_NAME), false, true, true);
 		CIMInstance serverCimInstance = cimClass.newInstance();
 		CIMInstance clientCimInstance = dataInstance.getCimInstance();
@@ -319,7 +319,7 @@ public final class CIM_SettingContextHelper {
 			
 		for (int i = 0; i < serverPropertyListVector.size(); i++) {
 			if ((CIMProperty)serverPropertyListVector.get(i) != null && 
-					CIM_SettingContext.CIM_PropertyNameList.contains(((CIMProperty)serverPropertyListVector.get(i)).getName())) {
+					CIM_InstMethodCall.CIM_PropertyNameList.contains(((CIMProperty)serverPropertyListVector.get(i)).getName())) {
 				CIMProperty orgProperty = clientCimInstance.getProperty(((CIMProperty)serverPropertyListVector.get(i)).getName());
 				CIMProperty serverProperty = serverCimInstance.getProperty(((CIMProperty)serverPropertyListVector.get(i)).getName());
 				
@@ -382,27 +382,35 @@ public final class CIM_SettingContextHelper {
 		
 		for (int i = 0; i < serverPropertyList.size(); i++) {
 			if ((CIMProperty)serverPropertyList.get(i) == null ||
-					!CIM_SettingContext.CIM_PropertyNameList.contains(((CIMProperty)serverPropertyList.get(i)).getName())) {
+					!CIM_InstMethodCall.CIM_PropertyNameList.contains(((CIMProperty)serverPropertyList.get(i)).getName())) {
 				missedProperties.add(((CIMProperty)serverPropertyList.get(i))!=null?((CIMProperty)serverPropertyList.get(i)).getName():"");
 				result = false;
 			}
 			serverPropertyNameList.add(((CIMProperty)serverPropertyList.get(i)).getName());
 		}
 			
-		for (int i = 0; i < CIM_SettingContext.CIM_PropertyNameList.size(); i++) {
-				if (!serverPropertyNameList.contains(CIM_SettingContext.CIM_PropertyNameList.get(i))) {
-				unrecognizedProperties.add(CIM_SettingContext.CIM_PropertyNameList.get(i));
+		for (int i = 0; i < CIM_InstMethodCall.CIM_PropertyNameList.size(); i++) {
+				if (!serverPropertyNameList.contains(CIM_InstMethodCall.CIM_PropertyNameList.get(i))) {
+				unrecognizedProperties.add(CIM_InstMethodCall.CIM_PropertyNameList.get(i));
 				result = false;
 			}
 		}
 		return result;
 	}
 	
-	public static boolean isValid_CIM_Configuration(CIM_Configuration CIM_Configuration) {
+	public static boolean isValid_MethodName(String MethodName) {
 		return true;
 	}
 
-	public static boolean isValid_CIM_Setting(CIM_Setting CIM_Setting) {
+	public static boolean isValid_MethodParameters(String MethodParameters) {
+		return true;
+	}
+
+	public static boolean isValid_PreCall(Boolean PreCall) {
+		return true;
+	}
+
+	public static boolean isValid_ReturnValue(String ReturnValue) {
 		return true;
 	}
 

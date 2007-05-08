@@ -1,5 +1,5 @@
 /** 
- * CIM_Collection.java
+ * CIM_InstModification.java
  *
  * © Copyright IBM Corp. 2005
  *
@@ -16,8 +16,7 @@
  * Contributors:
  *
  *
- * Description:  Collection is an abstract class that provides a common superclass for data
- * elements that represent collections of ManagedElements and its subclasses.
+ * Description:  CIM_InstModification notifies when an instance is modified.
  * 
  */
 
@@ -30,12 +29,11 @@ import org.sblim.wbem.cim.*;
 
 
 /**
- *  Collection is an abstract class that provides a common superclass for data
- * elements that represent collections of ManagedElements and its subclasses.
+ *  CIM_InstModification notifies when an instance is modified.
  */
-public class CIM_Collection extends CIM_ManagedElement  {
+public class CIM_InstModification extends CIM_InstIndication  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Collection"; //$NON-NLS-1$
+	public final static String CIM_CLASS_NAME = "CIM_InstModification"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -43,6 +41,10 @@ public class CIM_Collection extends CIM_ManagedElement  {
 	public final static String CIM_CLASS_VERSION = "2.6.0";
 	
 	
+	/**
+	*	A copy of the 'previous' instance whose change generated the Indication. PreviousInstance contains 'older' values of an instance's properties (as compared to SourceInstance), selected by the IndicationFilter's Query.
+	*/
+	public final static String CIM_PROPERTY_PREVIOUSINSTANCE = "PreviousInstance"; //$NON-NLS-1$
 	
 	
 	
@@ -52,26 +54,34 @@ public class CIM_Collection extends CIM_ManagedElement  {
 	public static Vector Java_Package_List 		= new Vector();
 	
 	static {
+		CIM_PropertyNameList.add(CIM_PROPERTY_PREVIOUSINSTANCE);
 				
-		for (int i = 0; i < CIM_ManagedElement.CIM_PropertyNameList.size(); i++) {
+		for (int i = 0; i < CIM_InstIndication.CIM_PropertyNameList.size(); i++) {
+			if (((String)CIM_InstIndication.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_PREVIOUSINSTANCE)){
+				continue;
+			}
 			
-			CIM_Collection.CIM_PropertyNameList.add(CIM_ManagedElement.CIM_PropertyNameList.elementAt(i));
+			CIM_InstModification.CIM_PropertyNameList.add(CIM_InstIndication.CIM_PropertyNameList.elementAt(i));
 		}
 		
+		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_PREVIOUSINSTANCE, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
 				
-		for (int i = 0; i < CIM_ManagedElement.CIM_PropertyList.size(); i++) {
+		for (int i = 0; i < CIM_InstIndication.CIM_PropertyList.size(); i++) {
+			if (((CIMProperty)CIM_InstIndication.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_PREVIOUSINSTANCE)){
+				continue;
+			}
 			
-			CIM_Collection.CIM_PropertyList.add(CIM_ManagedElement.CIM_PropertyList.elementAt(i));
+			CIM_InstModification.CIM_PropertyList.add(CIM_InstIndication.CIM_PropertyList.elementAt(i));
 		}
 		
 		Java_Package_List.add("org.sblim.wbemsmt.schema.cim_2_14");
 				
-		for (int i = 0; i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-			if (((String)CIM_ManagedElement.Java_Package_List.elementAt(i)).equals("org.sblim.wbemsmt.schema.cim_2_14")){
+		for (int i = 0; i < CIM_InstIndication.Java_Package_List.size(); i++) {
+			if (((String)CIM_InstIndication.Java_Package_List.elementAt(i)).equals("org.sblim.wbemsmt.schema.cim_2_14")){
 				continue;
 			}
 			
-			Java_Package_List.add(CIM_ManagedElement.Java_Package_List.elementAt(i));
+			Java_Package_List.add(CIM_InstIndication.Java_Package_List.elementAt(i));
 		}
 	};
 			
@@ -86,7 +96,7 @@ public class CIM_Collection extends CIM_ManagedElement  {
 	/**
 	*	Class constructor
 	*/	
-	public CIM_Collection() {
+	public CIM_InstModification() {
 
 		this.cimInstance	= new CIMInstance();
 		
@@ -106,7 +116,7 @@ public class CIM_Collection extends CIM_ManagedElement  {
 	/**
 	*	Class constructor
 	*/	
-	public CIM_Collection(Vector keyProperties){ 
+	public CIM_InstModification(Vector keyProperties){ 
 		this();
 		
 		if (keyProperties == null) {
@@ -140,7 +150,7 @@ public class CIM_Collection extends CIM_ManagedElement  {
 	/**
 	*	Class constructor
 	*/	
-	public CIM_Collection(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
+	public CIM_InstModification(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
 		
 		if (cimInstance == null) {
 			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
@@ -180,6 +190,13 @@ public class CIM_Collection extends CIM_ManagedElement  {
 			invalidProperties = new Vector();
 		} else {
 			invalidProperties.removeAllElements();
+		}
+		
+		CIMProperty CIMProperty_PreviousInstance = this.cimInstance.getProperty(CIM_PROPERTY_PREVIOUSINSTANCE);
+		
+		if (CIMProperty_PreviousInstance == null || CIMProperty_PreviousInstance.getValue().isEmpty() || CIMProperty_PreviousInstance.getValue().isNullValue()) {
+			invalidProperties.add(new String[]{CIM_PROPERTY_PREVIOUSINSTANCE, "Required"});
+			result = false;
 		}
 		
 		return result;
@@ -252,35 +269,35 @@ public class CIM_Collection extends CIM_ManagedElement  {
 	*/	
 	public boolean equals(Object object) {
 	    
-	    if (!(object instanceof CIM_Collection)) {
+	    if (!(object instanceof CIM_InstModification)) {
 	        return false;
 	    }
 	    
-	    if (this.cimInstance == null && ((CIM_Collection)object).cimInstance != null) {
+	    if (this.cimInstance == null && ((CIM_InstModification)object).cimInstance != null) {
 	    	return false;
 	    	
-	    } else if (this.cimInstance != null && ((CIM_Collection)object).cimInstance == null) {
+	    } else if (this.cimInstance != null && ((CIM_InstModification)object).cimInstance == null) {
 	    	return false;
 	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_Collection)object).cimInstance)) {
+	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_InstModification)object).cimInstance)) {
 	    	return false;
 	    	
-	    } else if (this.original_cimInstance == null && ((CIM_Collection)object).original_cimInstance != null) {
+	    } else if (this.original_cimInstance == null && ((CIM_InstModification)object).original_cimInstance != null) {
 	    	return false;
 	    	
-	    } else if (this.original_cimInstance != null && ((CIM_Collection)object).original_cimInstance == null) {
+	    } else if (this.original_cimInstance != null && ((CIM_InstModification)object).original_cimInstance == null) {
 	    	return false;
 	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_Collection)object).original_cimInstance)) {
+	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_InstModification)object).original_cimInstance)) {
 	        return false;
 	        
-	    } else if (this.cimObjectPath == null && ((CIM_Collection)object).cimObjectPath != null) {
+	    } else if (this.cimObjectPath == null && ((CIM_InstModification)object).cimObjectPath != null) {
 	    	return false;
 	    	
-	    } else if (this.cimObjectPath != null && ((CIM_Collection)object).cimObjectPath == null) {
+	    } else if (this.cimObjectPath != null && ((CIM_InstModification)object).cimObjectPath == null) {
 	    	return false;
 		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_Collection)object).cimObjectPath)) {
+	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_InstModification)object).cimObjectPath)) {
 	        return false;
 	        
 	    } 
@@ -305,6 +322,47 @@ public class CIM_Collection extends CIM_ManagedElement  {
 	// Attribute methods
 	//*****************************************************
 	
+	// Attribute PreviousInstance
+	
+	public String get_PreviousInstance() {
+		
+		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_InstModification.CIM_PROPERTY_PREVIOUSINSTANCE);
+        
+		if (currentProperty == null) {
+			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_InstModification.CIM_PROPERTY_PREVIOUSINSTANCE + " could not be found");
+    		
+		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
+			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_InstModification.CIM_PROPERTY_PREVIOUSINSTANCE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
+		}
+        
+		if (currentProperty.getValue() == null) {
+			return null;
+		}
+        
+		return (String)currentProperty.getValue().getValue();
+	}
+	    
+			
+	public void set_PreviousInstance(String newValue) {
+		
+		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_InstModification.CIM_PROPERTY_PREVIOUSINSTANCE);
+    	
+		if (currentProperty == null) {
+			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_InstModification.CIM_PROPERTY_PREVIOUSINSTANCE + " could not be found");
+    		
+		} else if (!CIM_InstModificationHelper.isValid_PreviousInstance(newValue)) {
+			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_InstModification.CIM_PROPERTY_PREVIOUSINSTANCE);
+    		
+		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
+			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_InstModification.CIM_PROPERTY_PREVIOUSINSTANCE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
+		}
+    	
+		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
+		currentProperty.setValue(updatedValue);
+	}	
+	    
+	
+
 	
 	
 	//*****************************************************

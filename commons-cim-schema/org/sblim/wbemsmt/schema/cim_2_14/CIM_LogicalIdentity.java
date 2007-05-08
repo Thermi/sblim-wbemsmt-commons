@@ -1,7 +1,7 @@
 /** 
  * CIM_LogicalIdentity.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -156,8 +156,8 @@ public class CIM_LogicalIdentity  {
 		} else if (cimObjectPath == null){
 			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
 		
-		} else if (!CIM_CLASS_NAME.equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class of the cimInstance must be of type " + CIM_CLASS_NAME + ".");
+		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
+			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
 		}
 		
 		setCimInstance(cimInstance);
@@ -322,7 +322,7 @@ public class CIM_LogicalIdentity  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_LogicalIdentity.CIM_PROPERTY_CIM_MANAGEDELEMENT_1 + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_ManagedElement.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LogicalIdentity.CIM_PROPERTY_CIM_MANAGEDELEMENT_1 + " is not of expected type CIM_ManagedElement.");
 		}
         
@@ -344,7 +344,7 @@ public class CIM_LogicalIdentity  {
 		} else if (!CIM_LogicalIdentityHelper.isValid_CIM_ManagedElement_1(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_LogicalIdentity.CIM_PROPERTY_CIM_MANAGEDELEMENT_1);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_ManagedElement.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LogicalIdentity.CIM_PROPERTY_CIM_MANAGEDELEMENT_1 + " is not of expected type CIM_ManagedElement.");
 		}
     	
@@ -363,7 +363,7 @@ public class CIM_LogicalIdentity  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_LogicalIdentity.CIM_PROPERTY_CIM_MANAGEDELEMENT_2 + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_ManagedElement.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LogicalIdentity.CIM_PROPERTY_CIM_MANAGEDELEMENT_2 + " is not of expected type CIM_ManagedElement.");
 		}
         
@@ -385,7 +385,7 @@ public class CIM_LogicalIdentity  {
 		} else if (!CIM_LogicalIdentityHelper.isValid_CIM_ManagedElement_2(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_LogicalIdentity.CIM_PROPERTY_CIM_MANAGEDELEMENT_2);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_ManagedElement.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LogicalIdentity.CIM_PROPERTY_CIM_MANAGEDELEMENT_2 + " is not of expected type CIM_ManagedElement.");
 		}
     	

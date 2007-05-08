@@ -1,7 +1,7 @@
 /** 
  * CIM_HostedService.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -167,8 +167,8 @@ public class CIM_HostedService extends CIM_HostedDependency  {
 		} else if (cimObjectPath == null){
 			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
 		
-		} else if (!CIM_CLASS_NAME.equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class of the cimInstance must be of type " + CIM_CLASS_NAME + ".");
+		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
+			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
 		}
 		
 		setCimInstance(cimInstance);
@@ -333,7 +333,7 @@ public class CIM_HostedService extends CIM_HostedDependency  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_HostedService.CIM_PROPERTY_CIM_SYSTEM + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_System.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_HostedService.CIM_PROPERTY_CIM_SYSTEM + " is not of expected type CIM_System.");
 		}
         
@@ -355,7 +355,7 @@ public class CIM_HostedService extends CIM_HostedDependency  {
 		} else if (!CIM_HostedServiceHelper.isValid_CIM_System(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_HostedService.CIM_PROPERTY_CIM_SYSTEM);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_System.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_HostedService.CIM_PROPERTY_CIM_SYSTEM + " is not of expected type CIM_System.");
 		}
     	
@@ -374,7 +374,7 @@ public class CIM_HostedService extends CIM_HostedDependency  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_HostedService.CIM_PROPERTY_CIM_SERVICE + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_Service.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_HostedService.CIM_PROPERTY_CIM_SERVICE + " is not of expected type CIM_Service.");
 		}
         
@@ -396,7 +396,7 @@ public class CIM_HostedService extends CIM_HostedDependency  {
 		} else if (!CIM_HostedServiceHelper.isValid_CIM_Service(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_HostedService.CIM_PROPERTY_CIM_SERVICE);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_Service.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_HostedService.CIM_PROPERTY_CIM_SERVICE + " is not of expected type CIM_Service.");
 		}
     	

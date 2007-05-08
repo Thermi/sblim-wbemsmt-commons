@@ -1,5 +1,5 @@
 /** 
- * CIM_Collection.java
+ * CIM_InstDeletion.java
  *
  * © Copyright IBM Corp. 2005
  *
@@ -16,8 +16,7 @@
  * Contributors:
  *
  *
- * Description:  Collection is an abstract class that provides a common superclass for data
- * elements that represent collections of ManagedElements and its subclasses.
+ * Description:  CIM_InstDeletion notifies when an existing instance is deleted.
  * 
  */
 
@@ -30,12 +29,11 @@ import org.sblim.wbem.cim.*;
 
 
 /**
- *  Collection is an abstract class that provides a common superclass for data
- * elements that represent collections of ManagedElements and its subclasses.
+ *  CIM_InstDeletion notifies when an existing instance is deleted.
  */
-public class CIM_Collection extends CIM_ManagedElement  {
+public class CIM_InstDeletion extends CIM_InstIndication  {
 	
-	public final static String CIM_CLASS_NAME = "CIM_Collection"; //$NON-NLS-1$
+	public final static String CIM_CLASS_NAME = "CIM_InstDeletion"; //$NON-NLS-1$
 	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
 	private boolean validCimInstance = false;
@@ -53,25 +51,25 @@ public class CIM_Collection extends CIM_ManagedElement  {
 	
 	static {
 				
-		for (int i = 0; i < CIM_ManagedElement.CIM_PropertyNameList.size(); i++) {
+		for (int i = 0; i < CIM_InstIndication.CIM_PropertyNameList.size(); i++) {
 			
-			CIM_Collection.CIM_PropertyNameList.add(CIM_ManagedElement.CIM_PropertyNameList.elementAt(i));
+			CIM_InstDeletion.CIM_PropertyNameList.add(CIM_InstIndication.CIM_PropertyNameList.elementAt(i));
 		}
 		
 				
-		for (int i = 0; i < CIM_ManagedElement.CIM_PropertyList.size(); i++) {
+		for (int i = 0; i < CIM_InstIndication.CIM_PropertyList.size(); i++) {
 			
-			CIM_Collection.CIM_PropertyList.add(CIM_ManagedElement.CIM_PropertyList.elementAt(i));
+			CIM_InstDeletion.CIM_PropertyList.add(CIM_InstIndication.CIM_PropertyList.elementAt(i));
 		}
 		
 		Java_Package_List.add("org.sblim.wbemsmt.schema.cim_2_14");
 				
-		for (int i = 0; i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-			if (((String)CIM_ManagedElement.Java_Package_List.elementAt(i)).equals("org.sblim.wbemsmt.schema.cim_2_14")){
+		for (int i = 0; i < CIM_InstIndication.Java_Package_List.size(); i++) {
+			if (((String)CIM_InstIndication.Java_Package_List.elementAt(i)).equals("org.sblim.wbemsmt.schema.cim_2_14")){
 				continue;
 			}
 			
-			Java_Package_List.add(CIM_ManagedElement.Java_Package_List.elementAt(i));
+			Java_Package_List.add(CIM_InstIndication.Java_Package_List.elementAt(i));
 		}
 	};
 			
@@ -86,7 +84,7 @@ public class CIM_Collection extends CIM_ManagedElement  {
 	/**
 	*	Class constructor
 	*/	
-	public CIM_Collection() {
+	public CIM_InstDeletion() {
 
 		this.cimInstance	= new CIMInstance();
 		
@@ -106,7 +104,7 @@ public class CIM_Collection extends CIM_ManagedElement  {
 	/**
 	*	Class constructor
 	*/	
-	public CIM_Collection(Vector keyProperties){ 
+	public CIM_InstDeletion(Vector keyProperties){ 
 		this();
 		
 		if (keyProperties == null) {
@@ -140,7 +138,7 @@ public class CIM_Collection extends CIM_ManagedElement  {
 	/**
 	*	Class constructor
 	*/	
-	public CIM_Collection(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
+	public CIM_InstDeletion(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
 		
 		if (cimInstance == null) {
 			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
@@ -252,35 +250,35 @@ public class CIM_Collection extends CIM_ManagedElement  {
 	*/	
 	public boolean equals(Object object) {
 	    
-	    if (!(object instanceof CIM_Collection)) {
+	    if (!(object instanceof CIM_InstDeletion)) {
 	        return false;
 	    }
 	    
-	    if (this.cimInstance == null && ((CIM_Collection)object).cimInstance != null) {
+	    if (this.cimInstance == null && ((CIM_InstDeletion)object).cimInstance != null) {
 	    	return false;
 	    	
-	    } else if (this.cimInstance != null && ((CIM_Collection)object).cimInstance == null) {
+	    } else if (this.cimInstance != null && ((CIM_InstDeletion)object).cimInstance == null) {
 	    	return false;
 	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_Collection)object).cimInstance)) {
+	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_InstDeletion)object).cimInstance)) {
 	    	return false;
 	    	
-	    } else if (this.original_cimInstance == null && ((CIM_Collection)object).original_cimInstance != null) {
+	    } else if (this.original_cimInstance == null && ((CIM_InstDeletion)object).original_cimInstance != null) {
 	    	return false;
 	    	
-	    } else if (this.original_cimInstance != null && ((CIM_Collection)object).original_cimInstance == null) {
+	    } else if (this.original_cimInstance != null && ((CIM_InstDeletion)object).original_cimInstance == null) {
 	    	return false;
 	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_Collection)object).original_cimInstance)) {
+	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_InstDeletion)object).original_cimInstance)) {
 	        return false;
 	        
-	    } else if (this.cimObjectPath == null && ((CIM_Collection)object).cimObjectPath != null) {
+	    } else if (this.cimObjectPath == null && ((CIM_InstDeletion)object).cimObjectPath != null) {
 	    	return false;
 	    	
-	    } else if (this.cimObjectPath != null && ((CIM_Collection)object).cimObjectPath == null) {
+	    } else if (this.cimObjectPath != null && ((CIM_InstDeletion)object).cimObjectPath == null) {
 	    	return false;
 		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_Collection)object).cimObjectPath)) {
+	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_InstDeletion)object).cimObjectPath)) {
 	        return false;
 	        
 	    } 

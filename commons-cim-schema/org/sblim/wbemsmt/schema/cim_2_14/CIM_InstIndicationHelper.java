@@ -1,5 +1,5 @@
 /** 
- * CIM_DependencyHelper.java
+ * CIM_InstIndicationHelper.java
  *
  * © Copyright IBM Corp. 2005
  *
@@ -33,9 +33,9 @@ import java.lang.reflect.Constructor;
 import org.sblim.wbem.cim.*;
 import org.sblim.wbem.client.*;
 
-public final class CIM_DependencyHelper {
+public final class CIM_InstIndicationHelper {
 
-	public final static String CIM_CLASS_NAME = "CIM_Dependency";
+	public final static String CIM_CLASS_NAME = "CIM_InstIndication";
 	
 	/**
 	*	The method enumerates the instance names of a given CIM client with the same class name
@@ -97,18 +97,18 @@ public final class CIM_DependencyHelper {
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
 					if (!deep && cimInstance.getClassName().equals(CIM_CLASS_NAME)) {
-						resultArrayList.add(new CIM_Dependency(cimInstance.getObjectPath(), cimInstance));
+						resultArrayList.add(new CIM_InstIndication(cimInstance.getObjectPath(), cimInstance));
 						continue;
 					}
 					Class clazz = null;
 					String cimClassName = cimInstance.getClassName();
 				
-					for (int i=0; clazz==null && i<CIM_Dependency.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Dependency.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_Dependency.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_Dependency.Java_Package_List.setElementAt((String)(CIM_Dependency.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
+					for (int i=0; clazz==null && i<CIM_InstIndication.Java_Package_List.size(); i++) {
+						if (!((String)(CIM_InstIndication.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
+								!((String)(CIM_InstIndication.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
+							CIM_InstIndication.Java_Package_List.setElementAt((String)(CIM_InstIndication.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
 						}
-						cimClassName = (CIM_Dependency.Java_Package_List.get(i)) + cimClassName;
+						cimClassName = (CIM_InstIndication.Java_Package_List.get(i)) + cimClassName;
 					
 						try {
 							clazz = Class.forName(cimClassName);
@@ -116,8 +116,8 @@ public final class CIM_DependencyHelper {
 						}
 					}
 					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of class CIM_Dependency.");
-						resultArrayList.add(new CIM_Dependency(cimInstance.getObjectPath(), cimInstance));
+						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of class CIM_InstIndication.");
+						resultArrayList.add(new CIM_InstIndication(cimInstance.getObjectPath(), cimInstance));
 						continue;
 					}
 				
@@ -129,8 +129,8 @@ public final class CIM_DependencyHelper {
 						cons = clazz.getConstructor(constParams);
 					
 					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of class CIM_Dependency.");
-						resultArrayList.add(new CIM_Dependency(cimInstance.getObjectPath(), cimInstance));
+						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of class CIM_InstIndication.");
+						resultArrayList.add(new CIM_InstIndication(cimInstance.getObjectPath(), cimInstance));
 						continue;
 					}
 				
@@ -141,8 +141,8 @@ public final class CIM_DependencyHelper {
 					
 						resultArrayList.add(dataObj);
 					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of class CIM_Dependency.");
-						resultArrayList.add(new CIM_Dependency(cimInstance.getObjectPath(), cimInstance));
+						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of class CIM_InstIndication.");
+						resultArrayList.add(new CIM_InstIndication(cimInstance.getObjectPath(), cimInstance));
 						continue;
 					}
 
@@ -165,7 +165,7 @@ public final class CIM_DependencyHelper {
 	/**
 	*	The method returns an instance of a given CIM client at a given path
 	*/	
-	public final static CIM_Dependency getInstance(CIMClient cimClient, Vector keyProperties) {
+	public final static CIM_InstIndication getInstance(CIMClient cimClient, Vector keyProperties) {
 		
 		if (cimClient == null) {
 			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
@@ -175,14 +175,14 @@ public final class CIM_DependencyHelper {
 			
 		}
 		
-		return CIM_DependencyHelper.getInstance(cimClient, new CIM_Dependency(keyProperties));
+		return CIM_InstIndicationHelper.getInstance(cimClient, new CIM_InstIndication(keyProperties));
 	}
 	
 	
 	/**
 	*	The method returns an instance of a given CIM client at a given path
 	*/	
-	public final static CIM_Dependency getInstance(CIMClient cimClient, CIM_Dependency dataInstance) {
+	public final static CIM_InstIndication getInstance(CIMClient cimClient, CIM_InstIndication dataInstance) {
 		
 		if (cimClient == null) {
 			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
@@ -192,14 +192,14 @@ public final class CIM_DependencyHelper {
 			
 		}
 		
-		return CIM_DependencyHelper.getInstance(cimClient, dataInstance.getCimObjectPath());
+		return CIM_InstIndicationHelper.getInstance(cimClient, dataInstance.getCimObjectPath());
 	}
 	
 	
 	/**
 	*	The method returns an instance of a given CIM client at a given path
 	*/	
-	public final static CIM_Dependency getInstance(CIMClient cimClient, CIMObjectPath cimObjectPath) {
+	public final static CIM_InstIndication getInstance(CIMClient cimClient, CIMObjectPath cimObjectPath) {
 	
 		if (cimClient == null) {
 			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
@@ -210,9 +210,9 @@ public final class CIM_DependencyHelper {
 		
 		CIMInstance cimInstance = cimClient.getInstance(cimObjectPath);
 		
-		CIM_Dependency dataInstance = null;
+		CIM_InstIndication dataInstance = null;
 		try {
-			dataInstance = new CIM_Dependency(cimObjectPath, cimInstance);
+			dataInstance = new CIM_InstIndication(cimObjectPath, cimInstance);
 		} catch (Exception e) {
 			// This error should normally not happen, because the instance was received by the server with a valid CIMObjectPath
 			System.err.println("The received CIMInstance object was not valid.\nReceived values are:\n" + cimObjectPath + "\n" + cimInstance);
@@ -249,27 +249,31 @@ public final class CIM_DependencyHelper {
 		
 		for (int i = 0; i < serverPropertyList.size(); i++) {
 			if ((CIMProperty)serverPropertyList.get(i) == null ||
-					!CIM_Dependency.CIM_PropertyNameList.contains(((CIMProperty)serverPropertyList.get(i)).getName())) {
+					!CIM_InstIndication.CIM_PropertyNameList.contains(((CIMProperty)serverPropertyList.get(i)).getName())) {
 				missedProperties.add(((CIMProperty)serverPropertyList.get(i))!=null?((CIMProperty)serverPropertyList.get(i)).getName():"");
 				result = false;
 			}
 			serverPropertyNameList.add(((CIMProperty)serverPropertyList.get(i)).getName());
 		}
 			
-		for (int i = 0; i < CIM_Dependency.CIM_PropertyNameList.size(); i++) {
-				if (!serverPropertyNameList.contains(CIM_Dependency.CIM_PropertyNameList.get(i))) {
-				unrecognizedProperties.add(CIM_Dependency.CIM_PropertyNameList.get(i));
+		for (int i = 0; i < CIM_InstIndication.CIM_PropertyNameList.size(); i++) {
+				if (!serverPropertyNameList.contains(CIM_InstIndication.CIM_PropertyNameList.get(i))) {
+				unrecognizedProperties.add(CIM_InstIndication.CIM_PropertyNameList.get(i));
 				result = false;
 			}
 		}
 		return result;
 	}
 	
-	public static boolean isValid_CIM_ManagedElement_1(CIM_ManagedElement CIM_ManagedElement_1) {
+	public static boolean isValid_SourceInstance(String SourceInstance) {
 		return true;
 	}
 
-	public static boolean isValid_CIM_ManagedElement_2(CIM_ManagedElement CIM_ManagedElement_2) {
+	public static boolean isValid_SourceInstanceHost(String SourceInstanceHost) {
+		return true;
+	}
+
+	public static boolean isValid_SourceInstanceModelPath(String SourceInstanceModelPath) {
 		return true;
 	}
 
