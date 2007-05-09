@@ -28,7 +28,8 @@ public class WbemSmtWebSession implements Selenium {
 
 	private Selenium selenium;
 	private String defaultWaitInterval = "90000";
-
+	private long demoWaitInterval = 0;
+	
 	public WbemSmtWebSession(Selenium selenium) {
 		super();
 		this.selenium = selenium;
@@ -51,11 +52,13 @@ public class WbemSmtWebSession implements Selenium {
 	}
 
 	public void click(String arg0) {
+		slowDown();
 		selenium.click(arg0);
 		selenium.waitForPageToLoad(defaultWaitInterval);
 	}
 
 	public void click(String arg0, String wait) {
+		slowDown();
 		selenium.click(arg0);
 		if (wait != null)
 		{
@@ -64,6 +67,7 @@ public class WbemSmtWebSession implements Selenium {
 	}
 
 	public void clickText(String linkText, String waitInterval) {
+		slowDown();
 		selenium.click("link=" + linkText);
 		selenium.waitForPageToLoad(waitInterval);
 	}
@@ -81,6 +85,7 @@ public class WbemSmtWebSession implements Selenium {
 	}
 
 	public void fireEvent(String arg0, String arg1) {
+		slowDown();
 		selenium.fireEvent(arg0, arg1);
 	}
 
@@ -189,6 +194,7 @@ public class WbemSmtWebSession implements Selenium {
 	}
 
 	public void goBack() {
+		slowDown();
 		selenium.goBack();
 	}
 
@@ -293,6 +299,7 @@ public class WbemSmtWebSession implements Selenium {
 	}
 
 	public void submit(String arg0) {
+		slowDown();
 		selenium.submit(arg0);
 	}
 
@@ -412,6 +419,25 @@ public class WbemSmtWebSession implements Selenium {
 
 	public boolean isChecked(FieldLocator locator) {
 		return selenium.isChecked(locator.getInfo());
+	}
+
+	
+	public long getDemoWaitInterval() {
+		return demoWaitInterval;
+	}
+
+	public void setDemoWaitInterval(long demoWaitInterval) {
+		this.demoWaitInterval = demoWaitInterval;
+	}
+
+	private void slowDown() {
+		
+		try {
+			Thread.sleep(demoWaitInterval);
+		} catch (InterruptedException e) {
+			// do nothing
+		}
+		
 	}
 
 
