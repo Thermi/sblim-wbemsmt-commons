@@ -25,6 +25,8 @@ package org.sblim.wbemsmt.schema.cim_2_14;
 
 import java.security.InvalidParameterException;
 import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
@@ -55,7 +57,7 @@ public class CIM_ElementSetting  {
 
 	public static Vector CIM_PropertyNameList	= new Vector();
 	public static Vector CIM_PropertyList 		= new Vector();
-	public static Vector Java_Package_List 		= new Vector();
+	private static Set Java_Package_List 		= new HashSet();
 	
 	static {
 		CIM_PropertyNameList.add(CIM_PROPERTY_CIM_MANAGEDSYSTEMELEMENT);
@@ -66,7 +68,7 @@ public class CIM_ElementSetting  {
 		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_MANAGEDSYSTEMELEMENT, new CIMValue(null, new CIMDataType(CIM_ManagedSystemElement.CIM_CLASS_NAME))));
 		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_SETTING, new CIMValue(null, new CIMDataType(CIM_Setting.CIM_CLASS_NAME))));
 		
-		Java_Package_List.add("org.sblim.wbemsmt.schema.cim_2_14");
+		addPackage("org.sblim.wbemsmt.schema.cim_2_14");
 		};
 			
 	
@@ -159,6 +161,22 @@ public class CIM_ElementSetting  {
 	public String getClassDisplayName(){
 		return CIM_CLASS_DISPLAYNAME;
 	}
+	
+	public static void addPackage(String packagename) {
+        if (packagename != null) {
+            if (!packagename.endsWith(".")) {
+                packagename = packagename + ".";
+            }
+            CIM_ElementSetting.Java_Package_List.add(packagename);
+            
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public static String[] getPackages() {
+        return (String[]) CIM_ElementSetting.Java_Package_List.toArray(new String[CIM_ElementSetting.Java_Package_List.size()]);
+    }
 	
 	//**********************************************************************
 	// Instance methods

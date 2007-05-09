@@ -26,6 +26,8 @@ package org.sblim.wbemsmt.schema.cim_2_14;
 
 import java.security.InvalidParameterException;
 import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
@@ -51,7 +53,7 @@ public class CIM_LogicalElement extends CIM_ManagedSystemElement  {
 
 	public static Vector CIM_PropertyNameList	= new Vector();
 	public static Vector CIM_PropertyList 		= new Vector();
-	public static Vector Java_Package_List 		= new Vector();
+	private static Set Java_Package_List 		= new HashSet();
 	
 	static {
 				
@@ -66,14 +68,12 @@ public class CIM_LogicalElement extends CIM_ManagedSystemElement  {
 			CIM_LogicalElement.CIM_PropertyList.add(CIM_ManagedSystemElement.CIM_PropertyList.elementAt(i));
 		}
 		
-		Java_Package_List.add("org.sblim.wbemsmt.schema.cim_2_14");
+		addPackage("org.sblim.wbemsmt.schema.cim_2_14");
 				
-		for (int i = 0; i < CIM_ManagedSystemElement.Java_Package_List.size(); i++) {
-			if (((String)CIM_ManagedSystemElement.Java_Package_List.elementAt(i)).equals("org.sblim.wbemsmt.schema.cim_2_14")){
-				continue;
-			}
-			
-			Java_Package_List.add(CIM_ManagedSystemElement.Java_Package_List.elementAt(i));
+		String[] parentClassPackageList = CIM_ManagedSystemElement.getPackages();
+		
+		for (int i = 0; i < parentClassPackageList.length; i++) {
+			Java_Package_List.add(parentClassPackageList[i]);
 		}
 	};
 			
@@ -167,6 +167,22 @@ public class CIM_LogicalElement extends CIM_ManagedSystemElement  {
 	public String getClassDisplayName(){
 		return CIM_CLASS_DISPLAYNAME;
 	}
+	
+	public static void addPackage(String packagename) {
+        if (packagename != null) {
+            if (!packagename.endsWith(".")) {
+                packagename = packagename + ".";
+            }
+            CIM_LogicalElement.Java_Package_List.add(packagename);
+            
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public static String[] getPackages() {
+        return (String[]) CIM_LogicalElement.Java_Package_List.toArray(new String[CIM_LogicalElement.Java_Package_List.size()]);
+    }
 	
 	//**********************************************************************
 	// Instance methods

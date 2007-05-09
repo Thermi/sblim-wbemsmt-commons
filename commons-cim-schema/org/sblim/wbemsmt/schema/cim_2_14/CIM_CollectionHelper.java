@@ -101,14 +101,10 @@ public final class CIM_CollectionHelper {
 						continue;
 					}
 					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i=0; clazz==null && i<CIM_Collection.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Collection.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_Collection.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_Collection.Java_Package_List.setElementAt((String)(CIM_Collection.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_Collection.Java_Package_List.get(i)) + cimClassName;
+					String[] packageList = CIM_Collection.getPackages();
+					
+					for (int i=0; clazz==null && i<packageList.length; i++) {
+						String cimClassName = (packageList[i]) + cimInstance.getClassName();
 					
 						try {
 							clazz = Class.forName(cimClassName);

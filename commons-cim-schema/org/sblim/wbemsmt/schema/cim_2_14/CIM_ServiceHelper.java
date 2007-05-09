@@ -1,7 +1,7 @@
 /** 
  * CIM_ServiceHelper.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -101,14 +101,10 @@ public final class CIM_ServiceHelper {
 						continue;
 					}
 					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i=0; clazz==null && i<CIM_Service.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_Service.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_Service.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_Service.Java_Package_List.setElementAt((String)(CIM_Service.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_Service.Java_Package_List.get(i)) + cimClassName;
+					String[] packageList = CIM_Service.getPackages();
+					
+					for (int i=0; clazz==null && i<packageList.length; i++) {
+						String cimClassName = (packageList[i]) + cimInstance.getClassName();
 					
 						try {
 							clazz = Class.forName(cimClassName);

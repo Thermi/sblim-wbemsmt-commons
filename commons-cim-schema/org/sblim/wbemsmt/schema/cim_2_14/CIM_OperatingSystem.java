@@ -24,27 +24,17 @@
 
 package org.sblim.wbemsmt.schema.cim_2_14;
 
-import java.lang.reflect.Constructor;
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.Vector;
-
-import org.sblim.wbem.cim.CIMDataType;
-import org.sblim.wbem.cim.CIMDateTime;
-import org.sblim.wbem.cim.CIMException;
-import org.sblim.wbem.cim.CIMInstance;
-import org.sblim.wbem.cim.CIMObjectPath;
-import org.sblim.wbem.cim.CIMProperty;
-import org.sblim.wbem.cim.CIMSimpleDateTime;
-import org.sblim.wbem.cim.CIMValue;
-import org.sblim.wbem.cim.UnsignedInt16;
-import org.sblim.wbem.cim.UnsignedInt32;
-import org.sblim.wbem.cim.UnsignedInt64;
-import org.sblim.wbem.client.CIMClient;
-import org.sblim.wbem.client.CIMEnumeration;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Iterator;
+import org.sblim.wbem.cim.*;
+import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.lang.reflect.Constructor;
+import org.sblim.wbem.client.*;
 
 
 
@@ -175,7 +165,7 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 
 	public static Vector CIM_PropertyNameList	= new Vector();
 	public static Vector CIM_PropertyList 		= new Vector();
-	public static Vector Java_Package_List 		= new Vector();
+	private static Set Java_Package_List 		= new HashSet();
 	
 	static {
 		CIM_PropertyNameList.add(CIM_PROPERTY_CSCREATIONCLASSNAME);
@@ -290,14 +280,12 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 			CIM_OperatingSystem.CIM_PropertyList.add(CIM_EnabledLogicalElement.CIM_PropertyList.elementAt(i));
 		}
 		
-		Java_Package_List.add("org.sblim.wbemsmt.schema.cim_2_14");
+		addPackage("org.sblim.wbemsmt.schema.cim_2_14");
 				
-		for (int i = 0; i < CIM_EnabledLogicalElement.Java_Package_List.size(); i++) {
-			if (((String)CIM_EnabledLogicalElement.Java_Package_List.elementAt(i)).equals("org.sblim.wbemsmt.schema.cim_2_14")){
-				continue;
-			}
-			
-			Java_Package_List.add(CIM_EnabledLogicalElement.Java_Package_List.elementAt(i));
+		String[] parentClassPackageList = CIM_EnabledLogicalElement.getPackages();
+		
+		for (int i = 0; i < parentClassPackageList.length; i++) {
+			Java_Package_List.add(parentClassPackageList[i]);
 		}
 	};
 			
@@ -464,6 +452,22 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 	public String getClassDisplayName(){
 		return CIM_CLASS_DISPLAYNAME;
 	}
+	
+	public static void addPackage(String packagename) {
+        if (packagename != null) {
+            if (!packagename.endsWith(".")) {
+                packagename = packagename + ".";
+            }
+            CIM_OperatingSystem.Java_Package_List.add(packagename);
+            
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public static String[] getPackages() {
+        return (String[]) CIM_OperatingSystem.Java_Package_List.toArray(new String[CIM_OperatingSystem.Java_Package_List.size()]);
+    }
 	
 	//**********************************************************************
 	// Instance methods
@@ -652,13 +656,10 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
 					Class clazz = null;
+					String[] packageList = CIM_OperatingSystem.getPackages();
 				
-					for (int i = 0; clazz == null && i < CIM_OperatingSystem.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_OperatingSystem.Java_Package_List.setElementAt((String)(CIM_OperatingSystem.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						String cimClassName = (CIM_OperatingSystem.Java_Package_List.get(i)) + cimInstance.getClassName();
+					for (int i = 0; clazz == null && i < packageList.length; i++) {
+						String cimClassName = (packageList[i]) + cimInstance.getClassName();
 
 						try {
 							clazz = Class.forName(cimClassName);
@@ -778,13 +779,10 @@ public class CIM_OperatingSystem extends CIM_EnabledLogicalElement  {
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
 					Class clazz = null;
-
-					for (int i = 0; clazz == null && i < CIM_OperatingSystem.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_OperatingSystem.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_OperatingSystem.Java_Package_List.setElementAt((String)(CIM_OperatingSystem.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						String cimClassName = (CIM_OperatingSystem.Java_Package_List.get(i)) + cimInstance.getClassName();
+					String[] packageList = CIM_OperatingSystem.getPackages();
+				
+					for (int i = 0; clazz == null && i < packageList.length; i++) {
+						String cimClassName = (packageList[i]) + cimInstance.getClassName();
 
 						try {
 							clazz = Class.forName(cimClassName);

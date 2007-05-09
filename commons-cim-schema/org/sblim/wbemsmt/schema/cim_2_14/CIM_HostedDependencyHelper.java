@@ -101,14 +101,10 @@ public final class CIM_HostedDependencyHelper {
 						continue;
 					}
 					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i=0; clazz==null && i<CIM_HostedDependency.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_HostedDependency.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_HostedDependency.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_HostedDependency.Java_Package_List.setElementAt((String)(CIM_HostedDependency.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_HostedDependency.Java_Package_List.get(i)) + cimClassName;
+					String[] packageList = CIM_HostedDependency.getPackages();
+					
+					for (int i=0; clazz==null && i<packageList.length; i++) {
+						String cimClassName = (packageList[i]) + cimInstance.getClassName();
 					
 						try {
 							clazz = Class.forName(cimClassName);

@@ -102,14 +102,10 @@ public final class CIM_ConcreteJobHelper {
 						continue;
 					}
 					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i=0; clazz==null && i<CIM_ConcreteJob.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ConcreteJob.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ConcreteJob.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ConcreteJob.Java_Package_List.setElementAt((String)(CIM_ConcreteJob.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ConcreteJob.Java_Package_List.get(i)) + cimClassName;
+					String[] packageList = CIM_ConcreteJob.getPackages();
+					
+					for (int i=0; clazz==null && i<packageList.length; i++) {
+						String cimClassName = (packageList[i]) + cimInstance.getClassName();
 					
 						try {
 							clazz = Class.forName(cimClassName);
