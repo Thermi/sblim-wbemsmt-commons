@@ -305,6 +305,11 @@ public abstract class EditBean extends JsfBase{
     	addSaveResult(ErrCodes.MSG_SAVE_INFO,Message.INFO,bundle,"save.info",list);
     }
     
+    protected void addSaveSuccess(MessageList list, WbemSmtResourceBundle bundle)
+    {
+    	addSaveResult(ErrCodes.MSG_SAVE_SUCCESS,Message.SUCCESS,bundle,"save.success",list);
+    }
+
     protected void addSaveSuccess(WbemSmtResourceBundle bundle)
     {
     	addSaveResult(ErrCodes.MSG_SAVE_SUCCESS,Message.SUCCESS,bundle,"save.success",null);
