@@ -476,7 +476,14 @@ public abstract class CimCommand {
 	{
 	    for (Iterator iter = messageList.iterator(); iter.hasNext();) {
         	Message msg = (Message) iter.next();
-        	commandValues.getErr().println(msg.toLocalizedString(bundle,true));
+        	if (msg.isError() || msg.isWarning())
+        	{
+        		commandValues.getErr().println(msg.toLocalizedString(bundle,true));
+        	}
+        	else
+        	{
+        		commandValues.getOut().println(msg.toLocalizedString(bundle,true));
+        	}
         }
         if (Cli.testMode)
 		{
