@@ -347,7 +347,10 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 			        treeSelectorBean.setSelectedTaskLauncherTreeNode(node);
 
 			        objectActionController.setSelectedNode(node);
-			        String result = node.click(true);
+			        
+			        //don't revert the changes becuse we entering a new node
+			        boolean revert = false;
+			        String result = node.click(revert);
 			        
 			        //if after finishing the wizard the same node is active, switch the tabs
 			        if (selectedNode != null && selectedNode.getInfo().equals(node.getInfo()))
