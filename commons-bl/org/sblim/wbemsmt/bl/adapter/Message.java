@@ -36,7 +36,7 @@ public class Message
 	/**
 	 * Key for Success-messages
 	 */
-	public static final String SUCCESS = "Successs";
+	public static final String SUCCESS = "Success";
 	/**
 	 * Key for Info-messages
 	 */
