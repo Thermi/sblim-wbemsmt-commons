@@ -175,24 +175,24 @@ public abstract class EditBean extends JsfBase{
     
    public static void handleSaveResult(WbemSmtResourceBundle bundle, MessageList messages)
    {
-		if (messages.hasErrors())
+	   
+	    if (messages.hasInfo())
+	    {
+	    	messages.addMessage(Message.create(ErrCodes.MSG_SAVE_INFO, Message.INFO,bundle,"save.info"));
+	    }
+
+	    if (messages.hasErrors())
 		{
 			JsfBase.addMessages(Message.create(ErrCodes.MSG_SAVE_ERROR, Message.ERROR,bundle,"save.error"),messages, true);
 		}
-		else
+		else if (messages.hasWarning())
 		{
-			if (messages.hasWarning())
-			{
-				JsfBase.addMessages(Message.create(ErrCodes.MSG_SAVE_WARNING, Message.WARNING,bundle,"save.warning"),messages, true);
-			}
-			else if (messages.hasInfo())
-			{
-				JsfBase.addMessages(Message.create(ErrCodes.MSG_SAVE_INFO, Message.INFO,bundle,"save.info"),messages, true);
-			}
-			else
-			{
-				JsfBase.addMessages(Message.create(ErrCodes.MSG_SAVE_SUCCESS, Message.SUCCESS,bundle,"save.success"),messages,true);
-			}
+			JsfBase.addMessages(Message.create(ErrCodes.MSG_SAVE_WARNING, Message.WARNING,bundle,"save.warning"),messages, true);
+		}
+		else if (messages.hasSuccess() || messages.hasInfo())
+		{
+			
+			JsfBase.addMessages(Message.create(ErrCodes.MSG_SAVE_SUCCESS, Message.SUCCESS,bundle,"save.success"),messages,true);
 		}
    }
 
