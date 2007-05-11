@@ -130,7 +130,7 @@ public class WbemSmtResourceBundle extends HashMap {
 	private void addBundleNames(WbemSmtResourceBundle bundle) {
 
 		List bundleNameList = new ArrayList();
-		for (int i = 0; i < bundleNames.length; i++) {
+		for (int i = 0; bundleNames != null && i < bundleNames.length; i++) {
 			bundleNameList.add(bundleNames[i]);
 		}
 		
