@@ -374,8 +374,12 @@ public class WbemSmtWebSession implements Selenium {
 	}
 
 	public void assertCreateSuccess(WbemSmtResourceBundle bundle) {
+		assertCreateSuccess(bundle,"create.success");
+	}
+
+	public void assertCreateSuccess(WbemSmtResourceBundle bundle, String successKey) {
 		WbemSmtAssert.assertTextNotFound(this, bundle.getString("error.while.execution"));
-		WbemSmtAssert.assertTextFound(this, bundle.getString("create.success"));
+		WbemSmtAssert.assertTextFound(this, bundle.getString(successKey));
 	}
 
 	public void assertDeleteSuccess(WbemSmtResourceBundle bundle, String valueNotBeFound) {
