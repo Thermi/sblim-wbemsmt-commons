@@ -191,7 +191,7 @@ public abstract class EditBean extends JsfBase{
 			}
 			else
 			{
-				JsfBase.addMessage(Message.create(ErrCodes.MSG_SAVE_SUCCESS, Message.SUCCESS,bundle,"save.success"));
+				JsfBase.addMessages(Message.create(ErrCodes.MSG_SAVE_SUCCESS, Message.SUCCESS,bundle,"save.success"),messages,true);
 			}
 		}
    }
