@@ -61,7 +61,6 @@ import org.sblim.wbemsmt.tools.jsf.EditBean;
 import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 import org.sblim.wbemsmt.tools.jsf.JsfBase;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
-import org.sblim.wbemsmt.tools.jsf.MultiLineBasePanel;
 import org.sblim.wbemsmt.tools.jsf.MultiLineBasePanel2;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
@@ -102,7 +101,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	{
 		super(parent,labelText, converter);
 		
-		this.isMultiline = parent instanceof MultiLineBasePanel || parent instanceof MultiLineBasePanel2; 
+		this.isMultiline = parent instanceof MultiLineBasePanel2; 
 		
 		this.id = asJsfId(pId);
 		this.component = component;
@@ -442,7 +441,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 
 	public void visibilityChanged(Boolean readOnly) {
 		setItemRendered(readOnly.booleanValue());
-		if (! (parent instanceof MultiLineBasePanel))
+		if (! (parent instanceof MultiLineBasePanel2))
 		{
 			setItemLabelRendered(readOnly.booleanValue());
 		}
@@ -657,10 +656,6 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		}
 		if (isMultiline)
 		{
-			if (parent instanceof MultiLineBasePanel) {
-				MultiLineBasePanel panel = (MultiLineBasePanel) parent;
-				panel.setHasErrors(hasErrors);
-			}
 			if (parent instanceof MultiLineBasePanel2) {
 				MultiLineBasePanel2 panel = (MultiLineBasePanel2) parent;
 				panel.setHasErrors(hasErrors);
@@ -797,7 +792,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 			panel.getChildren().add(writeableComponent);
 		}
 		
-		boolean multiLine = getParent() instanceof MultiLineBasePanel;
+		boolean multiLine = getParent() instanceof MultiLineBasePanel2;
 		
 		if (multiLine)
 		{
@@ -814,7 +809,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	{
 		if (item != null)
 		{
-			boolean multiLine = getParent() instanceof MultiLineBasePanel;
+			boolean multiLine = getParent() instanceof MultiLineBasePanel2;
 			
 			if (item instanceof Boolean) 	{
 				Boolean idx = (Boolean) item;
