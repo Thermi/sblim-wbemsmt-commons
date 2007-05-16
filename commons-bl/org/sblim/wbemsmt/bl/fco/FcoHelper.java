@@ -168,9 +168,11 @@ public class FcoHelper
 			try {
 				Method getInstanceMethod = helperClass.getMethod("getInstance", new Class[]{CIMClient.class,CIMObjectPath.class});
 
-				objectToDelete = creator.create(getInstanceMethod.invoke(null,new Object[]{cimClient,cimObject.getCimObjectPath()}));
+				Object obj = getInstanceMethod.invoke(null,new Object[]{cimClient,cimObject.getCimObjectPath()});
+				
 				if (objectToDelete != null)
 				{
+					objectToDelete = creator.create(obj);
 					throw new ObjectDeletionException("After deleting the object " + cimObject.getCimObjectPath() + " on " + cimClient.getNameSpace().toString() + " the object was still found.");					
 				}
 			} 
