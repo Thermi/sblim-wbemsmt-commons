@@ -48,6 +48,7 @@ import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import org.apache.commons.lang.StringUtils;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
@@ -580,7 +581,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 			JsfUtil.handleException(e);
 		}
 		
-		if (result.length() == 0)
+		if (StringUtils.isEmpty(result))
 		{
 			if (adapter.getActiveModule() == AbstractBaseCimAdapter.ACTIVE_EDIT)
 			{
