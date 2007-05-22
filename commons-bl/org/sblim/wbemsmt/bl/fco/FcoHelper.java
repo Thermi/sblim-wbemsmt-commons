@@ -23,7 +23,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +39,7 @@ import org.sblim.wbem.cim.CIMException;
 import org.sblim.wbem.cim.CIMInstance;
 import org.sblim.wbem.cim.CIMObjectPath;
 import org.sblim.wbem.cim.CIMProperty;
+import org.sblim.wbem.cim.UnsignedInt16;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.exception.ModelLoadException;
@@ -1070,6 +1073,59 @@ public class FcoHelper
 
 	public CIM_ObjectCreatorIf getCIM_ObjectCreator() {
 		return creator;
+	}
+
+	/**
+	 * Get the value of a value map based on the given index
+	 * @param index
+	 * @param values
+	 * @return
+	 */
+	public static String getValueMapValue(UnsignedInt16 index, String[] values) {
+		if (index == null)
+		{
+			index = new UnsignedInt16(0);
+		}
+		return values[index.intValue()];
+	}
+
+	/**
+	 * Get the date converted as String
+	 * @param date
+	 * @param dateFormat
+	 * @return
+	 */
+	public static String getDate(Calendar date, SimpleDateFormat dateFormat) {
+		
+		if (date != null)
+		{
+			return dateFormat.format(date.getTime());
+		}
+		return "";
+	}
+
+	/**
+	 * Get a string of all indexValues based on the given index values array with the text representation
+	 * The values are separated by a comma
+	 * @param indexValues
+	 * @param values
+	 * @return
+	 */	
+	
+	public static String getValueMapValues(UnsignedInt16[] indexValues, String[] values) {
+		String separator = ", ";
+		StringBuffer sb = new StringBuffer();
+		
+		for (int i = 0; indexValues != null && i < indexValues.length; i++) {
+			UnsignedInt16 index = indexValues[i];
+			if (i > 0)
+			{
+				sb.append(separator);
+			}
+			sb.append(getValueMapValue(index, values));
+		}
+		
+		return sb.toString();
 	}
 
 }
