@@ -63,7 +63,10 @@ public class LocaleManagerBean implements ILocaleManager, Cleanup
 			currentLocale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
 		}
 		
+		//add the common resourceBundle and the packages for the CIM Schema
 		addResourceBundleEntry("common", new String[]{"messages"});
+		addFcoPackage("common", "org.sblim.wbemsmt.schema.cim29");
+		addFcoPackage("common", "org.sblim.wbemsmt.schema.cim_2_14");
 		
 		logger.info("Locale is " + currentLocale);
 	}
