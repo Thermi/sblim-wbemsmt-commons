@@ -391,8 +391,11 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 
         container.getUsedPages().clear();
 
-        String result = selectedNode.click(true);
-
+        String result = null;
+        if (selectedNode != null)
+        {
+        	result = selectedNode.click(true);
+        }
         
 		return result != null ? result : "start";
 	}	
