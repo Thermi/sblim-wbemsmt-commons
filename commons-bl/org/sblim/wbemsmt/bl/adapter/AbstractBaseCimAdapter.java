@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 
 import org.apache.commons.collections.MultiHashMap;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbem.cim.CIMObjectPath;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.Cleanup;
@@ -234,7 +235,16 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		for (int i=0; i < keys.size(); i++)
 		{
 			CimObjectKey key = (CimObjectKey)keys.get(i);
-			String name = key.getObjectPath().getObjectName();
+			String name;
+			if (key.getCimObject() != null)
+			{
+				name = ClassUtils.getShortClassName(key.getCimObject().getWrappedObject().getClass());
+			}
+			else
+			{
+				name = key.getObjectPath().getObjectName();
+			}
+			
 			String methodName = "select_" + i + "_" + name;
 
 			logger.fine("Using method " + methodName);		

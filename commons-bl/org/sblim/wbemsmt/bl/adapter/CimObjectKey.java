@@ -27,21 +27,12 @@ import java.util.List;
 import org.sblim.wbem.cim.CIMObjectPath;
 import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 import org.sblim.wbemsmt.bl.tree.ICIMInstanceNode;
-import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
 
 public class CimObjectKey  {
 
 	private CIMObjectPath objectPath;
 	private CimObjectKey nextKey;
-
-	/**
-	 * Create a new Key with the object path of the given managedElement
-	 * @param managedElement
-	 */
-	public CimObjectKey(CIM_ManagedElement managedElement)
-	{
-		this.objectPath = managedElement.getCimObjectPath();
-	}
+	private CIM_ObjectIf cimObject;
 
 	/**
 	 * Create a new Key with the object path of the given managedElement
@@ -49,6 +40,7 @@ public class CimObjectKey  {
 	 */
 	public CimObjectKey(CIM_ObjectIf cimObject)
 	{
+		this.cimObject = cimObject;
 		this.objectPath = cimObject.getCimObjectPath();
 	}
 
@@ -67,6 +59,7 @@ public class CimObjectKey  {
 	 */
 	public CimObjectKey(ICIMInstanceNode node)
 	{
+		this.cimObject = node.getCimObject();
 		this.objectPath = node.getCimInstance().getObjectPath();
 	}
 
@@ -90,7 +83,15 @@ public class CimObjectKey  {
 	public CIMObjectPath getObjectPath() {
 		return objectPath;
 	}
-	
+
+	/**
+	 * return the Object
+	 * @return can be null
+	 */
+	public CIM_ObjectIf getCimObject() {
+		return cimObject;
+	}
+
 	/**
 	 * set the path 
 	 * @param objectPath
