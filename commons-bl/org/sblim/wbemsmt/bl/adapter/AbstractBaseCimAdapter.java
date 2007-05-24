@@ -23,7 +23,9 @@ package org.sblim.wbemsmt.bl.adapter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -77,6 +79,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	private MultiHashMap validators = new MultiHashMap();
 	private SelectionHierarchy selectionHierarchy;
 
+	private List reloadDependentAdapters = new ArrayList();
+	
 	private FcoHelperIf fcoHelper = null;
 	
 	/**
@@ -1166,6 +1170,13 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			}
 			markedForReload = false;
 		}
+		
+		for (Iterator iter = reloadDependentAdapters.iterator(); iter.hasNext();) {
+			AbstractBaseCimAdapter adapter = (AbstractBaseCimAdapter) iter.next();
+			adapter.reload();
+		}
+		reloadDependentAdapters.clear();
+		
 	}
 	
 	public void cleanup()
@@ -1264,6 +1275,13 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		return fcoHelper;
 	}
 
+	
+	public void addDependentAdapterForReload(AbstractBaseCimAdapter adapter) {
+		
+		adapter.setMarkedForReload();
+		reloadDependentAdapters.add(adapter);
+		
+	}
 	
 	
 }

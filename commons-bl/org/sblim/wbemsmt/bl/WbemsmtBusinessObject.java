@@ -110,4 +110,10 @@ public abstract class WbemsmtBusinessObject {
 	public AbstractBaseCimAdapter getBaseCimAdapter() {
 		return baseCimAdapter;
 	}
+
+	public void setReloadChilds() {
+		this.reloadChilds = true;
+	}
+	
+	
 }
