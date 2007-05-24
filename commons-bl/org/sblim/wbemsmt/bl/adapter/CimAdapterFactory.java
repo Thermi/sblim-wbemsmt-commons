@@ -110,9 +110,24 @@ public class CimAdapterFactory {
 	 */
 	public AbstractBaseCimAdapter getAdapter(Class adapterClass, CIMClient client)
 	{
+		return getAdapter(adapterClass, client,true);
+	}
+	
+	/**
+	 * Retrieve the adapter belonging to the given adapter class and the bound to the HttpSession
+	 * which is the the Session of the current FacesContext
+	 * 
+	 * @param adapterClass
+	 * @param fc
+	 * @param createNew Create a new One if no adapter was found
+	 * @return
+	 */	
+
+	public AbstractBaseCimAdapter getAdapter(Class adapterClass, CIMClient client, boolean createNew) {
+
 		if (RuntimeUtil.getInstance().isJSF())
 		{
-			return getAdapter(adapterClass, FacesContext.getCurrentInstance(),client);
+			return getAdapter(adapterClass, FacesContext.getCurrentInstance(),client,createNew);
 		}
 		return null;
 	}
@@ -208,5 +223,6 @@ public class CimAdapterFactory {
 				
 		}
 	}
+
 	
 }
