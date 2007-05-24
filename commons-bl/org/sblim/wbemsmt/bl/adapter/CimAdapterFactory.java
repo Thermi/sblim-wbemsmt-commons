@@ -67,13 +67,27 @@ public class CimAdapterFactory {
 	 */
 	public AbstractBaseCimAdapter getAdapter(Class adapterClass, FacesContext fc,CIMClient client)
 	{
+		return getAdapter(adapterClass, fc,client,true);
+	}
+
+	/**
+	 * Retrieve the adapter belonging to the given adapter class and the bound to the HttpSession
+	 * which is the the Session of the current FacesContext
+	 * @param adapterClass
+	 * @param fc
+	 * @param client
+	 * @param createNew
+	 * @return null if !createNew and the adapter was not found
+	 */
+	public AbstractBaseCimAdapter getAdapter(Class adapterClass, FacesContext fc,CIMClient client, boolean createNew)
+	{
 		try {
 			AbstractBaseCimAdapter result = null;
 			
 			HttpSession session = (HttpSession) fc.getExternalContext().getSession(true);
 			String key = getKey(adapterClass,client);
 			result = (AbstractBaseCimAdapter) session.getAttribute(key);
-			if (result == null)
+			if (result == null && createNew)
 			{
 				Constructor constructor = adapterClass.getConstructor(new Class[]{Locale.class});
 				result = (AbstractBaseCimAdapter) constructor.newInstance(new Object[]{LocaleManager.getCurrent(fc).getCurrentLocale()});
@@ -124,6 +138,18 @@ public class CimAdapterFactory {
 	 */
 	public AbstractBaseCimAdapter getAdapter(Class adapterClass, Object object, Locale locale)
 	{
+		return getAdapter(adapterClass, object,locale,true);
+	}
+
+	/**
+	 * Retrieve the adapter belonging to the given adapter class and the bound to the session
+	 * the given Oject belongs to
+	 * @param adapterClass
+	 * @param object
+	 * @return
+	 */
+	public AbstractBaseCimAdapter getAdapter(Class adapterClass, Object object, Locale locale, boolean createNew)
+	{
 		try {
 			List adapters = (List) adaptersByObject.get(object);
 			
@@ -139,11 +165,14 @@ public class CimAdapterFactory {
 					return adapter;
 				}
 			}
-			
-			Constructor constructor = adapterClass.getConstructor(new Class[]{Locale.class});
-			AbstractBaseCimAdapter  result = (AbstractBaseCimAdapter) constructor.newInstance(new Object[]{locale});
-			adaptersByObject.put(object,result);
-			return result;
+			if (createNew)
+			{
+				Constructor constructor = adapterClass.getConstructor(new Class[]{Locale.class});
+				AbstractBaseCimAdapter  result = (AbstractBaseCimAdapter) constructor.newInstance(new Object[]{locale});
+				adaptersByObject.put(object,result);
+				return result;
+			}
+			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
