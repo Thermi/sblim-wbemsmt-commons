@@ -272,6 +272,16 @@ public class JsfTreeNode implements TaskLauncherTreeNodeEventListener, TreeNode,
     	}
     }
     
+    public String getPlainDescription()
+    {
+		String nodeName = getDescription();
+		if (taskLauncherTreeNode != null)
+		{
+			nodeName = taskLauncherTreeNode.getPlainName();
+		}
+		return nodeName;
+    }
+
     public void setType(String type)
     {
         this.type = type;
@@ -535,11 +545,7 @@ public class JsfTreeNode implements TaskLauncherTreeNodeEventListener, TreeNode,
 		
 		if (isShowWaitOnClick())
 		{
-			String nodeName = getDescription();
-			if (taskLauncherTreeNode != null)
-			{
-				nodeName = taskLauncherTreeNode.getPlainName();
-			}
+			String nodeName = getPlainDescription();
 			String text = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance()).getString("loading.treenode",new Object[]{nodeName});
 			result.append(JavascriptUtil.getShowWaitCall(text));
 		}
