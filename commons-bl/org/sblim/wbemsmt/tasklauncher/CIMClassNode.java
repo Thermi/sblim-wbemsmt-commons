@@ -24,7 +24,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 
@@ -36,6 +35,7 @@ import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.tree.ICIMClassNode;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
+import org.sblim.wbemsmt.exception.InstanceNamingException;
 import org.sblim.wbemsmt.exception.ModelLoadException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CimclassDocument;
@@ -54,11 +54,8 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
 {
     public static final int DEPTH_INFINITE = -1;
     
-	private static final Logger logger = Logger.getLogger(CIMClassNode.class.getName());
-    
     private boolean showInstances = false;
     private String instanceNamingKey;
-    private CIMInstanceNaming cimInstanceNaming;
     private CIMClass cimClass;
     private boolean instancesBuilt = false;
     private int maxDepth = DEPTH_INFINITE;
@@ -77,6 +74,8 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
      * Filter for Filtering instance nodes
      */
 	private CIMInstanceFilter filter = null;
+
+	private CIMInstanceNaming cimInstanceNaming;
     
     /**
      * Constructs a new CIMClassNode.
@@ -203,27 +202,6 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
     
     
     /**
-     * returns the Instance responsible for naming a cimInstance
-     * @return
-     * 
-     * @see org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNamingFactory
-     */
-    
-    public CIMInstanceNaming getCimInstanceNaming() {
-		return cimInstanceNaming;
-	}
-
-    /**
-     * set the Instance responsible for naming a cimInstance
-     * @param cimInstanceNaming
-     * @see CIMInstanceNamingFactory
-     *
-     */
-	public void setCimInstanceNaming(CIMInstanceNaming cimInstanceNaming) {
-		this.cimInstanceNaming = cimInstanceNaming;
-	}
-
-	/**
      * Returns a Vector of all instances of the current CIM Class.
      *
      * @return Vector<CIMInstanceNode> Instances of the current CIM Class
@@ -434,7 +412,11 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
 		}
 		else if(cimInstanceNaming != null)
 		{
-		     name = cimInstanceNaming.getDisplayString(currentInstance);
+		     try {
+				name = cimInstanceNaming.getDisplayString(currentInstance, cimClient);
+			} catch (InstanceNamingException e) {
+				logger.log(Level.SEVERE, "Cannot get Naming for TreeNode",e);
+			}
 		}
 		if(name == null) name = TaskLauncherTreeNode.NO_DESCRIPTION;
 		return name;
@@ -536,5 +518,25 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
 	}
 
 
+	/**
+	 * returns the Instance responsible for naming a cimInstance
+	 * @return
+	 * 
+	 * @see org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNamingFactory
+	 */
+	public CIMInstanceNaming getCimInstanceNaming() {
+		return cimInstanceNaming;
+	}
+
+	/**
+	 * set the Instance responsible for naming a cimInstance
+	 * @param cimInstanceNaming
+	 * @see CIMInstanceNamingFactory
+	 *
+	 */
+	public void setCimInstanceNaming(CIMInstanceNaming cimInstanceNaming) {
+		this.cimInstanceNaming = cimInstanceNaming;
+	}
+	
 
 }

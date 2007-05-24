@@ -21,7 +21,7 @@
 package org.sblim.wbemsmt.bl.tree;
 
 
-public interface ICIMClassNode extends ITaskLauncherTreeNode {
+public interface ICIMClassNode extends ITaskLauncherTreeNode, InstanceNamingHolder {
 
 	public String getInstanceNamingKey();
 	

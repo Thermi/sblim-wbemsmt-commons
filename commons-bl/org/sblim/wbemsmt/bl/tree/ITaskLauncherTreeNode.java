@@ -51,7 +51,17 @@ public interface ITaskLauncherTreeNode {
 
 	public abstract CIMClient getCimClient();
 
+    /**
+     * Returns the display name of the current node.
+     * @return
+     */
 	public abstract String getName();
+
+    /**
+     * Returns the plain name without formatting.
+     * @return
+     */
+	public abstract String getPlainName();
 
 	public abstract ITaskLauncherTreeNode getParent();
 	

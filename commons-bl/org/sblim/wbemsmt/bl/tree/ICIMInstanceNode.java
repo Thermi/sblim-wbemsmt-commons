@@ -23,12 +23,12 @@ package org.sblim.wbemsmt.bl.tree;
 import org.sblim.wbem.cim.CIMInstance;
 import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 
-public interface ICIMInstanceNode extends ITaskLauncherTreeNode {
+public interface ICIMInstanceNode extends ITaskLauncherTreeNode, InstanceNamingHolder {
 
 	public abstract CIMInstance getCimInstance();
 
 	public CIM_ObjectIf getCimObject();
 
-	public void setCimObject(CIM_ObjectIf cimObject);	
+	public void setCimObject(CIM_ObjectIf cimObject);
 	
 }

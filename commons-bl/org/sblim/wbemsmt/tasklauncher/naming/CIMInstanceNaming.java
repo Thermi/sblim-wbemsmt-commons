@@ -21,19 +21,38 @@ package org.sblim.wbemsmt.tasklauncher.naming;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.sblim.wbem.cim.CIMInstance;
+import org.sblim.wbem.client.CIMClient;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
+import org.sblim.wbemsmt.exception.InstanceNamingException;
 
 public abstract class CIMInstanceNaming
 {
+	
+	protected static Logger logger = Logger.getLogger(CIMInstanceNaming.class.getName());
+
 	private Map params = new HashMap(); 
 	
 	/**
-	 * return true if we accept the instance
+	 * return the node description
+	 * 
+	 * Called only if the instance is having no CIM_ObjectIf associated
+	 * 
 	 * @param cimInstance
+	 * @param cimClient the cim client instance
 	 * @return
 	 */
-	public abstract String getDisplayString(CIMInstance cimInstance);
+	public abstract String getDisplayString(CIMInstance cimInstance, CIMClient cimClient) throws InstanceNamingException ;
+
+	/**
+	 * return the node description
+	 * @param cimObject
+	 * @param cimClient
+	 * @return
+	 */
+	public abstract String getDisplayString(CIM_ObjectIf cimObject, CIMClient cimClient) throws InstanceNamingException;
 	
 	public void addParameter(String name, String value)
 	{

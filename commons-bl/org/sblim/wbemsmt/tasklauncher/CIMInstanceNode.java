@@ -19,13 +19,17 @@
 package org.sblim.wbemsmt.tasklauncher;
 
 import java.io.Serializable;
+import java.util.logging.Level;
 
 import org.sblim.wbem.cim.CIMInstance;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 import org.sblim.wbemsmt.bl.tree.ICIMInstanceNode;
+import org.sblim.wbemsmt.exception.InstanceNamingException;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.EventListenerDocument.EventListener;
+import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNaming;
+import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNamingFactory;
 
 /**
  * Simple TreeNode to represent an CIM instance.
@@ -101,6 +105,49 @@ public class CIMInstanceNode extends TaskLauncherTreeNode implements Serializabl
 		this.cimObject = cimObject;
 	}
 	
+	public CIMInstanceNaming cimInstanceNaming;
+
+	/**
+	 * returns the Instance responsible for naming a cimInstance
+	 * @return
+	 * 
+	 * @see org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNamingFactory
+	 */
+	public CIMInstanceNaming getCimInstanceNaming() {
+		return cimInstanceNaming;
+	}
+
+	/**
+	 * set the Instance responsible for naming a cimInstance
+	 * @param cimInstanceNaming
+	 * @see CIMInstanceNamingFactory
+	 *
+	 */
+	public void setCimInstanceNaming(CIMInstanceNaming cimInstanceNaming) {
+		this.cimInstanceNaming = cimInstanceNaming;
+	}
+
+	/**
+     * Returns the display name of the current node.
+     * @return
+     */
+    public String getName()
+    {
+    	if (cimInstanceNaming != null)
+    	{
+			try {
+				if (cimObject != null) {
+					return cimInstanceNaming.getDisplayString(cimObject,cimClient);
+				} else {
+					return cimInstanceNaming.getDisplayString(cimInstance,cimClient);
+				}
+			} catch (InstanceNamingException e) {
+				logger.log(Level.SEVERE, "Cannot get Naming for TreeNode",e);
+			}    		
+    	}
+    	
+    	return this.name;
+    }
 	
     
 }

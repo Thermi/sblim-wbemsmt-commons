@@ -74,7 +74,7 @@ import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
  */
 public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 {
-    private static final Logger logger = Logger.getLogger(TaskLauncherTreeNode.class.getName());
+    protected static final Logger logger = Logger.getLogger(TaskLauncherTreeNode.class.getName());
     
     public static final int TYPE_DEFAULT = 1,
     				  		TYPE_CIMCLASS = 2,
@@ -96,7 +96,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 	private CustomTreeConfig customTreeConfig;
 
 	private TreeConfigData treeConfigData;
-    
+
     /**
      * Constructs a Treenode, Name will be taken from xmlconfigNode's description.
      * @param cimClient
@@ -162,6 +162,15 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
         return this.name;
     }
     
+    /**
+     * Returns the plain name without formatting.
+     * @return
+     */
+    public final String getPlainName()
+    {
+        return this.name;
+    }
+
     /**
      * Returns all subnodes of the current node.
      * @return
@@ -1165,7 +1174,6 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			node.findNodesByName(name,result);
 		}
 	}
-
 
 
 	

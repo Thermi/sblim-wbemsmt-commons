@@ -21,6 +21,7 @@ package org.sblim.wbemsmt.tasklauncher.naming;
 
 import org.sblim.wbem.cim.CIMInstance;
 import org.sblim.wbem.client.CIMClient;
+import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 
 public class DummyCIMInstanceNaming extends CIMInstanceNaming {
 
@@ -35,8 +36,12 @@ public class DummyCIMInstanceNaming extends CIMInstanceNaming {
 	 * accept all CIMInstances
 	 * @see org.sblim.wbemsmt.tasklauncher.filter.CIMInstanceFilter#accept(org.sblim.wbem.cim.CIMInstance, CIMClient)
 	 */
-	public String getDisplayString(CIMInstance cimInstance) {
+	public String getDisplayString(CIMInstance cimInstance, CIMClient cimClient) {
 		return (String) cimInstance.getProperty("Name").getValue().getValue();
 	}
 
+	public String getDisplayString(CIM_ObjectIf cimObject, CIMClient cimClient) {
+		return getDisplayString(cimObject.getCimInstance(), cimClient);
+	}
+	
 }
