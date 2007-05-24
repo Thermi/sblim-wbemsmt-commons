@@ -535,7 +535,12 @@ public class JsfTreeNode implements TaskLauncherTreeNodeEventListener, TreeNode,
 		
 		if (isShowWaitOnClick())
 		{
-			String text = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance()).getString("loading.treenode",new Object[]{getDescription()});
+			String nodeName = getDescription();
+			if (taskLauncherTreeNode != null)
+			{
+				nodeName = taskLauncherTreeNode.getPlainName();
+			}
+			String text = ResourceBundleManager.getResourceBundle(FacesContext.getCurrentInstance()).getString("loading.treenode",new Object[]{nodeName});
 			result.append(JavascriptUtil.getShowWaitCall(text));
 		}
 		
