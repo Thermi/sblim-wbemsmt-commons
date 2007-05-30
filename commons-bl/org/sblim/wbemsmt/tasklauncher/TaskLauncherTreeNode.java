@@ -19,6 +19,7 @@
 package org.sblim.wbemsmt.tasklauncher;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -418,15 +419,37 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     	int listenersWithReturnValue = 0;
     	
     	Object[] listeners = eventListener.toArray();
-    	for (int i = 0; i < listeners.length; i++) {
-			TaskLauncherTreeNodeEventListener listener = (TaskLauncherTreeNodeEventListener) listeners[i];
-			String tmpResult = listener.processEvent(event);
-			if (tmpResult != null && listener.isCustomListener())
-			{
-				result = tmpResult;
-				listenersWithReturnValue++;
-			}			
-		}
+    	
+    	if (listeners.length > 0)
+    	{
+    		Arrays.sort(listeners, new TaskLauncherTreeNodeEventListenerComparator());
+
+    		Level level = Level.INFO;
+			if (logger.isLoggable(level))
+    		{
+    			StringBuffer sb = new StringBuffer("Execution Order: \n");
+    			for (int i = 0; i < listeners.length; i++) {
+    				TaskLauncherTreeNodeEventListener listener = (TaskLauncherTreeNodeEventListener) listeners[i];
+					sb.append("   ")
+					  .append(listener.getClass().getName())
+					  .append(" Priority: ")
+					  .append(listener.getPriority().toString())
+					  .append("\n");
+				}
+    			logger.log(level,sb.toString());
+    		}
+    		
+    		for (int i = 0; i < listeners.length; i++) {
+    			TaskLauncherTreeNodeEventListener listener = (TaskLauncherTreeNodeEventListener) listeners[i];
+    			String tmpResult = listener.processEvent(event);
+    			if (tmpResult != null && listener.isCustomListener())
+    			{
+    				result = tmpResult;
+    				listenersWithReturnValue++;
+    			}			
+    		}
+    		
+    	}
     	if (listenersWithReturnValue == 1)
     	{
     		return result;
@@ -435,6 +458,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     	{
     		return null;
     	}
+    	
     }
     
     /**
@@ -1175,7 +1199,12 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 		}
 	}
 
+	public boolean isSubnodesRead() {
+		return subnodesRead;
+	}
 
+	
+	
 	
 	
 

@@ -18,6 +18,7 @@
 
 package org.sblim.wbemsmt.tasklauncher.event;
 
+import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEventListener;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEventListenerImpl;
 
 public abstract class TaskLauncherContextMenuEventListenerImpl extends TaskLauncherTreeNodeEventListenerImpl implements TaskLauncherContextMenuEventListener
@@ -25,4 +26,13 @@ public abstract class TaskLauncherContextMenuEventListenerImpl extends TaskLaunc
 	public boolean isCustomListener() {
 		return true;
 	}
+
+	/**
+	 * ContextMenueListeners having Low priority
+	 */
+	public Priority getPriority() {
+		return TaskLauncherTreeNodeEventListener.PRIO_LOWEST;
+	}
+	
+	
 }

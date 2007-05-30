@@ -28,6 +28,7 @@ import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.tree.ITreeSelector;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
+import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEventListener;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEventListenerImpl;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
@@ -63,6 +64,10 @@ public class ExpandAllListener extends TaskLauncherTreeNodeEventListenerImpl {
 
 	public boolean isCustomListener() {
 		return false;
+	}
+
+	public Priority getPriority() {
+		return TaskLauncherTreeNodeEventListener.PRIO_LOWEST;
 	}
 
 }

@@ -27,6 +27,7 @@ import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.CimAdapterFactory;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
+import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEventListener;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEventListenerImpl;
 import org.sblim.wbemsmt.exception.ModelLoadException;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
@@ -100,4 +101,9 @@ public class InitAdapterListener extends TaskLauncherTreeNodeEventListenerImpl {
 		return false;
 	}
 
+	public Priority getPriority() {
+		return TaskLauncherTreeNodeEventListener.PRIO_LOW;
+	}
+	
+	
 }

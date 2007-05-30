@@ -23,8 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
+import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEventListener;
 
-public interface ITaskLauncherUiTreeNode {
+public interface ITaskLauncherUiTreeNode extends TaskLauncherTreeNodeEventListener {
 
 	public abstract ITaskLauncherTreeNode getTaskLauncherTreeNode();
 
