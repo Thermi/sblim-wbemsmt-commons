@@ -45,6 +45,7 @@ import org.sblim.wbemsmt.tasklauncher.TaskLauncherContextMenu;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherDelegaterTreeNode;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeConfigTreeNode;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
+import org.sblim.wbemsmt.tasklauncher.TaskLauncherUiTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
