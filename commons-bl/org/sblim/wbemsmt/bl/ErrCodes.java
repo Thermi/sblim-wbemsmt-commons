@@ -22,6 +22,8 @@ package org.sblim.wbemsmt.bl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.sblim.wbemsmt.bl.adapter.Message;
+import org.sblim.wbemsmt.bl.adapter.MessageDefinition;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 
 /**
@@ -132,6 +134,7 @@ public class ErrCodes
 	public static final MessageNumber MSG_VALUE_NOT_ALLOWED = new MessageNumber(COMPONENT,SUBSYS_VAL,13);
 	public static final MessageNumber MSG_NOT_THE_SAME = new MessageNumber(COMPONENT,SUBSYS_VAL,14);
 	public static final MessageNumber MSG_CANNOT_CONVERT = new MessageNumber(COMPONENT,SUBSYS_VAL,15);
+	public static final MessageDefinition MSGDEF_INVALID_UPDATE_INTERVAL = new MessageDefinition(new MessageNumber(ErrCodes.COMPONENT,SUBSYS_VAL,16),Message.WARNING,"invalid.update.interval");
 
 
 	/**

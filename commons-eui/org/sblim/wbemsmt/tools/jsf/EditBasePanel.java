@@ -36,6 +36,12 @@ public abstract class EditBasePanel extends BasePanel implements DataContainer {
 	protected static final String BINDING_PREFIX_CURRENT_PAGE = "objectActionController.currentEditor.currentEditPage.";
 	private HtmlPanelGrid panelGrid;
 
+	/**
+	 * The key is used by the ajaxPanels to get the defined update interval and
+	 * the key is also used by BasePanel.setTitle to create a toolbox to configure that interval 
+	 */
+	protected String updateIntervalKey;
+	
 	public EditBasePanel(AbstractBaseCimAdapter adapter, String bindingPrefix, String keyForTitle,boolean dynamic) {
 		this(adapter,bindingPrefix,keyForTitle, 1, dynamic);
 	}
@@ -48,15 +54,20 @@ public abstract class EditBasePanel extends BasePanel implements DataContainer {
 		panelGrid.setWidth("100%");
 		panelGrid.setCellpadding("0");
 		panelGrid.setCellspacing("0");
-		setTitle(panelGrid);
 		
 		if (dynamic)
 		{
-			//For the editPanels the AjaxPanel is added in the editBean surrounding the container and it's childs
-			//super.addAjaxPanel(panelGrid);
+			updateIntervalKey = getClass().getName();
+			setTitle(panelGrid,updateIntervalKey);
 		}
+		else
+		{
+			setTitle(panelGrid);
+		}
+
 	}
 	
+
 	public HtmlPanelGrid getPanelForCustomLayout()
 	{
 		return panelGrid;
@@ -98,5 +109,15 @@ public abstract class EditBasePanel extends BasePanel implements DataContainer {
 			}
 		}
 	}
+
+	public String getUpdateIntervalKey() {
+		return updateIntervalKey;
+	}
+
+	public void setUpdateIntervalKey(String updateIntervalKey) {
+		this.updateIntervalKey = updateIntervalKey;
+	}
+	
+	
 	
 }

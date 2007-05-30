@@ -32,11 +32,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.apache.myfaces.custom.tree2.HtmlTree;
-import org.apache.myfaces.custom.tree2.TreeNode;
 import org.sblim.wbemsmt.bl.tree.ICIMInstanceNode;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
-import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEventListener;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tasklauncher.CIMClassNode;
 import org.sblim.wbemsmt.tasklauncher.CIMInstanceNode;
@@ -50,7 +48,6 @@ import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
-import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
@@ -59,7 +56,7 @@ import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
  * @author Marius Kreis
  *
  */
-public class JsfTreeNode implements TaskLauncherTreeNodeEventListener, TreeNode, Cloneable, LocaleChangeListener, ITaskLauncherUiTreeNode
+public class JsfTreeNode extends TaskLauncherUiTreeNode
 {
 	private static final String[] DEFAULT_BUNDLES = new String[]{"messages","org.sblim.wbemsmt.webapp.jsf.webapp_messages"};
 

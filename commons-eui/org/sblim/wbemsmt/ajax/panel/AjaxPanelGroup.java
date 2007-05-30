@@ -36,7 +36,7 @@ public class AjaxPanelGroup extends HtmlPanelGroup
 	/**
 	 * See wbemsmt-taglib.tld for description
 	 */
-    private Integer periodicalUpdate;
+    private String periodicalUpdate;
 
 	public AjaxPanelGroup()
 	{
@@ -48,12 +48,12 @@ public class AjaxPanelGroup extends HtmlPanelGroup
 		return COMPONENT_FAMILY;
 	}
 
-    public Integer getPeriodicalUpdate() 
+    public String getPeriodicalUpdate() 
     {
-    	return (Integer) getValue(periodicalUpdate,"periodicalUpdate");
+    	return (String) getValue(periodicalUpdate,"periodicalUpdate");
     }
 
-    public void setPeriodicalUpdate(Integer periodicalUpdate)
+    public void setPeriodicalUpdate(String periodicalUpdate)
     {
         this.periodicalUpdate = periodicalUpdate;
     }
@@ -64,7 +64,7 @@ public class AjaxPanelGroup extends HtmlPanelGroup
 		List values = (List) state;
 		int idx=0;
 		super.restoreState(context, values.get(idx++));
-        periodicalUpdate = 		(Integer) values.get(idx++);
+        periodicalUpdate = 		(String) values.get(idx++);
 
     }
 

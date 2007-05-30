@@ -21,6 +21,7 @@ package org.sblim.wbemsmt.ajax.panel;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -37,6 +38,7 @@ import javax.faces.event.PhaseListener;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.myfaces.shared_tomahawk.renderkit.RendererUtils;
 import org.apache.myfaces.shared_tomahawk.renderkit.html.HtmlResponseWriterImpl;
 import org.sblim.wbemsmt.html.renderer.WbemsmtHtmlRendererUtils;
@@ -88,7 +90,11 @@ public class AjaxPanelPhaseListener implements PhaseListener
 			String triggeredComponents = (String) externalRequestMap.get(TRIGGERED_COMPONENTS_PARAMETER);
 			try
 			{
-				PrintWriter out = response.getWriter();
+				
+				
+				StringWriter sw = new StringWriter();
+				PrintWriter out = new PrintWriter(sw);
+				
 				context.setResponseWriter(new HtmlResponseWriterImpl(out,
 					contentType,
 					request.getCharacterEncoding()));
@@ -97,6 +103,22 @@ public class AjaxPanelPhaseListener implements PhaseListener
 				encodeTriggeredComponents(out, triggeredComponents, viewRoot, context);
 				out.print("</response>");
 				out.flush();
+				
+				String s = sw.toString();
+//				System.err.println("********** before ");
+//				System.err.println(s);
+
+				s = StringUtils.replace(s, "]]></script>","</script>");
+				s = StringUtils.replace(s,"<script type=\"text/javascript\"><![CDATA[","<script type=\"text/javascript\">");
+				
+//				System.err.println("********** after ");
+//				System.err.println(s);
+
+				PrintWriter out1 = response.getWriter();
+				out1.print(s);
+				out1.flush();
+				out1.close();
+			
 			}
 			catch (IOException e)
 			{

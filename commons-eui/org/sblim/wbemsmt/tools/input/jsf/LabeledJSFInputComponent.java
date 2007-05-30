@@ -433,6 +433,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		id = id.replace('[','_');
 		id = id.replace(']','_');
 		id = id.replace('\'','_');
+		id = id.replace('/','_');
 		return id;
 	}
 

@@ -49,10 +49,12 @@ import org.sblim.wbemsmt.tools.resources.LocaleManager;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.tools.wizard.jsf.WizardBasePanel;
+import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
 import org.sblim.wbemsmt.webapp.jsf.style.StyleBean;
 
 public abstract class BasePanel {
 
+	//private static final String SUFFIX_INPUT = "Input";
 	protected String title;
 	protected CimObjectKey key;
 	protected MessageList messageList;
@@ -146,19 +148,83 @@ public abstract class BasePanel {
 		return key;
 	}
 
-		//set the title
-	protected void setTitle(HtmlPanelGrid panelGrid) {
+	protected void setTitle(HtmlPanelGrid panelGrid, String updateIntervalKey) {
 		HtmlPanelGroup group = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 
 		HtmlOutputText text = (HtmlOutputText)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
-		text.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + bindingPrefix + "titleText"  + "}"));
+		text.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + bindingPrefix + "titleText"  + "}&nbsp;&nbsp;"));
 		text.setStyleClass("tableHeader");
+		text.setEscape(false);
 		panelGrid.setHeaderClass("tableHeader");
 
 		group.getChildren().add(text);
+	
+		//we want a toolbox for defining the dynamic update interval
+		if (updateIntervalKey != null)
+		{
+	    	FacesContext fc = FacesContext.getCurrentInstance();
+
+//			HtmlPanelGrid grid = (HtmlPanelGrid)fc.getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
+//			grid.setStyle("position:absolute;top:0px;left:0px;visibility:hidden;z-index:100");
+//			grid.setStyleClass("waitDlg");
+//			grid.setRowClasses("waitDlgMsgRow");
+//			grid.setCellpadding("0");
+//			grid.setCellspacing("0");
+//			grid.setColumns(1);
+//			String settingsKey = LabeledJSFInputComponent.asJsfId("settings_" + updateIntervalKey);
+//			grid.setId(settingsKey);
+//
+//			HtmlPanelGroup group2 = (HtmlPanelGroup)fc.getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
+//			grid.getChildren().add(group2);
+//			
+//			HtmlOutputText label = (HtmlOutputText)fc.getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
+//			label.setStyleClass("fieldLabel");
+//			label.setValueBinding("value", fc.getApplication().createValueBinding("#{messages.updateInterval}<br><br>"));
+//			label.setEscape(false);
+//
+//			HtmlInputText txt = (HtmlInputText)fc.getApplication().createComponent(HtmlInputText.COMPONENT_TYPE);
+//			txt.setSize(10);
+//			txt.setId(settingsKey + SUFFIX_INPUT);
+//			txt.setValueBinding("value", BeanNameConstants.OBJECT_ACTION_CONTROLLER.asValueBinding(FacesContext.getCurrentInstance(), "#'{'{0}.updateInterval[''" + updateIntervalKey + "'']'}'"));
+//			
+//			HtmlCommandButton btn = (HtmlCommandButton)fc.getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
+//			btn.setValueBinding("value", fc.getApplication().createValueBinding("#{messages.ok}"));
+//			btn.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + BeanNameConstants.OBJECT_ACTION_CONTROLLER.getName() + ".setInterval" + "}",new Class[]{}));
+//
+//			group2.getChildren().add(label);
+//			group2.getChildren().add(txt);
+//			group2.getChildren().add(btn);
+			
+			
+			HtmlPanelGroup group1 = (HtmlPanelGroup)fc.getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
+			
+			HtmlGraphicImage image = (HtmlGraphicImage)fc.getApplication().createComponent(HtmlGraphicImage.COMPONENT_TYPE);
+			image.setValueBinding("onclick",fc.getApplication().createValueBinding("toggleToolbox(this,'#{objectActionController.updateInterval['"+ updateIntervalKey +"']}','"+updateIntervalKey+"')"));
+			image.setValueBinding("value",fc.getApplication().createValueBinding("#{style.resourceDir}/images/settings.gif"));
+			image.setValueBinding("title",fc.getApplication().createValueBinding("#{messages.configure_update_interval}"));
+			image.setValueBinding("alt",fc.getApplication().createValueBinding("#{messages.configure_update_interval}"));
+			image.setStyle("vertical-align:middle");
+			group1.getChildren().add(image);
+
+//			HtmlOutputText label1 = (HtmlOutputText)fc.getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
+//			label1.setValue("<br>");
+//			label1.setEscape(false);
+//			group1.getChildren().add(label1);
+			
+			
+			group.getChildren().add(group1);
+			//group.getChildren().add(grid);	
+		}
+		
 		group.getChildren().add(JsfUtil.createText("<br><hr class=\"tableHeaderHR\"/>"));
 		
+		
 		panelGrid.getFacets().put("header",group);
+	}
+
+	//set the title
+	protected void setTitle(HtmlPanelGrid panelGrid) {
+		setTitle(panelGrid,null);
 	}
 	
 	protected void createTitleValueBindingForMultiline(HtmlPanelGrid panelGrid, String bindingForTitle, String keyForTitle) {
@@ -309,8 +375,9 @@ public abstract class BasePanel {
 	}
 
 	public void addAjaxPanel(HtmlPanelGrid panel) {
-		ajaxPanelGroup =  (AjaxPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(AjaxPanelGroup.COMPONENT_TYPE);
-		ajaxPanelGroup.setPeriodicalUpdate(new Integer(1000));
+		FacesContext fc = FacesContext.getCurrentInstance();
+		ajaxPanelGroup =  (AjaxPanelGroup)fc.getApplication().createComponent(AjaxPanelGroup.COMPONENT_TYPE);
+		ajaxPanelGroup.setPeriodicalUpdate(((ObjectActionControllerBean) BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(fc)).getDefaultUpdateInterval());
 		ajaxPanelGroup.getChildren().add(panel);			
 	}
 

@@ -27,14 +27,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.component.html.HtmlCommandLink;
+import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlPanelGrid;
+import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.FacesContext;
+import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionEvent;
 
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.Cleanup;
+import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
+import org.sblim.wbemsmt.bl.adapter.MessageUtil;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.ITreeSelector;
 import org.sblim.wbemsmt.bl.welcome.JsfWelcomeListener;
@@ -56,6 +61,8 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 
     private static final Logger logger = Logger.getLogger(ObjectActionControllerBean.class.getName());
 
+	private String defaultUpdateInterval = "1.0";
+
     //	private boolean canDelete;
 //	private boolean canCreate;
 	private ITreeSelector treeSelector;
@@ -73,10 +80,15 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	public int selectedTabIndex;
 	private String cimomName;
 	
+	private String updateIntervalKey;
+	private String updateIntervalValue;
+	
 	public final String KEY_VERSION = "wbemsmt-version";
 	public ITaskLauncherTreeNode selectedNode;
 
-	private List welcomeContainers = new ArrayList(); 
+	private List welcomeContainers = new ArrayList();
+
+	private Map updateInterval = new HashMap(); 
 	
 	public ObjectActionControllerBean() {
 		this.facesContext = FacesContext.getCurrentInstance();	
@@ -351,7 +363,86 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 		return welcomeContainers;
 	}
 	
+	public HtmlPanelGrid getTest()
+	{
+		HtmlPanelGrid component = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
+
+		HtmlInputText text = (HtmlInputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputText.COMPONENT_TYPE);
+		text.setSize(30);
+		text.setValue("Test");
+		component.getChildren().add(text);
+		
+		ValueBinding binding = FacesContext.getCurrentInstance().getApplication().createValueBinding("#{objectActionController.test1}");
+		HtmlPanelGroup grid = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
+		grid.setValueBinding("binding", binding);
+		component.getChildren().add(grid);
+		return component;
+	}
+
+	public HtmlPanelGroup getTest1()
+	{
+		HtmlPanelGroup component = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
+		HtmlInputText text = (HtmlInputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputText.COMPONENT_TYPE);
+		text.setValue("Test1");
+		text.setSize(60);
+		component.getChildren().add(text);
+		return component;
+		
+		
+	}
+
+	/**
+	 *****************************************
+	 *****************************************
+	 * Methods for Managing the update intervals of the AjaxPanels
+	 *****************************************
+	 *****************************************
+	 */
 	
+	public Map getUpdateInterval() {
+		return updateInterval ;
+	}
 	
+	public void setDefaultUpdateInterval(String interval)
+	{
+		defaultUpdateInterval = interval;
+	}
+	
+	public String getDefaultUpdateInterval()
+	{
+		return defaultUpdateInterval;
+	}
+
+	public String getUpdateIntervalKey() {
+		return updateIntervalKey;
+	}
+
+	public void setUpdateIntervalKey(String updateIntervalKey) {
+		this.updateIntervalKey = updateIntervalKey;
+	}
+
+	public String getUpdateIntervalValue() {
+		return updateIntervalValue;
+	}
+
+	public void setUpdateIntervalValue(String updateIntervalValue) {
+		this.updateIntervalValue = updateIntervalValue;
+	}
+	
+	public String setInterval()
+	{
+		String s = updateIntervalValue;
+		String sNew = s.replaceAll(",", ".");
+		try {
+			Double.parseDouble(sNew);
+		} catch (Exception e) {
+			MessageUtil.addMessage(ErrCodes.MSGDEF_INVALID_UPDATE_INTERVAL, new String[]{"messages"}, new Object[]{s});
+			sNew = "0.0";
+		}
+		
+		updateInterval.put(updateIntervalKey, sNew);
+		
+		return "";
+	}
 	
 }

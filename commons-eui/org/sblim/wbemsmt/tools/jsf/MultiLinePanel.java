@@ -123,7 +123,6 @@ public abstract class MultiLinePanel extends BasePanel {
 	
 	public void updateRows(int additionalRowsAfterModel) {
 		
-
 		for (int i = 0; i < headerFields.length; i++) {
 			LabeledJSFInputComponent field = headerFields[i];
 			field.updateFieldIndicatorImage();

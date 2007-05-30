@@ -148,7 +148,7 @@ public class AjaxPanelGroupRenderer extends HtmlGroupRenderer
 	        {
 				String clientId = ajaxPanel.getClientId(facesContext);
 	        	FormInfo fi = WbemsmtHtmlRendererUtils.findNestingForm(ajaxPanel, facesContext);
-	        	String script = "dojo.byId('"+ fi.getFormName() + "').wbemsmtAjaxPanelController.startPeriodicalUpdate("+ ajaxPanel.getPeriodicalUpdate() +",'"+ clientId +"');";
+	        	String script = "dojo.byId('"+ fi.getFormName() + "').wbemsmtAjaxPanelController.startPeriodicalUpdate("+ ajaxPanel.getPeriodicalUpdate() +" * 1000,'"+ clientId +"');";
 
 	            renderInlineScript(facesContext, ajaxPanel, script);
 	        }
