@@ -55,4 +55,24 @@ public class MessageUtil {
 		addMessage(msgNumber, level, bundles, key,null);
 	}
 
+	public static void addMessage(MessageDefinition messageDefinition, String[] bundles)
+	{
+		addMessage(messageDefinition,bundles,null);
+	}
+	public static void addMessage(MessageDefinition messageDefinition, String[] bundles, Object[] objects)
+	{
+		if (RuntimeUtil.getInstance().isJSF())
+		{
+			ILocaleManager localeManager = (ILocaleManager) BeanNameConstants.LOCALE_MANAGER.getBoundValue(FacesContext.getCurrentInstance());
+			WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(bundles,localeManager.getCurrentLocale());
+			FacesContext.getCurrentInstance().addMessage(null, new WbemsmtFacesMessage(Message.create(messageDefinition, bundle, objects)));
+		}
+		else if (RuntimeUtil.getInstance().isCommandline())
+		{
+			WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(bundles);
+			Message msg = Message.create(messageDefinition, bundle, objects);
+			System.err.println(bundle.getString("error.while.execution") + "\n" + msg.getMessageString());
+		}
+	}
+	
 }
