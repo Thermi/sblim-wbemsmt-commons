@@ -78,6 +78,12 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
     private boolean eventListenerFlag = false;
     private boolean customEventListenerFlag = false;
 
+    /**
+     * Contains the information if the Node was translated - thats the case for all nodes containing a static text
+     * like for example the CIMClassNode
+     */
+	private boolean translated = false;
+
     public JsfTreeNode()
     {
         this.children = new ArrayList();
@@ -273,7 +279,9 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
     public String getPlainDescription()
     {
 		String nodeName = getDescription();
-		if (taskLauncherTreeNode != null)
+		//If the node is translated the getDescription method
+		//returns already the translated not formatted Description
+		if (taskLauncherTreeNode != null && !translated)
 		{
 			nodeName = taskLauncherTreeNode.getPlainName();
 		}
@@ -443,6 +451,7 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
 			String[] bundles = getTaskLauncherTreeNode().getTreeConfigData() != null ? getTaskLauncherTreeNode().getTreeConfigData().getBundles() : JsfTreeNode.DEFAULT_BUNDLES;
 			WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(bundles,newLocale);
 			description = bundle.getString(getTaskLauncherTreeNode().getName());
+			translated = true;
 		}
 	}
 
