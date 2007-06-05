@@ -19,6 +19,7 @@
 package org.sblim.wbemsmt.tasklauncher;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.Serializable;
@@ -82,6 +83,7 @@ public class TaskLauncherConfig
 	private static final Enum[] SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS = new Enum[]{Version.VERSION_2_0,Version.VERSION_2_1};
 	
     private static Logger logger = Logger.getLogger(TaskLauncherConfig.class.getName());
+
     private Vector cimomData;
     private Vector treeConfigData;
 	private TasklauncherconfigDocument tasklauncherConfigDoc;
@@ -635,6 +637,16 @@ public class TaskLauncherConfig
 
 	public File[] getTaskXMLs() {
 		File tasksDir = new File(getConfigDirectory() + TASKS_DIR);
+		
+		if (!tasksDir.exists())
+		{
+			try {
+				throw new FileNotFoundException(tasksDir.getAbsolutePath());
+			} catch (FileNotFoundException e) {
+				logger.log(Level.SEVERE, "Cannot find taskdirectory", e);
+			}
+		}
+		
  		File[] files = tasksDir.listFiles(new FilenameFilter()
  		{
 
@@ -645,8 +657,15 @@ public class TaskLauncherConfig
 		return files;
 	}
 
-	private static String getConfigDirectory() {
-		return System.getProperty("wbemsmt.config.dir",TaskLauncherConfig.DEFAULT_CONF_DIR);
+	private String getConfigDirectory() {
+		if (configFilename == null)
+		{
+			return System.getProperty("wbemsmt.config.dir",TaskLauncherConfig.DEFAULT_CONF_DIR);
+		}
+		else
+		{
+			return new File(configFilename).getParentFile().getAbsolutePath();			
+		}
 	}
 
 	public TasklauncherconfigDocument getTasklauncherConfigDoc() {
