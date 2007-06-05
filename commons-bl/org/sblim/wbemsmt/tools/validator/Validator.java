@@ -57,7 +57,20 @@ public abstract class Validator {
 		//can be overwrittemn by the subclass
 		stopWithoutMessage = false;
 		
+		
 		MessageList result = new MessageList();
+		
+		
+		validateParents(result);
+		
+		validationOK = result.size() == 0 && !stopWithoutMessage;
+		if (!validationOK)
+		{
+			System.err.println("Stopped Validation");
+			return result;
+		}
+		
+		
 		validateElement(result);
 		
 		LabeledBaseInputComponentIf[] components = getComponents();
@@ -87,6 +100,7 @@ public abstract class Validator {
 	public abstract void validateElement(MessageList result) throws ValidationException;
 
 	List childs = new ArrayList();
+	List parents = new ArrayList();
 	
 	/**
 	 * The added validator childs are only validated if the parent validator finished okay
@@ -97,9 +111,26 @@ public abstract class Validator {
 		childs.add(validator);
 	}
 	
+	/**
+	 * The added validator parents are validated before ther validator. Only if the parents are okay the validator itself is executed
+	 * @param validator
+	 */
+	public void addParent(Validator validator)
+	{
+		parents.add(validator);
+	}
+
 	private void validateChilds(MessageList result) throws ValidationException
 	{
 		for (Iterator iter = childs.iterator(); iter.hasNext();) {
+			Validator child = (Validator) iter.next();
+			result.addAll(child.validate());
+		}
+	}
+
+	private void validateParents(MessageList result) throws ValidationException
+	{
+		for (Iterator iter = parents.iterator(); iter.hasNext();) {
 			Validator child = (Validator) iter.next();
 			result.addAll(child.validate());
 		}
