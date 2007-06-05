@@ -1289,7 +1289,11 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	public void addDependentAdapterForReload(AbstractBaseCimAdapter adapter) {
 		
 		adapter.setMarkedForReload();
-		reloadDependentAdapters.add(adapter);
+		//don't add ourself
+		if (adapter != this)
+		{
+			reloadDependentAdapters.add(adapter);
+		}
 		
 	}
 	
