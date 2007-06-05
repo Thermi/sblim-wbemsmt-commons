@@ -32,8 +32,7 @@ public class LabeledJSFMemoComponent extends LabeledJSFInputComponent {
 
 	public LabeledJSFMemoComponent(DataContainer parent, String labelText,String id, Converter converter,boolean readOnly) {
 		super(parent, labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE), converter,readOnly);
-		((HtmlOutputText)component).setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
-		((HtmlOutputText)component).setEscape(false);
+		setComponentBindings1(this, id);
 	}
 
 	public Object getItem() {
@@ -57,6 +56,18 @@ public class LabeledJSFMemoComponent extends LabeledJSFInputComponent {
 	public void setFieldData(FieldData fieldData) {
 		super.setFieldData(fieldData);
 	}
+	
+	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
+		super.installProperties(comp, prefix);
+		setComponentBindings1((LabeledJSFMemoComponent) comp,prefix);
+	}
+
+	private static void setComponentBindings1(LabeledJSFMemoComponent component, String id) {
+		HtmlOutputText txt = ((HtmlOutputText)component.getComponent());
+		txt.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
+		txt.setEscape(false);
+	}
+	
 	
 	
 	

@@ -21,6 +21,7 @@
 package org.sblim.wbemsmt.tools.input.jsf;
 
 import javax.faces.component.UISelectItems;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlSelectOneListbox;
 import javax.faces.context.FacesContext;
 
@@ -31,10 +32,21 @@ import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 
 public class LabeledJSFListComponent extends LabeledJSFInputComponent implements LabeledStringArrayInputComponentIf {
 
+	private HtmlDataTable readOnlyTable;
+
 	public LabeledJSFListComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectOneListbox.COMPONENT_TYPE), converter,readOnly);
-//		super(labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputText.COMPONENT_TYPE) , converter);
-		HtmlSelectOneListbox menu = ((HtmlSelectOneListbox)component);
+
+		setComponentBindings1(this, id);
+	}
+	
+	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
+		super.installProperties(comp, prefix);
+		setComponentBindings1((LabeledJSFListComponent) comp,prefix);
+	}
+
+	private static void setComponentBindings1(LabeledJSFListComponent component, String id) {
+		HtmlSelectOneListbox menu = ((HtmlSelectOneListbox)component.getComponent());
 		menu.setStyleClass("listBox");
 		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 		menu.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
@@ -42,11 +54,6 @@ public class LabeledJSFListComponent extends LabeledJSFInputComponent implements
 		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
 		menu.getChildren().add(items);
 		menu.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && !" + id +"Disabled}"));
-		createReadOnlyTable(id, menu);	
-
+		component.readOnlyTable = component.createReadOnlyTable(id, menu,component.readOnlyTable);	
 	}
-	
-//	public void sizeChanged(Size size) {
-//		
-//	}
 }

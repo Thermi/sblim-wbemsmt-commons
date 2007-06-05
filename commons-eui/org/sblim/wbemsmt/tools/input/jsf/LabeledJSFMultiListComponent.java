@@ -21,6 +21,7 @@
 package org.sblim.wbemsmt.tools.input.jsf;
 
 import javax.faces.component.UISelectItems;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlSelectManyListbox;
 import javax.faces.context.FacesContext;
 
@@ -32,20 +33,10 @@ import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 public class LabeledJSFMultiListComponent extends LabeledJSFInputComponent implements LabeledStringArrayInputComponentIf {
 
 	private int itemSize;
+	private HtmlDataTable readOnlyTable;
 	
 	public LabeledJSFMultiListComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectManyListbox.COMPONENT_TYPE), converter,readOnly);
-//		super(labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputText.COMPONENT_TYPE) , converter);
-		HtmlSelectManyListbox menu = ((HtmlSelectManyListbox)component);
-		menu.setStyleClass("listBox");
-		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"List}"));
-		menu.setValueBinding("size", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Size}"));
-		menu.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
-		UISelectItems items = (UISelectItems) FacesContext.getCurrentInstance().getApplication().createComponent(UISelectItems.COMPONENT_TYPE);
-		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
-		menu.getChildren().add(items);
-		
-		createReadOnlyTable(id, menu);	
 		
 	}
 	
@@ -61,6 +52,23 @@ public class LabeledJSFMultiListComponent extends LabeledJSFInputComponent imple
 		this.itemSize = Math.min(10,itemSize);
 	}
 
+	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
+		super.installProperties(comp, prefix);
+		setComponentBindings1((LabeledJSFMultiListComponent) comp,prefix);
+	}
+
+	private static void setComponentBindings1(LabeledJSFMultiListComponent component, String id) {
+		HtmlSelectManyListbox menu = ((HtmlSelectManyListbox)component.getComponent());
+		menu.setStyleClass("listBox");
+		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"List}"));
+		menu.setValueBinding("size", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Size}"));
+		menu.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
+		UISelectItems items = (UISelectItems) FacesContext.getCurrentInstance().getApplication().createComponent(UISelectItems.COMPONENT_TYPE);
+		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
+		menu.getChildren().add(items);
+		
+		component.readOnlyTable = component.createReadOnlyTable(id, menu,component.readOnlyTable);	
+	}
 	
 	
 }

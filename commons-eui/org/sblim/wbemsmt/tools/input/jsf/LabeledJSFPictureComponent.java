@@ -34,9 +34,7 @@ public class LabeledJSFPictureComponent extends LabeledJSFInputComponent {
 
 	public LabeledJSFPictureComponent(DataContainer parent, String labelText,String id, Converter converter,boolean readOnly) {
 		super(parent, labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlGraphicImage.COMPONENT_TYPE), converter,readOnly);
-		((HtmlGraphicImage)component).setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
-		((HtmlGraphicImage)component).setValueBinding("alt", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"PlainLabelText}"));
-		((HtmlGraphicImage)component).setValueBinding("title", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"PlainLabelText}"));
+		setComponentBindings1(this, id);
 	}
 
 	public Object getItem() {
@@ -58,7 +56,17 @@ public class LabeledJSFPictureComponent extends LabeledJSFInputComponent {
 		super.setFieldData(fieldData);
 	}
 	
-	
+	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
+		super.installProperties(comp, prefix);
+		setComponentBindings1((LabeledJSFPictureComponent) comp,prefix);
+	}
+
+	private void setComponentBindings1(LabeledJSFPictureComponent component, String id) {
+		HtmlGraphicImage img = ((HtmlGraphicImage)component.getComponent());
+		img.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
+		img.setValueBinding("alt", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"PlainLabelText}"));
+		img.setValueBinding("title", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"PlainLabelText}"));
+	}	
 	
 	
 }

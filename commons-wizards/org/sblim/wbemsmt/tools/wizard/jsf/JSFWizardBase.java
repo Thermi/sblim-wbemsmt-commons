@@ -365,6 +365,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 				{
 					logger.warning("Node with path " + baseCimAdapter.getPathOfTreeNode() + " was not found in tree");
 				}
+				baseCimAdapter.setPathOfTreeNode(null);
 			}
 			treeSelectorBean.setSelectedTaskLauncherTreeNode(selectedNode);
 			return "editPage";

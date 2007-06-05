@@ -69,6 +69,9 @@ public abstract class BasePanel {
 	private String footerText;
 	protected AjaxPanelGroup ajaxPanelGroup;
 
+	//Defines the minimum length of a children table
+	public static final int MIN_TABLE_LENGTH = 3;
+	
     protected static final Logger logger = Logger.getLogger("org.sblim.wbemsmt.tools.jsf");
 	
 	public BasePanel(AbstractBaseCimAdapter adapter, String bindingPrefix)

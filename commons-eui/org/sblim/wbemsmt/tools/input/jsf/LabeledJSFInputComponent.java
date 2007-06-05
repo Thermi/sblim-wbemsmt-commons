@@ -54,6 +54,8 @@ import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.bl.fielddata.FieldData;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
+import org.sblim.wbemsmt.bl.tree.ITreeSelector;
+import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
@@ -95,9 +97,8 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	private boolean hasErrors;
 	private boolean isMultiline;
 	private boolean isHeader;
+	private boolean dependendFieldsHavingErrors;
 
-	private List dependentChildFields = new ArrayList();
-	
 	public LabeledJSFInputComponent(DataContainer parent, String labelText, String pId, UIComponent component, Converter converter,boolean readOnly)
 	{
 		super(parent,labelText, converter);
@@ -107,9 +108,9 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		this.id = asJsfId(pId);
 		this.component = component;
 		this.component.setId(id);
-		this.component.setValueBinding("disabled", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Disabled}"));
-		this.component.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Rendered}"));
-		this.component.setValueBinding("style", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Style}"));
+		
+		setComponentBindings(this.component,pId);
+		
 
 		componentPanel = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 		componentPanel.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Rendered}"));
@@ -145,8 +146,14 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		labelPanel.getChildren().add(fieldIndicator);
 		labelPanel.getChildren().add(label);
 		
-		updateFieldIndicatorImage();
+		updateFieldIndicatorImage(dependendFieldsHavingErrors);
 		
+	}
+
+	private void setComponentBindings(UIComponent comp, String binding) {
+		comp.setValueBinding("disabled", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + binding +"Disabled}"));
+		comp.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + binding +"Rendered}"));
+		comp.setValueBinding("style", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + binding +"Style}"));
 	}
 
 	public HtmlPanelGroup getLabelPanel() {
@@ -360,7 +367,8 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		}
 		else if (component instanceof HtmlOutputText && !( this instanceof LabeledJSFMemoComponent))
 		{
-			item =  converter.convertForGui(controlValue);
+			Object o = converter.convertForGui(controlValue);
+			item =  o;
 		}
 		else if (component instanceof HtmlSelectBooleanCheckbox)
 		{
@@ -525,6 +533,10 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		return componentPanel;
 	}
 
+	public UIComponent getComponent() {
+		return component;
+	}
+
 	public boolean isVisible() {
 		return rendered;
 	}
@@ -538,7 +550,9 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		try {
 			adapter.updateModel(parent,this);
 
-			ObjectActionControllerBean objectActionController = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
+			FacesContext facesContext = FacesContext.getCurrentInstance();
+			ObjectActionControllerBean objectActionController = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(facesContext);
+        	ITreeSelector treeSelectorBean = (ITreeSelector)BeanNameConstants.TREE_SELECTOR.getBoundValue(facesContext);
 			//force a re-checking of the modified state of the current panel
 			objectActionController.clearEditBeansModified();
 			
@@ -563,7 +577,40 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 					reloaded = true;
 				}
 
-				if (reloaded)
+				/**
+				 * If the business logic set the path to a node try 
+				 */
+				if (adapter.getPathOfTreeNode() != null)
+				{
+					TaskLauncherTreeNode node = adapter.getRootNode().findInstanceNode(adapter.getPathOfTreeNode());
+					if (node != null)
+					{
+						
+				        treeSelectorBean.setSelectedTaskLauncherTreeNode(node);
+
+				        objectActionController.setSelectedNode(node);
+				        
+				        //don't revert the changes becuse we entering a new node
+				        boolean revert = false;
+				        result = node.click(revert);
+				        
+				        //if after finishing the wizard the same node is active, switch the tabs
+				        if (selectedNode != null && selectedNode.getInfo().equals(node.getInfo()))
+				        {
+				        	objectActionController.setSelectedTabIndex(selectTabIndex);
+				        	objectActionController.setSelectedTabId(selectTabId);
+				        }
+				        selectedNode = node;
+						result = result != null ? result : "";
+					}
+					else
+					{
+						logger.warning("Node with path " + adapter.getPathOfTreeNode() + " was not found in tree");
+					}
+					adapter.setPathOfTreeNode(null);
+				} 
+				
+				else if (reloaded)
 				{
 					result = objectActionController.getSelectedNode().click(false);
 					objectActionController.setSelectedNode(selectedNode);
@@ -610,7 +657,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	public void setRequired(boolean required)
 	{
 		this.required = required;
-		updateFieldIndicatorImage();
+		updateFieldIndicatorImage(dependendFieldsHavingErrors);
 	}
 	
 	public boolean isRequired() {
@@ -622,7 +669,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		if (this.hasErrors != hasErrors)
 		{
 			this.hasErrors = hasErrors;
-			updateFieldIndicatorImage();
+			updateFieldIndicatorImage(dependendFieldsHavingErrors);
 		}
 	}
 
@@ -631,12 +678,13 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		return this.hasErrors;
 	}
 
-	public void updateFieldIndicatorImage() {
+	public void updateFieldIndicatorImage(boolean dependendFieldsHavingErrors) {
 	
+		this.dependendFieldsHavingErrors = dependendFieldsHavingErrors;
 		if (!isMultiline || isHeader)
 		{
 			StyleBean style = (StyleBean) BeanNameConstants.STYLE.getBoundValue(FacesContext.getCurrentInstance());
-			if (!isMultiline && hasErrors || isHeader && dependendFieldsHavingErrors())
+			if (!isMultiline && hasErrors || isHeader && dependendFieldsHavingErrors)
 			{
 				//errors are not shown in Label if field is multiline (because there is only one label (column header) for all fields
 				fieldIndicatorImage = style.getResourceDir() + "/images/fieldIndicatorError.png";
@@ -665,19 +713,6 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		}
 	}
 
-
-	private boolean dependendFieldsHavingErrors()
-	{
-		for (Iterator iter = dependentChildFields.iterator(); iter.hasNext();)
-		{
-			LabeledBaseInputComponentIf child = (LabeledBaseInputComponentIf) iter.next();
-			if (child.hasErrors())
-			{
-				return true;
-			}
-		}
-		return false;
-	}
 
 	/**
 	 * externalized this statement into this method because the handling via JSF EL is too complex
@@ -741,33 +776,49 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	 * @param writeableComponent
 	 */
 
-	protected void createReadOnlyTable(String id, UIComponent writeableComponent) {
+	protected HtmlDataTable createReadOnlyTable(String id, UIComponent writeableComponent,HtmlDataTable table) {
 
 		//overwrite the rendered State of the component
 		writeableComponent.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && !" + id +"Disabled}"));
 
 		
 		//we create a table which is used if the List is readOnly
-		HtmlDataTable table = (HtmlDataTable)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlDataTable.COMPONENT_TYPE);
-		table.setStyleClass("tableAsReadOnlyList");
-		table.setCellspacing("0");
-		table.setCellpadding("0");
-		table.setVar("tableItem");
+		boolean newTable = table == null;
+		UIColumn col = null;
+		HtmlOutputLabel label = null;
+		if (newTable)
+		{
+			table = (HtmlDataTable)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlDataTable.COMPONENT_TYPE);
+			//Add the col
+			col = (UIColumn)FacesContext.getCurrentInstance().getApplication().createComponent(UIColumn.COMPONENT_TYPE);
+			table.getChildren().add(col);
+
+			//Add the label to the col
+			label = (HtmlOutputLabel)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputLabel.COMPONENT_TYPE);
+			label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{tableItem.label}"));
+			col.getChildren().add(label);
+			table.setStyleClass("tableAsReadOnlyList");
+			table.setCellspacing("0");
+			table.setCellpadding("0");
+			table.setVar("tableItem");
+		}
+		else
+		{
+			col = (UIColumn) table.getChildren().get(0);
+			label = (HtmlOutputLabel) col.getChildren().get(0);
+			label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{tableItem.label}"));
+		}
+
 		table.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
 		table.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && " + id +"Disabled}"));
 
-		//Add the col
-		UIColumn col = (UIColumn)FacesContext.getCurrentInstance().getApplication().createComponent(UIColumn.COMPONENT_TYPE);
-		table.getChildren().add(col);
 		
-		//Add the label to the col
-		HtmlOutputLabel label = (HtmlOutputLabel)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputLabel.COMPONENT_TYPE);
-		label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{tableItem.label}"));
-		col.getChildren().add(label);
 
 		//add the table to ComponentPanel.If the ComponentPanel not exists - create one and add the writableComponent first 
 		UIComponent panel = getComponentPanel();
 		panel.getChildren().add(table);
+		
+		return table;
 	}
 	
 	/**
@@ -776,35 +827,43 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	 * @param writeableComponent
 	 */
 
-	protected void createReadOnlyCheckbox(String id, HtmlSelectBooleanCheckbox writeableComponent) {
+	protected HtmlOutputLabel createReadOnlyCheckbox(String id, HtmlSelectBooleanCheckbox writeableComponent, HtmlOutputLabel label) {
 		
 		//overwrite the rendered State of the component
 		writeableComponent.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && !" + id +"Disabled}"));
 		
 		//Add the label to the col
-		HtmlOutputLabel label = (HtmlOutputLabel)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputLabel.COMPONENT_TYPE);
+		boolean isNew = label == null;
+		if (isNew)
+		{
+			label = (HtmlOutputLabel)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputLabel.COMPONENT_TYPE);
+			//add the table to ComponentPanel.If the ComponentPanel not exists - create one and add the writableComponent first 
+			UIComponent panel = getComponentPanel();
+			if (panel == null)
+			{
+				panel = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);			
+				panel.getChildren().add(writeableComponent);
+			}
+			
+			if (isMultiline())
+			{
+				getComponentPanel().getChildren().add(label);
+			}
+			else
+			{
+				getLabelPanel().getChildren().add(label);
+			}
+		}
 		label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"SelectedReadOnlyCheckboxValue}"));
 		label.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && " + id +"Disabled}"));
 
-		//add the table to ComponentPanel.If the ComponentPanel not exists - create one and add the writableComponent first 
-		UIComponent panel = getComponentPanel();
-		if (panel == null)
-		{
-			panel = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);			
-			panel.getChildren().add(writeableComponent);
-		}
+		return label;
 		
+	}
+
+	public boolean isMultiline() {
 		boolean multiLine = getParent() instanceof MultiLineBasePanel2;
-		
-		if (multiLine)
-		{
-			getComponentPanel().getChildren().add(label);
-		}
-		else
-		{
-			getLabelPanel().getChildren().add(label);
-		}
-		
+		return multiLine;
 	}		
 	
 	public String getItemSelectedReadOnlyCheckboxValue()
@@ -872,15 +931,10 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		this.isHeader = isHeader;
 	}
 
-	public List getDependentChildFields() {
-		return dependentChildFields;
+	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
+		//comp.getComponent().setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + prefix +"}"));
+		setComponentBindings(comp.getComponent(), prefix);
 	}
-
-	public void setChildFields(List childFields) {
-		this.dependentChildFields = childFields;
-	}
-	
-	
 	
 }
 

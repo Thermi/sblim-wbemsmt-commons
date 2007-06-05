@@ -33,10 +33,7 @@ public class LabeledJSFInputFieldComponent extends LabeledJSFInputComponent {
 
 	public LabeledJSFInputFieldComponent(DataContainer parent, String labelText,String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputText.COMPONENT_TYPE), converter,readOnly);
-		HtmlInputText txt = ((HtmlInputText)component);
-		txt.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
-		txt.setValueBinding("size", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Size}"));
-		txt.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
+		setComponentBindings1(this, id);
 	}
 
 	public void setOrientation(int orientation) {
@@ -55,4 +52,16 @@ public class LabeledJSFInputFieldComponent extends LabeledJSFInputComponent {
 		setSize(size);
 	}
 	
+	
+	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
+		super.installProperties(comp, prefix);
+		setComponentBindings1((LabeledJSFInputFieldComponent) comp,prefix);
+	}
+
+	private static void setComponentBindings1(LabeledJSFInputFieldComponent component, String id) {
+		HtmlInputText txt = ((HtmlInputText)component.getComponent());
+		txt.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
+		txt.setValueBinding("size", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Size}"));
+		txt.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
+	}		
 }

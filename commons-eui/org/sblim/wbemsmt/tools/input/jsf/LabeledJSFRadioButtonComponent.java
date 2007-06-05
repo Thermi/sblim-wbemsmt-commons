@@ -37,33 +37,11 @@ import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 
 public class LabeledJSFRadioButtonComponent extends LabeledJSFInputComponent implements LabeledStringArrayInputComponentIf {
 
+	private HtmlOutputLabel readOnlyLabel;
+
 	public LabeledJSFRadioButtonComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectOneRadio.COMPONENT_TYPE), converter,readOnly);
-//		super(labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputText.COMPONENT_TYPE) , converter);
-		HtmlSelectOneRadio menu = ((HtmlSelectOneRadio)component);
-		
-		//prevents the validator to be called
-		menu.setRequired(false);
-		
-		menu.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
-		
-		String binding = "#{" + id +"}";
-		if (logger.isLoggable(Level.FINE)) {
-			logger.fine("Create binding for Element " + id + " : " + binding);
-		}
-		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
-		
-		UISelectItems items = (UISelectItems) FacesContext.getCurrentInstance().getApplication().createComponent(UISelectItems.COMPONENT_TYPE);
-		
-		binding = "#{" + id +"Values}";
-		if (logger.isLoggable(Level.FINE)) {
-			logger.fine("Create binding for Element " + id + " : " + binding);
-		}
-		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
-		menu.getChildren().add(items);
-		
-		createReadOnlyRadioButton(id, menu);	
-		
+		setComponentBindings1(this, id);
 	}
 	
 	/**
@@ -77,10 +55,6 @@ public class LabeledJSFRadioButtonComponent extends LabeledJSFInputComponent imp
 		//overwrite the rendered State of the component
 		writeableComponent.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && !" + id +"Disabled}"));
 		
-		//Add the label to the col
-		HtmlOutputLabel label = (HtmlOutputLabel)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputLabel.COMPONENT_TYPE);
-		label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"SelectedReadOnlyRadioButtonValue}"));
-		label.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && " + id +"Disabled}"));
 
 		//add the table to ComponentPanel.If the ComponentPanel not exists - create one and add the writableComponent first 
 		UIComponent panel = getComponentPanel();
@@ -89,7 +63,20 @@ public class LabeledJSFRadioButtonComponent extends LabeledJSFInputComponent imp
 			panel = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);			
 			panel.getChildren().add(writeableComponent);
 		}
-		getComponentPanel().getChildren().add(label);
+
+		//Add the label to the col
+		boolean newLabel = readOnlyLabel == null;
+		if (readOnlyLabel == null)
+		{
+			readOnlyLabel = (HtmlOutputLabel)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputLabel.COMPONENT_TYPE);			
+		}
+		readOnlyLabel.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"SelectedReadOnlyRadioButtonValue}"));
+		readOnlyLabel.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && " + id +"Disabled}"));
+		
+		if (newLabel)
+		{
+			getComponentPanel().getChildren().add(readOnlyLabel);
+		}
 	}		
 	
 	public String getItemSelectedReadOnlyRadioButtonValue()
@@ -122,5 +109,37 @@ public class LabeledJSFRadioButtonComponent extends LabeledJSFInputComponent imp
 		}
 		return "-";
 	}
+	
+	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
+		super.installProperties(comp, prefix);
+		setComponentBindings1((LabeledJSFRadioButtonComponent) comp,prefix);
+	}
+
+	private static void setComponentBindings1(LabeledJSFRadioButtonComponent component, String id) {
+		HtmlSelectOneRadio menu = ((HtmlSelectOneRadio)component.getComponent());
+		
+		//prevents the validator to be called
+		menu.setRequired(false);
+		
+		menu.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
+		
+		String binding = "#{" + id +"}";
+		if (logger.isLoggable(Level.FINE)) {
+			logger.fine("Create binding for Element " + id + " : " + binding);
+		}
+		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
+		
+		UISelectItems items = (UISelectItems) FacesContext.getCurrentInstance().getApplication().createComponent(UISelectItems.COMPONENT_TYPE);
+		
+		binding = "#{" + id +"Values}";
+		if (logger.isLoggable(Level.FINE)) {
+			logger.fine("Create binding for Element " + id + " : " + binding);
+		}
+		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
+		menu.getChildren().add(items);
+		
+		component.createReadOnlyRadioButton(id, menu);	
+	}
+	
 	
 }

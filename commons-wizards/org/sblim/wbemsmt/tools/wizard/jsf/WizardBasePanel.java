@@ -25,6 +25,8 @@ import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainerUtil;
+import org.sblim.wbemsmt.exception.InitContainerException;
+import org.sblim.wbemsmt.exception.UpdateControlsException;
 import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFInputComponent;
 import org.sblim.wbemsmt.tools.jsf.BasePanel;
 import org.sblim.wbemsmt.tools.wizard.IWizardBasePanel;
@@ -137,6 +139,20 @@ public abstract class WizardBasePanel extends BasePanel implements IWizardBasePa
     public boolean isErrorVisible()
     {
     	return DataContainerUtil.havingErrorFields(this);
-    }	
+    }
+    
+	/**
+	 * can be overwritten by the subclassses to count and cerate the children objects
+	 * @throws InitContainerExceptio
+	 */
+	
+	public void countAndCreateChildren() throws InitContainerException 	{}
+
+	/**
+	 * 
+	 * @throws UpdateControlsException
+	 */
+	public void updateControls() throws UpdateControlsException {}
+    
 
 }

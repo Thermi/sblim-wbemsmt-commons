@@ -63,7 +63,7 @@ public abstract class LabeledBaseInputComponent implements LabeledBaseInputCompo
 	private String waitText = null;
 		
 	
-	protected Logger logger = Logger.getLogger("org.sblim.wbemsmt.tools.input");
+	protected static Logger logger = Logger.getLogger("org.sblim.wbemsmt.tools.input");
 
 	protected Size size = LabeledBaseInputComponentIf.SIZE_M;
 	

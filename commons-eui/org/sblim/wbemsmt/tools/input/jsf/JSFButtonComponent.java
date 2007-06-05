@@ -35,13 +35,18 @@ public class JSFButtonComponent extends LabeledJSFInputComponent implements Acti
 	public JSFButtonComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE), converter,readOnly);
 		HtmlCommandButton btn = ((HtmlCommandButton)component);
+		setComponentBindings(btn,id);
+	}
+	
+	
+	private void setComponentBindings(HtmlCommandButton btn, String id) {
 		btn.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"LabelText}"));
 		btn.setValueBinding("onclick", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"JavaScriptConfirmStatement} #{" + id +"JavaScriptWaitStatement}"));
 		btn.setStyleClass("submitButton");
-
 		btn.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id + "Action" + "}",new Class[]{}));
 	}
-	
+
+
 	/**
 	 * ActionListenerCalled by JSF Framwork
 	 * @param event
@@ -56,6 +61,12 @@ public class JSFButtonComponent extends LabeledJSFInputComponent implements Acti
 	public String getItemLabelText()
 	{
 		return getLabelText();
+	}
+	
+	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
+		super.installProperties(comp, prefix);
+		HtmlCommandButton btn = (HtmlCommandButton) comp.getComponent();
+		setComponentBindings(btn,prefix);
 	}
 
 		

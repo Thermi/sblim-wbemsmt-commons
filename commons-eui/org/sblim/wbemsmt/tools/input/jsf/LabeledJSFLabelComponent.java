@@ -30,7 +30,17 @@ public class LabeledJSFLabelComponent extends LabeledJSFInputComponent {
 
 	public LabeledJSFLabelComponent(DataContainer parent, String labelText,String id, Converter converter,boolean readOnly) {
 		super(parent, labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE), converter,readOnly);
-		((HtmlOutputText)component).setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
+		setComponentBindings1(this,id);
 	}
+	
+	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
+		super.installProperties(comp, prefix);
+		setComponentBindings1((LabeledJSFLabelComponent) comp,prefix);
+	}
+
+	private static void setComponentBindings1(LabeledJSFLabelComponent component, String id) {
+		((HtmlOutputText)component.getComponent()).setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
+	}
+	
 
 }

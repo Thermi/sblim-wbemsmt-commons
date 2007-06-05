@@ -21,25 +21,40 @@ package org.sblim.wbemsmt.tools.jsf;
 
 import java.util.List;
 
+import javax.faces.component.UIColumn;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlPanelGrid;
+import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
-import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
+import org.sblim.wbemsmt.bl.adapter.DataContainer;
+import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFInputComponent;
-import org.sblim.wbemsmt.webapp.jsf.LocaleManagerBean;
 
 public abstract class MultiLinePanel extends BasePanel {
 	protected static final String BINDING_PREFIX_CURRENT_PAGE = "objectActionController.currentEditor.currentEditPage.";
-	HtmlPanelGrid panelGrid;
+	HtmlDataTable dataTable;
 	private HtmlPanelGrid outerPanel;
-	private String rowClasses;
+	private String rowClasses = "multiLineRowWhite,multiLineRowGray";
 	private List list;
 	private LabeledJSFInputComponent[] headerFields;
+	protected int cols;
+	
+	HtmlPanelGroup customFooterPanel;
 
-	public MultiLinePanel(AbstractBaseCimAdapter adapter,String bindingPrefix, String bindingPrefixOfContainer, String keyForTitle, int cols) {
+	/**
+	 * @param adapter
+	 * @param bindingPrefix
+	 * @param bindingPrefixOfContainer
+	 * @param keyForTitle
+	 * @param rolename
+	 * @param cols
+	 */
+	public MultiLinePanel(AbstractBaseCimAdapter adapter,String bindingPrefix, String bindingPrefixOfContainer, String keyForTitle, String rolename, int cols) {
 		super(adapter, bindingPrefix);
+		this.cols = cols;
 
 		outerPanel = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
 		outerPanel.setWidth("100%");
@@ -60,15 +75,32 @@ public abstract class MultiLinePanel extends BasePanel {
 		label.setEscape(false);
 		dummyPanel.getChildren().add(label);
 		
-		panelGrid = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
+		dataTable = (HtmlDataTable) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlDataTable.COMPONENT_TYPE);
+		dataTable.setVar("item");
+		dataTable.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + bindingPrefix +  rolename + "ForUI}"));
+		dataTable.setHeaderClass("multiLineRowHeader left");
+		//TODO add the same orientation for the header like for the cells
+		dataTable.setValueBinding("rowClasses", FacesContext.getCurrentInstance().getApplication().createValueBinding(bindingPrefixOfContainer +  ".rowClasses}"));
+		dataTable.setCellpadding("0");
+		dataTable.setCellspacing("0");
+		dataTable.setStyleClass("multiLineTable");
 		
-		panelGrid.setColumns(cols);
-		panelGrid.setCellpadding("0");
-		panelGrid.setCellspacing("0");
-		panelGrid.setStyleClass("multiLineTable");
-		panelGrid.setHeaderClass("multiLineHeader");
-		panelGrid.setValueBinding("rowClasses", FacesContext.getCurrentInstance().getApplication().createValueBinding(bindingPrefixOfContainer + ".rowClasses}"));
+		customFooterPanel = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 
+		HtmlPanelGroup outerFooterPanel = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
+		
+		
+		HtmlOutputText noEntriesFooter = (HtmlOutputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
+		noEntriesFooter.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.noEntries}") );
+		noEntriesFooter.setValueBinding("styleClass",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + bindingPrefix +  rolename +  "AvailableFooterClass}") );
+		noEntriesFooter.setStyle("width:200px;white-space: nowrap;");
+		
+		dataTable.getFacets().put("footer", noEntriesFooter);
+		dataTable.setValueBinding("footerClass",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + bindingPrefix +  rolename +  "FooterClass}") );
+
+		outerFooterPanel.getChildren().add(customFooterPanel);
+		outerFooterPanel.getChildren().add(noEntriesFooter);
+		
 		StringBuffer sb = new StringBuffer();
 		for (int i=0; i < cols; i++)
 		{
@@ -76,40 +108,63 @@ public abstract class MultiLinePanel extends BasePanel {
 			{
 				sb.append(", ");
 			}
+			
 			if (i==0) sb.append("multiLineContentFirst " + getOrientationOfColumnAsCss(i) );
 			else if (i==cols-1) sb.append("multiLineContentLast " + getOrientationOfColumnAsCss(i));
 			else sb.append("multiLineContent " + getOrientationOfColumnAsCss(i));
-			
 		}
-		panelGrid.setColumnClasses(sb.toString());
+		dataTable.setColumnClasses(sb.toString());
 		
 		createTitleValueBindingForMultiline(outerPanel,bindingPrefixOfContainer + ".titleText}",keyForTitle);
 		
-		outerPanel.getChildren().add(panelGrid);
+		outerPanel.getChildren().add(dataTable);
 		outerPanel.getChildren().add(dummyPanel);
 	}
 
 	public void setHeader(LabeledJSFInputComponent[] inputComponent)
 	{
+		setHeader(inputComponent,null);
+	}
+
+	//TODO rename to setFields
+	public void setHeader(LabeledJSFInputComponent[] inputComponent, String[] names)
+	{
 		this.headerFields = inputComponent;
 		for (int i = 0; i < inputComponent.length; i++) {
-			LabeledJSFInputComponent component = inputComponent[i];
-			component.getLabelPanel().setStyleClass("multiLineHeaderContent");
-			panelGrid.getChildren().add(component.getLabelPanel());
+			LabeledJSFInputComponent node = inputComponent[i];
+
+			if (names != null)
+			{
+				node.installProperties(node,"item." + names[i] +".item");
+			}
+
+			UIColumn column = (UIColumn) FacesContext.getCurrentInstance().getApplication().createComponent(UIColumn.COMPONENT_TYPE);
+			//set orientation of LabelPanel WelcomeItemDataContainer_AsItems_InWelcomeDataContainerImpl.orientationOfColumnAsCss[0]
+			column.getFacets().put("header", node.getLabelPanel());
+			column.getChildren().add(node.getComponentPanel());
+			addDummy(column);
+			dataTable.getChildren().add(column);
+
+			
 		}
 	}	
 	
+	
+	   private void addDummy(UIColumn column) {
+			HtmlOutputText dummy = (HtmlOutputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
+			dummy.setValue("&nbsp;");
+			dummy.setEscape(false);
+			column.getChildren().add(dummy);
+		}
+	
+	
 	public void addComponents(LabeledJSFInputComponent[] inputComponent)
 	{
-		for (int i = 0; i < inputComponent.length; i++) {
-			LabeledJSFInputComponent component = inputComponent[i];
-			panelGrid.getChildren().add(component.getComponentPanel());
-		}
 	}	
 
-	public HtmlPanelGrid getInputFieldContainer()
+	public HtmlDataTable getInputFieldContainer()
 	{
-		return panelGrid;
+		return dataTable;
 	}
 
 	public HtmlPanelGrid getOuterPanel()
@@ -125,56 +180,21 @@ public abstract class MultiLinePanel extends BasePanel {
 		
 		for (int i = 0; i < headerFields.length; i++) {
 			LabeledJSFInputComponent field = headerFields[i];
-			field.updateFieldIndicatorImage();
-		}
-		
-		
-		//if there not at least 3 rows available add this rows
-		//see Web application design guidelines (http://w3-03.ibm.com/oid/page/5598) for more
-		
-		int rows = list.size();
-		
-		//use 4 because the header is displayed also
-		int neededRows = Math.max(4,rows+1) + additionalRowsAfterModel;
-		
-		if (rows+1 < neededRows)
-		{
-			int columns = panelGrid.getColumns();
-			for (int i=0; i < (3-rows)*columns; i++)
-			{
-				HtmlOutputText label = (HtmlOutputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
-				
-				//i==columns means the first field in the second row
-				if (i== columns && rows == 0)
-				{
-					LocaleManagerBean localeManager = (LocaleManagerBean) BeanNameConstants.LOCALE_MANAGER.getBoundValue(FacesContext.getCurrentInstance());
-					label.setValueBinding("value", localeManager.getBinding("no.entries"));	
-				} else {
-					label.setValue("&nbsp;");
-					label.setEscape(false);
-				}
-				panelGrid.getChildren().add(label);
-			}
+			boolean error = getDependentFieldsHavingError(i);
+			field.updateFieldIndicatorImage(error);
 		}
 		
 		StringBuffer sb = new StringBuffer();
-		for (int i=0; i < neededRows; i++)
+		for (int i=0; i < list.size() || i < 3; i++)
 		{
-			boolean rowHasError = false;
-			//the first row in the model is the second in the table so ignore the first
-			//and also ignore the manually added rows at the end of the table
-			if (i > 0 && i-1 < list.size())
-			{
-				MultiLineBasePanel2 panel = (MultiLineBasePanel2) list.get(i-1);
-				rowHasError = panel.hasErrors();
-			}
+			MultiLineBasePanel2 panel = i < list.size() ? (MultiLineBasePanel2) list.get(i) : null;
+			boolean rowHasError = panel != null && panel.hasErrors();
 			
 			if (sb.length() > 0)
 			{
 				sb.append(", ");
 			}
-			if (i==0) sb.append("multiLineRowHeader");
-			else if (i%2 == 1) sb.append(rowHasError ? "multiLineRowError" : "multiLineRowWhite");
+			if (i%2 == 0) sb.append(rowHasError ? "multiLineRowError" : "multiLineRowWhite");
 			else sb.append(rowHasError ? "multiLineRowError" : "multiLineRowGray");
 			
 		}
@@ -182,6 +202,20 @@ public abstract class MultiLinePanel extends BasePanel {
 	}
 	
 	
+
+	private boolean getDependentFieldsHavingError(int fieldidx) {
+		
+		for (int containerCount=0; containerCount < list.size(); containerCount++)
+		{
+			DataContainer dataContainer = (DataContainer) list.get(containerCount);
+			LabeledBaseInputComponentIf comp =(LabeledBaseInputComponentIf) dataContainer.getFields().get(fieldidx);
+			if (comp.hasErrors())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public String getRowClasses() {
 		return rowClasses;
@@ -200,5 +234,15 @@ public abstract class MultiLinePanel extends BasePanel {
 	}
 
 	protected abstract String getOrientationOfColumnAsCss(int column);
+
+	public HtmlPanelGroup getCustomFooter() {
+		return customFooterPanel;
+	}
+
+	public boolean isHavingCustomFooter() {
+		return getCustomFooter().getChildren().size() > 0;
+	}
+	
+	
 	
 }

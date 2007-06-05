@@ -19,6 +19,7 @@
  */
 package org.sblim.wbemsmt.tools.jsf;
 
+import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.faces.component.UIPanel;
@@ -28,6 +29,7 @@ import javax.faces.context.FacesContext;
 import org.sblim.wbemsmt.ajax.panel.AjaxPanelPhaseListener;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
+import org.sblim.wbemsmt.exception.InitContainerException;
 import org.sblim.wbemsmt.exception.UpdateControlsException;
 import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFInputComponent;
 
@@ -100,8 +102,18 @@ public abstract class EditBasePanel extends BasePanel implements DataContainer {
 					try {
 						//first set the key in the requestMap so that
 						//subsequent getXYZ() calls are not leading to a infinite loop
-						requestMap.put(key, "true");					
+						requestMap.put(key, "true");				
+						
+						try {
+							Method m = this.getClass().getMethod("updateControls", null);
+							m.invoke(this, null);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						
 						this.getAdapter().updateControls(this);
+						//this.updateControls();
 					} catch (UpdateControlsException e) {
 						e.printStackTrace();
 					}
@@ -110,6 +122,7 @@ public abstract class EditBasePanel extends BasePanel implements DataContainer {
 		}
 	}
 
+	
 	public String getUpdateIntervalKey() {
 		return updateIntervalKey;
 	}
@@ -118,6 +131,17 @@ public abstract class EditBasePanel extends BasePanel implements DataContainer {
 		this.updateIntervalKey = updateIntervalKey;
 	}
 	
+	/**
+	 * can be overwritten by the subclassses to count and cerate the children objects
+	 * @throws InitContainerExceptio
+	 */
 	
+	public void countAndCreateChildren() throws InitContainerException 	{}
+
+	/**
+	 * 
+	 * @throws UpdateControlsException
+	 */
+	public void updateControls() throws UpdateControlsException {}
 	
 }

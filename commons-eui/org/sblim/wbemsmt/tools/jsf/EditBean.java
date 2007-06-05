@@ -119,7 +119,7 @@ public abstract class EditBean extends JsfBase{
 		return messages;
 	}
 
-	public abstract String save() throws ValidationException, ObjectSaveException;
+	public abstract String save() throws ValidationException, ObjectSaveException,UpdateControlsException;
 	public abstract void edit(ITaskLauncherTreeNode treeNode) throws ObjectNotFoundException, UpdateControlsException, CountException, InitContainerException;
 	public abstract HtmlPanelGrid getPanel();
 	public List getContainers() {

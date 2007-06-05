@@ -45,11 +45,7 @@ public class LabeledJSFLinkComponent extends LabeledJSFInputComponent {
 	
 	public LabeledJSFLinkComponent(DataContainer parent, String labelText,String id, Converter converter,boolean readOnly) {
 		super(parent, labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandLink.COMPONENT_TYPE), converter,readOnly);
-		((HtmlCommandLink)component).setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"LinkText}"));
-		((HtmlCommandLink)component).setStyleClass("treeLink notselected");
-		
-		((HtmlCommandLink)component).setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id +"Action}",null));
-		((HtmlCommandLink)component).setActionListener(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id +"ActionListener}",new Class[]{ActionEvent.class}));
+		setComponentBindings1(this, id);
 	}
 	
 	public void itemActionListener(ActionEvent event)
@@ -122,4 +118,17 @@ public class LabeledJSFLinkComponent extends LabeledJSFInputComponent {
 		super.setFieldData(fieldData);
 	}
 	
+	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
+		super.installProperties(comp, prefix);
+		setComponentBindings1((LabeledJSFLinkComponent) comp,prefix);
+	}
+
+	private static void setComponentBindings1(LabeledJSFLinkComponent component, String id) {
+		HtmlCommandLink link = ((HtmlCommandLink)component.getComponent());
+		link.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"LinkText}"));
+		link.setStyleClass("treeLink notselected");
+		
+		link.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id +"Action}",null));
+		link.setActionListener(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id +"ActionListener}",new Class[]{ActionEvent.class}));
+	}	
 }

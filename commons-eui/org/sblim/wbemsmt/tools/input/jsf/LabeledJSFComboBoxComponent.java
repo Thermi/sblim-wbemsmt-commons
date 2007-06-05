@@ -22,6 +22,7 @@
 package org.sblim.wbemsmt.tools.input.jsf;
 
 import javax.faces.component.UISelectItems;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 
@@ -32,10 +33,16 @@ import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 
 public class LabeledJSFComboBoxComponent extends LabeledJSFInputComponent implements LabeledStringArrayInputComponentIf {
 
+	private HtmlDataTable readOnlyTable;
+
 	public LabeledJSFComboBoxComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectOneMenu.COMPONENT_TYPE), converter,readOnly);
-//		super(labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputText.COMPONENT_TYPE) , converter);
-		HtmlSelectOneMenu menu = ((HtmlSelectOneMenu)component);
+		setComponentBindings1(this,id);
+	}
+
+	private static void setComponentBindings1(LabeledJSFComboBoxComponent component, String id) {
+
+		HtmlSelectOneMenu menu = ((HtmlSelectOneMenu)component.getComponent());
 		menu.setStyleClass("comboBox");
 		menu.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
 		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
@@ -43,8 +50,14 @@ public class LabeledJSFComboBoxComponent extends LabeledJSFInputComponent implem
 		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
 		menu.getChildren().add(items);
 		
-		createReadOnlyTable(id, menu);	
-		
+		component.readOnlyTable = component.createReadOnlyTable(id, menu,component.readOnlyTable);	
 	}
+	
+	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
+		super.installProperties(comp, prefix);
+		setComponentBindings1((LabeledJSFComboBoxComponent) comp,prefix);
+	}	
+	
+	
 
 }

@@ -21,6 +21,7 @@
 package org.sblim.wbemsmt.tools.input.jsf;
 
 import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.context.FacesContext;
 
@@ -34,12 +35,17 @@ public class LabeledJSFCheckboxActionComponent extends LabeledJSFInputComponent 
 
 	protected HtmlSelectBooleanCheckbox checkbox;
 
+	private HtmlOutputLabel readOnlyLabel;
+
 	static long idCount = 0;
 	
 	public LabeledJSFCheckboxActionComponent(DataContainer parent, String labelText,String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectBooleanCheckbox.COMPONENT_TYPE), converter,readOnly);
+		setComponentBindings(this, id);
+	}
 
-		HtmlSelectBooleanCheckbox cbox = ((HtmlSelectBooleanCheckbox)component);
+	private static void setComponentBindings(LabeledJSFCheckboxActionComponent actionComponent, String id) {
+		HtmlSelectBooleanCheckbox cbox = ((HtmlSelectBooleanCheckbox)actionComponent.getComponent());
 		cbox.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 		cbox.setValueBinding("onclick", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"JavaScriptConfirmStatement} #{" + id +"JavaScriptWaitStatement}"));
 		cbox.setStyleClass("checkBox");
@@ -63,9 +69,16 @@ public class LabeledJSFCheckboxActionComponent extends LabeledJSFInputComponent 
 		// because the checkbox is rendered in front of the text add the invisible button after the text
 		// so the way to display is: checkbox - label - invisible button
 		// if the space of the invisible is still used by the browser's renderer the layout is not messed up
-		getLabelPanel().getChildren().add(btn);
+		if (actionComponent.isMultiline())
+		{
+			actionComponent.getComponentPanel().getChildren().add(btn);
+		}
+		else
+		{
+			actionComponent.getLabelPanel().getChildren().add(btn);
+		}
 		
-		createReadOnlyCheckbox(id,cbox);
+		actionComponent.readOnlyLabel = actionComponent.createReadOnlyCheckbox(id,cbox,actionComponent.readOnlyLabel);
 	}
 
 	/**
@@ -86,4 +99,9 @@ public class LabeledJSFCheckboxActionComponent extends LabeledJSFInputComponent 
 		
 		return handleAction();
 	}
+	
+	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
+		super.installProperties(comp, prefix);
+		setComponentBindings((LabeledJSFCheckboxActionComponent) comp,prefix);
+	}	
 }

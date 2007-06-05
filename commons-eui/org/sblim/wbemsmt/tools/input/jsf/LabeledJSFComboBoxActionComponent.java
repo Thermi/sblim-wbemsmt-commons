@@ -23,6 +23,7 @@ package org.sblim.wbemsmt.tools.input.jsf;
 
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 
@@ -36,10 +37,16 @@ import org.sblim.wbemsmt.tools.input.LabeledStringArrayInputComponentIf;
 public class LabeledJSFComboBoxActionComponent extends LabeledJSFInputComponent implements LabeledStringArrayInputComponentIf, ActionComponent {
 
 	static long idCount = 0;
+	private HtmlDataTable readOnlyTable;
 	
 	public LabeledJSFComboBoxActionComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectOneMenu.COMPONENT_TYPE), converter,readOnly);
 		
+		setComponentBindings1(this,id);
+	}
+
+	private static void setComponentBindings1(LabeledJSFComboBoxActionComponent component, String id) {
+
 		String linkId = "LabeledJSFComboBoxActionComponent" + idCount++;
 		
 		HtmlCommandButton btn = (HtmlCommandButton)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
@@ -47,7 +54,7 @@ public class LabeledJSFComboBoxActionComponent extends LabeledJSFInputComponent 
 		btn.setStyle("visibility:hidden;width:0px");
 		btn.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id + "Action" + "}",new Class[]{}));
 
-		HtmlSelectOneMenu menu = ((HtmlSelectOneMenu)component);
+		HtmlSelectOneMenu menu = ((HtmlSelectOneMenu)component.getComponent());
 		menu.setStyleClass("comboBox");
 		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 		menu.setValueBinding("onchange", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"JavaScriptConfirmStatement} #{" + id +"JavaScriptWaitStatement}"));
@@ -65,8 +72,8 @@ public class LabeledJSFComboBoxActionComponent extends LabeledJSFInputComponent 
 				"}"
 		);		
 		
-		getComponentPanel().getChildren().add(btn);
-		createReadOnlyTable(id, menu);	
+		component.getComponentPanel().getChildren().add(btn);
+		component.readOnlyTable = component.createReadOnlyTable(id, menu,component.readOnlyTable);	
 		
 	}
 
@@ -81,4 +88,9 @@ public class LabeledJSFComboBoxActionComponent extends LabeledJSFInputComponent 
 		return handleAction();
 	}
 
+	
+	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
+		super.installProperties(comp, prefix);
+		setComponentBindings1((LabeledJSFComboBoxActionComponent) comp,prefix);
+	}	
 }
