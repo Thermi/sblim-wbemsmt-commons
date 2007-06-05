@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,6 +34,8 @@ import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.Cleanup;
@@ -59,14 +62,15 @@ import org.sblim.wbemsmt.tools.wizard.jsf.JSFWizardBase;
 
 public class ObjectActionControllerBean implements IWizardController, Cleanup {
 
-    private static final Logger logger = Logger.getLogger(ObjectActionControllerBean.class.getName());
+    private static final String COOKIE_PREFIX_UPDATE_INTERVAL = "updateInterval-";
+
+	private static final Logger logger = Logger.getLogger(ObjectActionControllerBean.class.getName());
 
 	private String defaultUpdateInterval = "1.0";
 
     //	private boolean canDelete;
 //	private boolean canCreate;
 	private ITreeSelector treeSelector;
-	private FacesContext facesContext;
 	private JsfEditListener currentEditListener;
 	
 	private JSFWizardBase currentWizard;
@@ -88,10 +92,18 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 
 	private List welcomeContainers = new ArrayList();
 
-	private Map updateInterval = new HashMap(); 
+	private Map updateInterval = new HashMap();
+
+	/**
+	 * 
+	 * The Max age for the Cookies saving the updateInterval 
+	 * 65 years as default should be enough for every user :-)
+	 */
+	private int updateIntervalCookieMaxAge = 60*60*24*30*12*65; 
 	
 	public ObjectActionControllerBean() {
-		this.facesContext = FacesContext.getCurrentInstance();	
+		loadUpdateIntervalFromCookies();
+		
 	}
 //	
 //	public boolean isCanCreate() {
@@ -107,14 +119,6 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 //		this.canDelete = canDelete;
 //	}
 	
-	public FacesContext getFacesContext() {
-		return facesContext;
-	}
-
-	public void setFacesContext(FacesContext facesContext) {
-		this.facesContext = facesContext;
-	}
-
 	public String delete() throws ModelLoadException, ObjectNotFoundException, ObjectDeletionException
 	{
 		return "start";
@@ -431,18 +435,76 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	
 	public String setInterval()
 	{
-		String s = updateIntervalValue;
+		String sNew = setValue(updateIntervalKey,updateIntervalValue,false);
+		
+		try {
+			Cookie cookieUpdate = new Cookie(COOKIE_PREFIX_UPDATE_INTERVAL + updateIntervalKey, sNew);
+			//one month should be enough
+			cookieUpdate.setMaxAge(updateIntervalCookieMaxAge);
+			((HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse()).addCookie(cookieUpdate);
+		} catch (RuntimeException e) {
+			logger.log(Level.SEVERE,"cannot set cookies for update interval ",e);
+		}
+		
+		return "";
+	}
+
+	/**
+	 * set the updateInterval. If the value cannot be converted "0.0" is used
+	 * @param s
+	 * @return
+	 */
+	private String setValue(String key, String s, boolean silent) {
 		String sNew = s.replaceAll(",", ".");
 		try {
 			Double.parseDouble(sNew);
 		} catch (Exception e) {
-			MessageUtil.addMessage(ErrCodes.MSGDEF_INVALID_UPDATE_INTERVAL, new String[]{"messages"}, new Object[]{s});
+			if (!silent)
+			{
+				MessageUtil.addMessage(ErrCodes.MSGDEF_INVALID_UPDATE_INTERVAL, new String[]{"messages"}, new Object[]{s});
+			}
 			sNew = "0.0";
 		}
 		
-		updateInterval.put(updateIntervalKey, sNew);
-		
-		return "";
+		updateInterval.put(key, sNew);
+		return sNew;
 	}
+	
+	private void loadUpdateIntervalFromCookies() {
+		Map map = FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap();
+		Set set = map.entrySet();
+		for (Iterator iter = set.iterator(); iter.hasNext();) {
+			Map.Entry entry = (Map.Entry) iter.next();
+			String key = (String) entry.getKey();
+			Cookie cookie = (Cookie) entry.getValue();
+			
+			if (key.startsWith(COOKIE_PREFIX_UPDATE_INTERVAL))
+			{
+				key = key.substring(COOKIE_PREFIX_UPDATE_INTERVAL.length());
+				setValue(key,cookie.getValue(),true);
+			}
+			
+		}
+
+		
+	}
+
+	/**
+	 * @see updateIntervalCookieMaxAge
+	 * @return
+	 */
+	public int getUpdateIntervalCookieMaxAge() {
+		return updateIntervalCookieMaxAge;
+	}
+
+	/**
+	 * @see updateIntervalCookieMaxAge
+	 * @param updateIntervalCookieMaxAge
+	 */
+	public void setUpdateIntervalCookieMaxAge(int updateIntervalCookieMaxAge) {
+		this.updateIntervalCookieMaxAge = updateIntervalCookieMaxAge;
+	}
+
+	
 	
 }
