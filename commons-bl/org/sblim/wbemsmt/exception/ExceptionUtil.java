@@ -19,7 +19,6 @@
   */
 package org.sblim.wbemsmt.exception;
 
-import java.net.UnknownHostException;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -106,11 +105,10 @@ public class ExceptionUtil {
 				objectText = wbemsmtExceptionCause.getCimIdentifier();
 				logger.log(level,"Related CIM Element: " + objectText);
 			}
-			else if (wbemsmtExceptionCause instanceof LoginException && cimException.getCause() instanceof UnknownHostException)
+			else if (wbemsmtExceptionCause instanceof LoginException)
 			{
-				UnknownHostException hostException = (UnknownHostException)cimException.getCause();
-				objectText = hostException.getMessage();
-				logger.log(level,"Host not found: " + objectText);
+				LoginException loginException = (LoginException)wbemsmtExceptionCause;
+				objectText = loginException.getCimClient() != null ? loginException.getCimClient().getNameSpace().toString() : "";
 			}
 			else
 			{
