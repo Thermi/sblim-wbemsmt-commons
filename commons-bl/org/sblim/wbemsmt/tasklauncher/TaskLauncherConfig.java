@@ -562,6 +562,7 @@ public class TaskLauncherConfig
 		
 		TasklauncherconfigDocument document = TasklauncherconfigDocument.Factory.newInstance();
 		Tasklauncherconfig tasklauncherconfig = document.addNewTasklauncherconfig();
+		tasklauncherconfig.setVersion(Version.VERSION_2_1);
 		Cimom cimom = tasklauncherconfig.addNewCimom();
 		cimom.setHostname(TaskLauncherConfig.DEFAULT_HOST);
 		cimom.setNamespace(TaskLauncherConfig.DEFAULT_NAMESPACE);

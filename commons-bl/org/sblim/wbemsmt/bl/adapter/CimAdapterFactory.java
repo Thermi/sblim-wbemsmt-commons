@@ -101,6 +101,63 @@ public class CimAdapterFactory {
 	}
 
 	/**
+	 * get the adapter with the given taskname within the current session bound to the FacesContext
+	 * @param taskname
+	 * @param fc
+	 * @param client
+	 * @param createNew
+	 * @return null if the adapter was not found or the current Runtime mode is not supported - Currently supported is only JSF
+	 */
+	public AbstractBaseCimAdapter getAdapter(String taskname, CIMClient client)
+	{
+		if (RuntimeUtil.getInstance().isJSF())
+		{
+			return getAdapter(taskname, FacesContext.getCurrentInstance(),client);
+		}
+		return null;
+		
+	}
+	
+	/**
+	 * get the adapter with the given taskname within the current session bound to the FacesContext
+	 * @param taskname
+	 * @param fc
+	 * @param client
+	 * @param createNew
+	 * @return null if the adapter was not found
+	 */
+	public AbstractBaseCimAdapter getAdapter(String taskname, FacesContext fc,CIMClient client)
+	{
+		try {
+			AbstractBaseCimAdapter result = null;
+			HttpSession session = (HttpSession) fc.getExternalContext().getSession(true);
+			String key = getKey(taskname,client);
+			result = (AbstractBaseCimAdapter) session.getAttribute(key);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+		
+	/**
+	 * Set the adapter for the given taskname and the client
+	 * @param taskName
+	 * @param context
+	 * @param cimClient
+	 */
+	public void setAdapter(String taskName, FacesContext fc, CIMClient client, AbstractBaseCimAdapter adapter) {
+		try {
+			HttpSession session = (HttpSession) fc.getExternalContext().getSession(true);
+			String key = getKey(taskName,client);
+			session.setAttribute(key,adapter);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+
+	/**
 	 * Retrieve the adapter belonging to the given adapter class and the bound to the HttpSession
 	 * which is the the Session of the current FacesContext
 	 * 
@@ -204,6 +261,27 @@ public class CimAdapterFactory {
 		return "adapter." + adapterClass.getName() + ".for.client." + client.getNameSpace().getHost();
 	}
 
+	/**
+	 * Get the key for the taskname and cimclient for storing the adapter in the cache
+	 * @param adapterClass
+	 * @param client
+	 * @return
+	 */
+	private String getKey(String taskname, CIMClient client) {
+		return "adapter.for.task." + taskname + ".for.client." + client.getNameSpace().getHost();
+	}
+
+	public void removeAdapter(AbstractBaseCimAdapter adapter, CIMClient client)
+	{
+		if (RuntimeUtil.getInstance().isJSF())
+		{
+			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+			String key = getKey(adapter.getClass(),client);
+			session.removeAttribute(key);
+		}
+		removeAdapter(adapter);
+	}
+	
 	public void removeAdapter(AbstractBaseCimAdapter adapter) {
 		
 		List keys = new ArrayList();
@@ -223,6 +301,5 @@ public class CimAdapterFactory {
 				
 		}
 	}
-
 	
 }

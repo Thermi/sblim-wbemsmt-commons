@@ -41,6 +41,10 @@ public class WelcomeData {
 
 	public WelcomeData(ITaskLauncherTreeNode node) throws WbemSmtException {
 		super();
+		if (node == null)
+		{
+			throw new WbemSmtException("node was null. Cannot create WelcomeData");
+		}
 		if (node.getTreeConfigData() == null)
 		{
 			throw new WbemSmtException("treeConfigData of node " + node.getInfo() + " was null. Cannot create WelcomeData");

@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,7 +34,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.Cleanup;
@@ -54,17 +52,18 @@ import org.sblim.wbemsmt.exception.ObjectNotFoundException;
 import org.sblim.wbemsmt.exception.ObjectUpdateException;
 import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.tasklauncher.CimomTreeNode;
 import org.sblim.wbemsmt.tasklauncher.event.jsf.JsfEditListener;
+import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.jsf.EditBean;
 import org.sblim.wbemsmt.tools.jsf.TabbedPane;
+import org.sblim.wbemsmt.tools.jsf.WbemsmtCookieUtil;
 import org.sblim.wbemsmt.tools.wizard.jsf.IWizardController;
 import org.sblim.wbemsmt.tools.wizard.jsf.JSFWizardBase;
 
 public class ObjectActionControllerBean implements IWizardController, Cleanup {
 
-    private static final String COOKIE_PREFIX_UPDATE_INTERVAL = "updateInterval-";
-
-	private static final Logger logger = Logger.getLogger(ObjectActionControllerBean.class.getName());
+    private static final Logger logger = Logger.getLogger(ObjectActionControllerBean.class.getName());
 
 	private String defaultUpdateInterval = "1.0";
 
@@ -93,14 +92,18 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	private List welcomeContainers = new ArrayList();
 
 	private Map updateInterval = new HashMap();
-
-	/**
-	 * 
-	 * The Max age for the Cookies saving the updateInterval 
-	 * 65 years as default should be enough for every user :-)
-	 */
-	private int updateIntervalCookieMaxAge = 60*60*24*30*12*65; 
 	
+	/**
+	 * store all the inactive CimomTreeNodes to do a login
+	 * 
+	 * Objects:CimomTreeNode
+	 * 
+	 * @see CimomTreeNode
+	 */
+	private List cimomTreeNodesForLogin;
+
+	private int updateIntervalCookieMaxAge = WbemsmtCookieUtil.DEFAULT_MAX_AGE;
+
 	public ObjectActionControllerBean() {
 		loadUpdateIntervalFromCookies();
 		
@@ -319,9 +322,24 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 				{
 					selectedTreeNode = selectedTreeNode.getParent();
 				}
-				configs = new WelcomeData[]{new WelcomeData(selectedTreeNode)};
+				if (selectedTreeNode != null)
+				{
+					configs = new WelcomeData[]{new WelcomeData(selectedTreeNode)};
+				}
+				else
+				{
+					configs = new WelcomeData[]{};
+				}
+				
 			} catch (WbemSmtException e) {
-				logger.log(Level.SEVERE,"Cannot create JsfWelcomeListener for Selected node " + selectedTreeNode.getInfo(),e);
+				if (selectedTreeNode != null)
+				{
+					logger.log(Level.SEVERE,"Cannot create JsfWelcomeListener for Selected node " + selectedTreeNode.getInfo(),e);
+				}
+				else
+				{
+					logger.log(Level.SEVERE,"Cannot create JsfWelcomeListener." ,e);
+				}
 				configs = new WelcomeData[]{};
 			}
 		}
@@ -356,6 +374,11 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 				logger.log(Level.SEVERE,"Cannot crete JsfWelcomeListener for Task " + config.getTreeConfigData().getName(),e);
 			}
 		}
+		
+		//if there are new Messages update them
+		MessageHandlerBean bean =  (MessageHandlerBean) BeanNameConstants.MESSAGE_HANDLER.getBoundValue(FacesContext.getCurrentInstance());
+		bean.updateMessages();
+		
 		return parent;
 	}
 
@@ -438,10 +461,10 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 		String sNew = setValue(updateIntervalKey,updateIntervalValue,false);
 		
 		try {
-			Cookie cookieUpdate = new Cookie(COOKIE_PREFIX_UPDATE_INTERVAL + updateIntervalKey, sNew);
-			//one month should be enough
-			cookieUpdate.setMaxAge(updateIntervalCookieMaxAge);
-			((HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse()).addCookie(cookieUpdate);
+			WbemsmtCookieUtil.addCookie(
+					WbemsmtCookieUtil.COOKIE_PREFIX_UPDATE_INTERVAL + updateIntervalKey, 
+					sNew,
+					updateIntervalCookieMaxAge);
 		} catch (RuntimeException e) {
 			logger.log(Level.SEVERE,"cannot set cookies for update interval ",e);
 		}
@@ -471,19 +494,13 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	}
 	
 	private void loadUpdateIntervalFromCookies() {
-		Map map = FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap();
-		Set set = map.entrySet();
-		for (Iterator iter = set.iterator(); iter.hasNext();) {
-			Map.Entry entry = (Map.Entry) iter.next();
-			String key = (String) entry.getKey();
-			Cookie cookie = (Cookie) entry.getValue();
-			
-			if (key.startsWith(COOKIE_PREFIX_UPDATE_INTERVAL))
-			{
-				key = key.substring(COOKIE_PREFIX_UPDATE_INTERVAL.length());
-				setValue(key,cookie.getValue(),true);
-			}
-			
+		
+		Iterator iter = WbemsmtCookieUtil.getCookiesWithPrefix(WbemsmtCookieUtil.COOKIE_PREFIX_UPDATE_INTERVAL);
+		while (iter.hasNext()) {
+			Cookie cookie = (Cookie) iter.next();
+			//remove the prefix for the key
+			String key = cookie.getName().substring(WbemsmtCookieUtil.COOKIE_PREFIX_UPDATE_INTERVAL.length());
+			setValue(key,cookie.getValue(),true);
 		}
 
 		
@@ -494,7 +511,7 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	 * @return
 	 */
 	public int getUpdateIntervalCookieMaxAge() {
-		return updateIntervalCookieMaxAge;
+		return updateIntervalCookieMaxAge ;
 	}
 
 	/**
@@ -503,6 +520,14 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	 */
 	public void setUpdateIntervalCookieMaxAge(int updateIntervalCookieMaxAge) {
 		this.updateIntervalCookieMaxAge = updateIntervalCookieMaxAge;
+	}
+
+	public List getCimomTreeNodesForLogin() {
+		return cimomTreeNodesForLogin;
+	}
+
+	public void setCimomTreeNodesForLogin(List cimomTreeNodesForLogin) {
+		this.cimomTreeNodesForLogin = cimomTreeNodesForLogin;
 	}
 
 	

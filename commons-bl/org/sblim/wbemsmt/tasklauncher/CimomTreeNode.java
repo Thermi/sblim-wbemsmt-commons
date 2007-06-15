@@ -52,6 +52,11 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 	private CimomData cimomData;
 	private CIMClient cimClient;
 
+	private String password;
+	private boolean emptyPassword;
+	private boolean remindPassword;
+	private boolean useSlp;
+	
 	private static Logger logger = Logger.getLogger(CimomTreeNode.class.getName());
 	
 	private SLPLoader slpLoader = null;
@@ -182,6 +187,7 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 					else
 					{
         				TaskLauncherTreeNode rootNode = TaskLauncherTreeNode.createSimpleTextNode(treeConfig.getTreeConfigData().getName());
+        				rootNode.setCustomTreeConfig(treeConfig);
         				rootNode.setEnabled(false);
 						addSubnode(rootNode);
 					}
@@ -241,11 +247,46 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 
 	public void logout() throws WbemSmtException {
 		setCimClient(null);
-		getCimomData().setUser(null);
 		updateName();
 		buildTree();   
 		readSubnodes(true);
 	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public boolean isUseSlp() {
+		return useSlp;
+	}
+
+	public void setUseSlp(boolean useSlp) {
+		this.useSlp = useSlp;
+	}
+
+	public boolean isEmptyPassword() {
+		return emptyPassword;
+	}
+
+	public void setEmptyPassword(boolean emptyPassword) {
+		this.emptyPassword = emptyPassword;
+	}
+
+	public boolean isRemindPassword() {
+		return remindPassword;
+	}
+
+	public void setRemindPassword(boolean remindPassword) {
+		this.remindPassword = remindPassword;
+	}
+	
+	
+	
+	
 	
     
     

@@ -22,6 +22,7 @@
  */
 package org.sblim.wbemsmt.exception;
 
+import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
 
 /**
@@ -30,44 +31,55 @@ import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
  */
 public class LoginException extends ObjectSaveException {
 
+	private CIMClient cimClient = null;
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7726662820716834494L;
 
-	public LoginException(CIM_ObjectIf cimElement) {
+	public LoginException(CIM_ObjectIf cimElement, CIMClient cimClient) {
 		super(cimElement);
+		this.cimClient = cimClient;
 		
 	}
 
-	public LoginException(String arg0, Throwable arg1) {
+	public LoginException(String arg0, Throwable arg1, CIMClient cimClient) {
 		super(arg0, arg1);
-		
+		this.cimClient = cimClient;
 	}
 
-	public LoginException(Throwable arg1) {
+	public LoginException(Throwable arg1, CIMClient cimClient) {
 		super(arg1);
-		
+		this.cimClient = cimClient;
 	}
 
-	public LoginException(String arg0) {
+	public LoginException(String arg0, CIMClient cimClient) {
 		super(arg0);
-		
+		this.cimClient = cimClient;
 	}
 
-	public LoginException(String arg0, CIM_ObjectIf cimElement, Throwable arg1) {
+	public LoginException(String arg0, CIM_ObjectIf cimElement, Throwable arg1, CIMClient cimClient) {
 		super(arg0, cimElement, arg1);
-		
+		this.cimClient = cimClient;
 	}
 
-	public LoginException(CIM_ObjectIf cimElement, Throwable arg1) {
+	public LoginException(CIM_ObjectIf cimElement, Throwable arg1, CIMClient cimClient) {
 		super(cimElement, arg1);
-		
+		this.cimClient = cimClient;
 	}
 
-	public LoginException(WbemSmtException arg1) {
+	public LoginException(WbemSmtException arg1, CIMClient cimClient) {
 		super(arg1);
-		
+		this.cimClient = cimClient;
+	}
+
+	public CIMClient getCimClient() {
+		return cimClient;
+	}
+
+	public void setCimClient(CIMClient cimClient) {
+		this.cimClient = cimClient;
 	}
 
 

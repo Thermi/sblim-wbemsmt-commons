@@ -36,6 +36,7 @@ import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 
 import org.sblim.wbem.client.CIMClient;
+import org.sblim.wbemsmt.bl.adapter.CimAdapterFactory;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeFactory;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.welcome.WelcomeData;
@@ -359,6 +360,24 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 	}
 	
 	/**
+	 * Counts the inactive Cimom Nodes 
+	 * If the application is not running in multimode the return value is 0
+	 * @return
+	 */
+	public int getInactiveCimomNodeCount()
+	{
+		int count = 0;
+		for (Iterator iter = cimomNodes.iterator(); iter.hasNext();) {
+			CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
+			if (cimomTreeNode.getCimClient() == null)
+			{
+				count++;
+			}
+		}
+		return count;
+	}
+
+	/**
 	 * Returns a node with all active cimons
 	 * If the application is not running in multimode the return value is nul
 	 * @return null or a SimpleTextTreeNode with all the active CimomTreeNodes as childs
@@ -379,6 +398,28 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 			
 		return result;
 	}
+	
+	/**
+	 * Returns a node with all inactive cimons
+	 * If the application is not running in multimode or there are no inactive nodes the return value is null
+	 * @return null or a SimpleTextTreeNode with all the active CimomTreeNodes as childs
+	 */
+	public ITaskLauncherTreeNode getNodeWithInactiveCimomsNodes()
+	{
+		ITaskLauncherTreeNode result = null;
+		if (getInactiveCimomNodeCount() > 0)
+		{
+			List nodes = getInactiveCimomNodes();
+			result = new SimpleTextTreeNode("inactiveCimoms");
+			for (Iterator iter = nodes.iterator(); iter.hasNext();) {
+				CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
+				result.addSubnode(cimomTreeNode);
+			}
+		}
+			
+		return result;
+	}
+	
 
 	/**
 	 * Returns a node with all rootNodes
@@ -419,6 +460,25 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		return result;
 	}
 
+	/**
+	 * Returns a list with all active cimons
+	 * If the application is not running in multimode the return value is null
+	 * @return
+	 */
+	private List getInactiveCimomNodes() {
+
+		List result = new ArrayList();
+		
+		for (Iterator iter = cimomNodes.iterator(); iter.hasNext();) {
+			CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
+			if (cimomTreeNode.getCimClient() == null)
+			{
+				result.add(cimomTreeNode);
+			}	
+		}
+		return result;
+	}
+
 	
 	/**
 	 * Returns a array of TreeConfigData Objects of all active tasks
@@ -444,7 +504,12 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 				List vector = cimomTreeNode.getSubnodes();
 				for (Iterator iterator = vector.iterator(); iterator.hasNext();) {
 					TaskLauncherTreeNode node = (TaskLauncherTreeNode) iterator.next();
-					map.put(node.getCustomTreeConfig().getTreeConfigData().getName(), new WelcomeData(node.getCustomTreeConfig().getTreeConfigData(),cimomTreeNode.getCimClient()));
+					
+					//add only if the adapter for the task was initialized
+					if (CimAdapterFactory.getInstance().getAdapter(node.getCustomTreeConfig().getTreeConfigData().getName(),cimomTreeNode.getCimClient()) != null)
+					{
+						map.put(node.getCustomTreeConfig().getTreeConfigData().getName(), new WelcomeData(node.getCustomTreeConfig().getTreeConfigData(),cimomTreeNode.getCimClient()));
+					}
 				}
 			} catch (WbemSmtException e) {
 				logger.log(Level.SEVERE, "Cannot get nodes of cimomTreeNode " + cimomTreeNode.getInfo(),e);

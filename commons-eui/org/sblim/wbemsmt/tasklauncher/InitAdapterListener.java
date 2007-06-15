@@ -57,6 +57,7 @@ public class InitAdapterListener extends TaskLauncherTreeNodeEventListenerImpl {
 		if ((event.getType() & TaskLauncherTreeNodeEvent.TYPE_REFRESHED) > 0)
 		{
 			String adapterClass = getParameters().getProperty(InitAdapterListener.ADAPTER_CLASS_NAME);
+			String taskname = getParameters().getProperty(InitAdapterListener.TASK_NAME);
 			logger.info("Init Adapter " + adapterClass);
 			
 			try {
@@ -67,13 +68,22 @@ public class InitAdapterListener extends TaskLauncherTreeNodeEventListenerImpl {
 
 					ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) event.getSource();
 					final AbstractBaseCimAdapter adapter = CimAdapterFactory.getInstance().getAdapter(Class.forName(adapterClass),context,node.getCimClient());
+					
 					adapter.setCimClient(node.getCimClient());
 					adapter.reLoad(node);
 					adapter.setLocaleManager(localeManager);
 
-					ObjectActionControllerBean objectActionController = (ObjectActionControllerBean) BeanNameConstants.OBJECT_ACTION_CONTROLLER.asValueBinding(context).getValue(context);
-					objectActionController.addAdapter(getParameters().getProperty(InitAdapterListener.TASK_NAME), adapter);
-					
+					if (!adapter.isLoaded())
+					{
+						CimAdapterFactory.getInstance().removeAdapter(adapter);
+						logger.warning("The adapter " + adapter.getClass().getName() + " for client " + node.getCimClient().getNameSpace().toString() + " was marked as not loaded and is removed from CimAdapterFactory");
+					}
+					else
+					{
+						CimAdapterFactory.getInstance().setAdapter(taskname,context,node.getCimClient(),adapter);
+						ObjectActionControllerBean objectActionController = (ObjectActionControllerBean) BeanNameConstants.OBJECT_ACTION_CONTROLLER.asValueBinding(context).getValue(context);
+						objectActionController.addAdapter(getParameters().getProperty(InitAdapterListener.TASK_NAME), adapter);
+					}
 				}
 				else if (RuntimeUtil.getInstance().isSwing())
 				{

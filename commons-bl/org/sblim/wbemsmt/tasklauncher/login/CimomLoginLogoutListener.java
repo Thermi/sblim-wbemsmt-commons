@@ -19,12 +19,22 @@
   */
 package org.sblim.wbemsmt.tasklauncher.login;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+
 import javax.faces.context.FacesContext;
 
+import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
+import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tasklauncher.CimomTreeNode;
+import org.sblim.wbemsmt.tasklauncher.TreeSelector;
 import org.sblim.wbemsmt.tasklauncher.event.TaskLauncherContextMenuEventListenerImpl;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
+import org.sblim.wbemsmt.tools.jsf.WbemsmtCookieUtil;
+import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
 
 public class CimomLoginLogoutListener extends TaskLauncherContextMenuEventListenerImpl {
 
@@ -36,8 +46,10 @@ public class CimomLoginLogoutListener extends TaskLauncherContextMenuEventListen
 		
 		if (event.type == TaskLauncherTreeNodeEvent.TYPE_CLICKED)
 		{
-			
+
 			FacesContext fc = FacesContext.getCurrentInstance();
+			
+			TreeSelector controller = (TreeSelector) BeanNameConstants.TREE_SELECTOR.getBoundValue(FacesContext.getCurrentInstance());
 
 			CimomTreeNode cimomTreeNode = (CimomTreeNode) event.getTreeNode();
 			
@@ -50,6 +62,28 @@ public class CimomLoginLogoutListener extends TaskLauncherContextMenuEventListen
 			}
 			else
 			{
+				ITaskLauncherTreeNode nodeWithInactiveCimomsNodes = controller.getCurrentTreeFactory().getNodeWithInactiveCimomsNodes();
+
+				ObjectActionControllerBean oac = (ObjectActionControllerBean) BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
+				List nodes = new ArrayList();
+				try {
+					if (nodeWithInactiveCimomsNodes != null)
+					{
+						Iterator it = nodeWithInactiveCimomsNodes.getSubnodes().iterator();
+						while (it.hasNext())
+						{
+							CimomTreeNode node = (CimomTreeNode)it.next();
+							String passwd = WbemsmtCookieUtil.getPasswordFromCookie(node.getCimomData().getUser(), node.getCimomData().getHostname());
+							node.setPassword(WbemsmtCookieUtil.EMPTY.equals(passwd) ? "" : passwd);
+							node.setRemindPassword(passwd != null);
+							node.setEmptyPassword(WbemsmtCookieUtil.EMPTY.equals(passwd));
+						}
+						nodes.addAll(nodeWithInactiveCimomsNodes.getSubnodes());
+					}
+				} catch (WbemSmtException e) {
+					logger.log(Level.SEVERE,"Cannot get Inactive CimomTreeNodes",e);
+				}
+				oac.setCimomTreeNodesForLogin(nodes);
 				result = "cimomLogin";
 			}
 			return result;

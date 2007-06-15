@@ -75,4 +75,21 @@ public class MessageUtil {
 		}
 	}
 	
+	public static void addMessage(MessageDefinition messageDefinition, WbemSmtResourceBundle bundle)
+	{
+		addMessage(messageDefinition,bundle,null);
+	}
+	public static void addMessage(MessageDefinition messageDefinition, WbemSmtResourceBundle bundle, Object[] objects)
+	{
+		if (RuntimeUtil.getInstance().isJSF())
+		{
+			FacesContext.getCurrentInstance().addMessage(null, new WbemsmtFacesMessage(Message.create(messageDefinition, bundle, objects)));
+		}
+		else if (RuntimeUtil.getInstance().isCommandline())
+		{
+			Message msg = Message.create(messageDefinition, bundle, objects);
+			System.err.println(bundle.getString("error.while.execution") + "\n" + msg.getMessageString());
+		}
+	}
+
 }

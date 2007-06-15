@@ -73,7 +73,6 @@ public class ErrCodes
 	
 	public static final MessageNumber MSG_CANNOT_EXECUTE_ACTION = new MessageNumber(COMPONENT,SUBSYS_BLO,25);
 
-	
 	static
 	{
 		exceptions.put(org.sblim.wbemsmt.exception.InitWizardException    .class    , MSG_INITWIZARDEXCEPTION    );
@@ -155,6 +154,8 @@ public class ErrCodes
 	public static final MessageNumber MSG_TASK_NOT_SUPPORTED_SERVER = new MessageNumber(COMPONENT,SUBSYS_WTR,3);
 	public static final MessageNumber MSG_TASK_NOT_SUPPORTED_CLIENT = new MessageNumber(COMPONENT,SUBSYS_WTR,4);
 	public static final MessageNumber MSG_HOST_NOT_FOUND =  new MessageNumber(COMPONENT,SUBSYS_WTR,5);
+
+	public static final MessageDefinition MSGDEF_EMPTY_PASSWORD_AND_PASSWORD_SET = new MessageDefinition(new MessageNumber(ErrCodes.COMPONENT,SUBSYS_WTR,6),Message.ERROR,"empty.password.and.password.set");
 
 	/**
 	 * ADM - Wbemsmt Tasklauncher admin

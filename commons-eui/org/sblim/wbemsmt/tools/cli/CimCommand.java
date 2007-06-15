@@ -435,7 +435,7 @@ public abstract class CimCommand {
 		try {
 			cimClient.enumerateClassNames();
 		} catch (CIMException e) {
-			throw new LoginException(e);
+			throw new LoginException(e,cimClient);
 		}
 		return cimClient;
 	}
