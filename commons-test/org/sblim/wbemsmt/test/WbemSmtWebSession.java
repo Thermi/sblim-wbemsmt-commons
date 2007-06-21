@@ -444,6 +444,187 @@ public class WbemSmtWebSession implements Selenium {
 		
 	}
 
+	public void altKeyDown() {
+		selenium.altKeyDown();
+		
+	}
+
+	public void altKeyUp() {
+		selenium.altKeyUp();
+	}
+
+	public void clickAt(String arg0, String arg1) {
+		selenium.clickAt(arg0, arg1);
+	}
+
+	public void controlKeyDown() {
+		selenium.controlKeyDown();
+	}
+
+	public void controlKeyUp() {
+		selenium.controlKeyUp();
+	}
+
+	public void createCookie(String arg0, String arg1) {
+		selenium.createCookie(arg0, arg1);
+		
+	}
+
+	public void deleteCookie(String arg0, String arg1) {
+		selenium.deleteCookie(arg0, arg1);
+		
+	}
+
+	public void doubleClick(String arg0) {
+		selenium.doubleClick(arg0);
+		
+	}
+
+	public void doubleClickAt(String arg0, String arg1) {
+		selenium.doubleClickAt(arg0, arg1);
+		
+	}
+
+	public void dragAndDrop(String arg0, String arg1) {
+		selenium.dragAndDrop(arg0, arg1);
+		
+	}
+
+	public void dragAndDropToObject(String arg0, String arg1) {
+		selenium.dragAndDropToObject(arg0, arg1);
+		
+	}
+
+	public void dragdrop(String arg0, String arg1) {
+		selenium.dragdrop(arg0, arg1);
+		
+	}
+
+	public String[] getAllWindowIds() {
+		return selenium.getAllWindowIds();
+	}
+
+	public String[] getAllWindowNames() {
+		return selenium.getAllWindowNames();
+	}
+
+	public String[] getAllWindowTitles() {
+		return selenium.getAllWindowTitles();
+	}
+
+	public String[] getAttributeFromAllWindows(String arg0) {
+		return selenium.getAttributeFromAllWindows(arg0);
+	}
+
+	public String getCookie() {
+		return selenium.getCookie();
+	}
+
+	public Number getElementHeight(String arg0) {
+		return selenium.getElementHeight(arg0);
+	}
+
+	public Number getElementIndex(String arg0) {
+		return selenium.getElementIndex(arg0);
+	}
+
+	public Number getElementPositionLeft(String arg0) {
+		return selenium.getElementPositionLeft(arg0);
+	}
+
+	public Number getElementPositionTop(String arg0) {
+		return selenium.getElementPositionTop(arg0);
+	}
+
+	public Number getElementWidth(String arg0) {
+		return selenium.getElementWidth(arg0);
+	}
+
+	public String getLogMessages() {
+		return selenium.getLogMessages();
+	}
+
+	public void getSpeed() {
+		selenium.getSpeed();
+	}
+
+	public boolean getWhetherThisFrameMatchFrameExpression(String arg0, String arg1) {
+		return selenium.getWhetherThisFrameMatchFrameExpression(arg0, arg1);
+	}
+
+	public boolean getWhetherThisWindowMatchWindowExpression(String arg0, String arg1) {
+		return selenium.getWhetherThisWindowMatchWindowExpression(arg0, arg1);
+	}
+
+	public boolean isOrdered(String arg0, String arg1) {
+		return selenium.isOrdered(arg0, arg1);
+	}
+
+	public void metaKeyDown() {
+		selenium.metaKeyDown();
+	}
+
+	public void metaKeyUp() {
+		selenium.metaKeyUp();
+	}
+
+	public void mouseDownAt(String arg0, String arg1) {
+		selenium.mouseDownAt(arg0, arg1);
+	}
+
+	public void mouseMove(String arg0) {
+		selenium.mouseMove(arg0);
+	}
+
+	public void mouseMoveAt(String arg0, String arg1) {
+		selenium.mouseMoveAt(arg0, arg1);
+	}
+
+	public void mouseOut(String arg0) {
+		selenium.mouseOut(arg0);
+		
+	}
+
+	public void mouseUp(String arg0) {
+		selenium.mouseUp(arg0);
+		
+	}
+
+	public void mouseUpAt(String arg0, String arg1) {
+		selenium.mouseUpAt(arg0, arg1);
+		
+	}
+
+	public void openWindow(String arg0, String arg1) {
+		selenium.openWindow(arg0, arg1);
+	}
+
+	public void selectFrame(String arg0) {
+		selenium.selectFrame(arg0);
+		
+	}
+
+	public void setSpeed(String arg0) {
+		selenium.setSpeed(arg0);
+	}
+
+	public void shiftKeyDown() {
+		selenium.shiftKeyDown();
+	}
+
+	public void shiftKeyUp() {
+		selenium.shiftKeyUp();
+	}
+
+	public void windowFocus(String arg0) {
+		selenium.windowFocus(arg0);
+	}
+
+	public void windowMaximize(String arg0) {
+		selenium.windowMaximize(arg0);
+		
+	}
+
 
 	
 	
