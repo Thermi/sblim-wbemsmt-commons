@@ -21,6 +21,7 @@
   */
 package org.sblim.wbemsmt.tools.slp;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -33,7 +34,7 @@ public abstract class SLPLoader {
 	
 	/**
 	 * Find for a serviceName the Hosts that are registered for that service
-	 * The serviceName is the value of the attribuite RegisteredProfilesSupported return by SLP:
+	 * The registeredProfile is the value of the attribuite RegisteredProfilesSupported return by SLP:
 	 * 
 	 * 
 	 * RegisteredProfilesSupported defines the Profiles that 
@@ -46,10 +47,10 @@ public abstract class SLPLoader {
 	 * The Profile Name MUST be the CIM_RegisteredProfile.RegisteredName property value. 
 	 * The subprofile Name MUST be the CIM_RegisteredProfile.RegisteredName property value when it is used as a Dependent in the CIM_SubProfileRequiresProfile association for the specified Profile Name (used as the antecedent).
 	 * 
-	 * @param serviceName
+	 * @param registeredProfile
 	 * @return
 	 */
-	public abstract SLPHostDefinition[] findHosts(String serviceName);
+	public abstract SLPHostDefinition[] findHosts(String registeredProfile);
 
 	/**
 	 * Find all registered Hosts. Independent of the provided services
@@ -66,7 +67,7 @@ public abstract class SLPLoader {
 	/**
 	 * A List of Strings for InetAddress.getByName that specify the directory agents to look for.
 	 */
-	private List directoryAgentAdresses = null;
+	private List directoryAgentAdresses = new ArrayList();
 
 	public Long getSleepInterval() {
 		return sleepInterval;

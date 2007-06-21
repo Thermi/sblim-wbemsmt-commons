@@ -48,19 +48,21 @@ public class SblimSLPClientSLPLoader extends SLPLoader {
 	public static void main(String[] args) throws InterruptedException
 	{
 		String serviceName = args.length > 0 ? args[0] : null;
+		if ("*".equals(serviceName))
+		{
+			serviceName = null;
+		}
 		
-		Thread.sleep(10000);
-			
 		List addresses = new ArrayList();
 		for (int i = 1; args.length > 1 && i < args.length; i++) {
 			addresses.add(args[i]);
-			System.out.println("DA Address: " + args[i]);
+			logger.fine("DA Address: " + args[i]);
 		}
 		SblimSLPClientSLPLoader loader = new SblimSLPClientSLPLoader();
 		loader.setDirectoryAgentAdresses(addresses);
 		loader.setSleepInterval(new Long(1000));
 		
-		System.out.println("Servicname " + serviceName);
+		logger.fine("Servicname " + serviceName);
 		
 		SLPHostDefinition[] definitions;
 		if (serviceName == null)
@@ -72,7 +74,7 @@ public class SblimSLPClientSLPLoader extends SLPLoader {
 			definitions = loader.findHosts(serviceName);
 		}
 		
-		System.out.println("Found " + definitions.length + " Hosts.");
+		logger.info("Found " + definitions.length + " Hosts.");
 		
 		for (int i = 0; i < definitions.length; i++) {
 			SLPHostDefinition definition = definitions[i];
@@ -101,14 +103,19 @@ public class SblimSLPClientSLPLoader extends SLPLoader {
 	/* (non-Javadoc)
 	 * @see org.sblim.wbemsmt.tools.slp.SLPLoader#findServiceAgents(java.lang.String)
 	 */
-	public SLPHostDefinition[] findHosts(String serviceName) {
+	public SLPHostDefinition[] findHosts(String registeredProfile) {
 
-		logger.fine("Find service Agents for service " + serviceName);
+		logger.fine("Find service Agents for service " + registeredProfile);
+		return findHostsImpl(registeredProfile);
+	}
 
+
+	private SLPHostDefinition[] findHostsImpl(String registeredProfile) {
 		//wait till the slp loading has finished
 		while (loadThread.loaded == null)
 		{
 			try {
+				logger.fine("Thread not loaded - sleep");
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -126,9 +133,13 @@ public class SblimSLPClientSLPLoader extends SLPLoader {
 
 		synchronized (loadThread.serviceWrappers) {
 			List list = loadThread.serviceWrappers;
+
+			logger.fine("Processing ServiceWrappers " + loadThread.serviceWrappers.size());
+
 			for (Iterator iterWrappers = list.iterator(); iterWrappers.hasNext();) {
 				ServiceWrapper wrapper = (ServiceWrapper) iterWrappers.next();
 				ServiceURL url = wrapper.serviceUrl;
+				logger.fine("Processing ServiceWrapper for " + url.toString());
 
 				ServiceLocationAttribute attributeNamespace = wrapper.namespaceAttribute;
 				Vector namespaceValues = attributeNamespace.getValues();
@@ -137,40 +148,55 @@ public class SblimSLPClientSLPLoader extends SLPLoader {
 					namespaces.add((String) iter.next());
 				}
 				
+				logger.fine("Namespaces " + namespaces.size());
+
 				if (namespaces.size() == 0)
 				{
 					namespaces.add(SLPLoader.DEFAULT_CIM_NAMESPACE);
 					logger.warning("For URL no namespace was found taking " + SLPLoader.DEFAULT_CIM_NAMESPACE + " as default.");
 				}
-
-				ServiceLocationAttribute attributeRegisteredProfiles = wrapper.registeredProfileAttribute;
-				logger.fine(attributeRegisteredProfiles.toString());
-				Vector values = attributeRegisteredProfiles.getValues();
-				for (Iterator iteratorValues = values.iterator(); iteratorValues.hasNext();) {
-					String value = iteratorValues.next().toString();
-					if (value.equalsIgnoreCase(serviceName))
+				
+				boolean serviceNameFound = false;
+				
+				//only check the servic names if the parameter was set
+				if (registeredProfile != null)
+				{
+					ServiceLocationAttribute attributeRegisteredProfiles = wrapper.registeredProfileAttribute;
+					logger.fine(attributeRegisteredProfiles.toString());
+					Vector values = attributeRegisteredProfiles.getValues();
+					for (Iterator iteratorValues = values.iterator(); iteratorValues.hasNext();) {
+						String value = iteratorValues.next().toString();
+						if (value.equalsIgnoreCase(registeredProfile))
+						{
+							serviceNameFound = true;
+						}
+					}
+				}
+				
+				
+				if (serviceNameFound || registeredProfile == null)
+				{
+					String protocol = "http";
+					if (url.toString().toLowerCase().indexOf(":https:") > -1)
 					{
-						String protocol = "http";
-						if (url.toString().toLowerCase().indexOf(":https:") > -1)
-						{
-							protocol = "https";
-						}
-						int port = url.getPort();
-						if (port == ServiceURL.NO_PORT)
-						{
-							port = SLPLoader.DEFAULT_CIM_XML_OVER_HTTP_PORT;
-						}
-						
-						//Add a host definition for every namespace
-						for (Iterator iter = namespaces.iterator(); iter.hasNext();) {
-							String namespace = (String) iter.next();
-							result.add(new SLPHostDefinition(url.getHost(),port,protocol,namespace));	
-						}
-						
-						
+						protocol = "https";
+					}
+
+					int port = url.getPort();
+					if (port == ServiceURL.NO_PORT)
+					{
+						port = SLPLoader.DEFAULT_CIM_XML_OVER_HTTP_PORT;
 					}
 					
+					//Add a host definition for every namespace
+					for (Iterator iter = namespaces.iterator(); iter.hasNext();) {
+						String namespace = (String) iter.next();
+						SLPHostDefinition hostDefinition = new SLPHostDefinition(url.getHost(),port,protocol,namespace);
+						result.add(hostDefinition);	
+						logger.fine("Adding HostDefinition " + hostDefinition.toString());
+					}
 				}
+				
 			}
 		}
 
@@ -183,65 +209,7 @@ public class SblimSLPClientSLPLoader extends SLPLoader {
 	public SLPHostDefinition[] findHosts() {
 
 		logger.fine("Find all service Agents");
-
-		//wait till the slp loading has finished
-		while (loadThread.loaded == null)
-		{
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		if (!loadThread.loaded.booleanValue())
-		{
-			logger.warning("Cannot load slp config");
-			return new SLPHostDefinition[]{};
-		}
-		
-		
-		List result = new ArrayList();
-
-		synchronized (loadThread.serviceWrappers) {
-			List list = loadThread.serviceWrappers;
-			for (Iterator iterWrappers = list.iterator(); iterWrappers.hasNext();) {
-				ServiceWrapper wrapper = (ServiceWrapper) iterWrappers.next();
-				ServiceURL url = wrapper.serviceUrl;
-
-				ServiceLocationAttribute attributeNamespace = wrapper.namespaceAttribute;
-				Vector namespaceValues = attributeNamespace.getValues();
-				List namespaces = new ArrayList();
-				for (Iterator iter = namespaceValues.iterator(); iter.hasNext();) {
-					namespaces.add((String) iter.next());
-				}
-				
-				if (namespaces.size() == 0)
-				{
-					namespaces.add(SLPLoader.DEFAULT_CIM_NAMESPACE);
-					logger.warning("For URL no namespace was found taking " + SLPLoader.DEFAULT_CIM_NAMESPACE + " as default.");
-				}
-
-				String protocol = "http";
-				if (url.toString().toLowerCase().indexOf(":https:") > -1)
-				{
-					protocol = "https";
-				}
-				int port = url.getPort();
-				if (port == ServiceURL.NO_PORT)
-				{
-					port = SLPLoader.DEFAULT_CIM_XML_OVER_HTTP_PORT;
-				}
-				
-				//Add a host definition for every namespace
-				for (Iterator iter = namespaces.iterator(); iter.hasNext();) {
-					String namespace = (String) iter.next();
-					result.add(new SLPHostDefinition(url.getHost(),port,protocol,namespace));	
-				}
-			}
-		}
-
-		return (SLPHostDefinition[]) result.toArray(new SLPHostDefinition[result.size()]);
+		return findHostsImpl(null);
 	}
 
 	/* (non-Javadoc)
@@ -293,8 +261,14 @@ public class SblimSLPClientSLPLoader extends SLPLoader {
 					logger.log(Level.FINEST,"Find Services " + list.size());
 					synchronized (serviceWrappers) {
 						serviceWrappers.clear();
+						
+						logger.fine("Found Service Urls: " + list.size());
+						
 						for (Iterator iterUrls = list.iterator(); iterUrls.hasNext();) {
 							ServiceURL url = (ServiceURL) iterUrls.next();
+							
+							logger.fine("Processing Service Url: " + url.toString());
+							
 							ServiceWrapper wrapper = new ServiceWrapper();
 							wrapper.serviceUrl = url;
 							List attributes = client.findAttributes(url,SLPClient.SCOPE,ATTRIBUTES);
