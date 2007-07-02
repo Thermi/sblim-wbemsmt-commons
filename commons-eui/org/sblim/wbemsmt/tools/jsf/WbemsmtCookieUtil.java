@@ -22,6 +22,7 @@ package org.sblim.wbemsmt.tools.jsf;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,16 +39,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.sblim.wbemsmt.util.WbemsmtStringEncrypter;
 import org.sblim.wbemsmt.util.WbemsmtStringEncrypter.EncryptionException;
 
-import com.ibm.jvm.util.ByteArrayOutputStream;
-
 public class WbemsmtCookieUtil {
 
 	public static final String COOKIE_PREFIX_UPDATE_INTERVAL = "updateInterval-";
 	public static final String COOKIE_PREFIX_PASSWORD = "cim-";
 	private static final String LOGIN_DATA = "cim-login-data";
 	
-	public static final String EMPTY = "//--EMPTY--//";
-
 	private static final Logger logger = Logger.getLogger(WbemsmtCookieUtil.class.getName());
 	private static WbemsmtStringEncrypter encrypter;
 
@@ -122,11 +119,16 @@ public class WbemsmtCookieUtil {
 	 * @param user
 	 * @param password
 	 */
-	public static void addPasswordCookie(String host, String user, String password) {
+	public static void addMultiLogonCookie(String host, String user, MultiHostLoginData loginData) {
 		try {
 			if (encrypter != null)
 			{
-				addCookie(getKey(user, host),encrypt(password),DEFAULT_MAX_AGE);
+				String value = loginData.toXml();
+				String encrypt = encrypt(decrypt(encrypt(value)));
+				Cookie cookie = new Cookie(getKey(user, host),encrypt);
+				cookie.setMaxAge(DEFAULT_MAX_AGE);
+				((HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse()).addCookie(cookie);
+
 			}
 		} catch (EncryptionException e) {
 			logger.log(Level.SEVERE, "Cannot encrypt password - Cookie was not added", e);
@@ -139,7 +141,7 @@ public class WbemsmtCookieUtil {
 	 * @param user
 	 * @param password
 	 */
-	public static void deletePasswordCookie(String host, String user) {
+	public static void removeMutliLogonCookie(String host, String user) {
 		String key = getKey(user, host);
 		deleteCookie(key);
 	}
@@ -188,25 +190,24 @@ public class WbemsmtCookieUtil {
 	 * @param host
 	 * @return
 	 */
-	public static String getPasswordFromCookie(String user, String host)
+	public static MultiHostLoginData getMultiHostLoginDataFromCookie(String user, String host)
 	{
 		String key = getKey(user, host);
 		
-		Iterator it = getCookiesWithPrefix(key);
-		if (it.hasNext())
+		Cookie cookie = getCookie(key);
+		if (encrypter != null && cookie != null)
 		{
-			Cookie cookie = (Cookie) it.next();
-			if (encrypter != null)
-			{
-				try {
-					return decrypt(cookie.getValue());
-				} catch (EncryptionException e) {
-					logger.log(Level.SEVERE, "Cannot decrypt", e);
-				}
+			try {
+				String value = cookie.getValue();
+				//replace the "cookie's line break" - two spaces - by a regulare line break
+				value = value.replaceAll("  ", "\r\n");
+				return MultiHostLoginData.create(decrypt(value));
+			} catch (EncryptionException e) {
+				logger.log(Level.SEVERE, "Cannot decrypt LoginData", e);
 			}
 		}
-		
 		return null;
+
 	}
 
 	/**
@@ -242,7 +243,7 @@ public class WbemsmtCookieUtil {
 		{
 			try {
 				String value = loginData.toXml();
-				String encrypt = encrypt(decrypt(encrypt(value)));
+				String encrypt = encrypt(value);
 				Cookie cookie = new Cookie(LOGIN_DATA,encrypt);
 				cookie.setMaxAge(DEFAULT_MAX_AGE);
 				((HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse()).addCookie(cookie);
@@ -287,6 +288,7 @@ public class WbemsmtCookieUtil {
 			this.host = host;
 			this.port = port;
 			this.namespace = namespace;
+			this.useSlp = useSlp;
 		}
 		
 		public static LoginData create(String xml)
@@ -355,5 +357,67 @@ public class WbemsmtCookieUtil {
 		}
 	}
 
+	public static class MultiHostLoginData implements Serializable
+	{
+
+		private static final long serialVersionUID = 7062726088746396360L;
+
+		private boolean useSlp;
+		private String password;
+		private boolean useEmptyPassword;
+
+		public MultiHostLoginData() {
+			super();
+		}
+
+		public MultiHostLoginData(boolean useEmptyPassword, boolean useSlp, String password) {
+			this.useEmptyPassword = useEmptyPassword;
+			this.useSlp = useSlp;
+			this.password = password;
+		}
+		
+		public static MultiHostLoginData create(String xml)
+		{
+		       XMLDecoder e = new XMLDecoder(new ByteArrayInputStream(xml.getBytes()));
+		       MultiHostLoginData loginData = (MultiHostLoginData) e.readObject();
+		       return loginData;
+		}
+		
+		public String toXml()
+		{
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			XMLEncoder encoder = new XMLEncoder(out);
+			encoder.writeObject(this);
+			encoder.flush();
+			encoder.close();
+			return new String(out.toByteArray());
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+		public boolean isUseSlp() {
+			return useSlp;
+		}
+
+		public void setUseSlp(boolean useSlp) {
+			this.useSlp = useSlp;
+		}
+
+		public boolean isUseEmptyPassword() {
+			return useEmptyPassword;
+		}
+
+		public void setUseEmptyPassword(boolean useEmptyPassword) {
+			this.useEmptyPassword = useEmptyPassword;
+		}
+		
+		
+	}
 
 }

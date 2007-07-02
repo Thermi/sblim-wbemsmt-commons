@@ -55,6 +55,7 @@ import org.sblim.wbemsmt.exception.ObjectUpdateException;
 import org.sblim.wbemsmt.exception.UpdateControlsException;
 import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.tasklauncher.CustomTreeConfig;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
@@ -121,6 +122,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	
 	
 	private RemoveDataContainerThread removeDataContainerThread;
+	protected CustomTreeConfig customTreeConfig;
 	
 	public AbstractBaseCimAdapter()
 	{
@@ -1194,8 +1196,11 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		CimAdapterFactory.getInstance().removeAdapter(this);
 		refreshItems.clear();
 		
-		removeDataContainerThread.cleanup();
-		removeDataContainerThread=null;
+		if ( removeDataContainerThread != null)
+		{
+			removeDataContainerThread.cleanup();
+			removeDataContainerThread=null;
+		}
 	}
 
 	public CIMObjectPath getPathOfTreeNode() {
@@ -1295,6 +1300,10 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			reloadDependentAdapters.add(adapter);
 		}
 		
+	}
+
+	public void setCustomTreeConfig(CustomTreeConfig customTreeConfig) {
+		this.customTreeConfig = customTreeConfig;
 	}
 	
 	

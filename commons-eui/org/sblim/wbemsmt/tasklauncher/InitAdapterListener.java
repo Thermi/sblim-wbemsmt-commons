@@ -70,6 +70,7 @@ public class InitAdapterListener extends TaskLauncherTreeNodeEventListenerImpl {
 					final AbstractBaseCimAdapter adapter = CimAdapterFactory.getInstance().getAdapter(Class.forName(adapterClass),context,node.getCimClient());
 					
 					adapter.setCimClient(node.getCimClient());
+					adapter.setCustomTreeConfig(node.getCustomTreeConfig());
 					adapter.reLoad(node);
 					adapter.setLocaleManager(localeManager);
 

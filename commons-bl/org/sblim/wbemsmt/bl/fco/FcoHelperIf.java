@@ -168,5 +168,12 @@ public interface FcoHelperIf {
 			FcoHelperListener listener);
 	
 	public abstract CIM_ObjectCreatorIf getCIM_ObjectCreator();
+	
+	/**
+	 * Set the notifyChanges flag of modifyInstance and createInstance
+	 * Default is true
+	 * @param notifyChanges
+	 */
+	public abstract void setNotifyChanges(boolean notifyChanges);
 
 }

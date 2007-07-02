@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.sblim.wbem.cim.CIMException;
+import org.sblim.wbem.cim.CIMNameSpace;
 import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.MessageNumber;
 import org.sblim.wbemsmt.bl.adapter.Message;
@@ -108,7 +109,12 @@ public class ExceptionUtil {
 			else if (wbemsmtExceptionCause instanceof LoginException)
 			{
 				LoginException loginException = (LoginException)wbemsmtExceptionCause;
-				objectText = loginException.getCimClient() != null ? loginException.getCimClient().getNameSpace().toString() : "";
+				objectText = "";
+				if (loginException.getCimClient() != null)
+				{
+					CIMNameSpace nameSpace = loginException.getCimClient().getNameSpace();
+					objectText = "//" + nameSpace.getHost() +  nameSpace.getNameSpace();
+				}
 			}
 			else
 			{

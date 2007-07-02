@@ -9,3 +9,18 @@ Update from VERSION_2_0 to VERSION_2_1
     - Compatible change to 2_0
  	- CHANGE Attribute version of root-element customtreeconfig to VERSION_2_1
 	- ADD contextmenu as first child of root Element for common context menues
+
+Update from VERSION_2_0 to VERSION_2_1
+    - Compatible change to 2_0 and 2_1
+ 	- CHANGE Attribute version of root-element customtreeconfig to VERSION_2_2
+ 	- As child element of the element <tlc:instanceSubnodes> you can add the following:
+ 	  <tlc:initialObjectLoaderClass>
+ 	  	<classname>Instance if WbemsmtInitialObjectLoader</classname>
+		<tlc:param>
+			<tlc:param-name>name</tlc:param-name>
+			<tlc:param-value>value</tlc:param-value>
+		</tlc:param>
+ 	  </tlc:initialObjectLoaderClass>
+ 	  
+ 	  Parameter is optional
+	

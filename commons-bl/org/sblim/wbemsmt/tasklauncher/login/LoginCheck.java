@@ -32,4 +32,6 @@ public interface LoginCheck
     public void reloadLoginSettings() throws WbemSmtException;
     public CIMClient getCimClient();
 	public void setCimomData(CimomData data);
+	public boolean isUseSlp();
+	public void setUseSlp(boolean useSlp);
 }

@@ -45,7 +45,11 @@ public class WelcomeData {
 		{
 			throw new WbemSmtException("node was null. Cannot create WelcomeData");
 		}
-		if (node.getTreeConfigData() == null)
+		if (node.getCustomTreeConfig()  == null)
+		{
+			throw new WbemSmtException("customTreeConfig of node " + node.getInfo() + " was null. Cannot create WelcomeData");
+		}
+		if (node.getCustomTreeConfig().getTreeConfigData()  == null)
 		{
 			throw new WbemSmtException("treeConfigData of node " + node.getInfo() + " was null. Cannot create WelcomeData");
 		}
@@ -53,7 +57,7 @@ public class WelcomeData {
 		{
 			throw new WbemSmtException("cimClient of node " + node.getInfo() + " was null. Cannot create WelcomeData");
 		}
-		this.treeConfigData = node.getTreeConfigData();
+		this.treeConfigData = node.getCustomTreeConfig().getTreeConfigData();
 		this.cimClient = node.getCimClient();
 	}
 

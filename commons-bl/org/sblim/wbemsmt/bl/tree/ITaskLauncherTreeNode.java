@@ -28,9 +28,9 @@ import org.sblim.wbem.cim.CIMObjectPath;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tasklauncher.CIMClassNode;
+import org.sblim.wbemsmt.tasklauncher.CustomTreeConfig;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherContextMenu;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
-import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.TreeConfigData;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument.Treenode;
 
@@ -99,7 +99,7 @@ public interface ITaskLauncherTreeNode {
 
 	public abstract Set getEventListener();
 	
-	public TreeConfigData getTreeConfigData();
+	//public TreeConfigData getTreeConfigData();
 
 	public abstract boolean hasEventListener();
 
@@ -129,5 +129,9 @@ public interface ITaskLauncherTreeNode {
 
 	public abstract List findNodesByName(String name) throws WbemSmtException;
 
+	public void setCustomTreeConfig(CustomTreeConfig customTreeConfig);
+
+	public CustomTreeConfig getCustomTreeConfig();
+	
 
 }

@@ -21,6 +21,8 @@ package org.sblim.wbemsmt.tools.slp;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -120,7 +122,28 @@ public class SLPUtil {
 		return foundCimom;
 	}
 
+	/**
+	 * checks if the task is supported ont the host
+	 * @param slpLoader
+	 * @param host
+	 * @param slpServicename
+	 * @return
+	 */
 	public static boolean getTaskIsSupported(SLPLoader slpLoader, String host, String slpServicename) {
+		
+		return getHostForSupportedTask(slpLoader, host, slpServicename) != null ;
+	}
+
+	/**
+	 * Return the SLPHostDefinition if the Task is Supported
+	 * @param slpLoader
+	 * @param host
+	 * @param slpServicename
+	 * @see #getTaskIsSupported(SLPLoader, String, String)
+	 * @return
+	 */
+	
+	public static SLPHostDefinition getHostForSupportedTask(SLPLoader slpLoader, String host, String slpServicename) {
 		
 		boolean result = false;
 		String lookup = "";
@@ -135,18 +158,57 @@ public class SLPUtil {
 				for (int i = 0; i < definitions.length && !result; i++) {
 					SLPHostDefinition definition = definitions[i];
 					lookup = definition.getHostname();
-					InetAddress address2 = InetAddress.getByName(lookup);
-					if (address1.getHostAddress().equals(address2.getHostAddress()))
+					InetAddress address2=null;
+					try
 					{
-						result = true;
+						address2 = InetAddress.getByName(lookup);
+					} catch (UnknownHostException e) {
+						logger.log(Level.WARNING,"Cannot find Host " + e.getMessage());
+						
+					}
+					if (address2 != null && address1.getHostAddress().equals(address2.getHostAddress()))
+					{
+						return definition;
 					}
 				}
 			}
 		} catch (UnknownHostException e) {
-			logger.log(Level.SEVERE,"Cannot lookup host " + lookup,e);
+			logger.log(Level.WARNING,"Cannot find Host " + e.getMessage());
 		}
 		
-		return result ;
+		return null ;
+	}	
+	
+	/**
+	 * Return the TreeConfig of the supported Tasks
+	 * @param slpLoader
+	 * @param host
+	 * @param slpServicename
+	 * @see #getTaskIsSupported(SLPLoader, String, String)
+	 * @return
+	 */
+	
+	public static Treeconfig[] getSupportedTasksForHost(SLPLoader slpLoader, String host, Treeconfig[] configs) {
+		
+		List result = new ArrayList();
+		for (int i = 0; i < configs.length; i++) {
+			Treeconfig treeconfig = configs[i];
+			if (getTaskIsSupported(slpLoader, host, treeconfig.getSlpServicename()))
+			{
+				result.add(treeconfig);
+			}
+		}
+		Treeconfig[] newConfigs = (Treeconfig[]) result.toArray(new Treeconfig[result.size()]);
+		return newConfigs;
 	}
 
+	/**
+	 * Give back the list with all Hosts found via SLP
+	 * @param slpLoader
+	 * @return
+	 */
+	public static SLPHostDefinition[] getHosts(SLPLoader slpLoader) {
+		SLPHostDefinition[] allHostDefinitions = slpLoader.findHosts();
+		return allHostDefinitions;
+	}		
 }

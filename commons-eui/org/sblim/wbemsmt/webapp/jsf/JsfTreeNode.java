@@ -448,7 +448,9 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
 		
 		if (translate)
 		{
-			String[] bundles = getTaskLauncherTreeNode().getTreeConfigData() != null ? getTaskLauncherTreeNode().getTreeConfigData().getBundles() : JsfTreeNode.DEFAULT_BUNDLES;
+			String[] bundles = getTaskLauncherTreeNode().getCustomTreeConfig() != null 
+			                   && getTaskLauncherTreeNode().getCustomTreeConfig().getTreeConfigData() != null
+			                   ? getTaskLauncherTreeNode().getCustomTreeConfig().getTreeConfigData().getBundles() : JsfTreeNode.DEFAULT_BUNDLES;
 			WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(bundles,newLocale);
 			description = bundle.getString(getTaskLauncherTreeNode().getName());
 			translated = true;

@@ -34,6 +34,7 @@ import org.sblim.wbemsmt.tasklauncher.TreeSelector;
 import org.sblim.wbemsmt.tasklauncher.event.TaskLauncherContextMenuEventListenerImpl;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.jsf.WbemsmtCookieUtil;
+import org.sblim.wbemsmt.tools.jsf.WbemsmtCookieUtil.MultiHostLoginData;
 import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
 
 public class CimomLoginLogoutListener extends TaskLauncherContextMenuEventListenerImpl {
@@ -73,10 +74,16 @@ public class CimomLoginLogoutListener extends TaskLauncherContextMenuEventListen
 						while (it.hasNext())
 						{
 							CimomTreeNode node = (CimomTreeNode)it.next();
-							String passwd = WbemsmtCookieUtil.getPasswordFromCookie(node.getCimomData().getUser(), node.getCimomData().getHostname());
-							node.setPassword(WbemsmtCookieUtil.EMPTY.equals(passwd) ? "" : passwd);
-							node.setRemindPassword(passwd != null);
-							node.setEmptyPassword(WbemsmtCookieUtil.EMPTY.equals(passwd));
+							MultiHostLoginData loginData = WbemsmtCookieUtil.getMultiHostLoginDataFromCookie(node.getCimomData().getUser(), node.getCimomData().getHostname());
+							node.setPassword(loginData != null ? loginData.getPassword(): "");
+							node.setRemindPassword(loginData != null);
+							node.setEmptyPassword(loginData != null ? loginData.isUseEmptyPassword(): false);
+							node.setUseSlp(loginData != null ? loginData.isUseSlp(): false);
+
+							//If the user runs in multiHost mode we don't render the slp checkbox
+							node.setSlpRendered(!login.isUseSlp());
+							node.setUseSlp(login.isUseSlp());
+							
 						}
 						nodes.addAll(nodeWithInactiveCimomsNodes.getSubnodes());
 					}

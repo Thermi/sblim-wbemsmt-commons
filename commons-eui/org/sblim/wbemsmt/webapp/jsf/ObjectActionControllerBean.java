@@ -318,7 +318,9 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 		{
 			try {
 				
-				while (selectedTreeNode != null && (selectedTreeNode.getCimClient() == null || selectedTreeNode.getTreeConfigData() == null) )
+				while (selectedTreeNode != null && (selectedTreeNode.getCimClient() == null || 
+						                            selectedTreeNode.getCustomTreeConfig() == null || 
+						                            selectedTreeNode.getCustomTreeConfig().getTreeConfigData() == null) )
 				{
 					selectedTreeNode = selectedTreeNode.getParent();
 				}

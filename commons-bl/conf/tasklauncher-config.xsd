@@ -8,6 +8,7 @@
 			<xs:attribute name="hostname" type="xs:string" use="required"/>
 			<xs:attribute name="user" type="xs:string"/>
 			<xs:attribute name="namespace" type="xs:string"/>
+			<xs:attribute name="applicationNamespace" type="xs:string" default="/root/cimv2"/>
 			<xs:attribute name="port" type="xs:int"/>
 			<xs:attribute name="protocol" type="xs:string" use="required"/>
 		</xs:complexType>
@@ -59,6 +60,7 @@
         <xs:restriction base="xs:string">
 			<xs:enumeration value="VERSION_2_0"/>
 			<xs:enumeration value="VERSION_2_1"/>
+			<xs:enumeration value="VERSION_2_2"/>
 		</xs:restriction>
 	</xs:simpleType>
 	

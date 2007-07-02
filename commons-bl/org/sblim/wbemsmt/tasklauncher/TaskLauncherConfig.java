@@ -34,6 +34,7 @@ import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 
+import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.exception.ModelLoadException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.filter.EmbeddedFilter;
@@ -53,6 +54,9 @@ import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
+import org.sblim.wbemsmt.tools.slp.SLPHostDefinition;
+import org.sblim.wbemsmt.tools.slp.SLPLoader;
+import org.sblim.wbemsmt.tools.slp.SLPUtil;
 
 // class to separate the config information from the xml layer...  this class could use a database aswell
 public class TaskLauncherConfig
@@ -80,13 +84,14 @@ public class TaskLauncherConfig
 	
 	public final static int DEFAULT_PORT = 5988;
 
-	private static final Enum[] SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS = new Enum[]{Version.VERSION_2_0,Version.VERSION_2_1};
+	private static final Enum[] SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS = new Enum[]{Version.VERSION_2_0,Version.VERSION_2_1,Version.VERSION_2_2};
 	
     private static Logger logger = Logger.getLogger(TaskLauncherConfig.class.getName());
 
     private Vector cimomData;
     private Vector treeConfigData;
 	private TasklauncherconfigDocument tasklauncherConfigDoc;
+	private TasklauncherconfigDocument tasklauncherConfigDocSlp;
 	private boolean hasConfiguration;
 
 	private WbemSmtResourceBundle bundle;
@@ -97,38 +102,26 @@ public class TaskLauncherConfig
 	 * If the list is empty or null all treeConfigs are used
 	 */
 	private List treeConfigs = new ArrayList();
+
+	private boolean useSlp = false;
+
+	private SLPLoader slpLoader;
     
-
-	/**
-	 * @param configFilename set to null if default behaviour is wanted (configuration-File created by TASKLAUNCHER_CONFIG_XML and getConfigDirectory)
-	 * @throws WbemSmtException
-	 */
-    public TaskLauncherConfig(String configFilename) throws WbemSmtException
-    {
-    	this(configFilename,null);
-    }
-
 	/**
 	 * @param configFilename set to null if default behaviour is wanted (configuration-File created by TASKLAUNCHER_CONFIG_XML and getConfigDirectory)
 	 * @param treeConfigs List with TreeConfigData-Objects. Can be used to filter all those tasks which are not in the List
 	 * @throws WbemSmtException
 	 */
-    public TaskLauncherConfig(String configFilename, List treeConfigs) throws WbemSmtException
+    public TaskLauncherConfig(String configFilename, List treeConfigs, boolean useSlp, SLPLoader slpLoader) throws WbemSmtException
     {
     	this.configFilename = configFilename;
 		this.treeConfigs = treeConfigs;
+		this.useSlp = useSlp;
+		this.slpLoader = slpLoader;
     	init();
         this.readConfig();
     }    
     
-    public TaskLauncherConfig(TasklauncherconfigDocument tasklauncherConfig) throws WbemSmtException
-    {
-    	init();
-    	tasklauncherConfigDoc = tasklauncherConfig;
-        this.readConfig(tasklauncherConfig);
-        
-    }
-
 	private void init() {
 		bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages"});
     	this.cimomData = new Vector();
@@ -155,7 +148,10 @@ public class TaskLauncherConfig
 //	        	throw new WbemSmtException(bundle.getString("no.hosts.in.config.file", new Object[]{configFile.getAbsolutePath()}));
 //			}
 			
-        	readConfig(tasklauncherConfigDoc);
+			if (useSlp)
+				readConfig(tasklauncherConfigDocSlp);
+			else
+				readConfig(tasklauncherConfigDoc);
         }
         catch(Exception e)
         {
@@ -206,7 +202,7 @@ public class TaskLauncherConfig
 		hasConfiguration = cimoms.length > 0;
 		if (!hasConfiguration)
 		{
-			CimomData cimomData = new CimomData("",TaskLauncherConfig.DEFAULT_PORT,"","");
+			CimomData cimomData = new CimomData("",TaskLauncherConfig.DEFAULT_PORT,DEFAULT_NAMESPACE,DEFAULT_NAMESPACE,"");
 			cimomData.addTreeConfig(new TreeConfigData("noConfig","noConfig.xml","","messages",null,null,null));
 			this.cimomData.add(cimomData);
 		}
@@ -304,6 +300,39 @@ public class TaskLauncherConfig
         return new Vector();
     }
     
+    /**
+     * Returns the CimomDataObject of the given hostname
+     * @param hostname
+     * @return null if no CimomDataObjects was found
+     */
+    public CimomData getCimomDataDataByHostname(String hostname)
+    {
+        for (Iterator iter = this.cimomData.iterator(); iter.hasNext();) {
+			CimomData cimomData = (CimomData) iter.next();
+			
+			//Try to resolve the hostname because 
+			//If the admin defined in the config-File the host on a per name basis and slp returns the IP-Address, and user wants to read configured tasks with
+			//SLP the ipAddress and the hostname is compared and the cimom is not found
+			try {
+				InetAddress address1 = InetAddress.getByName(cimomData.getHostname());
+				InetAddress address2 = InetAddress.getByName(hostname);
+				
+				if (address1.getHostAddress().equals(address2.getHostAddress()))
+				{
+					return cimomData;
+				}
+			} catch (UnknownHostException e) {
+				//Try at least to compare the hostnames
+				logger.log(Level.SEVERE,"Cannot lookup host " + cimomData.getHostname());
+				if (cimomData.getHostname().equals(hostname))
+				{
+					return cimomData;
+				}
+			}
+		}
+        return null;
+    }
+
     
     public TreeConfigData getTreeConfigDataByTaskname(String taskname)
     {
@@ -321,6 +350,17 @@ public class TaskLauncherConfig
     
 	public Vector getTreeConfigData() {
 		return treeConfigData;
+	}
+
+	public Treeconfig[] getTreeconfig() {
+		if (useSlp)
+		{
+			return tasklauncherConfigDocSlp.getTasklauncherconfig().getTreeconfigArray();
+		}
+		else
+		{
+			return tasklauncherConfigDoc.getTasklauncherconfig().getTreeconfigArray();
+		}
 	}
 
 	// just a DTO
@@ -441,6 +481,7 @@ public class TaskLauncherConfig
 		private static final long serialVersionUID = -7105076857317689934L;
 		private String hostname,
                        namespace,
+                       applicationNamespace,
                        user;
         private int port;
 		private Vector treeConfigs = new Vector();
@@ -449,23 +490,33 @@ public class TaskLauncherConfig
         {
             this.hostname = new String();
             this.namespace = new String();
+            this.applicationNamespace = new String();
             this.user = new String();
         }
         
-		public CimomData(String hostname, int port, String namespace, String user)
+		public CimomData(String hostname, int port, String namespace, String applicationNamespace, String user)
         {
             this.hostname = hostname;
             this.port = port;
             this.namespace = namespace;
+            this.applicationNamespace = applicationNamespace;
             this.user = user;
         }
         
         public CimomData(CimomDocument.Cimom cimom)
         {
-            this(cimom.getHostname(), cimom.getPort(), cimom.getNamespace(), cimom.getUser());
+            this(cimom.getHostname(), cimom.getPort(), cimom.getNamespace(), cimom.getApplicationNamespace(), cimom.getUser());
         }
 
-        public void addTreeConfig(TreeConfigData treeConfigData) {
+        public CimomData(SLPHostDefinition definition) {
+            this.hostname = definition.getHostname();
+            this.port = definition.getPort();
+            this.namespace = definition.getNamespace();
+            this.applicationNamespace = TaskLauncherConfig.DEFAULT_NAMESPACE;
+            this.user = TaskLauncherConfig.DEFAULT_USER;
+		}
+
+		public void addTreeConfig(TreeConfigData treeConfigData) {
         	treeConfigs.add(treeConfigData);
 		}
 
@@ -493,7 +544,15 @@ public class TaskLauncherConfig
             this.namespace = namespace;
         }
 
-        public String getUser()
+        public String getApplicationNamespace() {
+			return applicationNamespace;
+		}
+
+		public void setApplicationNamespace(String applicationNamespace) {
+			this.applicationNamespace = applicationNamespace;
+		}
+
+		public String getUser()
         {
             return user;
         }
@@ -507,6 +566,12 @@ public class TaskLauncherConfig
 			return hostname + ":" + port + namespace;
 		}
 
+		/**
+		 * Dummy method to fullfil the JSF Managed Bean Conventions
+		 */
+		public void setInfo(String info)
+		{}
+		
 		public int getPort() {
 			return port;
 		}
@@ -569,6 +634,7 @@ public class TaskLauncherConfig
 		cimom.setPort(TaskLauncherConfig.DEFAULT_PORT);
 		cimom.setUser(TaskLauncherConfig.DEFAULT_USER);
 		
+		useSlp = false;
 		addTasks(tasklauncherconfig);
 		
 		//for each task add a tree-reference
@@ -598,15 +664,35 @@ public class TaskLauncherConfig
 	 * @param tasklauncherconfig
 	 */
 	private void addTasks(Tasklauncherconfig tasklauncherconfig) {
+
+		//read in the treeconfigs from the separate files
 		File taskXML = null;
-			File[] files = getTaskXMLs();
-			for (int i = 0; i < files.length; i++) {
+		File[] files = getTaskXMLs();
+		List configs = new ArrayList();
+		for (int i = 0; i < files.length; i++) {
+			try {
+				taskXML = files[i];
+				Tasklauncherconfig tasklauncherconfigToAdd = TasklauncherconfigDocument.Factory.parse(taskXML).getTasklauncherconfig();
+				//Throws Exception if version is wrong
+				checkVersion(taskXML, tasklauncherconfigToAdd);
+				configs.add(tasklauncherconfigToAdd.getTreeconfigArray(0));
+			} catch (Exception e) {
+				logger.log(Level.SEVERE,"Cannot load xml-Taskfile " + taskXML,e);
+			}
+		}
+		Treeconfig[] treeconfigs = (Treeconfig[]) configs.toArray(new Treeconfig[configs.size()]);
+
+		//for SLP get all the Tasks that are supported via SLP
+		if (useSlp)
+		{
+			treeConfigs = new ArrayList();
+			tasklauncherConfigDocSlp = SLPUtil.readFromSlp(slpLoader, treeconfigs);
+		}
+		else
+		{
+			for (int i = 0; i < treeconfigs.length; i++) {
 				try {
-					taskXML = files[i];
-					Tasklauncherconfig tasklauncherconfigToAdd = TasklauncherconfigDocument.Factory.parse(taskXML).getTasklauncherconfig();
-					//Throws Exception if version is wrong
-					checkVersion(taskXML, tasklauncherconfigToAdd);
-					Treeconfig treeConfigToAdd = tasklauncherconfigToAdd.getTreeconfigArray(0);
+					Treeconfig treeConfigToAdd = treeconfigs[i];
 					
 					//check if the task is wanted
 					boolean add = true;
@@ -634,6 +720,7 @@ public class TaskLauncherConfig
 					logger.log(Level.SEVERE,"Cannot load xml-Taskfile " + taskXML,e); 
 				}
 			}
+		}
 	}
 
 	public File[] getTaskXMLs() {
@@ -673,7 +760,13 @@ public class TaskLauncherConfig
 		return tasklauncherConfigDoc;
 	}
 
-	
+	public static CimomData getDefaultCimomData(CIMClient cimClient) {
+		return new CimomData(cimClient.getNameSpace().getHost(), cimClient
+				.getNameSpace().getPort(), cimClient.getNameSpace()
+				.getNameSpace(), cimClient.getNameSpace().getNameSpace(),
+				cimClient.getSessionProperties().getDefaultPrincipal());
+	}
+
 	
 	
 }

@@ -49,7 +49,6 @@ import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEventListener;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
 import org.sblim.wbemsmt.exception.ModelLoadException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
-import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.TreeConfigData;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CimclassDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CiminstanceDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.ContextmenuDocument;
@@ -60,11 +59,13 @@ import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.AssociationDocument.Association;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.EventListenerDocument.EventListener;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.FilterDocument.Filter;
+import org.sblim.wbemsmt.tasklauncher.customtreeconfig.InitialObjectLoaderClassDocument.InitialObjectLoaderClass;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.InstanceNamingClassDocument.InstanceNamingClass;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.ParamDocument.Param;
 import org.sblim.wbemsmt.tasklauncher.event.DeleteListener;
 import org.sblim.wbemsmt.tasklauncher.event.EditListener;
 import org.sblim.wbemsmt.tasklauncher.filter.CIMInstanceFilterFactory;
+import org.sblim.wbemsmt.tasklauncher.initialobjectloading.WbemsmtInitialObjectLoaderFactory;
 import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNamingFactory;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
@@ -96,7 +97,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 
 	private CustomTreeConfig customTreeConfig;
 
-	private TreeConfigData treeConfigData;
+	//private TreeConfigData treeConfigData;
 
     /**
      * Constructs a Treenode, Name will be taken from xmlconfigNode's description.
@@ -221,7 +222,9 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     public void addSubnode(ITaskLauncherTreeNode subnode)
     {
     	subnode.setParent(this);
+    	subnode.setCustomTreeConfig(customTreeConfig);
         this.subnodes.add(subnode);
+        
     }
     
     /**
@@ -586,7 +589,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
         
         for (int i = 0; i < this.xmlconfigNode.getTreenodeArray().length; i++) {
 			TreenodeDocument.Treenode configsubnode = this.xmlconfigNode.getTreenodeArray()[i];
-			this.addSubnode(createNodeFromXML(cimClient, configsubnode,getTreeConfigData()));			
+			this.addSubnode(createNodeFromXML(cimClient, configsubnode,getCustomTreeConfig()));			
 		}
         
         if(notifyEventListener)
@@ -610,7 +613,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * @return generated TaskLauncherTreeNode
      * @throws WbemSmtException 
      */
-    static public TaskLauncherTreeNode createNodeFromXML(CIMClient cimClient, TreenodeDocument.Treenode treenode, TreeConfigData treeConfigData) throws ModelLoadException
+    static public TaskLauncherTreeNode createNodeFromXML(CIMClient cimClient, TreenodeDocument.Treenode treenode, CustomTreeConfig customTreeConfig) throws ModelLoadException
     {
         TaskLauncherTreeNode subnode = null;
 		try {
@@ -633,6 +636,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 				CimclassDocument.Cimclass cimclassnode;	
 				String className = null;
 				String instanceNamingKey = null;
+				InitialObjectLoaderClass initialObjectLoader = null;
 				boolean showInstances = false;
 				int maxDepth = CIMClassNode.DEPTH_INFINITE;
 				Association associationTarget = null;
@@ -647,6 +651,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			        // check if maximum Depth is set; otherwise set to infinite
 					maxDepth = cimclassnode.isSetDepth() ? cimclassnode.getDepth().intValue() : CIMClassNode.DEPTH_INFINITE; 
 					showInstances = cimclassnode.getInstanceSubnodes() != null;
+					initialObjectLoader = showInstances ? cimclassnode.getInstanceSubnodes().getInitialObjectLoaderClass() : null; 
 					instanceNamingKey = cimclassnode.getInstanceNamingKey();
 					associationTarget = cimclassnode.getAssociation();
 					filter = cimclassnode.getFilter();
@@ -667,11 +672,12 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			            description = treenode.getDescription();
 			        }
 			        subnode = new CIMClassNode(cimClient, treenode, description, cimClass);
-					subnode.setTreeConfigData(treeConfigData);
+					subnode.setCustomTreeConfig(customTreeConfig);
 			        ((CIMClassNode) subnode).setMaxDepth(maxDepth);
 			        ((CIMClassNode) subnode).setShowInstances(showInstances);
 			        ((CIMClassNode) subnode).setInstanceNamingKey(instanceNamingKey);
 			        ((CIMClassNode) subnode).setCimInstanceNaming(CIMInstanceNamingFactory.create(namingClass));
+			        ((CIMClassNode) subnode).setInitialObjectLoader(WbemsmtInitialObjectLoaderFactory.create(initialObjectLoader));
 			        ((CIMClassNode) subnode).setFilter(CIMInstanceFilterFactory.create(filter));
 			        if (associationTarget != null)
 			        {
@@ -690,7 +696,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 						{
 							// instance subnodes are just a kind of backup
 							// they will be cloned and attached to every instance of this cimclass
-							((CIMClassNode) subnode).addInstanceSubnode(createNodeFromXML(cimClient, instanceSubnodesConfig[i],subnode.getTreeConfigData()));
+							((CIMClassNode) subnode).addInstanceSubnode(createNodeFromXML(cimClient, instanceSubnodesConfig[i],subnode.getCustomTreeConfig()));
 						}
 						
 						// there might also a context menu be set which has to be attach to every instance
@@ -698,14 +704,14 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 						if(instanceMenu != null)
 						{
 							//TODO cache the Menu and clone the cached one for better performance 
-							((CIMClassNode) subnode).setInstanceContextMenu((TaskLauncherContextMenu) new TaskLauncherContextMenu(instanceMenu,subnode.getTreeConfigData().getBundles()).clone());
+							((CIMClassNode) subnode).setInstanceContextMenu((TaskLauncherContextMenu) new TaskLauncherContextMenu(instanceMenu,subnode.getCustomTreeConfig().getTreeConfigData().getBundles()).clone());
 						}
 					}
 				}
 			    catch(Exception e)
 			    {
 			        subnode = new TaskLauncherTreeNode(cimClient, treenode);
-					subnode.setTreeConfigData(treeConfigData);
+					subnode.setCustomTreeConfig(customTreeConfig);
 					logger.log(Level.SEVERE,"Cannot load Node for class " + className,e);
 					ModelLoadException modelLoadException = new ModelLoadException("Cannot load Node for class " + className,e);
 					modelLoadException.setCimIdentifier(className);
@@ -761,13 +767,13 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			            description = treenode.getDescription();
 			        }
 			        subnode = new CIMInstanceNode(cimClient, treenode, description, cimInstance);
-					subnode.setTreeConfigData(treeConfigData);
+					subnode.setCustomTreeConfig(customTreeConfig);
 			        subnode.createEventListener(treenode.getEventListenerArray());
 				}
 			    catch(Exception e)
 			    {
 			        subnode = new TaskLauncherTreeNode(cimClient, treenode);
-					subnode.setTreeConfigData(treeConfigData);
+					subnode.setCustomTreeConfig(customTreeConfig);
 					logger.log(Level.SEVERE,"Cannot load Node for instance " + instanceClassName,e);
 					ModelLoadException modelLoadException = new ModelLoadException("Cannot load Node for instance " + instanceClassName,e);
 					modelLoadException.setCimIdentifier(instanceClassName);
@@ -779,8 +785,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			
 			default: // could also be TYPE_DEFAULT
 				subnode = new TaskLauncherTreeNode(cimClient, treenode);
-				subnode.setTreeConfigData(treeConfigData);
-				subnode.setCustomTreeConfig(new CustomTreeConfig(treeConfigData));
+				subnode.setCustomTreeConfig(customTreeConfig);
 				subnode.createEventListener(treenode.getEventListenerArray());
 				break;
 			}
@@ -788,7 +793,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			// add context menu
 			// TODO cache the Menu and clone the cached one for better performance 
 			try {
-				String[] bundles = subnode.getTreeConfigData() != null ? subnode.getTreeConfigData().getBundles() : new String[]{"messages"};
+				String[] bundles = subnode.getCustomTreeConfig() != null && subnode.getCustomTreeConfig().getTreeConfigData() != null ? subnode.getCustomTreeConfig().getTreeConfigData().getBundles() : new String[]{"messages"};
 				subnode.setContextMenu((TaskLauncherContextMenu) new TaskLauncherContextMenu(treenode.getContextmenu(),bundles).clone());
 			} catch (CloneNotSupportedException e) {
 				logger.log(Level.SEVERE,"Exception while setting ContextMenu ",e);
@@ -796,7 +801,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			}
 		} catch (Exception e) {
 	        subnode = new TaskLauncherTreeNode(cimClient, treenode);
-			subnode.setTreeConfigData(treeConfigData);
+			subnode.setCustomTreeConfig(customTreeConfig);
 			ExceptionUtil.handleException(e);
 		}
 		return subnode;
@@ -814,14 +819,6 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 	}
     
     
-    public void setTreeConfigData(TreeConfigData treeConfigData) {
-		this.treeConfigData = treeConfigData;
-	}
-    
-	public TreeConfigData getTreeConfigData() {
-		return treeConfigData;
-	}
-
 	public void setContextMenu(TaskLauncherContextMenu contextMenu)
     {
     	this.contextMenu = contextMenu;
@@ -1114,6 +1111,8 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 		return customTreeConfig;
 	}
 
+	
+	
 	public boolean isEnabled() {
 		return enabled;
 	}

@@ -53,10 +53,12 @@ import org.sblim.wbemsmt.exception.UpdateControlsException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
 
-public class FcoHelper
+public class FcoHelper implements FcoHelperIf
 {
 	
 	private CIM_ObjectCreatorIf creator;
+
+	private boolean notifyChanges = true;
 	
 	static MultiMap listeners = new MultiHashMap();
 	
@@ -416,7 +418,7 @@ public class FcoHelper
 			helperClass = Class.forName(helperName,true,fco.getClass().getClassLoader());
 			Method method = helperClass.getMethod("createInstance", new Class[]{CIMClient.class,fco.getClass(),boolean.class});
 			logger.fine("Calling " + helperName + "." + method.getName()  + " with fco " + fco.toString()+ " on " + cimClient.getNameSpace().toString());
-			Object createdObject = method.invoke(null,new Object[]{cimClient,fco,Boolean.TRUE});
+			Object createdObject = method.invoke(null,new Object[]{cimClient,fco,new Boolean(notifyChanges)});
 			if (createdObject == null)
 			{
 				logger.log(Level.SEVERE,"Cannot create Object - The new created cimInstance could not retrieved properly from the server. Old: " + fco + " from server: " + createdObject);
@@ -669,7 +671,7 @@ public class FcoHelper
 			Class helperClass = Class.forName(helperName,true,fco.getClass().getClassLoader());
 			Method method = helperClass.getMethod("modifyInstance", new Class[]{CIMClient.class,fco.getClass(),boolean.class});
 			logger.fine("Calling " + helperName + "." + method.getName()  + " with fco " + fco.toString()+ " on " + cimClient.getNameSpace().toString());
-			fco = creator.create(method.invoke(null,new Object[]{cimClient,fco,Boolean.FALSE}));
+			fco = creator.create(method.invoke(null,new Object[]{cimClient,fco,new Boolean(notifyChanges)}));
 			logger.info("Saved " + cimObject.getCimObjectPath() + " on " + cimClient.getNameSpace().toString());
 			
 			Method getInstance = helperClass.getMethod("getInstance", new Class[]{CIMClient.class,CIMObjectPath.class});
@@ -1126,6 +1128,16 @@ public class FcoHelper
 		}
 		
 		return sb.toString();
+	}
+
+	public Object reload(Object fcoToReload, CIMClient cimClient) throws ModelLoadException {
+		reload(creator.createUnhecked(fcoToReload), cimClient);
+		return null;
+	}
+
+	public void setNotifyChanges(boolean notifyChanges) {
+		this.notifyChanges = notifyChanges;
+		
 	}
 
 }

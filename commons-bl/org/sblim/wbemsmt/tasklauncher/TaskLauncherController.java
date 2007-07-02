@@ -43,6 +43,7 @@ import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
+import org.sblim.wbemsmt.tools.slp.SLPHostDefinition;
 import org.sblim.wbemsmt.tools.slp.SLPLoader;
 import org.sblim.wbemsmt.tools.slp.SLPUtil;
 
@@ -148,10 +149,16 @@ public class TaskLauncherController implements Cleanup
 			if(cimClient != null && this.taskLauncherConfig != null)
 			{
 				Vector treeconfigsByHostname = taskLauncherConfig.getTreeConfigDataByHostname(cimClient.getNameSpace().getHost());
+				CimomData cimomData = taskLauncherConfig.getCimomDataDataByHostname(cimClient.getNameSpace().getHost());
+				if (cimomData == null)
+				{
+					cimomData = TaskLauncherConfig.getDefaultCimomData(cimClient);
+				}
+				
 				List treeConfigs = new ArrayList();
 				for (Iterator iter = treeconfigsByHostname.iterator(); iter.hasNext();) {
 					TaskLauncherConfig.TreeConfigData configData = (TaskLauncherConfig.TreeConfigData) iter.next();
-					addTreeConfig(cimClient, configData, treeConfigs);
+					addTreeConfig(cimClient, configData, cimomData, treeConfigs);
 				}
 				
 				if (treeConfigs.size() == 0)
@@ -162,7 +169,7 @@ public class TaskLauncherController implements Cleanup
 					}
 					for (Iterator iter = taskLauncherConfig.getTreeConfigData().iterator(); iter.hasNext();) {
 						TaskLauncherConfig.TreeConfigData configData = (TaskLauncherConfig.TreeConfigData) iter.next();
-						addTreeConfig(cimClient, configData, treeConfigs);
+						addTreeConfig(cimClient, configData, cimomData, treeConfigs);
 					}
 				}
 
@@ -171,11 +178,11 @@ public class TaskLauncherController implements Cleanup
 		}
     }
 
-	private void addTreeConfig(CIMClient cimClient, TaskLauncherConfig.TreeConfigData configData, List treeConfigs) {
+	private void addTreeConfig(CIMClient cimClient, TaskLauncherConfig.TreeConfigData configData, CimomData cimomData, List treeConfigs) {
 		if (!useSlp || useSlp && SLPUtil.getTaskIsSupported(slpLoader,cimClient.getNameSpace().getHost(),configData.getSlpServicename()))
 		{
 			logger.log(Level.INFO, "Creating Treefactory \"" + configData.getName() + "\" from file " + configData.getFilename());
-			CustomTreeConfig treeConfig = new CustomTreeConfig(configData);
+			CustomTreeConfig treeConfig = new CustomTreeConfig(configData,cimomData);
 			if (RuntimeUtil.getInstance().isJSF())
 			{
 				if (RuntimeUtil.getInstance().isJSF())
@@ -215,12 +222,30 @@ public class TaskLauncherController implements Cleanup
     
     public void createTreeFactoriesMultiHost() throws WbemSmtException
     {
+    	createTreeFactoriesMultiHost(false);
+    }
+    
+    public void createTreeFactoriesMultiHost(boolean useSlp) throws WbemSmtException
+    {
     	if (treeFactories == null)
     	{
     		treeFactories = new HashMap();
     	}
     	treeFactories.clear();
-    	Vector cimomData = taskLauncherConfig.getCimomData();
+    	Vector cimomData;
+    	if (useSlp)
+    	{
+    		cimomData = new Vector();
+    		SLPHostDefinition[] hostDefinition = SLPUtil.getHosts(slpLoader);
+    		for (int i = 0; i < hostDefinition.length; i++) {
+				SLPHostDefinition definition = hostDefinition[i];
+				cimomData.add(new CimomData(definition));
+			}
+    	}
+    	else
+    	{
+			cimomData = taskLauncherConfig.getCimomData();
+    	}
     	CimomData[] data = (CimomData[]) cimomData.toArray(new CimomData[cimomData.size()]);
     	createTreeFactoriesMultiHost(data);
     }
@@ -240,7 +265,27 @@ public class TaskLauncherController implements Cleanup
 	 * @throws WbemSmtException
 	 */
 	private void loadConfig(String configFilename, List treeConfigs) throws WbemSmtException {
-		this.taskLauncherConfig = new TaskLauncherConfig(configFilename, treeConfigs);
+		this.taskLauncherConfig = new TaskLauncherConfig(configFilename, treeConfigs,useSlp,slpLoader);
+
+		//Overwrite the namespace of the CIMClients if Slp was used and SLP lookup returned other namespace
+		for (Iterator it = cimClients.entrySet().iterator(); it.hasNext();) {
+			Entry entry = (Entry) it.next();
+    		CIMClient cimClient = (CIMClient) entry.getValue();
+			if(cimClient != null && this.taskLauncherConfig != null)
+			{
+				CimomData cimomData = taskLauncherConfig.getCimomDataDataByHostname(cimClient.getNameSpace().getHost());
+				if (cimomData == null)
+				{
+					cimomData = TaskLauncherConfig.getDefaultCimomData(cimClient);
+				}
+				
+				if (useSlp && !cimomData.getNamespace().equals(cimClient.getNameSpace().getNameSpace()))
+				{
+					cimClient.getNameSpace().setNameSpace(cimomData.getNamespace());
+				}
+			}
+		}
+		
 		this.createTreeFactories();
 	}
 

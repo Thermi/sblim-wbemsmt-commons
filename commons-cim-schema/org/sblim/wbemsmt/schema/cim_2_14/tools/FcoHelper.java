@@ -220,4 +220,8 @@ public class FcoHelper implements FcoHelperIf
 		return helper.getCIM_ObjectCreator();
 	}
 
+	public void setNotifyChanges(boolean notifyChanges) {
+		helper.setNotifyChanges(notifyChanges);
+	}
+
 }

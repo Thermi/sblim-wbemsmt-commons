@@ -28,6 +28,7 @@ import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.filter.EmbeddedFilter;
 import org.sblim.wbemsmt.lookup.Lookup;
+import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.CimomData;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.TreeConfigData;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CimclassDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CustomtreeconfigDocument;
@@ -40,7 +41,7 @@ import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
 public class CustomTreeConfig
 {
-    private static final Object[] SUPPORTED_VERSIONS_TREE_CONFIG = new Object[] {Version.VERSION_2_0, Version.VERSION_2_1};
+    private static final Object[] SUPPORTED_VERSIONS_TREE_CONFIG = new Object[] {Version.VERSION_2_0, Version.VERSION_2_1,Version.VERSION_2_2};
 	private static Logger logger = Logger.getLogger(CustomTreeConfig.class.getName());
     private String filename;
     
@@ -48,10 +49,12 @@ public class CustomTreeConfig
 	private final TreeConfigData treeConfigData;
 	private boolean loaded = false;
 	private Contextmenu commonContextMenue;
+	private final CimomData cimomData;
 
-    public CustomTreeConfig(TreeConfigData configData)
+    public CustomTreeConfig(TreeConfigData configData, CimomData cimomData)
     {
         this.treeConfigData = configData;
+		this.cimomData = cimomData;
 		this.filename = configData.getFilename();
         this.readConfig();
     }
@@ -177,6 +180,10 @@ public class CustomTreeConfig
 
 	public TreeConfigData getTreeConfigData() {
 		return treeConfigData;
+	}
+	
+	public CimomData getCimomData() {
+		return cimomData;
 	}
 
 	public boolean isLoaded() {

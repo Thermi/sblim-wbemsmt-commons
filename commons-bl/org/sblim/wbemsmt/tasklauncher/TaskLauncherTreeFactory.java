@@ -68,7 +68,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
     			CustomTreeConfig customTreeConfig = (CustomTreeConfig) iter.next();
     			if (customTreeConfig.isLoaded() && customTreeConfig.serverTaskExists(cimClient))
     			{
-        			TaskLauncherTreeNode nodeFromXML = TaskLauncherTreeNode.createNodeFromXML(cimClient, customTreeConfig.getRootnode(),customTreeConfig.getTreeConfigData());
+        			TaskLauncherTreeNode nodeFromXML = TaskLauncherTreeNode.createNodeFromXML(cimClient, customTreeConfig.getRootnode(),customTreeConfig);
         			nodeFromXML.setCustomTreeConfig(customTreeConfig);
         			rootNodes.add( nodeFromXML );
         			if (customTreeConfig.getCommonContextMenue() != null)
@@ -245,8 +245,8 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 						
 						if (treeConfigData.getFilename().equalsIgnoreCase(newItem))
 						{
-							CustomTreeConfig customTreeConfig = new CustomTreeConfig(treeConfigData);
-							TaskLauncherTreeNode nodeFromXML = TaskLauncherTreeNode.createNodeFromXML(client, customTreeConfig.getRootnode(),customTreeConfig.getTreeConfigData());
+							CustomTreeConfig customTreeConfig = new CustomTreeConfig(treeConfigData,ourCimom);
+							TaskLauncherTreeNode nodeFromXML = TaskLauncherTreeNode.createNodeFromXML(client, customTreeConfig.getRootnode(),customTreeConfig);
 							nodeFromXML.setCustomTreeConfig(customTreeConfig);
 							rootNodes.add( nodeFromXML );
 						}

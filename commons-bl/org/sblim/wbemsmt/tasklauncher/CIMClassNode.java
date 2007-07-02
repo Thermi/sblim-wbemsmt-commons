@@ -42,6 +42,7 @@ import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CimclassDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.InstanceSubnodesDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument;
 import org.sblim.wbemsmt.tasklauncher.filter.CIMInstanceFilter;
+import org.sblim.wbemsmt.tasklauncher.initialobjectloading.WbemsmtInitialObjectLoader;
 import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNaming;
 import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNamingFactory;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
@@ -76,6 +77,14 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
 	private CIMInstanceFilter filter = null;
 
 	private CIMInstanceNaming cimInstanceNaming;
+
+	/**
+	 * the Instance which is responsible for loading the initial set of data
+	 * 
+	 * only used if the instances to be shown are no association
+	 *
+	 */
+	private WbemsmtInitialObjectLoader initialObjectLoader;
     
     /**
      * Constructs a new CIMClassNode.
@@ -232,7 +241,7 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
         {
             for (int i = 0; i < xmlconfigNode.getTreenodeArray().length; i++) {
 				TreenodeDocument.Treenode configsubnode = xmlconfigNode.getTreenodeArray()[i];
-            	this.addSubnode(TaskLauncherTreeNode.createNodeFromXML(cimClient, configsubnode,getTreeConfigData()));
+            	this.addSubnode(TaskLauncherTreeNode.createNodeFromXML(cimClient, configsubnode,getCustomTreeConfig()));
             }
         }
         
@@ -327,7 +336,19 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
             CIMObjectPath path = cimClass.getObjectPath();
             try
             {
-                Enumeration cimInstances = this.cimClient.enumerateInstances(path);
+                Enumeration cimInstances;
+                
+                if (initialObjectLoader != null)
+                {
+                	initialObjectLoader.load(this);
+                	cimInstances = initialObjectLoader.getInitialObjects().elements();
+                	this.cimClient = initialObjectLoader.getChangedCimClient();
+                }
+                else //if there is no initial object loader use a "normal" enumeration
+                {
+                	cimInstances = this.cimClient.enumerateInstances(path);
+                }
+
                 while(cimInstances.hasMoreElements())
                 {
                     CIMInstance currentInstance = (CIMInstance) cimInstances.nextElement();
@@ -536,6 +557,15 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
 	 */
 	public void setCimInstanceNaming(CIMInstanceNaming cimInstanceNaming) {
 		this.cimInstanceNaming = cimInstanceNaming;
+	}
+
+	/**
+	 * Set the Instance which is responsible for loading the initial set of data
+	 * @param initialObjectLoader
+	 */
+	public void setInitialObjectLoader(WbemsmtInitialObjectLoader initialObjectLoader) {
+		this.initialObjectLoader = initialObjectLoader;
+		
 	}
 	
 

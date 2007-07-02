@@ -69,6 +69,11 @@ public class WbemSmtTestConfig {
 		return properties.getProperty(getActiveHostPrefix() + "namespace");
 	}
 
+	public String getSlpNameSpace()
+	{
+		return properties.getProperty(getActiveHostPrefix() + "slpNamespace");
+	}
+
 	public String getUrl()
 	{
 		return properties.getProperty(getActiveHostPrefix() + "protocol") + "://" + properties.getProperty(getActiveHostPrefix() + "host") + ":" + properties.getProperty(getActiveHostPrefix() + "port");
@@ -121,6 +126,11 @@ public class WbemSmtTestConfig {
 	public String getActiveHostPrefix() {
 		
 		return properties.getProperty("activeHost") + ".";
+	}
+	
+	public void setActiveHost(String activeHost)
+	{
+		properties.setProperty("activeHost", activeHost);
 	}
 
 	public String getWebserverUrl() {

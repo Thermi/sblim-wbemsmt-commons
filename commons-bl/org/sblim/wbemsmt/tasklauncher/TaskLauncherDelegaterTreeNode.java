@@ -55,6 +55,18 @@ public class TaskLauncherDelegaterTreeNode extends TaskLauncherTreeNode {
 	}
 
     /**
+     * Adds a subnode to the current node. The subnode will be appended to the end.
+     * @param subnode
+     */
+    public void addSubnode(ITaskLauncherTreeNode subnode)
+    {
+    	subnode.setParent(this);
+    	//dont set the customTreeConfig becauuse the delegator treenode is not having a CustomtreeConfig
+    	//subnode.setCustomTreeConfig(customTreeConfig);
+        this.subnodes.add(subnode);
+    } 
+	
+    /**
      * Reads subnodes of the current node.
      * These subnodes are treenodes of the xml configuration.
      * @throws WbemSmtException 
