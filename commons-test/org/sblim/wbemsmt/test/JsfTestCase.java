@@ -60,7 +60,7 @@ public class JsfTestCase extends WbemSmtTestCase {
     	}
     	return selenium;
     }
-	
+    
     protected WbemSmtWebSession removeSession(String key)
     {
     	return (WbemSmtWebSession) sessions.remove(key);
@@ -72,6 +72,14 @@ public class JsfTestCase extends WbemSmtTestCase {
     }
 
     protected void doLogin(WbemSmtWebSession selenium, String taskName) {
+		doLogin(selenium, taskName,config.getNameSpace(),false,true);
+	}
+    
+    protected void doLogin(WbemSmtWebSession selenium, String taskName, boolean useSlp,boolean assertSuccess) {
+    	doLogin(selenium, taskName,config.getNameSpace(),useSlp,assertSuccess);
+	}
+	
+	protected void doLogin(WbemSmtWebSession selenium, String taskName, String namespace, boolean useSlp,boolean assertSuccess) {
 		
 		WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages","org.sblim.wbemsmt.webapp.jsf.webapp_messages"}, Locale.ENGLISH);		
 		selenium = getSession(JsfTestCase.SESSION_MAIN);
@@ -80,18 +88,36 @@ public class JsfTestCase extends WbemSmtTestCase {
 		WbemSmtAssert.assertTextFound(selenium, bundle.getString("pleaseLogin"));
 		selenium.type("connectFields:host", config.getHost());
 		selenium.type("connectFields:port", config.getPort());
-		selenium.type("connectFields:namespace", config.getNameSpace());
+		selenium.type("connectFields:namespace", namespace);
 		selenium.type("connectFields:username", config.getUser());
 		selenium.type("connectFields:password", config.getPassword());
+		
+		if (useSlp)
+		{
+			selenium.check("connectFields:useSlpCheckbox");			
+		}
+		else
+		{
+			if (selenium.isTextPresent(bundle.getString("useSlp")))
+			{
+				selenium.uncheck("connectFields:useSlpCheckbox");
+			}
+			
+		}
+		
 		selenium.click("connectFields:login");
-		WbemSmtAssert.assertTextNotFound(selenium, bundle.getString("error.while.execution"));
-		WbemSmtAssert.assertTextFound(selenium, bundle.getString("DIR.WTR.0001.task.supported", new Object[]{taskName,config.getHost()}));
-		//TODO expand the tree
-//		selenium.mouseOver("xpath=//div[@id='mainForm_navMenu_menu']/table/tbody/tr//td[2]");
-//		selenium.mouseDown("xpath=//div[@id='mainForm_navMenu_menu']/table/tbody/tr//td[2]");
-//		selenium.mouseOver("xpath=//div[@id='cmSubMenuID2']/table/tbody//tr[1]");
-//		selenium.fireEvent("xpath=//div[@id='cmSubMenuID2']/table/tbody//tr[1]","onmouseup");
-//		selenium.fireEvent("xpath=//div[@id='cmSubMenuID2']/table/tbody//tr[1	]","mouseup");
+		
+		if (assertSuccess)
+		{
+			WbemSmtAssert.assertTextNotFound(selenium, bundle.getString("error.while.execution"));
+			WbemSmtAssert.assertTextFound(selenium, bundle.getString("DIR.WTR.0001.task.supported", new Object[]{taskName,config.getHost()}));
+		}
+		else
+		{
+			WbemSmtAssert.assertTextFound(selenium, bundle.getString("error.while.execution"));
+			WbemSmtAssert.assertTextFound(selenium, bundle.getString("errorMessage.org.sblim.wbemsmt.exception.LoginException", new Object[]{"//" + config.getHost() + namespace}));
+			WbemSmtAssert.assertTextNotFound(selenium, bundle.getString("DIR.WTR.0001.task.supported", new Object[]{taskName,config.getHost()}));
+		}
 	}
 
     protected void doLogout(WbemSmtWebSession selenium) {
