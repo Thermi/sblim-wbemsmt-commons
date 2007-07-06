@@ -100,17 +100,7 @@ public final class CIM_HostedAccessPointHelper {
 						resultArrayList.add(new CIM_HostedAccessPoint(cimInstance.getObjectPath(), cimInstance));
 						continue;
 					}
-					Class clazz = null;
-					String[] packageList = CIM_HostedAccessPoint.getPackages();
-					
-					for (int i=0; clazz==null && i<packageList.length; i++) {
-						String cimClassName = (packageList[i]) + cimInstance.getClassName();
-					
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
+					Class clazz = CIM_HostedAccessPointHelper.findClass(cimClient, cimInstance);
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of class CIM_HostedAccessPoint.");
 						resultArrayList.add(new CIM_HostedAccessPoint(cimInstance.getObjectPath(), cimInstance));
@@ -216,6 +206,56 @@ public final class CIM_HostedAccessPointHelper {
 		}
 		
 		return dataInstance;
+	}
+	
+		/**
+	 * find a FCO class which can represent the given cimInstance
+	 * Begins at the lowest classes in the cim class hierarchy and try to create a FCO with
+	 * all the defined packages. If the Class cannot be created go one step up in the hierarchy
+	 * and try again and again and again...
+	 * @param cimClient
+	 * @param cimInstance
+	 * @return The class for the FCO or null if a class was NOT found to create a FCO from
+	 * @see #Java_Package_List
+	 */
+	public static Class findClass(CIMClient cimClient, CIMInstance cimInstance) {
+
+		String[] packageList = CIM_HostedAccessPoint.getPackages();
+	
+		String className = cimInstance.getClassName();
+		Class clazz = findClassInPackages(className, packageList);
+
+		if (clazz == null)
+		{
+			//try going up the class hierarchy and try to construct the next possible class
+			CIMClass cimClass = cimClient.getClass(cimInstance.getObjectPath());
+			while (clazz == null && cimClass != null && cimClass.getSuperClass() != null)
+			{
+				clazz = findClassInPackages(cimClass.getSuperClass(), packageList);
+				cimClass = cimClient.getClass(new CIMObjectPath(cimClass.getSuperClass()));
+			}
+		}
+		
+		return clazz;
+	}
+
+	/**
+	 * Try to create a class with the given classname and one of the packages
+	 * if the first creation is possible the class is returned
+	 * @param className
+	 * @param packageList
+	 * @return the Class or null if no combination between className and one of the Packages was possible
+	 */
+	private static Class findClassInPackages(String className, String[] packageList) {
+		Class clazz = null;
+		for (int i = 0; clazz == null && i < packageList.length; i++) {
+			String cimClassName = (packageList[i]) + className;
+			try {
+				clazz = Class.forName(cimClassName);
+			} catch(ClassNotFoundException e) {
+			}
+		}
+		return clazz;
 	}
 	
 	

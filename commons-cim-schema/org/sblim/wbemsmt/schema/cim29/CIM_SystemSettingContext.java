@@ -1,7 +1,7 @@
 /** 
  * CIM_SystemSettingContext.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -25,6 +25,8 @@ package org.sblim.wbemsmt.schema.cim29;
 
 import java.security.InvalidParameterException;
 import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
@@ -55,7 +57,7 @@ public class CIM_SystemSettingContext  {
 
 	public static Vector CIM_PropertyNameList	= new Vector();
 	public static Vector CIM_PropertyList 		= new Vector();
-	public static Vector Java_Package_List 		= new Vector();
+	private static Set Java_Package_List 		= new HashSet();
 	
 	static {
 		CIM_PropertyNameList.add(CIM_PROPERTY_CIM_SYSTEMCONFIGURATION);
@@ -66,7 +68,7 @@ public class CIM_SystemSettingContext  {
 		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_SYSTEMCONFIGURATION, new CIMValue(null, new CIMDataType(CIM_SystemConfiguration.CIM_CLASS_NAME))));
 		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_SYSTEMSETTING, new CIMValue(null, new CIMDataType(CIM_SystemSetting.CIM_CLASS_NAME))));
 		
-		Java_Package_List.add("org.sblim.wbemsmt.schema.cim29");
+		addPackage("org.sblim.wbemsmt.schema.cim29");
 		};
 			
 	
@@ -142,8 +144,8 @@ public class CIM_SystemSettingContext  {
 		} else if (cimObjectPath == null){
 			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
 		
-		} else if (!CIM_CLASS_NAME.equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class of the cimInstance must be of type " + CIM_CLASS_NAME + ".");
+		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
+			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
 		}
 		
 		setCimInstance(cimInstance);
@@ -159,6 +161,22 @@ public class CIM_SystemSettingContext  {
 	public String getClassDisplayName(){
 		return CIM_CLASS_DISPLAYNAME;
 	}
+	
+	public static void addPackage(String packagename) {
+        if (packagename != null) {
+            if (!packagename.endsWith(".")) {
+                packagename = packagename + ".";
+            }
+            CIM_SystemSettingContext.Java_Package_List.add(packagename);
+            
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public static String[] getPackages() {
+        return (String[]) CIM_SystemSettingContext.Java_Package_List.toArray(new String[CIM_SystemSettingContext.Java_Package_List.size()]);
+    }
 	
 	//**********************************************************************
 	// Instance methods
@@ -308,7 +326,7 @@ public class CIM_SystemSettingContext  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SystemSettingContext.CIM_PROPERTY_CIM_SYSTEMCONFIGURATION + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_SystemConfiguration.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SystemSettingContext.CIM_PROPERTY_CIM_SYSTEMCONFIGURATION + " is not of expected type CIM_SystemConfiguration.");
 		}
         
@@ -330,7 +348,7 @@ public class CIM_SystemSettingContext  {
 		} else if (!CIM_SystemSettingContextHelper.isValid_CIM_SystemConfiguration(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_SystemSettingContext.CIM_PROPERTY_CIM_SYSTEMCONFIGURATION);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_SystemConfiguration.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SystemSettingContext.CIM_PROPERTY_CIM_SYSTEMCONFIGURATION + " is not of expected type CIM_SystemConfiguration.");
 		}
     	
@@ -349,7 +367,7 @@ public class CIM_SystemSettingContext  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SystemSettingContext.CIM_PROPERTY_CIM_SYSTEMSETTING + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_SystemSetting.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SystemSettingContext.CIM_PROPERTY_CIM_SYSTEMSETTING + " is not of expected type CIM_SystemSetting.");
 		}
         
@@ -371,7 +389,7 @@ public class CIM_SystemSettingContext  {
 		} else if (!CIM_SystemSettingContextHelper.isValid_CIM_SystemSetting(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_SystemSettingContext.CIM_PROPERTY_CIM_SYSTEMSETTING);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_SystemSetting.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SystemSettingContext.CIM_PROPERTY_CIM_SYSTEMSETTING + " is not of expected type CIM_SystemSetting.");
 		}
     	

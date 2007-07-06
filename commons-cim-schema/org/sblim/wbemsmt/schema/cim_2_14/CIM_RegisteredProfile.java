@@ -73,6 +73,7 @@ public class CIM_RegisteredProfile extends CIM_ManagedElement  {
 	
 	public final static String CIM_CLASS_VERSION = "2.8.0";
 	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTCONFORMSTOPROFILE = "CIM_ElementConformsToProfile"; //$NON-NLS-1$
+	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SUBPROFILEREQUIRESPROFILE = "CIM_SubProfileRequiresProfile"; //$NON-NLS-1$
 	
 	
 	/**
@@ -500,18 +501,8 @@ U - The update (e.g. errata, patch, ..., in numeric form) describing the profile
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String[] packageList = CIM_RegisteredProfile.getPackages();
-				
-					for (int i = 0; clazz == null && i < packageList.length; i++) {
-						String cimClassName = (packageList[i]) + cimInstance.getClassName();
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_RegisteredProfileHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_ManagedElement(cimInstance.getObjectPath(), cimInstance));
@@ -581,6 +572,119 @@ U - The update (e.g. errata, patch, ..., in numeric form) describing the profile
 			
 				if (obj instanceof CIMObjectPath) {
 					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_ManagedElement.CIM_CLASS_NAME)) {
+						resultArrayList.add(obj);
+					}
+				}
+			}
+		} finally {
+			try {
+				if (enumeration != null) {
+					((CIMEnumeration)enumeration).close();
+				}
+			} catch(Exception e) {
+				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
+			}
+		}
+			
+		return resultArrayList;
+	}
+
+	public ArrayList getAssociated_CIM_RegisteredSubProfile_CIM_SubProfileRequiresProfiles(CIMClient cimClient,
+	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
+
+		if (cimClient == null) {
+			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
+		}
+		
+		ArrayList resultArrayList = new ArrayList();
+		Enumeration enumeration = null;
+		
+		try {
+			enumeration = cimClient.associators(
+					this.getCimObjectPath(),
+					CIM_ASSOCIATOR_CLASS_NAME_CIM_SUBPROFILEREQUIRESPROFILE, 
+					CIM_RegisteredSubProfile.CIM_CLASS_NAME, 
+					"Antecedent", //$NON-NLS-1$
+					"Dependent", //$NON-NLS-1$
+					includeQualifiers,
+					includeClassOrigin,
+					propertyList);
+		
+			while (enumeration.hasMoreElements()) {
+				Object obj = enumeration.nextElement();
+				if (obj instanceof CIMInstance) {
+					CIMInstance cimInstance = (CIMInstance)obj;
+                    Class clazz = CIM_RegisteredProfileHelper.findClass(cimClient, cimInstance);
+                    
+					if (clazz == null) {
+						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
+						resultArrayList.add(new CIM_RegisteredSubProfile(cimInstance.getObjectPath(), cimInstance));
+						continue;
+					}
+					
+					Class[] constParams = new Class[2];
+					constParams[0] = CIMObjectPath.class;
+					constParams[1] = CIMInstance.class;
+					Constructor cons = null;
+					try {
+						cons = clazz.getConstructor(constParams);
+						
+					} catch(NoSuchMethodException e) {
+						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
+						resultArrayList.add(new CIM_RegisteredSubProfile(cimInstance.getObjectPath(), cimInstance));
+						continue;
+					}
+				
+					try {
+						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
+					
+						Object dataObj = cons.newInstance(actargs);
+					
+						resultArrayList.add(dataObj);
+					} catch (Exception e) {
+						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
+						resultArrayList.add(new CIM_RegisteredSubProfile(cimInstance.getObjectPath(), cimInstance));
+						continue;
+					}
+
+				}
+			}
+		} finally {
+			try {
+				if (enumeration != null) {
+					((CIMEnumeration)enumeration).close();
+				}
+			} catch(Exception e) {
+				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
+			}
+		}
+			
+		return resultArrayList;
+	}
+
+	public ArrayList getAssociated_CIM_RegisteredSubProfile_CIM_SubProfileRequiresProfile_Names(CIMClient cimClient, boolean deep) {
+
+		if (cimClient == null) {
+			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
+		}
+		
+		Enumeration enumeration = null;
+		ArrayList resultArrayList = new ArrayList();
+
+		try {		
+			enumeration = cimClient.associatorNames(
+					this.getCimObjectPath(),
+					CIM_ASSOCIATOR_CLASS_NAME_CIM_SUBPROFILEREQUIRESPROFILE, 
+					CIM_RegisteredSubProfile.CIM_CLASS_NAME, 
+					"Antecedent", //$NON-NLS-1$
+					"Dependent"); //$NON-NLS-1$
+		
+		
+			while (enumeration.hasMoreElements()) {
+				Object obj = enumeration.nextElement();
+			
+				if (obj instanceof CIMObjectPath) {
+					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_RegisteredSubProfile.CIM_CLASS_NAME)) {
 						resultArrayList.add(obj);
 					}
 				}

@@ -1,7 +1,7 @@
 /** 
  * CIM_ScopedSetting.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -25,6 +25,8 @@ package org.sblim.wbemsmt.schema.cim29;
 
 import java.security.InvalidParameterException;
 import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
@@ -51,7 +53,7 @@ public class CIM_ScopedSetting extends CIM_HostedDependency  {
 
 	public static Vector CIM_PropertyNameList	= new Vector();
 	public static Vector CIM_PropertyList 		= new Vector();
-	public static Vector Java_Package_List 		= new Vector();
+	private static Set Java_Package_List 		= new HashSet();
 	
 	static {
 		CIM_PropertyNameList.add(CIM_PROPERTY_CIM_MANAGEDELEMENT);
@@ -71,14 +73,12 @@ public class CIM_ScopedSetting extends CIM_HostedDependency  {
 			CIM_ScopedSetting.CIM_PropertyList.add(CIM_HostedDependency.CIM_PropertyList.elementAt(i));
 		}
 		
-		Java_Package_List.add("org.sblim.wbemsmt.schema.cim29");
+		addPackage("org.sblim.wbemsmt.schema.cim29");
 				
-		for (int i = 0; i < CIM_HostedDependency.Java_Package_List.size(); i++) {
-			if (((String)CIM_HostedDependency.Java_Package_List.elementAt(i)).equals("org.sblim.wbemsmt.schema.cim29")){
-				continue;
-			}
-			
-			Java_Package_List.add(CIM_HostedDependency.Java_Package_List.elementAt(i));
+		String[] parentClassPackageList = CIM_HostedDependency.getPackages();
+		
+		for (int i = 0; i < parentClassPackageList.length; i++) {
+			Java_Package_List.add(parentClassPackageList[i]);
 		}
 	};
 			
@@ -155,8 +155,8 @@ public class CIM_ScopedSetting extends CIM_HostedDependency  {
 		} else if (cimObjectPath == null){
 			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
 		
-		} else if (!CIM_CLASS_NAME.equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class of the cimInstance must be of type " + CIM_CLASS_NAME + ".");
+		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
+			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
 		}
 		
 		setCimInstance(cimInstance);
@@ -172,6 +172,22 @@ public class CIM_ScopedSetting extends CIM_HostedDependency  {
 	public String getClassDisplayName(){
 		return CIM_CLASS_DISPLAYNAME;
 	}
+	
+	public static void addPackage(String packagename) {
+        if (packagename != null) {
+            if (!packagename.endsWith(".")) {
+                packagename = packagename + ".";
+            }
+            CIM_ScopedSetting.Java_Package_List.add(packagename);
+            
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public static String[] getPackages() {
+        return (String[]) CIM_ScopedSetting.Java_Package_List.toArray(new String[CIM_ScopedSetting.Java_Package_List.size()]);
+    }
 	
 	//**********************************************************************
 	// Instance methods
@@ -321,7 +337,7 @@ public class CIM_ScopedSetting extends CIM_HostedDependency  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ScopedSetting.CIM_PROPERTY_CIM_MANAGEDELEMENT + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_ManagedElement.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ScopedSetting.CIM_PROPERTY_CIM_MANAGEDELEMENT + " is not of expected type CIM_ManagedElement.");
 		}
         
@@ -343,7 +359,7 @@ public class CIM_ScopedSetting extends CIM_HostedDependency  {
 		} else if (!CIM_ScopedSettingHelper.isValid_CIM_ManagedElement(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ScopedSetting.CIM_PROPERTY_CIM_MANAGEDELEMENT);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_ManagedElement.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ScopedSetting.CIM_PROPERTY_CIM_MANAGEDELEMENT + " is not of expected type CIM_ManagedElement.");
 		}
     	
@@ -362,7 +378,7 @@ public class CIM_ScopedSetting extends CIM_HostedDependency  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ScopedSetting.CIM_PROPERTY_CIM_SCOPEDSETTINGDATA + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_ScopedSettingData.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ScopedSetting.CIM_PROPERTY_CIM_SCOPEDSETTINGDATA + " is not of expected type CIM_ScopedSettingData.");
 		}
         
@@ -384,7 +400,7 @@ public class CIM_ScopedSetting extends CIM_HostedDependency  {
 		} else if (!CIM_ScopedSettingHelper.isValid_CIM_ScopedSettingData(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ScopedSetting.CIM_PROPERTY_CIM_SCOPEDSETTINGDATA);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_ScopedSettingData.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ScopedSetting.CIM_PROPERTY_CIM_SCOPEDSETTINGDATA + " is not of expected type CIM_ScopedSettingData.");
 		}
     	

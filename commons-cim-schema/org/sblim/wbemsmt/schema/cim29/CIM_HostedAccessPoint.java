@@ -1,7 +1,7 @@
 /** 
  * CIM_HostedAccessPoint.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -29,6 +29,8 @@ package org.sblim.wbemsmt.schema.cim29;
 
 import java.security.InvalidParameterException;
 import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
@@ -59,7 +61,7 @@ public class CIM_HostedAccessPoint extends CIM_HostedDependency  {
 
 	public static Vector CIM_PropertyNameList	= new Vector();
 	public static Vector CIM_PropertyList 		= new Vector();
-	public static Vector Java_Package_List 		= new Vector();
+	private static Set Java_Package_List 		= new HashSet();
 	
 	static {
 		CIM_PropertyNameList.add(CIM_PROPERTY_CIM_SYSTEM);
@@ -79,14 +81,12 @@ public class CIM_HostedAccessPoint extends CIM_HostedDependency  {
 			CIM_HostedAccessPoint.CIM_PropertyList.add(CIM_HostedDependency.CIM_PropertyList.elementAt(i));
 		}
 		
-		Java_Package_List.add("org.sblim.wbemsmt.schema.cim29");
+		addPackage("org.sblim.wbemsmt.schema.cim29");
 				
-		for (int i = 0; i < CIM_HostedDependency.Java_Package_List.size(); i++) {
-			if (((String)CIM_HostedDependency.Java_Package_List.elementAt(i)).equals("org.sblim.wbemsmt.schema.cim29")){
-				continue;
-			}
-			
-			Java_Package_List.add(CIM_HostedDependency.Java_Package_List.elementAt(i));
+		String[] parentClassPackageList = CIM_HostedDependency.getPackages();
+		
+		for (int i = 0; i < parentClassPackageList.length; i++) {
+			Java_Package_List.add(parentClassPackageList[i]);
 		}
 	};
 			
@@ -163,8 +163,8 @@ public class CIM_HostedAccessPoint extends CIM_HostedDependency  {
 		} else if (cimObjectPath == null){
 			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
 		
-		} else if (!CIM_CLASS_NAME.equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class of the cimInstance must be of type " + CIM_CLASS_NAME + ".");
+		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
+			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
 		}
 		
 		setCimInstance(cimInstance);
@@ -180,6 +180,22 @@ public class CIM_HostedAccessPoint extends CIM_HostedDependency  {
 	public String getClassDisplayName(){
 		return CIM_CLASS_DISPLAYNAME;
 	}
+	
+	public static void addPackage(String packagename) {
+        if (packagename != null) {
+            if (!packagename.endsWith(".")) {
+                packagename = packagename + ".";
+            }
+            CIM_HostedAccessPoint.Java_Package_List.add(packagename);
+            
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public static String[] getPackages() {
+        return (String[]) CIM_HostedAccessPoint.Java_Package_List.toArray(new String[CIM_HostedAccessPoint.Java_Package_List.size()]);
+    }
 	
 	//**********************************************************************
 	// Instance methods
@@ -329,7 +345,7 @@ public class CIM_HostedAccessPoint extends CIM_HostedDependency  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_HostedAccessPoint.CIM_PROPERTY_CIM_SYSTEM + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_System.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_HostedAccessPoint.CIM_PROPERTY_CIM_SYSTEM + " is not of expected type CIM_System.");
 		}
         
@@ -351,7 +367,7 @@ public class CIM_HostedAccessPoint extends CIM_HostedDependency  {
 		} else if (!CIM_HostedAccessPointHelper.isValid_CIM_System(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_HostedAccessPoint.CIM_PROPERTY_CIM_SYSTEM);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_System.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_HostedAccessPoint.CIM_PROPERTY_CIM_SYSTEM + " is not of expected type CIM_System.");
 		}
     	
@@ -370,7 +386,7 @@ public class CIM_HostedAccessPoint extends CIM_HostedDependency  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_HostedAccessPoint.CIM_PROPERTY_CIM_SERVICEACCESSPOINT + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_ServiceAccessPoint.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_HostedAccessPoint.CIM_PROPERTY_CIM_SERVICEACCESSPOINT + " is not of expected type CIM_ServiceAccessPoint.");
 		}
         
@@ -392,7 +408,7 @@ public class CIM_HostedAccessPoint extends CIM_HostedDependency  {
 		} else if (!CIM_HostedAccessPointHelper.isValid_CIM_ServiceAccessPoint(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_HostedAccessPoint.CIM_PROPERTY_CIM_SERVICEACCESSPOINT);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_ServiceAccessPoint.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_HostedAccessPoint.CIM_PROPERTY_CIM_SERVICEACCESSPOINT + " is not of expected type CIM_ServiceAccessPoint.");
 		}
     	

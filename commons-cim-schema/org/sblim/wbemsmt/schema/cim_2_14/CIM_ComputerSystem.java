@@ -476,18 +476,8 @@ A clarification is needed with respect to the value 17 ("Mobile User Device"). A
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String[] packageList = CIM_ComputerSystem.getPackages();
-				
-					for (int i = 0; clazz == null && i < packageList.length; i++) {
-						String cimClassName = (packageList[i]) + cimInstance.getClassName();
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ComputerSystemHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_OperatingSystem(cimInstance.getObjectPath(), cimInstance));

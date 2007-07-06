@@ -1,7 +1,7 @@
 /** 
  * CIM_FileStorage.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -25,6 +25,8 @@ package org.sblim.wbemsmt.schema.cim29;
 
 import java.security.InvalidParameterException;
 import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
@@ -51,7 +53,7 @@ public class CIM_FileStorage extends CIM_Component  {
 
 	public static Vector CIM_PropertyNameList	= new Vector();
 	public static Vector CIM_PropertyList 		= new Vector();
-	public static Vector Java_Package_List 		= new Vector();
+	private static Set Java_Package_List 		= new HashSet();
 	
 	static {
 		CIM_PropertyNameList.add(CIM_PROPERTY_CIM_FILESYSTEM);
@@ -71,14 +73,12 @@ public class CIM_FileStorage extends CIM_Component  {
 			CIM_FileStorage.CIM_PropertyList.add(CIM_Component.CIM_PropertyList.elementAt(i));
 		}
 		
-		Java_Package_List.add("org.sblim.wbemsmt.schema.cim29");
+		addPackage("org.sblim.wbemsmt.schema.cim29");
 				
-		for (int i = 0; i < CIM_Component.Java_Package_List.size(); i++) {
-			if (((String)CIM_Component.Java_Package_List.elementAt(i)).equals("org.sblim.wbemsmt.schema.cim29")){
-				continue;
-			}
-			
-			Java_Package_List.add(CIM_Component.Java_Package_List.elementAt(i));
+		String[] parentClassPackageList = CIM_Component.getPackages();
+		
+		for (int i = 0; i < parentClassPackageList.length; i++) {
+			Java_Package_List.add(parentClassPackageList[i]);
 		}
 	};
 			
@@ -155,8 +155,8 @@ public class CIM_FileStorage extends CIM_Component  {
 		} else if (cimObjectPath == null){
 			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
 		
-		} else if (!CIM_CLASS_NAME.equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class of the cimInstance must be of type " + CIM_CLASS_NAME + ".");
+		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
+			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
 		}
 		
 		setCimInstance(cimInstance);
@@ -172,6 +172,22 @@ public class CIM_FileStorage extends CIM_Component  {
 	public String getClassDisplayName(){
 		return CIM_CLASS_DISPLAYNAME;
 	}
+	
+	public static void addPackage(String packagename) {
+        if (packagename != null) {
+            if (!packagename.endsWith(".")) {
+                packagename = packagename + ".";
+            }
+            CIM_FileStorage.Java_Package_List.add(packagename);
+            
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public static String[] getPackages() {
+        return (String[]) CIM_FileStorage.Java_Package_List.toArray(new String[CIM_FileStorage.Java_Package_List.size()]);
+    }
 	
 	//**********************************************************************
 	// Instance methods
@@ -321,7 +337,7 @@ public class CIM_FileStorage extends CIM_Component  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_FileStorage.CIM_PROPERTY_CIM_FILESYSTEM + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_FileSystem.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_FileStorage.CIM_PROPERTY_CIM_FILESYSTEM + " is not of expected type CIM_FileSystem.");
 		}
         
@@ -343,7 +359,7 @@ public class CIM_FileStorage extends CIM_Component  {
 		} else if (!CIM_FileStorageHelper.isValid_CIM_FileSystem(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_FileStorage.CIM_PROPERTY_CIM_FILESYSTEM);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_FileSystem.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_FileStorage.CIM_PROPERTY_CIM_FILESYSTEM + " is not of expected type CIM_FileSystem.");
 		}
     	
@@ -362,7 +378,7 @@ public class CIM_FileStorage extends CIM_Component  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_FileStorage.CIM_PROPERTY_CIM_LOGICALFILE + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_LogicalFile.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_FileStorage.CIM_PROPERTY_CIM_LOGICALFILE + " is not of expected type CIM_LogicalFile.");
 		}
         
@@ -384,7 +400,7 @@ public class CIM_FileStorage extends CIM_Component  {
 		} else if (!CIM_FileStorageHelper.isValid_CIM_LogicalFile(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_FileStorage.CIM_PROPERTY_CIM_LOGICALFILE);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_LogicalFile.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_FileStorage.CIM_PROPERTY_CIM_LOGICALFILE + " is not of expected type CIM_LogicalFile.");
 		}
     	

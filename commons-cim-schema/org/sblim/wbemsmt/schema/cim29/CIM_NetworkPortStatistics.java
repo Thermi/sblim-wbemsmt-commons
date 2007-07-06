@@ -1,7 +1,7 @@
 /** 
  * CIM_NetworkPortStatistics.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -24,6 +24,8 @@ package org.sblim.wbemsmt.schema.cim29;
 
 import java.security.InvalidParameterException;
 import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
@@ -63,7 +65,7 @@ public class CIM_NetworkPortStatistics extends CIM_StatisticalData  {
 
 	public static Vector CIM_PropertyNameList	= new Vector();
 	public static Vector CIM_PropertyList 		= new Vector();
-	public static Vector Java_Package_List 		= new Vector();
+	private static Set Java_Package_List 		= new HashSet();
 	
 	static {
 		CIM_PropertyNameList.add(CIM_PROPERTY_BYTESRECEIVED);
@@ -98,14 +100,12 @@ public class CIM_NetworkPortStatistics extends CIM_StatisticalData  {
 			CIM_NetworkPortStatistics.CIM_PropertyList.add(CIM_StatisticalData.CIM_PropertyList.elementAt(i));
 		}
 		
-		Java_Package_List.add("org.sblim.wbemsmt.schema.cim29");
+		addPackage("org.sblim.wbemsmt.schema.cim29");
 				
-		for (int i = 0; i < CIM_StatisticalData.Java_Package_List.size(); i++) {
-			if (((String)CIM_StatisticalData.Java_Package_List.elementAt(i)).equals("org.sblim.wbemsmt.schema.cim29")){
-				continue;
-			}
-			
-			Java_Package_List.add(CIM_StatisticalData.Java_Package_List.elementAt(i));
+		String[] parentClassPackageList = CIM_StatisticalData.getPackages();
+		
+		for (int i = 0; i < parentClassPackageList.length; i++) {
+			Java_Package_List.add(parentClassPackageList[i]);
 		}
 	};
 			
@@ -182,8 +182,8 @@ public class CIM_NetworkPortStatistics extends CIM_StatisticalData  {
 		} else if (cimObjectPath == null){
 			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
 		
-		} else if (!CIM_CLASS_NAME.equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class of the cimInstance must be of type " + CIM_CLASS_NAME + ".");
+		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
+			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
 		}
 		
 		setCimInstance(cimInstance);
@@ -199,6 +199,22 @@ public class CIM_NetworkPortStatistics extends CIM_StatisticalData  {
 	public String getClassDisplayName(){
 		return CIM_CLASS_DISPLAYNAME;
 	}
+	
+	public static void addPackage(String packagename) {
+        if (packagename != null) {
+            if (!packagename.endsWith(".")) {
+                packagename = packagename + ".";
+            }
+            CIM_NetworkPortStatistics.Java_Package_List.add(packagename);
+            
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public static String[] getPackages() {
+        return (String[]) CIM_NetworkPortStatistics.Java_Package_List.toArray(new String[CIM_NetworkPortStatistics.Java_Package_List.size()]);
+    }
 	
 	//**********************************************************************
 	// Instance methods

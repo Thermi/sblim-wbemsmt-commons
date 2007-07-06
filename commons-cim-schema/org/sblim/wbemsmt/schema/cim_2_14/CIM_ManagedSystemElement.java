@@ -480,18 +480,8 @@ OperationalStatus replaces the Status property on ManagedSystemElement to provid
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String[] packageList = CIM_ManagedSystemElement.getPackages();
-				
-					for (int i = 0; clazz == null && i < packageList.length; i++) {
-						String cimClassName = (packageList[i]) + cimInstance.getClassName();
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedSystemElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_Configuration(cimInstance.getObjectPath(), cimInstance));
@@ -603,18 +593,8 @@ OperationalStatus replaces the Status property on ManagedSystemElement to provid
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String[] packageList = CIM_ManagedSystemElement.getPackages();
-				
-					for (int i = 0; clazz == null && i < packageList.length; i++) {
-						String cimClassName = (packageList[i]) + cimInstance.getClassName();
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedSystemElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_Setting(cimInstance.getObjectPath(), cimInstance));

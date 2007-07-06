@@ -408,18 +408,8 @@ For DMTF defined instances, the 'preferred' algorithm MUST be used with the <Org
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String[] packageList = CIM_Capabilities.getPackages();
-				
-					for (int i = 0; clazz == null && i < packageList.length; i++) {
-						String cimClassName = (packageList[i]) + cimInstance.getClassName();
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_CapabilitiesHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_ManagedElement(cimInstance.getObjectPath(), cimInstance));

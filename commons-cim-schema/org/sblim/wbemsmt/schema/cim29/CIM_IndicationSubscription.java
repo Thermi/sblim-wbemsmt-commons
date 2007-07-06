@@ -1,7 +1,7 @@
 /** 
  * CIM_IndicationSubscription.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -30,6 +30,8 @@ package org.sblim.wbemsmt.schema.cim29;
 
 import java.security.InvalidParameterException;
 import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 import java.util.Calendar;
@@ -122,7 +124,7 @@ public class CIM_IndicationSubscription  {
 
 	public static Vector CIM_PropertyNameList	= new Vector();
 	public static Vector CIM_PropertyList 		= new Vector();
-	public static Vector Java_Package_List 		= new Vector();
+	private static Set Java_Package_List 		= new HashSet();
 	
 	static {
 		CIM_PropertyNameList.add(CIM_PROPERTY_FAILURETRIGGERTIMEINTERVAL);
@@ -161,7 +163,7 @@ public class CIM_IndicationSubscription  {
 		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_INDICATIONFILTER, new CIMValue(null, new CIMDataType(CIM_IndicationFilter.CIM_CLASS_NAME))));
 		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_LISTENERDESTINATION, new CIMValue(null, new CIMDataType(CIM_ListenerDestination.CIM_CLASS_NAME))));
 		
-		Java_Package_List.add("org.sblim.wbemsmt.schema.cim29");
+		addPackage("org.sblim.wbemsmt.schema.cim29");
 		};
 			
 	public final static String[] CIM_VALUEMAP_ONFATALERRORPOLICY = {"Other","Ignore","Disable","Remove"};
@@ -257,8 +259,8 @@ public class CIM_IndicationSubscription  {
 		} else if (cimObjectPath == null){
 			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
 		
-		} else if (!CIM_CLASS_NAME.equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class of the cimInstance must be of type " + CIM_CLASS_NAME + ".");
+		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
+			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
 		}
 		
 		setCimInstance(cimInstance);
@@ -274,6 +276,22 @@ public class CIM_IndicationSubscription  {
 	public String getClassDisplayName(){
 		return CIM_CLASS_DISPLAYNAME;
 	}
+	
+	public static void addPackage(String packagename) {
+        if (packagename != null) {
+            if (!packagename.endsWith(".")) {
+                packagename = packagename + ".";
+            }
+            CIM_IndicationSubscription.Java_Package_List.add(packagename);
+            
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public static String[] getPackages() {
+        return (String[]) CIM_IndicationSubscription.Java_Package_List.toArray(new String[CIM_IndicationSubscription.Java_Package_List.size()]);
+    }
 	
 	//**********************************************************************
 	// Instance methods
@@ -999,7 +1017,7 @@ public class CIM_IndicationSubscription  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IndicationSubscription.CIM_PROPERTY_CIM_INDICATIONFILTER + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_IndicationFilter.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IndicationSubscription.CIM_PROPERTY_CIM_INDICATIONFILTER + " is not of expected type CIM_IndicationFilter.");
 		}
         
@@ -1021,7 +1039,7 @@ public class CIM_IndicationSubscription  {
 		} else if (!CIM_IndicationSubscriptionHelper.isValid_CIM_IndicationFilter(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_IndicationSubscription.CIM_PROPERTY_CIM_INDICATIONFILTER);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_IndicationFilter.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IndicationSubscription.CIM_PROPERTY_CIM_INDICATIONFILTER + " is not of expected type CIM_IndicationFilter.");
 		}
     	
@@ -1040,7 +1058,7 @@ public class CIM_IndicationSubscription  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IndicationSubscription.CIM_PROPERTY_CIM_LISTENERDESTINATION + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_ListenerDestination.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IndicationSubscription.CIM_PROPERTY_CIM_LISTENERDESTINATION + " is not of expected type CIM_ListenerDestination.");
 		}
         
@@ -1062,7 +1080,7 @@ public class CIM_IndicationSubscription  {
 		} else if (!CIM_IndicationSubscriptionHelper.isValid_CIM_ListenerDestination(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_IndicationSubscription.CIM_PROPERTY_CIM_LISTENERDESTINATION);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_ListenerDestination.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IndicationSubscription.CIM_PROPERTY_CIM_LISTENERDESTINATION + " is not of expected type CIM_ListenerDestination.");
 		}
     	

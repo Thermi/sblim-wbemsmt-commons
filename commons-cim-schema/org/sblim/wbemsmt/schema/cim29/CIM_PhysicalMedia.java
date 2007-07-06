@@ -1,7 +1,7 @@
 /** 
  * CIM_PhysicalMedia.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -29,6 +29,8 @@ package org.sblim.wbemsmt.schema.cim29;
 
 import java.security.InvalidParameterException;
 import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 import java.util.Calendar;
@@ -124,7 +126,7 @@ public class CIM_PhysicalMedia extends CIM_PhysicalComponent  {
 
 	public static Vector CIM_PropertyNameList	= new Vector();
 	public static Vector CIM_PropertyList 		= new Vector();
-	public static Vector Java_Package_List 		= new Vector();
+	private static Set Java_Package_List 		= new HashSet();
 	
 	static {
 		CIM_PropertyNameList.add(CIM_PROPERTY_CAPACITY);
@@ -199,14 +201,12 @@ public class CIM_PhysicalMedia extends CIM_PhysicalComponent  {
 			CIM_PhysicalMedia.CIM_PropertyList.add(CIM_PhysicalComponent.CIM_PropertyList.elementAt(i));
 		}
 		
-		Java_Package_List.add("org.sblim.wbemsmt.schema.cim29");
+		addPackage("org.sblim.wbemsmt.schema.cim29");
 				
-		for (int i = 0; i < CIM_PhysicalComponent.Java_Package_List.size(); i++) {
-			if (((String)CIM_PhysicalComponent.Java_Package_List.elementAt(i)).equals("org.sblim.wbemsmt.schema.cim29")){
-				continue;
-			}
-			
-			Java_Package_List.add(CIM_PhysicalComponent.Java_Package_List.elementAt(i));
+		String[] parentClassPackageList = CIM_PhysicalComponent.getPackages();
+		
+		for (int i = 0; i < parentClassPackageList.length; i++) {
+			Java_Package_List.add(parentClassPackageList[i]);
 		}
 	};
 			
@@ -365,8 +365,8 @@ public class CIM_PhysicalMedia extends CIM_PhysicalComponent  {
 		} else if (cimObjectPath == null){
 			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
 		
-		} else if (!CIM_CLASS_NAME.equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class of the cimInstance must be of type " + CIM_CLASS_NAME + ".");
+		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
+			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
 		}
 		
 		setCimInstance(cimInstance);
@@ -382,6 +382,22 @@ public class CIM_PhysicalMedia extends CIM_PhysicalComponent  {
 	public String getClassDisplayName(){
 		return CIM_CLASS_DISPLAYNAME;
 	}
+	
+	public static void addPackage(String packagename) {
+        if (packagename != null) {
+            if (!packagename.endsWith(".")) {
+                packagename = packagename + ".";
+            }
+            CIM_PhysicalMedia.Java_Package_List.add(packagename);
+            
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public static String[] getPackages() {
+        return (String[]) CIM_PhysicalMedia.Java_Package_List.toArray(new String[CIM_PhysicalMedia.Java_Package_List.size()]);
+    }
 	
 	//**********************************************************************
 	// Instance methods
@@ -541,22 +557,8 @@ public class CIM_PhysicalMedia extends CIM_PhysicalComponent  {
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_PhysicalMedia.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalMedia.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_PhysicalMedia.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_PhysicalMedia.Java_Package_List.setElementAt((String)(CIM_PhysicalMedia.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_PhysicalMedia.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_PhysicalMediaHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_StorageMediaLocation(cimInstance.getObjectPath(), cimInstance));
@@ -668,22 +670,8 @@ public class CIM_PhysicalMedia extends CIM_PhysicalComponent  {
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_PhysicalMedia.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalMedia.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_PhysicalMedia.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_PhysicalMedia.Java_Package_List.setElementAt((String)(CIM_PhysicalMedia.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_PhysicalMedia.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_PhysicalMediaHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_PhysicalMemory(cimInstance.getObjectPath(), cimInstance));
@@ -795,22 +783,8 @@ public class CIM_PhysicalMedia extends CIM_PhysicalComponent  {
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_PhysicalMedia.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalMedia.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_PhysicalMedia.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_PhysicalMedia.Java_Package_List.setElementAt((String)(CIM_PhysicalMedia.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_PhysicalMedia.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_PhysicalMediaHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_StorageMediaLocation(cimInstance.getObjectPath(), cimInstance));
@@ -922,22 +896,8 @@ public class CIM_PhysicalMedia extends CIM_PhysicalComponent  {
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_PhysicalMedia.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalMedia.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_PhysicalMedia.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_PhysicalMedia.Java_Package_List.setElementAt((String)(CIM_PhysicalMedia.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_PhysicalMedia.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_PhysicalMediaHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_StorageExtent(cimInstance.getObjectPath(), cimInstance));
@@ -1049,22 +1009,8 @@ public class CIM_PhysicalMedia extends CIM_PhysicalComponent  {
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_PhysicalMedia.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_PhysicalMedia.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_PhysicalMedia.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_PhysicalMedia.Java_Package_List.setElementAt((String)(CIM_PhysicalMedia.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_PhysicalMedia.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_PhysicalMediaHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_DiskPartition(cimInstance.getObjectPath(), cimInstance));

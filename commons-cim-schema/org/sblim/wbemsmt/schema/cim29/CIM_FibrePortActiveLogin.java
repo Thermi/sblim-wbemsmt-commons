@@ -1,7 +1,7 @@
 /** 
  * CIM_FibrePortActiveLogin.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -29,6 +29,8 @@ package org.sblim.wbemsmt.schema.cim29;
 
 import java.security.InvalidParameterException;
 import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
@@ -99,7 +101,7 @@ public class CIM_FibrePortActiveLogin  {
 
 	public static Vector CIM_PropertyNameList	= new Vector();
 	public static Vector CIM_PropertyList 		= new Vector();
-	public static Vector Java_Package_List 		= new Vector();
+	private static Set Java_Package_List 		= new HashSet();
 	
 	static {
 		CIM_PropertyNameList.add(CIM_PROPERTY_ACKMODEL);
@@ -128,7 +130,7 @@ public class CIM_FibrePortActiveLogin  {
 		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_FIBREPORT_1, new CIMValue(null, new CIMDataType(CIM_FibrePort.CIM_CLASS_NAME))));
 		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_FIBREPORT_2, new CIMValue(null, new CIMDataType(CIM_FibrePort.CIM_CLASS_NAME))));
 		
-		Java_Package_List.add("org.sblim.wbemsmt.schema.cim29");
+		addPackage("org.sblim.wbemsmt.schema.cim29");
 		};
 			
 	public final static String[] CIM_VALUEMAP_ACKMODEL = {"Unknown","ACK-0","ACK-1","ACK-N"};
@@ -224,8 +226,8 @@ public class CIM_FibrePortActiveLogin  {
 		} else if (cimObjectPath == null){
 			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
 		
-		} else if (!CIM_CLASS_NAME.equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class of the cimInstance must be of type " + CIM_CLASS_NAME + ".");
+		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
+			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
 		}
 		
 		setCimInstance(cimInstance);
@@ -241,6 +243,22 @@ public class CIM_FibrePortActiveLogin  {
 	public String getClassDisplayName(){
 		return CIM_CLASS_DISPLAYNAME;
 	}
+	
+	public static void addPackage(String packagename) {
+        if (packagename != null) {
+            if (!packagename.endsWith(".")) {
+                packagename = packagename + ".";
+            }
+            CIM_FibrePortActiveLogin.Java_Package_List.add(packagename);
+            
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public static String[] getPackages() {
+        return (String[]) CIM_FibrePortActiveLogin.Java_Package_List.toArray(new String[CIM_FibrePortActiveLogin.Java_Package_List.size()]);
+    }
 	
 	//**********************************************************************
 	// Instance methods
@@ -769,7 +787,7 @@ public class CIM_FibrePortActiveLogin  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_FibrePortActiveLogin.CIM_PROPERTY_CIM_FIBREPORT_1 + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_FibrePort.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_FibrePortActiveLogin.CIM_PROPERTY_CIM_FIBREPORT_1 + " is not of expected type CIM_FibrePort.");
 		}
         
@@ -791,7 +809,7 @@ public class CIM_FibrePortActiveLogin  {
 		} else if (!CIM_FibrePortActiveLoginHelper.isValid_CIM_FibrePort_1(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_FibrePortActiveLogin.CIM_PROPERTY_CIM_FIBREPORT_1);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_FibrePort.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_FibrePortActiveLogin.CIM_PROPERTY_CIM_FIBREPORT_1 + " is not of expected type CIM_FibrePort.");
 		}
     	
@@ -810,7 +828,7 @@ public class CIM_FibrePortActiveLogin  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_FibrePortActiveLogin.CIM_PROPERTY_CIM_FIBREPORT_2 + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_FibrePort.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_FibrePortActiveLogin.CIM_PROPERTY_CIM_FIBREPORT_2 + " is not of expected type CIM_FibrePort.");
 		}
         
@@ -832,7 +850,7 @@ public class CIM_FibrePortActiveLogin  {
 		} else if (!CIM_FibrePortActiveLoginHelper.isValid_CIM_FibrePort_2(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_FibrePortActiveLogin.CIM_PROPERTY_CIM_FIBREPORT_2);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_FibrePort.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_FibrePortActiveLogin.CIM_PROPERTY_CIM_FIBREPORT_2 + " is not of expected type CIM_FibrePort.");
 		}
     	

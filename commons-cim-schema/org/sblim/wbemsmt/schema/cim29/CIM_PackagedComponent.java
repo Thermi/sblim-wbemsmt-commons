@@ -1,7 +1,7 @@
 /** 
  * CIM_PackagedComponent.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -29,6 +29,8 @@ package org.sblim.wbemsmt.schema.cim29;
 
 import java.security.InvalidParameterException;
 import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
@@ -59,7 +61,7 @@ public class CIM_PackagedComponent extends CIM_Container  {
 
 	public static Vector CIM_PropertyNameList	= new Vector();
 	public static Vector CIM_PropertyList 		= new Vector();
-	public static Vector Java_Package_List 		= new Vector();
+	private static Set Java_Package_List 		= new HashSet();
 	
 	static {
 		CIM_PropertyNameList.add(CIM_PROPERTY_CIM_PHYSICALPACKAGE);
@@ -79,14 +81,12 @@ public class CIM_PackagedComponent extends CIM_Container  {
 			CIM_PackagedComponent.CIM_PropertyList.add(CIM_Container.CIM_PropertyList.elementAt(i));
 		}
 		
-		Java_Package_List.add("org.sblim.wbemsmt.schema.cim29");
+		addPackage("org.sblim.wbemsmt.schema.cim29");
 				
-		for (int i = 0; i < CIM_Container.Java_Package_List.size(); i++) {
-			if (((String)CIM_Container.Java_Package_List.elementAt(i)).equals("org.sblim.wbemsmt.schema.cim29")){
-				continue;
-			}
-			
-			Java_Package_List.add(CIM_Container.Java_Package_List.elementAt(i));
+		String[] parentClassPackageList = CIM_Container.getPackages();
+		
+		for (int i = 0; i < parentClassPackageList.length; i++) {
+			Java_Package_List.add(parentClassPackageList[i]);
 		}
 	};
 			
@@ -163,8 +163,8 @@ public class CIM_PackagedComponent extends CIM_Container  {
 		} else if (cimObjectPath == null){
 			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
 		
-		} else if (!CIM_CLASS_NAME.equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class of the cimInstance must be of type " + CIM_CLASS_NAME + ".");
+		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
+			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
 		}
 		
 		setCimInstance(cimInstance);
@@ -180,6 +180,22 @@ public class CIM_PackagedComponent extends CIM_Container  {
 	public String getClassDisplayName(){
 		return CIM_CLASS_DISPLAYNAME;
 	}
+	
+	public static void addPackage(String packagename) {
+        if (packagename != null) {
+            if (!packagename.endsWith(".")) {
+                packagename = packagename + ".";
+            }
+            CIM_PackagedComponent.Java_Package_List.add(packagename);
+            
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public static String[] getPackages() {
+        return (String[]) CIM_PackagedComponent.Java_Package_List.toArray(new String[CIM_PackagedComponent.Java_Package_List.size()]);
+    }
 	
 	//**********************************************************************
 	// Instance methods
@@ -329,7 +345,7 @@ public class CIM_PackagedComponent extends CIM_Container  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_PackagedComponent.CIM_PROPERTY_CIM_PHYSICALPACKAGE + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_PhysicalPackage.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_PackagedComponent.CIM_PROPERTY_CIM_PHYSICALPACKAGE + " is not of expected type CIM_PhysicalPackage.");
 		}
         
@@ -351,7 +367,7 @@ public class CIM_PackagedComponent extends CIM_Container  {
 		} else if (!CIM_PackagedComponentHelper.isValid_CIM_PhysicalPackage(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_PackagedComponent.CIM_PROPERTY_CIM_PHYSICALPACKAGE);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_PhysicalPackage.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_PackagedComponent.CIM_PROPERTY_CIM_PHYSICALPACKAGE + " is not of expected type CIM_PhysicalPackage.");
 		}
     	
@@ -370,7 +386,7 @@ public class CIM_PackagedComponent extends CIM_Container  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_PackagedComponent.CIM_PROPERTY_CIM_PHYSICALCOMPONENT + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_PhysicalComponent.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_PackagedComponent.CIM_PROPERTY_CIM_PHYSICALCOMPONENT + " is not of expected type CIM_PhysicalComponent.");
 		}
         
@@ -392,7 +408,7 @@ public class CIM_PackagedComponent extends CIM_Container  {
 		} else if (!CIM_PackagedComponentHelper.isValid_CIM_PhysicalComponent(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_PackagedComponent.CIM_PROPERTY_CIM_PHYSICALCOMPONENT);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_PhysicalComponent.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_PackagedComponent.CIM_PROPERTY_CIM_PHYSICALCOMPONENT + " is not of expected type CIM_PhysicalComponent.");
 		}
     	

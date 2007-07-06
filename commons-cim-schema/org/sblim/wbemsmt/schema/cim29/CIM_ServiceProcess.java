@@ -1,7 +1,7 @@
 /** 
  * CIM_ServiceProcess.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -30,6 +30,8 @@ package org.sblim.wbemsmt.schema.cim29;
 
 import java.security.InvalidParameterException;
 import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 
@@ -69,7 +71,7 @@ public class CIM_ServiceProcess  {
 
 	public static Vector CIM_PropertyNameList	= new Vector();
 	public static Vector CIM_PropertyList 		= new Vector();
-	public static Vector Java_Package_List 		= new Vector();
+	private static Set Java_Package_List 		= new HashSet();
 	
 	static {
 		CIM_PropertyNameList.add(CIM_PROPERTY_EXECUTIONTYPE);
@@ -82,7 +84,7 @@ public class CIM_ServiceProcess  {
 		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_SERVICE, new CIMValue(null, new CIMDataType(CIM_Service.CIM_CLASS_NAME))));
 		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_PROCESS, new CIMValue(null, new CIMDataType(CIM_Process.CIM_CLASS_NAME))));
 		
-		Java_Package_List.add("org.sblim.wbemsmt.schema.cim29");
+		addPackage("org.sblim.wbemsmt.schema.cim29");
 		};
 			
 	public final static String[] CIM_VALUEMAP_EXECUTIONTYPE = {"Unknown","Other","Executes in Existing Process","Executes as Independent Process"};
@@ -164,8 +166,8 @@ public class CIM_ServiceProcess  {
 		} else if (cimObjectPath == null){
 			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
 		
-		} else if (!CIM_CLASS_NAME.equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class of the cimInstance must be of type " + CIM_CLASS_NAME + ".");
+		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
+			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
 		}
 		
 		setCimInstance(cimInstance);
@@ -181,6 +183,22 @@ public class CIM_ServiceProcess  {
 	public String getClassDisplayName(){
 		return CIM_CLASS_DISPLAYNAME;
 	}
+	
+	public static void addPackage(String packagename) {
+        if (packagename != null) {
+            if (!packagename.endsWith(".")) {
+                packagename = packagename + ".";
+            }
+            CIM_ServiceProcess.Java_Package_List.add(packagename);
+            
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public static String[] getPackages() {
+        return (String[]) CIM_ServiceProcess.Java_Package_List.toArray(new String[CIM_ServiceProcess.Java_Package_List.size()]);
+    }
 	
 	//**********************************************************************
 	// Instance methods
@@ -371,7 +389,7 @@ public class CIM_ServiceProcess  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ServiceProcess.CIM_PROPERTY_CIM_SERVICE + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_Service.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ServiceProcess.CIM_PROPERTY_CIM_SERVICE + " is not of expected type CIM_Service.");
 		}
         
@@ -393,7 +411,7 @@ public class CIM_ServiceProcess  {
 		} else if (!CIM_ServiceProcessHelper.isValid_CIM_Service(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ServiceProcess.CIM_PROPERTY_CIM_SERVICE);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_Service.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ServiceProcess.CIM_PROPERTY_CIM_SERVICE + " is not of expected type CIM_Service.");
 		}
     	
@@ -412,7 +430,7 @@ public class CIM_ServiceProcess  {
 		if (currentProperty == null) {
 			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ServiceProcess.CIM_PROPERTY_CIM_PROCESS + " could not be found");
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_Process.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ServiceProcess.CIM_PROPERTY_CIM_PROCESS + " is not of expected type CIM_Process.");
 		}
         
@@ -434,7 +452,7 @@ public class CIM_ServiceProcess  {
 		} else if (!CIM_ServiceProcessHelper.isValid_CIM_Process(newValue)) {
 			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ServiceProcess.CIM_PROPERTY_CIM_PROCESS);
     		
-		} else if (currentProperty.getType() == null || !currentProperty.getType().getRefClassName().equals(CIM_Process.CIM_CLASS_NAME)) {
+		} else if (currentProperty.getType() == null ) {
 			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ServiceProcess.CIM_PROPERTY_CIM_PROCESS + " is not of expected type CIM_Process.");
 		}
     	

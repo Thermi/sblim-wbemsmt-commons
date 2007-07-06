@@ -1,7 +1,7 @@
 /** 
  * CIM_ManagedElement.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -25,6 +25,8 @@ package org.sblim.wbemsmt.schema.cim29;
 
 import java.security.InvalidParameterException;
 import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 import java.util.ArrayList;
@@ -90,7 +92,7 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 
 	public static Vector CIM_PropertyNameList	= new Vector();
 	public static Vector CIM_PropertyList 		= new Vector();
-	public static Vector Java_Package_List 		= new Vector();
+	private static Set Java_Package_List 		= new HashSet();
 	
 	static {
 		CIM_PropertyNameList.add(CIM_PROPERTY_CAPTION);
@@ -102,7 +104,7 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_DESCRIPTION, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
 		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ELEMENTNAME, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
 		
-		Java_Package_List.add("org.sblim.wbemsmt.schema.cim29");
+		addPackage("org.sblim.wbemsmt.schema.cim29");
 		};
 			
 	
@@ -178,8 +180,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 		} else if (cimObjectPath == null){
 			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
 		
-		} else if (!CIM_CLASS_NAME.equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class of the cimInstance must be of type " + CIM_CLASS_NAME + ".");
+		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
+			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
 		}
 		
 		setCimInstance(cimInstance);
@@ -195,6 +197,22 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 	public String getClassDisplayName(){
 		return CIM_CLASS_DISPLAYNAME;
 	}
+	
+	public static void addPackage(String packagename) {
+        if (packagename != null) {
+            if (!packagename.endsWith(".")) {
+                packagename = packagename + ".";
+            }
+            CIM_ManagedElement.Java_Package_List.add(packagename);
+            
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public static String[] getPackages() {
+        return (String[]) CIM_ManagedElement.Java_Package_List.toArray(new String[CIM_ManagedElement.Java_Package_List.size()]);
+    }
 	
 	//**********************************************************************
 	// Instance methods
@@ -354,22 +372,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_Job(cimInstance.getObjectPath(), cimInstance));
@@ -481,22 +485,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_Capabilities(cimInstance.getObjectPath(), cimInstance));
@@ -608,22 +598,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_RegisteredProfile(cimInstance.getObjectPath(), cimInstance));
@@ -735,22 +711,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_Location(cimInstance.getObjectPath(), cimInstance));
@@ -862,22 +824,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_Profile(cimInstance.getObjectPath(), cimInstance));
@@ -989,22 +937,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_SettingData(cimInstance.getObjectPath(), cimInstance));
@@ -1116,22 +1050,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_SoftwareIdentity(cimInstance.getObjectPath(), cimInstance));
@@ -1243,22 +1163,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_StatisticalData(cimInstance.getObjectPath(), cimInstance));
@@ -1370,22 +1276,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_Collection(cimInstance.getObjectPath(), cimInstance));
@@ -1497,22 +1389,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_Job(cimInstance.getObjectPath(), cimInstance));
@@ -1624,22 +1502,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_MethodParameters(cimInstance.getObjectPath(), cimInstance));
@@ -1751,22 +1615,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_MethodParameters(cimInstance.getObjectPath(), cimInstance));
@@ -1878,22 +1728,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_Service(cimInstance.getObjectPath(), cimInstance));
@@ -2005,22 +1841,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_ServiceAccessPoint(cimInstance.getObjectPath(), cimInstance));
@@ -2132,22 +1954,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_ScopedSettingData(cimInstance.getObjectPath(), cimInstance));
@@ -2259,22 +2067,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_Service(cimInstance.getObjectPath(), cimInstance));
@@ -2386,22 +2180,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_Service(cimInstance.getObjectPath(), cimInstance));
@@ -2513,22 +2293,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_StatisticalInformation(cimInstance.getObjectPath(), cimInstance));
@@ -2640,22 +2406,8 @@ Note that ManagedSystemElement's Name property is also defined as a user-friendl
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_ManagedElement.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_ManagedElement.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_ManagedElement.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_ManagedElement.Java_Package_List.setElementAt((String)(CIM_ManagedElement.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_ManagedElement.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_ManagedElementHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_ManagedElement(cimInstance.getObjectPath(), cimInstance));

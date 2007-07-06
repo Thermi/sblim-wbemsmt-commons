@@ -1,7 +1,7 @@
 /** 
  * CIM_LogicalDevice.java
  *
- * (C) Copyright IBM Corp. 2005
+ * © Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -32,6 +32,8 @@ package org.sblim.wbemsmt.schema.cim29;
 
 import java.security.InvalidParameterException;
 import java.util.Vector;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Iterator;
 import org.sblim.wbem.cim.*;
 import java.util.Calendar;
@@ -182,7 +184,7 @@ The method's return code should indicate the success or failure of the quiesce. 
 
 	public static Vector CIM_PropertyNameList	= new Vector();
 	public static Vector CIM_PropertyList 		= new Vector();
-	public static Vector Java_Package_List 		= new Vector();
+	private static Set Java_Package_List 		= new HashSet();
 	
 	static {
 		CIM_PropertyNameList.add(CIM_PROPERTY_ADDITIONALAVAILABILITY);
@@ -269,14 +271,12 @@ The method's return code should indicate the success or failure of the quiesce. 
 			CIM_LogicalDevice.CIM_PropertyList.add(CIM_EnabledLogicalElement.CIM_PropertyList.elementAt(i));
 		}
 		
-		Java_Package_List.add("org.sblim.wbemsmt.schema.cim29");
+		addPackage("org.sblim.wbemsmt.schema.cim29");
 				
-		for (int i = 0; i < CIM_EnabledLogicalElement.Java_Package_List.size(); i++) {
-			if (((String)CIM_EnabledLogicalElement.Java_Package_List.elementAt(i)).equals("org.sblim.wbemsmt.schema.cim29")){
-				continue;
-			}
-			
-			Java_Package_List.add(CIM_EnabledLogicalElement.Java_Package_List.elementAt(i));
+		String[] parentClassPackageList = CIM_EnabledLogicalElement.getPackages();
+		
+		for (int i = 0; i < parentClassPackageList.length; i++) {
+			Java_Package_List.add(parentClassPackageList[i]);
 		}
 	};
 			
@@ -416,8 +416,8 @@ The method's return code should indicate the success or failure of the quiesce. 
 		} else if (cimObjectPath == null){
 			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
 		
-		} else if (!CIM_CLASS_NAME.equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class of the cimInstance must be of type " + CIM_CLASS_NAME + ".");
+		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
+			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
 		}
 		
 		setCimInstance(cimInstance);
@@ -433,6 +433,22 @@ The method's return code should indicate the success or failure of the quiesce. 
 	public String getClassDisplayName(){
 		return CIM_CLASS_DISPLAYNAME;
 	}
+	
+	public static void addPackage(String packagename) {
+        if (packagename != null) {
+            if (!packagename.endsWith(".")) {
+                packagename = packagename + ".";
+            }
+            CIM_LogicalDevice.Java_Package_List.add(packagename);
+            
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public static String[] getPackages() {
+        return (String[]) CIM_LogicalDevice.Java_Package_List.toArray(new String[CIM_LogicalDevice.Java_Package_List.size()]);
+    }
 	
 	//**********************************************************************
 	// Instance methods
@@ -620,22 +636,8 @@ The method's return code should indicate the success or failure of the quiesce. 
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_LogicalDevice.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_LogicalDevice.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_LogicalDevice.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_LogicalDevice.Java_Package_List.setElementAt((String)(CIM_LogicalDevice.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_LogicalDevice.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_LogicalDeviceHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_DeviceFile(cimInstance.getObjectPath(), cimInstance));
@@ -747,22 +749,8 @@ The method's return code should indicate the success or failure of the quiesce. 
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_LogicalDevice.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_LogicalDevice.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_LogicalDevice.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_LogicalDevice.Java_Package_List.setElementAt((String)(CIM_LogicalDevice.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_LogicalDevice.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_LogicalDeviceHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_ServiceAccessPoint(cimInstance.getObjectPath(), cimInstance));
@@ -874,22 +862,8 @@ The method's return code should indicate the success or failure of the quiesce. 
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_LogicalDevice.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_LogicalDevice.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_LogicalDevice.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_LogicalDevice.Java_Package_List.setElementAt((String)(CIM_LogicalDevice.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_LogicalDevice.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_LogicalDeviceHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_Service(cimInstance.getObjectPath(), cimInstance));
@@ -1001,22 +975,8 @@ The method's return code should indicate the success or failure of the quiesce. 
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_LogicalDevice.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_LogicalDevice.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_LogicalDevice.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_LogicalDevice.Java_Package_List.setElementAt((String)(CIM_LogicalDevice.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_LogicalDevice.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_LogicalDeviceHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_DeviceStatisticalInformation(cimInstance.getObjectPath(), cimInstance));
@@ -1128,22 +1088,8 @@ The method's return code should indicate the success or failure of the quiesce. 
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_LogicalDevice.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_LogicalDevice.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_LogicalDevice.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_LogicalDevice.Java_Package_List.setElementAt((String)(CIM_LogicalDevice.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_LogicalDevice.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_LogicalDeviceHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_LogicalPort(cimInstance.getObjectPath(), cimInstance));
@@ -1255,22 +1201,8 @@ The method's return code should indicate the success or failure of the quiesce. 
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_LogicalDevice.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_LogicalDevice.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_LogicalDevice.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_LogicalDevice.Java_Package_List.setElementAt((String)(CIM_LogicalDevice.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_LogicalDevice.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_LogicalDeviceHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_PhysicalElement(cimInstance.getObjectPath(), cimInstance));
@@ -1382,22 +1314,8 @@ The method's return code should indicate the success or failure of the quiesce. 
 				Object obj = enumeration.nextElement();
 				if (obj instanceof CIMInstance) {
 					CIMInstance cimInstance = (CIMInstance)obj;
-					Class clazz = null;
-					String cimClassName = cimInstance.getClassName();
-				
-					for (int i = 0; clazz == null && i < CIM_LogicalDevice.Java_Package_List.size(); i++) {
-						if (!((String)(CIM_LogicalDevice.Java_Package_List.get(i))).trim().equals("") && //$NON-NLS-1$
-								!((String)(CIM_LogicalDevice.Java_Package_List.get(i))).endsWith(".")) { //$NON-NLS-1$
-							CIM_LogicalDevice.Java_Package_List.setElementAt((String)(CIM_LogicalDevice.Java_Package_List.get(i)) + ("."), i); //$NON-NLS-1$
-						}
-						cimClassName = (CIM_LogicalDevice.Java_Package_List.get(i)) + cimClassName;
-
-						try {
-							clazz = Class.forName(cimClassName);
-						} catch(ClassNotFoundException e) {
-						}
-					}
-					
+                    Class clazz = CIM_LogicalDeviceHelper.findClass(cimClient, cimInstance);
+                    
 					if (clazz == null) {
 						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
 						resultArrayList.add(new CIM_System(cimInstance.getObjectPath(), cimInstance));
