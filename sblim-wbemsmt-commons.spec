@@ -1,5 +1,5 @@
 %define name                    sblim-wbemsmt-commons
-%define version                 0.2.3
+%define version                 0.5.0
 %define build_release           1
 %define release                 %{build_release}jpp
 %define section                 free
@@ -20,8 +20,9 @@ BuildArch:      noarch
 
 BuildRequires: jpackage-utils >= 0:1.5.32
 BuildRequires: ant >= 0:1.6
-BuildRequires: sblim-cim-client >= 0:1.3.2
+BuildRequires: sblim-cim-client >= 0:1.3.3
 BuildRequires: tomcat5-servlet-2.4-api >= 5.5.15
+BuildRequires: tomcat5-jsp-2.0-api >= 5.5.15
 BuildRequires: jakarta-commons-cli >= 1.0
 BuildRequires: jakarta-commons-lang >= 2.0
 BuildRequires: jakarta-commons-collections >= 3.1
@@ -33,8 +34,9 @@ BuildRequires: jakarta-commons-collections >= 3.1
 ###############################################################################
 
 Requires: jpackage-utils >= 0:1.5.32
-Requires: sblim-cim-client >= 0:1.3.2
+Requires: sblim-cim-client >= 0:1.3.3
 Requires: tomcat5-servlet-2.4-api >= 5.5.15
+Requires: tomcat5-jsp-2.0-api >= 5.5.15
 Requires: jakarta-commons-cli >= 1.0
 Requires: jakarta-commons-collections >= 3.1
 Requires: jakarta-commons-lang >= 2.0
@@ -61,7 +63,7 @@ It has the generated CIM 2.9 schema and common classes for the task launcher.
 
 %build
 CLASSPATH=$(build-classpath sblim-cim-client sblim-slp-client)
-CLASSPATH=$(build-classpath tomcat5-servlet-2.4-api):$CLASSPATH
+CLASSPATH=$(build-classpath tomcat5-servlet-2.4-api tomcat5-jsp-2.0-api):$CLASSPATH
 CLASSPATH=$(build-classpath commons-cli commons-collections commons-lang):$CLASSPATH
 CLASSPATH=$(build-classpath xbean jsr173_1.0_api myfaces-api myfaces-impl tomahawk):$CLASSPATH
 export CLASSPATH
@@ -118,6 +120,98 @@ install target/package/%{name}-launcher-config-%{version}.jar $RPM_BUILD_ROOT%{_
 
 ###############################################################################
 %changelog
+* Fri Jul 6 2007 Wolfgang Taphorn <taphorn@de.ibm.com> 0.5.0-1
+  - Inclusion of fixes for the following issues:
+    o 1749065  wbemsmt-commons: FCO classes don't support SUPERCLASS lookup
+    o 1746585  wbemsmt-admin: namespace for application
+    o 1746589  wbemsmt-commons: new Attributes for testLogin-method
+    o 1740803  wbemsmt-slp: use treeconfig to check for slp hosts
+    o 1737049  wbemsmt-jsf: parallel logon for multiple hosts
+    o 1736562  wbemsmt-commons: handle CIMAuthenticationException
+    o 1731448  wbemsmt-commons: location of task.d directory
+    o 1731239  wbemsmt-commons: add parentValidators
+    o 1731236  wbemsmt-jsf: childrenTables as HtmlDataTable
+    o 1731233  wbemsmt-common Stackoverflow in addDependentAdapterForReload
+    o 1731230  wbemsmt-jsf: distinction between Raw and Formatted NodeName
+    o 1727285  wbemsmt-jsf: configurable ajax update interval
+    o 1728152  wbemsmt-common: priority for eventlisteners
+    o 1728160  wbemsmt-common:MessagUtil.addMsg with MsgDefinition
+    o 1724706  wbemsmt-commons-bl: CIMObjectKey with FCOs
+    o 1724668  wbemsmt-commons: add network-classes to cimschema 2.14
+    o 1724639  wbemsmt:businessobjects: setReloadChilds
+    o 1724638  wbemsmt-wizards: NPE in JSFWizardBase.cancel
+    o 1724637  wbemsmt-common: InstanceNaming based in FCO
+    o 1724636  wbemsmt-common: add Session objec
+    o 1724634  wbemsmt: prevent default creation of adapters
+    o 1723345  wbemsmt: FcoHelper add Functions for DateFields and ValueMap
+    o 1723341  wbemsmt-webapp: add resourcbundle for cim schema fcos
+    o 1723336  wbemsmt-webapp: NPE in LabeledJSFInputComponent
+    o 1717092  wbemsmt-test: assertCreateSuccess: addTranslationKey
+    o 1717090  wbemsmt-commons: NPE in WbemSmtResourceBundle.addBundleNames
+    o 1717087  wbemsmt: add information texts for messags on CIM Objects
+    o 1717080  wbemsmt-webapp: multipleTabs: no save sucessMessage
+    o 1715651  wbemsmt-test: add demoMode
+    o 1715534  wbemsmt: possibility to manually add successMsg while saving
+    o 1715061  wbemsmt: businesObjectList.getKey must return object
+    o 1714736  wbesmt: modify templates for FCOs
+    o 1714735  wbemsmt: search tree by treenode-name
+    o 1714724  wbemsmt-webapp: rendering of table with childContainers
+    o 1711071  wbemsmt-webapp: size of listBox not handled correctly
+    o 1710995  wbemsmt-client: switchable cim schema for tasks
+    o 1710123  wbemsmt: wrong tasks selected if listed host is not availabl
+    o 1707399  wbemsmt: change file encoding to utf8
+    o 1706448  Clean up of FCO classes for 2.9 CIM Schema
+    o 1706447  Clean up of FCO classes for 2.14 CIM Schema
+    o 1705794  wbemsmt-webapp: customizable size for input components
+    o 1705834  wbemsmt: removing java 1.5 methods
+    o 1705777  wbemsmt-webapp: confirmation of pending changes
+    o 1704409  wbemsmt:dynamically build tree node by the usage of a class
+    o 1700233  wbemsmt-cli&webapp: customizable feedback msg for wizards
+    o 1700191  wbemsmt-webapp - no line break for TextNodes
+    o 1699791  wbemsmt-webapp: revert changes after selecting new treenode
+    o 1700185  wbemsmt-common: add MessageDefinition
+    o 1699839  wbemsmt-webapp: set rendered flag for componentPanel
+    o 1699213  wbemsmt-common: CIMInstanceFilter.accept: add CimClient
+    o 1698409  wbemsmt-webapp: welcome page in multiHost-Mode
+    o 1685345  wbemsmt-cli: Handling of parseExceptions
+    o 1681993  wbemsmt-common: new UITypes
+    o 1680547  wbemsmt-webapp: welcome screens
+    o 1680566  wbemsmt-admin: feedback messages
+    o 1675864  wbemsmt-webapp: common contextMenu
+    o 1674191  wbemsmt-webapp: visual feedback after cancel action
+    o 1674057  wbemsmt: update to sblim-cimclient-1.3.2
+    o 1671504  wbemsmt-webapp: update to myfaces-core-1.1.5
+    o 1671545  wbemsmt-common: version-attribute for treeConfig.xml
+    o 1671546  wbemsmt-common: version-attribute for taskConfig.xml
+    o 1658315  wbemsmt-webapp help integration
+    o 1655037  wbemsmt-webapp: after failed login old treeConfig is shown
+    o 1655036  wbemsmt-webapp: ajax integration
+    o 1652247  wbemsmt-webapp display only requested tasks in embeddedMode
+    o 1648068  wbemsmt-webapp: Login for Portlet containers
+    o 1648024  wbemsmt-webapp: confirmation at pending changes
+    o 1648025  wbemsmt-webapp: hide help  and logout
+    o 1645083  wbemsmt-webapp: multilineTable - row deletion
+    o 1 638601  wbemsmt-webapp: remove update link
+    o 1638396  wbemsmt-webapp: add close link to wait indicator
+    o 16 34187  wbemsmt-webapp:Rework AdminConsole&WelcomePage
+    o 1634079  wbemsmt-wizards: At Cancel show last selected Object
+    o 1633880  wbemsmt-common: titles for Tables
+    o 1633822  wbemsmt-common: copy DataContainers
+    o 1633279  wbemsmt-dns: Label instead of InputField in WizardSummary
+    o 1633278  wbemsmt-samba: Label instead of InputField in WizardSummary
+    o 1633209  wbemsmt-webapp: legend only if necessary
+    o 1633006  wbemsmt-webapp: alignment of Fields
+    o 1631557  wbemsmt-webapp: remove Cancel- and add Revert-Button
+    o 1631455  wbemsmt-webapp: prompt while cancelling a wizard
+    o 1620646  wbemsmt-webapp: indicator for longrunning actions
+    o 1619945  wbemsmt-webapp: TreeSynchronisation
+    o 1619423  wbemsmt-webapp: rework ui: field indicators
+    o 1618646  wbemsmt-webapp: rework ui: messages
+    o 1619411  wbemsmt-webapp: rework ui: changes for IE,opera...
+    o 1613959  wbemsmt-webapp: rework ui: content of editPanels
+    o 1615822  wbemsmt-webapp: rework ui: wizards
+    o 1613893  wbemsmt-webapp: rework UI: L&F Tree and EditPanels
+
 * Mon Dec 4 2006 Wolfgang Taphorn <taphorn@de.ibm.com> 0.2.3-1
   - Consolidation of the different cvs modules
   - Inclusion of fixes for the following bug entries:

@@ -1,15 +1,108 @@
+Changes in 0.5.0-1 :
+==============================================================================
+- 1749065  wbemsmt-commons: FCO classes don't support SUPERCLASS lookup
+- 1746585  wbemsmt-admin: namespace for application
+- 1746589  wbemsmt-commons: new Attributes for testLogin-method
+- 1740803  wbemsmt-slp: use treeconfig to check for slp hosts
+- 1737049  wbemsmt-jsf: parallel logon for multiple hosts
+- 1736562  wbemsmt-commons: handle CIMAuthenticationException
+- 1731448  wbemsmt-commons: location of task.d directory
+- 1731239  wbemsmt-commons: add parentValidators
+- 1731236  wbemsmt-jsf: childrenTables as HtmlDataTable
+- 1731233  wbemsmt-common Stackoverflow in addDependentAdapterForReload
+- 1731230  wbemsmt-jsf: distinction between Raw and Formatted NodeName
+- 1727285  wbemsmt-jsf: configurable ajax update interval
+- 1728152  wbemsmt-common: priority for eventlisteners
+- 1728160  wbemsmt-common:MessagUtil.addMsg with MsgDefinition
+- 1724706  wbemsmt-commons-bl: CIMObjectKey with FCOs
+- 1724668  wbemsmt-commons: add network-classes to cimschema 2.14
+- 1724639  wbemsmt:businessobjects: setReloadChilds
+- 1724638  wbemsmt-wizards: NPE in JSFWizardBase.cancel
+- 1724637  wbemsmt-common: InstanceNaming based in FCO
+- 1724636  wbemsmt-common: add Session objec
+- 1724634  wbemsmt: prevent default creation of adapters
+- 1723345  wbemsmt: FcoHelper add Functions for DateFields and ValueMap
+- 1723341  wbemsmt-webapp: add resourcbundle for cim schema fcos
+- 1723336  wbemsmt-webapp: NPE in LabeledJSFInputComponent
+- 1717092  wbemsmt-test: assertCreateSuccess: addTranslationKey
+- 1717090  wbemsmt-commons: NPE in WbemSmtResourceBundle.addBundleNames
+- 1717087  wbemsmt: add information texts for messags on CIM Objects
+- 1717080  wbemsmt-webapp: multipleTabs: no save sucessMessage
+- 1715651  wbemsmt-test: add demoMode
+- 1715534  wbemsmt: possibility to manually add successMsg while saving
+- 1715061  wbemsmt: businesObjectList.getKey must return object
+- 1714736  wbesmt: modify templates for FCOs
+- 1714735  wbemsmt: search tree by treenode-name
+- 1714724  wbemsmt-webapp: rendering of table with childContainers
+- 1711071  wbemsmt-webapp: size of listBox not handled correctly
+- 1710995  wbemsmt-client: switchable cim schema for tasks
+- 1710123  wbemsmt: wrong tasks selected if listed host is not availabl
+- 1707399  wbemsmt: change file encoding to utf8
+- 1706448  Clean up of FCO classes for 2.9 CIM Schema
+- 1706447  Clean up of FCO classes for 2.14 CIM Schema
+- 1705794  wbemsmt-webapp: customizable size for input components
+- 1705834  wbemsmt: removing java 1.5 methods
+- 1705777  wbemsmt-webapp: confirmation of pending changes
+- 1704409  wbemsmt:dynamically build tree node by the usage of a class
+- 1700233  wbemsmt-cli&webapp: customizable feedback msg for wizards
+- 1700191  wbemsmt-webapp - no line break for TextNodes
+- 1699791  wbemsmt-webapp: revert changes after selecting new treenode
+- 1700185  wbemsmt-common: add MessageDefinition
+- 1699839  wbemsmt-webapp: set rendered flag for componentPanel
+- 1699213  wbemsmt-common: CIMInstanceFilter.accept: add CimClient
+- 1698409  wbemsmt-webapp: welcome page in multiHost-Mode
+- 1685345  wbemsmt-cli: Handling of parseExceptions
+- 1681993  wbemsmt-common: new UITypes
+- 1680547  wbemsmt-webapp: welcome screens
+- 1680566  wbemsmt-admin: feedback messages
+- 1675864  wbemsmt-webapp: common contextMenu
+- 1674191  wbemsmt-webapp: visual feedback after cancel action
+- 1674057  wbemsmt: update to sblim-cimclient-1.3.2
+- 1671504  wbemsmt-webapp: update to myfaces-core-1.1.5
+- 1671545  wbemsmt-common: version-attribute for treeConfig.xml
+- 1671546  wbemsmt-common: version-attribute for taskConfig.xml
+- 1658315  wbemsmt-webapp help integration
+- 1655037  wbemsmt-webapp: after failed login old treeConfig is shown
+- 1655036  wbemsmt-webapp: ajax integration
+- 1652247  wbemsmt-webapp display only requested tasks in embeddedMode
+- 1648068  wbemsmt-webapp: Login for Portlet containers
+- 1648024  wbemsmt-webapp: confirmation at pending changes
+- 1648025  wbemsmt-webapp: hide help  and logout
+- 1645083  wbemsmt-webapp: multilineTable - row deletion
+- 1638601  wbemsmt-webapp: remove update link
+- 1638396  wbemsmt-webapp: add close link to wait indicator
+- 1634187  wbemsmt-webapp:Rework AdminConsole&WelcomePage
+- 1634079  wbemsmt-wizards: At Cancel show last selected Object
+- 1633880  wbemsmt-common: titles for Tables
+- 1633822  wbemsmt-common: copy DataContainers
+- 1633279  wbemsmt-dns: Label instead of InputField in WizardSummary
+- 1633278  wbemsmt-samba: Label instead of InputField in WizardSummary
+- 1633209  wbemsmt-webapp: legend only if necessary
+- 1633006  wbemsmt-webapp: alignment of Fields
+- 1631557  wbemsmt-webapp: remove Cancel- and add Revert-Button
+- 1631455  wbemsmt-webapp: prompt while cancelling a wizard
+- 1620646  wbemsmt-webapp: indicator for longrunning actions
+- 1619945  wbemsmt-webapp: TreeSynchronisation
+- 1619423  wbemsmt-webapp: rework ui: field indicators
+- 1618646  wbemsmt-webapp: rework ui: messages
+- 1619411  wbemsmt-webapp: rework ui: changes for IE,opera...
+- 1613959  wbemsmt-webapp: rework ui: content of editPanels
+- 1615822  wbemsmt-webapp: rework ui: wizards
+- 1613893  wbemsmt-webapp: rework UI: L&F Tree and EditPanels
+
+
 Changes in 0.2.3-1 :
 ==============================================================================
 
-- #1609086 wbemsmt-commons: Consolidation of cvs modules
-- #1609082 wbemsmt-commons: Functional enhancements
+- 1609086  wbemsmt-commons: Consolidation of cvs modules
+- 1609082  wbemsmt-commons: Functional enhancements
 
 
 Changes in 0.2.2-1 : (Distributed packages - which are removed from CVS)
 ==============================================================================
 
-- #1572076  Missing Validation Messages
-- #1573713  WizardPanels are vanishing
-- #1573746  Preset handling for Login
-- #1574472  Cleanup for client projects
+- 1572076  Missing Validation Messages
+- 1573713  WizardPanels are vanishing
+- 1573746  Preset handling for Login
+- 1574472  Cleanup for client projects
 
