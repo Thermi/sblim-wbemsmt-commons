@@ -19,6 +19,7 @@
  */
 package org.sblim.wbemsmt.cim;
 
+import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Vector;
@@ -111,10 +112,20 @@ public class WbemsmtCIMClientWrapper extends CIMClient {
 		}
 	}
 
+	/**
+	 * This Method closes the CIMClient. The close method with attribute arg0 is new (since 1.3.2.), so the
+	 * implementation checks if the wrapped implementation supports this. If not supported calles close() with empty
+	 * argument list
+	 * @param arg0
+	 * @throws CIMException
+	 */
 	public synchronized void close(boolean arg0) throws CIMException {
 		try {
 			setNamespace();
-			cimClient.close(arg0);
+			Method m = cimClient.getClass().getMethod("close", new Class[]{boolean.class});
+			m.invoke(cimClient, new Object[]{new Boolean(arg0)});
+		} catch (Throwable e) {
+			cimClient.close();
 		} finally {
 			restoreNamespace();
 		}
