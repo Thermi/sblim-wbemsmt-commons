@@ -1108,6 +1108,10 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 	}
 
 	public CustomTreeConfig getCustomTreeConfig() {
+		if (customTreeConfig == null && parent != null)
+		{
+			customTreeConfig = parent.getCustomTreeConfig();
+		}
 		return customTreeConfig;
 	}
 
