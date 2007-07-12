@@ -80,4 +80,34 @@ public class StringUtil
 
 		return false;
 	}
+
+	/**
+	 * Get the value within the array at the given position 
+	 * @param array
+	 * @param position
+	 * @return value within the array at the given position or null if the position is null or is no valid index within the array
+	 */
+
+	public static String getValueByIndex(String[] array, Number position) {
+		if (position != null)
+		{
+			return getValueByIndex(array, position.intValue());
+		}
+		return null;
+	}
+
+	/**
+	 * Get the value within the array at the given position 
+	 * @param array
+	 * @param position
+	 * @return value within the array at the given position or null if the position is no valid index within the array
+	 */
+	
+	public static String getValueByIndex(String[] array, int position) {
+		if (position < array.length)
+		{
+			return array[position];
+		}
+		return null;
+	}
 }
