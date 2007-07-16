@@ -79,6 +79,7 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}/sblim-wbemsmt
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/java/sblim-wbemsmt
 install -d $RPM_BUILD_ROOT%{_javadir}/sblim-wbemsmt
 install -d $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
+install -d $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 
 # Installation of documentation files
 install COPYING   $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/COPYING
@@ -91,6 +92,7 @@ install NEWS      $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/NEWS
 install target/package/etc/java/sblim-wbemsmt/cmdlogging.properties $RPM_BUILD_ROOT%{_sysconfdir}/java/sblim-wbemsmt/logging-cmd.properties
 install target/package/etc/java/sblim-wbemsmt/logging.properties $RPM_BUILD_ROOT%{_sysconfdir}/java/sblim-wbemsmt/logging.properties
 install target/package/etc/sblim-wbemsmt/tasklauncher-config.xml $RPM_BUILD_ROOT%{_sysconfdir}/sblim-wbemsmt/tasklauncher-config.xml
+install target/package/etc/sblim-wbemsmt/sblim-wbemsmt-commons.conf $RPM_BUILD_ROOT%{_sysconfdir}/sblim-wbemsmt/sblim-wbemsmt-commons.conf
 
 # Installation of java files
 install target/package/%{name}-%{version}.jar                 $RPM_BUILD_ROOT%{_javadir}/sblim-wbemsmt
@@ -100,6 +102,8 @@ install target/package/%{name}-launcher-config-%{version}.jar $RPM_BUILD_ROOT%{_
     ln -sf %{name}-%{version}.jar %{name}.jar;
     ln -sf %{name}-launcher-config-%{version}.jar %{name}-launcher-config.jar;
 )
+# Moving help files to the webapp directory
+mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 
 ###############################################################################
 
@@ -113,6 +117,8 @@ install target/package/%{name}-launcher-config-%{version}.jar $RPM_BUILD_ROOT%{_
 %attr(664,root,tomcat) %config(noreplace) %{_sysconfdir}/java/sblim-wbemsmt/logging-cmd.properties
 %attr(664,root,tomcat) %config(noreplace) %{_sysconfdir}/java/sblim-wbemsmt/logging.properties
 %attr(664,root,tomcat) %config(noreplace) %{_sysconfdir}/sblim-wbemsmt/tasklauncher-config.xml
+%attr(664,root,tomcat) %config(noreplace) %{_sysconfdir}/sblim-wbemsmt/sblim-wbemsmt-commons.conf
+%{_localstatedir}/lib/sblim-wbemsmt/help/*
 %{_javadir}/sblim-wbemsmt/%{name}.jar
 %{_javadir}/sblim-wbemsmt/%{name}-%{version}.jar
 %{_javadir}/sblim-wbemsmt/%{name}-launcher-config.jar
@@ -122,6 +128,8 @@ install target/package/%{name}-launcher-config-%{version}.jar $RPM_BUILD_ROOT%{_
 %changelog
 * Fri Jul 6 2007 Wolfgang Taphorn <taphorn@de.ibm.com> 0.5.0-1
   - Inclusion of fixes for the following issues:
+    o 1754902  wbemsmt-commons: Upgrade to build environment
+    o 1752500  wbemsmt-commons: StringUtil method to retrieve Values by Idx
     o 1749065  wbemsmt-commons: FCO classes don't support SUPERCLASS lookup
     o 1746585  wbemsmt-admin: namespace for application
     o 1746589  wbemsmt-commons: new Attributes for testLogin-method

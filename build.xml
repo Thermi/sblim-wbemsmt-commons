@@ -80,10 +80,12 @@
          ================================= -->
     <target name="compile" depends="launcher-config" description="--> Compile the sources of ${ant.project.name}">
         <mkdir dir="${dir.compile.output}"/>
+        <mkdir dir="${dir.compile.output}/java"/>
+        <mkdir dir="${dir.compile.output}/help"/>
         <mkdir dir="${dir.compile.output}/etc/sblim-wbemsmt/"/>
         <mkdir dir="${dir.compile.output}/etc/java/sblim-wbemsmt/"/>
 
-    	<javac destdir="${dir.compile.output}"
+    	<javac destdir="${dir.compile.output}/java"
                debug       ="${javac.debug}"
                listfiles   ="${javac.listfiles}"
                compiler    ="${javac.compiler}"
@@ -102,12 +104,20 @@
             <src path="commons-wizards"/>
         </javac>
 
-        <copy todir="${dir.compile.output}" includeemptydirs="false">
+        <copy todir="${dir.compile.output}/java" includeemptydirs="false">
             <fileset dir="${basedir}/commons-bl">
             	<include name="messages**.properties"/>
             </fileset>
         </copy>
+        <copy todir="${dir.compile.output}" includeemptydirs="false">
+            <fileset dir="${basedir}">
+            	<include name="help/**"/>
+            </fileset>
+        </copy>
         <copy todir="${dir.compile.output}/etc/sblim-wbemsmt" includeemptydirs="false">
+            <fileset dir="${basedir}">
+            	<include name="sblim-${ant.project.name}.conf"/>
+            </fileset>
             <fileset dir="${basedir}/commons-bl/conf">
             	<include name="tasklauncher-config.xml"/>
             </fileset>
@@ -128,9 +138,7 @@
     	<copy todir="${dir.package.output}" file="${dir.compile.output}/${file.jar.launcher}" />
 
     	<jar jarfile="${dir.package.output}/sblim-${ant.project.name}-${Manifest.version}.jar"
-             basedir="${dir.compile.output}"
-    		 includes="org/**,
-    		           messages**.properties"
+             basedir="${dir.compile.output}/java"
              index="${jar.index}">
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
@@ -144,6 +152,7 @@
         <copy todir="${dir.package.output}" includeemptydirs="false">
             <fileset dir="${dir.compile.output}">
             	<include name="etc/**"/>
+            	<include name="help/**"/>
             </fileset>
         </copy>
     </target>
@@ -170,12 +179,14 @@
                       commons-bl/**,
                       commons-eui/**,
                       commons-wizards/**,
+                      help/**
                       build.xml,
                       AUTHORS,
                       ChangeLog,
                       COPYING,
                       NEWS,
                       README,
+                      sblim-wbemsmt-commons.conf,
                       sblim-wbemsmt-commons.spec"
             excludes="${dir.compile.output}/**, ${dir.package.output}/**, ${dir.release.output}/**"
             prefix="sblim-${ant.project.name}"/>
@@ -198,7 +209,8 @@
               prefix="sblim-${ant.project.name}"/>
             <tarfileset
               dir="${basedir}"
-              includes="AUTHORS,
+              includes="help/**,
+                        AUTHORS,
                         ChangeLog,
                         COPYING,
                         NEWS,

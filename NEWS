@@ -1,9 +1,12 @@
 Changes in 0.5.0-1 :
 ==============================================================================
+- 1754902  wbemsmt-commons: Upgrade to build environment
+- 1752500  wbemsmt-commons: StringUtil method to retrieve Values by Idx
+- 1752497  wbemsmt-webapp: TreeNodes getting not translated
 - 1750166  wbemsmt-commons: rmv dependency against cimclient 1.3.3
 - 1749065  wbemsmt-commons: FCO classes don't support SUPERCLASS lookup
-- 1746585  wbemsmt-admin: namespace for application
 - 1746589  wbemsmt-commons: new Attributes for testLogin-method
+- 1746585  wbemsmt-admin: namespace for application
 - 1740803  wbemsmt-slp: use treeconfig to check for slp hosts
 - 1737049  wbemsmt-jsf: parallel logon for multiple hosts
 - 1736562  wbemsmt-commons: handle CIMAuthenticationException
@@ -12,9 +15,9 @@ Changes in 0.5.0-1 :
 - 1731236  wbemsmt-jsf: childrenTables as HtmlDataTable
 - 1731233  wbemsmt-common Stackoverflow in addDependentAdapterForReload
 - 1731230  wbemsmt-jsf: distinction between Raw and Formatted NodeName
-- 1727285  wbemsmt-jsf: configurable ajax update interval
 - 1728152  wbemsmt-common: priority for eventlisteners
 - 1728160  wbemsmt-common:MessagUtil.addMsg with MsgDefinition
+- 1727285  wbemsmt-jsf: configurable ajax update interval
 - 1724706  wbemsmt-commons-bl: CIMObjectKey with FCOs
 - 1724668  wbemsmt-commons: add network-classes to cimschema 2.14
 - 1724639  wbemsmt:businessobjects: setReloadChilds
@@ -41,27 +44,27 @@ Changes in 0.5.0-1 :
 - 1707399  wbemsmt: change file encoding to utf8
 - 1706448  Clean up of FCO classes for 2.9 CIM Schema
 - 1706447  Clean up of FCO classes for 2.14 CIM Schema
-- 1705794  wbemsmt-webapp: customizable size for input components
 - 1705834  wbemsmt: removing java 1.5 methods
+- 1705794  wbemsmt-webapp: customizable size for input components
 - 1705777  wbemsmt-webapp: confirmation of pending changes
 - 1704409  wbemsmt:dynamically build tree node by the usage of a class
 - 1700233  wbemsmt-cli&webapp: customizable feedback msg for wizards
 - 1700191  wbemsmt-webapp - no line break for TextNodes
-- 1699791  wbemsmt-webapp: revert changes after selecting new treenode
 - 1700185  wbemsmt-common: add MessageDefinition
 - 1699839  wbemsmt-webapp: set rendered flag for componentPanel
+- 1699791  wbemsmt-webapp: revert changes after selecting new treenode
 - 1699213  wbemsmt-common: CIMInstanceFilter.accept: add CimClient
 - 1698409  wbemsmt-webapp: welcome page in multiHost-Mode
 - 1685345  wbemsmt-cli: Handling of parseExceptions
 - 1681993  wbemsmt-common: new UITypes
-- 1680547  wbemsmt-webapp: welcome screens
 - 1680566  wbemsmt-admin: feedback messages
+- 1680547  wbemsmt-webapp: welcome screens
 - 1675864  wbemsmt-webapp: common contextMenu
 - 1674191  wbemsmt-webapp: visual feedback after cancel action
 - 1674057  wbemsmt: update to sblim-cimclient-1.3.2
-- 1671504  wbemsmt-webapp: update to myfaces-core-1.1.5
-- 1671545  wbemsmt-common: version-attribute for treeConfig.xml
 - 1671546  wbemsmt-common: version-attribute for taskConfig.xml
+- 1671545  wbemsmt-common: version-attribute for treeConfig.xml
+- 1671504  wbemsmt-webapp: update to myfaces-core-1.1.5
 - 1658315  wbemsmt-webapp help integration
 - 1655037  wbemsmt-webapp: after failed login old treeConfig is shown
 - 1655036  wbemsmt-webapp: ajax integration
@@ -85,10 +88,10 @@ Changes in 0.5.0-1 :
 - 1620646  wbemsmt-webapp: indicator for longrunning actions
 - 1619945  wbemsmt-webapp: TreeSynchronisation
 - 1619423  wbemsmt-webapp: rework ui: field indicators
-- 1618646  wbemsmt-webapp: rework ui: messages
 - 1619411  wbemsmt-webapp: rework ui: changes for IE,opera...
-- 1613959  wbemsmt-webapp: rework ui: content of editPanels
+- 1618646  wbemsmt-webapp: rework ui: messages
 - 1615822  wbemsmt-webapp: rework ui: wizards
+- 1613959  wbemsmt-webapp: rework ui: content of editPanels
 - 1613893  wbemsmt-webapp: rework UI: L&F Tree and EditPanels
 
 
