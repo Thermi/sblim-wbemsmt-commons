@@ -25,7 +25,8 @@ import java.text.MessageFormat;
 
 public class EditListFieldLocator implements FieldLocator {
 
-	private static final  String TEMPLATE = "mainForm:objectActionController_editBeans__{0}___containers_{1}__{2}_{3}___{4}_item";
+	private static final  String TEMPLATE = "//input[substring-after(@name,'':{3}:objectActionController_editBeans__{0}___containers_{1}__{2}_{4}'')=''Header_item'']";
+	
 	private String info;
 	
 	public EditListFieldLocator(String tabName, int containerIdx, String relationName, int positionInList, String fieldName)
