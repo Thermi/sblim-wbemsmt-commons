@@ -710,6 +710,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 */
 	public void updateModel(DataContainer dataContainer, LabeledBaseInputComponentIf updateTrigger) throws ObjectUpdateException
 	{
+		//This variable can be set by the business logic which is creating a new object
+		pathOfTreeNode = null;
+
 		if (!DataContainerUtil.validateEnteredValues(dataContainer))
 		{
 			return;
@@ -860,7 +863,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	public void create(DataContainer dataContainer) throws ObjectCreationException
 	{
 		
-		//This variable can be step by the business logic which is creating a new object
+		//This variable can be set by the business logic which is creating a new object
 		pathOfTreeNode = null;
 		
 		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
