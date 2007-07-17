@@ -75,6 +75,10 @@ public class ObjectDeletionException extends WbemSmtException {
 		
 	}
 
+	public ObjectDeletionException(String arg0, CIM_Object cimObject) {
+		super(arg0, cimObject);
+	}
+
 	public ObjectDeletionException(Throwable arg1) {
 		super(arg1);
 		

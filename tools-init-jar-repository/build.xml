@@ -1,0 +1,195 @@
+<!--
+ * build.xml
+ *
+ * (C) Copyright IBM Corp. 2005
+ *
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
+ * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
+ *
+ * You can obtain a current copy of the Common Public License from
+ * http://www.opensource.org/licenses/cpl1.0.php
+ *
+ * Author:     Michael Bauschert <michael.bauschert@de.ibm.com>
+ *
+ * Contributors:
+  -->
+
+<project name="wbemsmt-tools-download-repository" default="build-repository" basedir="." >
+   	  
+	  <property file="download.properties"/>
+	  
+	  <property name="launcher.config.jar" value="sblim-wbemsmt-commons-launcher-config-0.5.0.jar"/>
+	  <property name="dcg.config.jar" value="wbemsmt-tools-dcg-config-0.2.1.jar"/>
+	  <property name="launcher.config.jar.current" value="sblim-wbemsmt-commons-launcher-config.jar"/>
+	  <property name="dcg.config.jar.current" value="wbemsmt-tools-dcg-config.jar"/>
+
+	
+   	  <target name="init-repository">
+	  	<mkdir dir="${repository.location}"/>
+	  	<mkdir dir="${repository.location.temp}"/>
+	  </target>
+
+ 	  <target name="clean-repository" description="Cleans the repository">
+	  	<delete dir="${repository.location}"/>
+	  </target>
+
+	  <target name="getMyFaces">
+	  	<ant antfile="download.xml" target="downloadMaven">
+		  	<property file="downloads/servlet.api.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="downloadRename">
+		  	<property file="downloads/tomahawk.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="downloadRename">
+		  	<property file="downloads/myfaces.api.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="downloadRename">
+		  	<property file="downloads/myfaces.impl.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="downloadRename">
+		  	<property file="downloads/commons-lang.properties"/>
+	  	</ant>
+	  </target>
+	
+	  <target name="getJsch">
+	  	<ant antfile="download.xml" target="downloadMaven">
+		  	<property file="downloads/jsch.properties"/>
+	  	</ant>
+	  </target>
+
+	  <target name="getCommons">
+	  	<ant antfile="download.xml" target="downloadMaven">
+		  	<property file="downloads/commons-logging.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="downloadMaven">
+		  	<property file="downloads/commons-io.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="downloadMaven">
+		  	<property file="downloads/commons-digester.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="downloadMaven">
+		  	<property file="downloads/commons-beanutils.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="downloadMaven">
+		  	<property file="downloads/commons-codec.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="downloadMaven">
+		  	<property file="downloads/commons-fileupload.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="downloadMaven">
+		  	<property file="downloads/commons-cli.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="downloadMaven">
+		  	<property file="downloads/commons-collections.properties"/>
+	  	</ant>
+	  </target>
+
+	  <target name="getJUnit">
+	  	<ant antfile="download.xml" target="downloadMaven">
+		  	<property file="downloads/junit.properties"/>
+	  	</ant>
+	  </target>
+
+	<target name="getStruts">
+	  	<ant antfile="download.xml" target="downloadMaven">
+		  	<property file="downloads/struts.properties"/>
+	  	</ant>
+	  </target>
+	  	
+	  <target name="getSwt">
+	  	<ant antfile="download.xml" target="downloadRename">
+		  	<property file="downloads/swt-win32.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="unzip">
+		  	<property file="downloads/swt-lib-win32.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="downloadRename">
+		  	<property file="downloads/swt-gtk-linux-x86.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="unzip">
+		  	<property file="downloads/swt-lib-gtk-linux-x86.properties"/>
+	  	</ant>
+	  </target>
+
+	  <target name="getSelenium">
+	  	<ant antfile="download.xml" target="unzip">
+		  	<property file="downloads/selenium.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="unzip">
+		  	<property file="downloads/selenium-server.properties"/>
+	  	</ant>
+	  </target>
+
+	  <target name="getDojo">
+	  	<ant antfile="download.xml" target="downloadMaven">
+		  	<property file="downloads/dojo.properties"/>
+	  	</ant>
+	  </target>
+
+	  <target name="getJspApi">
+	  	<ant antfile="download.xml" target="downloadMaven">
+		  	<property file="downloads/jspApi.properties"/>
+	  	</ant>
+	  </target>
+	
+	
+	  <target name="getXerces">
+	  	<ant antfile="download.xml" target="unzip">
+		  	<property file="downloads/xerces.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="unzip">
+		  	<property file="downloads/xml-apis.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="downloadRename">
+		  	<property file="downloads/resolver.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="downloadRename">
+		  	<property file="downloads/serializer.properties"/>
+	  	</ant>
+	  </target>
+
+	  <target name="getCIMClient">
+	  	<ant antfile="download.xml" target="downloadRename">
+		  	<property file="downloads/cimClient.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="downloadRename">
+		  	<property file="downloads/slpClient.properties"/>
+	  	</ant>
+	  </target>	
+	
+	  <target name="getXmlBeans">
+	  	<ant antfile="download.xml" target="unzip">
+		  	<property file="downloads/xmlbeans.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="unzip">
+		  	<property file="downloads/xmlbeans.jsr.api.properties"/>
+	  	</ant>
+	  </target>
+	
+	  <target name="getVelocity">
+	  	<ant antfile="download.xml" target="downloadMaven">
+		  	<property file="downloads/velocity.properties"/>
+	  	</ant>
+	  	<ant antfile="download.xml" target="downloadMaven">
+		  	<property file="downloads/velocity.dep.properties"/>
+	  	</ant>
+	  </target>
+
+	  <target name="build-repository" depends="init-repository,getMyFaces,getXmlBeans,getVelocity,getCommons,getJsch,getJUnit,getXerces,getCIMClient,getDojo,getSwt,getSelenium,getJspApi,getStruts">
+	  </target>
+	
+	  <target name="build-repository-dcg" depends="init-repository,getSwt">
+	  </target>
+
+	  <target name="generate-commons-launcher" description="Generate the sblim wbemsmt commons launcher jar">
+	  	<ant antfile="build.xml" target="launcher-config" dir="../../wbemsmt-commons"/>
+	  	<move file="../../wbemsmt-commons/target/compile/${launcher.config.jar}" tofile="${repository.location}/sblim/sblim-wbemsmt-commons-launcher-config/current/${launcher.config.jar.current}"/>
+	  </target>
+
+	  <target name="generate-dcg-config" description="Generate the sblim wbemsmt dcg config jar">
+	  	<ant antfile="build.xml" target="build-xmlBeans" dir="../../wbemsmt-tools-dcg"/>
+	  	<move file="../../wbemsmt-tools-dcg/target/jars/${dcg.config.jar}" tofile="${repository.location}/sblim/wbemsmt-tools-dcg-config/current/${dcg.config.jar.current}"/>
+	  </target>
+
+</project>

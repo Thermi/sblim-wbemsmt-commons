@@ -23,16 +23,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.sblim.wbem.cim.UnsignedInt16;
 
 
 public class StringUtil
 {
 	
 	/**
-	 * Seachres for the element given by value in the array given by values and returns the index
+	 * Searches for the element given by value in the array given by values and returns the index
 	 * @param values
 	 * @param value
-	 * @return
+	 * @return -1 if the value was not found
 	 */
 	public static int indexOf(String[] values, String value)
 	{
@@ -54,6 +55,26 @@ public class StringUtil
 		return -1;
 	}
 
+	/**
+	 * Searches for the element given by value in the array given by values and returns the index
+	 * @param values
+	 * @param value
+	 * @param defaultValue
+	 * @return the index or the default value if the value was not found
+	 */
+	public static UnsignedInt16 indexOfAsUnsignedInt16(String[] values, String value, UnsignedInt16 defaultValue) {
+		int indexOf = indexOf(values, value);
+		if (indexOf > -1)
+		{
+			return new UnsignedInt16(indexOf);
+		}
+		else
+		{
+			return defaultValue;
+		}
+	}
+
+	
 	public static List asList(String[] values)
 	{
 		List result = new ArrayList();
@@ -110,4 +131,5 @@ public class StringUtil
 		}
 		return null;
 	}
+
 }

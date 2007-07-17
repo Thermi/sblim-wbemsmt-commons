@@ -46,6 +46,11 @@ public class ObjectSaveException extends WbemSmtException {
 		
 	}
 
+	public ObjectSaveException(String arg0, CIM_ObjectIf cimElement) {
+		super(arg0, cimElement);
+		
+	}
+
 	public ObjectSaveException(WbemSmtException arg1) {
 		super(arg1);
 		

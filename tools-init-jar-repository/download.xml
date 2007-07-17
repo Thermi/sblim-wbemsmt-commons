@@ -1,0 +1,42 @@
+
+<project name="wbemsmt-tools-dcg-download" basedir="." default="unzip">
+	<property file="download.properties"/>
+
+	<target name="checkFileDownload">
+		<echo message="Check if file ${repository.location.temp}/${file} exists"/>
+		<available filepath="${repository.location.temp}" file="${file}" property="file.exists"/>
+	</target>
+
+	<target name="infoDownload" if="file.exists">
+		<echo message="File ${repository.location.temp}/${file} not downloaded - it already exists"/>
+	</target>
+
+	<target name="download" depends="checkFileDownload,infoDownload" unless="file.exists">
+		<get src="${location}/${file}" dest="${repository.location.temp}/${file}" verbose="true"/>
+	</target>
+	<target name="unzip" depends="checkFileDownload,infoDownload,download">
+		<unzip dest="${repository.location}/${repository.path}" src="${repository.location.temp}/${file}">
+			<patternset includes="${extract.files}"/>
+			<mapper type="flatten"/>
+		</unzip>
+	</target>
+	<target name="rename">
+		<move tofile="${repository.location}/${repository.path}/${rename.to}" file="${repository.location}/${repository.path}/${rename.from}"/>
+	</target>
+
+	<target name="downloadRename" depends="unzip,rename"/>
+
+	<target name="checkFileMaven">
+		<echo message="Check if file ${repository.location}/${repository.path} exists"/>
+		<available filepath="${repository.location}" file="${repository.path}" property="file.exists"/>
+	</target>
+
+	<target name="infoMavenFile" if="file.exists">
+		<echo message="File ${repository.location}/${repository.path} not downloaded - it alread exists"/>
+	</target>
+
+	<target name="downloadMaven" depends="checkFileMaven,infoMavenFile" unless="file.exists">
+		<mkdir dir="${repository.location}/${repository.path}/.."/>
+		<get src="${file}" dest="${repository.location}/${repository.path}" verbose="true"/>
+	</target>
+</project>

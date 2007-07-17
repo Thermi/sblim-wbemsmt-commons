@@ -38,7 +38,12 @@ public class WbemSmtException extends Exception {
 	public WbemSmtException(String arg0, Throwable arg1) {
 		super(arg0, arg1);
 	}
-
+	
+	public WbemSmtException(String arg0, CIM_ObjectIf cimObject) {
+		super(arg0);
+		this.cimObject = cimObject;
+	}
+	
 	public WbemSmtException(String arg0, CIM_ObjectIf cimObject, Throwable arg1) {
 		super(arg0, arg1);
 		this.cimObject = cimObject;
