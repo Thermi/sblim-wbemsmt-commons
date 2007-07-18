@@ -31,10 +31,8 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.DESedeKeySpec;
 
+import org.apache.xmlbeans.impl.util.Base64;
 import org.sblim.wbemsmt.exception.WbemSmtException;
-
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 public class WbemsmtStringEncrypter
 {
@@ -118,8 +116,7 @@ public class WbemsmtStringEncrypter
                byte[] cleartext = unencryptedString.getBytes( UNICODE_FORMAT );
                byte[] ciphertext = cipher.doFinal( cleartext );
 
-               BASE64Encoder base64encoder = new BASE64Encoder();
-               return base64encoder.encode( ciphertext );
+               return new String(Base64.encode( ciphertext ));
           }
           catch (Exception e)
           {
@@ -136,8 +133,7 @@ public class WbemsmtStringEncrypter
           {
                SecretKey key = keyFactory.generateSecret( keySpec );
                cipher.init( Cipher.DECRYPT_MODE, key );
-               BASE64Decoder base64decoder = new BASE64Decoder();
-               byte[] cleartext = base64decoder.decodeBuffer( encryptedString );
+               byte[] cleartext = Base64.decode(encryptedString.getBytes());
                byte[] ciphertext = cipher.doFinal( cleartext );
 
                return bytes2String( ciphertext );
