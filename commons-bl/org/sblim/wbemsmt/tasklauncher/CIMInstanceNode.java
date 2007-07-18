@@ -29,7 +29,6 @@ import org.sblim.wbemsmt.exception.InstanceNamingException;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.EventListenerDocument.EventListener;
 import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNaming;
-import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNamingFactory;
 
 /**
  * Simple TreeNode to represent an CIM instance.

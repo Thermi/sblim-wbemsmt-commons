@@ -20,7 +20,6 @@
 package org.sblim.wbemsmt.bl.welcome;
 
 import org.sblim.wbemsmt.exception.WbemSmtException;
-import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
 /**
  * @author Bauschert

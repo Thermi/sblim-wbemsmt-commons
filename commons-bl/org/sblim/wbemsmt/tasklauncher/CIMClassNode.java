@@ -44,7 +44,6 @@ import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument;
 import org.sblim.wbemsmt.tasklauncher.filter.CIMInstanceFilter;
 import org.sblim.wbemsmt.tasklauncher.initialobjectloading.WbemsmtInitialObjectLoader;
 import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNaming;
-import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNamingFactory;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 

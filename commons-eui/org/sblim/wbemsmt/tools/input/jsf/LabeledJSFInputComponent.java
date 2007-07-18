@@ -59,7 +59,6 @@ import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
-import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 import org.sblim.wbemsmt.tools.jsf.EditBean;
 import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 import org.sblim.wbemsmt.tools.jsf.JsfBase;
