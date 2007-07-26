@@ -135,6 +135,8 @@ public abstract class MultiLinePanel extends BasePanel {
 
 			if (names != null)
 			{
+				//ensure that the Component know that it's a multiline component
+				node.setMultiline(true);
 				node.installProperties(node,"item." + names[i] +".item");
 			}
 

@@ -840,19 +840,23 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 			UIComponent panel = getComponentPanel();
 			if (panel == null)
 			{
-				panel = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);			
-				panel.getChildren().add(writeableComponent);
-			}
-			
-			if (isMultiline())
-			{
-				getComponentPanel().getChildren().add(label);
-			}
-			else
-			{
-				getLabelPanel().getChildren().add(label);
+				componentPanel = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);			
+				getComponentPanel().getChildren().add(writeableComponent);
 			}
 		}
+
+
+		if (isMultiline())
+		{
+			if (!getComponentPanel().getChildren().contains(label))
+				getComponentPanel().getChildren().add(label);
+		}
+		else
+		{
+			if (!getLabelPanel().getChildren().contains(label))
+				getLabelPanel().getChildren().add(label);
+		}
+		
 		label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"SelectedReadOnlyCheckboxValue}"));
 		label.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && " + id +"Disabled}"));
 
@@ -861,9 +865,12 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	}
 
 	public boolean isMultiline() {
-		boolean multiLine = getParent() instanceof MultiLineBasePanel2;
-		return multiLine;
+		return this.isMultiline;
 	}		
+	
+	public void setMultiline(boolean isMultiline) {
+		this.isMultiline = isMultiline;
+	}
 	
 	public String getItemSelectedReadOnlyCheckboxValue()
 	{
@@ -934,6 +941,9 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		//comp.getComponent().setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + prefix +"}"));
 		setComponentBindings(comp.getComponent(), prefix);
 	}
+
+
+	
 	
 }
 
