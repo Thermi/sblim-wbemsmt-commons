@@ -230,5 +230,19 @@ public class DataContainerUtil {
 		
 		return interfaceClass;
 	}
+
+	/**
+	 * sets the visibility of the fields of the given Container
+	 * @param container
+	 * @param visible
+	 */
+	public static void setVisibilityOfFields(DataContainer container, boolean visible) {
+		List fields = container.getFields();
+		for (Iterator iter = fields.iterator(); iter.hasNext();) {
+			LabeledBaseInputComponentIf field = (LabeledBaseInputComponentIf) iter.next();
+			field.getProperties().setVisible(visible);
+		}
+	}
+	
 	
 }
