@@ -75,7 +75,20 @@ public class FcoHelper implements FcoHelperIf
 	{
 		for (Iterator it = c.iterator(); it.hasNext();) {
 			Object obj = (Object) it.next();
-			delete((CIM_ObjectIf)obj, cimClient);
+			if (obj instanceof CIM_ObjectIf) {
+				CIM_ObjectIf cimObjectIf = (CIM_ObjectIf) obj;
+				delete(cimObjectIf, cimClient);
+			}
+			else
+			{
+				try {
+					CIM_ObjectIf cimObjectIf = creator.create(obj);
+					delete(cimObjectIf, cimClient);
+				} catch (WbemSmtException e) {
+					throw new ObjectDeletionException(e);
+				}
+			}
+			
 		}
 	}
 	

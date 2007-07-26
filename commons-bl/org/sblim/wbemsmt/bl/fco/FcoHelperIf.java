@@ -14,6 +14,13 @@ import org.sblim.wbemsmt.exception.ObjectSaveException;
 
 public interface FcoHelperIf {
 
+	/**
+	 * Delete a list of FCO instances or instances of CIMObject If
+	 * @param c a list of FCO instances which can be converted to a CIMObjectIf by the CIM_ObjectCreatorIf of the helper class
+	 * or instances of CIMObject If
+	 * @param cimClient
+	 * @throws ObjectDeletionException
+	 */
 	public abstract void delete(Collection c, CIMClient cimClient)
 			throws ObjectDeletionException;
 
