@@ -21,30 +21,11 @@
 
 package org.sblim.wbemsmt.tools.input.jsf;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 
-import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlCommandButton;
-import javax.faces.component.html.HtmlCommandLink;
-import javax.faces.component.html.HtmlDataTable;
-import javax.faces.component.html.HtmlGraphicImage;
-import javax.faces.component.html.HtmlInputSecret;
-import javax.faces.component.html.HtmlInputText;
-import javax.faces.component.html.HtmlOutputLabel;
-import javax.faces.component.html.HtmlOutputText;
-import javax.faces.component.html.HtmlPanelGroup;
-import javax.faces.component.html.HtmlSelectBooleanCheckbox;
-import javax.faces.component.html.HtmlSelectManyListbox;
-import javax.faces.component.html.HtmlSelectManyMenu;
-import javax.faces.component.html.HtmlSelectOneListbox;
-import javax.faces.component.html.HtmlSelectOneMenu;
-import javax.faces.component.html.HtmlSelectOneRadio;
+import javax.faces.component.html.*;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
@@ -59,11 +40,8 @@ import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
-import org.sblim.wbemsmt.tools.jsf.EditBean;
-import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
-import org.sblim.wbemsmt.tools.jsf.JsfBase;
-import org.sblim.wbemsmt.tools.jsf.JsfUtil;
-import org.sblim.wbemsmt.tools.jsf.MultiLineBasePanel2;
+import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
+import org.sblim.wbemsmt.tools.jsf.*;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.util.StringTokenizer;
@@ -87,6 +65,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	private boolean rendered = true;
 	private boolean itemLabelRendered = true;
 	private String[] entries;
+	private boolean showAllInReadOnlyView = false;
 	private HtmlGraphicImage fieldIndicator;
 	private String fieldIndicatorImage;
 	private String itemFieldIndicatorAltText;
@@ -236,6 +215,66 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		this.fieldIndicatorRendered = fieldIndicatorRendered;
 	}
 
+	/**
+	 * Returns all the selected values of a multiple value component like a ComboBox as a String
+	 * @return
+	 */
+	public String getItemMultipleValues() {
+		
+		if (showAllInReadOnlyView)
+		{
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < entries.length; i++) {
+				String entry = entries[i];
+				if (sb.length() > 0)
+				{
+					sb.append(", ");
+				}
+				sb.append(entry);
+			}
+			return sb.toString();
+		}
+		else
+		{
+			Object obj = getConvertedControlValue();
+			
+			if (obj instanceof List) {
+				List values = (List) obj;
+				StringBuffer sb = new StringBuffer();
+				for (Iterator iter = values.iterator(); iter.hasNext();) {
+					Number n = (Number) iter.next();
+					if (n != null && n.intValue() > 0 && n.intValue() <  getValues().length)
+					{
+						if (sb.length() > 0)
+						{
+							sb.append(", ");
+						}
+						sb.append(getValues()[n.intValue()]);
+					}
+					else
+					{
+						return "";
+					}
+					
+				}
+			}
+			else if (obj instanceof Number) {
+				Number n = (Number)obj;
+				if (n != null && n.intValue() > 0 && n.intValue() <  getValues().length)
+				{
+					return getValues()[n.intValue()];
+				}
+				else
+				{
+					return "";
+				}
+			}
+			return "";
+		}
+		
+	}
+	
+	
 	/**
 	 * gets and converts the Values from the control
 	 * for Validation use the getRawControlValue
@@ -770,54 +809,39 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	}
 
 	/**
-	 * Create a table as readOnly representation for multiple values
+	 * Create a label as readOnly representation for multiple values
 	 * @param id
 	 * @param writeableComponent
 	 */
 
-	protected HtmlDataTable createReadOnlyTable(String id, UIComponent writeableComponent,HtmlDataTable table) {
+	protected HtmlOutputText createLabelForMultipleValues(String id, UIComponent writeableComponent,HtmlOutputText label1) {
 
 		//overwrite the rendered State of the component
 		writeableComponent.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && !" + id +"Disabled}"));
 
 		
 		//we create a table which is used if the List is readOnly
-		boolean newTable = table == null;
-		UIColumn col = null;
-		HtmlOutputLabel label = null;
-		if (newTable)
+		boolean newLabel = label1 == null;
+		if (newLabel)
 		{
-			table = (HtmlDataTable)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlDataTable.COMPONENT_TYPE);
-			//Add the col
-			col = (UIColumn)FacesContext.getCurrentInstance().getApplication().createComponent(UIColumn.COMPONENT_TYPE);
-			table.getChildren().add(col);
+			label1 = (HtmlOutputText)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
+			label1.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && " + id +"Disabled}"));
+		}
+		label1.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id + "MultipleValues}"));
 
-			//Add the label to the col
-			label = (HtmlOutputLabel)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputLabel.COMPONENT_TYPE);
-			label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{tableItem.label}"));
-			col.getChildren().add(label);
-			table.setStyleClass("tableAsReadOnlyList");
-			table.setCellspacing("0");
-			table.setCellpadding("0");
-			table.setVar("tableItem");
+		
+
+		if (isMultiline())
+		{
+			if (!getComponentPanel().getChildren().contains(label1))
+				getComponentPanel().getChildren().add(label1);
 		}
 		else
 		{
-			col = (UIColumn) table.getChildren().get(0);
-			label = (HtmlOutputLabel) col.getChildren().get(0);
-			label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{tableItem.label}"));
-		}
-
-		table.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
-		table.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && " + id +"Disabled}"));
-
-		
-
-		//add the table to ComponentPanel.If the ComponentPanel not exists - create one and add the writableComponent first 
-		UIComponent panel = getComponentPanel();
-		panel.getChildren().add(table);
-		
-		return table;
+			if (!getLabelPanel().getChildren().contains(label1))
+				getLabelPanel().getChildren().add(label1);
+		}		
+		return label1;
 	}
 	
 	/**
@@ -940,6 +964,23 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
 		//comp.getComponent().setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + prefix +"}"));
 		setComponentBindings(comp.getComponent(), prefix);
+	}
+
+	/**
+	 * Show only selected items in the read only view or all items
+	 * Default value is false (show only the selected items)
+	 * @return
+	 */
+	public boolean isShowAllInReadOnlyView() {
+		return showAllInReadOnlyView;
+	}
+
+	/**
+	 * Show only selected items in the read only view or all items
+	 * @param showAllInReadOnlyView false = show only the selected items, true show all items
+	 */
+	public void setShowAllInReadOnlyView(boolean showAllInReadOnlyView) {
+		this.showAllInReadOnlyView = showAllInReadOnlyView;
 	}
 
 

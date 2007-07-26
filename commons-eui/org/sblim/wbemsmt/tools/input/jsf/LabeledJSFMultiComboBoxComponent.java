@@ -22,7 +22,7 @@
 package org.sblim.wbemsmt.tools.input.jsf;
 
 import javax.faces.component.UISelectItems;
-import javax.faces.component.html.HtmlDataTable;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectManyMenu;
 import javax.faces.context.FacesContext;
 
@@ -33,7 +33,7 @@ import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 
 public class LabeledJSFMultiComboBoxComponent extends LabeledJSFInputComponent implements LabeledStringArrayInputComponentIf {
 
-	private HtmlDataTable readOnlyTable;
+	private HtmlOutputText readOnlyText;
 
 	public LabeledJSFMultiComboBoxComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectManyMenu.COMPONENT_TYPE), converter,readOnly);
@@ -55,7 +55,7 @@ public class LabeledJSFMultiComboBoxComponent extends LabeledJSFInputComponent i
 		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
 		menu.getChildren().add(items);
 		
-		component.readOnlyTable = component.createReadOnlyTable(id, menu,component.readOnlyTable);	
+		component.readOnlyText = component.createLabelForMultipleValues(id, menu,component.readOnlyText);	
 	}	
 
 }

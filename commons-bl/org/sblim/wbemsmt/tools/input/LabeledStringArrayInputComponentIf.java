@@ -26,5 +26,17 @@ public interface LabeledStringArrayInputComponentIf extends LabeledBaseInputComp
 
 	public void setValues(String values[]);
 	public String[] getValues();
+	
+	/**
+	 * Show only selected items in the read only view or all items
+	 * @return
+	 */
+	public boolean isShowAllInReadOnlyView() ;
+	/**
+	 * Show only selected items in the read only view or all items
+	 * @param showAllInReadOnlyView
+	 */
+	public void setShowAllInReadOnlyView(boolean showAllInReadOnlyView);
+
 
 }

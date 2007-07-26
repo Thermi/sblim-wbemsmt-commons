@@ -21,7 +21,7 @@
 package org.sblim.wbemsmt.tools.input.jsf;
 
 import javax.faces.component.UISelectItems;
-import javax.faces.component.html.HtmlDataTable;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectManyListbox;
 import javax.faces.context.FacesContext;
 
@@ -33,11 +33,11 @@ import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 public class LabeledJSFMultiListComponent extends LabeledJSFInputComponent implements LabeledStringArrayInputComponentIf {
 
 	private int itemSize;
-	private HtmlDataTable readOnlyTable;
+	private HtmlOutputText readOnlyText;
 	
 	public LabeledJSFMultiListComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectManyListbox.COMPONENT_TYPE), converter,readOnly);
-		
+		setComponentBindings1(this,id);
 	}
 	
 	public void sizeChanged(int size) {
@@ -67,7 +67,7 @@ public class LabeledJSFMultiListComponent extends LabeledJSFInputComponent imple
 		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
 		menu.getChildren().add(items);
 		
-		component.readOnlyTable = component.createReadOnlyTable(id, menu,component.readOnlyTable);	
+		component.readOnlyText = component.createLabelForMultipleValues(id, menu,component.readOnlyText);	
 	}
 	
 	

@@ -23,7 +23,7 @@ package org.sblim.wbemsmt.tools.input.jsf;
 
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlCommandButton;
-import javax.faces.component.html.HtmlDataTable;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 
@@ -37,7 +37,7 @@ import org.sblim.wbemsmt.tools.input.LabeledStringArrayInputComponentIf;
 public class LabeledJSFComboBoxActionComponent extends LabeledJSFInputComponent implements LabeledStringArrayInputComponentIf, ActionComponent {
 
 	static long idCount = 0;
-	private HtmlDataTable readOnlyTable;
+	private HtmlOutputText readOnlyText;
 	
 	public LabeledJSFComboBoxActionComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectOneMenu.COMPONENT_TYPE), converter,readOnly);
@@ -73,7 +73,7 @@ public class LabeledJSFComboBoxActionComponent extends LabeledJSFInputComponent 
 		);		
 		
 		component.getComponentPanel().getChildren().add(btn);
-		component.readOnlyTable = component.createReadOnlyTable(id, menu,component.readOnlyTable);	
+		component.readOnlyText = component.createLabelForMultipleValues(id, menu,component.readOnlyText);	
 		
 	}
 
@@ -93,4 +93,6 @@ public class LabeledJSFComboBoxActionComponent extends LabeledJSFInputComponent 
 		super.installProperties(comp, prefix);
 		setComponentBindings1((LabeledJSFComboBoxActionComponent) comp,prefix);
 	}	
+
+	
 }

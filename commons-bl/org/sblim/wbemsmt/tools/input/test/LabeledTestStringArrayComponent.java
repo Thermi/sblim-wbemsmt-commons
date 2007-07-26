@@ -133,6 +133,16 @@ public class LabeledTestStringArrayComponent extends LabeledBaseInputComponent i
 	public boolean hasErrors()
 	{
 		return this.hasErrors;
+	}
+
+	public boolean isShowAllInReadOnlyView() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void setShowAllInReadOnlyView(boolean showAllInReadOnlyView) {
+		// TODO Auto-generated method stub
+		
 	}	
 	
 	
