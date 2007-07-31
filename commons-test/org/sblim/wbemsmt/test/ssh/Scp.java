@@ -140,7 +140,7 @@ public class Scp {
 			Session session = jsch.getSession(user, host, port);
 
 			// username and password will be given via UserInfo interface.
-			UserInfo ui = new MyUserInfo(user, password);
+			UserInfo ui = new MyUserInfo(user, password,host);
 			session.setUserInfo(ui);
 			session.connect();
 
@@ -222,7 +222,7 @@ public class Scp {
 			Session session = jsch.getSession(user, host, port);
 
 			// username and password will be given via UserInfo interface.
-			UserInfo ui = new MyUserInfo(user, password);
+			UserInfo ui = new MyUserInfo(user, password,host);
 			session.setUserInfo(ui);
 			session.connect();
 

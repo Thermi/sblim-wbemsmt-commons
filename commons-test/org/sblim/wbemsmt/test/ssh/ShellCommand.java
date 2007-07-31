@@ -27,7 +27,7 @@ ShellCommand implements Cloneable {
 	
 	private String command;
 	private String result;
-	private int exitStatus;
+	private String exitStatus;
 	
 	public ShellCommand(String command) {
 		super();
@@ -60,12 +60,19 @@ ShellCommand implements Cloneable {
 		return super.clone();
 	}
 
-	public void setExitStatus(int exitStatus) {
+	public void setExitStatus(String exitStatus) {
 		this.exitStatus = exitStatus;
 	}
 
-	public int getExitStatus() {
+	public String getExitStatus() {
 		return exitStatus;
+	}
+
+	public void trace() {
+		System.out.println(command);
+		System.out.println(result);
+		System.out.println("RC " + exitStatus);
+		
 	}
 	
 	

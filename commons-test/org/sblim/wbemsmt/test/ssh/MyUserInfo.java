@@ -20,18 +20,28 @@
 
 package org.sblim.wbemsmt.test.ssh;
 
+import org.sblim.wbemsmt.test.WbemSmtTestConfig;
+
 import com.jcraft.jsch.UIKeyboardInteractive;
 import com.jcraft.jsch.UserInfo;
 
 public class MyUserInfo implements UserInfo, UIKeyboardInteractive {
     private String user;
 	private String password;
+	private final String host;
 
-	public MyUserInfo(String user, String password) {
+	public MyUserInfo(String user, String password, String host) {
 		this.user = user;
 		this.password = password;
+		this.host = host;
 	}
-	public String getPassword(){ return password; }
+	public String getPassword(){ 
+		if (password == null || password.equals(WbemSmtTestConfig.QUERY_TOKEN))
+		{
+			password = WbemSmtTestConfig.getPassword(user,host);
+		}
+		return password; 
+	}
     public boolean promptYesNo(String str){
     	return true;
     }

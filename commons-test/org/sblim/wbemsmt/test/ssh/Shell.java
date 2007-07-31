@@ -19,21 +19,19 @@
 
 package org.sblim.wbemsmt.test.ssh;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.sblim.wbemsmt.exception.WbemSmtException;
 
 import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.UserInfo;
 
 public class Shell{
+
 private String user;
 private String password;
 private String host;
@@ -42,6 +40,9 @@ private int port = 22;
 private List commands = new ArrayList();
 private boolean opened;
 private Session session;
+private Channel channel;
+private PipedOutputStream toServer;
+private PipedInputStream fromServer;
 
 	public Shell(String user, String password, String host, String port) {
 		super();
@@ -101,9 +102,19 @@ private Session session;
 			session=jsch.getSession(user, host, port);
 
 			// username and passphrase will be given via UserInfo interface.
-			UserInfo ui=new MyUserInfo(user,password);
+			UserInfo ui=new MyUserInfo(user,password,host);
 			session.setUserInfo(ui);
-			session.connect();
+			session.connect(30000);
+			
+			toServer = new PipedOutputStream();
+			fromServer = new PipedInputStream();
+			
+			channel = session.openChannel("shell");
+			channel.setInputStream(new PipedInputStream(toServer));
+			channel.setOutputStream(new PipedOutputStream(fromServer));
+			
+			channel.connect(3*1000);
+			
 			
 			opened = true;
 			
@@ -125,39 +136,43 @@ private Session session;
 		
 		try {
 			
-			System.out.println("Executing " + command.getCommand());			
+			String readyToken = "; RETVALUE=$?; echo '---READY---'; echo $RETVALUE";
+			toServer.write(("echo '---START---'; " + command.getCommand() + readyToken).getBytes());
+			toServer.write("\n".getBytes());
 			
-			Channel channel=session.openChannel("exec");
-			
-			ChannelExec execChannel = (ChannelExec) channel;
-			execChannel.setCommand(command.getCommand());
-			execChannel.setInputStream(null);
-			execChannel.setErrStream(System.err);
-			
+			BufferedReader in = new BufferedReader(new InputStreamReader(fromServer));
+			String line;
 			StringBuffer sb = new StringBuffer();
-		      InputStream in=channel.getInputStream();
-		      
-		      channel.connect();
-		
-		      byte[] tmp=new byte[1024];
-		      while(true){
-		        while(in.available()>0){
-		          int i=in.read(tmp, 0, 1024);
-		          if(i<0)break;
-		          String string = new String(tmp, 0, i);
-		          sb.append(string);
-		        }
-		        if(channel.isClosed()){
-		          command.setExitStatus(channel.getExitStatus());
-		          break;
-		        }
-		        try{Thread.sleep(1000);}catch(Exception ee){}
-		      }
-		      channel.disconnect();
+			boolean started = false;
+			try {
+				while ((line = in.readLine()) != null)
+				{
+					if (line.equals("---START---"))
+					{
+						started = true;
+					}
+					else if (started)
+					{
+						if (line.equals("---READY---"))
+						{
+							line = in.readLine();
+							command.setExitStatus(line);
+							break;
+						}
+						else
+						{
+							sb.append(line).append("\n");
+						}
+					}
+					
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			
 			command.setResult(sb.toString());
+			command.trace();
 			commands.add(command.clone());
-			
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -165,9 +180,6 @@ private Session session;
 		} catch (CloneNotSupportedException e) {
 			//should not occur
 			e.printStackTrace();
-		} catch (JSchException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Cannot send command ",e);
 		}
 		
 	}
@@ -193,5 +205,6 @@ private Session session;
 	{
 		return (ShellCommand) commands.get(index);
 	}
+
 	
 }
