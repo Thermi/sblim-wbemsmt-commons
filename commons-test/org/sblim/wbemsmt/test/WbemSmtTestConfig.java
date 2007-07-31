@@ -26,6 +26,10 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
 import org.sblim.wbemsmt.test.ssh.Scp;
 import org.sblim.wbemsmt.test.ssh.Shell;
 
@@ -33,6 +37,8 @@ public class WbemSmtTestConfig {
 
 	private static WbemSmtTestConfig instance = null;
 	private Properties properties = new Properties();
+	
+	public static final String QUERY_TOKEN = "<query>";
 	
 	private static Logger logger = Logger.getLogger("org.sblim.wbemsmt.test");
 	
@@ -94,7 +100,13 @@ public class WbemSmtTestConfig {
 	}
 
 	public String getPassword() {
-		return properties.getProperty(getActiveHostPrefix() + "password","");
+		String password = properties.getProperty(getActiveHostPrefix() + "password","");
+		if (password == null || password.equals(WbemSmtTestConfig.QUERY_TOKEN))
+		{
+			password = WbemSmtTestConfig.getPassword(getUser(),getHost());
+		}
+		return password; 
+		
 	}
 
 	public Scp getSCP(String prefix) {
@@ -136,5 +148,27 @@ public class WbemSmtTestConfig {
 	public String getWebserverUrl() {
 		return properties.getProperty(getActiveHostPrefix() + "webserverurl","http://127.0.0.1:8080/wbemsmt-webapp/login.jsf");
 	}
+
+	/**
+	 * Shows a dialog for retrieving the password
+	 * @param user
+	 * @param host
+	 * @return
+	 */
+	public static String getPassword(String user, String host) {
+		String info = user + "@" + host;
+		JTextField passwordField=(JTextField)new JPasswordField(20);
+		Object[] ob={passwordField}; 
+		int result=JOptionPane.showConfirmDialog(null, ob, "Enter password for " + info, JOptionPane.OK_CANCEL_OPTION);
+		if(result==JOptionPane.OK_OPTION)
+		{
+			return passwordField.getText();
+		}
+		else
+		{ 
+			throw new IllegalArgumentException("Password not set for " + info); 
+		}
+	}
+	
 
 }
