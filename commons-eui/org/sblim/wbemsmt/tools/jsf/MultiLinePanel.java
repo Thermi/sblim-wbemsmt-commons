@@ -88,18 +88,18 @@ public abstract class MultiLinePanel extends BasePanel {
 		customFooterPanel = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 
 		HtmlPanelGroup outerFooterPanel = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
+		outerFooterPanel.getChildren().add(customFooterPanel);
 		
 		
 		HtmlOutputText noEntriesFooter = (HtmlOutputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
 		noEntriesFooter.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.noEntries}") );
 		noEntriesFooter.setValueBinding("styleClass",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + bindingPrefix +  rolename +  "AvailableFooterClass}") );
 		noEntriesFooter.setStyle("width:200px;white-space: nowrap;");
+		outerFooterPanel.getChildren().add(noEntriesFooter);
 		
-		dataTable.getFacets().put("footer", noEntriesFooter);
+		dataTable.getFacets().put("footer", outerFooterPanel);
 		dataTable.setValueBinding("footerClass",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + bindingPrefix +  rolename +  "FooterClass}") );
 
-		outerFooterPanel.getChildren().add(customFooterPanel);
-		outerFooterPanel.getChildren().add(noEntriesFooter);
 		
 		StringBuffer sb = new StringBuffer();
 		for (int i=0; i < cols; i++)
