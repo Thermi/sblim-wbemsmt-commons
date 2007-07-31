@@ -25,6 +25,8 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent.Size;
+
 /**
  * Properties for a Component (Usually a LabeledBaseInputComponent)
  * @author Bauschert
@@ -71,11 +73,12 @@ public class ComponentProperties extends Hashtable
 		setProperty(KEY_VISIBLE,new Boolean(visible));
 	}
 	
-	public int getSize() {
-		return ((Integer) (get(KEY_SIZE) == null ? new Integer(0) : get(KEY_BG_COLOR))).intValue();
+	public Size getSize() {
+		return ((Size) (get(KEY_SIZE) == null ? LabeledBaseInputComponentIf.SIZE_M : get(KEY_SIZE)));
 	}
-	public void setSize(int size) {
-		setProperty(KEY_SIZE,new Integer(size));
+	
+	public void setSize(Size size) {
+		setProperty(KEY_SIZE,size);
 	}
 
 	public boolean isReadOnly() {
