@@ -163,5 +163,15 @@ public class WbemSmtAssert extends Assert {
 		assertFalse("Not Allowed Text " + textNotToBeFound + " was found.",selenium.isTextPresent(textNotToBeFound));
 		
 	}
+
+	/**
+	 * checks if the confirmation is pending
+	 * @param session
+	 * @param expectedConfirmationString
+	 */
+	public static void assertConfirmation(WbemSmtWebSession session, String expectedConfirmationString) {
+		String confirmationString = session.getConfirmation();
+		assertEquals(expectedConfirmationString,confirmationString);
+	}
 	
 }
