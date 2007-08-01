@@ -1,6 +1,192 @@
 // =========================================================================
 // new in version 0.5.0-1 :
 
+2007-07-31 15:56  mbauschert
+
+	* commons-test/org/sblim/wbemsmt/test/WbemSmtAssert.java: Fix [
+	  1764584 ] wbemsmt-commons-test: assert for confirmations
+
+2007-07-31 15:54  mbauschert
+
+	*
+	  commons-test/org/sblim/wbemsmt/test/jsf/EditFieldInTableFooterLocator.java:
+	  Fix [ 1764576 ] wbemsmt-commons-test: locator object for table
+	  components
+
+2007-07-31 15:51  mbauschert
+
+	* commons-test/org/sblim/wbemsmt/test/ssh/: Shell.java,
+	  MyUserInfo.java, Scp.java, ShellCommand.java: Fix [ 1764561 ]
+	  wbemsmt-commons-test: passwordDlg for HostConnection Fix [
+	  1764565 ] wbemsmt-commons-test: replace ssh exec by ssh session
+
+2007-07-31 15:49  mbauschert
+
+	* commons-test/org/sblim/wbemsmt/test/WbemSmtTestConfig.java: Fix [
+	  1764561 ] wbemsmt-commons-test: passwordDlg for HostConnection
+
+2007-07-31 15:47  mbauschert
+
+	*
+	  commons-bl/org/sblim/wbemsmt/tools/input/ComponentProperties.java:
+	  Fix [ 1764554 ] wbemsmt-commons: setSize of ComponentProperties
+
+2007-07-31 15:45  mbauschert
+
+	* commons-eui/org/sblim/wbemsmt/tools/jsf/MultiLinePanel.java: Fix
+	  [ 1764543 ] wbemsmt-webapp: Custom footer in child panel not
+	  displayed
+
+2007-07-26 13:44  mbauschert
+
+	*
+	  commons-bl/org/sblim/wbemsmt/tools/input/test/LabeledTestStringArrayComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFComboBoxActionComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFComboBoxComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFInputComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFListComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFMultiComboBoxComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFMultiListComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/swing/LabeledSwingComboBoxComponent.java,
+	  commons-bl/org/sblim/wbemsmt/tools/input/LabeledStringArrayInputComponentIf.java:
+	  Fix [ 1699830 ] wbemsmt-common: new UI Comp. for rendering a
+	  readonly list
+
+2007-07-26 10:35  mbauschert
+
+	* commons-bl/org/sblim/wbemsmt/bl/adapter/DataContainerUtil.java:
+	  Fix [ 1760804 ] wbemsmt-jsf: child tables: controls displayed in
+	  empty row
+
+2007-07-26 10:33  mbauschert
+
+	* commons-eui/org/sblim/wbemsmt/tools/:
+	  input/jsf/LabeledJSFInputComponent.java, jsf/MultiLinePanel.java:
+	  Fix [ 1760842 ] wbemsmt-jsf: child tables: checkboxes in
+	  readonly-view
+
+2007-07-26 09:03  mbauschert
+
+	* commons-bl/org/sblim/wbemsmt/bl/fco/: FcoHelper.java,
+	  FcoHelperIf.java: Fix [ 1760789 ] wbemsmt-commons:
+	  FcoHelper.delete(Collection) for fco-list
+
+2007-07-18 16:27  mbauschert
+
+	* commons-bl/org/sblim/wbemsmt/util/WbemsmtStringEncrypter.java:
+	  Removed dependency from sun BaseDecoder/Encoder
+
+2007-07-18 16:25  mbauschert
+
+	* commons-bl/org/sblim/wbemsmt/bl/tree/InstanceNamingHolder.java,
+	  commons-bl/org/sblim/wbemsmt/bl/welcome/WelcomeListener.java,
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/CIMClassNode.java,
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/CIMInstanceNode.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFInputComponent.java,
+	  commons-eui/org/sblim/wbemsmt/webapp/jsf/ObjectActionControllerBean.java:
+	  organized imports
+
+2007-07-17 12:44  mbauschert
+
+	* tools-init-jar-repository/: downloads/cimClient.properties,
+	  downloads/commons-fileupload.properties,
+	  downloads/myfaces.impl.properties,
+	  downloads/servlet.api.properties,
+	  downloads/velocity.dep.properties, downloads/velocity.properties,
+	  downloads/xml-apis.properties,
+	  downloads/commons-beanutils.properties,
+	  downloads/commons-cli.properties,
+	  downloads/commons-codec.properties,
+	  downloads/commons-collections.properties,
+	  downloads/commons-digester.properties,
+	  downloads/commons-io.properties,
+	  downloads/commons-lang.properties, downloads/dojo.properties,
+	  downloads/resolver.properties, downloads/struts.properties,
+	  downloads/swt-lib-gtk-linux-x86.properties,
+	  downloads/xerces.properties,
+	  downloads/xmlbeans.jsr.api.properties,
+	  downloads/commons-logging.properties, downloads/jsch.properties,
+	  downloads/jspApi.properties, downloads/junit.properties,
+	  downloads/myfaces.api.properties,
+	  downloads/selenium-server.properties,
+	  downloads/selenium.properties, downloads/serializer.properties,
+	  downloads/slpClient.properties,
+	  downloads/swt-gtk-linux-x86.properties,
+	  downloads/swt-lib-win32.properties,
+	  downloads/swt-win32.properties, downloads/tomahawk.properties,
+	  downloads/xmlbeans.properties, .cvsignore, build.xml,
+	  download.properties, download.xml: removed
+	  tools-init-jar-repository
+
+2007-07-17 12:14  mbauschert
+
+	*
+	  commons-bl/org/sblim/wbemsmt/bl/adapter/AbstractBaseCimAdapter.java:
+	  Fix [1755329] wbemsmt-webapp: wrong navigation after updateModel
+
+2007-07-17 09:19  mbauschert
+
+	* commons-test/org/sblim/wbemsmt/test/jsf/:
+	  EditFieldRadioButtonLocator.java, EditListFieldLocator.java: Fix
+	  1731236 wbemsmt-jsf: childrenTables as HtmlDataTable
+
+2007-07-17 07:56  mbauschert
+
+	*
+	  commons-bl/org/sblim/wbemsmt/exception/ObjectDeletionException.java,
+	  commons-bl/org/sblim/wbemsmt/exception/ObjectSaveException.java,
+	  commons-bl/org/sblim/wbemsmt/exception/WbemSmtException.java,
+	  commons-bl/org/sblim/wbemsmt/bl/FcoUtil.java,
+	  tools-init-jar-repository/.cvsignore,
+	  tools-init-jar-repository/build.xml,
+	  tools-init-jar-repository/download.properties,
+	  tools-init-jar-repository/download.xml,
+	  tools-init-jar-repository/downloads/cimClient.properties,
+	  tools-init-jar-repository/downloads/commons-beanutils.properties,
+	  tools-init-jar-repository/downloads/commons-cli.properties,
+	  tools-init-jar-repository/downloads/commons-codec.properties,
+	  tools-init-jar-repository/downloads/commons-collections.properties,
+	  tools-init-jar-repository/downloads/commons-digester.properties,
+	  tools-init-jar-repository/downloads/commons-fileupload.properties,
+	  tools-init-jar-repository/downloads/commons-io.properties,
+	  tools-init-jar-repository/downloads/commons-lang.properties,
+	  tools-init-jar-repository/downloads/commons-logging.properties,
+	  tools-init-jar-repository/downloads/dojo.properties,
+	  tools-init-jar-repository/downloads/jsch.properties,
+	  tools-init-jar-repository/downloads/jspApi.properties,
+	  tools-init-jar-repository/downloads/junit.properties,
+	  tools-init-jar-repository/downloads/myfaces.api.properties,
+	  tools-init-jar-repository/downloads/myfaces.impl.properties,
+	  tools-init-jar-repository/downloads/resolver.properties,
+	  tools-init-jar-repository/downloads/selenium-server.properties,
+	  tools-init-jar-repository/downloads/selenium.properties,
+	  tools-init-jar-repository/downloads/serializer.properties,
+	  tools-init-jar-repository/downloads/servlet.api.properties,
+	  tools-init-jar-repository/downloads/slpClient.properties,
+	  tools-init-jar-repository/downloads/struts.properties,
+	  tools-init-jar-repository/downloads/swt-gtk-linux-x86.properties,
+	  tools-init-jar-repository/downloads/swt-lib-gtk-linux-x86.properties,
+	  tools-init-jar-repository/downloads/swt-lib-win32.properties,
+	  tools-init-jar-repository/downloads/swt-win32.properties,
+	  tools-init-jar-repository/downloads/tomahawk.properties,
+	  tools-init-jar-repository/downloads/velocity.dep.properties,
+	  tools-init-jar-repository/downloads/velocity.properties,
+	  tools-init-jar-repository/downloads/xerces.properties,
+	  tools-init-jar-repository/downloads/xml-apis.properties,
+	  tools-init-jar-repository/downloads/xmlbeans.jsr.api.properties,
+	  tools-init-jar-repository/downloads/xmlbeans.properties,
+	  commons-bl/org/sblim/wbemsmt/util/StringUtil.java,
+	  commons-test/org/sblim/wbemsmt/test/jsf/EditFieldRadioButtonLocator.java:
+	  docu
+
+2007-07-17 07:48  mbauschert
+
+	* AUTHORS: add author
+
+2007-07-16 19:42  taphorn
+
+	* ChangeLog: Added latest changes to the Changelog
+
 2007-07-16 19:39  taphorn
 
 	* NEWS, build.xml, sblim-wbemsmt-commons.conf,

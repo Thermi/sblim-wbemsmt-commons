@@ -1,5 +1,15 @@
 Changes in 0.5.0-1 :
 ==============================================================================
+- 1764584  wbemsmt-commons-test: assert for confirmations
+- 1764576  wbemsmt-commons-test: locator object for table components
+- 1764565  wbemsmt-commons-test: replace ssh exec by ssh session
+- 1764561  wbemsmt-commons-test: passwordDlg for HostConnection
+- 1764554  wbemsmt-commons: setSize of ComponentProperties
+- 1764543  wbemsmt-webapp: Custom footer in child panel not displayed
+- 1760804  wbemsmt-jsf: child tables: controls displayed in empty row
+- 1760842  wbemsmt-jsf: child tables: checkboxes in readonly-view
+- 1760789  wbemsmt-commons: FcoHelper.delete(Collection) for fco-list
+- 1755329  wbemsmt-webapp: wrong navigation after updateModel
 - 1754902  wbemsmt-commons: Upgrade to build environment
 - 1752500  wbemsmt-commons: StringUtil method to retrieve Values by Idx
 - 1752497  wbemsmt-webapp: TreeNodes getting not translated
@@ -52,6 +62,7 @@ Changes in 0.5.0-1 :
 - 1700191  wbemsmt-webapp - no line break for TextNodes
 - 1700185  wbemsmt-common: add MessageDefinition
 - 1699839  wbemsmt-webapp: set rendered flag for componentPanel
+- 1699830  wbemsmt-common: new UI Comp. for rendering a readonly list
 - 1699791  wbemsmt-webapp: revert changes after selecting new treenode
 - 1699213  wbemsmt-common: CIMInstanceFilter.accept: add CimClient
 - 1698409  wbemsmt-webapp: welcome page in multiHost-Mode

@@ -20,12 +20,12 @@ BuildArch:      noarch
 
 BuildRequires: jpackage-utils >= 0:1.5.32
 BuildRequires: ant >= 0:1.6
-BuildRequires: sblim-cim-client >= 0:1.3.3
+BuildRequires: sblim-cim-client >= 0:1.3
 BuildRequires: tomcat5-servlet-2.4-api >= 5.5.15
 BuildRequires: tomcat5-jsp-2.0-api >= 5.5.15
-BuildRequires: jakarta-commons-cli >= 1.0
 BuildRequires: jakarta-commons-lang >= 2.0
 BuildRequires: jakarta-commons-collections >= 3.1
+#BuildRequires: jakarta-commons-cli >= 1.0
 #BuildRequires:  myfaces >= 1.1.5
 #BuildRequires:  tomahawk >= 1.1.3
 #BuildRequires:  xmlBeans >= 2.2.0
@@ -34,12 +34,12 @@ BuildRequires: jakarta-commons-collections >= 3.1
 ###############################################################################
 
 Requires: jpackage-utils >= 0:1.5.32
-Requires: sblim-cim-client >= 0:1.3.3
+Requires: sblim-cim-client >= 0:1.3
 Requires: tomcat5-servlet-2.4-api >= 5.5.15
 Requires: tomcat5-jsp-2.0-api >= 5.5.15
-Requires: jakarta-commons-cli >= 1.0
 Requires: jakarta-commons-collections >= 3.1
 Requires: jakarta-commons-lang >= 2.0
+#Requires: jakarta-commons-cli >= 1.0
 #Requires:  myfaces >= 1.1.5
 #Requires:  tomahawk >= 1.1.3
 #Requires:  xmlBeans >= 2.2.0
@@ -118,7 +118,7 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 %attr(664,root,tomcat) %config(noreplace) %{_sysconfdir}/java/sblim-wbemsmt/logging.properties
 %attr(664,root,tomcat) %config(noreplace) %{_sysconfdir}/sblim-wbemsmt/tasklauncher-config.xml
 %attr(664,root,tomcat) %config(noreplace) %{_sysconfdir}/sblim-wbemsmt/sblim-wbemsmt-commons.conf
-%{_localstatedir}/lib/sblim-wbemsmt/help/*
+%{_localstatedir}/lib/sblim-wbemsmt/help/plugins/org.sblim.wbemsmt.help.commons/*
 %{_javadir}/sblim-wbemsmt/%{name}.jar
 %{_javadir}/sblim-wbemsmt/%{name}-%{version}.jar
 %{_javadir}/sblim-wbemsmt/%{name}-launcher-config.jar
@@ -128,6 +128,16 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 %changelog
 * Fri Jul 6 2007 Wolfgang Taphorn <taphorn@de.ibm.com> 0.5.0-1
   - Inclusion of fixes for the following issues:
+    o 1764584  wbemsmt-commons-test: assert for confirmations
+    o 1764576  wbemsmt-commons-test: locator object for table components
+    o 1764565  wbemsmt-commons-test: replace ssh exec by ssh session
+    o 1764561  wbemsmt-commons-test: passwordDlg for HostConnection
+    o 1764554  wbemsmt-commons: setSize of ComponentProperties
+    o 1764543  wbemsmt-webapp: Custom footer in child panel not displayed
+    o 1760804  wbemsmt-jsf: child tables: controls displayed in empty row
+    o 1760842  wbemsmt-jsf: child tables: checkboxes in readonly-view
+    o 1760789  wbemsmt-commons: FcoHelper.delete(Collection) for fco-list
+    o 1755329  wbemsmt-webapp: wrong navigation after updateModel
     o 1754902  wbemsmt-commons: Upgrade to build environment
     o 1752500  wbemsmt-commons: StringUtil method to retrieve Values by Idx
     o 1749065  wbemsmt-commons: FCO classes don't support SUPERCLASS lookup
@@ -179,6 +189,7 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
     o 1699791  wbemsmt-webapp: revert changes after selecting new treenode
     o 1700185  wbemsmt-common: add MessageDefinition
     o 1699839  wbemsmt-webapp: set rendered flag for componentPanel
+    o 1699830  wbemsmt-common: new UI Comp. for rendering a readonly list
     o 1699213  wbemsmt-common: CIMInstanceFilter.accept: add CimClient
     o 1698409  wbemsmt-webapp: welcome page in multiHost-Mode
     o 1685345  wbemsmt-cli: Handling of parseExceptions
