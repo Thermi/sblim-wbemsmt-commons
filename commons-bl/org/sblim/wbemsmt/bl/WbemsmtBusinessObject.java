@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import org.sblim.wbem.cim.CIMObjectPath;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
+import org.sblim.wbemsmt.bl.adapter.CimObjectKey;
 import org.sblim.wbemsmt.exception.ModelLoadException;
 
 /**
@@ -115,5 +116,6 @@ public abstract class WbemsmtBusinessObject {
 		this.reloadChilds = true;
 	}
 	
+	public abstract CimObjectKey getCimObjectKey();
 	
 }
