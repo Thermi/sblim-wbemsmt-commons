@@ -35,9 +35,10 @@ import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.tools.converter.ComboBoxIndexConverter;
 import org.sblim.wbemsmt.tools.converter.ComboBoxValueConverter;
 import org.sblim.wbemsmt.tools.converter.Converter;
+import org.sblim.wbemsmt.tools.input.LabeledBaseHeaderComponentIf;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
 
-public class LabeledSwingInputComponent extends LabeledBaseInputComponent
+public class LabeledSwingInputComponent extends LabeledBaseInputComponent implements LabeledBaseHeaderComponentIf
 {
 
 	private JLabel label;

@@ -43,6 +43,7 @@ public abstract class MultiLinePanel extends BasePanel {
 	protected int cols;
 	
 	HtmlPanelGroup customFooterPanel;
+	private final String rolename;
 
 	/**
 	 * @param adapter
@@ -54,6 +55,7 @@ public abstract class MultiLinePanel extends BasePanel {
 	 */
 	public MultiLinePanel(AbstractBaseCimAdapter adapter,String bindingPrefix, String bindingPrefixOfContainer, String keyForTitle, String rolename, int cols) {
 		super(adapter, bindingPrefix);
+		this.rolename = rolename;
 		this.cols = cols;
 
 		outerPanel = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
@@ -141,7 +143,13 @@ public abstract class MultiLinePanel extends BasePanel {
 			}
 
 			UIColumn column = (UIColumn) FacesContext.getCurrentInstance().getApplication().createComponent(UIColumn.COMPONENT_TYPE);
-			//set orientation of LabelPanel WelcomeItemDataContainer_AsItems_InWelcomeDataContainerImpl.orientationOfColumnAsCss[0]
+			
+			String expr = "#{" + bindingPrefix + rolename + "Panel.headerVisible[" + i + "]}";
+			column.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding(expr));
+			
+			
+			
+			//TODO set orientation of LabelPanel WelcomeItemDataContainer_AsItems_InWelcomeDataContainerImpl.orientationOfColumnAsCss[0]
 			column.getFacets().put("header", node.getLabelPanel());
 			column.getChildren().add(node.getComponentPanel());
 			addDummy(column);
@@ -151,6 +159,15 @@ public abstract class MultiLinePanel extends BasePanel {
 		}
 	}	
 	
+	
+	public boolean[] getHeaderVisible()
+	{
+		boolean[] result = new boolean[headerFields.length];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = headerFields[i].isVisible();
+		}
+		return result;
+	}
 	
 	   private void addDummy(UIColumn column) {
 			HtmlOutputText dummy = (HtmlOutputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);

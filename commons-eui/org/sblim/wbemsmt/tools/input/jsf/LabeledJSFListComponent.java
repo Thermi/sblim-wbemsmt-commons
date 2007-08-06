@@ -33,6 +33,7 @@ import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
 public class LabeledJSFListComponent extends LabeledJSFInputComponent implements LabeledStringArrayInputComponentIf {
 
 	private HtmlOutputText readOnlyText;
+	private int itemSize;
 
 	public LabeledJSFListComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectOneListbox.COMPONENT_TYPE), converter,readOnly);
@@ -45,10 +46,20 @@ public class LabeledJSFListComponent extends LabeledJSFInputComponent implements
 		setComponentBindings1((LabeledJSFListComponent) comp,prefix);
 	}
 
+	
+	public int getItemSize() {
+		return itemSize;
+	}
+
+	public void setItemSize(int itemSize) {
+		this.itemSize = itemSize;
+	}
+	
 	private static void setComponentBindings1(LabeledJSFListComponent component, String id) {
 		HtmlSelectOneListbox menu = ((HtmlSelectOneListbox)component.getComponent());
 		menu.setStyleClass("listBox");
 		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
+		menu.setValueBinding("size", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Size}"));
 		menu.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
 		UISelectItems items = (UISelectItems) FacesContext.getCurrentInstance().getApplication().createComponent(UISelectItems.COMPONENT_TYPE);
 		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));

@@ -21,10 +21,11 @@ package org.sblim.wbemsmt.tools.input.test;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.tools.converter.StringArrayConverter;
+import org.sblim.wbemsmt.tools.input.LabeledBaseHeaderComponentIf;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
 import org.sblim.wbemsmt.tools.input.LabeledStringArrayInputComponentIf;
 
-public class LabeledTestStringArrayComponent extends LabeledBaseInputComponent implements LabeledStringArrayInputComponentIf,TestInputComponentIf {
+public class LabeledTestStringArrayComponent extends LabeledBaseInputComponent implements LabeledStringArrayInputComponentIf,TestInputComponentIf, LabeledBaseHeaderComponentIf {
 
 	private Object value;
 	private final StringArrayConverter arrayConverter;

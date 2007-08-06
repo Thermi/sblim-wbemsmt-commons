@@ -21,9 +21,10 @@ package org.sblim.wbemsmt.tools.input.test;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.tools.converter.Converter;
+import org.sblim.wbemsmt.tools.input.LabeledBaseHeaderComponentIf;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
 
-public class LabeledTestInputComponent extends LabeledBaseInputComponent implements TestInputComponentIf {
+public class LabeledTestInputComponent extends LabeledBaseInputComponent implements TestInputComponentIf, LabeledBaseHeaderComponentIf {
 
 	private String value;
 	private boolean visible= true;

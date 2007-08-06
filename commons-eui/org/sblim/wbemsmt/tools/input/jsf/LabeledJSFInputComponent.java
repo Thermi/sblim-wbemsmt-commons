@@ -39,6 +39,7 @@ import org.sblim.wbemsmt.bl.tree.ITreeSelector;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.converter.Converter;
+import org.sblim.wbemsmt.tools.input.LabeledBaseHeaderComponentIf;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 import org.sblim.wbemsmt.tools.jsf.*;
@@ -48,7 +49,7 @@ import org.sblim.wbemsmt.util.StringTokenizer;
 import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
 import org.sblim.wbemsmt.webapp.jsf.style.StyleBean;
 
-public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
+public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent implements LabeledBaseHeaderComponentIf
 {
 	protected List itemValues = new ArrayList();
 	UIComponent componentPanel = null;
@@ -76,6 +77,11 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	private boolean isMultiline;
 	private boolean isHeader;
 	private boolean dependendFieldsHavingErrors;
+	
+	/**
+	 * The suffix of a field label
+	 */
+	private String suffix;
 
 	public LabeledJSFInputComponent(DataContainer parent, String labelText, String pId, UIComponent component, Converter converter,boolean readOnly)
 	{
@@ -103,10 +109,10 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		label.setEscape(false);
 		
 		
-		String suffix = component instanceof HtmlSelectBooleanCheckbox ? "" : ": ";
+		suffix = component instanceof HtmlSelectBooleanCheckbox ? "" : ": ";
 		if (!(component instanceof HtmlCommandButton))
 		{
-			label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"LabelText}" + suffix));
+			label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"LabelText}"));
 		}
 		else
 		{
@@ -157,6 +163,18 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		return getLabelText();
 	}
 		
+	public String getLabelText() {
+		String s = super.getLabelText();
+		if (StringUtils.isEmpty(s))
+		{
+			return s;
+		}
+		else
+		{
+			return s + suffix;
+		}
+	}
+
 	public boolean getItemDisabled() {
 		return disabled;
 	}
@@ -562,11 +580,6 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		return itemValues;
 	}
 
-	public void sizeChanged(int size) {
-		
-		
-	}
-
 	public UIComponent getComponentPanel() {
 		return componentPanel;
 	}
@@ -654,6 +667,10 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 					objectActionController.setSelectedNode(selectedNode);
 					objectActionController.setSelectedTabIndex(selectTabIndex);
 					objectActionController.setSelectedTabId(selectTabId);
+				}
+				else
+				{
+					adapter.updateControls(parent);
 				}
 			}
 			else

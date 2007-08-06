@@ -24,14 +24,7 @@
 package org.sblim.wbemsmt.tools.resources;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.Properties;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import org.sblim.wbemsmt.bl.MessageNumber;
 
@@ -49,7 +42,7 @@ public class WbemSmtResourceBundle extends HashMap {
 	 */
 	private static final long serialVersionUID = -5820291962642135263L;
 
-	private static final String TOKEN_EMPTY = "!!EMPTY!!";
+	public static final String TOKEN_EMPTY = "!!EMPTY!!";
 
 	private static final String SUFFIX_ARGVALUE = ".argValue";
 
@@ -235,7 +228,6 @@ public class WbemSmtResourceBundle extends HashMap {
 		return MessageFormat.format(value,objects);
 	}
 
-	
 	static class Mode 
 	{
 		

@@ -40,16 +40,12 @@ public class LabeledJSFMultiListComponent extends LabeledJSFInputComponent imple
 		setComponentBindings1(this,id);
 	}
 	
-	public void sizeChanged(int size) {
-		setItemSize(size);
-	}
-
 	public int getItemSize() {
 		return itemSize;
 	}
 
 	public void setItemSize(int itemSize) {
-		this.itemSize = Math.min(10,itemSize);
+		this.itemSize = itemSize;
 	}
 
 	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
