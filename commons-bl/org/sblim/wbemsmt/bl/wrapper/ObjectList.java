@@ -26,6 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.sblim.wbemsmt.bl.WbemsmtBusinessObject;
+import org.sblim.wbemsmt.bl.adapter.CimObjectKey;
 import org.sblim.wbemsmt.util.StringComparator;
 
 public abstract class ObjectList {
@@ -33,9 +35,9 @@ public abstract class ObjectList {
 	/**
 	 * stores the users by CimObjectKey
 	 */
-	protected Map objectsByCimObjectKey = new HashMap();
+	private Map objectsByCimObjectKey = new HashMap();
 	/**
-	 * stores the users by SambaUsername
+	 * stores the users by a given name
 	 */
 	private Map objectsByName = new HashMap();
 	/**
@@ -50,11 +52,6 @@ public abstract class ObjectList {
 	 * lazy loaded list with user fcos
 	 */
 	private List fcos = new ArrayList();
-	/**
-	 * The loaded Flag prevents that after every add of an object the
-	 * lists are update. At the the first time the lists are accessed they are loaded
-	 */
-	protected boolean loaded = false;
 	
 	/**
 	 * Set to true if reload from server is wanted (Flag can be queried by comsuming classes)
@@ -101,7 +98,7 @@ public abstract class ObjectList {
 	 * @return
 	 */
 	public String[] getNameArray() {
-		if (!loaded) reloadListValues();
+		if (nameArray == null) reloadListValues();
 		return nameArray;
 	}
 
@@ -110,7 +107,7 @@ public abstract class ObjectList {
 	 * @return
 	 */
 	public List getFCOs() {
-		if (!loaded) reloadListValues();
+		if (fcos.size() == 0) reloadListValues();
 		return fcos;
 	}
 
@@ -119,7 +116,7 @@ public abstract class ObjectList {
 	 * @return
 	 */
 	public List getList() {
-		if (!loaded) reloadListValues();
+		if (list.size() == 0) reloadListValues();
 		return list;
 	}
 
@@ -128,7 +125,7 @@ public abstract class ObjectList {
 	 * @return
 	 */
 	protected Map getObjectsByName() {
-		if (!loaded) reloadListValues();
+		if (objectsByName.size() == 0) reloadListValues();
 		return objectsByName;
 	}
 
@@ -158,9 +155,6 @@ public abstract class ObjectList {
 			list.add(o);
 			fcos.add(getFco(o));
 		}
-		
-		loaded = true;
-		
 	}
 	
 	/**
@@ -200,5 +194,54 @@ public abstract class ObjectList {
 		this.reloadFromServer = reloadFromServer;
 	}
 	
+	
+	/**
+	 * put a BusinessObject into the locale store by using the CimObjectKey of the businessObject as Key
+	 * @param businessObject
+	 */
+	protected void put(WbemsmtBusinessObject businessObject)
+	{
+		objectsByCimObjectKey.put(businessObject.getCimObjectKey(), businessObject);
+		clearDependentObjects();
+		
+	}
+
+	/**
+	 * return a BusinessObject which corresponds to the given key
+	 * @param businessObject
+	 */
+	protected WbemsmtBusinessObject get(CimObjectKey key)
+	{
+		return (WbemsmtBusinessObject) objectsByCimObjectKey.get(key);
+	}
+
+	/**
+	 * remove a BusinessObject which corresponds to the given key
+	 * @param businessObject
+	 */
+	protected WbemsmtBusinessObject remove(CimObjectKey key)
+	{
+		return (WbemsmtBusinessObject) objectsByCimObjectKey.remove(key);
+	}
+
+	/**
+	 * remove a BusinessObject which corresponds to the given key of the object
+	 * @param businessObject 
+	 */
+	protected WbemsmtBusinessObject remove(WbemsmtBusinessObject businessObject)
+	{
+		return remove(businessObject);
+	}
+
+	/**
+	 * clear all dependent objects so that the lazy loading mechanism loads the objects again
+	 *
+	 */
+	private void clearDependentObjects() {
+		list.clear();
+		fcos.clear();
+		objectsByName.clear();
+		nameArray = null;
+	}	
 	
 }
