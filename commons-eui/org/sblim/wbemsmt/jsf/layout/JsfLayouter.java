@@ -24,6 +24,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlPanelGrid;
+import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
@@ -72,6 +73,23 @@ public class JsfLayouter {
 		grid.setCellpadding(cellpadding);
 		grid.setCellspacing(cellspacing);
 		return grid;
+	}	
+
+	public HtmlPanelGroup createPanelGroup() {
+		HtmlPanelGroup group = (HtmlPanelGroup) create(HtmlPanelGroup.COMPONENT_TYPE);
+		return group;
+	}
+
+	/**
+	 * Add the label and the input component of the component ic to the table
+	 * first the label is addded and then the component
+	 * 
+	 * @param grid
+	 * @param ic
+	 */
+	public void addToTable(HtmlPanelGrid grid, LabeledJSFInputComponent ic) {
+		grid.getChildren().add(ic.getLabelPanel());
+		grid.getChildren().add(ic.getComponentPanel());
 	}	
 
 }
