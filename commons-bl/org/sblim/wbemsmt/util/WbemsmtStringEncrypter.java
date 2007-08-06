@@ -19,17 +19,12 @@
   */
 package org.sblim.wbemsmt.util;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.security.spec.KeySpec;
 
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
-import javax.crypto.spec.DESedeKeySpec;
 
 import org.apache.xmlbeans.impl.util.Base64;
 import org.sblim.wbemsmt.exception.WbemSmtException;
@@ -37,9 +32,10 @@ import org.sblim.wbemsmt.exception.WbemSmtException;
 public class WbemsmtStringEncrypter
 {
      
-     public static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
-     public static final String DES_ENCRYPTION_SCHEME = "DES";
-     public static final String DEFAULT_ENCRYPTION_KEY     = "This is a fairly long phrase used to encrypt";
+     private static final String DES_TRANSFORMATION = "DES/ECB/PKCS5Padding";
+	 private static final String DES_ENCRYPTION_SCHEME = "DES";
+     
+	 public static final String DEFAULT_ENCRYPTION_KEY     = "This is a fairly long phrase used to encrypt";
      
      private KeySpec              keySpec;
      private SecretKeyFactory     keyFactory;
@@ -47,56 +43,24 @@ public class WbemsmtStringEncrypter
      
      private static final String     UNICODE_FORMAT               = "UTF8";
 
-     public WbemsmtStringEncrypter( String encryptionScheme ) throws EncryptionException
-     {
-          this( encryptionScheme, DEFAULT_ENCRYPTION_KEY );
-     }
-
-     public WbemsmtStringEncrypter( String encryptionScheme, String encryptionKey )
+     public WbemsmtStringEncrypter( String encryptionKey )
                throws EncryptionException
      {
 
           if ( encryptionKey == null )
                     throw new IllegalArgumentException( "encryption key was null" );
           if ( encryptionKey.trim().length() < 24 )
-                    throw new IllegalArgumentException(
-                              "encryption key was less than 24 characters" );
+                    throw new IllegalArgumentException("encryption key was less than 24 characters" );
 
           try
           {
                byte[] keyAsBytes = encryptionKey.getBytes( UNICODE_FORMAT );
-
-               if ( encryptionScheme.equals( DESEDE_ENCRYPTION_SCHEME) )
-               {
-                    keySpec = new DESedeKeySpec( keyAsBytes );
-               }
-               else if ( encryptionScheme.equals( DES_ENCRYPTION_SCHEME ) )
-               {
-                    keySpec = new DESKeySpec( keyAsBytes );
-               }
-               else
-               {
-                    throw new IllegalArgumentException( "Encryption scheme not supported: "
-                                                                 + encryptionScheme );
-               }
-
-               keyFactory = SecretKeyFactory.getInstance( encryptionScheme );
-               cipher = Cipher.getInstance( encryptionScheme );
+               cipher = Cipher.getInstance( DES_TRANSFORMATION );
+               keySpec = new DESKeySpec( keyAsBytes );
+               keyFactory = SecretKeyFactory.getInstance( DES_ENCRYPTION_SCHEME );
 
           }
-          catch (InvalidKeyException e)
-          {
-               throw new EncryptionException( e );
-          }
-          catch (UnsupportedEncodingException e)
-          {
-               throw new EncryptionException( e );
-          }
-          catch (NoSuchAlgorithmException e)
-          {
-               throw new EncryptionException( e );
-          }
-          catch (NoSuchPaddingException e)
+          catch (Exception e)
           {
                throw new EncryptionException( e );
           }
@@ -113,6 +77,7 @@ public class WbemsmtStringEncrypter
           {
                SecretKey key = keyFactory.generateSecret( keySpec );
                cipher.init( Cipher.ENCRYPT_MODE, key );
+               
                byte[] cleartext = unencryptedString.getBytes( UNICODE_FORMAT );
                byte[] ciphertext = cipher.doFinal( cleartext );
 
@@ -136,7 +101,9 @@ public class WbemsmtStringEncrypter
                byte[] cleartext = Base64.decode(encryptedString.getBytes());
                byte[] ciphertext = cipher.doFinal( cleartext );
 
-               return bytes2String( ciphertext );
+               String result = bytes2String( ciphertext );
+               return result;
+               
           }
           catch (Exception e)
           {

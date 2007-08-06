@@ -50,12 +50,10 @@ public class WbemsmtCookieUtil {
 
 	static
 	{
-        //String encryptionKey = "123456789012345678901234567890";
-		  String encryptionKey = "43793rduskafhkdsf932468624kdb3dsdasfsadfsa";
-        String encryptionScheme = WbemsmtStringEncrypter.DES_ENCRYPTION_SCHEME;
+		String encryptionKey = "43793rduskafhkdsf932468624kdb3dsdasfsadfsa";
 
         try {
-			encrypter = new WbemsmtStringEncrypter( encryptionScheme, encryptionKey );
+			encrypter = new WbemsmtStringEncrypter( encryptionKey );
 		} catch (EncryptionException e) {
 			logger.log(Level.SEVERE, "Cannot create encrypter", e);
 		}
