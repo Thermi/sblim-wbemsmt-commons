@@ -163,20 +163,16 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 					if (treeConfig.serverTaskExists(cimClient))
 					{
 						readNodes = true;
-						
-						String msg = bundle.getString(ErrCodes.MSG_TASK_SUPPORTED,"task.supported", new Object[]{treeConfigData.getName(),cimClient.getNameSpace().getHost()});
-						JsfUtil.addMessage(new Message(ErrCodes.MSG_TASK_SUPPORTED,Message.INFO,msg));
+						JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_SUPPORTED,Message.INFO,bundle,"task.supported", new Object[]{treeConfigData.getName(),cimClient.getNameSpace().getHost()}));
 					}
 					else
 					{
-						String msg = bundle.getString(ErrCodes.MSG_TASK_NOT_SUPPORTED_SERVER,"task.not.supported.on.server", new Object[]{treeConfigData.getName(),cimClient.getNameSpace().getHost()});
-						JsfUtil.addMessage(new Message(ErrCodes.MSG_TASK_NOT_SUPPORTED_SERVER,Message.ERROR,msg));
+						JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_NOT_SUPPORTED_SERVER,Message.ERROR,bundle,"task.not.supported.on.server", new Object[]{treeConfigData.getName(),cimClient.getNameSpace().getHost()}));
 					}
 				}
 				else
 				{
-					String msg = bundle.getString(ErrCodes.MSG_TASK_NOT_SUPPORTED_CLIENT,"task.not.supported.on.client", new Object[]{treeConfigData.getName()});
-					JsfUtil.addMessage(new Message(ErrCodes.MSG_TASK_NOT_SUPPORTED_CLIENT,Message.ERROR,msg));
+					JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_NOT_SUPPORTED_CLIENT,Message.ERROR,bundle,"task.not.supported.on.client",new Object[]{treeConfigData.getName()}));
 				}
 				
 				if (readNodes)

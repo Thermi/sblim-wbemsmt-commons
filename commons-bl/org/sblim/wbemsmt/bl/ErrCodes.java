@@ -153,10 +153,14 @@ public class ErrCodes
 	public static final MessageNumber MSG_TASK_NOT_SUPPORTED = new MessageNumber(COMPONENT,SUBSYS_WTR,2);
 	public static final MessageNumber MSG_TASK_NOT_SUPPORTED_SERVER = new MessageNumber(COMPONENT,SUBSYS_WTR,3);
 	public static final MessageNumber MSG_TASK_NOT_SUPPORTED_CLIENT = new MessageNumber(COMPONENT,SUBSYS_WTR,4);
-	public static final MessageNumber MSG_HOST_NOT_FOUND =  new MessageNumber(COMPONENT,SUBSYS_WTR,5);
+	public static final MessageNumber MSG_HOST_NOT_FOUND_TASKS_ADDED =  new MessageNumber(COMPONENT,SUBSYS_WTR,5);
 
 	public static final MessageDefinition MSGDEF_EMPTY_PASSWORD_AND_PASSWORD_SET = new MessageDefinition(new MessageNumber(ErrCodes.COMPONENT,SUBSYS_WTR,6),Message.ERROR,"empty.password.and.password.set");
-
+	public static final MessageDefinition MSGDEF_TASKSLAUNCHER_D_NOT_FOUND = new MessageDefinition(new MessageNumber(ErrCodes.COMPONENT,SUBSYS_WTR,7),Message.ERROR,"tasklauncher.d.not.found");
+	public static final MessageNumber MSG_HOST_NOT_FOUND =  new MessageNumber(COMPONENT,SUBSYS_WTR,8);
+	public static final MessageDefinition MSGDEF_NO_TASKS_FOUND = new MessageDefinition(new MessageNumber(ErrCodes.COMPONENT,SUBSYS_WTR,9),Message.ERROR,"no.tasks.found");
+	
+	
 	/**
 	 * ADM - Wbemsmt Tasklauncher admin
 	 */

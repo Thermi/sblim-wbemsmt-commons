@@ -165,7 +165,14 @@ public class TaskLauncherController implements Cleanup
 				{
 					if (RuntimeUtil.getInstance().isJSF())
 					{
-						JsfUtil.addMessage(Message.create(ErrCodes.MSG_HOST_NOT_FOUND,Message.INFO,bundle,"host.not.found.tasks.added", new Object[]{cimClient.getNameSpace().getHost()}));
+						if (taskLauncherConfig.getTreeConfigData().size() > 0)
+						{
+							JsfUtil.addMessage(Message.create(ErrCodes.MSG_HOST_NOT_FOUND_TASKS_ADDED,Message.INFO,bundle,"host.not.found.tasks.added", new Object[]{cimClient.getNameSpace().getHost()}));
+						}
+						else
+						{
+							JsfUtil.addMessage(Message.create(ErrCodes.MSG_HOST_NOT_FOUND,Message.INFO,bundle,"host.not.found", new Object[]{cimClient.getNameSpace().getHost()}));
+						}
 					}
 					for (Iterator iter = taskLauncherConfig.getTreeConfigData().iterator(); iter.hasNext();) {
 						TaskLauncherConfig.TreeConfigData configData = (TaskLauncherConfig.TreeConfigData) iter.next();
@@ -191,19 +198,16 @@ public class TaskLauncherController implements Cleanup
 					{
 						if (treeConfig.serverTaskExists(cimClient))
 						{
-							String msg = bundle.getString(ErrCodes.MSG_TASK_SUPPORTED,"task.supported", new Object[]{configData.getName(),cimClient.getNameSpace().getHost()});
-							JsfUtil.addMessage(new Message(ErrCodes.MSG_TASK_SUPPORTED,Message.INFO,msg));
+							JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_SUPPORTED,Message.INFO,bundle,"task.supported", new Object[]{configData.getName(),cimClient.getNameSpace().getHost()}));
 						}
 						else
 						{
-							String msg = bundle.getString(ErrCodes.MSG_TASK_NOT_SUPPORTED_SERVER,"task.not.supported.on.server", new Object[]{configData.getName(),cimClient.getNameSpace().getHost()});
-							JsfUtil.addMessage(new Message(ErrCodes.MSG_TASK_NOT_SUPPORTED_SERVER,Message.ERROR,msg));
+							JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_NOT_SUPPORTED_SERVER,Message.ERROR,bundle,"task.not.supported.on.server", new Object[]{configData.getName(),cimClient.getNameSpace().getHost()}));
 						}
 					}
 					else
 					{
-						String msg = bundle.getString(ErrCodes.MSG_TASK_NOT_SUPPORTED_CLIENT,"task.not.supported.on.client", new Object[]{configData.getName()});
-						JsfUtil.addMessage(new Message(ErrCodes.MSG_TASK_NOT_SUPPORTED_CLIENT,Message.ERROR,msg));
+						JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_NOT_SUPPORTED_CLIENT,Message.ERROR,bundle,"task.not.supported.on.client", new Object[]{configData.getName()}));
 					}
 				}
 			}

@@ -18,11 +18,7 @@
 
 package org.sblim.wbemsmt.tasklauncher;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -35,6 +31,8 @@ import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 
 import org.sblim.wbem.client.CIMClient;
+import org.sblim.wbemsmt.bl.ErrCodes;
+import org.sblim.wbemsmt.bl.adapter.MessageUtil;
 import org.sblim.wbemsmt.exception.ModelLoadException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.filter.EmbeddedFilter;
@@ -203,7 +201,7 @@ public class TaskLauncherConfig
 		if (!hasConfiguration)
 		{
 			CimomData cimomData = new CimomData("",TaskLauncherConfig.DEFAULT_PORT,DEFAULT_NAMESPACE,DEFAULT_NAMESPACE,"");
-			cimomData.addTreeConfig(new TreeConfigData("noConfig","noConfig.xml","","messages",null,null,null));
+			//cimomData.addTreeConfig(new TreeConfigData("noConfig","noConfig.xml","","messages",null,null,null));
 			this.cimomData.add(cimomData);
 		}
 	}
@@ -256,7 +254,7 @@ public class TaskLauncherConfig
         
         if (cimomData.getTreeConfigs().size() == 0)
         {
-        	cimomData.addTreeConfig(new TreeConfigData("No Configuration found","noConfig.xml","noConfig","messages",null,null,null));
+        	//cimomData.addTreeConfig(new TreeConfigData("No Configuration found","noConfig.xml","noConfig","messages",null,null,null));
         }
         
 		this.cimomData.add(cimomData);
@@ -732,17 +730,31 @@ public class TaskLauncherConfig
 				throw new FileNotFoundException(tasksDir.getAbsolutePath());
 			} catch (FileNotFoundException e) {
 				logger.log(Level.SEVERE, "Cannot find taskdirectory", e);
+				MessageUtil.addMessage(ErrCodes.MSGDEF_TASKSLAUNCHER_D_NOT_FOUND, new String[]{"messages"}, new Object[]{getConfigDirectory() + TASKS_DIR});
 			}
+			return new File[]{};
+		}
+		else
+		{
+			File[] files = tasksDir.listFiles(new FilenameFilter()
+			{
+				
+				public boolean accept(File dir, String name) {
+					return name.endsWith(".xml");
+				}
+			});
+			if (files == null)
+			{
+				files = new File[]{};
+			}
+			if (files.length == 0)
+			{
+				MessageUtil.addMessage(ErrCodes.MSGDEF_NO_TASKS_FOUND, new String[]{"messages"}, new Object[]{getConfigDirectory() + TASKS_DIR});
+			}
+			
+			return files;
 		}
 		
- 		File[] files = tasksDir.listFiles(new FilenameFilter()
- 		{
-
-			public boolean accept(File dir, String name) {
-				return name.endsWith(".xml");
-			}
- 		});
-		return files;
 	}
 
 	private String getConfigDirectory() {
