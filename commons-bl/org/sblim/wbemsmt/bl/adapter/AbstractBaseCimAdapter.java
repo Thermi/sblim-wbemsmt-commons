@@ -1308,6 +1308,12 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	public void setCustomTreeConfig(CustomTreeConfig customTreeConfig) {
 		this.customTreeConfig = customTreeConfig;
 	}
+
+	public CustomTreeConfig getCustomTreeConfig() {
+		return customTreeConfig;
+	}
+	
+	
 	
 	
 }

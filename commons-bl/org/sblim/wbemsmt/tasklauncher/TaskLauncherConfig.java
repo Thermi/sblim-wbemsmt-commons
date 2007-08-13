@@ -21,10 +21,7 @@ package org.sblim.wbemsmt.tasklauncher;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,6 +38,8 @@ import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TasklauncherconfigDocum
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TreeconfigDocument;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.Version;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.CimomDocument.Cimom;
+import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.ConfigurationDefinitionDocument.ConfigurationDefinition;
+import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.ConfigurationValueDocument.ConfigurationValue;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.FcoPackageDocument.FcoPackage;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.ResourceBundleDocument.ResourceBundle;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TasklauncherconfigDocument.Tasklauncherconfig;
@@ -82,7 +81,7 @@ public class TaskLauncherConfig
 	
 	public final static int DEFAULT_PORT = 5988;
 
-	private static final Enum[] SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS = new Enum[]{Version.VERSION_2_0,Version.VERSION_2_1,Version.VERSION_2_2};
+	private static final Enum[] SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS = new Enum[]{Version.VERSION_2_0,Version.VERSION_2_1,Version.VERSION_2_2,Version.VERSION_2_3};
 	
     private static Logger logger = Logger.getLogger(TaskLauncherConfig.class.getName());
 
@@ -117,7 +116,7 @@ public class TaskLauncherConfig
 		this.useSlp = useSlp;
 		this.slpLoader = slpLoader;
     	init();
-        this.readConfig();
+        this.readConfig(); 
     }    
     
 	private void init() {
@@ -154,7 +153,7 @@ public class TaskLauncherConfig
         catch(Exception e)
         {
         	logger.log(Level.SEVERE, "Error while loading config file.", e);
-        	throw new WbemSmtException(bundle.getString("cannot.load.config.file", new Object[]{configFile.getAbsolutePath()}));
+        	throw new WbemSmtException(bundle.getString("cannot.load.config.file", new Object[]{configFile.getAbsolutePath()}),e);
         }
     }
 
@@ -238,7 +237,7 @@ public class TaskLauncherConfig
 				TreeConfigData treeConfigData = (TreeConfigData) iter.next();
 				if (treeConfigData.getName().equals(reference.getName()))
 				{
-					cimomData.addTreeConfig(treeConfigData);
+					cimomData.addTreeConfig(treeConfigData,reference);
 					found = true;
 				}
 			}
@@ -371,7 +370,9 @@ public class TaskLauncherConfig
 		private String lookupClass;
 		private String embeddedFilterClass;
 		private final String welcomeListenerClass;
-        
+        private final Map configMap = new HashMap();
+		
+		
         public TreeConfigData(String name, String filename, String slpServicename, String bundle, String lookupClass, String embeddedFilterClass, String welcomeListenerClass)
         {
             this.name = name;
@@ -422,8 +423,14 @@ public class TaskLauncherConfig
 				{
 					throw new RuntimeException(RuntimeUtil.getInstance().getRuntime() + " is not supported");
 				}
-				
 			}
+            
+            ConfigurationDefinition[] definitions = treeconfig.getConfigurationDefinitionArray();
+            for (int i = 0; i < definitions.length; i++) {
+				ConfigurationDefinition definition = definitions[i];
+				configMap.put(definition.getName(), new ConfigurationValueData(definition.getName(),definition.getDefaultValue()));
+			}
+            
         }
         
         public String getName()
@@ -468,6 +475,53 @@ public class TaskLauncherConfig
 				return null;
 			}
 		}
+
+		/**
+		 * overwrite the value of the given configuration with the value of the value object
+		 * 
+		 * The initial value is set by using the default value of the configuration entry
+		 * 
+		 * @param value
+		 */
+		public void overwriteConfigValue(ConfigurationValue value) {
+			ConfigurationValueData configurationValue = getConfigurationValue(value.getName());
+			if (configurationValue != null)
+			{
+				configurationValue.setValue(value.getValue());
+			}
+			else
+			{
+				logger.warning("The configurationValue " + value.getName() + " was not found in definition for task " + name);
+			}
+		}
+		
+		/**
+		 * Returns the configured configuration value
+		 * @param key
+		 * @return
+		 */
+		public ConfigurationValueData getConfigurationValue(String key)
+		{
+			return (ConfigurationValueData) configMap.get(key);
+		}
+		
+		/**
+		 * return the Map with all the configuration values
+		 * 
+		 * key: The key as string
+		 * value: ConfigurationValueData object
+		 * 
+		 * @return
+		 * @see ConfigurationValueData
+		 */
+		public Map getConfigurationMap()
+		{
+			Map result = new HashMap();
+			result.putAll(configMap);
+			return result;
+		}
+		
+		
     }
     
     // just a DTO
@@ -483,7 +537,7 @@ public class TaskLauncherConfig
                        user;
         private int port;
 		private Vector treeConfigs = new Vector();
-        
+		
         public CimomData()
         {
             this.hostname = new String();
@@ -514,10 +568,28 @@ public class TaskLauncherConfig
             this.user = TaskLauncherConfig.DEFAULT_USER;
 		}
 
-		public void addTreeConfig(TreeConfigData treeConfigData) {
-        	treeConfigs.add(treeConfigData);
-		}
+        /**
+         * Add the treeconfig to the treeconfigs of the configuration
+         * If the reference is not null all the configValues of the reference are overwritting the 
+         * current configValues of the TreeConfigData
+         * 
+         *  
+         * @param treeConfigData
+         * @param reference
+         */
+		public void addTreeConfig(TreeConfigData treeConfigData, TreeconfigReference reference) {
+			treeConfigs.add(treeConfigData);
 
+			if (reference != null)
+			{
+				ConfigurationValue[] values = reference.getConfigurationValueArray();
+				for (int i = 0; i < values.length; i++) {
+					treeConfigData.overwriteConfigValue(values[i]);	
+				}
+			}
+			
+		}
+		
         public Vector getTreeConfigs() {
 			return treeConfigs;
 		}
@@ -582,8 +654,36 @@ public class TaskLauncherConfig
 		public void setTreeConfigs(Vector configs) {
 			this.treeConfigs = configs;
 		}
+    }
+    
+    public static class ConfigurationValueData
+    {
+    	private String name;
+    	private String value;
 		
-		
+    	public ConfigurationValueData(String name, String value) {
+			super();
+			this.name = name;
+			this.value = value;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getValue() {
+			return value;
+		}
+
+		public void setValue(String value) {
+			this.value = value;
+		}
+    	
+    	
     }
 
 	public boolean getHasConfiguration() {

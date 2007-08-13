@@ -99,6 +99,27 @@ public class ResourceBundleManager
 		}
 	}
 	
+	/**
+	 * loads all the given ResourceBundle in the given order. New read resorceBundles are added to existing ones.
+	 * If there exists a entry with the same key in two bundles the value of that resourceBundle which is last in Array is used.
+	 * 
+	 * USES THE DEFAULT LOCALE
+	 * 
+	 * @param bundles The Names of the Properties (e.g. use new String[]{"messages","messagesDns"} to first read the messages.properties and then overwrite this bundle with the messagesDns ResourceBundle
+	 *
+	 * The loaded ResourceBundle is cached.
+	 * 
+	 * @return
+	 */
+	public static synchronized WbemSmtResourceBundle getResourceBundle(org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.ResourceBundleDocument.ResourceBundle[] bundles)
+	{
+		String[] array = new String[bundles.length];
+		for (int i = 0; i < array.length; i++) {
+			array[i] = bundles[i].getName();
+		}
+		return getResourceBundle(array);
+	}
+	
 	public static synchronized WbemSmtResourceBundle reloadResourceBundle(String[] array)
 	{
 		if (RuntimeUtil.getInstance().isJSF())

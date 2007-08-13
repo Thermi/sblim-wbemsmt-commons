@@ -11,6 +11,16 @@ Update from unknown to VERSION_2_1
 
 Update from unknown to VERSION_2_2
 
- 	- Modifed Attribute version of root-element tasklauncherconfig (version="VERSION_2_1")
+ 	- Modifed Attribute version of root-element tasklauncherconfig (version="VERSION_2_2")
  	- ADD Attribute applicationNamespace to element cimom (optional)
+
+Update from unknown to VERSION_2_3
+
+ 	- Modifed Attribute version of root-element tasklauncherconfig (version="VERSION_2_3")
+ 	- Add optional element configurationDefinition below parent treeconfig to define configuration attributes for tasks
+ 	  Example:
+ 	     <configurationDefinition name="metricUpdateInterval" defaultValue="2000" info="<key for the translated infoText>"/>
+ 	- Add optional element configurationValue below parent treeconfigReference to define configuration values for referenced tasks
+ 	  Example:
+ 	     <tas:configurationValue name="metricUpdateInterval" value="1000"/>
  	

@@ -10,14 +10,14 @@
 			<xs:attribute name="namespace" type="xs:string"/>
 			<xs:attribute name="applicationNamespace" type="xs:string" default="/root/cimv2"/>
 			<xs:attribute name="port" type="xs:int"/>
-			<xs:attribute name="protocol" type="xs:string" use="required"/>
+			<xs:attribute name="protocol" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="tasklauncherconfig">
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="tasklauncher:cimom" minOccurs="0" maxOccurs="unbounded"/>
-				<xs:element ref="tasklauncher:treeconfig" maxOccurs="unbounded"/>
+				<xs:element ref="tasklauncher:treeconfig" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 			<xs:attribute name="version" type="tasklauncher:version" use="required"/>
 		</xs:complexType>
@@ -27,6 +27,7 @@
 			<xs:sequence>
 				<xs:element ref="tasklauncher:fcoPackage" maxOccurs="unbounded"/>
 				<xs:element ref="tasklauncher:resourceBundle" maxOccurs="unbounded"/>
+				<xs:element ref="tasklauncher:configurationDefinition" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 			<xs:attribute name="name" type="xs:string" use="required"/>
 			<xs:attribute name="filename" type="xs:string" use="required"/>
@@ -38,6 +39,9 @@
 	</xs:element>
 	<xs:element name="treeconfigReference">
 		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tasklauncher:configurationValue" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
 			<xs:attribute name="name" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
@@ -51,6 +55,19 @@
 			<xs:attribute name="name" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="configurationDefinition">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="defaultValue" type="xs:string" use="required"/>
+			<xs:attribute name="info" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="configurationValue">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="value" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
 		<xs:simpleType name="version">
         <xs:annotation>
         	<xs:documentation>
@@ -61,6 +78,7 @@
 			<xs:enumeration value="VERSION_2_0"/>
 			<xs:enumeration value="VERSION_2_1"/>
 			<xs:enumeration value="VERSION_2_2"/>
+			<xs:enumeration value="VERSION_2_3"/>
 		</xs:restriction>
 	</xs:simpleType>
 	
