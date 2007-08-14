@@ -56,6 +56,7 @@ import org.sblim.wbemsmt.exception.UpdateControlsException;
 import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tasklauncher.CustomTreeConfig;
+import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.ConfigurationValueData;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
@@ -123,6 +124,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	
 	private RemoveDataContainerThread removeDataContainerThread;
 	protected CustomTreeConfig customTreeConfig;
+	private Map configurationValues;
 	
 	public AbstractBaseCimAdapter()
 	{
@@ -1307,10 +1309,42 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 	public void setCustomTreeConfig(CustomTreeConfig customTreeConfig) {
 		this.customTreeConfig = customTreeConfig;
+		setConfigurationValues(customTreeConfig.getTreeConfigData().getConfigurationMap());		
 	}
 
 	public CustomTreeConfig getCustomTreeConfig() {
 		return customTreeConfig;
+	}
+
+	public Map getConfigurationValues() {
+		return configurationValues;
+	}
+
+	/**
+	 * expects a map with the name of the configurationValue as key and the ConfigurationValueData objects as value 
+	 * @param configurationValues
+	 * @see ConfigurationValueData
+	 */
+	public void setConfigurationValues(Map configurationValues) {
+		this.configurationValues = configurationValues;
+	}
+	
+	/**
+	 * get the configured value
+	 * @param key
+	 * @return the value or null if for the given key no value was found
+	 */
+	public String getConfigurationValue(String key)
+	{
+		if (configurationValues != null && configurationValues.get(key) != null)
+		{
+			ConfigurationValueData value = (ConfigurationValueData) configurationValues.get(key);
+			return value.getValue();
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	

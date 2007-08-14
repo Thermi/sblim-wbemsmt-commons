@@ -656,6 +656,9 @@ public class TaskLauncherConfig
 		}
     }
     
+    /**
+     * A DTO to hold the configuration Entries
+     */
     public static class ConfigurationValueData
     {
     	private String name;
