@@ -81,11 +81,15 @@ public abstract class EditBean extends JsfBase{
 	
 	public String revert(boolean silent) throws ObjectRevertException
 	{
-		EditBean.revert(containers,bundle,silent);
+		return revert(true,silent);
+	}
+
+	public String revert(boolean doUpdateControls, boolean silent) throws ObjectRevertException {
+		EditBean.revert(containers,bundle,doUpdateControls,silent);
 		return EditBean.PAGE_EDIT;
 	}
 	
-	public static MessageList revert(List containers, WbemSmtResourceBundle bundle, boolean silent) throws ObjectRevertException {
+	public static MessageList revert(List containers, WbemSmtResourceBundle bundle, boolean doUpdateControls, boolean silent) throws ObjectRevertException {
 
 		DataContainerUtil.clearContainerMessages(containers);
 		
@@ -98,18 +102,22 @@ public abstract class EditBean extends JsfBase{
 			}
 		}
 
-		for (Iterator iter = containers.iterator(); iter.hasNext();) {
-			DataContainer dataContainer = (DataContainer) iter.next();
-			try {
-				dataContainer.getAdapter().updateControls(dataContainer);
-				if (MessageList.init(dataContainer).hasErrors())
-				{
-					return DataContainerUtil.getContainerMessages(containers);
+		if (doUpdateControls)
+		{
+			for (Iterator iter = containers.iterator(); iter.hasNext();) {
+				DataContainer dataContainer = (DataContainer) iter.next();
+				try {
+					dataContainer.getAdapter().updateControls(dataContainer);
+					if (MessageList.init(dataContainer).hasErrors())
+					{
+						return DataContainerUtil.getContainerMessages(containers);
+					}
+				} catch (UpdateControlsException e) {
+					throw new ObjectRevertException("Cannot updateControls after Reverting the changes",e);
 				}
-			} catch (UpdateControlsException e) {
-				throw new ObjectRevertException("Cannot updateControls after Reverting the changes",e);
 			}
 		}
+		
 		
 		MessageList messages = DataContainerUtil.getContainerMessages(containers);
 		if (!silent)
@@ -360,6 +368,7 @@ public abstract class EditBean extends JsfBase{
     	ObjectActionControllerBean oac = (ObjectActionControllerBean) BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
     	oac.clearEditBeansModified();
     }
+
 
 
 }

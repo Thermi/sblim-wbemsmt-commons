@@ -75,7 +75,7 @@ public class JsfEditListener extends TaskLauncherContextMenuEventListenerImpl im
 			try
 			{
     			EditBean bean = (EditBean)editBeans.get(i);
-    			bean.revert(silent);
+    			bean.revert(doUpdateControls,silent);
     			foundErrors = DataContainerUtil.getContainerMessages(bean.getContainers()).hasErrors();
 			}
 			catch (Exception e)
