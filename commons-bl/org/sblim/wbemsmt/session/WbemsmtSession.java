@@ -17,16 +17,18 @@
   * Description: Wbemsmt Session object
   * 
   */
-package org.sblim.wbemsmt.session.jsf;
+package org.sblim.wbemsmt.session;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 
+import org.sblim.wbem.client.CIMClient;
+import org.sblim.wbemsmt.cim.CIMClientPool;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
@@ -38,6 +40,8 @@ public class WbemsmtSession {
 	
 	private static WbemsmtSession session;
 	private Map sessionData = new HashMap();
+	
+	static Logger logger = Logger.getLogger(WbemsmtSession.class.getName());
 	
 	public void removeAttribute(String key)
 	{
@@ -57,6 +61,11 @@ public class WbemsmtSession {
 	public void clear()
 	{
 		sessionData.clear();
+	}
+	
+	public void initClientPool()
+	{
+		
 	}
 	
 	/**
@@ -114,5 +123,56 @@ public class WbemsmtSession {
 			removeAttribute(key);
 		}
 	}
+
+	/**
+	 * Create a new CIMCLient pool
+	 * @param hostname the name of the target host
+	 * @param port the port of the target host
+	 * @param username  the user's name for the connection
+	 * @param password the user's password for the connection
+	 * @return
+	 * @throws UnknownHostException if the hostname cannot be resolved
+	 */
 	
+	public CIMClientPool createCIMClientPool(String hostname, String port, String username, String password) throws UnknownHostException {
+		
+		 String key = InetAddress.getByName(hostname).getHostName() + "-clientPool";
+		 CIMClientPool pool = new CIMClientPool(hostname,port,username,password.toCharArray());
+		 setAttribute(key, pool);
+		 return pool;
+	}
+	
+	/**
+	 * Get the client pool for the given target hostname
+	 * 
+	 * if there is no client pool the method returns null. In that case the method
+	 * createCIMClientPool should be used to create a new one 
+	 * 
+	 * @param hostname
+	 * @return
+	 * 
+	 * @see #createCIMClientPool(String, String, String, String)
+	 */
+	public CIMClientPool getCIMClientPool(String hostname) {
+		
+		 try {
+			String key = InetAddress.getByName(hostname).getHostName() + "-clientPool";
+			 CIMClientPool pool = (CIMClientPool) getAttribute(key);
+			 return pool;
+		} catch (UnknownHostException e) {
+			//should not occur, because the method createCIMClientPool uses the same hostname
+			logger.log(Level.SEVERE, "Cannot get CimClientPool for hostname " + hostname, e);
+		}
+		return null;
+	}
+
+	/**
+	 * return a cimClient pool for the host contained in the cimClient
+	 * @param cimClient
+	 * @return
+	 */
+	public CIMClientPool getCIMClientPool(CIMClient cimClient) {
+		return getCIMClientPool(cimClient.getNameSpace().getHost());
+	}
+
 }

@@ -17,10 +17,10 @@
   * Description: TODO
   * 
   */
-package org.sblim.wbemsmt.session;
+package org.sblim.wbemsmt.session.jsf;
 
 import org.sblim.wbemsmt.bl.Cleanup;
-import org.sblim.wbemsmt.session.jsf.WbemsmtSession;
+import org.sblim.wbemsmt.session.WbemsmtSession;
 
 /**
  * @author Bauschert

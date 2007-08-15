@@ -81,7 +81,10 @@ public class TaskLauncherConfig
 	
 	public final static int DEFAULT_PORT = 5988;
 
-	private static final Enum[] SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS = new Enum[]{Version.VERSION_2_0,Version.VERSION_2_1,Version.VERSION_2_2,Version.VERSION_2_3};
+	private static final Enum VERSION_FOR_CREATE = Version.VERSION_2_4;
+
+	private static final Enum[] SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS = new Enum[]{Version.VERSION_2_0,Version.VERSION_2_1,Version.VERSION_2_2,Version.VERSION_2_3,Version.VERSION_2_4};
+
 	
     private static Logger logger = Logger.getLogger(TaskLauncherConfig.class.getName());
 
@@ -199,7 +202,7 @@ public class TaskLauncherConfig
 		hasConfiguration = cimoms.length > 0;
 		if (!hasConfiguration)
 		{
-			CimomData cimomData = new CimomData("",TaskLauncherConfig.DEFAULT_PORT,DEFAULT_NAMESPACE,DEFAULT_NAMESPACE,"");
+			CimomData cimomData = new CimomData("",TaskLauncherConfig.DEFAULT_PORT,DEFAULT_NAMESPACE,"");
 			//cimomData.addTreeConfig(new TreeConfigData("noConfig","noConfig.xml","","messages",null,null,null));
 			this.cimomData.add(cimomData);
 		}
@@ -533,7 +536,6 @@ public class TaskLauncherConfig
 		private static final long serialVersionUID = -7105076857317689934L;
 		private String hostname,
                        namespace,
-                       applicationNamespace,
                        user;
         private int port;
 		private Vector treeConfigs = new Vector();
@@ -542,29 +544,26 @@ public class TaskLauncherConfig
         {
             this.hostname = new String();
             this.namespace = new String();
-            this.applicationNamespace = new String();
             this.user = new String();
         }
         
-		public CimomData(String hostname, int port, String namespace, String applicationNamespace, String user)
+		public CimomData(String hostname, int port, String namespace, String user)
         {
             this.hostname = hostname;
             this.port = port;
             this.namespace = namespace;
-            this.applicationNamespace = applicationNamespace;
             this.user = user;
         }
         
         public CimomData(CimomDocument.Cimom cimom)
         {
-            this(cimom.getHostname(), cimom.getPort(), cimom.getNamespace(), cimom.getApplicationNamespace(), cimom.getUser());
+            this(cimom.getHostname(), cimom.getPort(), cimom.getNamespace(), cimom.getUser());
         }
 
         public CimomData(SLPHostDefinition definition) {
             this.hostname = definition.getHostname();
             this.port = definition.getPort();
             this.namespace = definition.getNamespace();
-            this.applicationNamespace = TaskLauncherConfig.DEFAULT_NAMESPACE;
             this.user = TaskLauncherConfig.DEFAULT_USER;
 		}
 
@@ -613,14 +612,6 @@ public class TaskLauncherConfig
         {
             this.namespace = namespace;
         }
-
-        public String getApplicationNamespace() {
-			return applicationNamespace;
-		}
-
-		public void setApplicationNamespace(String applicationNamespace) {
-			this.applicationNamespace = applicationNamespace;
-		}
 
 		public String getUser()
         {
@@ -728,7 +719,7 @@ public class TaskLauncherConfig
 		
 		TasklauncherconfigDocument document = TasklauncherconfigDocument.Factory.newInstance();
 		Tasklauncherconfig tasklauncherconfig = document.addNewTasklauncherconfig();
-		tasklauncherconfig.setVersion(Version.VERSION_2_1);
+		tasklauncherconfig.setVersion(VERSION_FOR_CREATE);
 		Cimom cimom = tasklauncherconfig.addNewCimom();
 		cimom.setHostname(TaskLauncherConfig.DEFAULT_HOST);
 		cimom.setNamespace(TaskLauncherConfig.DEFAULT_NAMESPACE);
@@ -878,7 +869,7 @@ public class TaskLauncherConfig
 	public static CimomData getDefaultCimomData(CIMClient cimClient) {
 		return new CimomData(cimClient.getNameSpace().getHost(), cimClient
 				.getNameSpace().getPort(), cimClient.getNameSpace()
-				.getNameSpace(), cimClient.getNameSpace().getNameSpace(),
+				.getNameSpace(),
 				cimClient.getSessionProperties().getDefaultPrincipal());
 	}
 

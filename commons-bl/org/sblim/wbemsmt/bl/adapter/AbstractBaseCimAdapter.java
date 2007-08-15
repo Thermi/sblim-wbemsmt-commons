@@ -1023,8 +1023,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	/**
 	 * set the CimClient of this Adapter
 	 * @param cimClient
+	 * @throws ModelLoadException 
 	 */
-	public void setCimClient(CIMClient cimClient) {
+	public void setCimClient(CIMClient cimClient) throws ModelLoadException {
 		this.cimClient = cimClient;
 	}
 

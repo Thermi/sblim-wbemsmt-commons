@@ -19,33 +19,13 @@
   */
 package org.sblim.wbemsmt.tools.cli;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.MissingArgumentException;
-import org.apache.commons.cli.MissingOptionException;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
-import org.apache.commons.cli.UnrecognizedOptionException;
+import org.apache.commons.cli.*;
 import org.apache.commons.lang.ClassUtils;
-import org.sblim.wbem.cim.CIMException;
 import org.sblim.wbem.cim.CIMNameSpace;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbem.client.PasswordCredential;
@@ -58,6 +38,7 @@ import org.sblim.wbemsmt.exception.ExceptionUtil;
 import org.sblim.wbemsmt.exception.LoginException;
 import org.sblim.wbemsmt.exception.ObjectUpdateException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.session.WbemsmtSession;
 import org.sblim.wbemsmt.tools.converter.StringArrayConverter;
 import org.sblim.wbemsmt.tools.input.ActionComponent;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
@@ -431,13 +412,19 @@ public abstract class CimCommand {
 					
 		out.println(bundle.getString("connectToServer", new Object[]{url,userName}));
 		
-		CIMClient cimClient = new CIMClient(cimNameSpace, userPrincipal, passwordCredential);
+		CIMClient cimClient = null;
 		try {
+			WbemsmtSession.getSession().createCIMClientPool(server,strPort,userName,strPassword);
+			cimClient = WbemsmtSession.getSession().getCIMClientPool(server).getCIMClient(namespace);
 			cimClient.enumerateClassNames();
-		} catch (CIMException e) {
+			return cimClient;
+		} catch (Exception e) {
+			if (cimClient == null)
+			{
+				cimClient =  new CIMClient(cimNameSpace, userPrincipal, passwordCredential);
+			}
 			throw new LoginException(e,cimClient);
 		}
-		return cimClient;
 	}
 
 	/**

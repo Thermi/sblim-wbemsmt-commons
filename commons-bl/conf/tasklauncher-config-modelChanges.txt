@@ -23,4 +23,10 @@ Update from unknown to VERSION_2_3
  	- Add optional element configurationValue below parent treeconfigReference to define configuration values for referenced tasks
  	  Example:
  	     <tas:configurationValue name="metricUpdateInterval" value="1000"/>
+
+Update from unknown to VERSION_2_4
+
+    - Change is compatible to 2_3
+ 	- Modifed Attribute version of root-element tasklauncherconfig (version="VERSION_2_4")
+ 	- Remove attribute applicationNamespace in cimom element
  	
