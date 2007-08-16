@@ -76,6 +76,11 @@ public class UnsignedInt64StringArrayConverter implements StringArrayConverter {
 	 */
 	public Object convertForModel(Object guiElement) {
 		
+		if (values == null)
+		{
+			return null;
+		}
+		
 		String text = (String)guiElement;
 		for (int i = 0; i < values.length; i++) {
 			String textInArray = values[i];
