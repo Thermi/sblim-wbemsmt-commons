@@ -19,7 +19,6 @@
  */
 package org.sblim.wbemsmt.tools.jsf;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.faces.component.UIPanel;
@@ -104,15 +103,18 @@ public abstract class EditBasePanel extends BasePanel implements DataContainer {
 						//subsequent getXYZ() calls are not leading to a infinite loop
 						requestMap.put(key, "true");				
 						
-						try {
-							Method m = this.getClass().getMethod("updateControls", null);
-							m.invoke(this, null);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+						this.updateControls();
+//						
+//						
+//						try {
+//							Method m = this.getClass().getMethod("updateControls", null);
+//							m.invoke(this, null);
+//						} catch (Exception e) {
+//							e.printStackTrace();
+//						}
+//						
 						
-						
-						this.getAdapter().updateControls(this);
+						//this.getAdapter().updateControls(this);
 						//this.updateControls();
 					} catch (UpdateControlsException e) {
 						e.printStackTrace();
