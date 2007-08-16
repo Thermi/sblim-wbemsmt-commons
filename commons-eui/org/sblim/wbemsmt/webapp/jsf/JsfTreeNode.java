@@ -552,6 +552,9 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
 		
 		result.append(JavascriptUtil.getCheckModificationsCall());
 		
+		//before we click on a node we should stop all Ajax requests to avoid race conditions
+		result.append("stopAllAjaxRequests=true;");
+		
 		if (isShowWaitOnClick())
 		{
 			String nodeName = getPlainDescription();
