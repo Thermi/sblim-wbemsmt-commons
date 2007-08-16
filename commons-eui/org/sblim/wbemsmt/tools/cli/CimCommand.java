@@ -52,6 +52,11 @@ public abstract class CimCommand {
 	 */
 	private static final String DEV_MODE = "DEV_MODE";
 	
+	/**
+	 * VM argument to diabled confirmations
+	 */
+	private static final String NO_CONFIRMATIONS = "NO_CONFIRMATIONS";
+	
 	private int errorCount = 0;
 	public Map optionsByKey = new HashMap();
 	protected final String commandName;
@@ -668,7 +673,7 @@ public abstract class CimCommand {
 		String msg = bundle.getString("continue.commandline");
 		String yes = bundle.getString("continue.commandline.yes","y");
 
-		if (Cli.testMode)
+		if (Cli.testMode || isNoConfirmationEnabled())
 		{
 			return true;
 		}
@@ -712,5 +717,10 @@ public abstract class CimCommand {
 	public boolean isDevModeEnabled()
 	{
 		return "true".equalsIgnoreCase(System.getProperty(CimCommand.DEV_MODE));
+	}
+
+	public boolean isNoConfirmationEnabled()
+	{
+		return "true".equalsIgnoreCase(System.getProperty(CimCommand.NO_CONFIRMATIONS));
 	}
 }
