@@ -19,6 +19,7 @@
   */
 package org.sblim.wbemsmt.tools.input.test;
 
+import org.apache.commons.lang.StringUtils;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.LabeledBaseHeaderComponentIf;
@@ -51,7 +52,7 @@ public class LabeledTestInputComponent extends LabeledBaseInputComponent impleme
 
 	public boolean isEmpty()
 	{
-		return value == null;
+		return StringUtils.isEmpty(value);
 	}
 	
 	public boolean isConvertible()
