@@ -47,7 +47,11 @@ import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
 public abstract class CimCommand {
 
+	/**
+	 * VM argument to switch to DEV_MODE which enables a richer tracing
+	 */
 	private static final String DEV_MODE = "DEV_MODE";
+	
 	private int errorCount = 0;
 	public Map optionsByKey = new HashMap();
 	protected final String commandName;
@@ -91,7 +95,7 @@ public abstract class CimCommand {
 	    
 		//check if the password is the only argument that is missing and query the user if thats the case
 		CommandLineParser parser = new PosixParser();
-		PasswordCheckResult result = checkPassword(parser,options,args,getLoginOptions());
+		PasswordCheckResult result = checkPassword(parser,options,args,getLoginOptions(),values);
 		args = result.getArgs();
 		values.setArgs(args);
 		
@@ -504,6 +508,34 @@ public abstract class CimCommand {
 	 * @param bundlekeyForCaption
 	 * @param messageList
 	 */
+	public void traceMessages(Message caption, MessageList messageList)
+	{
+		if (messageList.size() > 0)
+		{
+			commandValues.getOut().println(caption.toLocalizedString(bundle,true));
+			for (Iterator iter = messageList.iterator(); iter.hasNext();) {
+				Message msg = (Message) iter.next();
+				if (msg.isError())
+				{
+					commandValues.getErr().println(msg.toLocalizedString(bundle,true));
+				}
+				else
+				{
+					commandValues.getOut().println(msg.toLocalizedString(bundle,true));
+				}
+			}
+			if (Cli.testMode)
+			{
+				Cli.commandExecuted=!messageList.hasErrors();
+			}
+		}
+	}
+
+	/**
+	 * traces the error Messages
+	 * @param bundlekeyForCaption
+	 * @param messageList
+	 */
 	public void traceMessages(MessageList messageList)
 	{
         for (Iterator iter = messageList.iterator(); iter.hasNext();) {
@@ -521,63 +553,54 @@ public abstract class CimCommand {
 	 * @param parser
 	 * @param options
 	 * @param args
+	 * @param values 
 	 * @param defPassword 
 	 * @param defHost 
 	 * @param defUser 
 	 * @throws ParseException 
 	 * @return The Arguments with the password added
 	 */
-	public PasswordCheckResult checkPassword(CommandLineParser parser, Options options, String[] args, LoginOptionValues loginOptionValues) {
+	public PasswordCheckResult checkPassword(CommandLineParser parser, Options options, String[] args, LoginOptionValues loginOptionValues, CimCommandValues values) {
 		
 		PasswordCheckResult result = new PasswordCheckResult();
 		result.setPasswordEntered(false);
-		
-		try {
-			parser.parse( options, args);
-			result.setPasswordEntered(true);
-		} catch (MissingOptionException e) {
-			
-			//Only if password is the one and only thing that is mssing
-			if (e.getMessage().equals("--" + loginOptionValues.getPassword().getLongKey()))
+		try
+		{
+			CommandLine line = parser.parse( options, args);
+			if (line.getOptionValue(loginOptionValues.getPassword().getLongKey()) == null)
 			{
-				List argList = new ArrayList();
-				argList.addAll(Arrays.asList(args));
+				String host = line.getOptionValue(loginOptionValues.getHost().getLongKey());
+				String user = line.getOptionValue(loginOptionValues.getUser().getLongKey());
+
+				String loginInfo = user + "@" + host;
 				
-				int hostIndex = argList.indexOf("-" + loginOptionValues.getHost().getLongKey());
-				if (hostIndex > -1 && argList.size() > hostIndex+1)
-				{
-					int userIndex = argList.indexOf("--" + loginOptionValues.getUser().getLongKey());
-					String user = "";
-					if (userIndex > -1 && argList.size() > userIndex+1)
+				WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages"},locale);
+				try {
+					char [] password = PasswordField.getPassword(values.getIn(), bundle.getString("enter.password.for.cimom",new Object[]{loginInfo}));
+					List argList = new ArrayList();
+					argList.addAll(Arrays.asList(args));
+					argList.add("--" + loginOptionValues.getPassword().getLongKey());
+
+					if (password != null)
 					{
-						user = argList.get(userIndex+1) + "@";
+						argList.add(String.valueOf(password));
 					}
-					WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages"},locale);
-					try {
-						char [] password = PasswordField.getPassword(commandValues.getIn(), bundle.getString("enter.password.for.cimom",new Object[]{user + argList.get(hostIndex+1)}));
-						argList.add("--" + loginOptionValues.getPassword().getLongKey());
-						if (password != null)
-						{
-							argList.add(String.valueOf(password));
-						}
-						else
-						{
-							argList.add("");
-						}
-						
-						args = (String[]) argList.toArray(new String[argList.size()]);
-						result.setPasswordEntered(true);
-					} catch (Exception e1) {
-						logger.log(Level.SEVERE,"Cannot get Password",e1);
+					else
+					{
+						argList.add("");
 					}
+					
+					args = (String[]) argList.toArray(new String[argList.size()]);
+					result.setPasswordEntered(true);
+				} catch (Exception e1) {
+					logger.log(Level.SEVERE,"Cannot get Password",e1);
 				}
-				
 			}
-			//other parameters are okay
 			else
 			{
-				result.setPasswordEntered(true);
+				result.setPasswordEntered(true);	
 			}
+			
 		} catch (ParseException e) {
 			//do nothing handled by the subclass we just want the Missing options
 			//password was entered directly on the commandline
@@ -596,7 +619,7 @@ public abstract class CimCommand {
 			ParseException pEx = (ParseException) t;
 			handleParseException(args, options, pEx,defPassword);
 		}
-		else if ("true".equalsIgnoreCase(System.getProperty(CimCommand.DEV_MODE)))
+		else if (isDevModeEnabled())
 		{
 			t.printStackTrace();
 		}
@@ -652,7 +675,8 @@ public abstract class CimCommand {
 		else
 		{
 			BufferedReader in = new BufferedReader(commandValues.getIn());
-			commandValues.getOut().println(msg + " ");
+			commandValues.getOut().print(msg + " ");
+			commandValues.getOut().flush();
 			String response = in.readLine();
 			return yes.equalsIgnoreCase(response);
 		}
@@ -684,5 +708,9 @@ public abstract class CimCommand {
 	{
 		bundle = resourceBundle;
 	}
-
+	
+	public boolean isDevModeEnabled()
+	{
+		return "true".equalsIgnoreCase(System.getProperty(CimCommand.DEV_MODE));
+	}
 }
