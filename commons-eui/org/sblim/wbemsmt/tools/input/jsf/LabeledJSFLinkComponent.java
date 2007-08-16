@@ -126,6 +126,7 @@ public class LabeledJSFLinkComponent extends LabeledJSFInputComponent {
 	private static void setComponentBindings1(LabeledJSFLinkComponent component, String id) {
 		HtmlCommandLink link = ((HtmlCommandLink)component.getComponent());
 		link.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"LinkText}"));
+		link.setOnclick(JsfUtil.STOP_ALL_AJAX_REQUESTS_TRUE);
 		link.setStyleClass("treeLink notselected");
 		
 		link.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id +"Action}",null));

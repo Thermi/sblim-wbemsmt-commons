@@ -48,6 +48,7 @@ import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherUiTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
+import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
@@ -553,7 +554,7 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
 		result.append(JavascriptUtil.getCheckModificationsCall());
 		
 		//before we click on a node we should stop all Ajax requests to avoid race conditions
-		result.append("stopAllAjaxRequests=true;");
+		result.append(JsfUtil.STOP_ALL_AJAX_REQUESTS_TRUE);
 		
 		if (isShowWaitOnClick())
 		{

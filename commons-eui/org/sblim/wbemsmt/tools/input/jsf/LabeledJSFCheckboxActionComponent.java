@@ -30,6 +30,7 @@ import org.sblim.wbemsmt.exception.ObjectUpdateException;
 import org.sblim.wbemsmt.exception.UpdateControlsException;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.ActionComponent;
+import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 
 public class LabeledJSFCheckboxActionComponent extends LabeledJSFInputComponent implements ActionComponent {
 
@@ -47,7 +48,9 @@ public class LabeledJSFCheckboxActionComponent extends LabeledJSFInputComponent 
 	private static void setComponentBindings(LabeledJSFCheckboxActionComponent actionComponent, String id) {
 		HtmlSelectBooleanCheckbox cbox = ((HtmlSelectBooleanCheckbox)actionComponent.getComponent());
 		cbox.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
-		cbox.setValueBinding("onclick", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"JavaScriptConfirmStatement} #{" + id +"JavaScriptWaitStatement}"));
+		cbox.setValueBinding("onclick", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"JavaScriptConfirmStatement} " +
+				JsfUtil.STOP_ALL_AJAX_REQUESTS_TRUE + 
+				" #{" + id +"JavaScriptWaitStatement}"));
 		cbox.setStyleClass("checkBox");
 		String linkId = "LabeledJSFCheckboxActionComponent" + idCount++;
 		

@@ -29,6 +29,7 @@ import org.sblim.wbemsmt.exception.ObjectUpdateException;
 import org.sblim.wbemsmt.exception.UpdateControlsException;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.ActionComponent;
+import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 
 public class JSFButtonComponent extends LabeledJSFInputComponent implements ActionComponent {
 
@@ -41,7 +42,9 @@ public class JSFButtonComponent extends LabeledJSFInputComponent implements Acti
 	
 	private void setComponentBindings(HtmlCommandButton btn, String id) {
 		btn.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"LabelText}"));
-		btn.setValueBinding("onclick", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"JavaScriptConfirmStatement} #{" + id +"JavaScriptWaitStatement}"));
+		btn.setValueBinding("onclick", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"JavaScriptConfirmStatement} " 
+				+ JsfUtil.STOP_ALL_AJAX_REQUESTS_TRUE  
+				+  "  #{" + id +"JavaScriptWaitStatement}"));
 		btn.setStyleClass("submitButton");
 		btn.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id + "Action" + "}",new Class[]{}));
 	}

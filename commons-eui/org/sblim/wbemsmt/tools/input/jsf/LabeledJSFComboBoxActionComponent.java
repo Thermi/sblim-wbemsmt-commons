@@ -33,6 +33,7 @@ import org.sblim.wbemsmt.exception.UpdateControlsException;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.ActionComponent;
 import org.sblim.wbemsmt.tools.input.LabeledStringArrayInputComponentIf;
+import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 
 public class LabeledJSFComboBoxActionComponent extends LabeledJSFInputComponent implements LabeledStringArrayInputComponentIf, ActionComponent {
 
@@ -57,7 +58,9 @@ public class LabeledJSFComboBoxActionComponent extends LabeledJSFInputComponent 
 		HtmlSelectOneMenu menu = ((HtmlSelectOneMenu)component.getComponent());
 		menu.setStyleClass("comboBox");
 		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
-		menu.setValueBinding("onchange", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"JavaScriptConfirmStatement} #{" + id +"JavaScriptWaitStatement}"));
+		menu.setValueBinding("onchange", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"JavaScriptConfirmStatement} " +
+				JsfUtil.STOP_ALL_AJAX_REQUESTS_TRUE + 
+				" #{" + id +"JavaScriptWaitStatement}"));
 		UISelectItems items = (UISelectItems) FacesContext.getCurrentInstance().getApplication().createComponent(UISelectItems.COMPONENT_TYPE);
 		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
 		menu.getChildren().add(items);

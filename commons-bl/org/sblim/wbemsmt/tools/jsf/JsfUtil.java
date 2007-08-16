@@ -49,6 +49,10 @@ import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 public class JsfUtil {
 
 	private static final String IDENT_STRING = "   ";
+	/**
+	 * Javascript command to stop all ajax requests
+	 */
+	public static final String STOP_ALL_AJAX_REQUESTS_TRUE = "stopAllAjaxRequests=true;";
 	
 	/**
 	 * 
