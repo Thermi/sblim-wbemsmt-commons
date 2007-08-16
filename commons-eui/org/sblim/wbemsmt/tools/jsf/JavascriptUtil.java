@@ -34,6 +34,12 @@ public class JavascriptUtil
 
 	public static String getShowWaitCall(String text, boolean textIsLiteral) {
 		
+		
+		if (text == null)
+		{
+			text = "Please wait";
+		}
+		
 		if (textIsLiteral)
 		{
 			if (text.indexOf("'") > -1 && text.indexOf("\\'") == -1)
