@@ -106,7 +106,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 			CimomData cimom = cimoms[i];
 			addCimomNode(cimom);
 		}
-		sortCimomNodes();		
+		sortCimomNodes(rootNodes);		
 	}
 
 	private void addCimomNode(CimomData cimom) throws WbemSmtException {
@@ -182,7 +182,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 				}
 			}
 		}
-		sortCimomNodes();
+		sortCimomNodes(rootNodes);
 		logger.info("Cimom-Subnodes: " + rootNodes.size());
 	}
 
@@ -261,15 +261,26 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		}
 	}
 	
-	private void sortCimomNodes() {
+	private void sortCimomNodes(List nodes) {
 
-		Collections.sort(rootNodes, new Comparator()
+		Collections.sort(nodes, new Comparator()
 				{
 			public int compare(Object o1, Object o2) {
 				try {
-					CimomTreeNode cimomNode1 = (CimomTreeNode)((TaskLauncherTreeNode)o1).getSubnodes().get(0);
-					CimomTreeNode cimomNode2 = (CimomTreeNode)((TaskLauncherTreeNode)o2).getSubnodes().get(0);
-					return cimomNode1.getCimomData().getHostname().compareTo(cimomNode2.getCimomData().getHostname());
+					
+					if (o1 instanceof CimomTreeNode && o2 instanceof CimomTreeNode)
+					{
+						CimomTreeNode cimomNode1 = (CimomTreeNode)o1;
+						CimomTreeNode cimomNode2 = (CimomTreeNode)o2;
+						return cimomNode1.getCimomData().getHostname().compareTo(cimomNode2.getCimomData().getHostname());
+					}
+					else
+					{
+						CimomTreeNode cimomNode1 = (CimomTreeNode)((TaskLauncherTreeNode)o1).getSubnodes().get(0);
+						CimomTreeNode cimomNode2 = (CimomTreeNode)((TaskLauncherTreeNode)o2).getSubnodes().get(0);
+						return cimomNode1.getCimomData().getHostname().compareTo(cimomNode2.getCimomData().getHostname());
+					}
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 					return 0;
@@ -388,6 +399,8 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		if (getActiveCimomNodeCount() > 0)
 		{
 			List nodes = getActiveCimomNodes();
+			sortCimomNodes(nodes);
+
 			result = new SimpleTextTreeNode("activeCimoms");
 			for (Iterator iter = nodes.iterator(); iter.hasNext();) {
 				CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
@@ -410,6 +423,8 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		if (getInactiveCimomNodeCount() > 0)
 		{
 			List nodes = getInactiveCimomNodes();
+			sortCimomNodes(nodes);
+			
 			result = new SimpleTextTreeNode("inactiveCimoms");
 			for (Iterator iter = nodes.iterator(); iter.hasNext();) {
 				CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();

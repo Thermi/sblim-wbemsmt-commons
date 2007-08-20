@@ -18,11 +18,7 @@
 
 package org.sblim.wbemsmt.webapp.jsf;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,6 +41,7 @@ import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.ITreeSelector;
 import org.sblim.wbemsmt.bl.welcome.JsfWelcomeListener;
 import org.sblim.wbemsmt.bl.welcome.WelcomeData;
+import org.sblim.wbemsmt.bl.welcome.WelcomeDataComparator;
 import org.sblim.wbemsmt.bl.welcome.WelcomeListener;
 import org.sblim.wbemsmt.exception.ModelLoadException;
 import org.sblim.wbemsmt.exception.ObjectDeletionException;
@@ -350,6 +347,8 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 		}
 		
 		welcomeContainers.clear();
+		
+		Arrays.sort(configs, new WelcomeDataComparator());
 		
 		for (int i = 0; i < configs.length; i++) {
 			WelcomeData config = configs[i];
