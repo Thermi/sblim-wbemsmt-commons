@@ -20,6 +20,8 @@
 package org.sblim.wbemsmt.bl;
 
 import java.lang.reflect.Method;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringUtils;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
@@ -27,6 +29,8 @@ import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 
 public class FcoUtil {
 
+	static Logger logger = Logger.getLogger(FcoUtil.class.getName());	
+	
 	/**
 	 * Copies a value from a container to a fco 
 	 * @param container the container
@@ -49,7 +53,8 @@ public class FcoUtil {
 			
 			setterFco.invoke(fco, new Object[]{field.getConvertedControlValue()});
 		} catch (Exception e) {
-			throw new IllegalArgumentException(e);
+			logger.log(Level.SEVERE, "Cannot copy values to fco", e);
+			throw new IllegalArgumentException("Cannot copy values to fco " + e);
 		} 
 		
 	}
@@ -72,7 +77,8 @@ public class FcoUtil {
 			
 			field.setControlValue(getterFco.invoke(fco, null));
 		} catch (Exception e) {
-			throw new IllegalArgumentException(e);
+			logger.log(Level.SEVERE, "Cannot copy values to dataContainer", e);
+			throw new IllegalArgumentException("Cannot copy values to datacontainer " + e.getMessage());
 		} 
 		
 	}
