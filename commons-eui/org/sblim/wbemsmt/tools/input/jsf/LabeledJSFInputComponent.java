@@ -155,7 +155,12 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 
 	public String getItemLabelText()
 	{
-		return "<nobr>" + getLabelText() + "</nobr>";
+		String s = super.getLabelText();
+		if (! StringUtils.isEmpty(s))
+		{
+			return s + suffix;
+		}
+		return "<nobr>" + s +  "</nobr>";
 	}
 	
 	public String getItemPlainLabelText()
@@ -164,17 +169,9 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	}
 		
 	public String getLabelText() {
-		String s = super.getLabelText();
-		if (StringUtils.isEmpty(s))
-		{
-			return s;
-		}
-		else
-		{
-			return s + suffix;
-		}
-	}
-
+		return super.getLabelText();
+	}	
+	
 	public boolean getItemDisabled() {
 		return disabled;
 	}
