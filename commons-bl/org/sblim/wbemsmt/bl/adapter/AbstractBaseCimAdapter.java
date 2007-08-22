@@ -97,10 +97,6 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * Allow a particular action to mark that there should be a reload of the complete task at the end of the action
 	 */
 	protected boolean markedForReload = false;
-	/**
-	 * Allow a particular action to mark that there should be a reload at the end of the action
-	 */
-	protected boolean editObjectMarkedForReload = false;
 
 	protected LabeledBaseInputComponentIf updateTrigger;
 	protected CimObjectKey lastSelectedKey;
@@ -1158,21 +1154,6 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		this.markedForReload = true;
 	}
 	
-	public boolean isEditObjectMarkedForReload() {
-		return editObjectMarkedForReload;
-	}
-
-	/**
-	 * set to true if the edit object should be refreshed (for example after a updateModel action deleting some items)
-	 * 
-	 * Only evaluated if the user in a editAction.
-	 * 
-	 * @param editObjectMarkedForReload
-	 */
-	public void setEditObjectMarkedForReload(boolean editObjectMarkedForReload) {
-		this.editObjectMarkedForReload = editObjectMarkedForReload;
-	}
-
 	/**
 	 * reloads the Tree. Is only executed if marked for reload
 	 * @throws WbemSmtException

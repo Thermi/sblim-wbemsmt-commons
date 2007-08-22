@@ -617,14 +617,8 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 				
 				if (adapter.isMarkedForReload())
 				{
-					adapter.reload();	
-					reloaded = true;
-				}
-
-				if (adapter.isEditObjectMarkedForReload())
-				{
 					//reload the node
-					adapter.setEditObjectMarkedForReload(false);
+					adapter.reload();	
 					reloaded = true;
 				}
 
