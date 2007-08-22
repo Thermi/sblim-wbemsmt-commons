@@ -83,7 +83,7 @@ public class JsfTestCase extends WbemSmtTestCase {
 		
 		WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages","org.sblim.wbemsmt.webapp.jsf.webapp_messages"}, Locale.ENGLISH);		
 		selenium = getSession(JsfTestCase.SESSION_MAIN);
-		selenium.open("/wbemsmt-webapp/login.jsf?");
+		selenium.open(config.getApplicationPath());
 		selenium.click("langform:en");
 		WbemSmtAssert.assertTextFound(selenium, bundle.getString("pleaseLogin"));
 		selenium.type("connectFields:host", config.getHost());

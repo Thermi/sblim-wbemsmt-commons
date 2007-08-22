@@ -149,6 +149,10 @@ public class WbemSmtTestConfig {
 		return properties.getProperty(getActiveHostPrefix() + "webserverurl","http://127.0.0.1:8080/wbemsmt-webapp/login.jsf");
 	}
 
+	public String getApplicationPath() {
+		return properties.getProperty(getActiveHostPrefix() + "applicationpath","/wbemsmt-webapp/login.jsf");
+	}
+
 	/**
 	 * Shows a dialog for retrieving the password
 	 * @param user
