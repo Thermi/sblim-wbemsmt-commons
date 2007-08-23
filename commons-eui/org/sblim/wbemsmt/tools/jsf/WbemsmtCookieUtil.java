@@ -273,6 +273,7 @@ public class WbemsmtCookieUtil {
 		private String password;
 		private String host;
 		private String port;
+		private String protocol;
 		private String namespace;
 		private boolean useSlp;
 
@@ -280,11 +281,12 @@ public class WbemsmtCookieUtil {
 			super();
 		}
 
-		public LoginData(String user, String password, String host, String port, String namespace, boolean useSlp) {
+		public LoginData(String user, String password, String host, String port, String protocol, String namespace, boolean useSlp) {
 			this.user = user;
 			this.password = password;
 			this.host = host;
 			this.port = port;
+			this.protocol = protocol;
 			this.namespace = namespace;
 			this.useSlp = useSlp;
 		}
@@ -320,6 +322,14 @@ public class WbemsmtCookieUtil {
 
 		public String getPort() {
 			return port;
+		}
+
+		public String getProtocol() {
+			return protocol;
+		}
+
+		public void setProtocol(String protocol) {
+			this.protocol = protocol;
 		}
 
 		public String getUser() {

@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.MessageUtil;
@@ -65,6 +66,8 @@ public class TaskLauncherConfig
 
 	public static final String DEFAULT_NAMESPACE = "/root/cimv2";
 
+	public static final String DEFAULT_PROTOCOL = "http";
+
 	private static final String DEFAULT_CONF_DIR = "/etc/sblim-wbemsmt";
 	
 	/**
@@ -84,6 +87,12 @@ public class TaskLauncherConfig
 	private static final Enum VERSION_FOR_CREATE = Version.VERSION_2_4;
 
 	private static final Enum[] SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS = new Enum[]{Version.VERSION_2_0,Version.VERSION_2_1,Version.VERSION_2_2,Version.VERSION_2_3,Version.VERSION_2_4};
+
+	public static final String HTTP = "http";
+	public static final int HTTP_PORT_DEFAULT = 5988;
+	
+	public static final String HTTPS = "https";
+	public static final int HTTPS_PORT_DEFAULT = 5989;
 
 	
     private static Logger logger = Logger.getLogger(TaskLauncherConfig.class.getName());
@@ -202,7 +211,7 @@ public class TaskLauncherConfig
 		hasConfiguration = cimoms.length > 0;
 		if (!hasConfiguration)
 		{
-			CimomData cimomData = new CimomData("",TaskLauncherConfig.DEFAULT_PORT,DEFAULT_NAMESPACE,"");
+			CimomData cimomData = new CimomData("",TaskLauncherConfig.DEFAULT_PORT,DEFAULT_PROTOCOL, DEFAULT_NAMESPACE,"");
 			//cimomData.addTreeConfig(new TreeConfigData("noConfig","noConfig.xml","","messages",null,null,null));
 			this.cimomData.add(cimomData);
 		}
@@ -536,6 +545,7 @@ public class TaskLauncherConfig
 		private static final long serialVersionUID = -7105076857317689934L;
 		private String hostname,
                        namespace,
+                       protocol,
                        user;
         private int port;
 		private Vector treeConfigs = new Vector();
@@ -544,26 +554,29 @@ public class TaskLauncherConfig
         {
             this.hostname = new String();
             this.namespace = new String();
+            this.protocol = TaskLauncherConfig.DEFAULT_PROTOCOL;
             this.user = new String();
         }
         
-		public CimomData(String hostname, int port, String namespace, String user)
+		public CimomData(String hostname, int port, String protocol, String namespace, String user)
         {
             this.hostname = hostname;
             this.port = port;
             this.namespace = namespace;
+            this.protocol = StringUtils.isNotEmpty(protocol) ? protocol : DEFAULT_PROTOCOL;
             this.user = user;
         }
         
         public CimomData(CimomDocument.Cimom cimom)
         {
-            this(cimom.getHostname(), cimom.getPort(), cimom.getNamespace(), cimom.getUser());
+            this(cimom.getHostname(), cimom.getPort(), cimom.getProtocol(), cimom.getNamespace(), cimom.getUser());
         }
 
         public CimomData(SLPHostDefinition definition) {
             this.hostname = definition.getHostname();
             this.port = definition.getPort();
             this.namespace = definition.getNamespace();
+            this.protocol = TaskLauncherConfig.DEFAULT_PROTOCOL;
             this.user = TaskLauncherConfig.DEFAULT_USER;
 		}
 
@@ -613,6 +626,16 @@ public class TaskLauncherConfig
             this.namespace = namespace;
         }
 
+        
+        
+		public String getProtocol() {
+			return protocol;
+		}
+
+		public void setProtocol(String protocol) {
+			this.protocol = protocol;
+		}
+
 		public String getUser()
         {
             return user;
@@ -624,7 +647,7 @@ public class TaskLauncherConfig
         }
 
 		public String getInfo() {
-			return hostname + ":" + port + namespace;
+			return protocol + "://" + hostname + ":" + port + namespace;
 		}
 
 		/**
@@ -867,10 +890,11 @@ public class TaskLauncherConfig
 	}
 
 	public static CimomData getDefaultCimomData(CIMClient cimClient) {
-		return new CimomData(cimClient.getNameSpace().getHost(), cimClient
-				.getNameSpace().getPort(), cimClient.getNameSpace()
-				.getNameSpace(),
-				cimClient.getSessionProperties().getDefaultPrincipal());
+		return new CimomData(cimClient.getNameSpace().getHost(), 
+							 cimClient.getNameSpace().getPort(),
+							 cimClient.getNameSpace().getHostURL().getProtocol(),
+							 cimClient.getNameSpace().getNameSpace(),
+							 cimClient.getSessionProperties().getDefaultPrincipal());
 	}
 
 	
