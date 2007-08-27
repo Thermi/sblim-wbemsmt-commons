@@ -1,4 +1,207 @@
 // =========================================================================
+// new in version 0.5.1-1 :
+
+2007-08-23 11:26  mbauschert
+
+	* commons-eui/org/sblim/wbemsmt/tools/jsf/WbemsmtCookieUtil.java,
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/TaskLauncherConfig.java,
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/login/CimomLoginLogoutListener.java:
+	  Fix [ 1780046 ] wbemsmt-commons: make protocol configurable
+
+2007-08-22 16:41  mbauschert
+
+	* commons-test/org/sblim/wbemsmt/test/: JsfTestCase.java,
+	  WbemSmtTestConfig.java: Fix [ 1779474 ] wbemsmt-commons-test: add
+	  displayname of webapp as parameter
+
+2007-08-22 16:40  mbauschert
+
+	*
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFInputComponent.java:
+	  Fix [ 1779470 ] wbemsmt-commons: JsfComponent.getLabelText append
+	  a colon
+
+2007-08-22 16:39  mbauschert
+
+	*
+	  commons-bl/org/sblim/wbemsmt/bl/adapter/AbstractBaseCimAdapter.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFInputComponent.java:
+	  Fix [ 1779467 ] wbemsmt-commos: remove editObjectMarkedForReload
+	  flag
+
+2007-08-21 14:11  mbauschert
+
+	* commons-bl/org/sblim/wbemsmt/bl/FcoUtil.java: Fix [ 1778517 ]
+	  wbemsmt-commons: FcoUtil is having no 1.4 compilance
+
+2007-08-20 14:08  mbauschert
+
+	*
+	  commons-bl/org/sblim/wbemsmt/bl/welcome/WelcomeDataComparator.java,
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/TaskLauncherTreeFactory.java,
+	  commons-eui/org/sblim/wbemsmt/webapp/jsf/ObjectActionControllerBean.java:
+	  Fix [ 1777610 ] wbemsmt-commons: sync sort-order of hosts and
+	  tasks
+
+2007-08-16 17:43  mbauschert
+
+	* commons-bl/org/sblim/wbemsmt/tools/jsf/JsfUtil.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/JSFButtonComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFCheckboxActionComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFComboBoxActionComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFLinkComponent.java,
+	  commons-eui/org/sblim/wbemsmt/webapp/jsf/JsfTreeNode.java: Fix [
+	  1775554 ] wbemsmt-commons: stop ajax requests before a click
+	  action
+
+2007-08-16 17:42  mbauschert
+
+	* commons-eui/org/sblim/wbemsmt/tools/jsf/JavascriptUtil.java: Fix
+	  [ 1775553 ] wbemsmt-commons: NPE while displaying wait message
+
+2007-08-16 14:23  mbauschert
+
+	*
+	  commons-bl/org/sblim/wbemsmt/tools/input/test/LabeledTestInputComponent.java:
+	  Fix [ 1775386 ] wbemsmt-commons-cli: isEmpty() of cli input
+	  component
+
+2007-08-16 14:20  mbauschert
+
+	* commons-eui/org/sblim/wbemsmt/tools/cli/CimCommand.java: Fix [
+	  1775380 ] wbemsmt-commons-cli: add flag to disable Confirmations
+
+2007-08-16 14:19  mbauschert
+
+	* commons-eui/org/sblim/wbemsmt/tools/cli/CimCommand.java: Fix [
+	  1775379 ] wbemsmt-commons: readPassword from StdIn not working
+
+2007-08-16 14:11  mbauschert
+
+	* commons-bl/org/sblim/wbemsmt/tools/converter/:
+	  UnsignedInt16StringArrayConverter.java,
+	  UnsignedInt32StringArrayConverter.java,
+	  UnsignedInt64StringArrayConverter.java,
+	  UnsignedInt8StringArrayConverter.java: Fix [ 1775376 ]
+	  wbemsmt-commons: NPE in StringArrayConverter
+
+2007-08-16 08:44  mbauschert
+
+	* commons-eui/org/sblim/wbemsmt/tools/jsf/EditBasePanel.java: Fix [
+	  1775194 ] wbemsmt-commons: updateCtrls during ajaxRequest called
+	  twice
+
+2007-08-16 08:42  mbauschert
+
+	* commons-eui/org/sblim/wbemsmt/webapp/jsf/JsfTreeNode.java: Fix [
+	  1775193 ] wbemsmt-commons: stop ajax requests before a page
+	  request
+
+2007-08-15 17:15  mbauschert
+
+	*
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/TaskLauncherConfig.java,
+	  commons-bl/conf/tasklauncher-config-modelChanges.txt,
+	  commons-bl/conf/tasklauncher-config.xsd,
+	  commons-bl/org/sblim/wbemsmt/bl/adapter/AbstractBaseCimAdapter.java,
+	  commons-bl/org/sblim/wbemsmt/cim/CIMClientPool.java,
+	  commons-bl/org/sblim/wbemsmt/cim/WbemsmtCIMClientWrapper.java,
+	  commons-bl/org/sblim/wbemsmt/session/WbemsmtSession.java,
+	  commons-bl/org/sblim/wbemsmt/session/WbemsmtSessionBean.java,
+	  commons-bl/org/sblim/wbemsmt/session/jsf/WbemsmtSession.java,
+	  commons-bl/org/sblim/wbemsmt/session/jsf/WbemsmtSessionBean.java,
+	  commons-eui/org/sblim/wbemsmt/tools/cli/CimCommand.java: Fix
+	  [1774769]  wbemsmt-commons: remove application namespace
+
+2007-08-14 17:27  mbauschert
+
+	*
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/event/jsf/JsfEditListener.java,
+	  commons-eui/org/sblim/wbemsmt/tools/jsf/EditBean.java: Fix [
+	  1773943 ] wbemsmt-commons: updateCtrls called during revert
+
+2007-08-14 08:43  mbauschert
+
+	* commons-bl/org/sblim/wbemsmt/:
+	  bl/adapter/AbstractBaseCimAdapter.java,
+	  tasklauncher/TaskLauncherConfig.java: Fix [ 1773653 ]
+	  wbemsmt-commons: get configurable properties from adapter
+
+2007-08-13 19:22  mbauschert
+
+	* commons-bl/: conf/tasklauncher-config-modelChanges.txt,
+	  conf/tasklauncher-config.xsd,
+	  org/sblim/wbemsmt/bl/adapter/AbstractBaseCimAdapter.java,
+	  org/sblim/wbemsmt/tasklauncher/TaskLauncherConfig.java,
+	  org/sblim/wbemsmt/tools/resources/ResourceBundleManager.java: Fix
+	  [ 1773220 ] wbemsmt-commons: add configurable properties to ta
+
+2007-08-08 11:10  mbauschert
+
+	* commons-bl/:
+	  org/sblim/wbemsmt/bl/metric/AbstractMetricCalculator.java,
+	  org/sblim/wbemsmt/bl/metric/BytesMetricCalculator.java,
+	  org/sblim/wbemsmt/bl/metric/DefaultMetricCalculator.java,
+	  org/sblim/wbemsmt/bl/metric/MetricCalculator.java,
+	  org/sblim/wbemsmt/bl/metric/MetricCalculatorFactory.java,
+	  org/sblim/wbemsmt/bl/metric/MillisecondMetricCalculator.java,
+	  org/sblim/wbemsmt/bl/metric/NotAvailableMetricCalculator.java,
+	  org/sblim/wbemsmt/bl/metric/PagesPerSecondMetricCalculator.java,
+	  org/sblim/wbemsmt/bl/metric/PercentMetricCalculator.java,
+	  org/sblim/wbemsmt/bl/metric/SharesMetricCalculator.java,
+	  messages.properties, messages_de.properties,
+	  messages_en.properties,
+	  org/sblim/wbemsmt/bl/fco/metric/CIM_BaseMetricDefinitionIf.java,
+	  org/sblim/wbemsmt/bl/fco/metric/CIM_BaseMetricValueIf.java: Fix [
+	  1769868 ] wbemsmt-commons: support for metrics calculation
+
+2007-08-06 15:37  mbauschert
+
+	* commons-eui/org/sblim/wbemsmt/jsf/layout/JsfLayouter.java: Fix
+	  1768404
+
+2007-08-06 15:33  mbauschert
+
+	* commons-bl/: messages.properties, messages_de.properties,
+	  messages_en.properties, org/sblim/wbemsmt/bl/ErrCodes.java,
+	  org/sblim/wbemsmt/tasklauncher/CimomTreeNode.java,
+	  org/sblim/wbemsmt/tasklauncher/TaskLauncherConfig.java,
+	  org/sblim/wbemsmt/tasklauncher/TaskLauncherController.java: Fix [
+	  1768400 ] wbemsmt-commons: more detailed login error messages
+
+2007-08-06 15:29  mbauschert
+
+	*
+	  commons-bl/org/sblim/wbemsmt/tools/input/test/LabeledTestInputComponent.java,
+	  commons-bl/org/sblim/wbemsmt/tools/input/test/LabeledTestStringArrayComponent.java,
+	  commons-bl/org/sblim/wbemsmt/tools/input/LabeledBaseHeaderComponentIf.java,
+	  commons-bl/org/sblim/wbemsmt/tools/resources/WbemSmtResourceBundle.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFInputComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFListComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFMultiListComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/swing/LabeledSwingInputComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/jsf/MultiLinePanel.java: Fix
+	  [ 1768397 ] wbemsmt-commons: access to headerFields of a table
+
+2007-08-06 15:25  mbauschert
+
+	* commons-bl/org/sblim/wbemsmt/bl/WbemsmtBusinessObject.java: Fix [
+	  1768346 ] wbemsmt-commons: api changes of objectList
+
+2007-08-06 15:15  mbauschert
+
+	* commons-bl/org/sblim/wbemsmt/util/WbemsmtStringEncrypter.java,
+	  commons-bl/org/sblim/wbemsmt/util/WbemsmtStringEncrypterTest.java,
+	  commons-eui/org/sblim/wbemsmt/tools/jsf/WbemsmtCookieUtil.java:
+	  Fix [ 1768355 ] wbemsmt-commons: StringEncryption for use with
+	  GCJ
+
+2007-08-06 15:12  mbauschert
+
+	* commons-bl/org/sblim/wbemsmt/bl/wrapper/ObjectList.java: Fix [
+	  1768346 ] wbemsmt-commons: api changes of objectList
+
+// =========================================================================
 // new in version 0.5.0-1 :
 
 2007-07-31 15:56  mbauschert

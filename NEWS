@@ -1,3 +1,30 @@
+Changes in 0.5.1-1 :
+==============================================================================
+- 1780046  wbemsmt-commons: make protocol configurable
+- 1779474  wbemsmt-commons-test: add displayname of webapp as parameter
+- 1779470  wbemsmt-commons: JsfComponent.getLabelText append a colon
+- 1779467  wbemsmt-commos: remove editObjectMarkedForReload flag
+- 1778517  wbemsmt-commons: FcoUtil is having no 1.4 compilance
+- 1777610  wbemsmt-commons: sync sort-order of hosts and tasks
+- 1775554  wbemsmt-commons: stop ajax requests before a click action
+- 1775553  wbemsmt-commons: NPE while displaying wait message
+- 1775386  wbemsmt-commons-cli: isEmpty() of cli input component
+- 1775380  wbemsmt-commons-cli: add flag to disable Confirmations
+- 1775379  wbemsmt-commons: readPassword from StdIn not working
+- 1775376  wbemsmt-commons: NPE in StringArrayConverter
+- 1775194  wbemsmt-commons: updateCtrls during ajaxRequest called twice
+- 1775193  wbemsmt-commons: stop ajax requests before a page request
+- 1774769  wbemsmt-commons: remove application namespace
+- 1773943  wbemsmt-commons: updateCtrls called during revert
+- 1773653  wbemsmt-commons: get configurable properties from adapter
+- 1773220  wbemsmt-commons: add configurable properties to ta
+- 1769868  wbemsmt-commons: support for metrics calculation
+- 1768404  wbemsmt-commons: util methods for JSFLayouter
+- 1768400  wbemsmt-commons: more detailed login error messages
+- 1768397  wbemsmt-commons: access to headerFields of a table
+- 1768355  wbemsmt-commons: StringEncryption for use with GCJ
+- 1768346  wbemsmt-commons: api changes of objectList
+
 Changes in 0.5.0-1 :
 ==============================================================================
 - 1764584  wbemsmt-commons-test: assert for confirmations

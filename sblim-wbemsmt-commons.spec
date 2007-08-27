@@ -1,5 +1,5 @@
 %define name                    sblim-wbemsmt-commons
-%define version                 0.5.0
+%define version                 0.5.1
 %define build_release           1
 %define release                 %{build_release}jpp
 %define section                 free
@@ -126,6 +126,33 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 
 ###############################################################################
 %changelog
+* Mon Aug 27 2007 Wolfgang Taphorn <taphorn@de.ibm.com> 0.5.1-1
+  - Inclusion of fixes for the following issues:
+    o 1780046  wbemsmt-commons: make protocol configurable
+    o 1779474  wbemsmt-commons-test: add displayname of webapp as parameter
+    o 1779470  wbemsmt-commons: JsfComponent.getLabelText append a colon
+    o 1779467  wbemsmt-commos: remove editObjectMarkedForReload flag
+    o 1778517  wbemsmt-commons: FcoUtil is having no 1.4 compilance
+    o 1777610  wbemsmt-commons: sync sort-order of hosts and tasks
+    o 1775554  wbemsmt-commons: stop ajax requests before a click action
+    o 1775553  wbemsmt-commons: NPE while displaying wait message
+    o 1775386  wbemsmt-commons-cli: isEmpty() of cli input component
+    o 1775380  wbemsmt-commons-cli: add flag to disable Confirmations
+    o 1775379  wbemsmt-commons: readPassword from StdIn not working
+    o 1775376  wbemsmt-commons: NPE in StringArrayConverter
+    o 1775194  wbemsmt-commons: updateCtrls during ajaxRequest called twice
+    o 1775193  wbemsmt-commons: stop ajax requests before a page request
+    o 1774769  wbemsmt-commons: remove application namespace
+    o 1773943  wbemsmt-commons: updateCtrls called during revert
+    o 1773653  wbemsmt-commons: get configurable properties from adapter
+    o 1773220  wbemsmt-commons: add configurable properties to ta
+    o 1769868  wbemsmt-commons: support for metrics calculation
+    o 1768404  wbemsmt-commons: util methods for JSFLayouter
+    o 1768400  wbemsmt-commons: more detailed login error messages
+    o 1768397  wbemsmt-commons: access to headerFields of a table
+    o 1768355  wbemsmt-commons: StringEncryption for use with GCJ
+    o 1768346  wbemsmt-commons: api changes of objectList
+
 * Fri Jul 6 2007 Wolfgang Taphorn <taphorn@de.ibm.com> 0.5.0-1
   - Inclusion of fixes for the following issues:
     o 1764584  wbemsmt-commons-test: assert for confirmations
