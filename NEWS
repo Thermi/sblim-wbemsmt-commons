@@ -1,3 +1,7 @@
+Changes on top of 0.5.1
+==============================================================================
+- 1784051  wbemsmt-commons: define namespace per task
+
 Changes in 0.5.1-1 :
 ==============================================================================
 - 1780046  wbemsmt-commons: make protocol configurable

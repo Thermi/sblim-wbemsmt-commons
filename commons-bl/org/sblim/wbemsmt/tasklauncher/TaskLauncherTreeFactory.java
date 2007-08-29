@@ -60,15 +60,15 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 
 	private List cimomNodes = new ArrayList();
     
-    public TaskLauncherTreeFactory(CIMClient cimClient, List customTreeConfigs) throws ModelLoadException
+    public TaskLauncherTreeFactory(List customTreeConfigs) throws ModelLoadException
     { 
     	if (customTreeConfigs != null)
     	{
         	for (Iterator iter = customTreeConfigs.iterator(); iter.hasNext();) {
     			CustomTreeConfig customTreeConfig = (CustomTreeConfig) iter.next();
-    			if (customTreeConfig.isLoaded() && customTreeConfig.serverTaskExists(cimClient))
+    			if (customTreeConfig.isLoaded() && customTreeConfig.serverTaskExists(customTreeConfig.getCimClient()))
     			{
-        			TaskLauncherTreeNode nodeFromXML = TaskLauncherTreeNode.createNodeFromXML(cimClient, customTreeConfig.getRootnode(),customTreeConfig);
+        			TaskLauncherTreeNode nodeFromXML = TaskLauncherTreeNode.createNodeFromXML(customTreeConfig.getCimClient(), customTreeConfig.getRootnode(),customTreeConfig);
         			nodeFromXML.setCustomTreeConfig(customTreeConfig);
         			rootNodes.add( nodeFromXML );
         			if (customTreeConfig.getCommonContextMenue() != null)
@@ -98,7 +98,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
     
     public TaskLauncherTreeFactory(CIMClient cimClient) throws ModelLoadException
     {
-        this(cimClient, null);
+        this(new ArrayList());
     }
 
     public TaskLauncherTreeFactory(CimomData[] cimoms) throws WbemSmtException {
@@ -245,7 +245,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 						
 						if (treeConfigData.getFilename().equalsIgnoreCase(newItem))
 						{
-							CustomTreeConfig customTreeConfig = new CustomTreeConfig(treeConfigData,ourCimom);
+							CustomTreeConfig customTreeConfig = new CustomTreeConfig(treeConfigData,ourCimom,null);
 							TaskLauncherTreeNode nodeFromXML = TaskLauncherTreeNode.createNodeFromXML(client, customTreeConfig.getRootnode(),customTreeConfig);
 							nodeFromXML.setCustomTreeConfig(customTreeConfig);
 							rootNodes.add( nodeFromXML );
@@ -362,7 +362,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		int count = 0;
 		for (Iterator iter = cimomNodes.iterator(); iter.hasNext();) {
 			CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
-			if (cimomTreeNode.getCimClient() != null)
+			if (cimomTreeNode.isLoggedIn())
 			{
 				count++;
 			}
@@ -380,7 +380,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		int count = 0;
 		for (Iterator iter = cimomNodes.iterator(); iter.hasNext();) {
 			CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
-			if (cimomTreeNode.getCimClient() == null)
+			if (!cimomTreeNode.isLoggedIn())
 			{
 				count++;
 			}
@@ -467,7 +467,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		
 		for (Iterator iter = cimomNodes.iterator(); iter.hasNext();) {
 			CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
-			if (cimomTreeNode.getCimClient() != null)
+			if (cimomTreeNode.isLoggedIn())
 			{
 				result.add(cimomTreeNode);
 			}	
@@ -486,7 +486,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		
 		for (Iterator iter = cimomNodes.iterator(); iter.hasNext();) {
 			CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
-			if (cimomTreeNode.getCimClient() == null)
+			if (!cimomTreeNode.isLoggedIn())
 			{
 				result.add(cimomTreeNode);
 			}	
@@ -521,9 +521,9 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 					TaskLauncherTreeNode node = (TaskLauncherTreeNode) iterator.next();
 					
 					//add only if the adapter for the task was initialized
-					if (CimAdapterFactory.getInstance().getAdapter(node.getCustomTreeConfig().getTreeConfigData().getName(),cimomTreeNode.getCimClient()) != null)
+					if (CimAdapterFactory.getInstance().getAdapter(node.getCustomTreeConfig().getTreeConfigData().getName(),node.getCimClient()) != null)
 					{
-						map.put(node.getCustomTreeConfig().getTreeConfigData().getName(), new WelcomeData(node.getCustomTreeConfig().getTreeConfigData(),cimomTreeNode.getCimClient()));
+						map.put(node.getCustomTreeConfig().getTreeConfigData().getName(), new WelcomeData(node.getCustomTreeConfig().getTreeConfigData(),node.getCimClient()));
 					}
 				}
 			} catch (WbemSmtException e) {

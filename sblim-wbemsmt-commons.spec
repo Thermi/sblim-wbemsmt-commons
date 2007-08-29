@@ -1,6 +1,6 @@
 %define name                    sblim-wbemsmt-commons
 %define version                 0.5.1
-%define build_release           1
+%define build_release           CVS
 %define release                 %{build_release}jpp
 %define section                 free
 
@@ -126,6 +126,10 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 
 ###############################################################################
 %changelog
+* Wed Aug 29 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.1-CVS
+  - Inclusion of fixes for the following issues:
+    o 1784051  wbemsmt-commons: define namespace per task
+    
 * Mon Aug 27 2007 Wolfgang Taphorn <taphorn@de.ibm.com> 0.5.1-1
   - Inclusion of fixes for the following issues:
     o 1780046  wbemsmt-commons: make protocol configurable

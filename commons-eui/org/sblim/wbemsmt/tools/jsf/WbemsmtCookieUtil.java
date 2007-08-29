@@ -274,20 +274,18 @@ public class WbemsmtCookieUtil {
 		private String host;
 		private String port;
 		private String protocol;
-		private String namespace;
 		private boolean useSlp;
 
 		public LoginData() {
 			super();
 		}
 
-		public LoginData(String user, String password, String host, String port, String protocol, String namespace, boolean useSlp) {
+		public LoginData(String user, String password, String host, String port, String protocol, boolean useSlp) {
 			this.user = user;
 			this.password = password;
 			this.host = host;
 			this.port = port;
 			this.protocol = protocol;
-			this.namespace = namespace;
 			this.useSlp = useSlp;
 		}
 		
@@ -312,10 +310,6 @@ public class WbemsmtCookieUtil {
 			return host;
 		}
 
-		public String getNamespace() {
-			return namespace;
-		}
-
 		public String getPassword() {
 			return password;
 		}
@@ -338,10 +332,6 @@ public class WbemsmtCookieUtil {
 
 		public void setHost(String host) {
 			this.host = host;
-		}
-
-		public void setNamespace(String namespace) {
-			this.namespace = namespace;
 		}
 
 		public void setPassword(String password) {

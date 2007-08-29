@@ -22,11 +22,13 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.ErrCodes;
@@ -84,9 +86,9 @@ public class TaskLauncherConfig
 	
 	public final static int DEFAULT_PORT = 5988;
 
-	private static final Enum VERSION_FOR_CREATE = Version.VERSION_2_4;
+	private static final Enum VERSION_FOR_CREATE = Version.VERSION_2_5;
 
-	private static final Enum[] SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS = new Enum[]{Version.VERSION_2_0,Version.VERSION_2_1,Version.VERSION_2_2,Version.VERSION_2_3,Version.VERSION_2_4};
+	private static final Enum[] SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS = new Enum[]{Version.VERSION_2_5};
 
 	public static final String HTTP = "http";
 	public static final int HTTP_PORT_DEFAULT = 5988;
@@ -204,14 +206,14 @@ public class TaskLauncherConfig
 		for (int j = 0; j < cimoms.length; j++) {
 			CimomDocument.Cimom cimom = cimoms[j];
 		    i++;
-		    logger.log(Level.INFO, "Cimom data #" + i + " read: " + cimom.getUser() + "@" + cimom.getHostname() + cimom.getNamespace());
+		    logger.log(Level.INFO, "Cimom data #" + i + " read: " + cimom.getUser() + "@" + cimom.getHostname());
 		    this.addCimomData(cimom);
 		}
 		
 		hasConfiguration = cimoms.length > 0;
 		if (!hasConfiguration)
 		{
-			CimomData cimomData = new CimomData("",TaskLauncherConfig.DEFAULT_PORT,DEFAULT_PROTOCOL, DEFAULT_NAMESPACE,"");
+			CimomData cimomData = new CimomData("",TaskLauncherConfig.DEFAULT_PORT,DEFAULT_PROTOCOL,"");
 			//cimomData.addTreeConfig(new TreeConfigData("noConfig","noConfig.xml","","messages",null,null,null));
 			this.cimomData.add(cimomData);
 		}
@@ -249,8 +251,12 @@ public class TaskLauncherConfig
 				TreeConfigData treeConfigData = (TreeConfigData) iter.next();
 				if (treeConfigData.getName().equals(reference.getName()))
 				{
-					cimomData.addTreeConfig(treeConfigData,reference);
-					found = true;
+					try {
+						cimomData.addTreeConfig((TreeConfigData) treeConfigData.clone(),reference);
+						found = true;
+					} catch (CloneNotSupportedException e) {
+						logger.log(Level.SEVERE,"Cloning of treeconfigData is not supported",e);
+					}
 				}
 			}
 			if (!found)
@@ -373,7 +379,7 @@ public class TaskLauncherConfig
 	}
 
 	// just a DTO
-    public static class TreeConfigData
+    public static class TreeConfigData implements Cloneable
     {
         private String name;
         private String filename;
@@ -383,17 +389,19 @@ public class TaskLauncherConfig
 		private String embeddedFilterClass;
 		private final String welcomeListenerClass;
         private final Map configMap = new HashMap();
+		private String namespace;
 		
 		
-        public TreeConfigData(String name, String filename, String slpServicename, String bundle, String lookupClass, String embeddedFilterClass, String welcomeListenerClass)
+        public TreeConfigData(String name, String filename, String slpServicename, String bundle, String lookupClass, String embeddedFilterClass, String welcomeListenerClass, String namespace)
         {
             this.name = name;
             this.filename = filename;
 			this.slpServicename = slpServicename;
+			this.bundles = new String[]{bundle};
 			this.lookupClass = lookupClass;
 			this.embeddedFilterClass = embeddedFilterClass;
 			this.welcomeListenerClass = welcomeListenerClass;
-			this.bundles = new String[]{bundle};
+            this.namespace = namespace;
         }
         
         public TreeConfigData(TreeconfigDocument.Treeconfig treeconfig)
@@ -404,6 +412,7 @@ public class TaskLauncherConfig
             this.lookupClass = treeconfig.getClassForServerTaskLookup();
             this.embeddedFilterClass = treeconfig.getEmbeddedFilter();
             this.welcomeListenerClass = treeconfig.getWelcomeListener();
+            this.namespace = treeconfig.getNamespace();
             
             ResourceBundle[] resourceBundleArray = treeconfig.getResourceBundleArray();
             this.bundles = new String[resourceBundleArray.length];
@@ -445,7 +454,23 @@ public class TaskLauncherConfig
             
         }
         
-        public String getName()
+        /**
+         * Cloning Constructor
+         * @param data
+         */
+        private TreeConfigData(TreeConfigData data) {
+            this.name = data.getName();
+            this.filename = data.getFilename();
+			this.slpServicename = data.getSlpServicename();
+			this.bundles = (String[]) ArrayUtils.clone(data.getBundles());
+			this.lookupClass = data.getLookupClass();
+			this.embeddedFilterClass = data.getEmbeddedFilterClass();
+			this.welcomeListenerClass = data.getWelcomeListenerClass();
+            this.namespace = data.getNamespace();
+            this.configMap.putAll(data.getConfigurationMap()); 
+		}
+
+		public String getName()
         {
             return this.name;
         }
@@ -473,6 +498,16 @@ public class TaskLauncherConfig
 		
 		public String getWelcomeListenerClass() {
 			return welcomeListenerClass;
+		}
+
+		public String getNamespace() {
+			return namespace;
+		}
+		
+		
+
+		public void setNamespace(String namespace) {
+			this.namespace = namespace;
 		}
 
 		/**
@@ -518,7 +553,7 @@ public class TaskLauncherConfig
 		}
 		
 		/**
-		 * return the Map with all the configuration values
+		 * return the Map with all the configuration values as a copy
 		 * 
 		 * key: The key as string
 		 * value: ConfigurationValueData object
@@ -529,9 +564,24 @@ public class TaskLauncherConfig
 		public Map getConfigurationMap()
 		{
 			Map result = new HashMap();
+			Iterator iterator = configMap.entrySet().iterator();
+			while (iterator.hasNext())
+			{
+				Map.Entry entry = (Entry) iterator.next();
+				ConfigurationValueData value = (ConfigurationValueData) entry.getValue();
+				value = new ConfigurationValueData(value.getName(),value.getValue());
+				result.put(entry.getKey(),value);
+			}
 			result.putAll(configMap);
 			return result;
 		}
+
+		protected Object clone() throws CloneNotSupportedException {
+			TreeConfigData clone = new TreeConfigData(this);
+			return clone;
+		}
+		
+		
 		
 		
     }
@@ -544,38 +594,43 @@ public class TaskLauncherConfig
 		 */
 		private static final long serialVersionUID = -7105076857317689934L;
 		private String hostname,
-                       namespace,
                        protocol,
-                       user;
+                       user, password;
         private int port;
 		private Vector treeConfigs = new Vector();
 		
         public CimomData()
         {
             this.hostname = new String();
-            this.namespace = new String();
             this.protocol = TaskLauncherConfig.DEFAULT_PROTOCOL;
             this.user = new String();
         }
         
-		public CimomData(String hostname, int port, String protocol, String namespace, String user)
+		public CimomData(String hostname, int port, String protocol, String user)
         {
             this.hostname = hostname;
             this.port = port;
-            this.namespace = namespace;
             this.protocol = StringUtils.isNotEmpty(protocol) ? protocol : DEFAULT_PROTOCOL;
             this.user = user;
         }
         
-        public CimomData(CimomDocument.Cimom cimom)
+		public CimomData(String hostname, int port, String protocol, String user, String password)
         {
-            this(cimom.getHostname(), cimom.getPort(), cimom.getProtocol(), cimom.getNamespace(), cimom.getUser());
+            this.hostname = hostname;
+            this.port = port;
+            this.protocol = StringUtils.isNotEmpty(protocol) ? protocol : DEFAULT_PROTOCOL;
+            this.user = user;
+            this.password = password;
+        }
+
+		public CimomData(CimomDocument.Cimom cimom)
+        {
+            this(cimom.getHostname(), cimom.getPort(), cimom.getProtocol(), cimom.getUser());
         }
 
         public CimomData(SLPHostDefinition definition) {
             this.hostname = definition.getHostname();
             this.port = definition.getPort();
-            this.namespace = definition.getNamespace();
             this.protocol = TaskLauncherConfig.DEFAULT_PROTOCOL;
             this.user = TaskLauncherConfig.DEFAULT_USER;
 		}
@@ -594,6 +649,8 @@ public class TaskLauncherConfig
 
 			if (reference != null)
 			{
+				treeConfigData.setNamespace(reference.getNamespace());
+				
 				ConfigurationValue[] values = reference.getConfigurationValueArray();
 				for (int i = 0; i < values.length; i++) {
 					treeConfigData.overwriteConfigValue(values[i]);	
@@ -616,17 +673,6 @@ public class TaskLauncherConfig
             this.hostname = hostname;
         }
 
-        public String getNamespace()
-        {
-            return namespace;
-        }
-
-        public void setNamespace(String namespace)
-        {
-            this.namespace = namespace;
-        }
-
-        
         
 		public String getProtocol() {
 			return protocol;
@@ -646,8 +692,16 @@ public class TaskLauncherConfig
             this.user = user;
         }
 
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
 		public String getInfo() {
-			return protocol + "://" + hostname + ":" + port + namespace;
+			return protocol + "://" + hostname + ":" + port;
 		}
 
 		/**
@@ -745,7 +799,6 @@ public class TaskLauncherConfig
 		tasklauncherconfig.setVersion(VERSION_FOR_CREATE);
 		Cimom cimom = tasklauncherconfig.addNewCimom();
 		cimom.setHostname(TaskLauncherConfig.DEFAULT_HOST);
-		cimom.setNamespace(TaskLauncherConfig.DEFAULT_NAMESPACE);
 		cimom.setPort(TaskLauncherConfig.DEFAULT_PORT);
 		cimom.setUser(TaskLauncherConfig.DEFAULT_USER);
 		
@@ -893,7 +946,6 @@ public class TaskLauncherConfig
 		return new CimomData(cimClient.getNameSpace().getHost(), 
 							 cimClient.getNameSpace().getPort(),
 							 cimClient.getNameSpace().getHostURL().getProtocol(),
-							 cimClient.getNameSpace().getNameSpace(),
 							 cimClient.getSessionProperties().getDefaultPrincipal());
 	}
 

@@ -70,7 +70,7 @@ public class SLPDummyLoader extends SLPLoader {
 							if (treeconfig.getName().equals(treeconfigReference.getName())
 								&& treeconfig.getSlpServicename().equalsIgnoreCase(serviceName))
 							{
-								result.add(new SLPHostDefinition(cimom.getHostname(),cimom.getPort(),cimom.getProtocol(),cimom.getNamespace()));
+								result.add(new SLPHostDefinition(cimom.getHostname(),cimom.getPort(),cimom.getProtocol(),treeconfigReference.getNamespace()));
 							}
 						}
 					}
@@ -99,7 +99,11 @@ public class SLPDummyLoader extends SLPLoader {
 				Cimom[] cimomArray = doc.getTasklauncherconfig().getCimomArray();
 				for (int i = 0; i < cimomArray.length; i++) {
 					Cimom cimom = cimomArray[i];
-					result.add(new SLPHostDefinition(cimom.getHostname(),cimom.getPort(),cimom.getProtocol(),cimom.getNamespace()));
+					TreeconfigReference[] treeconfigReferenceArray = cimom.getTreeconfigReferenceArray();
+					for (int k = 0; k < treeconfigReferenceArray.length; k++) {
+						TreeconfigReference treeconfigReference = treeconfigReferenceArray[k];
+						result.add(new SLPHostDefinition(cimom.getHostname(),cimom.getPort(),cimom.getProtocol(),treeconfigReference.getNamespace()));
+					}
 				}
 			}
 		} catch (Exception e) {

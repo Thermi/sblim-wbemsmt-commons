@@ -204,7 +204,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      */
     public boolean hasSubnodes()
     {
-        return(!this.subnodes.isEmpty());
+        return(this.subnodes != null && !this.subnodes.isEmpty());
     }
     
     /**

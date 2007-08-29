@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://sblim.org/wbemsmt/tasklauncher/tasklauncherconfig" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tasklauncher="http://sblim.org/wbemsmt/tasklauncher/tasklauncherconfig" elementFormDefault="unqualified">
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Michael Bauschert (private) -->
+<xs:schema targetNamespace="http://sblim.org/wbemsmt/tasklauncher/tasklauncherconfig" xmlns:tasklauncher="http://sblim.org/wbemsmt/tasklauncher/tasklauncherconfig" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified">
 	<xs:element name="cimom">
 		<xs:complexType>
 			<xs:sequence>
@@ -7,7 +8,6 @@
 			</xs:sequence>
 			<xs:attribute name="hostname" type="xs:string" use="required"/>
 			<xs:attribute name="user" type="xs:string"/>
-			<xs:attribute name="namespace" type="xs:string"/>
 			<xs:attribute name="port" type="xs:int"/>
 			<xs:attribute name="protocol" type="xs:string" use="optional"/>
 		</xs:complexType>
@@ -29,6 +29,7 @@
 				<xs:element ref="tasklauncher:configurationDefinition" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="namespace" type="xs:string" use="required"/>
 			<xs:attribute name="filename" type="xs:string" use="required"/>
 			<xs:attribute name="slpServicename" type="xs:string" use="required"/>
 			<xs:attribute name="classForServerTaskLookup" type="xs:string" use="required"/>
@@ -42,6 +43,7 @@
 				<xs:element ref="tasklauncher:configurationValue" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="namespace" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="resourceBundle">
@@ -67,20 +69,14 @@
 			<xs:attribute name="value" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-		<xs:simpleType name="version">
-        <xs:annotation>
-        	<xs:documentation>
+	<xs:simpleType name="version">
+		<xs:annotation>
+			<xs:documentation>
         	Versions
         	</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-			<xs:enumeration value="VERSION_2_0"/>
-			<xs:enumeration value="VERSION_2_1"/>
-			<xs:enumeration value="VERSION_2_2"/>
-			<xs:enumeration value="VERSION_2_3"/>
-			<xs:enumeration value="VERSION_2_4"/>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="VERSION_2_5"/>
 		</xs:restriction>
 	</xs:simpleType>
-	
-	
 </xs:schema>

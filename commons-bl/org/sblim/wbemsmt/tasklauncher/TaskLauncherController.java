@@ -18,14 +18,8 @@
 
 package org.sblim.wbemsmt.tasklauncher;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
-import java.util.Map.Entry;
+import java.net.UnknownHostException;
+import java.util.*;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,8 +28,11 @@ import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.Cleanup;
 import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.Message;
+import org.sblim.wbemsmt.exception.ExceptionUtil;
+import org.sblim.wbemsmt.exception.LoginException;
 import org.sblim.wbemsmt.exception.ModelLoadException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.session.WbemsmtSession;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.CimomData;
 import org.sblim.wbemsmt.tasklauncher.logging.FacesMessageFormater;
 import org.sblim.wbemsmt.tasklauncher.logging.FacesMessageHandler;
@@ -55,7 +52,6 @@ public class TaskLauncherController implements Cleanup
     private static ConsoleHandler handler;
     
     
-    private Map cimClients = new HashMap();
     private HashMap treeFactories;
     private TaskLauncherConfig taskLauncherConfig;
     private String runtimeMode;
@@ -63,6 +59,7 @@ public class TaskLauncherController implements Cleanup
 	private SLPLoader slpLoader;
 	private boolean useSlp;
 	private WbemSmtResourceBundle bundle;
+	private List cimomDatas = new ArrayList();
     
     public TaskLauncherController() throws WbemSmtException
     {
@@ -77,12 +74,6 @@ public class TaskLauncherController implements Cleanup
         bundle = ResourceBundleManager.getCommonResourceBundle();
     }
 
-    public CIMClient getCimClient(String name)
-    {
-        return (CIMClient) cimClients.get(name);
-    }
-
-    
     
     public SLPLoader getSlpLoader() {
 		return slpLoader;
@@ -92,10 +83,10 @@ public class TaskLauncherController implements Cleanup
 		this.slpLoader = slpLoader;
 	}
 
-	public void init(String name, CIMClient cimClient, boolean useSlpForTasks) throws ModelLoadException
-    {
-		init(name, cimClient, useSlpForTasks,null);
-    }
+	public void init(String hostname, String port, String protocol, String username, String password, boolean useSlpForTasks) throws ModelLoadException {
+		init(hostname,port,protocol,username,password,useSlpForTasks,null);
+	}
+	
 	
 	/**
 	 * Initialize the TaskLauncherController
@@ -105,13 +96,13 @@ public class TaskLauncherController implements Cleanup
 	 * @param treeConfigs List with TreeConfigData-Objects. Can be used to filter all those tasks which are not in the List
 	 * @throws ModelLoadException
 	 */
-	public void init(String name, CIMClient cimClient, boolean useSlpForTasks, List treeConfigs) throws ModelLoadException
+	public void init(String hostname, String port, String protocol, String username, String password, boolean useSlpForTasks, List treeConfigs) throws ModelLoadException
     {
-        try {
+		try {
+			cimomDatas.add(new TaskLauncherConfig.CimomData(hostname,Integer.parseInt(port),protocol,username,password));
         	this.useSlp = useSlpForTasks;
-			this.cimClients.put(name,cimClient);
 			loadConfig(null,treeConfigs);
-		} catch (WbemSmtException e) {
+		} catch (Exception e) {
 			throw new ModelLoadException(e);
 		}
     }
@@ -142,23 +133,29 @@ public class TaskLauncherController implements Cleanup
     	}
     	treeFactories.clear();
     	
-    	for (Iterator it = cimClients.entrySet().iterator(); it.hasNext();) {
-			Entry entry = (Entry) it.next();
-    		CIMClient cimClient = (CIMClient) entry.getValue();
-    		String cimomName = (String) entry.getKey();
-			if(cimClient != null && this.taskLauncherConfig != null)
+    	for (Iterator it = cimomDatas.iterator(); it.hasNext();) {
+    		CimomData data = (CimomData) it.next();
+			if(data != null && this.taskLauncherConfig != null)
 			{
-				Vector treeconfigsByHostname = taskLauncherConfig.getTreeConfigDataByHostname(cimClient.getNameSpace().getHost());
-				CimomData cimomData = taskLauncherConfig.getCimomDataDataByHostname(cimClient.getNameSpace().getHost());
-				if (cimomData == null)
-				{
-					cimomData = TaskLauncherConfig.getDefaultCimomData(cimClient);
-				}
+				String cimomName = (String)data.getHostname() ;
+				Vector treeconfigsByHostname = taskLauncherConfig.getTreeConfigDataByHostname(cimomName);
 				
 				List treeConfigs = new ArrayList();
 				for (Iterator iter = treeconfigsByHostname.iterator(); iter.hasNext();) {
 					TaskLauncherConfig.TreeConfigData configData = (TaskLauncherConfig.TreeConfigData) iter.next();
-					addTreeConfig(cimClient, configData, cimomData, treeConfigs);
+					
+					try {
+						if (WbemsmtSession.getSession().getCIMClientPool(cimomName) == null)
+						{
+							WbemsmtSession.getSession().createCIMClientPool(cimomName,""+data.getPort(),data.getUser(),data.getPassword());
+						}
+						CIMClient cimClient = WbemsmtSession.getSession().getCIMClientPool(cimomName).getCIMClient(configData.getNamespace());
+						addTreeConfig(cimClient, configData, data, treeConfigs);
+					} catch (UnknownHostException e) {
+						logger.log(Level.SEVERE, "Cannot create a CIMClient for host " + cimomName + " Host was not found",e);
+					} catch (LoginException e) {
+						ExceptionUtil.handleException(e);
+					}
 				}
 				
 				if (treeConfigs.size() == 0)
@@ -167,20 +164,31 @@ public class TaskLauncherController implements Cleanup
 					{
 						if (taskLauncherConfig.getTreeConfigData().size() > 0)
 						{
-							JsfUtil.addMessage(Message.create(ErrCodes.MSG_HOST_NOT_FOUND_TASKS_ADDED,Message.INFO,bundle,"host.not.found.tasks.added", new Object[]{cimClient.getNameSpace().getHost()}));
+							JsfUtil.addMessage(Message.create(ErrCodes.MSG_HOST_NOT_FOUND_TASKS_ADDED,Message.INFO,bundle,"host.not.found.tasks.added", new Object[]{cimomName}));
 						}
 						else
 						{
-							JsfUtil.addMessage(Message.create(ErrCodes.MSG_HOST_NOT_FOUND,Message.INFO,bundle,"host.not.found", new Object[]{cimClient.getNameSpace().getHost()}));
+							JsfUtil.addMessage(Message.create(ErrCodes.MSG_HOST_NOT_FOUND,Message.INFO,bundle,"host.not.found", new Object[]{cimomName}));
 						}
 					}
 					for (Iterator iter = taskLauncherConfig.getTreeConfigData().iterator(); iter.hasNext();) {
 						TaskLauncherConfig.TreeConfigData configData = (TaskLauncherConfig.TreeConfigData) iter.next();
-						addTreeConfig(cimClient, configData, cimomData, treeConfigs);
+						try {
+							if (WbemsmtSession.getSession().getCIMClientPool(cimomName) == null)
+							{
+								WbemsmtSession.getSession().createCIMClientPool(cimomName,""+data.getPort(),data.getUser(),data.getPassword());
+							}
+							CIMClient cimClient = WbemsmtSession.getSession().getCIMClientPool(cimomName).getCIMClient(configData.getNamespace());
+							addTreeConfig(cimClient, configData, data, treeConfigs);
+						} catch (UnknownHostException e) {
+							logger.log(Level.SEVERE, "Cannot create a CIMClient for host " + cimomName + " Host was not found",e);
+						} catch (LoginException e) {
+							ExceptionUtil.handleException(e);
+						}
 					}
 				}
 
-				this.treeFactories.put(cimomName, new TaskLauncherTreeFactory(cimClient, treeConfigs));
+				this.treeFactories.put(cimomName, new TaskLauncherTreeFactory(treeConfigs));
 			}
 		}
     }
@@ -189,7 +197,7 @@ public class TaskLauncherController implements Cleanup
 		if (!useSlp || useSlp && SLPUtil.getTaskIsSupported(slpLoader,cimClient.getNameSpace().getHost(),configData.getSlpServicename()))
 		{
 			logger.log(Level.INFO, "Creating Treefactory \"" + configData.getName() + "\" from file " + configData.getFilename());
-			CustomTreeConfig treeConfig = new CustomTreeConfig(configData,cimomData);
+			CustomTreeConfig treeConfig = new CustomTreeConfig(configData,cimomData,cimClient);
 			if (RuntimeUtil.getInstance().isJSF())
 			{
 				if (RuntimeUtil.getInstance().isJSF())
@@ -198,11 +206,11 @@ public class TaskLauncherController implements Cleanup
 					{
 						if (treeConfig.serverTaskExists(cimClient))
 						{
-							JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_SUPPORTED,Message.INFO,bundle,"task.supported", new Object[]{configData.getName(),cimClient.getNameSpace().getHost()}));
+							JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_SUPPORTED,Message.INFO,bundle,"task.supported", new Object[]{configData.getName(),cimClient.getNameSpace().getHost(),cimClient.getNameSpace().getNameSpace()}));
 						}
 						else
 						{
-							JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_NOT_SUPPORTED_SERVER,Message.ERROR,bundle,"task.not.supported.on.server", new Object[]{configData.getName(),cimClient.getNameSpace().getHost()}));
+							JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_NOT_SUPPORTED_SERVER,Message.ERROR,bundle,"task.not.supported.on.server", new Object[]{configData.getName(),cimClient.getNameSpace().getHost(),cimClient.getNameSpace().getNameSpace()}));
 						}
 					}
 					else
@@ -272,23 +280,23 @@ public class TaskLauncherController implements Cleanup
 		this.taskLauncherConfig = new TaskLauncherConfig(configFilename, treeConfigs,useSlp,slpLoader);
 
 		//Overwrite the namespace of the CIMClients if Slp was used and SLP lookup returned other namespace
-		for (Iterator it = cimClients.entrySet().iterator(); it.hasNext();) {
-			Entry entry = (Entry) it.next();
-    		CIMClient cimClient = (CIMClient) entry.getValue();
-			if(cimClient != null && this.taskLauncherConfig != null)
-			{
-				CimomData cimomData = taskLauncherConfig.getCimomDataDataByHostname(cimClient.getNameSpace().getHost());
-				if (cimomData == null)
-				{
-					cimomData = TaskLauncherConfig.getDefaultCimomData(cimClient);
-				}
-				
-				if (useSlp && !cimomData.getNamespace().equals(cimClient.getNameSpace().getNameSpace()))
-				{
-					cimClient.getNameSpace().setNameSpace(cimomData.getNamespace());
-				}
-			}
-		}
+//		for (Iterator it = cimClients.entrySet().iterator(); it.hasNext();) {
+//			Entry entry = (Entry) it.next();
+//    		CIMClient cimClient = (CIMClient) entry.getValue();
+//			if(cimClient != null && this.taskLauncherConfig != null)
+//			{
+//				CimomData cimomData = taskLauncherConfig.getCimomDataDataByHostname(cimClient.getNameSpace().getHost());
+//				if (cimomData == null)
+//				{
+//					cimomData = TaskLauncherConfig.getDefaultCimomData(cimClient);
+//				}
+//				
+//				if (useSlp && !cimomData.getNamespace().equals(cimClient.getNameSpace().getNameSpace()))
+//				{
+//					cimClient.getNameSpace().setNameSpace(cimomData.getNamespace());
+//				}
+//			}
+//		}
 		
 		this.createTreeFactories();
 	}
@@ -319,7 +327,6 @@ public class TaskLauncherController implements Cleanup
 	}
 
 	public void cleanup() {
-		cimClients.clear();
 		if (treeFactories != null) treeFactories.clear();
 	}
 
@@ -332,6 +339,7 @@ public class TaskLauncherController implements Cleanup
 		loadConfig(configFilename);
 		
 	}
+
 	
 	
 	

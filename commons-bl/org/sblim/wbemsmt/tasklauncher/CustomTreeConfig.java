@@ -50,11 +50,13 @@ public class CustomTreeConfig
 	private boolean loaded = false;
 	private Contextmenu commonContextMenue;
 	private final CimomData cimomData;
+	private final CIMClient cimClient;
 
-    public CustomTreeConfig(TreeConfigData configData, CimomData cimomData)
+    public CustomTreeConfig(TreeConfigData configData, CimomData cimomData, CIMClient cimClient)
     {
         this.treeConfigData = configData;
 		this.cimomData = cimomData;
+		this.cimClient = cimClient;
 		this.filename = configData.getFilename();
         this.readConfig();
     }
@@ -189,6 +191,12 @@ public class CustomTreeConfig
 	public boolean isLoaded() {
 		return loaded;
 	}
+	
+	public static boolean isLoaded(TreeConfigData configData)
+	{
+		return new CustomTreeConfig(configData,null,null).isLoaded();
+	}
+	
 
 	public void setLoaded(boolean loaded) {
 		this.loaded = loaded;
@@ -231,6 +239,11 @@ public class CustomTreeConfig
 		return commonContextMenue;
 	}
 
+	public CIMClient getCimClient() {
+		return cimClient;
+	}
+
+	
 	
 	
 	

@@ -29,4 +29,12 @@ Update from unknown to VERSION_2_4
     - Change is compatible to 2_3
  	- Modifed Attribute version of root-element tasklauncherconfig (version="VERSION_2_4")
  	- Remove attribute applicationNamespace in cimom element
+
+Update from unknown to VERSION_2_5
+
+    - Change is *not* compatible to 2_4
+ 	- Modifed Attribute version of root-element tasklauncherconfig (version="VERSION_2_5")
+ 	- Remove attribute namespace in cimom element
+ 	- Add attribute namespace to treeconfig
+ 	- Add attribute namespace to treeconfigReference
  	

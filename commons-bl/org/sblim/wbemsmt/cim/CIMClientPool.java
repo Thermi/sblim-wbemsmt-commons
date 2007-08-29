@@ -23,11 +23,13 @@ package org.sblim.wbemsmt.cim;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.sblim.wbem.cim.CIMException;
 import org.sblim.wbem.cim.CIMNameSpace;
 import org.sblim.wbem.cim.CIMObjectPath;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbem.client.PasswordCredential;
 import org.sblim.wbem.client.UserPrincipal;
+import org.sblim.wbemsmt.exception.LoginException;
 
 public class CIMClientPool {
 	String username;
@@ -54,7 +56,7 @@ public class CIMClientPool {
 	 * @param namespace
 	 * @return
 	 */
-	public CIMClient getCIMClient(String namespace) {
+	public CIMClient getCIMClient(String namespace)  throws LoginException {
 	
 		CIMClient client = (CIMClient) clientsByNamespace.get(namespace);
 		if (client == null)
@@ -62,7 +64,11 @@ public class CIMClientPool {
 			String url = "HTTP://" + hostname + ":" + port.trim();
 			client = new CIMClient(new CIMNameSpace(url,namespace), new UserPrincipal(username.trim()), new PasswordCredential(password));
 			//check if the client can access the server
-			client.enumerateClasses();
+			try {
+				client.enumerateClasses();
+			} catch (CIMException e) {
+				throw new LoginException(e,client);
+			}
 			clientsByNamespace.put(namespace, client);
 		}
 		
@@ -77,7 +83,7 @@ public class CIMClientPool {
 	 * @return a cimclient for the namespace of the cimObjectPath
 	 */
 
-	public CIMClient getCIMClient(CIMClient cimClient, CIMObjectPath cimObjectPath) {
+	public CIMClient getCIMClient(CIMClient cimClient, CIMObjectPath cimObjectPath) throws LoginException {
 		
 		String ns1 = cimClient.getNameSpace().getNameSpace();
 		String ns2 = cimObjectPath.getNameSpace();

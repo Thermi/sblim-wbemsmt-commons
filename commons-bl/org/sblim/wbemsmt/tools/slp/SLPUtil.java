@@ -83,11 +83,12 @@ public class SLPUtil {
 			}
 			
 			TreeconfigReference[] treeconfigReferenceArray = foundCimom.getTreeconfigReferenceArray();
+			TreeconfigReference treeconfigReference = null;
 			boolean found = false;
 			for (int j = 0; j < treeconfigArray.length && !found; j++) {
 				Treeconfig treeconfig = treeconfigArray[j];
 				for (int k = 0; k < treeconfigReferenceArray.length && !found; k++) {
-					TreeconfigReference treeconfigReference = treeconfigReferenceArray[k];
+					treeconfigReference = treeconfigReferenceArray[k];
 					if (treeconfig.getName().equals(treeconfigReference.getName())
 							&& treeconfig.getSlpServicename().equals(serviceConfig.getSlpServicename()))
 						{
@@ -98,9 +99,10 @@ public class SLPUtil {
 			
 			if (!found)
 			{
-				TreeconfigReference reference = foundCimom.addNewTreeconfigReference();
-				reference.setName(serviceConfig.getName());
+				treeconfigReference = foundCimom.addNewTreeconfigReference();
+				treeconfigReference.setName(serviceConfig.getName());
 			}
+			treeconfigReference.setNamespace(agent.getNamespace());
 		}
 		
 	}
@@ -115,7 +117,6 @@ public class SLPUtil {
 		Cimom foundCimom;
 		foundCimom = launcherConfig.addNewCimom();
 		foundCimom.setHostname(hostDefinition.getHostname());
-		foundCimom.setNamespace(hostDefinition.getNamespace());
 		foundCimom.setPort(hostDefinition.getPort());
 		foundCimom.setProtocol(hostDefinition.getProtocol());
 		foundCimom.setUser("pegasus");
@@ -193,9 +194,14 @@ public class SLPUtil {
 		List result = new ArrayList();
 		for (int i = 0; i < configs.length; i++) {
 			Treeconfig treeconfig = configs[i];
-			if (getTaskIsSupported(slpLoader, host, treeconfig.getSlpServicename()))
+			String slpServicename = treeconfig.getSlpServicename();
+			if (getTaskIsSupported(slpLoader, host, slpServicename))
 			{
-				result.add(treeconfig);
+				SLPHostDefinition hostForSupportedTask = getHostForSupportedTask(slpLoader, host, slpServicename);
+				Treeconfig copy = Treeconfig.Factory.newInstance();
+				copy.set(treeconfig.copy());
+				copy.setNamespace(hostForSupportedTask.getNamespace());
+				result.add(copy);
 			}
 		}
 		Treeconfig[] newConfigs = (Treeconfig[]) result.toArray(new Treeconfig[result.size()]);

@@ -15,16 +15,26 @@
   * Contributors: 
   * 
   * Description: Tree representing a CIMOM in MultiHost-Mode
+  *              This kind of Treenode cannot hold a CIMClient reference because for logging in you will need a CIMNamespace. And the namespace is defined by the task itself
+  *              
+  *              So for retrieving a CIMClient within a specific task you can do the following:
+  *              <xmp>
+  *						ITaskLauncherTreeNode node = cimomTreeNode.getNodeForTask(MetaclusterCimAdapter.METACLUSTER_TASKNAME);
+  *						//continue only if the task was found
+  *						if (node != null)
+  *						{
+  *							CIMClient cimClient = node.getCimClient();
+  *							//do something meaningful
+  *						}
+  *              </xmp>
+  *              
   * 
   */
 package org.sblim.wbemsmt.tasklauncher;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
+import java.net.UnknownHostException;
+import java.util.*;
+import java.util.logging.Level;
 
 import javax.faces.context.FacesContext;
 
@@ -34,6 +44,7 @@ import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
 import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.session.WbemsmtSession;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.CimomData;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.TreeConfigData;
 import org.sblim.wbemsmt.tasklauncher.login.CimomLoginLogoutListener;
@@ -50,13 +61,12 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 	private WbemSmtResourceBundle bundle = null;
 	
 	private CimomData cimomData;
-	private CIMClient cimClient;
 
-	private String password;
 	private boolean emptyPassword;
 	private boolean remindPassword;
 	private boolean useSlp;
 	private boolean slpRendered;
+	private boolean loggedIn;
 	
 	private SLPLoader slpLoader = null;
 
@@ -77,14 +87,6 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
     
     }
 
-	public CIMClient getCimClient() {
-		return cimClient;
-	}
-
-	public void setCimClient(CIMClient cimClient) {
-		this.cimClient = cimClient;
-	}
-
 	public CimomData getCimomData() {
 		return cimomData;
 	}
@@ -93,27 +95,18 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 		this.cimomData = cimom;
 	}
 
-	public boolean hasCimClient() {
-		return cimClient != null;
-	}
-
 	public void readSubnodes(boolean notifyEventListener) throws WbemSmtException {
-		if (cimClient != null)
-		{
-	    	for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
-				ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) iter.next();
-				Vector subnodes = node.getSubnodes();
-				for (Iterator iterator = subnodes.iterator(); iterator.hasNext();) {
-					ITaskLauncherTreeNode childNode = (ITaskLauncherTreeNode) iterator.next();
-					childNode.readSubnodes(notifyEventListener);
-				}
-			}
-	    	subnodesRead = true;
-		}
-		else
-		{
-			subnodesRead = true;
-		}
+//    	for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
+//			ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) iter.next();
+//			Vector subnodes = node.getSubnodes();
+//			for (Iterator iterator = subnodes.iterator(); iterator.hasNext();) {
+//				ITaskLauncherTreeNode childNode = (ITaskLauncherTreeNode) iterator.next();
+//				childNode.readSubnodes(notifyEventListener);
+//			}
+//		}
+		
+		subnodesRead = true;
+		
     	if(notifyEventListener)
         {
         	// notify event listeners of refresh event
@@ -149,25 +142,29 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 
 	public void buildTree(TreeConfigData[] treeConfigDatas) throws WbemSmtException {
 		clearSubnodes();
-		if (cimClient != null)
-		{
-			for (int i=0; i < treeConfigDatas.length; i++) {
-				TreeConfigData treeConfigData = (TreeConfigData) treeConfigDatas[i];
-				
-				CustomTreeConfig treeConfig = new CustomTreeConfig(treeConfigData,cimomData);
-				
-				boolean readNodes = false;
-				
+		for (int i=0; i < treeConfigDatas.length; i++) {
+			TreeConfigData treeConfigData = (TreeConfigData) treeConfigDatas[i];
+			
+			CustomTreeConfig treeConfig = new CustomTreeConfig(treeConfigData,cimomData,null);
+			
+			boolean readNodes = false;
+			
+			try {
+				if (WbemsmtSession.getSession().getCIMClientPool(cimomData.getHostname()) == null)
+				{
+					WbemsmtSession.getSession().createCIMClientPool(cimomData.getHostname(),""+cimomData.getPort(),cimomData.getUser(),cimomData.getPassword());
+				}
+				CIMClient cimClient = WbemsmtSession.getSession().getCIMClientPool(cimomData.getHostname()).getCIMClient(treeConfigData.getNamespace());
 				if (treeConfig.isLoaded())
 				{
 					if (treeConfig.serverTaskExists(cimClient))
 					{
 						readNodes = true;
-						JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_SUPPORTED,Message.INFO,bundle,"task.supported", new Object[]{treeConfigData.getName(),cimClient.getNameSpace().getHost()}));
+						JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_SUPPORTED,Message.INFO,bundle,"task.supported", new Object[]{treeConfigData.getName(),cimClient.getNameSpace().getHost(),cimClient.getNameSpace().getNameSpace()}));
 					}
 					else
 					{
-						JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_NOT_SUPPORTED_SERVER,Message.ERROR,bundle,"task.not.supported.on.server", new Object[]{treeConfigData.getName(),cimClient.getNameSpace().getHost()}));
+						JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_NOT_SUPPORTED_SERVER,Message.ERROR,bundle,"task.not.supported.on.server", new Object[]{treeConfigData.getName(),cimClient.getNameSpace().getHost(),cimClient.getNameSpace().getNameSpace()}));
 					}
 				}
 				else
@@ -180,10 +177,10 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 					TaskLauncherTreeNode rootNode = TaskLauncherTreeNode.createNodeFromXML(cimClient, treeConfig.getRootnode(),treeConfig);
 					if (treeConfig.getCommonContextMenue() != null)
 					{
-        				TaskLauncherContextMenu contextMenu = new TaskLauncherContextMenu(treeConfig.getCommonContextMenue(),treeConfig.getTreeConfigData().getBundles());
-        				contextMenu.setCommon(true);
-        				//The ContextMenue in MultiHost Environment is having no default node
-        				contextMenu.setNode(null);
+	    				TaskLauncherContextMenu contextMenu = new TaskLauncherContextMenu(treeConfig.getCommonContextMenue(),treeConfig.getTreeConfigData().getBundles());
+	    				contextMenu.setCommon(true);
+	    				//The ContextMenue in MultiHost Environment is having no default node
+	    				contextMenu.setNode(null);
 						commonContextMenues.put(treeConfig.getTreeConfigData().getName(),contextMenu);
 					}
 					//forget the root node and just add the childs
@@ -195,13 +192,16 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 				}
 				else
 				{
-    				TaskLauncherTreeNode rootNode = TaskLauncherTreeNode.createSimpleTextNode(treeConfig.getTreeConfigData().getName());
-    				rootNode.setCustomTreeConfig(treeConfig);
-    				rootNode.setEnabled(false);
+					TaskLauncherTreeNode rootNode = TaskLauncherTreeNode.createSimpleTextNode(treeConfig.getTreeConfigData().getName());
+					rootNode.setCustomTreeConfig(treeConfig);
+					rootNode.setEnabled(false);
 					addSubnode(rootNode);
 				}
-			}
+			} catch (UnknownHostException e) {
+				logger.log(Level.SEVERE, "Cannot create a CIMClient for host " + cimomData.getHostname() + " Host was not found",e);
+			}			
 		}
+		loggedIn = treeConfigDatas != null &&  treeConfigDatas.length > 0;
 	}
 
 	/**
@@ -215,7 +215,7 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 	
 	public void updateName()
 	{
-		if (cimClient != null)
+		if (isLoggedIn())
 		{
 			String usr = cimomData.getUser() != null && cimomData.getUser().length() > 0 ? cimomData.getUser() : bundle.getString("noUser");
 			setName(getTreeNodeName(bundle,cimomData.getHostname(),usr)); 
@@ -255,18 +255,11 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 	}
 
 	public void logout() throws WbemSmtException {
-		setCimClient(null);
+		loggedIn = false;
+		clearSubnodes();
 		updateName();
-		buildTree();   
+		buildTree(new TreeConfigData[]{});   
 		readSubnodes(true);
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public boolean isUseSlp() {
@@ -311,9 +304,52 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
     	//dont set the customTreeConfig becauuse the delegator treenode is not having a CustomtreeConfig
     	//subnode.setCustomTreeConfig(customTreeConfig);
         this.subnodes.add(subnode);
-    } 
+    }
+
+	public boolean isLoggedIn() {
+		return loggedIn;
+	}
+
+	public void setLoggedIn(boolean loggedIn) {
+		this.loggedIn = loggedIn;
+	}
+
+	/**
+	 * the method will return to CIMClient, since CIMOMTreeNode are not having a namespace and cannot create a cimclient
+	 * the namespace is defined by the tasks itselfs and therefore the first instance that is holding a CIMClient are the
+	 * child nodes
+	 * 
+	 * @see #getNodeForTask(String)
+	 */
+	public CIMClient getCimClient() {
+		throw new IllegalArgumentException("Cannot get CIMClient from CimomTreeNode");
+	}
+
+	public void setCimClient(CIMClient cimClient) {
+		throw new IllegalArgumentException("Cannot set CIMClient on CimomTreeNode");
+	}
+
+	/**
+	 * Get the node of the specified task. The taskname should correspond to the name of the task in the tasklauncher-config.xml
+	 * @param taskname
+	 * @return the node or null if for the task no host was found
+	 * @throws WbemSmtException
+	 */
+	public ITaskLauncherTreeNode getNodeForTask(String taskname) throws WbemSmtException {
+    	for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
+			ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) iter.next();
+			if (   node.getCustomTreeConfig() != null 
+				&& node.getCustomTreeConfig().getTreeConfigData() != null 
+				&& taskname.equals(node.getCustomTreeConfig().getTreeConfigData().getName()) )
+			{
+				return node;
+			}
+		}
+    	
+    	return null;
+	} 
 	
-	
+    
 	
 	
     

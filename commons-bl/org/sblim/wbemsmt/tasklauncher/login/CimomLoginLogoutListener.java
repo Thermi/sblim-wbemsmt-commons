@@ -60,9 +60,9 @@ public class CimomLoginLogoutListener extends TaskLauncherContextMenuEventListen
 				LoginCheck login = (LoginCheck)BeanNameConstants.LOGIN_CHECK.asValueBinding(fc).getValue(fc);
 				login.setCimomData(cimomTreeNode.getCimomData());
 				String result;
-				if (cimomTreeNode.hasCimClient())
+				if (cimomTreeNode.isLoggedIn())
 				{
-					result = "cimomLogout";
+ 					result = "cimomLogout";
 				}
 				else
 				{
@@ -78,7 +78,7 @@ public class CimomLoginLogoutListener extends TaskLauncherContextMenuEventListen
 							{
 								CimomTreeNode node = (CimomTreeNode)it.next();
 								MultiHostLoginData loginData = WbemsmtCookieUtil.getMultiHostLoginDataFromCookie(node.getCimomData().getUser(), node.getCimomData().getHostname());
-								node.setPassword(loginData != null ? loginData.getPassword(): "");
+								node.getCimomData().setPassword(loginData != null ? loginData.getPassword(): "");
 								node.setRemindPassword(loginData != null);
 								node.setEmptyPassword(loginData != null ? loginData.isUseEmptyPassword(): false);
 								node.setUseSlp(loginData != null ? loginData.isUseSlp(): false);
