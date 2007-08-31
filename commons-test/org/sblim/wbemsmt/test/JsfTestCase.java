@@ -88,7 +88,7 @@ public class JsfTestCase extends WbemSmtTestCase {
 		WbemSmtAssert.assertTextFound(selenium, bundle.getString("pleaseLogin"));
 		selenium.type("connectFields:host", config.getHost());
 		selenium.type("connectFields:port", config.getPort());
-		selenium.type("connectFields:namespace", namespace);
+		//selenium.type("connectFields:namespace", namespace);
 		selenium.type("connectFields:username", config.getUser());
 		selenium.type("connectFields:password", config.getPassword());
 		
@@ -110,7 +110,7 @@ public class JsfTestCase extends WbemSmtTestCase {
 		if (assertSuccess)
 		{
 			WbemSmtAssert.assertTextNotFound(selenium, bundle.getString("error.while.execution"));
-			WbemSmtAssert.assertTextFound(selenium, bundle.getString("DIR.WTR.0001.task.supported", new Object[]{taskName,config.getHost()}));
+			WbemSmtAssert.assertTextFound(selenium, bundle.getString("DIR.WTR.0001.task.supported", new Object[]{taskName,config.getHost(),namespace}));
 		}
 		else
 		{

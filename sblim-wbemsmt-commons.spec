@@ -126,8 +126,9 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 
 ###############################################################################
 %changelog
-* Wed Aug 29 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.1-CVS
+* Fri Aug 31 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.1-CVS
   - Inclusion of fixes for the following issues:
+	o 1785699  wbemsmt-commons-test: remove namespace from testlogin  
     o 1784051  wbemsmt-commons: define namespace per task
     
 * Mon Aug 27 2007 Wolfgang Taphorn <taphorn@de.ibm.com> 0.5.1-1
