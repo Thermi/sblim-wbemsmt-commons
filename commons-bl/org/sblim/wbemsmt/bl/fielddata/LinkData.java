@@ -14,7 +14,7 @@
   *
   * Contributors: 
   * 
-  * Description: TODO
+  * Description: DataObject for Links
   * 
   */
 package org.sblim.wbemsmt.bl.fielddata;

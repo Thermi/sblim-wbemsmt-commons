@@ -14,7 +14,7 @@
   *
   * Contributors: 
   * 
-  * Description: TODO Add class description
+  * Description: Abstract base class for calculating metrics
   * 
   */
 package org.sblim.wbemsmt.bl.metric;

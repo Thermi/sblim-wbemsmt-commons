@@ -703,7 +703,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 						ContextmenuDocument.Contextmenu instanceMenu = cimclassnode.getInstanceSubnodes().getContextmenu();
 						if(instanceMenu != null)
 						{
-							//TODO cache the Menu and clone the cached one for better performance 
+							//For better peformance cache the Menu and clone the cached one for better performance 
 							((CIMClassNode) subnode).setInstanceContextMenu((TaskLauncherContextMenu) new TaskLauncherContextMenu(instanceMenu,subnode.getCustomTreeConfig().getTreeConfigData().getBundles()).clone());
 						}
 					}
@@ -791,7 +791,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			}
 
 			// add context menu
-			// TODO cache the Menu and clone the cached one for better performance 
+			// For better peformance cache the Menu and clone the cached one for better performance 
 			try {
 				String[] bundles = subnode.getCustomTreeConfig() != null && subnode.getCustomTreeConfig().getTreeConfigData() != null ? subnode.getCustomTreeConfig().getTreeConfigData().getBundles() : new String[]{"messages"};
 				subnode.setContextMenu((TaskLauncherContextMenu) new TaskLauncherContextMenu(treenode.getContextmenu(),bundles).clone());

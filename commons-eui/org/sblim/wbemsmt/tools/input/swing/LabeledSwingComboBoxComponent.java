@@ -53,13 +53,10 @@ public class LabeledSwingComboBoxComponent extends LabeledSwingInputComponent im
 	}
 
 	public boolean isShowAllInReadOnlyView() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public void setShowAllInReadOnlyView(boolean showAllInReadOnlyView) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

@@ -81,7 +81,6 @@ public abstract class MultiLinePanel extends BasePanel {
 		dataTable.setVar("item");
 		dataTable.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + bindingPrefix +  rolename + "ForUI}"));
 		dataTable.setHeaderClass("multiLineRowHeader left");
-		//TODO add the same orientation for the header like for the cells
 		dataTable.setValueBinding("rowClasses", FacesContext.getCurrentInstance().getApplication().createValueBinding(bindingPrefixOfContainer +  ".rowClasses}"));
 		dataTable.setCellpadding("0");
 		dataTable.setCellspacing("0");
@@ -128,7 +127,6 @@ public abstract class MultiLinePanel extends BasePanel {
 		setHeader(inputComponent,null);
 	}
 
-	//TODO rename to setFields
 	public void setHeader(LabeledJSFInputComponent[] inputComponent, String[] names)
 	{
 		this.headerFields = inputComponent;
@@ -147,9 +145,6 @@ public abstract class MultiLinePanel extends BasePanel {
 			String expr = "#{" + bindingPrefix + rolename + "Panel.headerVisible[" + i + "]}";
 			column.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding(expr));
 			
-			
-			
-			//TODO set orientation of LabelPanel WelcomeItemDataContainer_AsItems_InWelcomeDataContainerImpl.orientationOfColumnAsCss[0]
 			column.getFacets().put("header", node.getLabelPanel());
 			column.getChildren().add(node.getComponentPanel());
 			addDummy(column);

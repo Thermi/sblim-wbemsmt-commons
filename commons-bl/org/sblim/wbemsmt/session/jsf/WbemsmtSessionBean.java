@@ -14,7 +14,7 @@
   *
   * Contributors: 
   * 
-  * Description: TODO
+  * Description: Managed bean for accesing the Wbemsmt Session
   * 
   */
 package org.sblim.wbemsmt.session.jsf;

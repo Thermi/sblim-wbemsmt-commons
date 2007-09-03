@@ -14,7 +14,7 @@
   *
   * Contributors: 
   * 
-  * Description: TODO Add class description
+  * Description: Calculator for percent metrics
   * 
   */
 package org.sblim.wbemsmt.bl.metric;

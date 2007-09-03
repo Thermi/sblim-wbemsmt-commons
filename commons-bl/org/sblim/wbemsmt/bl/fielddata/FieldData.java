@@ -14,7 +14,7 @@
   *
   * Contributors: 
   * 
-  * Description: TODO
+  * Description: Interface for all data objects for a field
   * 
   */
 package org.sblim.wbemsmt.bl.fielddata;

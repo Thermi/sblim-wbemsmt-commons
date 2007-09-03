@@ -407,7 +407,6 @@ public abstract class CimCommand {
 	protected CIMClient getCimClient(PrintStream out, CommandLine cmd,CimClientOptionValues clientOptons
 			) throws LoginException {
 
-		//TODO implement the connection with public/private-Keys
 		String server = CliUtil.getOption(cmd,clientOptons.getHost());
 		String strPort = CliUtil.getOption(cmd,clientOptons.getPort());
 		String namespace = CliUtil.getOption(cmd,clientOptons.getNamespace());

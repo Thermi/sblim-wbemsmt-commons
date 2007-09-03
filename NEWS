@@ -1,5 +1,6 @@
 Changes on top of 0.5.1
 ==============================================================================
+- 1787145  wbemsmt-commons:cleanup apidoc and todos
 - 1785699  wbemsmt-commons-test: remove namespace from testlogin
 - 1784051  wbemsmt-commons: define namespace per task
 
