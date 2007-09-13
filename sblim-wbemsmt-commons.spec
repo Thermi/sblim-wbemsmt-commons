@@ -129,6 +129,7 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 * Thu Sep 13 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.1-CVS
   - Inclusion of fixes for the following issues:
     o 1793907  wbemsmt-commons: add object to compare ProfileVersions
+    o 1793906  wbemsmt-commons-test: getCimClientFor interop namespace
     o 1787145  wbemsmt-commons:cleanup apidoc and todos
 	o 1785699  wbemsmt-commons-test: remove namespace from testlogin  
     o 1784051  wbemsmt-commons: define namespace per task

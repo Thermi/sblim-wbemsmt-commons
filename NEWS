@@ -1,6 +1,7 @@
 Changes on top of 0.5.1
 ==============================================================================
 - 1793907  wbemsmt-commons: add object to compare ProfileVersions
+- 1793906  wbemsmt-commons-test: getCimClientFor interop namespace
 - 1787145  wbemsmt-commons:cleanup apidoc and todos
 - 1785699  wbemsmt-commons-test: remove namespace from testlogin
 - 1784051  wbemsmt-commons: define namespace per task

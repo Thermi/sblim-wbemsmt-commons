@@ -48,6 +48,7 @@ public class WbemSmtTestCase extends TestCase {
 	
 	protected static Logger logger = Logger.getLogger("org.sblim.wbemsmt.test");
 	protected static WbemSmtTestConfig config = WbemSmtTestConfig.getInstance();
+	private CIMClient ccSlp;
 	
 	
 	
@@ -62,27 +63,43 @@ public class WbemSmtTestCase extends TestCase {
 
 
 	/**
-	 * Get the CIMClient
+	 * Get the CIMClient with the application namespace
 	 * @return
 	 */
 	public CIMClient getCIMClient()
 	{
-		if (cc == null)
+		return getCIMClient(false);
+	}
+	/**
+	 * Get the CIMClient
+	 * @return
+	 */
+	public CIMClient getCIMClient(boolean useSlpNamespace)
+	{
+		if (!useSlpNamespace && cc == null || useSlpNamespace && ccSlp == null)
 		{
 			 try {
 				UserPrincipal userPrincipal      = new UserPrincipal(config.getUser());
 				PasswordCredential passwordCredential = new PasswordCredential(config.getPassword().toCharArray());		
 				
-				String ns = config.getNameSpace();
+				String ns = useSlpNamespace ? config.getSlpNameSpace() : config.getNameSpace();
 				if (!ns.startsWith("/"))
 				{
 					ns = "/" + ns;
 				}
 				
-				CIMNameSpace cimNameSpace       = new CIMNameSpace(config.getUrl() + ns);
+				CIMNameSpace cimNameSpace       = new CIMNameSpace(config.getUrl(),ns);
 				
-				cc = new CIMClient(cimNameSpace, userPrincipal, passwordCredential);
-				Enumeration e = cc.enumerateClasses(new CIMObjectPath("CIM_ManagedElement"),false,false,false,false);
+				CIMClient client = null;
+				if (!useSlpNamespace)
+				{
+					client = cc = new CIMClient(cimNameSpace, userPrincipal, passwordCredential);
+				}
+				else
+				{
+					client = ccSlp = new CIMClient(cimNameSpace, userPrincipal, passwordCredential);
+				}
+				Enumeration e = client.enumerateClasses(new CIMObjectPath("CIM_ManagedElement"),false,false,false,false);
 				if (e.hasMoreElements()) {
 					CIMClass cls = (CIMClass) e.nextElement();
 					System.err.println(cls.toString());
@@ -91,7 +108,16 @@ public class WbemSmtTestCase extends TestCase {
 				 WbemSmtAssert.fail("Received error when trying ot retreieve client handle",e);
 			 }			
 		}
-		return cc;
+		
+		if (!useSlpNamespace)
+		{
+			return cc;
+		}
+		else
+		{
+			return ccSlp;
+		}
+		
 	}
 
 	protected void checkLastTestOK() {
