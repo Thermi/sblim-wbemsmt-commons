@@ -1,4 +1,4 @@
-Changes on top of 0.5.1
+Changes in 0.5.2-1
 ==============================================================================
 - 1793907  wbemsmt-commons: add object to compare ProfileVersions
 - 1793906  wbemsmt-commons-test: getCimClientFor interop namespace

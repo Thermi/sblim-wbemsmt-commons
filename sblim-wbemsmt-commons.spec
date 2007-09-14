@@ -1,6 +1,6 @@
 %define name                    sblim-wbemsmt-commons
 %define version                 0.5.2
-%define build_release           CVS
+%define build_release           1
 %define release                 %{build_release}jpp
 %define section                 free
 
