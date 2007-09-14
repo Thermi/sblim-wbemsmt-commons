@@ -1,4 +1,76 @@
 // =========================================================================
+// new in version 0.5.2-1 :
+
+2007-09-14 18:18  taphorn
+
+	* sblim-wbemsmt-commons.spec: Preparation of next release
+
+2007-09-14 18:14  taphorn
+
+	* NEWS, build.xml, sblim-wbemsmt-commons.spec: Preparation of next
+	  release
+
+2007-09-13 15:32  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec,
+	  commons-test/org/sblim/wbemsmt/test/WbemSmtTestCase.java: Fix
+	  1793906  wbemsmt-commons-test: getCimClientFor interop namespace
+
+2007-09-13 15:31  mbauschert
+
+	* commons-bl/org/sblim/wbemsmt/bl/profiles/ProfileVersion.java,
+	  NEWS, sblim-wbemsmt-commons.spec: Fix 1793907
+	  wbemsmt-commons: add object to compare ProfileVersions
+
+2007-09-03 17:18  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec,
+	  commons-bl/org/sblim/wbemsmt/bl/StreamUtil.java,
+	  commons-bl/org/sblim/wbemsmt/bl/fielddata/FieldData.java,
+	  commons-bl/org/sblim/wbemsmt/bl/fielddata/LinkData.java,
+	  commons-bl/org/sblim/wbemsmt/bl/metric/AbstractMetricCalculator.java,
+	  commons-bl/org/sblim/wbemsmt/bl/metric/PercentMetricCalculator.java,
+	  commons-bl/org/sblim/wbemsmt/session/jsf/WbemsmtSessionBean.java,
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/TaskLauncherTreeNode.java,
+	  commons-bl/org/sblim/wbemsmt/tools/input/test/LabeledTestStringArrayComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/cli/CimCommand.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/swing/LabeledSwingComboBoxComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/jsf/MultiLinePanel.java: Fix
+	  [1787145] wbemsmt-commons: cleanup apidoc and todos for more see
+	  http://sourceforge.net/tracker/index.php?group_id=128809&func=detail&atid=712784&aid=1787145
+
+2007-08-31 19:37  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec,
+	  commons-test/org/sblim/wbemsmt/test/JsfTestCase.java: Fix
+	  [1785699] wbemsmt-commons-test: remove namespace from testlogin
+	  for more see
+	  http://sourceforge.net/tracker/index.php?group_id=128809&func=detail&atid=712784&aid=1785699
+
+2007-08-29 16:13  mbauschert
+
+	* commons-eui/org/sblim/wbemsmt/tools/jsf/WbemsmtCookieUtil.java,
+	  NEWS, sblim-wbemsmt-commons.spec,
+	  commons-bl/conf/tasklauncher-config-modelChanges.txt,
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/CimomTreeNode.java,
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/CustomTreeConfig.java,
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/TaskLauncherConfig.java,
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/TaskLauncherController.java,
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/TaskLauncherTreeFactory.java,
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/TaskLauncherTreeNode.java,
+	  commons-bl/messages.properties,
+	  commons-bl/messages_de.properties,
+	  commons-bl/messages_en.properties,
+	  commons-bl/conf/tasklauncher-config.xsd,
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/login/CimomLoginLogoutListener.java,
+	  commons-bl/org/sblim/wbemsmt/tools/slp/SLPDummyLoader.java,
+	  commons-bl/org/sblim/wbemsmt/tools/slp/SLPUtil.java,
+	  commons-eui/org/sblim/wbemsmt/webapp/jsf/ObjectActionControllerBean.java,
+	  eclipse-launch-config/generate tasklauncherModel.launch,
+	  commons-bl/org/sblim/wbemsmt/cim/CIMClientPool.java: Fix 1784051
+	  wbemsmt-commons: define namespace per task
+
+// =========================================================================
 // new in version 0.5.1-1 :
 
 2007-08-23 11:26  mbauschert
