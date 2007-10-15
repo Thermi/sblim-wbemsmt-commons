@@ -1,5 +1,6 @@
 Changes in 0.5.2-1
 ==============================================================================
+- 1813894  wbemsmt-commons:LocaleManager.getCurrentLocale() 
 - 1813891  wbemsmt-commons: JsfWizard add exceptionhandling
 - 1793907  wbemsmt-commons: add object to compare ProfileVersions
 - 1793906  wbemsmt-commons-test: getCimClientFor interop namespace

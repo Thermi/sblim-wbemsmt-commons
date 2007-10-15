@@ -128,6 +128,7 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 %changelog
 * Mon Oct 15 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.2-1
   - Inclusion of fixes for the following issues:
+	o 1813894  wbemsmt-commons:LocaleManager.getCurrentLocale()
     o 1813891  wbemsmt-commons: JsfWizard add exceptionhandling
     o 1793907  wbemsmt-commons: add object to compare ProfileVersions
     o 1793906  wbemsmt-commons-test: getCimClientFor interop namespace

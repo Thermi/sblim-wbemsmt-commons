@@ -19,9 +19,12 @@
   */
 package org.sblim.wbemsmt.tools.resources;
 
+import java.util.Locale;
+
 import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
+import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
 public class LocaleManager {
 
@@ -30,4 +33,24 @@ public class LocaleManager {
 		ILocaleManager localeManager = (ILocaleManager) BeanNameConstants.LOCALE_MANAGER.asValueBinding(fc).getValue(fc);
 		return localeManager;
 	}
+
+	/**
+	 * Gets the current locale
+	 * in JSF the FacesContext.currentLocale is used
+	 * For other PresentationLayer the Default Locale of the VM is used
+	 * @return
+	 */
+	public static Locale getCurrentLocale() {
+		
+		if (RuntimeUtil.getInstance().isJSF())
+		{
+			return getCurrent(FacesContext.getCurrentInstance()).getCurrentLocale();
+		}
+		else
+		{
+			return Locale.getDefault();
+		}
+	}
+	
+	
 }
