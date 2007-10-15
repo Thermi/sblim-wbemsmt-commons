@@ -22,5 +22,8 @@
 	<classpathentry kind="var" path="JAR_REPO/sblim/sblim-cim-client/current/sblim-cim-client.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/sblim/sblim-slp-client/current/sblim-slp-client.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/selenium/selenium-remote-control/current/selenium-java-client-driver.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/commons-digester/commons-digester/current/commons-digester.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/commons-jexl/current/commons-jexl.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/commons-beanutils/commons-beanutils/current/commons-beanutils.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
