@@ -1,6 +1,6 @@
 %define name                    sblim-wbemsmt-commons
 %define version                 0.5.2
-%define build_release           1
+%define build_release           CVS
 %define release                 %{build_release}jpp
 %define section                 free
 
@@ -126,7 +126,7 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 
 ###############################################################################
 %changelog
-* Mon Oct 15 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.2-1
+* Mon Oct 15 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.2-CVS
   - Inclusion of fixes for the following issues:
     o 1813925  wbemsmt-indications: utils for managing open ports
     o 1813922  wbemsmt-cli: cliDataLoader uses command CIMCommandValues
@@ -134,6 +134,9 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
     o 1813897  wbemsmt-commons: update the tree if requested from BL
 	o 1813894  wbemsmt-commons:LocaleManager.getCurrentLocale()
     o 1813891  wbemsmt-commons: JsfWizard add exceptionhandling
+
+* Mon Oct 15 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.2-1
+  - Inclusion of fixes for the following issues:
     o 1793907  wbemsmt-commons: add object to compare ProfileVersions
     o 1793906  wbemsmt-commons-test: getCimClientFor interop namespace
     o 1787145  wbemsmt-commons:cleanup apidoc and todos

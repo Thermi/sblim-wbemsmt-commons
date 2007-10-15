@@ -1,4 +1,4 @@
-Changes in 0.5.2-1
+Changes on top of 0.5.2-1
 ==============================================================================
 - 1813925  wbemsmt-indications: utils for managing open ports
 - 1813922  wbemsmt-cli: cliDataLoader uses command CIMCommandValues
@@ -6,6 +6,9 @@ Changes in 0.5.2-1
 - 1813897  wbemsmt-commons: update the tree if requested from BL
 - 1813894  wbemsmt-commons:LocaleManager.getCurrentLocale() 
 - 1813891  wbemsmt-commons: JsfWizard add exceptionhandling
+
+Changes in 0.5.2-1
+==============================================================================
 - 1793907  wbemsmt-commons: add object to compare ProfileVersions
 - 1793906  wbemsmt-commons-test: getCimClientFor interop namespace
 - 1787145  wbemsmt-commons:cleanup apidoc and todos
