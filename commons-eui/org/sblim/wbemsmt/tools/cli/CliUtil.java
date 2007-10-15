@@ -244,6 +244,19 @@ public class CliUtil {
 		}
 	}
 	
+	
+	/**
+	 * Takes the parsed commandline from the commandvalues and gets the option
+	 * defined by the the definition argument
+	 * @param commandValues
+	 * @param definition
+	 * @return
+	 */
+	public static String getOption(CimCommandValues commandValues,
+			OptionDefinition definition) {
+		return getOption(commandValues.getCommandLine(), definition);
+	}
+	
 	/**
 	 * @return
 	 */
@@ -264,5 +277,6 @@ public class CliUtil {
 		}
 		return className;
 	}
+
 
 }

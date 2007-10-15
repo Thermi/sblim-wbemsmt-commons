@@ -125,6 +125,24 @@ public class CimCommandValues {
 		this.parseException = parseException;
 	}
 
+
+	/**
+	 * Shortcut:Takes the commandline from this object and calls a getOptionValue
+	 * @param key
+	 * @return
+	 */
+	public String getOptionValue(String key) {
+		return getCommandLine().getOptionValue(key);
+	}
+
+	/**
+	 * Shortcut:Takes the commandline from this object and calls a getOptionValue
+	 * @param key
+	 * @return
+	 */
+	public String getOptionValue(char c) {
+		return getCommandLine().getOptionValue(c);
+	}
 	
 	
 	

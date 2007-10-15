@@ -33,11 +33,11 @@ public interface CliDataLoader {
 	 *
 	 * @param bundle the resourceBundle for Exceptions
 	 * @param adapter the adapter for making the selection
-	 * @param cmd the Commandline
+	 * @param commandValues the Commandline
 	 * @throws ObjectNotFoundException
 	 * 
 	 * @see AbstractBaseCimAdapter#select(org.sblim.wbemsmt.bl.adapter.CimObjectKey)
 	 * @see CliUtil#getOption(CommandLine, OptionDefinition)
 	 */
-	public void load(WbemSmtResourceBundle bundle, AbstractBaseCimAdapter adapter, CommandLine cmd) throws ObjectNotFoundException ;
+	public void load(WbemSmtResourceBundle bundle, AbstractBaseCimAdapter adapter, CimCommandValues commandValues) throws ObjectNotFoundException ;
 }
