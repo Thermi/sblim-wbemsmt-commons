@@ -24,9 +24,6 @@ import org.sblim.wbemsmt.tasklauncher.ITaskLauncherUiTreeNode;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeFactory;
 
 
-
-
-
 public interface ITreeSelector {
 
 	public abstract String getCurrentOutcome();
@@ -44,5 +41,7 @@ public interface ITreeSelector {
 	public abstract void setSelectedNode(ITaskLauncherUiTreeNode node);
 	
 	public TaskLauncherTreeFactory getCurrentTreeFactory();
+
+	public ITreeBacker getCurrentTreeBacker();
 
 }
