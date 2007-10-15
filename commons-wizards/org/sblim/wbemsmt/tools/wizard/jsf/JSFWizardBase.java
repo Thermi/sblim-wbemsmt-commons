@@ -202,81 +202,88 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 	
 	public String next() throws ValidationException, ObjectUpdateException, UpdateControlsException
 	{
-        String actualPanelName = (String) container.getUsedPages().peek();
-        //currentPanel = (WizardBasePanel)container.getPages().get(actualPanelName);
-        baseCimAdapter.validateValues((DataContainer) currentPanel);
-		MessageList result = ((DataContainer) currentPanel).getMessagesList();
-
-		if(!result.hasErrors())
+	
+		try
 		{
-        	baseCimAdapter.updateModel((DataContainer) currentPanel);
-        	result = ((DataContainer) currentPanel).getMessagesList();
-        	if (result.hasWarning())
-        	{
-        		addMessage(new Message(ErrCodes.MSG_ADDITIONAL_MESSAGES,Message.WARNING,bundle.getString(ErrCodes.MSG_ADDITIONAL_MESSAGES,"additional.messages")));
-        	}
-        	if (result.hasInfo())
-        	{
-        		addMessage(new Message(ErrCodes.MSG_ADDITIONAL_MESSAGES,Message.INFO,bundle.getString(ErrCodes.MSG_ADDITIONAL_MESSAGES,"additional.messages")));
-        	}
-        	addMessages(result);
-		} else {
-			addMessages(new Message(ErrCodes.MSG_VALIDATION_ERROR,Message.ERROR,bundle.getString(ErrCodes.MSG_VALIDATION_ERROR,"validation.error")),result, true);
+	        String actualPanelName = (String) container.getUsedPages().peek();
+	        //currentPanel = (WizardBasePanel)container.getPages().get(actualPanelName);
+	        baseCimAdapter.validateValues((DataContainer) currentPanel);
+			MessageList result = ((DataContainer) currentPanel).getMessagesList();
+
+			if(!result.hasErrors())
+			{
+	        	baseCimAdapter.updateModel((DataContainer) currentPanel);
+	        	result = ((DataContainer) currentPanel).getMessagesList();
+	        	if (result.hasWarning())
+	        	{
+	        		addMessage(new Message(ErrCodes.MSG_ADDITIONAL_MESSAGES,Message.WARNING,bundle.getString(ErrCodes.MSG_ADDITIONAL_MESSAGES,"additional.messages")));
+	        	}
+	        	if (result.hasInfo())
+	        	{
+	        		addMessage(new Message(ErrCodes.MSG_ADDITIONAL_MESSAGES,Message.INFO,bundle.getString(ErrCodes.MSG_ADDITIONAL_MESSAGES,"additional.messages")));
+	        	}
+	        	addMessages(result);
+			} else {
+				addMessages(new Message(ErrCodes.MSG_VALIDATION_ERROR,Message.ERROR,bundle.getString(ErrCodes.MSG_VALIDATION_ERROR,"validation.error")),result, true);
+			}
+
+	        if (!result.hasErrors())
+	        {
+	        	result.clear();
+	        	
+	        	container.getStepList().getWizardStep(actualPanelName).setCurrent(false);
+	    		actualPanelName = container.getNextWizardPageName();
+	            container.getStepList().getWizardStep(actualPanelName).setCurrent(true);
+
+	            try {
+	            	IWizardBasePanel newPanel = (IWizardBasePanel)container.getPage(actualPanelName);
+					MessageList.init((DataContainer) newPanel).addAll(((DataContainer) currentPanel).getMessagesList());
+					currentPanel = newPanel;
+					container.getPages().put(actualPanelName, currentPanel);
+
+					countAndCreateChilds((DataContainer) currentPanel);
+				} catch (WbemSmtException e) {
+					throw new UpdateControlsException("Cannot find WizardPage " + actualPanelName,e);
+				}
+	        	DataContainer oldPanel = (DataContainer) pages.get(actualPanelName);
+	            //if the page was displayed before
+	            if (oldPanel != null)
+	            {
+	            	DataContainerUtil.copyValues(oldPanel,(DataContainer) currentPanel);
+	            }
+	            baseCimAdapter.updateControls((DataContainer) currentPanel);
+	            container.getUsedPages().push(actualPanelName);
+	            container.setCurrentPageName(actualPanelName);
+
+	        	addMessages(result);
+	        	result.clear();
+	        }
+	        else 
+	        {
+	        	DataContainer oldPanel = (DataContainer) currentPanel;
+	        	
+	            try {
+					currentPanel = (IWizardBasePanel) container.getPage(actualPanelName);
+					container.getPages().put(actualPanelName, currentPanel);
+				} catch (WbemSmtException e) {
+					throw new UpdateControlsException("Cannot find WizardPage " + actualPanelName,e);
+				}
+	            currentPanel =  (IWizardBasePanel) DataContainerUtil.copyValues(oldPanel, (DataContainer) currentPanel);
+	            baseCimAdapter.updateControls((DataContainer) currentPanel);
+	            //revalidate to get the wrong fields marked
+	            baseCimAdapter.validateValues((DataContainer) currentPanel);
+	        }
+	        result.clear();
+	        container.updateButtonStates(container.isLast(actualPanelName),container.isFirst(actualPanelName));
+	        switchButtons();
+	        
+		 	pages.put(actualPanelName,currentPanel);
+		} catch (Exception e)
+		{
+			JsfUtil.handleException(e);
 		}
-
-        if (!result.hasErrors())
-        {
-        	result.clear();
-        	
-        	container.getStepList().getWizardStep(actualPanelName).setCurrent(false);
-    		actualPanelName = container.getNextWizardPageName();
-            container.getStepList().getWizardStep(actualPanelName).setCurrent(true);
-
-            try {
-            	IWizardBasePanel newPanel = (IWizardBasePanel)container.getPage(actualPanelName);
-				MessageList.init((DataContainer) newPanel).addAll(((DataContainer) currentPanel).getMessagesList());
-				currentPanel = newPanel;
-				container.getPages().put(actualPanelName, currentPanel);
-
-				countAndCreateChilds((DataContainer) currentPanel);
-			} catch (WbemSmtException e) {
-				throw new UpdateControlsException("Cannot find WizardPage " + actualPanelName,e);
-			}
-        	DataContainer oldPanel = (DataContainer) pages.get(actualPanelName);
-            //if the page was displayed before
-            if (oldPanel != null)
-            {
-            	DataContainerUtil.copyValues(oldPanel,(DataContainer) currentPanel);
-            }
-            baseCimAdapter.updateControls((DataContainer) currentPanel);
-            container.getUsedPages().push(actualPanelName);
-            container.setCurrentPageName(actualPanelName);
-
-        	addMessages(result);
-        	result.clear();
-        }
-        else 
-        {
-        	DataContainer oldPanel = (DataContainer) currentPanel;
-        	
-            try {
-				currentPanel = (IWizardBasePanel) container.getPage(actualPanelName);
-				container.getPages().put(actualPanelName, currentPanel);
-			} catch (WbemSmtException e) {
-				throw new UpdateControlsException("Cannot find WizardPage " + actualPanelName,e);
-			}
-            currentPanel =  (IWizardBasePanel) DataContainerUtil.copyValues(oldPanel, (DataContainer) currentPanel);
-            baseCimAdapter.updateControls((DataContainer) currentPanel);
-            //revalidate to get the wrong fields marked
-            baseCimAdapter.validateValues((DataContainer) currentPanel);
-        }
-        result.clear();
-        container.updateButtonStates(container.isLast(actualPanelName),container.isFirst(actualPanelName));
-        switchButtons();
-        
-	 	pages.put(actualPanelName,currentPanel);
-        
-        return JSFWizardBase.WIZARD_PAGE;
+		
+		return JSFWizardBase.WIZARD_PAGE;
 	}
 	
 	public String back() throws ValidationException, UpdateControlsException
