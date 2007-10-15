@@ -1,5 +1,6 @@
 Changes in 0.5.2-1
 ==============================================================================
+- 1813925  wbemsmt-indications: utils for managing open ports
 - 1813922  wbemsmt-cli: cliDataLoader uses command CIMCommandValues
 - 1813917  wbemsmt-commons: util methods for embedded instances
 - 1813897  wbemsmt-commons: update the tree if requested from BL
