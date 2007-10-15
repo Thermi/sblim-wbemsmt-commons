@@ -1,5 +1,6 @@
 Changes in 0.5.2-1
 ==============================================================================
+- 1813897  wbemsmt-commons: update the tree if requested from BL
 - 1813894  wbemsmt-commons:LocaleManager.getCurrentLocale() 
 - 1813891  wbemsmt-commons: JsfWizard add exceptionhandling
 - 1793907  wbemsmt-commons: add object to compare ProfileVersions

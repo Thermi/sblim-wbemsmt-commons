@@ -615,7 +615,8 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 				if (adapter.isMarkedForReload())
 				{
 					//reload the node
-					adapter.reload();	
+					treeSelectorBean.getCurrentTreeBacker().updateTree();
+					//adapter.reload();	
 					reloaded = true;
 				}
 
