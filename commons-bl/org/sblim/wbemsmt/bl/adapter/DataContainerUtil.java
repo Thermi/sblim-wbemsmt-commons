@@ -215,8 +215,8 @@ public class DataContainerUtil {
 		
 		for (int i = 0; i < interfaces.length; i++) {
 			interfaceClass = interfaces[i];
-			String interfaceName = interfaceClass.getName();
-			if (interfaceName.endsWith("DataContainer"))
+			
+			if (DataContainer.class.isAssignableFrom(interfaceClass))
 			{
 				found = true; 
 				break;

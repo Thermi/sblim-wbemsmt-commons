@@ -128,6 +128,7 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 %changelog
 * Thu Oct 18 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.2-CVS
   - Inclusion of fixes for the following issues:
+    o 1815835  wbemsmt-commons : rework DataContainerUtil.getDCInterface
     o 1815833  wbemsmt-commons : reset flags while reloading adapter
     o 1813925  wbemsmt-indications: utils for managing open ports
     o 1813922  wbemsmt-cli: cliDataLoader uses command CIMCommandValues
