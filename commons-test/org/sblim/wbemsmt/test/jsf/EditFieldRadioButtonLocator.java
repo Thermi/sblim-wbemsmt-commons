@@ -24,7 +24,7 @@ import java.text.MessageFormat;
 public class EditFieldRadioButtonLocator implements FieldLocator {
 
 	private final static String TEMPLATE = "document.mainForm.elements[''mainForm:objectActionController_editBeans__{0}___containers_{1}___{2}_item''][{3}]";
-	private final static String TEMPLATE_LIST = "//input[substring-after(@name,'':{3}:objectActionController_editBeans__{0}___containers_{1}__{2}_{4}'')=''Header_item'' and @value=''{5}'']";
+	private final static String TEMPLATE_LIST = "//input[substring-after(@name,'':{3}:objectActionController_editBeans__{0}___containers_{1}__{2}Header_{4}'')=''_item'' and @value=''{5}'']";
 	private String info;
 	
 	public EditFieldRadioButtonLocator(String tabName, int containerIdx, String fieldName, String radioIdx)

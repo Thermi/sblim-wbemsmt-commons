@@ -128,6 +128,7 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 %changelog
 * Thu Oct 18 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.2-CVS
   - Inclusion of fixes for the following issues:
+    o 1815842  wbemsmt-commons-test : use correct list locator
     o 1815840  wbemsmt-commons-cli : Fix NPE in CimCommand trcErrors
     o 1815835  wbemsmt-commons : rework DataContainerUtil.getDCInterface
     o 1815833  wbemsmt-commons : reset flags while reloading adapter

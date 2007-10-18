@@ -1,5 +1,6 @@
 Changes on top of 0.5.2-1
 ==============================================================================
+- 1815842  wbemsmt-commons-test : use correct list locator
 - 1815840  wbemsmt-commons-cli : Fix NPE in CimCommand trcErrors
 - 1815835  wbemsmt-commons : rework DataContainerUtil.getDCInterface
 - 1815833  wbemsmt-commons : reset flags while reloading adapter
