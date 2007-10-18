@@ -47,6 +47,8 @@ import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
 public abstract class CimCommand {
 
+	private static final String NO_DEFAULT_VALUE = "noDefaultValue";
+
 	/**
 	 * VM argument to switch to DEV_MODE which enables a richer tracing
 	 */
@@ -184,7 +186,7 @@ public abstract class CimCommand {
 	protected void setMultiValue(WbemSmtResourceBundle bundle, CommandLine cmd, LabeledBaseInputComponentIf ipc, OptionDefinition definition) throws WbemSmtException {
 		String value = getOptionValue(cmd, definition);
 		
-		if (value != null)
+		if (value != null && !NO_DEFAULT_VALUE.equals(value))
 		{
 			if (ipc.getConverter().canConvert(value))
 			{
@@ -451,14 +453,16 @@ public abstract class CimCommand {
 	public void traceErrors(String bundlekeyForCaption, MessageList messageList)
 	{
 		commandValues.getErr().println(bundle.getString(bundlekeyForCaption));
-        for (Iterator iter = messageList.iterator(); iter.hasNext();) {
-        	Message msg = (Message) iter.next();
-        	commandValues.getErr().println(msg.toLocalizedString(bundle,true));
-        }
-
+		if (messageList != null)
+		{
+	        for (Iterator iter = messageList.iterator(); iter.hasNext();) {
+	        	Message msg = (Message) iter.next();
+	        	commandValues.getErr().println(msg.toLocalizedString(bundle,true));
+	        }
+		}
         if (Cli.testMode)
 		{
-			Cli.commandExecuted=!messageList.hasErrors();
+			Cli.commandExecuted=messageList == null || !messageList.hasErrors();
 		}
 	}
 
