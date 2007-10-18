@@ -1,5 +1,6 @@
 Changes on top of 0.5.2-1
 ==============================================================================
+- 1815833  wbemsmt-commons : reset flags while reloading adapter
 - 1813925  wbemsmt-indications: utils for managing open ports
 - 1813922  wbemsmt-cli: cliDataLoader uses command CIMCommandValues
 - 1813917  wbemsmt-commons: util methods for embedded instances

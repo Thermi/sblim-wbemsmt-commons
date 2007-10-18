@@ -71,7 +71,7 @@ public class InitAdapterListener extends TaskLauncherTreeNodeEventListenerImpl {
 					
 					adapter.setCimClient(node.getCimClient());
 					adapter.setCustomTreeConfig(node.getCustomTreeConfig());
-					adapter.reLoad(node);
+					adapter.reload(node);
 					adapter.setLocaleManager(localeManager);
 
 					if (!adapter.isLoaded())

@@ -146,7 +146,24 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * execute a reload, discards all changes in the local model an loads the data from the cim server
 	 * @throws ModelLoadException
 	 */
-	public abstract void reLoad(CIMClient cimClient) throws ModelLoadException;
+	protected abstract void reLoad(CIMClient cimClient) throws ModelLoadException;
+	
+	/**
+	 * execute a reload, discards all changes in the local model an loads the data from the cim server
+	 * reset all flags and calls the task-implementation's
+	 * @param cimClient
+	 * @throws ModelLoadException
+	 */
+	public void reload(CIMClient cimClient)  throws ModelLoadException {
+		resetFlags();		
+		reLoad(cimClient);
+	}
+
+	private void resetFlags() {
+		loaded = false;
+		markedForReload = false;
+	}
+	
 	
 	/**
 	 * loads the data
@@ -172,7 +189,18 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * ReLoads with the help from Treenodes
 	 * @param rootNode
 	 */
-	public abstract void reLoad(ITaskLauncherTreeNode rootNode) throws ModelLoadException;
+	protected abstract void reLoad(ITaskLauncherTreeNode rootNode) throws ModelLoadException;
+
+	/**
+	 * execute a reload, discards all changes in the local model an loads the data from the cim server
+	 * reset all flags and calls the task-implementation's
+	 * @param rootNode
+	 * @throws ModelLoadException
+	 */
+	public void reload(ITaskLauncherTreeNode rootNode)  throws ModelLoadException {
+		resetFlags();		
+		reLoad(rootNode);
+	}
 
 	/**
 	 * Loads with the help from Treenodes
@@ -366,7 +394,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	{
 		if (modelElements.size() != containerList.size())
 		{
-			String msg = "There are {0} resource Records found in Model and {1} in GUI. Cannot update the GUI";
+			String msg = "There are {0} entries found in Model and {1} in GUI. Cannot update the GUI";
 			throw new UpdateControlsException(MessageFormat.format(msg,new Object[]{new Integer(modelElements.size()),new Integer(containerList.size())}));
 		}
 		
@@ -1328,6 +1356,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			return null;
 		}
 	}
+
 	
 	
 	
