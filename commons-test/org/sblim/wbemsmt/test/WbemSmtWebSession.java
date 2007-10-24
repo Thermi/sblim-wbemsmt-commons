@@ -1,5 +1,5 @@
  /** 
-  * Selenium.java
+  * WbemSmtWebSession.java
   *
   * (C) Copyright IBM Corp. 2005
   *
@@ -260,6 +260,7 @@ public class WbemSmtWebSession implements Selenium {
 
 	public void open(String arg0) {
 		selenium.open(arg0);
+		selenium.waitForPageToLoad(defaultWaitInterval);
 	}
 
 	public void refresh() {
@@ -276,10 +277,6 @@ public class WbemSmtWebSession implements Selenium {
 
 	public void selectWindow(String arg0) {
 		selenium.selectWindow(arg0);
-	}
-
-	public void setContext(String arg0, String arg1) {
-		selenium.setContext(arg0, arg1);
 	}
 
 	public void setCursorPosition(String arg0, String arg1) {
@@ -540,10 +537,6 @@ public class WbemSmtWebSession implements Selenium {
 		return selenium.getElementWidth(arg0);
 	}
 
-	public String getLogMessages() {
-		return selenium.getLogMessages();
-	}
-
 	public void getSpeed() {
 		selenium.getSpeed();
 	}
@@ -616,15 +609,115 @@ public class WbemSmtWebSession implements Selenium {
 		selenium.shiftKeyUp();
 	}
 
-	public void windowFocus(String arg0) {
-		selenium.windowFocus(arg0);
+	public void windowFocus() {
+		selenium.windowFocus();
 	}
 
-	public void windowMaximize(String arg0) {
-		selenium.windowMaximize(arg0);
+	public void windowMaximize() {
+		selenium.windowMaximize();
 		
 	}
 
+	public void addLocationStrategy(String arg0, String arg1) {
+		selenium.addLocationStrategy(arg0, arg1);
+		
+	}
+
+	public void allowNativeXpath(String arg0) {
+		selenium.allowNativeXpath(arg0);
+	}
+
+	public void assignId(String arg0, String arg1) {
+		selenium.assignId(arg0, arg1);
+		
+	}
+
+	public void captureScreenshot(String arg0) {
+		selenium.captureScreenshot(arg0);
+		
+	}
+
+	public void chooseOkOnNextConfirmation() {
+		selenium.chooseOkOnNextConfirmation();
+	}
+
+	public Number getMouseSpeed() {
+		return selenium.getMouseSpeed();
+	}
+
+	public Number getXpathCount(String arg0) {
+		return selenium.getXpathCount(arg0);
+	}
+
+	public void highlight(String arg0) {
+		selenium.highlight(arg0);
+		
+	}
+
+	public void removeAllSelections(String arg0) {
+		selenium.removeAllSelections(arg0);
+		
+	}
+
+	public void runScript(String arg0) {
+		selenium.runScript(arg0);
+	}
+
+	public void runScriptAndWait(String arg0) {
+		selenium.runScript(arg0);
+		selenium.waitForPageToLoad(defaultWaitInterval);
+	}
+
+	public void setBrowserLogLevel(LogLevel level) {
+		selenium.setBrowserLogLevel(level.toString());
+		
+	}
+
+	public void setBrowserLogLevel(String arg0) {
+		selenium.setBrowserLogLevel(arg0);	
+	}
+
+	public void setContext(String arg0) {
+		selenium.setContext(arg0);
+		
+		
+	}
+
+	public void setMouseSpeed(String arg0) {
+		selenium.setMouseSpeed(arg0);
+		
+	}
+
+	public void typeKeys(String arg0, String arg1) {
+		selenium.typeKeys(arg0, arg1);
+		
+	}
+
+	public void waitForFrameToLoad(String arg0, String arg1) {
+		selenium.waitForFrameToLoad(arg0, arg1);
+		
+	}
+
+	public static LogLevel LEVEL_OFF = new LogLevel("off");
+	public static LogLevel LEVEL_DEBUG = new LogLevel("debug");
+	public static LogLevel LEVEL_INFO = new LogLevel("info");
+	public static LogLevel LEVEL_WARN = new LogLevel("warn");
+	public static LogLevel LEVEL_ERROR = new LogLevel("error");
+	
+	public static class LogLevel
+	{
+		private String level;
+
+		LogLevel(String  level)
+		{
+			this.level = level;
+		}
+		
+		public String toString()
+		{
+			return level;
+		}
+	}
 
 	
 	
