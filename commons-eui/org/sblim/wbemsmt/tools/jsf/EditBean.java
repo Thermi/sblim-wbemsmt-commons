@@ -20,10 +20,9 @@
 package org.sblim.wbemsmt.tools.jsf;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.html.HtmlCommandButton;
@@ -34,18 +33,11 @@ import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.MessageNumber;
-import org.sblim.wbemsmt.bl.adapter.DataContainer;
-import org.sblim.wbemsmt.bl.adapter.DataContainerUtil;
-import org.sblim.wbemsmt.bl.adapter.Message;
-import org.sblim.wbemsmt.bl.adapter.MessageList;
+import org.sblim.wbemsmt.bl.adapter.*;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
-import org.sblim.wbemsmt.exception.CountException;
-import org.sblim.wbemsmt.exception.InitContainerException;
-import org.sblim.wbemsmt.exception.ObjectNotFoundException;
-import org.sblim.wbemsmt.exception.ObjectRevertException;
-import org.sblim.wbemsmt.exception.ObjectSaveException;
-import org.sblim.wbemsmt.exception.UpdateControlsException;
-import org.sblim.wbemsmt.exception.ValidationException;
+import org.sblim.wbemsmt.bl.tree.ITreeSelector;
+import org.sblim.wbemsmt.exception.*;
+import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
@@ -73,6 +65,8 @@ public abstract class EditBean extends JsfBase{
 	protected HtmlCommandButton btnRevert, btnOK = null;
 	protected MessageList saveResult = null;
 
+	protected static Logger logger = Logger.getLogger(EditBean.class.getName());
+	
 	   
 	public String revert() throws ObjectRevertException
 	{
@@ -232,59 +226,47 @@ public abstract class EditBean extends JsfBase{
     * @see org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter#markedForReload
     */
    public static void reloadAdapters(List editBeans) {
-		Set reloadedAdapters = new HashSet();
 
-		for (int i=0; i < editBeans.size(); i++)
-		{
-			try
-			{
-    			EditBean bean = (EditBean)editBeans.get(i);
-    			List containers = bean.getContainers();
-    			for (Iterator iter = containers.iterator(); iter.hasNext();) {
+		try {
+			AbstractBaseCimAdapter adapterForReload = null;
+
+			for (int i = 0; i < editBeans.size() && adapterForReload == null; i++) {
+				EditBean bean = (EditBean) editBeans.get(i);
+				List containers = bean.getContainers();
+				for (Iterator iter = containers.iterator(); iter.hasNext();) {
 					DataContainer container = (DataContainer) iter.next();
-					if (container.getAdapter().isMarkedForReload() && !reloadedAdapters.contains(container.getAdapter()))
-					{
-						container.getAdapter().reload();
-						reloadedAdapters.add(container.getAdapter());
+					if (container.getAdapter().isMarkedForReload()) {
+						adapterForReload = container.getAdapter();
 					}
 				}
 			}
-			catch (Exception e)
-			{
-				JsfUtil.handleException(e);
+			if (adapterForReload != null) {
+				FacesContext facesContext = FacesContext.getCurrentInstance();
+				ITreeSelector treeSelectorBean = (ITreeSelector) BeanNameConstants.TREE_SELECTOR.getBoundValue(facesContext);
+				ObjectActionControllerBean objectActionController = (ObjectActionControllerBean) BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(facesContext);
+				treeSelectorBean.getCurrentTreeBacker().updateTree();
+				
+				if (adapterForReload.getPathOfTreeNode() != null)
+				{
+					TaskLauncherTreeNode node = adapterForReload.getRootNode().findInstanceNode(adapterForReload.getPathOfTreeNode());
+					if (node != null)
+					{
+				        treeSelectorBean.setSelectedTaskLauncherTreeNode(node);
+				        objectActionController.setSelectedNode(node);
+					}
+					else
+					{
+						logger.warning("Node with path " + adapterForReload.getPathOfTreeNode() + " was not found in tree");						
+					}
+					adapterForReload.setPathOfTreeNode(null);
+				}
+				objectActionController.reloadSelectedNode();
 			}
+		} catch (Exception e) {
+			JsfUtil.handleException(e);
 		}
-		
-		
-		
 	}
   
-   /**
-    * Checks the adapters bound to the containers in the editBeans and triggers a reload
-    * for those adapters marked for reload
-    * @param editBeans
-    * @see org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter#markedForReload
-    */
-   public void reloadAdapters() {
-		Set reloadedAdapters = new HashSet();
-
-			try
-			{
-    			for (Iterator iter = containers.iterator(); iter.hasNext();) {
-					DataContainer container = (DataContainer) iter.next();
-					if (container.getAdapter().isMarkedForReload() && !reloadedAdapters.contains(container.getAdapter()))
-					{
-						container.getAdapter().reload();
-						reloadedAdapters.add(container.getAdapter());
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				JsfUtil.handleException(e);
-			}
-	}
-	
    protected void addValidationErrors(MessageList list, WbemSmtResourceBundle bundle)
    {
 	   if (list.hasErrors())

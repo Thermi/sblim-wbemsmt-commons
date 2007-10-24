@@ -532,5 +532,16 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	}
 
 	
+	public void reloadSelectedNode() {
+		
+		getSelectedNode().click(false);
+		setSelectedNode(selectedNode);
+		treeSelector.setSelectedTaskLauncherTreeNode(selectedNode);
+		setSelectedTabIndex(getSelectedTabIndex());
+		setSelectedTabId(getSelectedTabId());
+		
+	}
+
+	
 	
 }
