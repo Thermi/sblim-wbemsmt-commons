@@ -118,7 +118,7 @@ public class SLPUtil {
 	private static Cimom addCimom(Tasklauncherconfig launcherConfig, SLPHostDefinition hostDefinition) {
 		Cimom foundCimom;
 		foundCimom = launcherConfig.addNewCimom();
-		foundCimom.setHostname(hostDefinition.getHostname());
+		foundCimom.setHostname(hostDefinition.getNamespace() + "@" + hostDefinition.getHostname());
 		foundCimom.setPort(hostDefinition.getPort());
 		foundCimom.setProtocol(hostDefinition.getProtocol());
 		foundCimom.setUser("pegasus");
