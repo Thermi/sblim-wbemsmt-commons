@@ -126,8 +126,9 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 
 ###############################################################################
 %changelog
-* Wed Oct 24 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.2-CVS
+* Thu Oct 25 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.2-CVS
   - Inclusion of fixes for the following issues:
+    o 1819756  wbemsmt-commons : wrong xml :overwrite local conf with slp
     o 1819353  wbemsmt-commons-test: migrate to use selenium 0.9.2
     o 1819349  wbemsmt-commons: reload adapters after save
     o 1815842  wbemsmt-commons-test : use correct list locator

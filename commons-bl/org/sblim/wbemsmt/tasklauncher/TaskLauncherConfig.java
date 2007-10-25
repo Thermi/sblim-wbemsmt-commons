@@ -86,7 +86,7 @@ public class TaskLauncherConfig
 	
 	public final static int DEFAULT_PORT = 5988;
 
-	private static final Enum VERSION_FOR_CREATE = Version.VERSION_2_5;
+	public static final Enum VERSION_FOR_CREATE = Version.VERSION_2_5;
 
 	private static final Enum[] SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS = new Enum[]{Version.VERSION_2_5};
 

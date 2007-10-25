@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TasklauncherconfigDocument;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.CimomDocument.Cimom;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TasklauncherconfigDocument.Tasklauncherconfig;
@@ -46,6 +47,7 @@ public class SLPUtil {
 	public static TasklauncherconfigDocument readFromSlp(SLPLoader slpLoader, Treeconfig[] treeconfigArray) {
     	TasklauncherconfigDocument result = TasklauncherconfigDocument.Factory.newInstance();
 		Tasklauncherconfig launcherConfigFromSLP = result.addNewTasklauncherconfig();
+		launcherConfigFromSLP.setVersion(TaskLauncherConfig.VERSION_FOR_CREATE);
 
 		SLPHostDefinition[] allHostDefinitions = slpLoader.findHosts();
 		for (int i = 0; i < allHostDefinitions.length; i++) {
