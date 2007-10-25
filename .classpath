@@ -25,5 +25,6 @@
 	<classpathentry kind="var" path="JAR_REPO/commons-digester/commons-digester/current/commons-digester.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/commons-jexl/current/commons-jexl.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/commons-beanutils/commons-beanutils/current/commons-beanutils.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/portlet-api/portlet-api/current/portlet-api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

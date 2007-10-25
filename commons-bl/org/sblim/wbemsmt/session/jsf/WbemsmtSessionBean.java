@@ -21,6 +21,7 @@ package org.sblim.wbemsmt.session.jsf;
 
 import org.sblim.wbemsmt.bl.Cleanup;
 import org.sblim.wbemsmt.session.WbemsmtSession;
+import org.sblim.wbemsmt.session.WebSession;
 
 /**
  * @author Bauschert
@@ -28,6 +29,13 @@ import org.sblim.wbemsmt.session.WbemsmtSession;
  */
 public class WbemsmtSessionBean extends WbemsmtSession implements Cleanup {
 
+	WebSession webSession = null;
+	
+	public WbemsmtSessionBean()
+	{
+		webSession = WebSessionManger.getCurrentWebSession();
+	}
+	
 	public void cleanup() {
 		clear();
 	}

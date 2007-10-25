@@ -169,5 +169,7 @@ public class ErrCodes
 	
 	public static final MessageNumber MSG_ADDED_HOST =  new MessageNumber(COMPONENT,SUBSYS_ADM,1);
 	public static final MessageNumber MSG_REMOVED_HOST = new MessageNumber(COMPONENT,SUBSYS_ADM,2);
+	public static final MessageDefinition MSGDEF_EDITING_NOT_POSSIBLE = new MessageDefinition(new MessageNumber(ErrCodes.COMPONENT,SUBSYS_ADM,3),Message.ERROR,"editing.not.possible");
+	
 	
 }
