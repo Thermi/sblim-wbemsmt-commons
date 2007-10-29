@@ -1,5 +1,6 @@
 Changes on top of 0.5.2-1
 ==============================================================================
+- 1821943  wbemsmt-commons-test: reduce tracing while client creation
 - 1821942  wbemsmt-commons: add toString to ProfileVersion
 - 1819900  wbemsmt-commons: show namespace in slp result
 - 1819854  wbemsmt-commons: no parallel admin sessions

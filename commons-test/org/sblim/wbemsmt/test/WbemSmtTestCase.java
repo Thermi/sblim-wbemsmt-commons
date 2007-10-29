@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 
 import junit.framework.TestCase;
 
-import org.sblim.wbem.cim.CIMClass;
 import org.sblim.wbem.cim.CIMNameSpace;
 import org.sblim.wbem.cim.CIMObjectPath;
 import org.sblim.wbem.client.CIMClient;
@@ -48,7 +47,7 @@ public class WbemSmtTestCase extends TestCase {
 	
 	protected static Logger logger = Logger.getLogger("org.sblim.wbemsmt.test");
 	protected static WbemSmtTestConfig config = WbemSmtTestConfig.getInstance();
-	private CIMClient ccSlp;
+	private static CIMClient ccSlp;
 	
 	
 	
@@ -101,9 +100,12 @@ public class WbemSmtTestCase extends TestCase {
 				}
 				Enumeration e = client.enumerateClasses(new CIMObjectPath("CIM_ManagedElement"),false,false,false,false);
 				if (e.hasMoreElements()) {
-					CIMClass cls = (CIMClass) e.nextElement();
-					System.err.println(cls.toString());
+					e.nextElement();
+					//System.err.println(cls.toString());
 				}
+				
+				System.err.println("connected to " + client.getNameSpace().toString()) ;
+				
 			 } catch (Exception e) {
 				 WbemSmtAssert.fail("Received error when trying ot retreieve client handle",e);
 			 }			
