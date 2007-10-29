@@ -126,8 +126,9 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 
 ###############################################################################
 %changelog
-* Thu Oct 25 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.2-CVS
+* Mon Oct 29 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.2-CVS
   - Inclusion of fixes for the following issues:
+    o 1821942  wbemsmt-commons: add toString to ProfileVersion
     o 1819900  wbemsmt-commons: show namespace in slp result
     o 1819854  wbemsmt-commons: no parallel admin sessions
     o 1819756  wbemsmt-commons : wrong xml :overwrite local conf with slp

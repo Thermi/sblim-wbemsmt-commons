@@ -118,4 +118,9 @@ public class ProfileVersion {
 		       major == version.major && minor == version.minor && patch < version.patch;
 	}
 	
+	public String toString()
+	{
+		return major + "." + minor + "." + patch;
+	}
+	
 }
