@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringUtils;
+import org.sblim.wbem.cim.CIMElement;
 import org.sblim.wbem.cim.CIMInstance;
 import org.sblim.wbem.cim.CIMObjectPath;
 import org.sblim.wbem.cim.CIMProperty;
@@ -167,13 +168,17 @@ public class FcoUtil {
 	 */
 	public static String getEmbeddedInstance(CIM_ObjectIf cimObject, boolean onlyKeys) {
 		CIMInstance cimInstance = cimObject.getCimInstance();
+		return getEmbeddedInstance(cimInstance, onlyKeys);
+	}
+
+	public static String getEmbeddedInstance(CIMInstance cimInstance, boolean onlyKeys) {
 		if (onlyKeys)
 		{
 			//we need to clone the object because we are removing the non-key-properties
 			cimInstance = (CIMInstance) cimInstance.clone();
 
 			//collect the key properties
-			Vector keys = cimObject.getCimObjectPath().getKeys();
+			Vector keys = cimInstance.getObjectPath().getKeys();
 			Set keynames = new HashSet();
 			for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
 				CIMProperty property = (CIMProperty) iterator.next();
@@ -201,6 +206,18 @@ public class FcoUtil {
 		//cut of the first two lines - <xml...> and a empty line
 		xml = xml.substring(xml.indexOf("<INSTA"));
 		return xml;
+	}
+	
+	public static CIMInstance getFromEmbeddedInstance(String embeddedInstance)
+	{
+		CIMXmlUtil util = CIMXmlUtilFactory.getCIMXmlUtil();
+		try {
+			CIMElement element = util.getCIMElement(embeddedInstance);
+			return (CIMInstance)element;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }
