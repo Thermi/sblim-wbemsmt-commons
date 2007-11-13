@@ -47,8 +47,7 @@ public class IndicationDestinationManager
 		}
 		else if (RuntimeUtil.getInstance().isCommandline())
 		{
-			//currently cli doesn't support indication so we can return null;
-			return null;
+			return new IndicationDestinationManager();
 		}
 		else throw new RuntimeException("Runtimemode " + RuntimeUtil.getInstance().getRuntime() + " is not supported" );
 	}

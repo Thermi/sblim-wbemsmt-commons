@@ -1,5 +1,6 @@
 Changes on top of 0.5.2-1
 ==============================================================================
+- 1830999  wbemsmt-commons: return DestinationManager for CLI
 - 1826622  wbemsmt-commons-bl: getEmbeddedInstance from CIMInstance
 - 1821943  wbemsmt-commons-test: reduce tracing while client creation
 - 1821942  wbemsmt-commons: add toString to ProfileVersion

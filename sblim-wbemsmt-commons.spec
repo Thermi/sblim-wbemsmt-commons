@@ -126,8 +126,9 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 
 ###############################################################################
 %changelog
-* Tue Nov 06 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.2-CVS
+* Tue Nov 13 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.2-CVS
   - Inclusion of fixes for the following issues:
+    o 1830999  wbemsmt-commons: return DestinationManager for CLI
     o 1826622  wbemsmt-commons-bl: getEmbeddedInstance from CIMInstance
     o 1821943  wbemsmt-commons-test: reduce tracing while client creation
     o 1821942  wbemsmt-commons: add toString to ProfileVersion

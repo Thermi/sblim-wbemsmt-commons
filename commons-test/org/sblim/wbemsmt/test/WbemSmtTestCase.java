@@ -98,6 +98,8 @@ public class WbemSmtTestCase extends TestCase {
 				{
 					client = ccSlp = new CIMClient(cimNameSpace, userPrincipal, passwordCredential);
 				}
+				System.err.println("created client for " + client.getNameSpace().toString()) ;
+
 				Enumeration e = client.enumerateClasses(new CIMObjectPath("CIM_ManagedElement"),false,false,false,false);
 				if (e.hasMoreElements()) {
 					e.nextElement();
