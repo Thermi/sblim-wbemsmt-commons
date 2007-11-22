@@ -104,14 +104,14 @@
             <src path="commons-wizards"/>
         </javac>
 
-        <copy todir="${dir.compile.output}/java" includeemptydirs="false">
-            <fileset dir="${basedir}/commons-bl">
-            	<include name="messages**.properties"/>
-            </fileset>
-        </copy>
         <copy todir="${dir.compile.output}" includeemptydirs="false">
             <fileset dir="${basedir}">
             	<include name="help/**"/>
+            </fileset>
+        </copy>
+        <copy todir="${dir.compile.output}/java" includeemptydirs="false">
+            <fileset dir="${basedir}/commons-bl">
+            	<include name="messages**.properties"/>
             </fileset>
         </copy>
         <copy todir="${dir.compile.output}/etc/sblim-wbemsmt" includeemptydirs="false">
@@ -170,6 +170,9 @@
     <target name="package-src-tar" description="--> Package a source TAR ball for ${ant.project.name}">
         <mkdir dir="${dir.release.output}"/>
 
+    	<copy file="${basedir}/sblim-wbemsmt-commons.spec.in" tofile="${basedir}/sblim-wbemsmt-commons.spec"/>
+    	<replace file="${basedir}/sblim-wbemsmt-commons.spec" token="@PACKAGE_VERSION@" value="${Manifest.version}"/>
+
         <tar destfile="${dir.release.output}/sblim-${ant.project.name}-${Manifest.version}-src.tar.bz2"
              compression="bzip2" longfile="${tar.longfile}">
           <tarfileset
@@ -191,6 +194,9 @@
             excludes="${dir.compile.output}/**, ${dir.package.output}/**, ${dir.release.output}/**"
             prefix="sblim-${ant.project.name}"/>
         </tar>
+    	
+    	<delete file="${basedir}/sblim-wbemsmt-commons.spec"/>
+
     </target>
 	
 
