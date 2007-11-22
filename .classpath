@@ -13,18 +13,13 @@
 	<classpathentry kind="var" path="JAR_REPO/commons-lang/commons-lang/current/commons-lang.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/junit/junit/current/junit.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/sblim/sblim-wbemsmt-commons-launcher-config/current/sblim-wbemsmt-commons-launcher-config.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/xml-apis/xml-apis/current/xml-apis.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/myfaces/myfaces-api/current/myfaces-api.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/myfaces/myfaces-impl/current/myfaces-impl.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/jsch/jsch/current/jsch.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/javax/servlet/servlet-api/current/servlet-api.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/jsp-api/jsp-api/current/jsp-api.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/sblim/sblim-cim-client/current/sblim-cim-client.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/sblim/sblim-slp-client/current/sblim-slp-client.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/selenium/selenium-remote-control/current/selenium-java-client-driver.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/commons-digester/commons-digester/current/commons-digester.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/commons-jexl/current/commons-jexl.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/commons-beanutils/commons-beanutils/current/commons-beanutils.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/portlet-api/portlet-api/current/portlet-api.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/myfaces/myfaces-impl/current/myfaces-impl.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

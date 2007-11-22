@@ -41,17 +41,17 @@ public class WebSessionManger {
 		}
 		else 
 		{
-			Class portletSessionClass = javax.portlet.PortletSession.class;
-			if (portletSessionClass.isAssignableFrom(session.getClass()))
-			{
-				try {
-					Class wrapper = Class.forName("org.sblim.wbemsmt.session.PortletSessionWrapper");
-					Constructor constructor = wrapper.getConstructor(new Class[]{portletSessionClass});
-					WebSession wrappedPortletSession = (WebSession) constructor.newInstance(new Object[]{session});
-					return wrappedPortletSession;
-				} catch (Exception e) {
-					logger.log(Level.SEVERE, "Cannot create PortletSessionWrapper with session object " + session,e);
+			try {
+				Class portletSessionClass = Class.forName("javax.portlet.PortletSession");
+				if (portletSessionClass.isAssignableFrom(session.getClass()))
+				{
+						Class wrapper = Class.forName("org.sblim.wbemsmt.session.PortletSessionWrapper");
+						Constructor constructor = wrapper.getConstructor(new Class[]{portletSessionClass});
+						WebSession wrappedPortletSession = (WebSession) constructor.newInstance(new Object[]{session});
+						return wrappedPortletSession;
 				}
+			} catch (Exception e) {
+				logger.log(Level.SEVERE, "Cannot create PortletSessionWrapper with session object " + session,e);
 			}
 		}
 		return null;

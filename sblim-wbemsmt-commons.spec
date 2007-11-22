@@ -126,8 +126,9 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 
 ###############################################################################
 %changelog
-* Tue Nov 20 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.2-CVS
+* Thu Nov 22 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.2-CVS
   - Inclusion of fixes for the following issues:
+  	o 1836526  wbemsmt-commons : rmv dep to portlet-api
     o 1834954  wbemsmt-commons: cimclientpool.getJsr48Client
     o 1830999  wbemsmt-commons: return DestinationManager for CLI
     o 1826622  wbemsmt-commons-bl: getEmbeddedInstance from CIMInstance

@@ -26,6 +26,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.security.auth.Subject;
 
@@ -154,8 +155,12 @@ public class CIMClientPool {
 			.newInstance(new Object[]{pWbemUrl.getProtocol(),pWbemUrl.getHost(), String.valueOf(pWbemUrl.getPort()), null, null, null});
 		
 		final Subject subject = new Subject();
-		subject.getPrincipals().add(userPrincipalObject);
-		subject.getPrivateCredentials().add(passwordCredentialObject);
+		
+		Set principals = subject.getPrincipals();
+		principals.add(userPrincipalObject);
+		
+		Set privateCredentials = subject.getPrivateCredentials();
+		privateCredentials.add(passwordCredentialObject);
 		
 		clsClient.getMethod("initialize", new Class[]{path,subject.getClass(),Locale[].class}).invoke(result, new Object[]{pathObject, subject, new Locale[] { Locale.US }});
 
