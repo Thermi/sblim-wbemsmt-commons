@@ -405,6 +405,8 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
     public String processEvent(TaskLauncherTreeNodeEvent event) throws WbemSmtException
     {
     	logger.log(Level.FINEST, "Processing Event");
+        ObjectActionControllerBean objectActionController = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
+        objectActionController.clearEditBeansModified();
     	readSubnodes();
     	return null;
     }

@@ -1,5 +1,6 @@
 Changes on top of 0.5.2-1
 ==============================================================================
+- 1836584  wbemsmt-commons-eui: Loose changes dlg remains
 - 1836543  wbemsmt-commons : commons-test gets his own cvs module
 - 1836526  wbemsmt-commons : rmv dep to portlet-api
 - 1834954  wbemsmt-commons: cimclientpool.getJsr48Client

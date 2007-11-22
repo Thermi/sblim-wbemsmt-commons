@@ -128,6 +128,7 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 %changelog
 * Thu Nov 22 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.2-CVS
   - Inclusion of fixes for the following issues:
+  	o 1836584  wbemsmt-commons-eui: Loose changes dlg remains
     o 1836543  wbemsmt-commons : commons-test gets his own cvs module
   	o 1836526  wbemsmt-commons : rmv dep to portlet-api
     o 1834954  wbemsmt-commons: cimclientpool.getJsr48Client
