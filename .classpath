@@ -4,7 +4,6 @@
 	<classpathentry kind="src" path="commons-cim-schema"/>
 	<classpathentry excluding="conf/|doc/|logging/" kind="src" path="commons-bl"/>
 	<classpathentry kind="src" path="commons-wizards"/>
-	<classpathentry kind="src" path="commons-test"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="JAR_REPO/myfaces/tomahawk/current/tomahawk.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/commons-cli/commons-cli/current/commons-cli.jar"/>
@@ -14,12 +13,10 @@
 	<classpathentry kind="var" path="JAR_REPO/junit/junit/current/junit.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/sblim/sblim-wbemsmt-commons-launcher-config/current/sblim-wbemsmt-commons-launcher-config.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/myfaces/myfaces-api/current/myfaces-api.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/jsch/jsch/current/jsch.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/javax/servlet/servlet-api/current/servlet-api.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/jsp-api/jsp-api/current/jsp-api.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/sblim/sblim-cim-client/current/sblim-cim-client.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/sblim/sblim-slp-client/current/sblim-slp-client.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/selenium/selenium-remote-control/current/selenium-java-client-driver.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/myfaces/myfaces-impl/current/myfaces-impl.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
