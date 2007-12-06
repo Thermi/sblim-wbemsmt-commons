@@ -1,5 +1,6 @@
 Changes on top of 0.5.2-1
 ==============================================================================
+- 1845498  wbemsmt-commons: Include proper group definition for RPM
 - 1836653  wbemsmt-commons: Version replacement during build
 - 1836584  wbemsmt-commons-eui: Loose changes dlg remains
 - 1836543  wbemsmt-commons : commons-test gets his own cvs module
