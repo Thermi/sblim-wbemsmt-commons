@@ -11,7 +11,7 @@ Version:        %{version}
 Release:        %{release}
 License:        Common Public License
 Url:            http://sblim.sourceforge.net/
-Group:          Development/Libraries/Java
+Group:          Systems Management/Libraries/Java
 Vendor:         IBM
 Summary:        Base module containing common classes used by all wbemsmt tasks
 SOURCE0:        %{name}-%{version}-src.tar.bz2
