@@ -1,6 +1,6 @@
 %define name                    sblim-wbemsmt-commons
-%define version                 0.5.2
-%define build_release           CVS
+%define version                 @PACKAGE_VERSION@
+%define build_release           @RELEASE_VERSION@
 %define release                 %{build_release}jpp
 %define section                 free
 
@@ -126,7 +126,7 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 
 ###############################################################################
 %changelog
-* Thu Nov 22 2007 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.2-CVS
+* Tue Dec 11 2007 Sam Kannan <samkannan@us.ibm.com> 0.5.3-1
   - Inclusion of fixes for the following issues:
     o 1845498  wbemsmt-commons: Include proper group definition for RPM
     o 1836653  wbemsmt-commons: Version replacement during build
