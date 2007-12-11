@@ -1,3 +1,201 @@
+2007-12-11 10:19  skanan
+
+	* NEWS, build.xml, sblim-wbemsmt-commons.spec.in: Maintenance
+	  release 0.5.3-1
+
+2007-12-06 08:51  taphorn
+
+	* NEWS, sblim-wbemsmt-commons.spec.in: Fix for issue [ 1845498 ]
+	  wbemsmt-commons: Include proper group definition for RPM
+
+2007-12-06 08:45  taphorn
+
+	* sblim-wbemsmt-commons.spec.in: Fix for issue [ 1845498 ]
+	  wbemsmt-commons: Include proper group definition for RPM
+
+2007-11-22 15:51  taphorn
+
+	* NEWS, build.xml, sblim-wbemsmt-commons.spec,
+	  sblim-wbemsmt-commons.spec.in,
+	  .settings/org.eclipse.wst.common.component: Fix for issue:
+	  [1836653]  wbemsmt-commons: Version replacement during build
+
+2007-11-22 12:36  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec, commons-bl/messages.properties,
+	  commons-bl/messages_de.properties,
+	  commons-bl/messages_en.properties,
+	  commons-eui/org/sblim/wbemsmt/webapp/jsf/JsfTreeNode.java: Fix [
+	  1836584 ] wbemsmt-commons-eui: Loose changes dlg remains
+
+2007-11-22 11:18  mbauschert
+
+	* .classpath, NEWS, sblim-wbemsmt-commons.spec: Fix 1836543
+	  wbemsmt-commons : commons-test gets his own cvs module
+
+2007-11-22 10:58  mbauschert
+
+	* .classpath, NEWS, sblim-wbemsmt-commons.spec,
+	  commons-bl/org/sblim/wbemsmt/cim/CIMClientPool.java,
+	  commons-bl/org/sblim/wbemsmt/session/jsf/WebSessionManger.java:
+	  Fix [ 1836526 ] wbemsmt-commons : rmv dep to portlet-api
+
+2007-11-20 02:21  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec,
+	  commons-bl/org/sblim/wbemsmt/cim/CIMClientPool.java: Fix 1834954
+	  wbemsmt-commons: cimclientpool.getJsr48Client
+
+2007-11-13 05:47  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec,
+	  commons-bl/org/sblim/wbemsmt/cim/indication/IndicationDestinationManager.java:
+	  Fix 1830999  wbemsmt-commons: return DestinationManager for CLI
+
+2007-11-06 02:00  mbauschert
+
+	* commons-bl/org/sblim/wbemsmt/bl/FcoUtil.java, NEWS,
+	  sblim-wbemsmt-commons.spec: Fix 1826622  wbemsmt-commons-bl:
+	  getEmbeddedInstance from CIMInstance
+
+2007-10-29 03:34  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec: Fix 1821943
+	  wbemsmt-commons-test: reduce tracing while client creation
+
+2007-10-29 03:33  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec,
+	  commons-bl/org/sblim/wbemsmt/bl/profiles/ProfileVersion.java: Fix
+	  1821942  wbemsmt-commons: add toString to ProfileVersion
+
+2007-10-25 06:37  mbauschert
+
+	* sblim-wbemsmt-commons.spec,
+	  commons-bl/org/sblim/wbemsmt/tools/slp/SLPUtil.java, NEWS: Fix
+	  1819900 wbemsmt-commons: show namespace in slp result
+
+2007-10-25 05:14  mbauschert
+
+	* .classpath, NEWS, sblim-wbemsmt-commons.spec,
+	  commons-bl/messages.properties,
+	  commons-bl/messages_de.properties,
+	  commons-bl/messages_en.properties,
+	  commons-bl/org/sblim/wbemsmt/bl/ErrCodes.java,
+	  commons-bl/org/sblim/wbemsmt/session/HttpSessionWrapper.java,
+	  commons-bl/org/sblim/wbemsmt/session/WebSession.java,
+	  commons-bl/org/sblim/wbemsmt/session/jsf/WbemsmtSessionBean.java,
+	  commons-bl/org/sblim/wbemsmt/session/jsf/WebSessionManger.java:
+	  Fix 1819854		 wbemsmt-commons: no parallel admin
+	  sessions
+
+2007-10-25 03:20  mbauschert
+
+	* commons-bl/org/sblim/wbemsmt/tools/slp/SLPUtil.java,
+	  commons-bl/org/sblim/wbemsmt/tools/slp/dummySLPConfig.xml, NEWS,
+	  sblim-wbemsmt-commons.spec,
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/TaskLauncherConfig.java:
+	  Fix 1819756	     wbemsmt-commons : wrong xml :overwrite local
+	  conf with slp
+
+2007-10-24 12:42  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec: Fix 1819353
+	  wbemsmt-commons-test: migrate to use selenium 0.9.2
+
+2007-10-24 12:41  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec,
+	  commons-eui/org/sblim/wbemsmt/webapp/jsf/ObjectActionControllerBean.java,
+	  commons-eui/org/sblim/wbemsmt/tools/jsf/EditBean.java: Fix
+	  1819349  wbemsmt-commons: reload adapters after save
+
+2007-10-18 10:41  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec: Fix 1815842
+	  wbemsmt-commons-test : use correct list locator
+
+2007-10-18 10:40  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec,
+	  commons-eui/org/sblim/wbemsmt/tools/cli/CimCommand.java: Fix
+	  1815840  - wbemsmt-commons-cli : Fix NPE in CimCommand trcErrors
+
+2007-10-18 10:38  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec,
+	  commons-bl/org/sblim/wbemsmt/bl/adapter/DataContainerUtil.java:
+	  Fix [ 1815835 ] wbemsmt-commons : rework
+	  DataContainerUtil.getDCInterface
+
+2007-10-18 10:35  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec,
+	  commons-bl/org/sblim/wbemsmt/bl/adapter/AbstractBaseCimAdapter.java,
+	  commons-eui/org/sblim/wbemsmt/tasklauncher/InitAdapterListener.java:
+	  Fix [ 1815833 ] wbemsmt-commons : reset flags while reloading
+	  adapter
+
+2007-10-15 11:59  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec: minor changes
+
+2007-10-15 11:54  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec,
+	  commons-bl/org/sblim/wbemsmt/cim/indication/HttpServerConnectionManager.java,
+	  commons-bl/org/sblim/wbemsmt/cim/indication/IndicationDestination.java,
+	  commons-bl/org/sblim/wbemsmt/cim/indication/IndicationDestinationManager.java,
+	  commons-bl/org/sblim/wbemsmt/cim/indication/IndicationDestinationPresets.java,
+	  commons-bl/org/sblim/wbemsmt/exception/IndicationPreparationException.java,
+	  commons-bl/org/sblim/wbemsmt/tools/beans/BeanNameConstants.java,
+	  commons-eui/org/sblim/wbemsmt/cim/indication/jsf/DestinationManagerBean.java:
+	  Fix [ 1813925 ] wbemsmt-indications: utils for managing open
+	  ports
+
+2007-10-15 11:51  mbauschert
+
+	* commons-eui/org/sblim/wbemsmt/tools/cli/CimCommandValues.java,
+	  commons-eui/org/sblim/wbemsmt/tools/cli/CliDataLoader.java,
+	  commons-eui/org/sblim/wbemsmt/tools/cli/CliUtil.java, NEWS,
+	  sblim-wbemsmt-commons.spec: Fix [ 1813922 ] wbemsmt-cli:
+	  cliDataLoader uses command CIMCommandValues
+
+2007-10-15 11:48  mbauschert
+
+	* commons-bl/org/sblim/wbemsmt/bl/tree/: ITreeBacker.java,
+	  ITreeSelector.java: Fix [ 1813897 ] wbemsmt-commons: update the
+	  tree if requested from BL
+
+2007-10-15 11:47  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec,
+	  commons-bl/org/sblim/wbemsmt/bl/FcoUtil.java: fix 1813917
+	  wbemsmt-commons: util methods for embedded instances
+
+2007-10-15 11:00  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFInputComponent.java:
+	  Fix [ 1813897 ] wbemsmt-commons: update the tree if requested
+	  from BL
+
+2007-10-15 10:58  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec,
+	  commons-bl/org/sblim/wbemsmt/tools/resources/LocaleManager.java:
+	  Fix 1813894  wbemsmt-commons:LocaleManager.getCurrentLocale()
+
+2007-10-15 10:54  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec,
+	  commons-wizards/org/sblim/wbemsmt/tools/wizard/jsf/JSFWizardBase.java:
+	  Fix [ 1813891 ] wbemsmt-commons: JsfWizard add exceptionhandling
+
+2007-10-15 10:50  mbauschert
+
+	* .classpath: added new libraries for statemachine
+
 // =========================================================================
 // new in version 0.5.2-1 :
 
