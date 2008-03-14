@@ -22,6 +22,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.faces.component.UIParameter;
 import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlPanelGrid;
@@ -34,21 +35,14 @@ import javax.servlet.http.Cookie;
 import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.Cleanup;
 import org.sblim.wbemsmt.bl.ErrCodes;
-import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
-import org.sblim.wbemsmt.bl.adapter.DataContainer;
-import org.sblim.wbemsmt.bl.adapter.MessageUtil;
+import org.sblim.wbemsmt.bl.adapter.*;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.ITreeSelector;
 import org.sblim.wbemsmt.bl.welcome.JsfWelcomeListener;
 import org.sblim.wbemsmt.bl.welcome.WelcomeData;
 import org.sblim.wbemsmt.bl.welcome.WelcomeDataComparator;
 import org.sblim.wbemsmt.bl.welcome.WelcomeListener;
-import org.sblim.wbemsmt.exception.ModelLoadException;
-import org.sblim.wbemsmt.exception.ObjectDeletionException;
-import org.sblim.wbemsmt.exception.ObjectNotFoundException;
-import org.sblim.wbemsmt.exception.ObjectUpdateException;
-import org.sblim.wbemsmt.exception.ValidationException;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.*;
 import org.sblim.wbemsmt.tasklauncher.CimomTreeNode;
 import org.sblim.wbemsmt.tasklauncher.event.jsf.JsfEditListener;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
@@ -100,6 +94,13 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	private List cimomTreeNodesForLogin;
 
 	private int updateIntervalCookieMaxAge = WbemsmtCookieUtil.DEFAULT_MAX_AGE;
+
+	/**
+	 * the result of the last inout action within a message
+	 */
+    private String lastMessageInputResult;
+
+    private MessageInputEvent lastMessageInputEvent;
 
 	public ObjectActionControllerBean() {
 		loadUpdateIntervalFromCookies();
@@ -542,6 +543,54 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 		
 	}
 
+	
+	public void messageInputCancelAction(ActionEvent event)
+	{
+	    callHandler(event, MessageInputEvent.CANCEL);
+	}
+
+    public void messageInputOKAction(ActionEvent event)
+    {
+        callHandler(event, MessageInputEvent.OK);
+    }
+
+    public void messageInputYesAction(ActionEvent event)
+    {
+        callHandler(event, MessageInputEvent.YES);
+    }
+
+    public void messageInputNoAction(ActionEvent event)
+    {
+        callHandler(event, MessageInputEvent.NO);
+    }
+    
+    private void callHandler(ActionEvent event, int action) {
+        List children = event.getComponent().getChildren();
+        UIParameter parameter = (UIParameter) children.get(0);
+        
+        MessageInputHandler handler =  (MessageInputHandler) parameter.getValue();
+        lastMessageInputEvent = new MessageInputEvent(action);
+        handler.handleInput(lastMessageInputEvent);
+        
+        if (lastMessageInputEvent.isReloadTree())
+        {
+            try {
+                treeSelector.getCurrentTreeBacker().updateTree();
+            }
+            catch (WbemSmtException e) {
+                ExceptionUtil.handleException(e);
+            }            
+        }
+        
+        
+        lastMessageInputResult = "";
+    }
+
+    public String getLastMessageInputResult() {
+        return lastMessageInputResult;
+    }
+    
+    
 	
 	
 }

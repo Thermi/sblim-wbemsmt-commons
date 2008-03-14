@@ -30,6 +30,7 @@ public class MessageDefinition {
 	private MessageNumber number;
 	private String type;
 	private String key;
+    private int requiredInput = Message.INPUT_NONE;
 	
 	public MessageDefinition(MessageNumber number, String type, String key) {
 		super();
@@ -38,7 +39,15 @@ public class MessageDefinition {
 		this.key = key;
 	}
 	
-	public String getKey() {
+    public MessageDefinition(MessageNumber number, String type, String key, int requiredInput) {
+        super();
+        this.number = number;
+        this.type = type;
+        this.key = key;
+        this.requiredInput = requiredInput;
+    }
+
+    public String getKey() {
 		return key;
 	}
 	public void setKey(String key) {
@@ -56,6 +65,16 @@ public class MessageDefinition {
 	public void setType(String type) {
 		this.type = type;
 	}
+
+    public int getRequiredInput() {
+        return requiredInput;
+    }
+
+    public void setRequiredInput(int requiredInput) {
+        this.requiredInput = requiredInput;
+    }
+	
+	
 	
 	
 	

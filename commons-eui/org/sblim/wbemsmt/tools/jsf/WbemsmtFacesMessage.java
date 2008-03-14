@@ -22,6 +22,7 @@ package org.sblim.wbemsmt.tools.jsf;
 import javax.faces.application.FacesMessage;
 
 import org.sblim.wbemsmt.bl.adapter.Message;
+import org.sblim.wbemsmt.bl.adapter.MessageInputHandler;
 
 /**
  * @author Bauschert
@@ -34,7 +35,6 @@ public class WbemsmtFacesMessage extends FacesMessage {
 	 */
 	private static final long serialVersionUID = -4323400706642117406L;
 	private Message message;
-
 	protected WbemsmtFacesMessage()
 	{
 		this.message = null;
@@ -69,5 +69,21 @@ public class WbemsmtFacesMessage extends FacesMessage {
 		return message.getType();
 	}
 	
+    public int getRequiredInput() {
+        return message.getRequiredInput();
+    }
+
+    public  MessageInputHandler getMessageInputHandler() {
+        return message.getMessageInputHandler();
+    }
+
+    public boolean getHasOKCancel() {
+        return message.getRequiredInput() == Message.INPUT_OK_CANCEL;
+    }
+
+    public boolean getHasYesNo() {
+        return message.getRequiredInput() == Message.INPUT_YES_NO;
+    }
+    
 
 }

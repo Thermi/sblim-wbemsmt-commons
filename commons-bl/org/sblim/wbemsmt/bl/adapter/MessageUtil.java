@@ -19,6 +19,9 @@
   */
 package org.sblim.wbemsmt.bl.adapter;
 
+import java.io.PrintWriter;
+import java.io.Reader;
+
 import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.MessageNumber;
@@ -35,7 +38,20 @@ import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
  */
 public class MessageUtil {
 
-	public static void addMessage(MessageNumber msgNumber, String level, String[] bundles, String key, Object[] objects)
+    /**
+     * Writer which maps to standard out
+     */
+    protected static PrintWriter cliOut;
+    /**
+     * Writer which maps to standard err
+     */
+	protected static PrintWriter cliErr;
+    /**
+     * Writer which maps to standard in
+     */
+    protected static Reader cliIn;
+
+    public static void addMessage(MessageNumber msgNumber, String level, String[] bundles, String key, Object[] objects)
 	{
 		if (RuntimeUtil.getInstance().isJSF())
 		{
@@ -47,7 +63,7 @@ public class MessageUtil {
 		{
 			WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(bundles);
 			Message msg = Message.create(msgNumber, level, bundle, key,objects);
-			System.err.println(bundle.getString("error.while.execution") + "\n" + msg.getMessageString());
+			printMessageOnConsole(bundle, msg);
 		}
 	}
 	
@@ -57,25 +73,33 @@ public class MessageUtil {
 
 	public static void addMessage(MessageDefinition messageDefinition, String[] bundles)
 	{
-		addMessage(messageDefinition,bundles,null);
+        MessageInputHandler handler = null;
+		addMessage(messageDefinition,handler,bundles, null);
 	}
 	public static void addMessage(MessageDefinition messageDefinition, String[] bundles, Object[] objects)
+    {
+	    MessageInputHandler handler = null;
+        addMessage(messageDefinition, handler, bundles, objects);
+    }
+
+    public static void addMessage(MessageDefinition messageDefinition, MessageInputHandler handler, String[] bundles, Object[] objects)
 	{
 		if (RuntimeUtil.getInstance().isJSF())
 		{
 			ILocaleManager localeManager = (ILocaleManager) BeanNameConstants.LOCALE_MANAGER.getBoundValue(FacesContext.getCurrentInstance());
 			WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(bundles,localeManager.getCurrentLocale());
-			FacesContext.getCurrentInstance().addMessage(null, new WbemsmtFacesMessage(Message.create(messageDefinition, bundle, objects)));
+			Message msg = Message.create(messageDefinition,handler, bundle, objects);
+			FacesContext.getCurrentInstance().addMessage(null, new WbemsmtFacesMessage(msg));
 		}
 		else if (RuntimeUtil.getInstance().isCommandline())
 		{
 			WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(bundles);
-			Message msg = Message.create(messageDefinition, bundle, objects);
-			System.err.println(bundle.getString("error.while.execution") + "\n" + msg.getMessageString());
+            Message msg = Message.create(messageDefinition,handler, bundle, objects);
+			printMessageOnConsole(bundle, msg);
 		}
 	}
-	
-	public static void addMessage(MessageDefinition messageDefinition, WbemSmtResourceBundle bundle)
+
+    public static void addMessage(MessageDefinition messageDefinition, WbemSmtResourceBundle bundle)
 	{
 		addMessage(messageDefinition,bundle,null);
 	}
@@ -88,8 +112,32 @@ public class MessageUtil {
 		else if (RuntimeUtil.getInstance().isCommandline())
 		{
 			Message msg = Message.create(messageDefinition, bundle, objects);
-			System.err.println(bundle.getString("error.while.execution") + "\n" + msg.getMessageString());
+			printMessageOnConsole(bundle, msg);
 		}
 	}
 
+    private static void printMessageOnConsole(WbemSmtResourceBundle bundle, Message msg) {
+        if (msg.isError())
+        {
+            cliErr.println(bundle.getString("error.while.execution") + "\n" + msg.getMessageString());
+        }
+        else if (msg.isError())
+        {
+            cliErr.println(bundle.getString("warning.while.execution") + "\n" + msg.getMessageString());
+        }
+        else
+        {
+            cliOut.println(bundle.getString("error.while.execution") + "\n" + msg.getMessageString());
+        }
+    }
+
+    /**
+     * Set the reader and writers for the command line
+     */
+    public static void setCliChannels(PrintWriter out, PrintWriter err, Reader in) {
+        MessageUtil.cliOut = out;
+        MessageUtil.cliErr = err;
+        MessageUtil.cliIn = in;
+    }
+	
 }

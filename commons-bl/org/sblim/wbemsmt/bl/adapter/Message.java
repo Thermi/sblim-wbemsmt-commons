@@ -69,11 +69,42 @@ public class Message
 
 	public static final int UNKNOWN_VALUE =99;
 
-	private MessageNumber messageNumber;
+	/**
+	 * The yes/no option for input message dialogs
+	 */
+	public static int INPUT_YES_NO = 0;
+	
+    /**
+     * The ok/cancel option for input message dialogs
+     */
+    public static int INPUT_OK_CANCEL = 1;
+
+    /**
+     * The default option for messages without required input actions
+     */
+    public static int INPUT_NONE = -1;
+    
+    /**
+     * Defines if a input is required
+     * 
+     * @see #INPUT_NONE
+     * @see #INPUT_OK_CANCEL
+     * @see #INPUT_YES_NO
+     */
+    private int requiredInput = INPUT_NONE;
+    
+    private MessageNumber messageNumber;
 
 	private Throwable cause;
 
 	private int ordinal;
+
+	/**
+	 * the instance which handles input from a user within a message
+	 */
+    private MessageInputHandler handler;
+	
+
 	
 	public Message(MessageNumber messageNumber, String type, String msg)
 	{
@@ -139,7 +170,25 @@ public class Message
 		return ordinal;  
 	}
 	
-	public static char getTypeAsSeverityCode(Message message)
+	
+	
+	public int getRequiredInput() {
+        return requiredInput;
+    }
+
+    private void setRequiredInput(int requiredInput) {
+        this.requiredInput = requiredInput;
+    }
+    
+    private void setMessageInputHandler(MessageInputHandler handler) {
+        this.handler = handler;
+    }
+
+    public  MessageInputHandler getMessageInputHandler() {
+        return this.handler;
+    }
+
+    public static char getTypeAsSeverityCode(Message message)
 	{
 		if (message.type == ERROR)
 		{
@@ -160,6 +209,10 @@ public class Message
 		}
 	}
 
+	/**
+	 * return only the messagetext without the messagenumber
+	 * @return
+	 */
 	public String getMessage()
 	{
 		return msg;
@@ -185,11 +238,21 @@ public class Message
 		this.cause = cause;
 	}
 	
+	/**
+	 * returns the messageNumber and the message string itself
+	 * @return
+	 */
 	public String getMessageString()
 	{
-		return messageNumber.getQualifiedNumber() + Message.getTypeAsSeverityCode(this) + " " + getMessage(); 
+		return getMessageCode() + " " + getMessage(); 
 	}
 	
+	/**
+	 * returns the messageCod represented by the messageNumber
+	 * @return
+	 */
+	
+
 	public String getMessageCode()
 	{
 		return messageNumber.getQualifiedNumber() + Message.getTypeAsSeverityCode(this); 
@@ -295,6 +358,54 @@ public class Message
 	public static Message create(MessageDefinition definition, WbemSmtResourceBundle bundle) {
 		return new Message(definition.getNumber(),definition.getType(),bundle.getString(definition.getNumber(),definition.getKey()));
 	}
+	
+    /**
+     * the objects together with the key of the defintion are resolved with the resource bundle and used as Msg-Text 
+     * @param definition
+     * @param requiredInput defines if the user should see buttons like ok, cancel, yes, no - use INPUT_ variables to define the type of the input
+     * @param handler class to handle the input
+     * @param bundle
+     * @param key
+     * @param objects can be null
+     * @return
+     * @see Message#SUCCESS
+     * @see Message#INFO
+     * @see Message#WARNING
+     * @see Message#ERROR
+     */
+    public static Message create(MessageDefinition definition, MessageInputHandler handler, WbemSmtResourceBundle bundle, Object[] objects) {
+        Message message;
+        if (objects != null) {
+            message = new Message(definition.getNumber(),definition.getType(),bundle.getString(definition.getNumber(),definition.getKey(),objects));
+        }
+        else {
+            message = new Message(definition.getNumber(),definition.getType(),bundle.getString(definition.getNumber(),definition.getKey()));
+        }
+        message.setRequiredInput(definition.getRequiredInput());
+        message.setMessageInputHandler(handler);
+        return message;
+    }
+    
+
+    /**
+     * the objects together with the key of the defintion are resolved with the resource bundle and used as Msg-Text 
+     * @param definition
+     * @param requiredInput defines if the user should see buttons like ok, cancel, yes, no - use INPUT_ variables to define the type of the input
+     * @param handler class to handle the input
+     * @param bundle
+     * @param key
+     * @return
+     * @see Message#SUCCESS
+     * @see Message#INFO
+     * @see Message#WARNING
+     * @see Message#ERROR
+     */
+    public static Message create(MessageDefinition definition, MessageInputHandler handler, WbemSmtResourceBundle bundle) {
+        Message message = new Message(definition.getNumber(),definition.getType(),bundle.getString(definition.getNumber(),definition.getKey()));
+        message.setRequiredInput(definition.getRequiredInput());
+        message.setMessageInputHandler(handler);
+        return message;
+    }	
 	
 	
 }
