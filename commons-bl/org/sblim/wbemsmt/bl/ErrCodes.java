@@ -61,7 +61,7 @@ public class ErrCodes
 	public static final MessageNumber MSG_OBJECTNOTFOUNDEXCEPTION  = new MessageNumber(COMPONENT,SUBSYS_BLO,15);
 	public static final MessageNumber MSG_OBJECTSAVEEXCEPTION      = new MessageNumber(COMPONENT,SUBSYS_BLO,16);
 	public static final MessageNumber MSG_UPDATECONTROLSEXCEPTION  = new MessageNumber(COMPONENT,SUBSYS_BLO,17);	
-	public static final MessageNumber MSG_OTHER_EXCEPTION  = new MessageNumber(COMPONENT,SUBSYS_BLO,18);
+	public static final MessageDefinition MSGDEF_OTHER_EXCEPTION  = new MessageDefinition(new MessageNumber(COMPONENT,SUBSYS_BLO,18),Message.ERROR,"errorMessage.otherExceptions");
 	public static final MessageNumber MSG_ERROR_WHILE_EXECUTION = new MessageNumber(COMPONENT,SUBSYS_BLO,19);
 	
 	public static final MessageNumber MSG_CANCEL_SUCCESS = new MessageNumber(COMPONENT,SUBSYS_BLO,20);
@@ -95,7 +95,7 @@ public class ErrCodes
 		
 		if (result == null)
 		{
-			result = MSG_OTHER_EXCEPTION;
+			result = MSGDEF_OTHER_EXCEPTION.getNumber();
 		}
 		return result;
 	}
@@ -143,6 +143,7 @@ public class ErrCodes
 
 	public static final MessageNumber MSG_CANNOT_LOAD_SLP = new MessageNumber(COMPONENT,SUBSYS_LIO,1);
 	public static final MessageNumber MSG_CANNOT_SAVE = new MessageNumber(COMPONENT,SUBSYS_LIO,2);
+    public static final MessageDefinition MSGDEF_NEW_MESSAGES = new MessageDefinition(new MessageNumber(ErrCodes.COMPONENT,SUBSYS_LIO,3),Message.INFO,"newMessages");
 	
 	/**
 	 * WTR - Wbemsmt Tree

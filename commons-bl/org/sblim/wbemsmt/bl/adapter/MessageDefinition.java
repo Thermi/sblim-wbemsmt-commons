@@ -74,6 +74,10 @@ public class MessageDefinition {
         this.requiredInput = requiredInput;
     }
 	
+    public String getResourceBundleKey()
+    {
+        return number.getResourceBundleKey() + "." + key;
+    }
 	
 	
 	

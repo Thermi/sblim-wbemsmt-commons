@@ -50,7 +50,7 @@ public class AjaxPanelGroupTag extends HtmlPanelGroupTag
 	protected void setProperties(UIComponent component)
 	{
 		super.setProperties(component);
-        setIntegerProperty(component,"periodicalUpdate", _periodicalUpdate);
+        setStringProperty(component,"periodicalUpdate", _periodicalUpdate);
     }
 
     public void setPeriodicalUpdate(String periodicalUpdate)

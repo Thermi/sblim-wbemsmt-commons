@@ -178,9 +178,8 @@ public abstract class EditBean extends JsfBase{
 	   
 	    if (messages.hasInfo())
 	    {
-	    	messages.addMessage(Message.create(ErrCodes.MSG_SAVE_INFO, Message.INFO,bundle,"save.info"));
+	        JsfBase.addMessages(Message.create(ErrCodes.MSG_SAVE_INFO, Message.INFO,bundle,"save.info"),messages, true);
 	    }
-
 	    if (messages.hasErrors())
 		{
 			JsfBase.addMessages(Message.create(ErrCodes.MSG_SAVE_ERROR, Message.ERROR,bundle,"save.error"),messages, true);

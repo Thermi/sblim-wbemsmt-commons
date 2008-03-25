@@ -33,6 +33,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.faces.context.FacesContext;
 import org.apache.commons.collections.MultiHashMap;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.ClassUtils;
@@ -57,6 +58,7 @@ import org.sblim.wbemsmt.exception.ValidationException;
 import org.sblim.wbemsmt.exception.WbemSmtException;
 import org.sblim.wbemsmt.tasklauncher.CustomTreeConfig;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.ConfigurationValueData;
+import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
@@ -121,7 +123,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	private RemoveDataContainerThread removeDataContainerThread;
 	protected CustomTreeConfig customTreeConfig;
 	private Map configurationValues;
-	
+	private AsynchronousMessageHandler asynchronousMessageHandler;
+
 	public AbstractBaseCimAdapter()
 	{
 		if (!RuntimeUtil.getInstance().isCommandline())
@@ -140,6 +143,17 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		this.bundle = resourceBundle;
 		this.selectionHierarchy = selectionHierarchy;
 		this.fcoHelper = fcoHelperIf;
+		
+        if (RuntimeUtil.getInstance().isJSF())
+        {
+            asynchronousMessageHandler = (AsynchronousMessageHandler) BeanNameConstants.MESSAGE_HANDLER.getBoundValue(FacesContext.getCurrentInstance());
+        }
+        else if (RuntimeUtil.getInstance().isCommandline())
+        {
+            asynchronousMessageHandler = new CliAsynchronousMessageHandler();
+        }
+
+		
 	}
 
 	/**
@@ -1357,7 +1371,15 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		}
 	}
 
+	   /**
+     * Get the presentationlayer specific component which is responsible for adding asynchronous messages
+     * @return
+     */
+    public AsynchronousMessageHandler getAsynchronousMessageHandler() {
+        return asynchronousMessageHandler;
+    }
 	
+
 	
 	
 	

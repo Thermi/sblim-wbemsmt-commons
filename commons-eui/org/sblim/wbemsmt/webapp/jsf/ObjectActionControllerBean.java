@@ -379,7 +379,7 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 		
 		//if there are new Messages update them
 		MessageHandlerBean bean =  (MessageHandlerBean) BeanNameConstants.MESSAGE_HANDLER.getBoundValue(FacesContext.getCurrentInstance());
-		bean.updateMessages();
+		bean.addMessages();
 		
 		return parent;
 	}
@@ -486,7 +486,7 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 		} catch (Exception e) {
 			if (!silent)
 			{
-				MessageUtil.addMessage(ErrCodes.MSGDEF_INVALID_UPDATE_INTERVAL, new String[]{"messages"}, new Object[]{s});
+				MessageUtil.addMessage(ErrCodes.MSGDEF_INVALID_UPDATE_INTERVAL, null, new String[]{"messages"}, new Object[]{s});
 			}
 			sNew = "0.0";
 		}

@@ -53,18 +53,7 @@ public class MessageUtil {
 
     public static void addMessage(MessageNumber msgNumber, String level, String[] bundles, String key, Object[] objects)
 	{
-		if (RuntimeUtil.getInstance().isJSF())
-		{
-			ILocaleManager localeManager = (ILocaleManager) BeanNameConstants.LOCALE_MANAGER.getBoundValue(FacesContext.getCurrentInstance());
-			WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(bundles,localeManager.getCurrentLocale());
-			FacesContext.getCurrentInstance().addMessage(null, new WbemsmtFacesMessage(Message.create(msgNumber, level, bundle, key,objects)));
-		}
-		else if (RuntimeUtil.getInstance().isCommandline())
-		{
-			WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(bundles);
-			Message msg = Message.create(msgNumber, level, bundle, key,objects);
-			printMessageOnConsole(bundle, msg);
-		}
+		addMessageImpl(msgNumber, level, bundles, key, objects);
 	}
 	
 	public static void addMessage(MessageNumber msgNumber, String level, String[] bundles, String key) {
@@ -88,30 +77,77 @@ public class MessageUtil {
 		{
 			ILocaleManager localeManager = (ILocaleManager) BeanNameConstants.LOCALE_MANAGER.getBoundValue(FacesContext.getCurrentInstance());
 			WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(bundles,localeManager.getCurrentLocale());
-			Message msg = Message.create(messageDefinition,handler, bundle, objects);
-			FacesContext.getCurrentInstance().addMessage(null, new WbemsmtFacesMessage(msg));
+			addMessageImpl(messageDefinition, handler,bundle,objects);
 		}
 		else if (RuntimeUtil.getInstance().isCommandline())
 		{
 			WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(bundles);
-            Message msg = Message.create(messageDefinition,handler, bundle, objects);
-			printMessageOnConsole(bundle, msg);
+			addMessageImpl(messageDefinition, handler,bundle,objects);
 		}
 	}
 
     public static void addMessage(MessageDefinition messageDefinition, WbemSmtResourceBundle bundle)
 	{
-		addMessage(messageDefinition,bundle,null);
+        addMessageImpl(messageDefinition,null,bundle,null);
 	}
 	public static void addMessage(MessageDefinition messageDefinition, WbemSmtResourceBundle bundle, Object[] objects)
 	{
+		
+	    addMessageImpl(messageDefinition, null,bundle,objects);
+	}
+
+    public static void addMessage(MessageDefinition messageDefinition,  MessageInputHandler handler, WbemSmtResourceBundle bundle, Object[] objects)
+    {
+        addMessageImpl(messageDefinition, handler, bundle, objects);
+    }
+
+    public static void addAsynchronousMessage(MessageDefinition messageDefinition, WbemSmtResourceBundle bundle, Object[] objects, AsynchronousMessageHandler msgHandler)
+    {
+        addAsynchronousMessageImpl(messageDefinition, null, bundle, objects,msgHandler);
+    }
+
+    public static void addAsynchronousMessage(MessageDefinition messageDefinition, MessageInputHandler handler, WbemSmtResourceBundle bundle, Object[] objects, AsynchronousMessageHandler msgHandler)
+    {
+        addAsynchronousMessageImpl(messageDefinition, handler, bundle, objects,msgHandler);
+    }
+
+
+    private static void addMessageImpl(MessageDefinition messageDefinition, MessageInputHandler handler, WbemSmtResourceBundle bundle, Object[] objects) {
+        if (RuntimeUtil.getInstance().isJSF())
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new WbemsmtFacesMessage(Message.create(messageDefinition, handler, bundle, objects)));
+        }
+        else if (RuntimeUtil.getInstance().isCommandline())
+        {
+            Message msg = Message.create(messageDefinition,handler, bundle, objects);
+			printMessageOnConsole(bundle, msg);
+		}
+	}
+
+    private static void addAsynchronousMessageImpl(MessageDefinition messageDefinition, MessageInputHandler handler, WbemSmtResourceBundle bundle, Object[] objects, AsynchronousMessageHandler msgHandler) {
+        if (RuntimeUtil.getInstance().isJSF())
+	{
+            msgHandler.addAsynchronousMessage(Message.create(messageDefinition, handler, bundle, objects),null);
+	}
+        else if (RuntimeUtil.getInstance().isCommandline())
+	{
+            Message msg = Message.create(messageDefinition, handler, bundle, objects);
+            msgHandler.addAsynchronousMessage(msg,new Object[]{cliOut,cliErr,bundle});
+        }
+    }
+    
+    private static void addMessageImpl(MessageNumber msgNumber, String level, String[] bundles,
+            String key, Object[] objects) {
 		if (RuntimeUtil.getInstance().isJSF())
 		{
-			FacesContext.getCurrentInstance().addMessage(null, new WbemsmtFacesMessage(Message.create(messageDefinition, bundle, objects)));
+            ILocaleManager localeManager = (ILocaleManager) BeanNameConstants.LOCALE_MANAGER.getBoundValue(FacesContext.getCurrentInstance());
+            WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(bundles,localeManager.getCurrentLocale());
+            FacesContext.getCurrentInstance().addMessage(null, new WbemsmtFacesMessage(Message.create(msgNumber, level, bundle, key,objects)));
 		}
 		else if (RuntimeUtil.getInstance().isCommandline())
 		{
-			Message msg = Message.create(messageDefinition, bundle, objects);
+            WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(bundles);
+            Message msg = Message.create(msgNumber, level, bundle, key,objects);
 			printMessageOnConsole(bundle, msg);
 		}
 	}

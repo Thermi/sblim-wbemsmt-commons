@@ -43,14 +43,18 @@ public class LabeledJSFComboBoxComponent extends LabeledJSFInputComponent implem
 	private static void setComponentBindings1(LabeledJSFComboBoxComponent component, String id) {
 
 		HtmlSelectOneMenu menu = ((HtmlSelectOneMenu)component.getComponent());
+		setComponentBindings(menu, id);
+		
+		component.readOnlyText = component.createLabelForMultipleValues(id, menu,component.readOnlyText);	
+	}
+
+    public static void setComponentBindings(HtmlSelectOneMenu menu, String id) {
 		menu.setStyleClass("comboBox");
 		menu.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
 		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 		UISelectItems items = (UISelectItems) FacesContext.getCurrentInstance().getApplication().createComponent(UISelectItems.COMPONENT_TYPE);
 		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
 		menu.getChildren().add(items);
-		
-		component.readOnlyText = component.createLabelForMultipleValues(id, menu,component.readOnlyText);	
 	}
 	
 	public void installProperties(LabeledJSFInputComponent comp, String prefix) {

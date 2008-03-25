@@ -19,25 +19,23 @@
  */
 package org.sblim.wbemsmt.webapp.jsf;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.sblim.wbemsmt.bl.Cleanup;
 import org.sblim.wbemsmt.bl.ErrCodes;
+import org.sblim.wbemsmt.bl.adapter.AsynchronousMessageHandler;
 import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.tools.jsf.WbemsmtFacesMessage;
 import org.sblim.wbemsmt.tools.jsf.WbesmtFacesSeverity;
+import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.webapp.jsf.style.StyleBean;
 
-public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup {
+public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup , AsynchronousMessageHandler {
 	
 	static Logger logger = Logger.getLogger(MessageHandlerBean.class.getName());
 
@@ -48,9 +46,16 @@ public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup {
 
 	private boolean infos, errors,warnings,success = false;
 	
+	private String asyncMessageUpdateInterval = "10.0";
+	
 	private StyleBean style;
 
-	public MessageHandlerBean() {
+    private List directlyAddedMessages = new ArrayList();
+	private List asynchronousMessages = new ArrayList();
+        private Message newMessages = null; 
+    
+    
+        public MessageHandlerBean() {
 		super();
 	}
 	
@@ -80,12 +85,39 @@ public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup {
 	}
 	
 	public void updateMessages() {
-		Set messageSet = new HashSet();
 		successMessages.clear();
 		infoMessages.clear();
 		warningMessages.clear();
 		errorMessages.clear();
-		Iterator iterator = FacesContext.getCurrentInstance().getMessages();
+        addMessages();
+	}
+
+    public void addMessages() {
+        
+        Set messageSet = new HashSet();
+        addMessages(messageSet, directlyAddedMessages.iterator());
+        addMessages(messageSet, FacesContext.getCurrentInstance().getMessages());
+
+		Collections.sort(successMessages, new FacesMessagesComparator());
+		Collections.sort(infoMessages, new FacesMessagesComparator());
+		Collections.sort(warningMessages, new FacesMessagesComparator());
+		Collections.sort(errorMessages, new FacesMessagesComparator());
+		
+		success = successMessages.size() > 0;
+		infos = infoMessages.size() > 0;
+		warnings = warningMessages.size() > 0;
+		errors = errorMessages.size() > 0;
+		
+		directlyAddedMessages.clear();
+    }
+
+	public String getUpdateMessages()
+	{
+	    updateMessages();
+	    return "";
+	}
+	
+    private void addMessages(Set messageSet, Iterator iterator) {
 		while (iterator.hasNext()) {
 			FacesMessage msg = (FacesMessage) iterator.next();
 			
@@ -97,8 +129,7 @@ public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup {
 			{
 				logger.severe(msg.getSummary());
 				logger.severe(msg.getDetail());
-				wbemsmtFacesMessage = new WbemsmtFacesMessage(Message.create(ErrCodes.MSG_OTHER_EXCEPTION, Message.ERROR, bundle, "errorMessage.otherExceptions"));
-				//wbemsmtFacesMessage = new FacesMessageWrapper(msg);
+				wbemsmtFacesMessage = new WbemsmtFacesMessage(Message.create(ErrCodes.MSGDEF_OTHER_EXCEPTION, bundle));
 			}
 			
 			if (wbemsmtFacesMessage.getMessage() != null)
@@ -137,16 +168,6 @@ public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup {
 				}
 			}
 		}
-
-		Collections.sort(successMessages, new FacesMessagesComparator());
-		Collections.sort(infoMessages, new FacesMessagesComparator());
-		Collections.sort(warningMessages, new FacesMessagesComparator());
-		Collections.sort(errorMessages, new FacesMessagesComparator());
-		
-		success = successMessages.size() > 0;
-		infos = infoMessages.size() > 0;
-		warnings = warningMessages.size() > 0;
-		errors = errorMessages.size() > 0;
 	}
 
 	public void cleanup() {
@@ -154,6 +175,7 @@ public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup {
 		infoMessages.clear();
 		warningMessages.clear();
 		errorMessages.clear();
+		directlyAddedMessages.clear();
 	}
 
 	public StyleBean getStyle() {
@@ -185,6 +207,50 @@ public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup {
 		return warnings || success || infos || errors;
 	}
 
+	public void addMessage(WbemsmtFacesMessage msg)
+	{
+	    directlyAddedMessages .add(msg);
+	}
 	
+    public boolean isAsynchronousMessages() {
+        return asynchronousMessages.size() > 0;
+    }
+	
+    public void showAsynchronousMessages(ActionEvent event)
+    {
+        for (Iterator iterator = asynchronousMessages.iterator(); iterator.hasNext();) {
+            Message message = (Message) iterator.next();
+            directlyAddedMessages.add(new WbemsmtFacesMessage(message));
+        }
+        asynchronousMessages.clear();
+    }
+
+    public void addAsynchronousMessage(Message message, Object context) {
+       asynchronousMessages.add(message);
+    }
+
+    public String getNewMessagesText()
+    {
+        Integer count = new Integer(asynchronousMessages.size());
+        return ResourceBundleManager.getCommonResourceBundle().getString(ErrCodes.MSGDEF_NEW_MESSAGES.getResourceBundleKey(), new Object[]{count});
+    }
+
+    public String getNewMessagesCode()
+    {
+        if (newMessages == null)
+        {
+            newMessages = Message.create(ErrCodes.MSGDEF_NEW_MESSAGES, ResourceBundleManager.getCommonResourceBundle());
+        }
+        return newMessages.getMessageCode(); 
+    }
+
+    public String getAsynchronousMessageUpdateInterval() {
+        return asyncMessageUpdateInterval;
+    }
+
+    public void setAsynchronousMessageUpdateInterval(String asyncMessageUpdateInterval) {
+        this.asyncMessageUpdateInterval = asyncMessageUpdateInterval;
+    }
+    
 	
 }
