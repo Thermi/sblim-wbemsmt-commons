@@ -43,6 +43,7 @@ public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup , A
 	private List infoMessages = new ArrayList();
 	private List warningMessages = new ArrayList();
 	private List errorMessages = new ArrayList();
+	private Set messageSummaries = new HashSet();
 
 	private boolean infos, errors,warnings,success = false;
 	
@@ -89,14 +90,14 @@ public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup , A
 		infoMessages.clear();
 		warningMessages.clear();
 		errorMessages.clear();
+		messageSummaries.clear();
         addMessages();
 	}
 
     public void addMessages() {
         
-        Set messageSet = new HashSet();
-        addMessages(messageSet, directlyAddedMessages.iterator());
-        addMessages(messageSet, FacesContext.getCurrentInstance().getMessages());
+        addMessages(directlyAddedMessages.iterator());
+        addMessages(FacesContext.getCurrentInstance().getMessages());
 
 		Collections.sort(successMessages, new FacesMessagesComparator());
 		Collections.sort(infoMessages, new FacesMessagesComparator());
@@ -117,7 +118,7 @@ public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup , A
 	    return "";
 	}
 	
-    private void addMessages(Set messageSet, Iterator iterator) {
+    private void addMessages(Iterator iterator) {
 		while (iterator.hasNext()) {
 			FacesMessage msg = (FacesMessage) iterator.next();
 			
@@ -140,28 +141,28 @@ public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup , A
 				wbemsmtFacesMessage.getMessage().setMsg(txt);
 			}
 			
-			if (!messageSet.contains(msg.getSummary())) {
+			if (!messageSummaries.contains(msg.getSummary())) {
 				
 				WbesmtFacesSeverity severity = new WbesmtFacesSeverity(msg);
 				if (Message.isSuccess(severity.getSeverity()))
 				{
 					successMessages.add(wbemsmtFacesMessage);	
-					messageSet.add(msg.getSummary());
+					messageSummaries.add(msg.getSummary());
 				}
 				else if (Message.isInfo(severity.getSeverity()))
 				{
 					infoMessages.add(wbemsmtFacesMessage);	
-					messageSet.add(msg.getSummary());
+					messageSummaries.add(msg.getSummary());
 				}
 				else if (Message.isWarning(severity.getSeverity()))
 				{
 					warningMessages.add(wbemsmtFacesMessage);	
-					messageSet.add(msg.getSummary());
+					messageSummaries.add(msg.getSummary());
 				}
 				else if (Message.isError(severity.getSeverity()))
 				{
 					errorMessages.add(wbemsmtFacesMessage);	
-					messageSet.add(msg.getSummary());
+					messageSummaries.add(msg.getSummary());
 				} else
 				{
 					logger.severe(msg.getSummary() + " is from a not recognized type: " + severity.getSeverity());

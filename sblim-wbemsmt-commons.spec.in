@@ -126,8 +126,9 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 
 ###############################################################################
 %changelog
-* Tue Mar 25 2008 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.3-CVS
+* Fri Mar 28 2008 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.3-CVS
   - Inclusion of fixes for the following issues
+    o 1928083 wbemsmt-commons: messages getting displayed twice
     o 1925437 wbemsmt-commons: async message display
     o 1914202 wbemsmt-commons: input controls in message panels
 
