@@ -1,5 +1,6 @@
 Changes on top of 0.5.3-1
 ==============================================================================
+- 1928085 wbemsmt-commons: external defined configDir not used
 - 1928083 wbemsmt-commons: messages getting displayed twice
 - 1925437 wbemsmt-commons: async message display
 - 1914202 wbemsmt-commons: input controls in message panels

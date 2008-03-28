@@ -101,7 +101,7 @@ public class TaskLauncherController implements Cleanup
 		try {
 			cimomDatas.add(new TaskLauncherConfig.CimomData(hostname,Integer.parseInt(port),protocol,username,password));
         	this.useSlp = useSlpForTasks;
-			loadConfig(null,treeConfigs);
+			loadConfig(configFilename,treeConfigs);
 		} catch (Exception e) {
 			throw new ModelLoadException(e);
 		}
