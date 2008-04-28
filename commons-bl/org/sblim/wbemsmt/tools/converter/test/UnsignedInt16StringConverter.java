@@ -32,7 +32,7 @@ public class UnsignedInt16StringConverter implements Converter {
 	 */
 	public Object convertForGui(Object value) {
 		UnsignedInt16 iValue = (UnsignedInt16)value;
-		return iValue != null ? ""+iValue.intValue() : "0";
+		return iValue != null ? ""+iValue.intValue() : null;
 	}
 
 	/**

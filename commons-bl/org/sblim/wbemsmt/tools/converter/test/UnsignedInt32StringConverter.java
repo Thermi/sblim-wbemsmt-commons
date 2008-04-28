@@ -33,7 +33,7 @@ public class UnsignedInt32StringConverter implements Converter {
 	 */
 	public Object convertForGui(Object value) {
 		UnsignedInt32 iValue = (UnsignedInt32)value;
-		return iValue != null ? ""+iValue.longValue() : "0";
+		return iValue != null ? ""+iValue.longValue() : null;
 	}
 
 	/**

@@ -33,7 +33,7 @@ public class UnsignedInt8StringConverter implements Converter {
 	 */
 	public Object convertForGui(Object value) {
 		UnsignedInt8 iValue = (UnsignedInt8)value;
-		return iValue != null ? ""+iValue.intValue() : "0";
+		return iValue != null ? ""+iValue.intValue() : null;
 	}
 
 	/**

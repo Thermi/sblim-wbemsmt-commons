@@ -126,8 +126,9 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 
 ###############################################################################
 %changelog
-* Fri Mar 28 2008 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.3-CVS
+* Mon Apr 28 2008 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.3-CVS
   - Inclusion of fixes for the following issues
+    o 1953347 wbemsmt-commons: Invalid user message prompt
     o 1928085 wbemsmt-commons: external defined configDir not used
     o 1928083 wbemsmt-commons: messages getting displayed twice
     o 1925437 wbemsmt-commons: async message display

@@ -42,7 +42,6 @@ public class LabeledJSFRadioButtonComponent extends LabeledJSFInputComponent imp
 	public LabeledJSFRadioButtonComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectOneRadio.COMPONENT_TYPE), converter,readOnly);
 		setComponentBindings1(this, id);
-		setItem("0");
 	}
 	
 	/**

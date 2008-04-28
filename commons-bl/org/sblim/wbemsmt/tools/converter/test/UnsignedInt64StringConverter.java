@@ -32,7 +32,7 @@ public class UnsignedInt64StringConverter implements Converter {
 	 */
 	public Object convertForGui(Object value) {
 		UnsignedInt64 iValue = (UnsignedInt64)value;
-		return iValue != null ? ""+iValue.longValue() : "0";
+		return iValue != null ? ""+iValue.longValue() : null;
 	}
 
 	/**
