@@ -25,7 +25,7 @@
 	
    	
     <property name="Schema.version"          value="2.9"/>
-    <property name="Manifest.version"        value="0.5.3"/>
+    <property name="Manifest.version"        value="0.5.4"/>
     <property name="Manifest.release"        value="1"/>
     <property name="Manifest.title"          value="WBEM-SMT: Common Packages"/>
     <property name="Manifest.url"            value="http://sblim.sourceforge.net"/>
