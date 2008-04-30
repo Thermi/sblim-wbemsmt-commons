@@ -1,3 +1,67 @@
+2008-04-30 16:37  skanan
+
+	* NEWS, build.xml: Maintenance release 0.5.4-1
+
+2008-04-28 07:47  mbauschert
+
+	*
+	  commons-bl/org/sblim/wbemsmt/tools/converter/test/UnsignedInt16StringConverter.java,
+	  NEWS, sblim-wbemsmt-commons.spec.in,
+	  commons-bl/org/sblim/wbemsmt/tools/converter/test/UnsignedInt32StringConverter.java,
+	  commons-bl/org/sblim/wbemsmt/tools/converter/test/UnsignedInt64StringConverter.java,
+	  commons-bl/org/sblim/wbemsmt/tools/converter/test/UnsignedInt8StringConverter.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFRadioButtonComponent.java:
+	  Fix 1953347: wbemsmt-commons: Invalid user message prompt
+
+2008-03-28 12:15  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec.in,
+	  commons-bl/org/sblim/wbemsmt/tasklauncher/TaskLauncherController.java:
+	  Fix 1928085 wbemsmt-commons: external defined configDir not used
+
+2008-03-28 12:13  mbauschert
+
+	* NEWS,
+	  commons-eui/org/sblim/wbemsmt/webapp/jsf/MessageHandlerBean.java,
+	  sblim-wbemsmt-commons.spec.in: Fix 1928083	  wbemsmt-commons:
+	  messages getting displayed twice
+
+2008-03-25 15:07  mbauschert
+
+	* commons-bl/org/sblim/wbemsmt/bl/ErrCodes.java,
+	  commons-bl/org/sblim/wbemsmt/bl/adapter/AbstractBaseCimAdapter.java,
+	  commons-bl/org/sblim/wbemsmt/bl/adapter/AsynchronousMessageHandler.java,
+	  commons-bl/org/sblim/wbemsmt/bl/adapter/CliAsynchronousMessageHandler.java,
+	  commons-bl/org/sblim/wbemsmt/bl/adapter/MessageDefinition.java,
+	  commons-bl/org/sblim/wbemsmt/bl/adapter/MessageUtil.java,
+	  commons-bl/org/sblim/wbemsmt/tools/converter/test/UnsignedInt16StringConverter.java,
+	  commons-bl/org/sblim/wbemsmt/tools/converter/test/UnsignedInt32StringConverter.java,
+	  commons-bl/org/sblim/wbemsmt/tools/converter/test/UnsignedInt64StringConverter.java,
+	  commons-bl/org/sblim/wbemsmt/tools/converter/test/UnsignedInt8StringConverter.java,
+	  commons-eui/org/sblim/wbemsmt/ajax/panel/AjaxPanelGroupTag.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFComboBoxComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/input/jsf/LabeledJSFRadioButtonComponent.java,
+	  commons-eui/org/sblim/wbemsmt/tools/jsf/EditBean.java, NEWS,
+	  sblim-wbemsmt-commons.spec.in, commons-bl/messages.properties,
+	  commons-bl/messages_de.properties,
+	  commons-bl/messages_en.properties,
+	  commons-eui/org/sblim/wbemsmt/webapp/jsf/MessageHandlerBean.java,
+	  commons-eui/org/sblim/wbemsmt/webapp/jsf/ObjectActionControllerBean.java:
+	  Fix 1925437 wbemsmt-commons: async message display
+
+2008-03-14 06:50  mbauschert
+
+	* NEWS, sblim-wbemsmt-commons.spec.in,
+	  commons-bl/org/sblim/wbemsmt/bl/adapter/Message.java,
+	  commons-bl/org/sblim/wbemsmt/bl/adapter/MessageDefinition.java,
+	  commons-bl/org/sblim/wbemsmt/bl/adapter/MessageInputEvent.java,
+	  commons-bl/org/sblim/wbemsmt/bl/adapter/MessageInputHandler.java,
+	  commons-bl/org/sblim/wbemsmt/bl/adapter/MessageList.java,
+	  commons-bl/org/sblim/wbemsmt/bl/adapter/MessageUtil.java,
+	  commons-eui/org/sblim/wbemsmt/tools/jsf/WbemsmtFacesMessage.java,
+	  commons-eui/org/sblim/wbemsmt/webapp/jsf/ObjectActionControllerBean.java:
+	  fixed 1914202 wbemsmt-commons: input controls in message panels
+
 2007-12-11 10:19  skanan
 
 	* NEWS, build.xml, sblim-wbemsmt-commons.spec.in: Maintenance
