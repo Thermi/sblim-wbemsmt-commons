@@ -23,10 +23,12 @@ import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.lang.Cloneable;
 
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
-import org.sblim.wbemsmt.tasklauncher.customtreeconfig.*;
+import org.sblim.wbemsmt.tasklauncher.customtreeconfig.ContextmenuDocument;
+import org.sblim.wbemsmt.tasklauncher.customtreeconfig.EventListenerDocument;
+import org.sblim.wbemsmt.tasklauncher.customtreeconfig.MenuitemDocument;
+import org.sblim.wbemsmt.tasklauncher.customtreeconfig.ParamDocument;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 
 public class TaskLauncherContextMenu implements Cloneable

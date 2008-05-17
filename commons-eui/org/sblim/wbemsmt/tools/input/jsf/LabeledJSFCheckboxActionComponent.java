@@ -26,8 +26,7 @@ import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
-import org.sblim.wbemsmt.exception.ObjectUpdateException;
-import org.sblim.wbemsmt.exception.UpdateControlsException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.ActionComponent;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
@@ -86,10 +85,10 @@ public class LabeledJSFCheckboxActionComponent extends LabeledJSFInputComponent 
 
 	/**
 	 * ActionListenerCalled by JSF Framwork
-	 * @throws ObjectUpdateException 
-	 * @throws UpdateControlsException 
+	 * @throws WbemsmtException 
+	 * @throws WbemsmtException 
 	 */
-	public String itemAction() throws ObjectUpdateException, UpdateControlsException
+	public String itemAction() throws WbemsmtException
 	{
 		if (item == null)
 		{

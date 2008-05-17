@@ -1,809 +1,1143 @@
 /** 
  * CIM_DeviceStatisticalInformation.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  Statistical information associated with a LogicalDevice or one of its
- * subclasses.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: Statistical information associated with a LogicalDevice or one of its subclasses.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.lang.reflect.Constructor;
-import org.sblim.wbem.client.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
+import org.sblim.wbemsmt.exception.impl.*;
+import org.sblim.wbemsmt.exception.impl.userobject.*;
 
+import java.lang.reflect.*;
+import javax.wbem.*;
 
-/**
- *  Statistical information associated with a LogicalDevice or one of its
- * subclasses.
- */
-public class CIM_DeviceStatisticalInformation extends CIM_StatisticalInformation  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_DeviceStatisticalInformation"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_DeviceStatisticalInformation extends CIM_StatisticalInformation {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS = "CIM_DeviceStatistics"; //$NON-NLS-1$
-	
-	
-	/**
-	*	CreationClassName indicates the name of the class or the subclass used in the creation of an instance. When used with the other key properties of this class, this property allows all instances of this class and its subclasses to be uniquely identified.
-	*/
-	public final static String CIM_PROPERTY_CREATIONCLASSNAME = "CreationClassName"; //$NON-NLS-1$
-	/**
-	*	The scoping Device's CreationClassName.
-	*/
-	public final static String CIM_PROPERTY_DEVICECREATIONCLASSNAME = "DeviceCreationClassName"; //$NON-NLS-1$
-	/**
-	*	The scoping Device's ID.
-	*/
-	public final static String CIM_PROPERTY_DEVICEID = "DeviceID"; //$NON-NLS-1$
-	/**
-	*	The Name property, inherited from StatisticalInformation, serves as part of the object key.
-	*/
-	public final static String CIM_PROPERTY_NAME = "Name"; //$NON-NLS-1$
-	/**
-	*	The scoping System's CreationClassName.
-	*/
-	public final static String CIM_PROPERTY_SYSTEMCREATIONCLASSNAME = "SystemCreationClassName"; //$NON-NLS-1$
-	/**
-	*	The scoping System's Name.
-	*/
-	public final static String CIM_PROPERTY_SYSTEMNAME = "SystemName"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_DeviceStatisticalInformation";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_CREATIONCLASSNAME);
-		CIM_PropertyNameList.add(CIM_PROPERTY_DEVICECREATIONCLASSNAME);
-		CIM_PropertyNameList.add(CIM_PROPERTY_DEVICEID);
-		CIM_PropertyNameList.add(CIM_PROPERTY_NAME);
-		CIM_PropertyNameList.add(CIM_PROPERTY_SYSTEMCREATIONCLASSNAME);
-		CIM_PropertyNameList.add(CIM_PROPERTY_SYSTEMNAME);
-				
-		for (int i = 0; i < CIM_StatisticalInformation.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_StatisticalInformation.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_CREATIONCLASSNAME)||
-				((String)CIM_StatisticalInformation.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_DEVICECREATIONCLASSNAME)||
-				((String)CIM_StatisticalInformation.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_DEVICEID)||
-				((String)CIM_StatisticalInformation.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_NAME)||
-				((String)CIM_StatisticalInformation.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_SYSTEMCREATIONCLASSNAME)||
-				((String)CIM_StatisticalInformation.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_SYSTEMNAME)){
-				continue;
-			}
-			
-			CIM_DeviceStatisticalInformation.CIM_PropertyNameList.add(CIM_StatisticalInformation.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CREATIONCLASSNAME, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_DEVICECREATIONCLASSNAME, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_DEVICEID, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_NAME, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_SYSTEMCREATIONCLASSNAME, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_SYSTEMNAME, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-				
-		for (int i = 0; i < CIM_StatisticalInformation.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_StatisticalInformation.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_CREATIONCLASSNAME)||
-				((CIMProperty)CIM_StatisticalInformation.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_DEVICECREATIONCLASSNAME)||
-				((CIMProperty)CIM_StatisticalInformation.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_DEVICEID)||
-				((CIMProperty)CIM_StatisticalInformation.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_NAME)||
-				((CIMProperty)CIM_StatisticalInformation.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_SYSTEMCREATIONCLASSNAME)||
-				((CIMProperty)CIM_StatisticalInformation.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_SYSTEMNAME)){
-				continue;
-			}
-			
-			CIM_DeviceStatisticalInformation.CIM_PropertyList.add(CIM_StatisticalInformation.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_StatisticalInformation.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * DeviceStatistics relates the DeviceStatisticalInformation class to the LogicalDevice to which it applies.
+     */
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_DeviceStatisticalInformation() {
+    public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS = "CIM_DeviceStatistics";
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * Constants of property CreationClassName
+     * CreationClassName indicates the name of the class or the subclass used in the creation of an instance. When used with the other key properties of this class, this property allows all instances of this class and its subclasses to be uniquely identified.
+     */
+    public static class PROPERTY_CREATIONCLASSNAME {
+        /**
+         * name of the property CreationClassName
+         */
+        public final static String NAME = "CreationClassName";
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    }
 
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property DeviceCreationClassName
+     * The scoping Device's CreationClassName.
+     */
+    public static class PROPERTY_DEVICECREATIONCLASSNAME {
+        /**
+         * name of the property DeviceCreationClassName
+         */
+        public final static String NAME = "DeviceCreationClassName";
 
+    }
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_DeviceStatisticalInformation(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property DeviceID
+     * The scoping Device's ID.
+     */
+    public static class PROPERTY_DEVICEID {
+        /**
+         * name of the property DeviceID
+         */
+        public final static String NAME = "DeviceID";
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_DeviceStatisticalInformation(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+    }
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
-            }
-            CIM_DeviceStatisticalInformation.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+    /**
+     * Constants of property Name
+     * The Name property, inherited from StatisticalInformation, serves as part of the object key.
+     */
+    public static class PROPERTY_NAME {
+        /**
+         * name of the property Name
+         */
+        public final static String NAME = "Name";
+
+    }
+
+    /**
+     * Constants of property SystemCreationClassName
+     * The scoping System's CreationClassName.
+     */
+    public static class PROPERTY_SYSTEMCREATIONCLASSNAME {
+        /**
+         * name of the property SystemCreationClassName
+         */
+        public final static String NAME = "SystemCreationClassName";
+
+    }
+
+    /**
+     * Constants of property SystemName
+     * The scoping System's Name.
+     */
+    public static class PROPERTY_SYSTEMNAME {
+        /**
+         * name of the property SystemName
+         */
+        public final static String NAME = "SystemName";
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_StatisticalInformation.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   Statistical information associated with a LogicalDevice or one of its subclasses.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_DeviceStatisticalInformation(WBEMClient client, String namespace)
+            throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   Statistical information associated with a LogicalDevice or one of its subclasses.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_DeviceStatisticalInformation(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_DeviceStatisticalInformation() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("CreationClassName", new CIMProperty("CreationClassName",
+                CIMDataType.STRING_T, null));
+        propertiesToCheck.put("DeviceCreationClassName", new CIMProperty("DeviceCreationClassName",
+                CIMDataType.STRING_T, null));
+        propertiesToCheck.put("DeviceID", new CIMProperty("DeviceID", CIMDataType.STRING_T, null));
+        propertiesToCheck.put("Name", new CIMProperty("Name", CIMDataType.STRING_T, null));
+        propertiesToCheck.put("SystemCreationClassName", new CIMProperty("SystemCreationClassName",
+                CIMDataType.STRING_T, null));
+        propertiesToCheck.put("SystemName", new CIMProperty("SystemName", CIMDataType.STRING_T,
+                null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_DeviceStatisticalInformation.Java_Package_List.toArray(new String[CIM_DeviceStatisticalInformation.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property CreationClassName
+     *     * <br>
+     * CreationClassName indicates the name of the class or the subclass used in the creation of an instance. When used with the other key properties of this class, this property allows all instances of this class and its subclasses to be uniquely identified.
+     *     */
+
+    public String get_key_CreationClassName() {
+        CIMProperty currentProperty = getProperty(PROPERTY_CREATIONCLASSNAME.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_CREATIONCLASSNAME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		CIMProperty CIMProperty_CreationClassName = this.cimInstance.getProperty(CIM_PROPERTY_CREATIONCLASSNAME);
-		
-		if (CIMProperty_CreationClassName == null || CIMProperty_CreationClassName.getValue().isEmpty() || CIMProperty_CreationClassName.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_CREATIONCLASSNAME, "Key"});
-			result = false;
-		}
-		
-		CIMProperty CIMProperty_DeviceCreationClassName = this.cimInstance.getProperty(CIM_PROPERTY_DEVICECREATIONCLASSNAME);
-		
-		if (CIMProperty_DeviceCreationClassName == null || CIMProperty_DeviceCreationClassName.getValue().isEmpty() || CIMProperty_DeviceCreationClassName.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_DEVICECREATIONCLASSNAME, "Key"});
-			result = false;
-		}
-		
-		CIMProperty CIMProperty_DeviceID = this.cimInstance.getProperty(CIM_PROPERTY_DEVICEID);
-		
-		if (CIMProperty_DeviceID == null || CIMProperty_DeviceID.getValue().isEmpty() || CIMProperty_DeviceID.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_DEVICEID, "Key"});
-			result = false;
-		}
-		
-		CIMProperty CIMProperty_Name = this.cimInstance.getProperty(CIM_PROPERTY_NAME);
-		
-		if (CIMProperty_Name == null || CIMProperty_Name.getValue().isEmpty() || CIMProperty_Name.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_NAME, "Key"});
-			result = false;
-		}
-		
-		CIMProperty CIMProperty_SystemCreationClassName = this.cimInstance.getProperty(CIM_PROPERTY_SYSTEMCREATIONCLASSNAME);
-		
-		if (CIMProperty_SystemCreationClassName == null || CIMProperty_SystemCreationClassName.getValue().isEmpty() || CIMProperty_SystemCreationClassName.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_SYSTEMCREATIONCLASSNAME, "Key"});
-			result = false;
-		}
-		
-		CIMProperty CIMProperty_SystemName = this.cimInstance.getProperty(CIM_PROPERTY_SYSTEMNAME);
-		
-		if (CIMProperty_SystemName == null || CIMProperty_SystemName.getValue().isEmpty() || CIMProperty_SystemName.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_SYSTEMNAME, "Key"});
-			result = false;
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property CreationClassName
+     * <br>
+     * CreationClassName indicates the name of the class or the subclass used in the creation of an instance. When used with the other key properties of this class, this property allows all instances of this class and its subclasses to be uniquely identified.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_DeviceStatisticalInformation)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_DeviceStatisticalInformation)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_DeviceStatisticalInformation)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_DeviceStatisticalInformation)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_DeviceStatisticalInformation)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_DeviceStatisticalInformation)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_DeviceStatisticalInformation)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_DeviceStatisticalInformation)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_DeviceStatisticalInformation)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_DeviceStatisticalInformation)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_key_CreationClassName(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_CREATIONCLASSNAME.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_key_CreationClassName(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CREATIONCLASSNAME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	public ArrayList getAssociated_CIM_LogicalDevice_CIM_DeviceStatisticss(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
+    }
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS, 
-					CIM_LogicalDevice.CIM_CLASS_NAME, 
-					"Stats", //$NON-NLS-1$
-					"Element", //$NON-NLS-1$
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-                    Class clazz = CIM_DeviceStatisticalInformationHelper.findClass(cimClient, cimInstance);
-                    
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_LogicalDevice(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_LogicalDevice(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_LogicalDevice(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
+    /**
+     * Get the property CreationClassName by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+    public static CIMProperty create_key_CreationClassName(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_DeviceStatisticalInformation fco = new CIM_DeviceStatisticalInformation(client,
+                namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_CREATIONCLASSNAME.NAME);
+        if (property != null) {
+            property = setPropertyValue_key_CreationClassName(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CREATIONCLASSNAME.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	public ArrayList getAssociated_CIM_LogicalDevice_CIM_DeviceStatistics_Names(CIMClient cimClient, boolean deep) {
+    /**
+     * Set the property CreationClassName
+     * <br>
+     * CreationClassName indicates the name of the class or the subclass used in the creation of an instance. When used with the other key properties of this class, this property allows all instances of this class and its subclasses to be uniquely identified.
+     */
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
+    private static CIMProperty setPropertyValue_key_CreationClassName(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
 
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS, 
-					CIM_LogicalDevice.CIM_CLASS_NAME, 
-					"Stats", //$NON-NLS-1$
-					"Element"); //$NON-NLS-1$
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_LogicalDevice.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+        setThis = newValue;
 
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute CreationClassName
-	
-	public String get_CreationClassName() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_DeviceStatisticalInformation.CIM_PROPERTY_CREATIONCLASSNAME);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_CREATIONCLASSNAME + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_CREATIONCLASSNAME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CreationClassName(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_DeviceStatisticalInformation.CIM_PROPERTY_CREATIONCLASSNAME);
-    	
-		if (isValidCimInstance()) {
-    		throw new InvalidParameterException("The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_CREATIONCLASSNAME + "can not be modified. It is a KEY value.");
-    		
-		} else if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_CREATIONCLASSNAME + " could not be found");
-    		
-		} else if (!CIM_DeviceStatisticalInformationHelper.isValid_CreationClassName(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_CREATIONCLASSNAME);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_CREATIONCLASSNAME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
 
-	// Attribute DeviceCreationClassName
-	
-	public String get_DeviceCreationClassName() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_DeviceStatisticalInformation.CIM_PROPERTY_DEVICECREATIONCLASSNAME);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_DEVICECREATIONCLASSNAME + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_DEVICECREATIONCLASSNAME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_DeviceCreationClassName(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_DeviceStatisticalInformation.CIM_PROPERTY_DEVICECREATIONCLASSNAME);
-    	
-		if (isValidCimInstance()) {
-    		throw new InvalidParameterException("The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_DEVICECREATIONCLASSNAME + "can not be modified. It is a KEY value.");
-    		
-		} else if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_DEVICECREATIONCLASSNAME + " could not be found");
-    		
-		} else if (!CIM_DeviceStatisticalInformationHelper.isValid_DeviceCreationClassName(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_DEVICECREATIONCLASSNAME);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_DEVICECREATIONCLASSNAME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        return newProperty;
+    }
 
-	// Attribute DeviceID
-	
-	public String get_DeviceID() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_DeviceStatisticalInformation.CIM_PROPERTY_DEVICEID);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_DEVICEID + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_DEVICEID + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_DeviceID(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_DeviceStatisticalInformation.CIM_PROPERTY_DEVICEID);
-    	
-		if (isValidCimInstance()) {
-    		throw new InvalidParameterException("The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_DEVICEID + "can not be modified. It is a KEY value.");
-    		
-		} else if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_DEVICEID + " could not be found");
-    		
-		} else if (!CIM_DeviceStatisticalInformationHelper.isValid_DeviceID(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_DEVICEID);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_DEVICEID + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property DeviceCreationClassName
+     *     * <br>
+     * The scoping Device's CreationClassName.
+     *     */
 
-	// Attribute Name
-	
-	public String get_Name() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_DeviceStatisticalInformation.CIM_PROPERTY_NAME);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_NAME + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_NAME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_Name(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_DeviceStatisticalInformation.CIM_PROPERTY_NAME);
-    	
-		if (isValidCimInstance()) {
-    		throw new InvalidParameterException("The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_NAME + "can not be modified. It is a KEY value.");
-    		
-		} else if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_NAME + " could not be found");
-    		
-		} else if (!CIM_DeviceStatisticalInformationHelper.isValid_Name(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_NAME);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_NAME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public String get_key_DeviceCreationClassName() {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEVICECREATIONCLASSNAME.NAME);
 
-	// Attribute SystemCreationClassName
-	
-	public String get_SystemCreationClassName() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_DeviceStatisticalInformation.CIM_PROPERTY_SYSTEMCREATIONCLASSNAME);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_SYSTEMCREATIONCLASSNAME + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_SYSTEMCREATIONCLASSNAME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_SystemCreationClassName(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_DeviceStatisticalInformation.CIM_PROPERTY_SYSTEMCREATIONCLASSNAME);
-    	
-		if (isValidCimInstance()) {
-    		throw new InvalidParameterException("The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_SYSTEMCREATIONCLASSNAME + "can not be modified. It is a KEY value.");
-    		
-		} else if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_SYSTEMCREATIONCLASSNAME + " could not be found");
-    		
-		} else if (!CIM_DeviceStatisticalInformationHelper.isValid_SystemCreationClassName(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_SYSTEMCREATIONCLASSNAME);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_SYSTEMCREATIONCLASSNAME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_DEVICECREATIONCLASSNAME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
 
-	// Attribute SystemName
-	
-	public String get_SystemName() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_DeviceStatisticalInformation.CIM_PROPERTY_SYSTEMNAME);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_SYSTEMNAME + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_SYSTEMNAME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_SystemName(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_DeviceStatisticalInformation.CIM_PROPERTY_SYSTEMNAME);
-    	
-		if (isValidCimInstance()) {
-    		throw new InvalidParameterException("The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_SYSTEMNAME + "can not be modified. It is a KEY value.");
-    		
-		} else if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_SYSTEMNAME + " could not be found");
-    		
-		} else if (!CIM_DeviceStatisticalInformationHelper.isValid_SystemName(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_SYSTEMNAME);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_DeviceStatisticalInformation.CIM_PROPERTY_SYSTEMNAME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        return (String) currentProperty.getValue();
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+    }
+
+    /**
+     * Set the property DeviceCreationClassName
+     * <br>
+     * The scoping Device's CreationClassName.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_key_DeviceCreationClassName(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEVICECREATIONCLASSNAME.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_key_DeviceCreationClassName(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEVICECREATIONCLASSNAME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property DeviceCreationClassName by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_key_DeviceCreationClassName(WBEMClient client,
+            String namespace, String newValue) throws WbemsmtException {
+        CIM_DeviceStatisticalInformation fco = new CIM_DeviceStatisticalInformation(client,
+                namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_DEVICECREATIONCLASSNAME.NAME);
+        if (property != null) {
+            property = setPropertyValue_key_DeviceCreationClassName(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEVICECREATIONCLASSNAME.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property DeviceCreationClassName
+     * <br>
+     * The scoping Device's CreationClassName.
+     */
+
+    private static CIMProperty setPropertyValue_key_DeviceCreationClassName(
+            CIMProperty currentProperty, String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property DeviceID
+     *     * <br>
+     * The scoping Device's ID.
+     *     */
+
+    public String get_key_DeviceID() {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEVICEID.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_DEVICEID.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property DeviceID
+     * <br>
+     * The scoping Device's ID.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_key_DeviceID(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEVICEID.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_key_DeviceID(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEVICEID.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property DeviceID by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_key_DeviceID(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_DeviceStatisticalInformation fco = new CIM_DeviceStatisticalInformation(client,
+                namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_DEVICEID.NAME);
+        if (property != null) {
+            property = setPropertyValue_key_DeviceID(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEVICEID.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property DeviceID
+     * <br>
+     * The scoping Device's ID.
+     */
+
+    private static CIMProperty setPropertyValue_key_DeviceID(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property Name
+     *     * <br>
+     * The Name property, inherited from StatisticalInformation, serves as part of the object key.
+     *     */
+
+    public String get_key_Name() {
+        CIMProperty currentProperty = getProperty(PROPERTY_NAME.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_NAME.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property Name
+     * <br>
+     * The Name property, inherited from StatisticalInformation, serves as part of the object key.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_key_Name(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_NAME.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_key_Name(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_NAME.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property Name by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_key_Name(WBEMClient client, String namespace, String newValue)
+            throws WbemsmtException {
+        CIM_DeviceStatisticalInformation fco = new CIM_DeviceStatisticalInformation(client,
+                namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_NAME.NAME);
+        if (property != null) {
+            property = setPropertyValue_key_Name(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_NAME.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property Name
+     * <br>
+     * The Name property, inherited from StatisticalInformation, serves as part of the object key.
+     */
+
+    private static CIMProperty setPropertyValue_key_Name(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property SystemCreationClassName
+     *     * <br>
+     * The scoping System's CreationClassName.
+     *     */
+
+    public String get_key_SystemCreationClassName() {
+        CIMProperty currentProperty = getProperty(PROPERTY_SYSTEMCREATIONCLASSNAME.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_SYSTEMCREATIONCLASSNAME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property SystemCreationClassName
+     * <br>
+     * The scoping System's CreationClassName.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_key_SystemCreationClassName(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_SYSTEMCREATIONCLASSNAME.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_key_SystemCreationClassName(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SYSTEMCREATIONCLASSNAME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property SystemCreationClassName by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_key_SystemCreationClassName(WBEMClient client,
+            String namespace, String newValue) throws WbemsmtException {
+        CIM_DeviceStatisticalInformation fco = new CIM_DeviceStatisticalInformation(client,
+                namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_SYSTEMCREATIONCLASSNAME.NAME);
+        if (property != null) {
+            property = setPropertyValue_key_SystemCreationClassName(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SYSTEMCREATIONCLASSNAME.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property SystemCreationClassName
+     * <br>
+     * The scoping System's CreationClassName.
+     */
+
+    private static CIMProperty setPropertyValue_key_SystemCreationClassName(
+            CIMProperty currentProperty, String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property SystemName
+     *     * <br>
+     * The scoping System's Name.
+     *     */
+
+    public String get_key_SystemName() {
+        CIMProperty currentProperty = getProperty(PROPERTY_SYSTEMNAME.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_SYSTEMNAME.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property SystemName
+     * <br>
+     * The scoping System's Name.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_key_SystemName(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_SYSTEMNAME.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_key_SystemName(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SYSTEMNAME.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property SystemName by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_key_SystemName(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_DeviceStatisticalInformation fco = new CIM_DeviceStatisticalInformation(client,
+                namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_SYSTEMNAME.NAME);
+        if (property != null) {
+            property = setPropertyValue_key_SystemName(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SYSTEMNAME.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property SystemName
+     * <br>
+     * The scoping System's Name.
+     */
+
+    private static CIMProperty setPropertyValue_key_SystemName(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    /**
+     * Get the list with CIM_LogicalDevice objects associated by the association CIM_DeviceStatistics
+     * 
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_LogicalDevice_CIM_DeviceStatisticss(WBEMClient cimClient)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_LogicalDevice_CIM_DeviceStatisticss(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS, CIM_LogicalDevice.CIM_CLASS_NAME,
+                null, null, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_LogicalDevice objects associated by the association CIM_DeviceStatistics
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_LogicalDevice_CIM_DeviceStatisticss(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_LogicalDevice_CIM_DeviceStatisticss(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS, resultClass, role, resultRole,
+                false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_LogicalDevice objects associated by the association CIM_DeviceStatistics
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param associationClass This string MUST either contain a valid CIM Association class name or be null. It filters the Objects returned to contain only Objects associated to the source Object via this CIM Association class or one of its subclasses.
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_LogicalDevice_CIM_DeviceStatisticss(
+            WBEMClient cimClient, String associationClass, String resultClass, String role,
+            String resultRole, boolean includeQualifiers, boolean includeClassOrigin,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associators(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole, includeQualifiers, includeClassOrigin,
+                    propertyList);
+        }
+        catch (WBEMException e) {
+            throw new AssociatorException(e, new AssociatorUserObject(this.getCimObjectPath(),
+                    associationClass, resultClass, role, resultRole, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_DeviceStatisticalInformationHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_DeviceStatisticalInformationHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_DeviceStatisticalInformationHelper.findClass(cimClient,
+                            cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_LogicalDevice(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_LogicalDevice(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_LogicalDevice(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_DeviceStatisticalInformationHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_DeviceStatistics
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_LogicalDevice_CIM_DeviceStatisticsNames(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_LogicalDevice_CIM_DeviceStatisticsNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS, CIM_LogicalDevice.CIM_CLASS_NAME,
+                null, null);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_DeviceStatistics
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_LogicalDevice_CIM_DeviceStatisticsNames(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_LogicalDevice_CIM_DeviceStatisticsNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS, resultClass, role, resultRole);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_DeviceStatistics
+     * @param cimClient the WBEMClient for the communication
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_LogicalDevice_CIM_DeviceStatisticsNames(
+            WBEMClient cimClient, boolean deep, String associationClass, String resultClass,
+            String role, String resultRole) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associatorNames(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole);
+
+        }
+        catch (WBEMException e) {
+            throw new AssociatorNamesException(e, new AssociatorNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS,
+                    CIM_LogicalDevice.CIM_CLASS_NAME, null, null));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_DeviceStatisticalInformationHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_DeviceStatisticalInformationHelper.checkException(enumeration);
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_LogicalDevice.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_DeviceStatisticalInformationHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_DeviceStatistics associations
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#references(CIMObjectPath, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociations_CIM_DeviceStatistics(WBEMClient cimClient,
+            boolean includeQualifiers, boolean includeClassOrigin, String role,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.references(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS, role, includeQualifiers,
+                    includeClassOrigin, propertyList);
+        }
+        catch (WBEMException e) {
+            throw new ReferencesException(e, new ReferencesUserObject(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS, role, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_DeviceStatisticalInformationHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_DeviceStatisticalInformationHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_DeviceStatisticsHelper.findClass(cimClient, cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_DeviceStatistics(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_DeviceStatistics(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_DeviceStatistics(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_DeviceStatisticalInformationHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a list of CIMObjectPath items of the associations CIM_DeviceStatistics
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#referenceNames(CIMObjectPath, String, String)
+     **/
+
+    public java.util.List getAssociationNames_CIM_DeviceStatistics(WBEMClient cimClient,
+            String role, boolean deep) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.referenceNames(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS, role);
+        }
+        catch (WBEMException e) {
+            throw new ReferenceNamesException(e, new ReferenceNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_DEVICESTATISTICS, role));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_DeviceStatisticalInformationHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_DeviceStatisticalInformationHelper.checkException(enumeration);
+
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_DeviceStatistics.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_DeviceStatisticalInformationHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_DeviceStatisticalInformation.CIM_CLASS_NAME;
+    }
 
 }

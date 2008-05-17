@@ -23,10 +23,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.sblim.wbem.cim.CIMInstance;
-import org.sblim.wbem.client.CIMClient;
-import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
-import org.sblim.wbemsmt.exception.InstanceNamingException;
+import javax.cim.CIMInstance;
+import javax.wbem.client.WBEMClient;
+
+import org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFco;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 
 public abstract class CIMInstanceNaming
 {
@@ -44,7 +45,7 @@ public abstract class CIMInstanceNaming
 	 * @param cimClient the cim client instance
 	 * @return
 	 */
-	public abstract String getDisplayString(CIMInstance cimInstance, CIMClient cimClient) throws InstanceNamingException ;
+	public abstract String getDisplayString(CIMInstance cimInstance, WBEMClient cimClient) throws WbemsmtException ;
 
 	/**
 	 * return the node description
@@ -52,7 +53,7 @@ public abstract class CIMInstanceNaming
 	 * @param cimClient
 	 * @return
 	 */
-	public abstract String getDisplayString(CIM_ObjectIf cimObject, CIMClient cimClient) throws InstanceNamingException;
+	public abstract String getDisplayString(AbstractWbemsmtFco cimObject, WBEMClient cimClient) throws WbemsmtException;
 	
 	public void addParameter(String name, String value)
 	{

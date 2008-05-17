@@ -21,7 +21,7 @@ package org.sblim.wbemsmt.tasklauncher;
 
 import java.util.Vector;
 
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 
 public class SimpleTextTreeNode extends TaskLauncherTreeNode {
 
@@ -37,19 +37,19 @@ public class SimpleTextTreeNode extends TaskLauncherTreeNode {
 		// do nothing
 	}
 
-	public Vector getSubnodes() throws WbemSmtException {
+	public Vector getSubnodes() throws WbemsmtException {
 		return subnodes;
 	}
 
-	public Vector getSubnodes(boolean notifyEventListeners) throws WbemSmtException {
+	public Vector getSubnodes(boolean notifyEventListeners) throws WbemsmtException {
 		return subnodes;
 	}
 
-	public void readSubnodes() throws WbemSmtException {
+	public void readSubnodes() throws WbemsmtException {
 		//do nothing
 	}
 
-	public void readSubnodes(boolean notifyEventListener) throws WbemSmtException {
+	public void readSubnodes(boolean notifyEventListener) throws WbemsmtException {
 		//do nothing
 	}
     

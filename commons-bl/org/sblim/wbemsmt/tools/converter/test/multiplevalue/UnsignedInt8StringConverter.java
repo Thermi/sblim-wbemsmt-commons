@@ -25,8 +25,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.cim.UnsignedInteger8;
+
 import org.apache.commons.lang.ClassUtils;
-import org.sblim.wbem.cim.UnsignedInt8;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class UnsignedInt8StringConverter extends MultipleValueConverter implements Converter {
@@ -39,13 +40,13 @@ public class UnsignedInt8StringConverter extends MultipleValueConverter implemen
 		List result = new ArrayList();
 		for (Iterator iter = values.iterator(); iter.hasNext();) {
 			String value = (String) iter.next();
-			result.add(new UnsignedInt8(Short.parseShort(value)));
+			result.add(new UnsignedInteger8(Short.parseShort(value)));
 		}
 		return result;
 	}
 
 	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInt8.class);
+		return ClassUtils.getShortClassName(UnsignedInteger8.class);
 	}	
 
 }

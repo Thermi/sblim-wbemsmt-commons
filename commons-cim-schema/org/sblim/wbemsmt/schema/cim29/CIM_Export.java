@@ -1,461 +1,435 @@
 /** 
  * CIM_Export.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  An association between a LocalFileSystem and its Directories indicating that
- * the specified Directories are available for mount. When exporting an entire
- * FileSystem, the Directory should reference the topmost directory of the
- * FileSystem.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: An association between a LocalFileSystem and its Directories indicating that the specified Directories are available for mount. When exporting an entire FileSystem, the Directory should reference the topmost directory of the FileSystem.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
 
-/**
- *  An association between a LocalFileSystem and its Directories indicating that
- * the specified Directories are available for mount. When exporting an entire
- * FileSystem, the Directory should reference the topmost directory of the
- * FileSystem.
- */
-public class CIM_Export  {
-	
-	protected CIMInstance cimInstance			= new CIMInstance();
-	protected CIMInstance original_cimInstance	= null;
-	protected CIMObjectPath cimObjectPath		= null; 
-	
-	public final static String CIM_CLASS_NAME = "CIM_Export"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_Export extends org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFco {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_PROPERTY_CIM_LOCALFILESYSTEM = "LocalFS"; //$NON-NLS-1$
-	public final static String CIM_PROPERTY_CIM_DIRECTORY = "Directory"; //$NON-NLS-1$
-	
-	
-	/**
-	*	Name under which the Directory is exported.
-	*/
-	public final static String CIM_PROPERTY_EXPORTEDDIRECTORYNAME = "ExportedDirectoryName"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_Export";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_EXPORTEDDIRECTORYNAME);
-		CIM_PropertyNameList.add(CIM_PROPERTY_CIM_LOCALFILESYSTEM);
-		CIM_PropertyNameList.add(CIM_PROPERTY_CIM_DIRECTORY);
-		
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_EXPORTEDDIRECTORYNAME, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_LOCALFILESYSTEM, new CIMValue(null, new CIMDataType(CIM_LocalFileSystem.CIM_CLASS_NAME))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_DIRECTORY, new CIMValue(null, new CIMDataType(CIM_Directory.CIM_CLASS_NAME))));
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-		};
-			
-	
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constants of property ExportedDirectoryName
+     * Name under which the Directory is exported.
+     */
+    public static class PROPERTY_EXPORTEDDIRECTORYNAME {
+        /**
+         * name of the property ExportedDirectoryName
+         */
+        public final static String NAME = "ExportedDirectoryName";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_Export() {
+    }
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * Constants of property LocalFS
+     * 
+     */
+    public static class PROPERTY_LOCALFS_CIM_LOCALFILESYSTEM {
+        /**
+         * name of the property LocalFS
+         */
+        public final static String NAME = "LocalFS";
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    }
 
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property Directory
+     * 
+     */
+    public static class PROPERTY_DIRECTORY_CIM_DIRECTORY {
+        /**
+         * name of the property Directory
+         */
+        public final static String NAME = "Directory";
 
+    }
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_Export(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_Export(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+    };
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
-            }
-            CIM_Export.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   An association between a LocalFileSystem and its Directories indicating that the specified Directories are available for mount. When exporting an entire FileSystem, the Directory should reference the topmost directory of the FileSystem.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_Export(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   An association between a LocalFileSystem and its Directories indicating that the specified Directories are available for mount. When exporting an entire FileSystem, the Directory should reference the topmost directory of the FileSystem.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_Export(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_Export() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("ExportedDirectoryName", new CIMProperty("ExportedDirectoryName",
+                CIMDataType.STRING_T, null));
+        propertiesToCheck.put("LocalFS", new CIMProperty("LocalFS", new CIMDataType(
+                CIM_LocalFileSystem.CIM_CLASS_NAME), null));
+        propertiesToCheck.put("Directory", new CIMProperty("Directory", new CIMDataType(
+                CIM_Directory.CIM_CLASS_NAME), null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_Export.Java_Package_List.toArray(new String[CIM_Export.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property ExportedDirectoryName
+     *     * <br>
+     * Name under which the Directory is exported.
+     *     */
+
+    public String get_ExportedDirectoryName() {
+        CIMProperty currentProperty = getProperty(PROPERTY_EXPORTEDDIRECTORYNAME.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_EXPORTEDDIRECTORYNAME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property ExportedDirectoryName
+     * <br>
+     * Name under which the Directory is exported.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_Export)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_Export)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_Export)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_Export)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_Export)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_Export)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_Export)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_Export)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_Export)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_Export)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_ExportedDirectoryName(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_EXPORTEDDIRECTORYNAME.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ExportedDirectoryName(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_EXPORTEDDIRECTORYNAME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute ExportedDirectoryName
-	
-	public String get_ExportedDirectoryName() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Export.CIM_PROPERTY_EXPORTEDDIRECTORYNAME);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Export.CIM_PROPERTY_EXPORTEDDIRECTORYNAME + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Export.CIM_PROPERTY_EXPORTEDDIRECTORYNAME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ExportedDirectoryName(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Export.CIM_PROPERTY_EXPORTEDDIRECTORYNAME);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Export.CIM_PROPERTY_EXPORTEDDIRECTORYNAME + " could not be found");
-    		
-		} else if (!CIM_ExportHelper.isValid_ExportedDirectoryName(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_Export.CIM_PROPERTY_EXPORTEDDIRECTORYNAME);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Export.CIM_PROPERTY_EXPORTEDDIRECTORYNAME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute CIM_LocalFileSystem
-	
-	public CIMObjectPath get_CIM_LocalFileSystem() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Export.CIM_PROPERTY_CIM_LOCALFILESYSTEM);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Export.CIM_PROPERTY_CIM_LOCALFILESYSTEM + " could not be found");
-    		
-		} else if (currentProperty.getType() == null ) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Export.CIM_PROPERTY_CIM_LOCALFILESYSTEM + " is not of expected type CIM_LocalFileSystem.");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (CIMObjectPath)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CIM_LocalFileSystem(CIM_LocalFileSystem newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Export.CIM_PROPERTY_CIM_LOCALFILESYSTEM);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Export.CIM_PROPERTY_CIM_LOCALFILESYSTEM + " could not be found");
-    		
-		} else if (!CIM_ExportHelper.isValid_CIM_LocalFileSystem(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_Export.CIM_PROPERTY_CIM_LOCALFILESYSTEM);
-    		
-		} else if (currentProperty.getType() == null ) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Export.CIM_PROPERTY_CIM_LOCALFILESYSTEM + " is not of expected type CIM_LocalFileSystem.");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue.getCimObjectPath(), new CIMDataType(CIM_LocalFileSystem.CIM_CLASS_NAME));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property ExportedDirectoryName by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	// Attribute CIM_Directory
-	
-	public CIMObjectPath get_CIM_Directory() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Export.CIM_PROPERTY_CIM_DIRECTORY);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Export.CIM_PROPERTY_CIM_DIRECTORY + " could not be found");
-    		
-		} else if (currentProperty.getType() == null ) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Export.CIM_PROPERTY_CIM_DIRECTORY + " is not of expected type CIM_Directory.");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (CIMObjectPath)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CIM_Directory(CIM_Directory newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Export.CIM_PROPERTY_CIM_DIRECTORY);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Export.CIM_PROPERTY_CIM_DIRECTORY + " could not be found");
-    		
-		} else if (!CIM_ExportHelper.isValid_CIM_Directory(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_Export.CIM_PROPERTY_CIM_DIRECTORY);
-    		
-		} else if (currentProperty.getType() == null ) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Export.CIM_PROPERTY_CIM_DIRECTORY + " is not of expected type CIM_Directory.");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue.getCimObjectPath(), new CIMDataType(CIM_Directory.CIM_CLASS_NAME));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public static CIMProperty create_ExportedDirectoryName(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_Export fco = new CIM_Export(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_EXPORTEDDIRECTORYNAME.NAME);
+        if (property != null) {
+            property = setPropertyValue_ExportedDirectoryName(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_EXPORTEDDIRECTORYNAME.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+    /**
+     * Set the property ExportedDirectoryName
+     * <br>
+     * Name under which the Directory is exported.
+     */
+
+    private static CIMProperty setPropertyValue_ExportedDirectoryName(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property LocalFS
+     * @param client the client used to get the JavaObject by the retrieved CIMObjectPath of this attribute    * <br>
+     * 
+     *     */
+
+    public CIM_LocalFileSystem get_LocalFS_CIM_LocalFileSystem(javax.wbem.client.WBEMClient client)
+            throws WbemsmtException {
+        CIMProperty currentProperty = getProperty(PROPERTY_LOCALFS_CIM_LOCALFILESYSTEM.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_LOCALFS_CIM_LOCALFILESYSTEM.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return CIM_LocalFileSystemHelper.getInstance(client, (CIMObjectPath) currentProperty
+                .getValue());
+
+    }
+
+    /**
+     * Set the property LocalFS
+     * <br>
+     * 
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_LocalFS_CIM_LocalFileSystem(CIM_LocalFileSystem newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_LOCALFS_CIM_LOCALFILESYSTEM.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_LocalFS_CIM_LocalFileSystem(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_LOCALFS_CIM_LOCALFILESYSTEM.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property LocalFS by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_LocalFS_CIM_LocalFileSystem(WBEMClient client,
+            String namespace, CIM_LocalFileSystem newValue) throws WbemsmtException {
+        CIM_Export fco = new CIM_Export(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_LOCALFS_CIM_LOCALFILESYSTEM.NAME);
+        if (property != null) {
+            property = setPropertyValue_LocalFS_CIM_LocalFileSystem(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_LOCALFS_CIM_LOCALFILESYSTEM.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property LocalFS
+     * <br>
+     * 
+     */
+
+    private static CIMProperty setPropertyValue_LocalFS_CIM_LocalFileSystem(
+            CIMProperty currentProperty, CIM_LocalFileSystem newValue) {
+        Object setThis = null;
+
+        setThis = newValue != null ? newValue.getCimObjectPath() : null;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property Directory
+     * @param client the client used to get the JavaObject by the retrieved CIMObjectPath of this attribute    * <br>
+     * 
+     *     */
+
+    public CIM_Directory get_Directory_CIM_Directory(javax.wbem.client.WBEMClient client)
+            throws WbemsmtException {
+        CIMProperty currentProperty = getProperty(PROPERTY_DIRECTORY_CIM_DIRECTORY.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_DIRECTORY_CIM_DIRECTORY.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return CIM_DirectoryHelper.getInstance(client, (CIMObjectPath) currentProperty.getValue());
+
+    }
+
+    /**
+     * Set the property Directory
+     * <br>
+     * 
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_Directory_CIM_Directory(CIM_Directory newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_DIRECTORY_CIM_DIRECTORY.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_Directory_CIM_Directory(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DIRECTORY_CIM_DIRECTORY.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property Directory by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_Directory_CIM_Directory(WBEMClient client, String namespace,
+            CIM_Directory newValue) throws WbemsmtException {
+        CIM_Export fco = new CIM_Export(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_DIRECTORY_CIM_DIRECTORY.NAME);
+        if (property != null) {
+            property = setPropertyValue_Directory_CIM_Directory(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DIRECTORY_CIM_DIRECTORY.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property Directory
+     * <br>
+     * 
+     */
+
+    private static CIMProperty setPropertyValue_Directory_CIM_Directory(
+            CIMProperty currentProperty, CIM_Directory newValue) {
+        Object setThis = null;
+
+        setThis = newValue != null ? newValue.getCimObjectPath() : null;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * returns true if the objects are the same
+     * 
+     * @return
+     * @see org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFco\#equals(Object)
+     */
+    public boolean equals(Object object) {
+        if (!(object instanceof CIM_Export)) {
+            return false;
+        }
+
+        return super.equals(object);
+    }
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_Export.CIM_CLASS_NAME;
+    }
 
 }

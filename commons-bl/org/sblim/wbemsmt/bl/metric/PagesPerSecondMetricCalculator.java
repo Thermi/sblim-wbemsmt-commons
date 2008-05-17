@@ -22,6 +22,8 @@ package org.sblim.wbemsmt.bl.metric;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
+import javax.wbem.WBEMException;
+
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricDefinitionIf;
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricValueIf;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
@@ -34,7 +36,7 @@ public class PagesPerSecondMetricCalculator extends AbstractMetricCalculator {
 		return "Pages per second";
 	}
 
-	public String doCalculate(CIM_BaseMetricDefinitionIf definition,CIM_BaseMetricValueIf value, WbemSmtResourceBundle bundle) {
+	public String doCalculate(CIM_BaseMetricDefinitionIf definition,CIM_BaseMetricValueIf value, WbemSmtResourceBundle bundle) throws WBEMException {
 
 		format.setDecimalFormatSymbols(new DecimalFormatSymbols(bundle.getLocale()));
 		long l = Long.parseLong(value.get_MetricValue());

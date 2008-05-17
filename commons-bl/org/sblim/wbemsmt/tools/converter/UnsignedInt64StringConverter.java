@@ -20,7 +20,8 @@
 
 package org.sblim.wbemsmt.tools.converter;
 
-import org.sblim.wbem.cim.UnsignedInt64;
+import javax.cim.UnsignedInteger64;
+
 
 public class UnsignedInt64StringConverter {
 
@@ -33,7 +34,7 @@ public class UnsignedInt64StringConverter {
 	 */
 	public Object convertForGui(Object value) {
 		try {
-			return "" + ((UnsignedInt64)value).longValue();
+			return "" + ((UnsignedInteger64)value).longValue();
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Cannot Convert Object " + value + " to a String");
 		}
@@ -53,7 +54,7 @@ public class UnsignedInt64StringConverter {
 			e.printStackTrace();
 			throw new IllegalArgumentException("Cannot Convert Object " + guiElement + " to a int");
 		}
-		return new UnsignedInt64(index);
+		return new UnsignedInteger64(""+index);
 	}
 
 	/**

@@ -1,1172 +1,2885 @@
 /** 
  * CIM_ObjectManagerCommunicationMechanism.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  The class, ObjectManagerCommunicationMechanism, describes access to an
- * ObjectManager. It describes a protocol and data encoding that can be used for
- * communication. When all instances of this class are enumerated for an
- * ObjectManager (using the CommMechanismForManager association), all possible
- * protocol and encoding schemes will be known. Also, specific capabilities (for
- * example, basic read or query) that are supported in the protocol/encoding are
- * described - using the ProfilesSupported property.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: The class, ObjectManagerCommunicationMechanism, describes access to an ObjectManager. It describes a protocol and data encoding that can be used for communication. When all instances of this class are enumerated for an ObjectManager (using the CommMechanismForManager association), all possible protocol and encoding schemes will be known. Also, specific capabilities (for example, basic read or query) that are supported in the protocol/encoding are described - using the ProfilesSupported property.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.lang.reflect.Constructor;
-import org.sblim.wbem.client.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
+import org.sblim.wbemsmt.exception.impl.*;
+import org.sblim.wbemsmt.exception.impl.userobject.*;
 
+import java.lang.reflect.*;
+import javax.wbem.*;
 
-/**
- *  The class, ObjectManagerCommunicationMechanism, describes access to an
- * ObjectManager. It describes a protocol and data encoding that can be used for
- * communication. When all instances of this class are enumerated for an
- * ObjectManager (using the CommMechanismForManager association), all possible
- * protocol and encoding schemes will be known. Also, specific capabilities (for
- * example, basic read or query) that are supported in the protocol/encoding are
- * described - using the ProfilesSupported property.
- */
-public class CIM_ObjectManagerCommunicationMechanism extends CIM_ServiceAccessPoint  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_ObjectManagerCommunicationMechanism"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_ObjectManagerCommunicationMechanism extends CIM_ServiceAccessPoint {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER = "CIM_CommMechanismForAdapter"; //$NON-NLS-1$
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER = "CIM_CommMechanismForManager"; //$NON-NLS-1$
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER = "CIM_CommMechanismForObjectManagerAdapter"; //$NON-NLS-1$
-	
-	
-	/**
-	*	Free-form strings providing descriptions of the supported mechanisms. Entries in this array are correlated with those in the AuthenticationMechanismsSupported array. An entry in this Descriptions array MUST be provided when 1, "Other", is specified in AuthenticationMechanismsSupported.
-	*/
-	public final static String CIM_PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS = "AuthenticationMechanismDescriptions"; //$NON-NLS-1$
-	/**
-	*	Enumerated array describing the types of authentication supported by the ObjectManager, using the encoding/protocol. specified in the property, CommunicationMechanism. The defined values represent the authentication defined in the DMTF document, Specification for CIM Operations over HTTP.
-	*/
-	public final static String CIM_PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED = "AuthenticationMechanismsSupported"; //$NON-NLS-1$
-	/**
-	*	CommunicationMechanism describes an encoding and protocol which can be used to communicate with the ObjectManager. At this time, only one encoding and protocol are standardized by the DMTF - "CIM-XML". If this is supported by an ObjectManager, the specified string should be indicated. Other 'standard' strings may be defined. In addition, a vendor specific encoding/protocol string may be used.
-	*/
-	public final static String CIM_PROPERTY_COMMUNICATIONMECHANISM = "CommunicationMechanism"; //$NON-NLS-1$
-	/**
-	*	Free-form strings providing descriptions of the supported operations of the object manager. Entries in the array are correlated with those in the ProfilesSupported array. An entry in this Descriptions array MUST be provided when 1, "Other", is specified in the FunctionalProfilesSupported array.
-	*/
-	public final static String CIM_PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS = "FunctionalProfileDescriptions"; //$NON-NLS-1$
-	/**
-	*	Enumerated array describing the types of operations supported by the ObjectManager, using this encoding/protocol. The enumeration is based on the Functional Profiles defined for conformance in the DMTF document, Specification for CIM Operations over HTTP.
-	*/
-	public final static String CIM_PROPERTY_FUNCTIONALPROFILESSUPPORTED = "FunctionalProfilesSupported"; //$NON-NLS-1$
-	/**
-	*	Boolean indicating whether the ObjectManager supports multiple operation requests (TRUE) or only simple requests (FALSE).
-	*/
-	public final static String CIM_PROPERTY_MULTIPLEOPERATIONSSUPPORTED = "MultipleOperationsSupported"; //$NON-NLS-1$
-	/**
-	*	A free-form string providing a description of the supported protocols when 1, "Other", is specified in the CommunicationMechanism.
-	*/
-	public final static String CIM_PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION = "OtherCommunicationMechanismDescription"; //$NON-NLS-1$
-	/**
-	*	Provides the protocol version for this service access point. Version information MUST be in the form of M.N, where M is a numeric that describes the Major version and N is a numeric that describes the minor version.
-	*/
-	public final static String CIM_PROPERTY_VERSION = "Version"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_ObjectManagerCommunicationMechanism";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS);
-		CIM_PropertyNameList.add(CIM_PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED);
-		CIM_PropertyNameList.add(CIM_PROPERTY_COMMUNICATIONMECHANISM);
-		CIM_PropertyNameList.add(CIM_PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS);
-		CIM_PropertyNameList.add(CIM_PROPERTY_FUNCTIONALPROFILESSUPPORTED);
-		CIM_PropertyNameList.add(CIM_PROPERTY_MULTIPLEOPERATIONSSUPPORTED);
-		CIM_PropertyNameList.add(CIM_PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION);
-		CIM_PropertyNameList.add(CIM_PROPERTY_VERSION);
-				
-		for (int i = 0; i < CIM_ServiceAccessPoint.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_ServiceAccessPoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS)||
-				((String)CIM_ServiceAccessPoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED)||
-				((String)CIM_ServiceAccessPoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_COMMUNICATIONMECHANISM)||
-				((String)CIM_ServiceAccessPoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS)||
-				((String)CIM_ServiceAccessPoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_FUNCTIONALPROFILESSUPPORTED)||
-				((String)CIM_ServiceAccessPoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_MULTIPLEOPERATIONSSUPPORTED)||
-				((String)CIM_ServiceAccessPoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION)||
-				((String)CIM_ServiceAccessPoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_VERSION)){
-				continue;
-			}
-			
-			CIM_ObjectManagerCommunicationMechanism.CIM_PropertyNameList.add(CIM_ServiceAccessPoint.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS, new CIMValue(null, new CIMDataType(CIMDataType.STRING_ARRAY))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED, new CIMValue(null, new CIMDataType(CIMDataType.UINT16_ARRAY))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_COMMUNICATIONMECHANISM, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS, new CIMValue(null, new CIMDataType(CIMDataType.STRING_ARRAY))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_FUNCTIONALPROFILESSUPPORTED, new CIMValue(null, new CIMDataType(CIMDataType.UINT16_ARRAY))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_MULTIPLEOPERATIONSSUPPORTED, new CIMValue(null, new CIMDataType(CIMDataType.BOOLEAN))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_VERSION, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-				
-		for (int i = 0; i < CIM_ServiceAccessPoint.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_ServiceAccessPoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS)||
-				((CIMProperty)CIM_ServiceAccessPoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED)||
-				((CIMProperty)CIM_ServiceAccessPoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_COMMUNICATIONMECHANISM)||
-				((CIMProperty)CIM_ServiceAccessPoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS)||
-				((CIMProperty)CIM_ServiceAccessPoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_FUNCTIONALPROFILESSUPPORTED)||
-				((CIMProperty)CIM_ServiceAccessPoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_MULTIPLEOPERATIONSSUPPORTED)||
-				((CIMProperty)CIM_ServiceAccessPoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION)||
-				((CIMProperty)CIM_ServiceAccessPoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_VERSION)){
-				continue;
-			}
-			
-			CIM_ObjectManagerCommunicationMechanism.CIM_PropertyList.add(CIM_ServiceAccessPoint.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_ServiceAccessPoint.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	public final static String[] CIM_VALUEMAP_AUTHENTICATIONMECHANISMSSUPPORTED = {"Unknown","Other","None","Basic","Digest"};
-	public final static String[] CIM_VALUEMAP_COMMUNICATIONMECHANISM = {"Unknown","Other","CIM-XML"};
-	public final static String[] CIM_VALUEMAP_FUNCTIONALPROFILESSUPPORTED = {"Unknown","Other","Basic Read","Basic Write","Schema Manipulation","Instance Manipulation","Association Traversal","Query Execution","Qualifier Declaration","Indications"};
-	
-	
-	public final static int AUTHENTICATIONMECHANISMSSUPPORTED_UNKNOWN = 0;
-	public final static int AUTHENTICATIONMECHANISMSSUPPORTED_OTHER = 1;
-	public final static int AUTHENTICATIONMECHANISMSSUPPORTED_NONE = 2;
-	public final static int AUTHENTICATIONMECHANISMSSUPPORTED_BASIC = 3;
-	public final static int AUTHENTICATIONMECHANISMSSUPPORTED_DIGEST = 4;
-	
-	public final static int COMMUNICATIONMECHANISM_UNKNOWN = 0;
-	public final static int COMMUNICATIONMECHANISM_OTHER = 1;
-	public final static int COMMUNICATIONMECHANISM_CIM_XML = 2;
-	
-	public final static int FUNCTIONALPROFILESSUPPORTED_UNKNOWN = 0;
-	public final static int FUNCTIONALPROFILESSUPPORTED_OTHER = 1;
-	public final static int FUNCTIONALPROFILESSUPPORTED_BASICREAD = 2;
-	public final static int FUNCTIONALPROFILESSUPPORTED_BASICWRITE = 3;
-	public final static int FUNCTIONALPROFILESSUPPORTED_SCHEMAMANIPULATION = 4;
-	public final static int FUNCTIONALPROFILESSUPPORTED_INSTANCEMANIPULATION = 5;
-	public final static int FUNCTIONALPROFILESSUPPORTED_ASSOCIATIONTRAVERSAL = 6;
-	public final static int FUNCTIONALPROFILESSUPPORTED_QUERYEXECUTION = 7;
-	public final static int FUNCTIONALPROFILESSUPPORTED_QUALIFIERDECLARATION = 8;
-	public final static int FUNCTIONALPROFILESSUPPORTED_INDICATIONS = 9;
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * CommMechanismForManager is an association between an ObjectManager and an ObjectManagerCommunicationMechanism class. The latter describes a possible encoding/protocol/ set of operations for accessing the referenced ObjectManager.
+     */
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_ObjectManagerCommunicationMechanism() {
+    public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER = "CIM_CommMechanismForManager";
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * CommMechanismForAdapter is an association between an ObjectManager's communication mechanism and a ProtocolAdapter that supports that mechanism to translate requests and responses for the Object Manager.
+     */
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER = "CIM_CommMechanismForAdapter";
 
-		setValidCimInstance(false);
-	}
+    /**
+     * CommMechanismForObjectManagerAdapter is an association between an ObjectManager's communication mechanism and a ObjectManagerAdapter that supports that mechanism to translate requests and responses for the Object Manager.
+     */
 
+    public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER = "CIM_CommMechanismForObjectManagerAdapter";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_ObjectManagerCommunicationMechanism(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property AuthenticationMechanismDescriptions
+     * Free-form strings providing descriptions of the supported mechanisms. Entries in this array are correlated with those in the AuthenticationMechanismsSupported array. An entry in this Descriptions array MUST be provided when 1, "Other", is specified in AuthenticationMechanismsSupported.
+     */
+    public static class PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS {
+        /**
+         * name of the property AuthenticationMechanismDescriptions
+         */
+        public final static String NAME = "AuthenticationMechanismDescriptions";
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_ObjectManagerCommunicationMechanism(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+    }
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
+    /**
+     * Constants of property AuthenticationMechanismsSupported
+     * Enumerated array describing the types of authentication supported by the ObjectManager, using the encoding/protocol. specified in the property, CommunicationMechanism. The defined values represent the authentication defined in the DMTF document, Specification for CIM Operations over HTTP.
+     */
+    public static class PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED {
+        /**
+         * name of the property AuthenticationMechanismsSupported
+         */
+        public final static String NAME = "AuthenticationMechanismsSupported";
+
+        /**
+         * constant for value map entry 0
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_None = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry None (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_None = "None";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Basic = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Basic (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Basic = "Basic";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Digest = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry Digest (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_Digest = "Digest";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@7efe7efe
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
             }
-            CIM_ObjectManagerCommunicationMechanism.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_None.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_None;
+            }
+
+            if (VALUE_ENTRY_Basic.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Basic;
+            }
+
+            if (VALUE_ENTRY_Digest.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Digest;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_None.intValue()) {
+                return VALUE_ENTRY_None;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Basic.intValue()) {
+                return VALUE_ENTRY_Basic;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Digest.intValue()) {
+                return VALUE_ENTRY_Digest;
+            }
+            return null;
+
+        }
+
+        /**
+         * get the ValueEntries of the given valueMapEntries
+         * @param values the values to find the ValueMapEntries for
+         * @return the array with ValueMap entries. Some of them may be null to if no valueMap entry was found
+         */
+
+        public static javax.cim.UnsignedInteger16[] getValueMapEntries(String[] values) {
+            javax.cim.UnsignedInteger16[] result = new javax.cim.UnsignedInteger16[values.length];
+
+            for (int i = 0; i < result.length; i++) {
+                result[i] = getValueMapEntry(values[i]);
+            }
+
+            return result;
+        }
+
+        /**
+         * get the ValueMapEntries of the given valueEntries
+         * @param valueMapEntries the valueMap entries to find the Values for
+         * @return the array with Value entries. Some of them may be null to if no value entry was found
+         */
+
+        public static String[] getValueEntries(javax.cim.UnsignedInteger16[] values) {
+            String[] result = new String[values.length];
+
+            for (int i = 0; i < result.length; i++) {
+                result[i] = getValueEntry(values[i]);
+            }
+
+            return result;
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property AuthenticationMechanismsSupported   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown, VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_None, VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Basic,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Digest };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property AuthenticationMechanismsSupported   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown, VALUE_ENTRY_Other,
+                VALUE_ENTRY_None, VALUE_ENTRY_Basic, VALUE_ENTRY_Digest };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property AuthenticationMechanismsSupported   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Other, VALUE_ENTRY_None, VALUE_ENTRY_Basic, VALUE_ENTRY_Digest };
+
+    }
+
+    /**
+     * Constants of property CommunicationMechanism
+     * CommunicationMechanism describes an encoding and protocol which can be used to communicate with the ObjectManager. At this time, only one encoding and protocol are standardized by the DMTF - "CIM-XML". If this is supported by an ObjectManager, the specified string should be indicated. Other 'standard' strings may be defined. In addition, a vendor specific encoding/protocol string may be used.
+     */
+    public static class PROPERTY_COMMUNICATIONMECHANISM {
+        /**
+         * name of the property CommunicationMechanism
+         */
+        public final static String NAME = "CommunicationMechanism";
+
+        /**
+         * constant for value map entry 0
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_CIM_XML = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry CIM-XML (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_CIM_XML = "CIM-XML";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@11fc11fc
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_CIM_XML.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_CIM_XML;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_CIM_XML.intValue()) {
+                return VALUE_ENTRY_CIM_XML;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property CommunicationMechanism   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown, VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_CIM_XML };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property CommunicationMechanism   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown, VALUE_ENTRY_Other,
+                VALUE_ENTRY_CIM_XML };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property CommunicationMechanism   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Other, VALUE_ENTRY_CIM_XML };
+
+    }
+
+    /**
+     * Constants of property FunctionalProfileDescriptions
+     * Free-form strings providing descriptions of the supported operations of the object manager. Entries in the array are correlated with those in the ProfilesSupported array. An entry in this Descriptions array MUST be provided when 1, "Other", is specified in the FunctionalProfilesSupported array.
+     */
+    public static class PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS {
+        /**
+         * name of the property FunctionalProfileDescriptions
+         */
+        public final static String NAME = "FunctionalProfileDescriptions";
+
+    }
+
+    /**
+     * Constants of property FunctionalProfilesSupported
+     * Enumerated array describing the types of operations supported by the ObjectManager, using this encoding/protocol. The enumeration is based on the Functional Profiles defined for conformance in the DMTF document, Specification for CIM Operations over HTTP.
+     */
+    public static class PROPERTY_FUNCTIONALPROFILESSUPPORTED {
+        /**
+         * name of the property FunctionalProfilesSupported
+         */
+        public final static String NAME = "FunctionalProfilesSupported";
+
+        /**
+         * constant for value map entry 0
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Basic_Read = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry Basic Read (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Basic_Read = "Basic Read";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Basic_Write = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Basic Write (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Basic_Write = "Basic Write";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Schema_Manipulation = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry Schema Manipulation (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_Schema_Manipulation = "Schema Manipulation";
+
+        /**
+         * constant for value map entry 5
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Instance_Manipulation = new javax.cim.UnsignedInteger16(
+                "5");
+
+        /**
+         * constant for value entry Instance Manipulation (corresponds to mapEntry 5 )
+         */
+        public final static String VALUE_ENTRY_Instance_Manipulation = "Instance Manipulation";
+
+        /**
+         * constant for value map entry 6
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Association_Traversal = new javax.cim.UnsignedInteger16(
+                "6");
+
+        /**
+         * constant for value entry Association Traversal (corresponds to mapEntry 6 )
+         */
+        public final static String VALUE_ENTRY_Association_Traversal = "Association Traversal";
+
+        /**
+         * constant for value map entry 7
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Query_Execution = new javax.cim.UnsignedInteger16(
+                "7");
+
+        /**
+         * constant for value entry Query Execution (corresponds to mapEntry 7 )
+         */
+        public final static String VALUE_ENTRY_Query_Execution = "Query Execution";
+
+        /**
+         * constant for value map entry 8
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Qualifier_Declaration = new javax.cim.UnsignedInteger16(
+                "8");
+
+        /**
+         * constant for value entry Qualifier Declaration (corresponds to mapEntry 8 )
+         */
+        public final static String VALUE_ENTRY_Qualifier_Declaration = "Qualifier Declaration";
+
+        /**
+         * constant for value map entry 9
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_9_FOR_VALUE_ENTRY_Indications = new javax.cim.UnsignedInteger16(
+                "9");
+
+        /**
+         * constant for value entry Indications (corresponds to mapEntry 9 )
+         */
+        public final static String VALUE_ENTRY_Indications = "Indications";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@17261726
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_Basic_Read.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Basic_Read;
+            }
+
+            if (VALUE_ENTRY_Basic_Write.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Basic_Write;
+            }
+
+            if (VALUE_ENTRY_Schema_Manipulation.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Schema_Manipulation;
+            }
+
+            if (VALUE_ENTRY_Instance_Manipulation.equals(value)) {
+                return VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Instance_Manipulation;
+            }
+
+            if (VALUE_ENTRY_Association_Traversal.equals(value)) {
+                return VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Association_Traversal;
+            }
+
+            if (VALUE_ENTRY_Query_Execution.equals(value)) {
+                return VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Query_Execution;
+            }
+
+            if (VALUE_ENTRY_Qualifier_Declaration.equals(value)) {
+                return VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Qualifier_Declaration;
+            }
+
+            if (VALUE_ENTRY_Indications.equals(value)) {
+                return VALUE_MAP_ENTRY_9_FOR_VALUE_ENTRY_Indications;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Basic_Read.intValue()) {
+                return VALUE_ENTRY_Basic_Read;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Basic_Write.intValue()) {
+                return VALUE_ENTRY_Basic_Write;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Schema_Manipulation.intValue()) {
+                return VALUE_ENTRY_Schema_Manipulation;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Instance_Manipulation.intValue()) {
+                return VALUE_ENTRY_Instance_Manipulation;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Association_Traversal.intValue()) {
+                return VALUE_ENTRY_Association_Traversal;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Query_Execution.intValue()) {
+                return VALUE_ENTRY_Query_Execution;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Qualifier_Declaration.intValue()) {
+                return VALUE_ENTRY_Qualifier_Declaration;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_9_FOR_VALUE_ENTRY_Indications.intValue()) {
+                return VALUE_ENTRY_Indications;
+            }
+            return null;
+
+        }
+
+        /**
+         * get the ValueEntries of the given valueMapEntries
+         * @param values the values to find the ValueMapEntries for
+         * @return the array with ValueMap entries. Some of them may be null to if no valueMap entry was found
+         */
+
+        public static javax.cim.UnsignedInteger16[] getValueMapEntries(String[] values) {
+            javax.cim.UnsignedInteger16[] result = new javax.cim.UnsignedInteger16[values.length];
+
+            for (int i = 0; i < result.length; i++) {
+                result[i] = getValueMapEntry(values[i]);
+            }
+
+            return result;
+        }
+
+        /**
+         * get the ValueMapEntries of the given valueEntries
+         * @param valueMapEntries the valueMap entries to find the Values for
+         * @return the array with Value entries. Some of them may be null to if no value entry was found
+         */
+
+        public static String[] getValueEntries(javax.cim.UnsignedInteger16[] values) {
+            String[] result = new String[values.length];
+
+            for (int i = 0; i < result.length; i++) {
+                result[i] = getValueEntry(values[i]);
+            }
+
+            return result;
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property FunctionalProfilesSupported   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown, VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Basic_Read,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Basic_Write,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Schema_Manipulation,
+                VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Instance_Manipulation,
+                VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Association_Traversal,
+                VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Query_Execution,
+                VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Qualifier_Declaration,
+                VALUE_MAP_ENTRY_9_FOR_VALUE_ENTRY_Indications };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property FunctionalProfilesSupported   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown, VALUE_ENTRY_Other,
+                VALUE_ENTRY_Basic_Read, VALUE_ENTRY_Basic_Write, VALUE_ENTRY_Schema_Manipulation,
+                VALUE_ENTRY_Instance_Manipulation, VALUE_ENTRY_Association_Traversal,
+                VALUE_ENTRY_Query_Execution, VALUE_ENTRY_Qualifier_Declaration,
+                VALUE_ENTRY_Indications };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property FunctionalProfilesSupported   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Other, VALUE_ENTRY_Basic_Read, VALUE_ENTRY_Basic_Write,
+                VALUE_ENTRY_Schema_Manipulation, VALUE_ENTRY_Instance_Manipulation,
+                VALUE_ENTRY_Association_Traversal, VALUE_ENTRY_Query_Execution,
+                VALUE_ENTRY_Qualifier_Declaration, VALUE_ENTRY_Indications };
+
+    }
+
+    /**
+     * Constants of property MultipleOperationsSupported
+     * Boolean indicating whether the ObjectManager supports multiple operation requests (TRUE) or only simple requests (FALSE).
+     */
+    public static class PROPERTY_MULTIPLEOPERATIONSSUPPORTED {
+        /**
+         * name of the property MultipleOperationsSupported
+         */
+        public final static String NAME = "MultipleOperationsSupported";
+
+    }
+
+    /**
+     * Constants of property OtherCommunicationMechanismDescription
+     * A free-form string providing a description of the supported protocols when 1, "Other", is specified in the CommunicationMechanism.
+     */
+    public static class PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION {
+        /**
+         * name of the property OtherCommunicationMechanismDescription
+         */
+        public final static String NAME = "OtherCommunicationMechanismDescription";
+
+    }
+
+    /**
+     * Constants of property Version
+     * Provides the protocol version for this service access point. Version information MUST be in the form of M.N, where M is a numeric that describes the Major version and N is a numeric that describes the minor version.
+     */
+    public static class PROPERTY_VERSION {
+        /**
+         * name of the property Version
+         */
+        public final static String NAME = "Version";
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_ServiceAccessPoint.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   The class, ObjectManagerCommunicationMechanism, describes access to an ObjectManager. It describes a protocol and data encoding that can be used for communication. When all instances of this class are enumerated for an ObjectManager (using the CommMechanismForManager association), all possible protocol and encoding schemes will be known. Also, specific capabilities (for example, basic read or query) that are supported in the protocol/encoding are described - using the ProfilesSupported property.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_ObjectManagerCommunicationMechanism(WBEMClient client, String namespace)
+            throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   The class, ObjectManagerCommunicationMechanism, describes access to an ObjectManager. It describes a protocol and data encoding that can be used for communication. When all instances of this class are enumerated for an ObjectManager (using the CommMechanismForManager association), all possible protocol and encoding schemes will be known. Also, specific capabilities (for example, basic read or query) that are supported in the protocol/encoding are described - using the ProfilesSupported property.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_ObjectManagerCommunicationMechanism(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_ObjectManagerCommunicationMechanism() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("AuthenticationMechanismDescriptions", new CIMProperty(
+                "AuthenticationMechanismDescriptions", CIMDataType.STRING_ARRAY_T, null));
+        propertiesToCheck.put("AuthenticationMechanismsSupported", new CIMProperty(
+                "AuthenticationMechanismsSupported", CIMDataType.UINT16_ARRAY_T, null));
+        propertiesToCheck.put("CommunicationMechanism", new CIMProperty("CommunicationMechanism",
+                CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("FunctionalProfileDescriptions", new CIMProperty(
+                "FunctionalProfileDescriptions", CIMDataType.STRING_ARRAY_T, null));
+        propertiesToCheck.put("FunctionalProfilesSupported", new CIMProperty(
+                "FunctionalProfilesSupported", CIMDataType.UINT16_ARRAY_T, null));
+        propertiesToCheck.put("MultipleOperationsSupported", new CIMProperty(
+                "MultipleOperationsSupported", CIMDataType.BOOLEAN_T, null));
+        propertiesToCheck.put("OtherCommunicationMechanismDescription", new CIMProperty(
+                "OtherCommunicationMechanismDescription", CIMDataType.STRING_T, null));
+        propertiesToCheck.put("Version", new CIMProperty("Version", CIMDataType.STRING_T, null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_ObjectManagerCommunicationMechanism.Java_Package_List.toArray(new String[CIM_ObjectManagerCommunicationMechanism.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property AuthenticationMechanismDescriptions
+     *     * <br>
+     * Free-form strings providing descriptions of the supported mechanisms. Entries in this array are correlated with those in the AuthenticationMechanismsSupported array. An entry in this Descriptions array MUST be provided when 1, "Other", is specified in AuthenticationMechanismsSupported.
+     *     */
+
+    public String[] get_AuthenticationMechanismDescriptions() {
+        CIMProperty currentProperty = getProperty(PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String[]) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		CIMProperty CIMProperty_AuthenticationMechanismsSupported = this.cimInstance.getProperty(CIM_PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED);
-		
-		if (CIMProperty_AuthenticationMechanismsSupported == null || CIMProperty_AuthenticationMechanismsSupported.getValue().isEmpty() || CIMProperty_AuthenticationMechanismsSupported.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED, "Required"});
-			result = false;
-		}
-		
-		CIMProperty CIMProperty_CommunicationMechanism = this.cimInstance.getProperty(CIM_PROPERTY_COMMUNICATIONMECHANISM);
-		
-		if (CIMProperty_CommunicationMechanism == null || CIMProperty_CommunicationMechanism.getValue().isEmpty() || CIMProperty_CommunicationMechanism.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_COMMUNICATIONMECHANISM, "Required"});
-			result = false;
-		}
-		
-		CIMProperty CIMProperty_FunctionalProfilesSupported = this.cimInstance.getProperty(CIM_PROPERTY_FUNCTIONALPROFILESSUPPORTED);
-		
-		if (CIMProperty_FunctionalProfilesSupported == null || CIMProperty_FunctionalProfilesSupported.getValue().isEmpty() || CIMProperty_FunctionalProfilesSupported.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_FUNCTIONALPROFILESSUPPORTED, "Required"});
-			result = false;
-		}
-		
-		CIMProperty CIMProperty_MultipleOperationsSupported = this.cimInstance.getProperty(CIM_PROPERTY_MULTIPLEOPERATIONSSUPPORTED);
-		
-		if (CIMProperty_MultipleOperationsSupported == null || CIMProperty_MultipleOperationsSupported.getValue().isEmpty() || CIMProperty_MultipleOperationsSupported.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_MULTIPLEOPERATIONSSUPPORTED, "Required"});
-			result = false;
-		}
-		
-		CIMProperty CIMProperty_Version = this.cimInstance.getProperty(CIM_PROPERTY_VERSION);
-		
-		if (CIMProperty_Version == null || CIMProperty_Version.getValue().isEmpty() || CIMProperty_Version.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_VERSION, "Required"});
-			result = false;
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property AuthenticationMechanismDescriptions
+     * <br>
+     * Free-form strings providing descriptions of the supported mechanisms. Entries in this array are correlated with those in the AuthenticationMechanismsSupported array. An entry in this Descriptions array MUST be provided when 1, "Other", is specified in AuthenticationMechanismsSupported.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_ObjectManagerCommunicationMechanism)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_ObjectManagerCommunicationMechanism)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_ObjectManagerCommunicationMechanism)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_ObjectManagerCommunicationMechanism)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_ObjectManagerCommunicationMechanism)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_ObjectManagerCommunicationMechanism)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_ObjectManagerCommunicationMechanism)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_ObjectManagerCommunicationMechanism)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_ObjectManagerCommunicationMechanism)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_ObjectManagerCommunicationMechanism)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_AuthenticationMechanismDescriptions(String[] newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_AuthenticationMechanismDescriptions(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	public ArrayList getAssociated_CIM_ProtocolAdapter_CIM_CommMechanismForAdapters(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
+    }
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER, 
-					CIM_ProtocolAdapter.CIM_CLASS_NAME, 
-					"Dependent", //$NON-NLS-1$
-					"Antecedent", //$NON-NLS-1$
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-                    Class clazz = CIM_ObjectManagerCommunicationMechanismHelper.findClass(cimClient, cimInstance);
-                    
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ProtocolAdapter(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ProtocolAdapter(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ProtocolAdapter(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
+    /**
+     * Get the property AuthenticationMechanismDescriptions by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+    public static CIMProperty create_AuthenticationMechanismDescriptions(WBEMClient client,
+            String namespace, String[] newValue) throws WbemsmtException {
+        CIM_ObjectManagerCommunicationMechanism fco = new CIM_ObjectManagerCommunicationMechanism(
+                client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS.NAME);
+        if (property != null) {
+            property = setPropertyValue_AuthenticationMechanismDescriptions(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	public ArrayList getAssociated_CIM_ProtocolAdapter_CIM_CommMechanismForAdapter_Names(CIMClient cimClient, boolean deep) {
+    /**
+     * Set the property AuthenticationMechanismDescriptions
+     * <br>
+     * Free-form strings providing descriptions of the supported mechanisms. Entries in this array are correlated with those in the AuthenticationMechanismsSupported array. An entry in this Descriptions array MUST be provided when 1, "Other", is specified in AuthenticationMechanismsSupported.
+     */
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
+    private static CIMProperty setPropertyValue_AuthenticationMechanismDescriptions(
+            CIMProperty currentProperty, String[] newValue) {
+        Object setThis = null;
 
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER, 
-					CIM_ProtocolAdapter.CIM_CLASS_NAME, 
-					"Dependent", //$NON-NLS-1$
-					"Antecedent"); //$NON-NLS-1$
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_ProtocolAdapter.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+        setThis = newValue;
 
-	public ArrayList getAssociated_CIM_ObjectManager_CIM_CommMechanismForManagers(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER, 
-					CIM_ObjectManager.CIM_CLASS_NAME, 
-					"Dependent", //$NON-NLS-1$
-					"Antecedent", //$NON-NLS-1$
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-                    Class clazz = CIM_ObjectManagerCommunicationMechanismHelper.findClass(cimClient, cimInstance);
-                    
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ObjectManager(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ObjectManager(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ObjectManager(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
+        return newProperty;
+    }
 
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+    /**
+     * Get the property AuthenticationMechanismsSupported
+     *     * <br>
+     * Enumerated array describing the types of authentication supported by the ObjectManager, using the encoding/protocol. specified in the property, CommunicationMechanism. The defined values represent the authentication defined in the DMTF document, Specification for CIM Operations over HTTP.
+     *     */
 
-	public ArrayList getAssociated_CIM_ObjectManager_CIM_CommMechanismForManager_Names(CIMClient cimClient, boolean deep) {
+    public javax.cim.UnsignedInteger16[] get_AuthenticationMechanismsSupported() {
+        CIMProperty currentProperty = getProperty(PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED.NAME);
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
 
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER, 
-					CIM_ObjectManager.CIM_CLASS_NAME, 
-					"Dependent", //$NON-NLS-1$
-					"Antecedent"); //$NON-NLS-1$
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_ObjectManager.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+        return (javax.cim.UnsignedInteger16[]) currentProperty.getValue();
 
-	public ArrayList getAssociated_CIM_ObjectManagerAdapter_CIM_CommMechanismForObjectManagerAdapters(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
+    }
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER, 
-					CIM_ObjectManagerAdapter.CIM_CLASS_NAME, 
-					"Dependent", //$NON-NLS-1$
-					"Antecedent", //$NON-NLS-1$
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
-                    Class clazz = CIM_ObjectManagerCommunicationMechanismHelper.findClass(cimClient, cimInstance);
-                    
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ObjectManagerAdapter(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ObjectManagerAdapter(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ObjectManagerAdapter(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
+    /**
+     * Set the property AuthenticationMechanismsSupported
+     * <br>
+     * Enumerated array describing the types of authentication supported by the ObjectManager, using the encoding/protocol. specified in the property, CommunicationMechanism. The defined values represent the authentication defined in the DMTF document, Specification for CIM Operations over HTTP.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+    public boolean set_AuthenticationMechanismsSupported(javax.cim.UnsignedInteger16[] newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_AuthenticationMechanismsSupported(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
 
-	public ArrayList getAssociated_CIM_ObjectManagerAdapter_CIM_CommMechanismForObjectManagerAdapter_Names(CIMClient cimClient, boolean deep) {
+    }
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
+    /**
+     * Get the property AuthenticationMechanismsSupported by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER, 
-					CIM_ObjectManagerAdapter.CIM_CLASS_NAME, 
-					"Dependent", //$NON-NLS-1$
-					"Antecedent"); //$NON-NLS-1$
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_ObjectManagerAdapter.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+    public static CIMProperty create_AuthenticationMechanismsSupported(WBEMClient client,
+            String namespace, javax.cim.UnsignedInteger16[] newValue) throws WbemsmtException {
+        CIM_ObjectManagerCommunicationMechanism fco = new CIM_ObjectManagerCommunicationMechanism(
+                client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED.NAME);
+        if (property != null) {
+            property = setPropertyValue_AuthenticationMechanismsSupported(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute AuthenticationMechanismDescriptions
-	
-	public String[] get_AuthenticationMechanismDescriptions() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING_ARRAY) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		Vector returnedVector = (Vector)currentProperty.getValue().getValue();
-		
-		String[] resultArray = new String[returnedVector!=null?returnedVector.size():0];
-		for (int i = 0; i < resultArray.length; i++) {
-			resultArray[i] = (String)returnedVector.get(i);
-		}
-		
-		return resultArray;
-	}
-	    
-			
-	public void set_AuthenticationMechanismDescriptions(String[] newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS + " could not be found");
-    		
-		} else if (!CIM_ObjectManagerCommunicationMechanismHelper.isValid_AuthenticationMechanismDescriptions(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_AUTHENTICATIONMECHANISMDESCRIPTIONS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING_ARRAY) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING_ARRAY));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Set the property AuthenticationMechanismsSupported
+     * <br>
+     * Enumerated array describing the types of authentication supported by the ObjectManager, using the encoding/protocol. specified in the property, CommunicationMechanism. The defined values represent the authentication defined in the DMTF document, Specification for CIM Operations over HTTP.
+     */
 
-	// Attribute AuthenticationMechanismsSupported
-	
-	public UnsignedInt16[] get_AuthenticationMechanismsSupported() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16_ARRAY) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		Vector returnedVector = (Vector)currentProperty.getValue().getValue();
-		
-		UnsignedInt16[] resultArray = new UnsignedInt16[returnedVector!=null?returnedVector.size():0];
-		for (int i = 0; i < resultArray.length; i++) {
-			resultArray[i] = (UnsignedInt16)returnedVector.get(i);
-		}
-		
-		return resultArray;
-	}
-	    
-			
-	public void set_AuthenticationMechanismsSupported(UnsignedInt16[] newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED + " could not be found");
-    		
-		} else if (!CIM_ObjectManagerCommunicationMechanismHelper.isValid_AuthenticationMechanismsSupported(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_AUTHENTICATIONMECHANISMSSUPPORTED + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16_ARRAY) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16_ARRAY));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    private static CIMProperty setPropertyValue_AuthenticationMechanismsSupported(
+            CIMProperty currentProperty, javax.cim.UnsignedInteger16[] newValue) {
+        Object setThis = null;
 
-	// Attribute CommunicationMechanism
-	
-	public UnsignedInt16 get_CommunicationMechanism() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_COMMUNICATIONMECHANISM);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_COMMUNICATIONMECHANISM + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_COMMUNICATIONMECHANISM + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CommunicationMechanism(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_COMMUNICATIONMECHANISM);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_COMMUNICATIONMECHANISM + " could not be found");
-    		
-		} else if (!CIM_ObjectManagerCommunicationMechanismHelper.isValid_CommunicationMechanism(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_COMMUNICATIONMECHANISM);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_COMMUNICATIONMECHANISM + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        setThis = newValue;
 
-	// Attribute FunctionalProfileDescriptions
-	
-	public String[] get_FunctionalProfileDescriptions() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING_ARRAY) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		Vector returnedVector = (Vector)currentProperty.getValue().getValue();
-		
-		String[] resultArray = new String[returnedVector!=null?returnedVector.size():0];
-		for (int i = 0; i < resultArray.length; i++) {
-			resultArray[i] = (String)returnedVector.get(i);
-		}
-		
-		return resultArray;
-	}
-	    
-			
-	public void set_FunctionalProfileDescriptions(String[] newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS + " could not be found");
-    		
-		} else if (!CIM_ObjectManagerCommunicationMechanismHelper.isValid_FunctionalProfileDescriptions(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING_ARRAY) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING_ARRAY));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
 
-	// Attribute FunctionalProfilesSupported
-	
-	public UnsignedInt16[] get_FunctionalProfilesSupported() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_FUNCTIONALPROFILESSUPPORTED);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_FUNCTIONALPROFILESSUPPORTED + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_FUNCTIONALPROFILESSUPPORTED + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16_ARRAY) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		Vector returnedVector = (Vector)currentProperty.getValue().getValue();
-		
-		UnsignedInt16[] resultArray = new UnsignedInt16[returnedVector!=null?returnedVector.size():0];
-		for (int i = 0; i < resultArray.length; i++) {
-			resultArray[i] = (UnsignedInt16)returnedVector.get(i);
-		}
-		
-		return resultArray;
-	}
-	    
-			
-	public void set_FunctionalProfilesSupported(UnsignedInt16[] newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_FUNCTIONALPROFILESSUPPORTED);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_FUNCTIONALPROFILESSUPPORTED + " could not be found");
-    		
-		} else if (!CIM_ObjectManagerCommunicationMechanismHelper.isValid_FunctionalProfilesSupported(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_FUNCTIONALPROFILESSUPPORTED);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_FUNCTIONALPROFILESSUPPORTED + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16_ARRAY) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16_ARRAY));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        return newProperty;
+    }
 
-	// Attribute MultipleOperationsSupported
-	
-	public Boolean get_MultipleOperationsSupported() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_MULTIPLEOPERATIONSSUPPORTED);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_MULTIPLEOPERATIONSSUPPORTED + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_MULTIPLEOPERATIONSSUPPORTED + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (Boolean)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_MultipleOperationsSupported(Boolean newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_MULTIPLEOPERATIONSSUPPORTED);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_MULTIPLEOPERATIONSSUPPORTED + " could not be found");
-    		
-		} else if (!CIM_ObjectManagerCommunicationMechanismHelper.isValid_MultipleOperationsSupported(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_MULTIPLEOPERATIONSSUPPORTED);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_MULTIPLEOPERATIONSSUPPORTED + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.BOOLEAN));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property CommunicationMechanism
+     *     * <br>
+     * CommunicationMechanism describes an encoding and protocol which can be used to communicate with the ObjectManager. At this time, only one encoding and protocol are standardized by the DMTF - "CIM-XML". If this is supported by an ObjectManager, the specified string should be indicated. Other 'standard' strings may be defined. In addition, a vendor specific encoding/protocol string may be used.
+     *     */
 
-	// Attribute OtherCommunicationMechanismDescription
-	
-	public String get_OtherCommunicationMechanismDescription() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_OtherCommunicationMechanismDescription(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION + " could not be found");
-    		
-		} else if (!CIM_ObjectManagerCommunicationMechanismHelper.isValid_OtherCommunicationMechanismDescription(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public javax.cim.UnsignedInteger16 get_CommunicationMechanism() {
+        CIMProperty currentProperty = getProperty(PROPERTY_COMMUNICATIONMECHANISM.NAME);
 
-	// Attribute Version
-	
-	public String get_Version() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_VERSION);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_VERSION + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_VERSION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_Version(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_VERSION);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_VERSION + " could not be found");
-    		
-		} else if (!CIM_ObjectManagerCommunicationMechanismHelper.isValid_Version(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_VERSION);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ObjectManagerCommunicationMechanism.CIM_PROPERTY_VERSION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_COMMUNICATIONMECHANISM.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property CommunicationMechanism
+     * <br>
+     * CommunicationMechanism describes an encoding and protocol which can be used to communicate with the ObjectManager. At this time, only one encoding and protocol are standardized by the DMTF - "CIM-XML". If this is supported by an ObjectManager, the specified string should be indicated. Other 'standard' strings may be defined. In addition, a vendor specific encoding/protocol string may be used.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_CommunicationMechanism(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_COMMUNICATIONMECHANISM.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_CommunicationMechanism(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_COMMUNICATIONMECHANISM.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property CommunicationMechanism by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_CommunicationMechanism(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_ObjectManagerCommunicationMechanism fco = new CIM_ObjectManagerCommunicationMechanism(
+                client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_COMMUNICATIONMECHANISM.NAME);
+        if (property != null) {
+            property = setPropertyValue_CommunicationMechanism(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_COMMUNICATIONMECHANISM.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property CommunicationMechanism
+     * <br>
+     * CommunicationMechanism describes an encoding and protocol which can be used to communicate with the ObjectManager. At this time, only one encoding and protocol are standardized by the DMTF - "CIM-XML". If this is supported by an ObjectManager, the specified string should be indicated. Other 'standard' strings may be defined. In addition, a vendor specific encoding/protocol string may be used.
+     */
+
+    private static CIMProperty setPropertyValue_CommunicationMechanism(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property FunctionalProfileDescriptions
+     *     * <br>
+     * Free-form strings providing descriptions of the supported operations of the object manager. Entries in the array are correlated with those in the ProfilesSupported array. An entry in this Descriptions array MUST be provided when 1, "Other", is specified in the FunctionalProfilesSupported array.
+     *     */
+
+    public String[] get_FunctionalProfileDescriptions() {
+        CIMProperty currentProperty = getProperty(PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String[]) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property FunctionalProfileDescriptions
+     * <br>
+     * Free-form strings providing descriptions of the supported operations of the object manager. Entries in the array are correlated with those in the ProfilesSupported array. An entry in this Descriptions array MUST be provided when 1, "Other", is specified in the FunctionalProfilesSupported array.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_FunctionalProfileDescriptions(String[] newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_FunctionalProfileDescriptions(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property FunctionalProfileDescriptions by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_FunctionalProfileDescriptions(WBEMClient client,
+            String namespace, String[] newValue) throws WbemsmtException {
+        CIM_ObjectManagerCommunicationMechanism fco = new CIM_ObjectManagerCommunicationMechanism(
+                client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS.NAME);
+        if (property != null) {
+            property = setPropertyValue_FunctionalProfileDescriptions(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_FUNCTIONALPROFILEDESCRIPTIONS.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property FunctionalProfileDescriptions
+     * <br>
+     * Free-form strings providing descriptions of the supported operations of the object manager. Entries in the array are correlated with those in the ProfilesSupported array. An entry in this Descriptions array MUST be provided when 1, "Other", is specified in the FunctionalProfilesSupported array.
+     */
+
+    private static CIMProperty setPropertyValue_FunctionalProfileDescriptions(
+            CIMProperty currentProperty, String[] newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property FunctionalProfilesSupported
+     *     * <br>
+     * Enumerated array describing the types of operations supported by the ObjectManager, using this encoding/protocol. The enumeration is based on the Functional Profiles defined for conformance in the DMTF document, Specification for CIM Operations over HTTP.
+     *     */
+
+    public javax.cim.UnsignedInteger16[] get_FunctionalProfilesSupported() {
+        CIMProperty currentProperty = getProperty(PROPERTY_FUNCTIONALPROFILESSUPPORTED.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_FUNCTIONALPROFILESSUPPORTED.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16[]) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property FunctionalProfilesSupported
+     * <br>
+     * Enumerated array describing the types of operations supported by the ObjectManager, using this encoding/protocol. The enumeration is based on the Functional Profiles defined for conformance in the DMTF document, Specification for CIM Operations over HTTP.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_FunctionalProfilesSupported(javax.cim.UnsignedInteger16[] newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_FUNCTIONALPROFILESSUPPORTED.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_FunctionalProfilesSupported(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_FUNCTIONALPROFILESSUPPORTED.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property FunctionalProfilesSupported by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_FunctionalProfilesSupported(WBEMClient client,
+            String namespace, javax.cim.UnsignedInteger16[] newValue) throws WbemsmtException {
+        CIM_ObjectManagerCommunicationMechanism fco = new CIM_ObjectManagerCommunicationMechanism(
+                client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_FUNCTIONALPROFILESSUPPORTED.NAME);
+        if (property != null) {
+            property = setPropertyValue_FunctionalProfilesSupported(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_FUNCTIONALPROFILESSUPPORTED.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property FunctionalProfilesSupported
+     * <br>
+     * Enumerated array describing the types of operations supported by the ObjectManager, using this encoding/protocol. The enumeration is based on the Functional Profiles defined for conformance in the DMTF document, Specification for CIM Operations over HTTP.
+     */
+
+    private static CIMProperty setPropertyValue_FunctionalProfilesSupported(
+            CIMProperty currentProperty, javax.cim.UnsignedInteger16[] newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property MultipleOperationsSupported
+     *     * <br>
+     * Boolean indicating whether the ObjectManager supports multiple operation requests (TRUE) or only simple requests (FALSE).
+     *     */
+
+    public Boolean get_MultipleOperationsSupported() {
+        CIMProperty currentProperty = getProperty(PROPERTY_MULTIPLEOPERATIONSSUPPORTED.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_MULTIPLEOPERATIONSSUPPORTED.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (Boolean) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property MultipleOperationsSupported
+     * <br>
+     * Boolean indicating whether the ObjectManager supports multiple operation requests (TRUE) or only simple requests (FALSE).
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_MultipleOperationsSupported(Boolean newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_MULTIPLEOPERATIONSSUPPORTED.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_MultipleOperationsSupported(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MULTIPLEOPERATIONSSUPPORTED.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property MultipleOperationsSupported by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_MultipleOperationsSupported(WBEMClient client,
+            String namespace, Boolean newValue) throws WbemsmtException {
+        CIM_ObjectManagerCommunicationMechanism fco = new CIM_ObjectManagerCommunicationMechanism(
+                client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_MULTIPLEOPERATIONSSUPPORTED.NAME);
+        if (property != null) {
+            property = setPropertyValue_MultipleOperationsSupported(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MULTIPLEOPERATIONSSUPPORTED.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property MultipleOperationsSupported
+     * <br>
+     * Boolean indicating whether the ObjectManager supports multiple operation requests (TRUE) or only simple requests (FALSE).
+     */
+
+    private static CIMProperty setPropertyValue_MultipleOperationsSupported(
+            CIMProperty currentProperty, Boolean newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property OtherCommunicationMechanismDescription
+     *     * <br>
+     * A free-form string providing a description of the supported protocols when 1, "Other", is specified in the CommunicationMechanism.
+     *     */
+
+    public String get_OtherCommunicationMechanismDescription() {
+        CIMProperty currentProperty = getProperty(PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property OtherCommunicationMechanismDescription
+     * <br>
+     * A free-form string providing a description of the supported protocols when 1, "Other", is specified in the CommunicationMechanism.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_OtherCommunicationMechanismDescription(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_OtherCommunicationMechanismDescription(
+                    currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property OtherCommunicationMechanismDescription by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_OtherCommunicationMechanismDescription(WBEMClient client,
+            String namespace, String newValue) throws WbemsmtException {
+        CIM_ObjectManagerCommunicationMechanism fco = new CIM_ObjectManagerCommunicationMechanism(
+                client, namespace);
+        CIMProperty property = fco
+                .getProperty(PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION.NAME);
+        if (property != null) {
+            property = setPropertyValue_OtherCommunicationMechanismDescription(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_OTHERCOMMUNICATIONMECHANISMDESCRIPTION.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property OtherCommunicationMechanismDescription
+     * <br>
+     * A free-form string providing a description of the supported protocols when 1, "Other", is specified in the CommunicationMechanism.
+     */
+
+    private static CIMProperty setPropertyValue_OtherCommunicationMechanismDescription(
+            CIMProperty currentProperty, String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property Version
+     *     * <br>
+     * Provides the protocol version for this service access point. Version information MUST be in the form of M.N, where M is a numeric that describes the Major version and N is a numeric that describes the minor version.
+     *     */
+
+    public String get_Version() {
+        CIMProperty currentProperty = getProperty(PROPERTY_VERSION.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_VERSION.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property Version
+     * <br>
+     * Provides the protocol version for this service access point. Version information MUST be in the form of M.N, where M is a numeric that describes the Major version and N is a numeric that describes the minor version.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_Version(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_VERSION.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_Version(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_VERSION.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property Version by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_Version(WBEMClient client, String namespace, String newValue)
+            throws WbemsmtException {
+        CIM_ObjectManagerCommunicationMechanism fco = new CIM_ObjectManagerCommunicationMechanism(
+                client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_VERSION.NAME);
+        if (property != null) {
+            property = setPropertyValue_Version(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_VERSION.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property Version
+     * <br>
+     * Provides the protocol version for this service access point. Version information MUST be in the form of M.N, where M is a numeric that describes the Major version and N is a numeric that describes the minor version.
+     */
+
+    private static CIMProperty setPropertyValue_Version(CIMProperty currentProperty, String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    /**
+     * Get the list with CIM_ObjectManager objects associated by the association CIM_CommMechanismForManager
+     * 
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ObjectManager_CIM_CommMechanismForManagers(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_ObjectManager_CIM_CommMechanismForManagers(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER,
+                CIM_ObjectManager.CIM_CLASS_NAME, null, null, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_ObjectManager objects associated by the association CIM_CommMechanismForManager
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ObjectManager_CIM_CommMechanismForManagers(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_ObjectManager_CIM_CommMechanismForManagers(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER, resultClass, role,
+                resultRole, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_ObjectManager objects associated by the association CIM_CommMechanismForManager
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param associationClass This string MUST either contain a valid CIM Association class name or be null. It filters the Objects returned to contain only Objects associated to the source Object via this CIM Association class or one of its subclasses.
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ObjectManager_CIM_CommMechanismForManagers(
+            WBEMClient cimClient, String associationClass, String resultClass, String role,
+            String resultRole, boolean includeQualifiers, boolean includeClassOrigin,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associators(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole, includeQualifiers, includeClassOrigin,
+                    propertyList);
+        }
+        catch (WBEMException e) {
+            throw new AssociatorException(e, new AssociatorUserObject(this.getCimObjectPath(),
+                    associationClass, resultClass, role, resultRole, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_ObjectManagerCommunicationMechanismHelper.findClass(
+                            cimClient, cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_ObjectManager(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_ObjectManager(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_ObjectManager(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_CommMechanismForManager
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_ObjectManager_CIM_CommMechanismForManagerNames(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_ObjectManager_CIM_CommMechanismForManagerNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER,
+                CIM_ObjectManager.CIM_CLASS_NAME, null, null);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_CommMechanismForManager
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_ObjectManager_CIM_CommMechanismForManagerNames(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_ObjectManager_CIM_CommMechanismForManagerNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER, resultClass, role,
+                resultRole);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_CommMechanismForManager
+     * @param cimClient the WBEMClient for the communication
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_ObjectManager_CIM_CommMechanismForManagerNames(
+            WBEMClient cimClient, boolean deep, String associationClass, String resultClass,
+            String role, String resultRole) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associatorNames(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole);
+
+        }
+        catch (WBEMException e) {
+            throw new AssociatorNamesException(e, new AssociatorNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER,
+                    CIM_ObjectManager.CIM_CLASS_NAME, null, null));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_ObjectManager.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_CommMechanismForManager associations
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#references(CIMObjectPath, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociations_CIM_CommMechanismForManager(WBEMClient cimClient,
+            boolean includeQualifiers, boolean includeClassOrigin, String role,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.references(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER, role, includeQualifiers,
+                    includeClassOrigin, propertyList);
+        }
+        catch (WBEMException e) {
+            throw new ReferencesException(e, new ReferencesUserObject(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER, role, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_CommMechanismForManagerHelper.findClass(cimClient,
+                            cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_CommMechanismForManager(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_CommMechanismForManager(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_CommMechanismForManager(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a list of CIMObjectPath items of the associations CIM_CommMechanismForManager
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#referenceNames(CIMObjectPath, String, String)
+     **/
+
+    public java.util.List getAssociationNames_CIM_CommMechanismForManager(WBEMClient cimClient,
+            String role, boolean deep) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.referenceNames(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER, role);
+        }
+        catch (WBEMException e) {
+            throw new ReferenceNamesException(e, new ReferenceNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORMANAGER,
+                    role));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_CommMechanismForManager.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_ProtocolAdapter objects associated by the association CIM_CommMechanismForAdapter
+     * 
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ProtocolAdapter_CIM_CommMechanismForAdapters(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_ProtocolAdapter_CIM_CommMechanismForAdapters(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER,
+                CIM_ProtocolAdapter.CIM_CLASS_NAME, null, null, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_ProtocolAdapter objects associated by the association CIM_CommMechanismForAdapter
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ProtocolAdapter_CIM_CommMechanismForAdapters(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_ProtocolAdapter_CIM_CommMechanismForAdapters(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER, resultClass, role,
+                resultRole, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_ProtocolAdapter objects associated by the association CIM_CommMechanismForAdapter
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param associationClass This string MUST either contain a valid CIM Association class name or be null. It filters the Objects returned to contain only Objects associated to the source Object via this CIM Association class or one of its subclasses.
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ProtocolAdapter_CIM_CommMechanismForAdapters(
+            WBEMClient cimClient, String associationClass, String resultClass, String role,
+            String resultRole, boolean includeQualifiers, boolean includeClassOrigin,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associators(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole, includeQualifiers, includeClassOrigin,
+                    propertyList);
+        }
+        catch (WBEMException e) {
+            throw new AssociatorException(e, new AssociatorUserObject(this.getCimObjectPath(),
+                    associationClass, resultClass, role, resultRole, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_ObjectManagerCommunicationMechanismHelper.findClass(
+                            cimClient, cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_ProtocolAdapter(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_ProtocolAdapter(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_ProtocolAdapter(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_CommMechanismForAdapter
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_ProtocolAdapter_CIM_CommMechanismForAdapterNames(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_ProtocolAdapter_CIM_CommMechanismForAdapterNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER,
+                CIM_ProtocolAdapter.CIM_CLASS_NAME, null, null);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_CommMechanismForAdapter
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_ProtocolAdapter_CIM_CommMechanismForAdapterNames(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_ProtocolAdapter_CIM_CommMechanismForAdapterNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER, resultClass, role,
+                resultRole);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_CommMechanismForAdapter
+     * @param cimClient the WBEMClient for the communication
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_ProtocolAdapter_CIM_CommMechanismForAdapterNames(
+            WBEMClient cimClient, boolean deep, String associationClass, String resultClass,
+            String role, String resultRole) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associatorNames(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole);
+
+        }
+        catch (WBEMException e) {
+            throw new AssociatorNamesException(e, new AssociatorNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER,
+                    CIM_ProtocolAdapter.CIM_CLASS_NAME, null, null));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_ProtocolAdapter.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_CommMechanismForAdapter associations
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#references(CIMObjectPath, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociations_CIM_CommMechanismForAdapter(WBEMClient cimClient,
+            boolean includeQualifiers, boolean includeClassOrigin, String role,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.references(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER, role, includeQualifiers,
+                    includeClassOrigin, propertyList);
+        }
+        catch (WBEMException e) {
+            throw new ReferencesException(e, new ReferencesUserObject(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER, role, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_CommMechanismForAdapterHelper.findClass(cimClient,
+                            cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_CommMechanismForAdapter(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_CommMechanismForAdapter(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_CommMechanismForAdapter(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a list of CIMObjectPath items of the associations CIM_CommMechanismForAdapter
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#referenceNames(CIMObjectPath, String, String)
+     **/
+
+    public java.util.List getAssociationNames_CIM_CommMechanismForAdapter(WBEMClient cimClient,
+            String role, boolean deep) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.referenceNames(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER, role);
+        }
+        catch (WBEMException e) {
+            throw new ReferenceNamesException(e, new ReferenceNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFORADAPTER,
+                    role));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_CommMechanismForAdapter.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_ObjectManagerAdapter objects associated by the association CIM_CommMechanismForObjectManagerAdapter
+     * 
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ObjectManagerAdapter_CIM_CommMechanismForObjectManagerAdapters(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_ObjectManagerAdapter_CIM_CommMechanismForObjectManagerAdapters(
+                cimClient, CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER,
+                CIM_ObjectManagerAdapter.CIM_CLASS_NAME, null, null, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_ObjectManagerAdapter objects associated by the association CIM_CommMechanismForObjectManagerAdapter
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ObjectManagerAdapter_CIM_CommMechanismForObjectManagerAdapters(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_ObjectManagerAdapter_CIM_CommMechanismForObjectManagerAdapters(
+                cimClient, CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER,
+                resultClass, role, resultRole, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_ObjectManagerAdapter objects associated by the association CIM_CommMechanismForObjectManagerAdapter
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param associationClass This string MUST either contain a valid CIM Association class name or be null. It filters the Objects returned to contain only Objects associated to the source Object via this CIM Association class or one of its subclasses.
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ObjectManagerAdapter_CIM_CommMechanismForObjectManagerAdapters(
+            WBEMClient cimClient, String associationClass, String resultClass, String role,
+            String resultRole, boolean includeQualifiers, boolean includeClassOrigin,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associators(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole, includeQualifiers, includeClassOrigin,
+                    propertyList);
+        }
+        catch (WBEMException e) {
+            throw new AssociatorException(e, new AssociatorUserObject(this.getCimObjectPath(),
+                    associationClass, resultClass, role, resultRole, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_ObjectManagerCommunicationMechanismHelper.findClass(
+                            cimClient, cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_ObjectManagerAdapter(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_ObjectManagerAdapter(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_ObjectManagerAdapter(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_CommMechanismForObjectManagerAdapter
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_ObjectManagerAdapter_CIM_CommMechanismForObjectManagerAdapterNames(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_ObjectManagerAdapter_CIM_CommMechanismForObjectManagerAdapterNames(
+                cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER,
+                CIM_ObjectManagerAdapter.CIM_CLASS_NAME, null, null);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_CommMechanismForObjectManagerAdapter
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_ObjectManagerAdapter_CIM_CommMechanismForObjectManagerAdapterNames(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_ObjectManagerAdapter_CIM_CommMechanismForObjectManagerAdapterNames(
+                cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER, resultClass,
+                role, resultRole);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_CommMechanismForObjectManagerAdapter
+     * @param cimClient the WBEMClient for the communication
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_ObjectManagerAdapter_CIM_CommMechanismForObjectManagerAdapterNames(
+            WBEMClient cimClient, boolean deep, String associationClass, String resultClass,
+            String role, String resultRole) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associatorNames(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole);
+
+        }
+        catch (WBEMException e) {
+            throw new AssociatorNamesException(e, new AssociatorNamesUserObject(this
+                    .getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER,
+                    CIM_ObjectManagerAdapter.CIM_CLASS_NAME, null, null));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_ObjectManagerAdapter.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_CommMechanismForObjectManagerAdapter associations
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#references(CIMObjectPath, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociations_CIM_CommMechanismForObjectManagerAdapter(
+            WBEMClient cimClient, boolean includeQualifiers, boolean includeClassOrigin,
+            String role, java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.references(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER, role,
+                    includeQualifiers, includeClassOrigin, propertyList);
+        }
+        catch (WBEMException e) {
+            throw new ReferencesException(e, new ReferencesUserObject(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER, role,
+                    includeQualifiers, includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_CommMechanismForObjectManagerAdapterHelper.findClass(
+                            cimClient, cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_CommMechanismForObjectManagerAdapter(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_CommMechanismForObjectManagerAdapter(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_CommMechanismForObjectManagerAdapter(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a list of CIMObjectPath items of the associations CIM_CommMechanismForObjectManagerAdapter
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#referenceNames(CIMObjectPath, String, String)
+     **/
+
+    public java.util.List getAssociationNames_CIM_CommMechanismForObjectManagerAdapter(
+            WBEMClient cimClient, String role, boolean deep) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.referenceNames(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER, role);
+        }
+        catch (WBEMException e) {
+            throw new ReferenceNamesException(e, new ReferenceNamesUserObject(this
+                    .getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMMMECHANISMFOROBJECTMANAGERADAPTER, role));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_CommMechanismForObjectManagerAdapter.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_ObjectManagerCommunicationMechanismHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_ObjectManagerCommunicationMechanism.CIM_CLASS_NAME;
+    }
 
 }

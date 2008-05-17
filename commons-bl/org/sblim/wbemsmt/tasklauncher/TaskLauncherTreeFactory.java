@@ -18,30 +18,20 @@
 
 package org.sblim.wbemsmt.tasklauncher;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
+import javax.wbem.client.WBEMClient;
 
-import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.adapter.CimAdapterFactory;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeFactory;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.welcome.WelcomeData;
-import org.sblim.wbemsmt.exception.ModelLoadException;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
+import org.sblim.wbemsmt.session.WbemsmtSession;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.CimomData;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.TreeConfigData;
 import org.sblim.wbemsmt.tasklauncher.login.LoginCheck;
@@ -60,7 +50,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 
 	private List cimomNodes = new ArrayList();
     
-    public TaskLauncherTreeFactory(List customTreeConfigs) throws ModelLoadException
+    public TaskLauncherTreeFactory(List customTreeConfigs) throws WbemsmtException
     { 
     	if (customTreeConfigs != null)
     	{
@@ -88,20 +78,20 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
         				disabledNode.setEnabled(false);
 						rootNode.getSubnodes().add(disabledNode);
 	        			rootNodes.add( rootNode );
-					} catch (WbemSmtException e) {
-						throw new ModelLoadException(e);
+					} catch (WbemsmtException e) {
+						throw new WbemsmtException(WbemsmtException.ERR_LOADING_MODEL,e);
 					}
     			}
     		}
     	}
     }
     
-    public TaskLauncherTreeFactory(CIMClient cimClient) throws ModelLoadException
+    public TaskLauncherTreeFactory(WBEMClient cimClient) throws WbemsmtException
     {
         this(new ArrayList());
     }
 
-    public TaskLauncherTreeFactory(CimomData[] cimoms) throws WbemSmtException {
+    public TaskLauncherTreeFactory(CimomData[] cimoms) throws WbemsmtException {
 		for (int i = 0; i < cimoms.length; i++) {
 			CimomData cimom = cimoms[i];
 			addCimomNode(cimom);
@@ -109,7 +99,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		sortCimomNodes(rootNodes);		
 	}
 
-	private void addCimomNode(CimomData cimom) throws WbemSmtException {
+	private void addCimomNode(CimomData cimom) throws WbemsmtException {
 		TaskLauncherDelegaterTreeNode rootNode = new TaskLauncherDelegaterTreeNode(new ArrayList(),"root");
 		CimomTreeNode cimomNode = new CimomTreeNode(cimom);
 		cimomNodes.add(cimomNode);
@@ -128,9 +118,9 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
     /**
      * Updates the current Cimom Treenodes
      * @param cimomDataArray
-     * @throws WbemSmtException 
+     * @throws WbemsmtException 
      */
-	public void updateMultiHost(CimomData[] cimomDataArray) throws WbemSmtException {
+	public void updateMultiHost(CimomData[] cimomDataArray) throws WbemsmtException {
 		
 		Set oldCimoms = new HashSet(); 
 		Set newCimoms = new HashSet();
@@ -186,16 +176,18 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		logger.info("Cimom-Subnodes: " + rootNodes.size());
 	}
 
-	public void updateSingleHost(CimomData[] cimomDataArray) throws ModelLoadException
+	public void updateSingleHost(CimomData[] cimomDataArray) throws WbemsmtException
 	{
 		LoginCheck loginCheck = (LoginCheck) BeanNameConstants.LOGIN_CHECK.getBoundValue(FacesContext.getCurrentInstance());
-		CIMClient client = loginCheck.getCimClient();
+		WBEMClient client = loginCheck.getCimClient();
+		
+		String hostOfClient = WbemsmtSession.getSession().getCIMClientPool(client).getHostname();
 		
 		CimomData ourCimom = null;
 		
 		for (int i = 0; i < cimomDataArray.length && ourCimom == null; i++) {
 			CimomData data = cimomDataArray[i];
-			if (client != null && data.getHostname().equalsIgnoreCase(client.getNameSpace().getHost()))
+			if (client != null && data.getHostname().equalsIgnoreCase(hostOfClient))
 			{
 				ourCimom = data;
 			}
@@ -526,7 +518,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 						map.put(node.getCustomTreeConfig().getTreeConfigData().getName(), new WelcomeData(node.getCustomTreeConfig().getTreeConfigData(),node.getCimClient()));
 					}
 				}
-			} catch (WbemSmtException e) {
+			} catch (WbemsmtException e) {
 				logger.log(Level.SEVERE, "Cannot get nodes of cimomTreeNode " + cimomTreeNode.getInfo(),e);
 			}
 		}

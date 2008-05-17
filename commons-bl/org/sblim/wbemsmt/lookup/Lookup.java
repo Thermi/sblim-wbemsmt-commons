@@ -19,10 +19,12 @@
   */
 package org.sblim.wbemsmt.lookup;
 
-import org.sblim.wbem.client.CIMClient;
+import javax.wbem.client.WBEMClient;
+
+import org.sblim.wbemsmt.exception.WbemsmtException;
 
 public interface Lookup {
 
-	public boolean lookup(CIMClient cimClient); 
+	public boolean lookup(WBEMClient cimClient, String namespace) throws WbemsmtException; 
 	
 }

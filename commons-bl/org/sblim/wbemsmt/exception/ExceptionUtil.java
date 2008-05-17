@@ -19,17 +19,23 @@
   */
 package org.sblim.wbemsmt.exception;
 
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.sblim.wbem.cim.CIMException;
-import org.sblim.wbem.cim.CIMNameSpace;
+import javax.cim.CIMInstance;
+import javax.wbem.WBEMException;
+
 import org.sblim.wbemsmt.bl.ErrCodes;
-import org.sblim.wbemsmt.bl.MessageNumber;
 import org.sblim.wbemsmt.bl.adapter.Message;
+import org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFco;
+import org.sblim.wbemsmt.exception.impl.UserObjectExceptionIf;
 import org.sblim.wbemsmt.tools.cli.CimCommand;
+import org.sblim.wbemsmt.tools.cli.CliLocaleManager;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
+import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
@@ -66,120 +72,114 @@ public class ExceptionUtil {
 	 * @param originalException
 	 * @param currentLocale
 	 * @param bundle
-	 * @param taskBundle is only used if the fco in wbemsmtExceptionCause != null and  
 	 * @param wbemsmtExceptionCause
 	 * @param level Level to log the information if set to null default is SEVERE. For example the Commandline is using logging with level INFO to console. And Error Messages have to be &lt; error to be not shown  
 	 * @param lineSeparator the separator character. If null space is used.
 	 * @return
 	 */
 	
-	public static Message getEnduserExceptionText(Throwable originalException, Locale currentLocale, WbemSmtResourceBundle bundle, WbemSmtResourceBundle taskBundle, WbemSmtException wbemsmtExceptionCause, Level level, String lineSeparator) {
+	public static Message getEnduserExceptionText(Throwable originalException, Locale currentLocale, WbemSmtResourceBundle bundle, WbemsmtException wbemsmtExceptionCause, Level level, String lineSeparator) {
 
-		level = level == null ? Level.SEVERE : level;
-		lineSeparator = lineSeparator == null ? " " : lineSeparator;
+	    Logger logger = Logger.getLogger(ExceptionUtil.class.getName());
+
+	    level = level == null ? Level.SEVERE : level;
+        logger.log(Level.SEVERE,"",originalException);
+
+        lineSeparator = lineSeparator == null ? " " : lineSeparator;
 		
-		String prefix = "errorMessage.";
-		String prefixObjectname = "objectname.";
-		
-		Logger logger = Logger.getLogger(ExceptionUtil.class.getName());
-		logger.log(Level.SEVERE,"",originalException);
-		
-		//then for the deepest CIMException
-		CIMException cimException = (CIMException) findDeepest(CIMException.class, originalException);
+		WBEMException cimException = (WBEMException) findDeepest(WBEMException.class, originalException);
+        WbemsmtException wbemsmtException = (WbemsmtException) findDeepest(WbemsmtException.class, originalException);
 	
-		MessageNumber messageNumber = ErrCodes.getMessageNumber(wbemsmtExceptionCause);
-	
-		
-		StringBuffer exceptionText = new StringBuffer();
-		if (wbemsmtExceptionCause != null)
+		//handle the WbemsmtExceptions that are containing an userObject -> UserObjectExceptionIf
+        Message message = null;
+		if (wbemsmtException instanceof UserObjectExceptionIf)
 		{
-			String objectText = null;
-			
-			//check if the exception is having a cimObject associated
-			if (wbemsmtExceptionCause.getCIM_Object() != null && wbemsmtExceptionCause.getCIM_Object().getWrappedObject() != null)
-			{
-				objectText = taskBundle.getString(prefixObjectname + wbemsmtExceptionCause.getCIM_Object().getWrappedObject().getClass().getName());
-				logger.log(level,"Related CIM Element: " + wbemsmtExceptionCause.getCIM_Object());
-			}
-			else if (wbemsmtExceptionCause.getCimIdentifier() != null)
-			{
-				objectText = wbemsmtExceptionCause.getCimIdentifier();
-				logger.log(level,"Related CIM Element: " + objectText);
-			}
-			else if (wbemsmtExceptionCause instanceof LoginException)
-			{
-				LoginException loginException = (LoginException)wbemsmtExceptionCause;
-				objectText = "";
-				if (loginException.getCimClient() != null)
-				{
-					CIMNameSpace nameSpace = loginException.getCimClient().getNameSpace();
-					objectText = "//" + nameSpace.getHost() +  nameSpace.getNameSpace();
-				}
-			}
-			else
-			{
-				objectText = bundle.getString(prefix + "theObject");
-			}
-			
-			if (bundle.keyExists(prefix + wbemsmtExceptionCause.getClass().getName()))
-			{
-				exceptionText.append( bundle.getString(prefix + wbemsmtExceptionCause.getClass().getName(), new Object[]{objectText}));
-			}
-			else
-			{
-				exceptionText.append( bundle.getString(prefix + "otherExceptions"));
-			}
-		} 
+		    UserObjectExceptionIf userObjectException = ((UserObjectExceptionIf)wbemsmtException);
+            message = userObjectException.getMessage(bundle);
+            if (userObjectException.addCIMExceptionCause())
+            {
+                message = wbemsmtException.addCIMExceptionToMessageText(bundle, message);
+            }
+		}
+		//handle all other standard wbemsmt Exceptions
+		else if (wbemsmtException != null)
+		{
+		    int counter = 1;
+		    StringBuffer instances = new StringBuffer();
+		    for (int i = 0; wbemsmtException.getFco() != null &&  i < wbemsmtException.getFco().length; i++) {
+                AbstractWbemsmtFco fco = wbemsmtException.getFco()[i];
+                instances
+                    .append(lineSeparator)
+                    .append(lineSeparator)
+                    .append(bundle.getString("instance.nr",new Object[]{"" + (counter++)})).append(lineSeparator)
+                    .append(fco.getCimInstance().toString());
+            }
+
+		    for (int i = 0; wbemsmtException.getInstances() != null && i < wbemsmtException.getInstances().length; i++) {
+                CIMInstance cimInstance = wbemsmtException.getInstances()[i];
+                instances
+                    .append(lineSeparator)
+                    .append(lineSeparator)
+                    .append(bundle.getString("instance.nr",new Object[]{"" + (counter++)})).append(lineSeparator)
+                    .append(cimInstance.toString());
+            }
+		    
+		    message = ErrCodes.getMessage(wbemsmtException, bundle, instances.toString(), cimException);
+		}
 		else
 		{
-			exceptionText.append(bundle.getString("internal.error"));
+		    message = ErrCodes.getMessage(originalException);
 		}
-		exceptionText.append(lineSeparator);
 		
-		StringBuffer reasonText = new StringBuffer();
-		if (cimException != null)
-		{
-			reasonText.append(" " + bundle.getString("reason") + ": ");
-			if (bundle.keyExists(prefix + cimException.getID()))
-			{
-				reasonText.append( bundle.getString(prefix + cimException.getID()));
-			}
-			else
-			{
-				reasonText.append( bundle.getString(prefix + "OTHER_CIM_ERR"));
-			}
-		}
-	
-		String msg = exceptionText.toString() + (cimException != null ? reasonText.toString() : "");
-		return new Message(messageNumber,Message.ERROR,msg);
+		return message;
 	}
 
 	public static void handleException(Throwable t) {
-		if (RuntimeUtil.getInstance().isJSF())
-		{
-			JsfUtil.handleException(t);
-		}
-		else if (RuntimeUtil.getInstance().isCommandline())
-		{
-			//first search for the deepest WbemSmtException
-			WbemSmtException smtException = (WbemSmtException) ExceptionUtil.findDeepest(WbemSmtException.class, t);
-			WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages"});
-			Message msg = ExceptionUtil.getEnduserExceptionText(t, Locale.getDefault(), bundle , bundle, smtException, Level.FINE, "\n");
-			System.err.println(bundle.getString("error.while.execution") + "\n" + msg.getMessageString());
-		}
+	    handleException(t,new PrintWriter(new OutputStreamWriter(System.err)));
 	}
 	
-	public static boolean isHavingErrors()
-	{
-		if (RuntimeUtil.getInstance().isJSF())
-		{
-			return JsfUtil.havingErrors();
-		}
-		else if (RuntimeUtil.getInstance().isCommandline())
-		{
-			return CimCommand.getCurrentCommand() != null ? CimCommand.getCurrentCommand().getErrorCount() > 0 : false;  
-		}
-		return false;
-	}
-	
+	/**
+	 * handle the Exception
+	 * @param t
+	 * @param err only used for Commandline runtime mode, if null System.err is used
+	 */
+    public static void handleException(Throwable t, PrintWriter err) {
+        if (RuntimeUtil.getInstance().isJSF())
+        {
+            JsfUtil.handleException(t);
+        }
+        else if (RuntimeUtil.getInstance().isCommandline())
+        {
+            //first search for the deepest WbemsmtException
+            ILocaleManager localeManager = (ILocaleManager) CliLocaleManager.getInstance();
+            WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages"},localeManager.getCurrentLocale());
+
+            //first search for the deepest WbemsmtException
+            WbemsmtException smtException = (WbemsmtException) ExceptionUtil.findDeepest(WbemsmtException.class, t);
+            Message msg = ExceptionUtil.getEnduserExceptionText(t, Locale.getDefault(), bundle , smtException, Level.FINE, "\n");
+            String errText = bundle.getString("error.while.execution") + "\n" + msg.getMessageString();
+            if (err != null)
+            {
+                err.println(errText);
+            }
+            else
+            {
+                System.err.println(errText);
+            }
+            
+        }
+    }
+
+    public static boolean isHavingErrors()
+    {
+        if (RuntimeUtil.getInstance().isJSF())
+        {
+            return JsfUtil.havingErrors();
+        }
+        else if (RuntimeUtil.getInstance().isCommandline())
+        {
+            return CimCommand.getCurrentCommand() != null ? CimCommand.getCurrentCommand().getErrorCount() > 0 : false;  
+        }
+        return false;
+    }    
 }

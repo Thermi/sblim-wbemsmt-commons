@@ -19,9 +19,9 @@
   */
 package org.sblim.wbemsmt.bl.fco;
 
-import org.sblim.wbem.cim.CIMDataType;
-import org.sblim.wbem.cim.CIMProperty;
-import org.sblim.wbem.cim.CIMValue;
+import javax.cim.CIMDataType;
+import javax.cim.CIMProperty;
+
 import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
 
 public class CIMPropertyBuilder {
@@ -36,7 +36,7 @@ public class CIMPropertyBuilder {
 	 */
 	public static CIMProperty create(String name, Object value, int type)
 	{
-		return new CIMProperty(name, new CIMValue(value,new CIMDataType(type)));
+		return new CIMProperty(name, new CIMDataType(type,-1),value);
 	}
 
 	/**
@@ -46,8 +46,8 @@ public class CIMPropertyBuilder {
 	 * @param object
 	 * @return
 	 */
-	public static CIMProperty create(String name, CIM_ObjectIf object) {
-		return new CIMProperty(name, new CIMValue(object.getCimObjectPath(),new CIMDataType(object.getCimObjectPath().getObjectName())));
+	public static CIMProperty create(String name, AbstractWbemsmtFco object) {
+		return new CIMProperty(name, new CIMDataType(object.getCimObjectPath().getObjectName()),object.getCimObjectPath());
 	}
 
 	/**
@@ -58,17 +58,6 @@ public class CIMPropertyBuilder {
 	 * @return
 	 */
 	public static CIMProperty create(String name, CIM_ManagedElement object) {
-		return new CIMProperty(name, new CIMValue(object.getCimObjectPath(),new CIMDataType(object.getCimObjectPath().getObjectName())));
-	}
-
-	/**
-	 * Create a CIMValue with value and type.
-	 * @param value 
-	 * @param type
-	 * @return
-	 * @see CIMDataType#CIMDataType(int)
-	 */
-	public static CIMValue createVaue(Object value, int type) {
-		return new CIMValue(value,new CIMDataType(type));
+		return new CIMProperty(name, new CIMDataType(object.getCimObjectPath().getObjectName()),object.getCimObjectPath());
 	}
 }

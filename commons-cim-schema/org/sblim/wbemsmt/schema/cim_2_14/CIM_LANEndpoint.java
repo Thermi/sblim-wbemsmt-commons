@@ -1,702 +1,986 @@
 /** 
  * CIM_LANEndpoint.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  A communication endpoint which, when its associated interface device is
- * connected to a LAN, may send and receive data frames. LANEndpoints include
- * Ethernet, Token Ring and FDDI interfaces.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: A communication endpoint which, when its associated interface device is connected to a LAN, may send and receive data frames. LANEndpoints include Ethernet, Token Ring and FDDI interfaces.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim_2_14;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
 
-/**
- *  A communication endpoint which, when its associated interface device is
- * connected to a LAN, may send and receive data frames. LANEndpoints include
- * Ethernet, Token Ring and FDDI interfaces.
- */
-public class CIM_LANEndpoint extends CIM_ProtocolEndpoint  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_LANEndpoint"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_LANEndpoint extends CIM_ProtocolEndpoint {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.7.0";
-	
-	
-	/**
-	*	Other unicast addresses that may be used to communicate with the LANEndpoint.
-	*/
-	public final static String CIM_PROPERTY_ALIASADDRESSES = "AliasAddresses"; //$NON-NLS-1$
-	/**
-	*	Multicast addresses to which the LANEndpoint listens.
-	*/
-	public final static String CIM_PROPERTY_GROUPADDRESSES = "GroupAddresses"; //$NON-NLS-1$
-	/**
-	*	A label or identifier for the LAN Segment to which the Endpoint is connected. If the Endpoint is not currently active/connected or this information is not known, then LANID is NULL.
-	*/
-	public final static String CIM_PROPERTY_LANID = "LANID"; //$NON-NLS-1$
-	/**
-	*	An indication of the kind of technology used on the LAN. This property is deprecated in lieu of ProtocolType, which is an enumeration inherited from ProtocolEndpoint and which includes the Values specified here.
-	*/
-	public final static String CIM_PROPERTY_LANTYPE = "LANType"; //$NON-NLS-1$
-	/**
-	*	The principal unicast address used in communication with the LANEndpoint. The MAC address is formatted as twelve hexadecimal digits (e.g., "010203040506"), with each pair representing one of the six octets of the MAC address in "canonical" bit order according to RFC 2469.
-	*/
-	public final static String CIM_PROPERTY_MACADDRESS = "MACAddress"; //$NON-NLS-1$
-	/**
-	*	The largest information field that may be sent or received by the LANEndpoint.
-	*/
-	public final static String CIM_PROPERTY_MAXDATASIZE = "MaxDataSize"; //$NON-NLS-1$
-	/**
-	*	A free-form string that describes the type of technology used on the LAN when the value of the LANType property is equal to 1 (i.e., "Other"). This property is deprecated since its purpose overlaps with OtherTypeDescription, which which is inherited from ProtocolEndpoint.
-	*/
-	public final static String CIM_PROPERTY_OTHERLANTYPE = "OtherLANType"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_LANEndpoint";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_ALIASADDRESSES);
-		CIM_PropertyNameList.add(CIM_PROPERTY_GROUPADDRESSES);
-		CIM_PropertyNameList.add(CIM_PROPERTY_LANID);
-		CIM_PropertyNameList.add(CIM_PROPERTY_LANTYPE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_MACADDRESS);
-		CIM_PropertyNameList.add(CIM_PROPERTY_MAXDATASIZE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_OTHERLANTYPE);
-				
-		for (int i = 0; i < CIM_ProtocolEndpoint.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ALIASADDRESSES)||
-				((String)CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_GROUPADDRESSES)||
-				((String)CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_LANID)||
-				((String)CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_LANTYPE)||
-				((String)CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_MACADDRESS)||
-				((String)CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_MAXDATASIZE)||
-				((String)CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_OTHERLANTYPE)){
-				continue;
-			}
-			
-			CIM_LANEndpoint.CIM_PropertyNameList.add(CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ALIASADDRESSES, new CIMValue(null, new CIMDataType(CIMDataType.STRING_ARRAY))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_GROUPADDRESSES, new CIMValue(null, new CIMDataType(CIMDataType.STRING_ARRAY))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_LANID, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_LANTYPE, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_MACADDRESS, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_MAXDATASIZE, new CIMValue(null, new CIMDataType(CIMDataType.UINT32))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_OTHERLANTYPE, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-				
-		for (int i = 0; i < CIM_ProtocolEndpoint.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_ProtocolEndpoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ALIASADDRESSES)||
-				((CIMProperty)CIM_ProtocolEndpoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_GROUPADDRESSES)||
-				((CIMProperty)CIM_ProtocolEndpoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_LANID)||
-				((CIMProperty)CIM_ProtocolEndpoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_LANTYPE)||
-				((CIMProperty)CIM_ProtocolEndpoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_MACADDRESS)||
-				((CIMProperty)CIM_ProtocolEndpoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_MAXDATASIZE)||
-				((CIMProperty)CIM_ProtocolEndpoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_OTHERLANTYPE)){
-				continue;
-			}
-			
-			CIM_LANEndpoint.CIM_PropertyList.add(CIM_ProtocolEndpoint.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim_2_14");
-				
-		String[] parentClassPackageList = CIM_ProtocolEndpoint.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	public final static String[] CIM_VALUEMAP_LANTYPE = {"Unknown","Other","Ethernet","TokenRing","FDDI"};
-	
-	
-	public final static int LANTYPE_UNKNOWN = 0;
-	public final static int LANTYPE_OTHER = 1;
-	public final static int LANTYPE_ETHERNET = 2;
-	public final static int LANTYPE_TOKENRING = 3;
-	public final static int LANTYPE_FDDI = 4;
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constants of property AliasAddresses
+     * Other unicast addresses that may be used to communicate with the LANEndpoint.
+     */
+    public static class PROPERTY_ALIASADDRESSES {
+        /**
+         * name of the property AliasAddresses
+         */
+        public final static String NAME = "AliasAddresses";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_LANEndpoint() {
+    }
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * Constants of property GroupAddresses
+     * Multicast addresses to which the LANEndpoint listens.
+     */
+    public static class PROPERTY_GROUPADDRESSES {
+        /**
+         * name of the property GroupAddresses
+         */
+        public final static String NAME = "GroupAddresses";
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    }
 
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property LANID
+     * A label or identifier for the LAN Segment to which the Endpoint is connected. If the Endpoint is not currently active/connected or this information is not known, then LANID is NULL.
+     */
+    public static class PROPERTY_LANID {
+        /**
+         * name of the property LANID
+         */
+        public final static String NAME = "LANID";
 
+    }
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_LANEndpoint(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property LANType
+     * An indication of the kind of technology used on the LAN. This property is deprecated in lieu of ProtocolType, which is an enumeration inherited from ProtocolEndpoint and which includes the Values specified here.
+     */
+    public static class PROPERTY_LANTYPE {
+        /**
+         * name of the property LANType
+         */
+        public final static String NAME = "LANType";
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_LANEndpoint(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+        /**
+         * constant for value map entry 0
+         */
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Ethernet = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry Ethernet (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Ethernet = "Ethernet";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_TokenRing = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry TokenRing (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_TokenRing = "TokenRing";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_FDDI = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry FDDI (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_FDDI = "FDDI";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@1d0c1d0c
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
             }
-            CIM_LANEndpoint.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_Ethernet.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Ethernet;
+            }
+
+            if (VALUE_ENTRY_TokenRing.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_TokenRing;
+            }
+
+            if (VALUE_ENTRY_FDDI.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_FDDI;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Ethernet.intValue()) {
+                return VALUE_ENTRY_Ethernet;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_TokenRing.intValue()) {
+                return VALUE_ENTRY_TokenRing;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_FDDI.intValue()) {
+                return VALUE_ENTRY_FDDI;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property LANType   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown, VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Ethernet,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_TokenRing, VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_FDDI };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property LANType   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown, VALUE_ENTRY_Other,
+                VALUE_ENTRY_Ethernet, VALUE_ENTRY_TokenRing, VALUE_ENTRY_FDDI };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property LANType   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Other, VALUE_ENTRY_Ethernet, VALUE_ENTRY_TokenRing, VALUE_ENTRY_FDDI };
+
+    }
+
+    /**
+     * Constants of property MACAddress
+     * The principal unicast address used in communication with the LANEndpoint. The MAC address is formatted as twelve hexadecimal digits (e.g., "010203040506"), with each pair representing one of the six octets of the MAC address in "canonical" bit order according to RFC 2469.
+     */
+    public static class PROPERTY_MACADDRESS {
+        /**
+         * name of the property MACAddress
+         */
+        public final static String NAME = "MACAddress";
+
+    }
+
+    /**
+     * Constants of property MaxDataSize
+     * The largest information field that may be sent or received by the LANEndpoint.
+     */
+    public static class PROPERTY_MAXDATASIZE {
+        /**
+         * name of the property MaxDataSize
+         */
+        public final static String NAME = "MaxDataSize";
+
+    }
+
+    /**
+     * Constants of property OtherLANType
+     * A free-form string that describes the type of technology used on the LAN when the value of the LANType property is equal to 1 (i.e., "Other"). This property is deprecated since its purpose overlaps with OtherTypeDescription, which which is inherited from ProtocolEndpoint.
+     */
+    public static class PROPERTY_OTHERLANTYPE {
+        /**
+         * name of the property OtherLANType
+         */
+        public final static String NAME = "OtherLANType";
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim_2_14");
+        String[] parentClassPackageList = CIM_ProtocolEndpoint.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   A communication endpoint which, when its associated interface device is connected to a LAN, may send and receive data frames. LANEndpoints include Ethernet, Token Ring and FDDI interfaces.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_LANEndpoint(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   A communication endpoint which, when its associated interface device is connected to a LAN, may send and receive data frames. LANEndpoints include Ethernet, Token Ring and FDDI interfaces.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_LANEndpoint(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_LANEndpoint() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("AliasAddresses", new CIMProperty("AliasAddresses",
+                CIMDataType.STRING_ARRAY_T, null));
+        propertiesToCheck.put("GroupAddresses", new CIMProperty("GroupAddresses",
+                CIMDataType.STRING_ARRAY_T, null));
+        propertiesToCheck.put("LANID", new CIMProperty("LANID", CIMDataType.STRING_T, null));
+        propertiesToCheck.put("LANType", new CIMProperty("LANType", CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("MACAddress", new CIMProperty("MACAddress", CIMDataType.STRING_T,
+                null));
+        propertiesToCheck.put("MaxDataSize", new CIMProperty("MaxDataSize", CIMDataType.UINT32_T,
+                null));
+        propertiesToCheck.put("OtherLANType", new CIMProperty("OtherLANType", CIMDataType.STRING_T,
+                null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_LANEndpoint.Java_Package_List.toArray(new String[CIM_LANEndpoint.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property AliasAddresses
+     *     * <br>
+     * Other unicast addresses that may be used to communicate with the LANEndpoint.
+     *     */
+
+    public String[] get_AliasAddresses() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ALIASADDRESSES.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ALIASADDRESSES.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String[]) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property AliasAddresses
+     * <br>
+     * Other unicast addresses that may be used to communicate with the LANEndpoint.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_LANEndpoint)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_LANEndpoint)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_LANEndpoint)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_LANEndpoint)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_LANEndpoint)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_LANEndpoint)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_LANEndpoint)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_LANEndpoint)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_LANEndpoint)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_LANEndpoint)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_AliasAddresses(String[] newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ALIASADDRESSES.NAME);
+        if (currentProperty != null) {
+            setProperty(setPropertyValue_AliasAddresses(currentProperty, newValue));
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ALIASADDRESSES.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute AliasAddresses
-	
-	public String[] get_AliasAddresses() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_LANEndpoint.CIM_PROPERTY_ALIASADDRESSES);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_LANEndpoint.CIM_PROPERTY_ALIASADDRESSES + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LANEndpoint.CIM_PROPERTY_ALIASADDRESSES + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING_ARRAY) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		Vector returnedVector = (Vector)currentProperty.getValue().getValue();
-		
-		String[] resultArray = new String[returnedVector!=null?returnedVector.size():0];
-		for (int i = 0; i < resultArray.length; i++) {
-			resultArray[i] = (String)returnedVector.get(i);
-		}
-		
-		return resultArray;
-	}
-	    
-			
-	public void set_AliasAddresses(String[] newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_LANEndpoint.CIM_PROPERTY_ALIASADDRESSES);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_LANEndpoint.CIM_PROPERTY_ALIASADDRESSES + " could not be found");
-    		
-		} else if (!CIM_LANEndpointHelper.isValid_AliasAddresses(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_LANEndpoint.CIM_PROPERTY_ALIASADDRESSES);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LANEndpoint.CIM_PROPERTY_ALIASADDRESSES + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING_ARRAY) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING_ARRAY));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute GroupAddresses
-	
-	public String[] get_GroupAddresses() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_LANEndpoint.CIM_PROPERTY_GROUPADDRESSES);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_LANEndpoint.CIM_PROPERTY_GROUPADDRESSES + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LANEndpoint.CIM_PROPERTY_GROUPADDRESSES + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING_ARRAY) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		Vector returnedVector = (Vector)currentProperty.getValue().getValue();
-		
-		String[] resultArray = new String[returnedVector!=null?returnedVector.size():0];
-		for (int i = 0; i < resultArray.length; i++) {
-			resultArray[i] = (String)returnedVector.get(i);
-		}
-		
-		return resultArray;
-	}
-	    
-			
-	public void set_GroupAddresses(String[] newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_LANEndpoint.CIM_PROPERTY_GROUPADDRESSES);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_LANEndpoint.CIM_PROPERTY_GROUPADDRESSES + " could not be found");
-    		
-		} else if (!CIM_LANEndpointHelper.isValid_GroupAddresses(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_LANEndpoint.CIM_PROPERTY_GROUPADDRESSES);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LANEndpoint.CIM_PROPERTY_GROUPADDRESSES + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING_ARRAY) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING_ARRAY));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property AliasAddresses by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	// Attribute LANID
-	
-	public String get_LANID() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_LANEndpoint.CIM_PROPERTY_LANID);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_LANEndpoint.CIM_PROPERTY_LANID + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LANEndpoint.CIM_PROPERTY_LANID + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_LANID(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_LANEndpoint.CIM_PROPERTY_LANID);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_LANEndpoint.CIM_PROPERTY_LANID + " could not be found");
-    		
-		} else if (!CIM_LANEndpointHelper.isValid_LANID(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_LANEndpoint.CIM_PROPERTY_LANID);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LANEndpoint.CIM_PROPERTY_LANID + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public static CIMProperty create_AliasAddresses(WBEMClient client, String namespace,
+            String[] newValue) throws WbemsmtException {
+        CIM_LANEndpoint fco = new CIM_LANEndpoint(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ALIASADDRESSES.NAME);
+        if (property != null) {
+            property = setPropertyValue_AliasAddresses(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ALIASADDRESSES.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	// Attribute LANType
-	
-	public UnsignedInt16 get_LANType() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_LANEndpoint.CIM_PROPERTY_LANTYPE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_LANEndpoint.CIM_PROPERTY_LANTYPE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LANEndpoint.CIM_PROPERTY_LANTYPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_LANType(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_LANEndpoint.CIM_PROPERTY_LANTYPE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_LANEndpoint.CIM_PROPERTY_LANTYPE + " could not be found");
-    		
-		} else if (!CIM_LANEndpointHelper.isValid_LANType(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_LANEndpoint.CIM_PROPERTY_LANTYPE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LANEndpoint.CIM_PROPERTY_LANTYPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Set the property AliasAddresses
+     * <br>
+     * Other unicast addresses that may be used to communicate with the LANEndpoint.
+     */
 
-	// Attribute MACAddress
-	
-	public String get_MACAddress() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_LANEndpoint.CIM_PROPERTY_MACADDRESS);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_LANEndpoint.CIM_PROPERTY_MACADDRESS + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LANEndpoint.CIM_PROPERTY_MACADDRESS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_MACAddress(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_LANEndpoint.CIM_PROPERTY_MACADDRESS);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_LANEndpoint.CIM_PROPERTY_MACADDRESS + " could not be found");
-    		
-		} else if (!CIM_LANEndpointHelper.isValid_MACAddress(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_LANEndpoint.CIM_PROPERTY_MACADDRESS);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LANEndpoint.CIM_PROPERTY_MACADDRESS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    private static CIMProperty setPropertyValue_AliasAddresses(CIMProperty currentProperty,
+            String[] newValue) {
+        Object setThis = null;
 
-	// Attribute MaxDataSize
-	
-	public UnsignedInt32 get_MaxDataSize() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_LANEndpoint.CIM_PROPERTY_MAXDATASIZE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_LANEndpoint.CIM_PROPERTY_MAXDATASIZE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LANEndpoint.CIM_PROPERTY_MAXDATASIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt32)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_MaxDataSize(UnsignedInt32 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_LANEndpoint.CIM_PROPERTY_MAXDATASIZE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_LANEndpoint.CIM_PROPERTY_MAXDATASIZE + " could not be found");
-    		
-		} else if (!CIM_LANEndpointHelper.isValid_MaxDataSize(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_LANEndpoint.CIM_PROPERTY_MAXDATASIZE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LANEndpoint.CIM_PROPERTY_MAXDATASIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT32));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        setThis = newValue;
 
-	// Attribute OtherLANType
-	
-	public String get_OtherLANType() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_LANEndpoint.CIM_PROPERTY_OTHERLANTYPE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_LANEndpoint.CIM_PROPERTY_OTHERLANTYPE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LANEndpoint.CIM_PROPERTY_OTHERLANTYPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_OtherLANType(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_LANEndpoint.CIM_PROPERTY_OTHERLANTYPE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_LANEndpoint.CIM_PROPERTY_OTHERLANTYPE + " could not be found");
-    		
-		} else if (!CIM_LANEndpointHelper.isValid_OtherLANType(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_LANEndpoint.CIM_PROPERTY_OTHERLANTYPE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_LANEndpoint.CIM_PROPERTY_OTHERLANTYPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+        return newProperty;
+    }
+
+    /**
+     * Get the property GroupAddresses
+     *     * <br>
+     * Multicast addresses to which the LANEndpoint listens.
+     *     */
+
+    public String[] get_GroupAddresses() {
+        CIMProperty currentProperty = getProperty(PROPERTY_GROUPADDRESSES.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_GROUPADDRESSES.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String[]) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property GroupAddresses
+     * <br>
+     * Multicast addresses to which the LANEndpoint listens.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_GroupAddresses(String[] newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_GROUPADDRESSES.NAME);
+        if (currentProperty != null) {
+            setProperty(setPropertyValue_GroupAddresses(currentProperty, newValue));
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_GROUPADDRESSES.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property GroupAddresses by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_GroupAddresses(WBEMClient client, String namespace,
+            String[] newValue) throws WbemsmtException {
+        CIM_LANEndpoint fco = new CIM_LANEndpoint(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_GROUPADDRESSES.NAME);
+        if (property != null) {
+            property = setPropertyValue_GroupAddresses(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_GROUPADDRESSES.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property GroupAddresses
+     * <br>
+     * Multicast addresses to which the LANEndpoint listens.
+     */
+
+    private static CIMProperty setPropertyValue_GroupAddresses(CIMProperty currentProperty,
+            String[] newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property LANID
+     *     * <br>
+     * A label or identifier for the LAN Segment to which the Endpoint is connected. If the Endpoint is not currently active/connected or this information is not known, then LANID is NULL.
+     *     */
+
+    public String get_LANID() {
+        CIMProperty currentProperty = getProperty(PROPERTY_LANID.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_LANID.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property LANID
+     * <br>
+     * A label or identifier for the LAN Segment to which the Endpoint is connected. If the Endpoint is not currently active/connected or this information is not known, then LANID is NULL.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_LANID(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_LANID.NAME);
+        if (currentProperty != null) {
+            setProperty(setPropertyValue_LANID(currentProperty, newValue));
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_LANID.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property LANID by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_LANID(WBEMClient client, String namespace, String newValue)
+            throws WbemsmtException {
+        CIM_LANEndpoint fco = new CIM_LANEndpoint(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_LANID.NAME);
+        if (property != null) {
+            property = setPropertyValue_LANID(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_LANID.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property LANID
+     * <br>
+     * A label or identifier for the LAN Segment to which the Endpoint is connected. If the Endpoint is not currently active/connected or this information is not known, then LANID is NULL.
+     */
+
+    private static CIMProperty setPropertyValue_LANID(CIMProperty currentProperty, String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property LANType
+     *     * <br>
+     * An indication of the kind of technology used on the LAN. This property is deprecated in lieu of ProtocolType, which is an enumeration inherited from ProtocolEndpoint and which includes the Values specified here.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_LANType() {
+        CIMProperty currentProperty = getProperty(PROPERTY_LANTYPE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_LANTYPE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property LANType
+     * <br>
+     * An indication of the kind of technology used on the LAN. This property is deprecated in lieu of ProtocolType, which is an enumeration inherited from ProtocolEndpoint and which includes the Values specified here.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_LANType(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_LANTYPE.NAME);
+        if (currentProperty != null) {
+            setProperty(setPropertyValue_LANType(currentProperty, newValue));
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_LANTYPE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property LANType by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_LANType(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_LANEndpoint fco = new CIM_LANEndpoint(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_LANTYPE.NAME);
+        if (property != null) {
+            property = setPropertyValue_LANType(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_LANTYPE.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property LANType
+     * <br>
+     * An indication of the kind of technology used on the LAN. This property is deprecated in lieu of ProtocolType, which is an enumeration inherited from ProtocolEndpoint and which includes the Values specified here.
+     */
+
+    private static CIMProperty setPropertyValue_LANType(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property MACAddress
+     *     * <br>
+     * The principal unicast address used in communication with the LANEndpoint. The MAC address is formatted as twelve hexadecimal digits (e.g., "010203040506"), with each pair representing one of the six octets of the MAC address in "canonical" bit order according to RFC 2469.
+     *     */
+
+    public String get_MACAddress() {
+        CIMProperty currentProperty = getProperty(PROPERTY_MACADDRESS.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_MACADDRESS.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property MACAddress
+     * <br>
+     * The principal unicast address used in communication with the LANEndpoint. The MAC address is formatted as twelve hexadecimal digits (e.g., "010203040506"), with each pair representing one of the six octets of the MAC address in "canonical" bit order according to RFC 2469.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_MACAddress(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_MACADDRESS.NAME);
+        if (currentProperty != null) {
+            setProperty(setPropertyValue_MACAddress(currentProperty, newValue));
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MACADDRESS.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property MACAddress by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_MACAddress(WBEMClient client, String namespace, String newValue)
+            throws WbemsmtException {
+        CIM_LANEndpoint fco = new CIM_LANEndpoint(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_MACADDRESS.NAME);
+        if (property != null) {
+            property = setPropertyValue_MACAddress(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MACADDRESS.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property MACAddress
+     * <br>
+     * The principal unicast address used in communication with the LANEndpoint. The MAC address is formatted as twelve hexadecimal digits (e.g., "010203040506"), with each pair representing one of the six octets of the MAC address in "canonical" bit order according to RFC 2469.
+     */
+
+    private static CIMProperty setPropertyValue_MACAddress(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property MaxDataSize
+     *     * <br>
+     * The largest information field that may be sent or received by the LANEndpoint.
+     *     */
+
+    public javax.cim.UnsignedInteger32 get_MaxDataSize() {
+        CIMProperty currentProperty = getProperty(PROPERTY_MAXDATASIZE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_MAXDATASIZE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger32) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property MaxDataSize
+     * <br>
+     * The largest information field that may be sent or received by the LANEndpoint.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_MaxDataSize(javax.cim.UnsignedInteger32 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_MAXDATASIZE.NAME);
+        if (currentProperty != null) {
+            setProperty(setPropertyValue_MaxDataSize(currentProperty, newValue));
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MAXDATASIZE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property MaxDataSize by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_MaxDataSize(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger32 newValue) throws WbemsmtException {
+        CIM_LANEndpoint fco = new CIM_LANEndpoint(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_MAXDATASIZE.NAME);
+        if (property != null) {
+            property = setPropertyValue_MaxDataSize(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MAXDATASIZE.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property MaxDataSize
+     * <br>
+     * The largest information field that may be sent or received by the LANEndpoint.
+     */
+
+    private static CIMProperty setPropertyValue_MaxDataSize(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger32 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property OtherLANType
+     *     * <br>
+     * A free-form string that describes the type of technology used on the LAN when the value of the LANType property is equal to 1 (i.e., "Other"). This property is deprecated since its purpose overlaps with OtherTypeDescription, which which is inherited from ProtocolEndpoint.
+     *     */
+
+    public String get_OtherLANType() {
+        CIMProperty currentProperty = getProperty(PROPERTY_OTHERLANTYPE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_OTHERLANTYPE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property OtherLANType
+     * <br>
+     * A free-form string that describes the type of technology used on the LAN when the value of the LANType property is equal to 1 (i.e., "Other"). This property is deprecated since its purpose overlaps with OtherTypeDescription, which which is inherited from ProtocolEndpoint.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_OtherLANType(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_OTHERLANTYPE.NAME);
+        if (currentProperty != null) {
+            setProperty(setPropertyValue_OtherLANType(currentProperty, newValue));
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_OTHERLANTYPE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property OtherLANType by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_OtherLANType(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_LANEndpoint fco = new CIM_LANEndpoint(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_OTHERLANTYPE.NAME);
+        if (property != null) {
+            property = setPropertyValue_OtherLANType(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_OTHERLANTYPE.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property OtherLANType
+     * <br>
+     * A free-form string that describes the type of technology used on the LAN when the value of the LANType property is equal to 1 (i.e., "Other"). This property is deprecated since its purpose overlaps with OtherTypeDescription, which which is inherited from ProtocolEndpoint.
+     */
+
+    private static CIMProperty setPropertyValue_OtherLANType(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_LANEndpoint.CIM_CLASS_NAME;
+    }
 
 }

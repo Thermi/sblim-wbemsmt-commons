@@ -28,8 +28,7 @@ import javax.faces.context.FacesContext;
 import org.sblim.wbemsmt.ajax.panel.AjaxPanelPhaseListener;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
-import org.sblim.wbemsmt.exception.InitContainerException;
-import org.sblim.wbemsmt.exception.UpdateControlsException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFInputComponent;
 
 public abstract class EditBasePanel extends BasePanel implements DataContainer {
@@ -116,7 +115,7 @@ public abstract class EditBasePanel extends BasePanel implements DataContainer {
 						
 						//this.getAdapter().updateControls(this);
 						//this.updateControls();
-					} catch (UpdateControlsException e) {
+					} catch (WbemsmtException e) {
 						e.printStackTrace();
 					}
 				}
@@ -138,12 +137,12 @@ public abstract class EditBasePanel extends BasePanel implements DataContainer {
 	 * @throws InitContainerExceptio
 	 */
 	
-	public void countAndCreateChildren() throws InitContainerException 	{}
+	public void countAndCreateChildren() throws WbemsmtException 	{}
 
 	/**
 	 * 
-	 * @throws UpdateControlsException
+	 * @throws WbemsmtException
 	 */
-	public void updateControls() throws UpdateControlsException {}
+	public void updateControls() throws WbemsmtException {}
 	
 }

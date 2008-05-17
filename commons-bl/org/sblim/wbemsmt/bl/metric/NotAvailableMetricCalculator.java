@@ -19,6 +19,8 @@
   */
 package org.sblim.wbemsmt.bl.metric;
 
+import javax.wbem.WBEMException;
+
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricDefinitionIf;
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricValueIf;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
@@ -29,7 +31,7 @@ public class NotAvailableMetricCalculator extends AbstractMetricCalculator {
 		return "N/A";
 	}
 
-	public String doCalculate(CIM_BaseMetricDefinitionIf definition, CIM_BaseMetricValueIf value, WbemSmtResourceBundle bundle) {
+	public String doCalculate(CIM_BaseMetricDefinitionIf definition, CIM_BaseMetricValueIf value, WbemSmtResourceBundle bundle) throws WBEMException {
 		
         String result = value.get_MetricValue();
         return result;

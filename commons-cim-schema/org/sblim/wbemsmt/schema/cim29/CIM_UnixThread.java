@@ -1,859 +1,1997 @@
 /** 
  * CIM_UnixThread.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  Threads represent the ability to execute units of a Process or task in
- * parallel. A UnixThread inherits from the superclass, CIM_Thread, which is
- * weak to the Process. The values used are defined in sched.h and psched.h.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: Threads represent the ability to execute units of a Process or task in parallel. A UnixThread inherits from the superclass, CIM_Thread, which is weak to the Process. The values used are defined in sched.h and psched.h.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
 
-/**
- *  Threads represent the ability to execute units of a Process or task in
- * parallel. A UnixThread inherits from the superclass, CIM_Thread, which is
- * weak to the Process. The values used are defined in sched.h and psched.h.
- */
-public class CIM_UnixThread extends CIM_Thread  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_UnixThread"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_UnixThread extends CIM_Thread {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.6.0";
-	
-	
-	/**
-	*	Indicates the thread's cancelability state.
-	*/
-	public final static String CIM_PROPERTY_CANCELSTATE = "CancelState"; //$NON-NLS-1$
-	/**
-	*	Indicates the thread's cancelability type.
-	*/
-	public final static String CIM_PROPERTY_CANCELTYPE = "CancelType"; //$NON-NLS-1$
-	/**
-	*	Indicates the thread's concurrency level.
-	*/
-	public final static String CIM_PROPERTY_CONCURRENCYLEVEL = "ConcurrencyLevel"; //$NON-NLS-1$
-	/**
-	*	Indicates the contention scope of the thread.
-	*/
-	public final static String CIM_PROPERTY_CONTENTIONSCOPE = "ContentionScope"; //$NON-NLS-1$
-	/**
-	*	Indicates the creation state of the thread.
-	*/
-	public final static String CIM_PROPERTY_DETACHSTATE = "DetachState"; //$NON-NLS-1$
-	/**
-	*	Indicates the size of the guard area for a created thread's stack.
-	*/
-	public final static String CIM_PROPERTY_GUARDSIZE = "GuardSize"; //$NON-NLS-1$
-	/**
-	*	Indicates how the scheduling attributes are to be set.
-	*/
-	public final static String CIM_PROPERTY_INHERITSCHED = "InheritSched"; //$NON-NLS-1$
-	/**
-	*	Indicates the thread's scheduling policy when SchedPolicy is set to "Other".
-	*/
-	public final static String CIM_PROPERTY_OTHERSCHEDPOLICY = "OtherSchedPolicy"; //$NON-NLS-1$
-	/**
-	*	Indicates the thread's scheduling policy. Set to "Other" when using OtherSchedPolicy to specifiy additional values. "Other" represents SCHED_OTHER as defined in sched.h.
-	*/
-	public final static String CIM_PROPERTY_SCHEDPOLICY = "SchedPolicy"; //$NON-NLS-1$
-	/**
-	*	Indicates the size of storage to be used for the thread's stack.
-	*/
-	public final static String CIM_PROPERTY_STACKSIZE = "StackSize"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_UnixThread";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_CANCELSTATE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_CANCELTYPE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_CONCURRENCYLEVEL);
-		CIM_PropertyNameList.add(CIM_PROPERTY_CONTENTIONSCOPE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_DETACHSTATE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_GUARDSIZE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_INHERITSCHED);
-		CIM_PropertyNameList.add(CIM_PROPERTY_OTHERSCHEDPOLICY);
-		CIM_PropertyNameList.add(CIM_PROPERTY_SCHEDPOLICY);
-		CIM_PropertyNameList.add(CIM_PROPERTY_STACKSIZE);
-				
-		for (int i = 0; i < CIM_Thread.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_Thread.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_CANCELSTATE)||
-				((String)CIM_Thread.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_CANCELTYPE)||
-				((String)CIM_Thread.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_CONCURRENCYLEVEL)||
-				((String)CIM_Thread.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_CONTENTIONSCOPE)||
-				((String)CIM_Thread.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_DETACHSTATE)||
-				((String)CIM_Thread.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_GUARDSIZE)||
-				((String)CIM_Thread.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_INHERITSCHED)||
-				((String)CIM_Thread.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_OTHERSCHEDPOLICY)||
-				((String)CIM_Thread.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_SCHEDPOLICY)||
-				((String)CIM_Thread.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_STACKSIZE)){
-				continue;
-			}
-			
-			CIM_UnixThread.CIM_PropertyNameList.add(CIM_Thread.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CANCELSTATE, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CANCELTYPE, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CONCURRENCYLEVEL, new CIMValue(null, new CIMDataType(CIMDataType.UINT64))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CONTENTIONSCOPE, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_DETACHSTATE, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_GUARDSIZE, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_INHERITSCHED, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_OTHERSCHEDPOLICY, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_SCHEDPOLICY, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_STACKSIZE, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-				
-		for (int i = 0; i < CIM_Thread.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_Thread.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_CANCELSTATE)||
-				((CIMProperty)CIM_Thread.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_CANCELTYPE)||
-				((CIMProperty)CIM_Thread.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_CONCURRENCYLEVEL)||
-				((CIMProperty)CIM_Thread.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_CONTENTIONSCOPE)||
-				((CIMProperty)CIM_Thread.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_DETACHSTATE)||
-				((CIMProperty)CIM_Thread.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_GUARDSIZE)||
-				((CIMProperty)CIM_Thread.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_INHERITSCHED)||
-				((CIMProperty)CIM_Thread.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_OTHERSCHEDPOLICY)||
-				((CIMProperty)CIM_Thread.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_SCHEDPOLICY)||
-				((CIMProperty)CIM_Thread.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_STACKSIZE)){
-				continue;
-			}
-			
-			CIM_UnixThread.CIM_PropertyList.add(CIM_Thread.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_Thread.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	public final static String[] CIM_VALUEMAP_CANCELSTATE = {"Unknown","PTHREAD_CANCEL_ENABLE","PTHREAD_CANCEL_DISABLE"};
-	public final static String[] CIM_VALUEMAP_CANCELTYPE = {"Unknown","PTHREAD_CANCEL_DEFERRED","PTHREAD_CANCEL_ASYNCHRONOUS"};
-	public final static String[] CIM_VALUEMAP_CONTENTIONSCOPE = {"Unknown","PTHREAD_SCOPE_SYSTEM","PTHREAD_SCOPE_PROCESS"};
-	public final static String[] CIM_VALUEMAP_DETACHSTATE = {"Unknown","PTHREAD_CREATE_DETACHED","PTHREAD_CREATE_JOINABLE"};
-	public final static String[] CIM_VALUEMAP_INHERITSCHED = {"Unknown","PTHREAD_INHERIT_SCHED","PTHREAD_EXPLICIT_SCHED"};
-	public final static String[] CIM_VALUEMAP_SCHEDPOLICY = {"Unknown","Other","SCHED_FIFO","SCHED_RR"};
-	
-	
-	public final static int CANCELSTATE_UNKNOWN = 0;
-	public final static int CANCELSTATE_PTHREAD_CANCEL_ENABLE = 2;
-	public final static int CANCELSTATE_PTHREAD_CANCEL_DISABLE = 3;
-	
-	public final static int CANCELTYPE_UNKNOWN = 0;
-	public final static int CANCELTYPE_PTHREAD_CANCEL_DEFERRED = 2;
-	public final static int CANCELTYPE_PTHREAD_CANCEL_ASYNCHRONOUS = 3;
-	
-	public final static int CONTENTIONSCOPE_UNKNOWN = 0;
-	public final static int CONTENTIONSCOPE_PTHREAD_SCOPE_SYSTEM = 2;
-	public final static int CONTENTIONSCOPE_PTHREAD_SCOPE_PROCESS = 3;
-	
-	public final static int DETACHSTATE_UNKNOWN = 0;
-	public final static int DETACHSTATE_PTHREAD_CREATE_DETACHED = 2;
-	public final static int DETACHSTATE_PTHREAD_CREATE_JOINABLE = 3;
-	
-	public final static int INHERITSCHED_UNKNOWN = 0;
-	public final static int INHERITSCHED_PTHREAD_INHERIT_SCHED = 2;
-	public final static int INHERITSCHED_PTHREAD_EXPLICIT_SCHED = 3;
-	
-	public final static int SCHEDPOLICY_UNKNOWN = 0;
-	public final static int SCHEDPOLICY_OTHER = 1;
-	public final static int SCHEDPOLICY_SCHED_FIFO = 2;
-	public final static int SCHEDPOLICY_SCHED_RR = 3;
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constants of property CancelState
+     * Indicates the thread's cancelability state.
+     */
+    public static class PROPERTY_CANCELSTATE {
+        /**
+         * name of the property CancelState
+         */
+        public final static String NAME = "CancelState";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_UnixThread() {
+        /**
+         * constant for value map entry 0
+         */
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
 
-		setValidCimInstance(false);
-	}
+        /**
+         * constant for value map entry 2
+         */
 
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_CANCEL_ENABLE = new javax.cim.UnsignedInteger16(
+                "2");
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_UnixThread(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+        /**
+         * constant for value entry PTHREAD_CANCEL_ENABLE (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_PTHREAD_CANCEL_ENABLE = "PTHREAD_CANCEL_ENABLE";
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_UnixThread(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+        /**
+         * constant for value map entry 3
+         */
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_CANCEL_DISABLE = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry PTHREAD_CANCEL_DISABLE (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_PTHREAD_CANCEL_DISABLE = "PTHREAD_CANCEL_DISABLE";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@50c850c8
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
             }
-            CIM_UnixThread.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+
+            if (VALUE_ENTRY_PTHREAD_CANCEL_ENABLE.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_CANCEL_ENABLE;
+            }
+
+            if (VALUE_ENTRY_PTHREAD_CANCEL_DISABLE.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_CANCEL_DISABLE;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_CANCEL_ENABLE.intValue()) {
+                return VALUE_ENTRY_PTHREAD_CANCEL_ENABLE;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_CANCEL_DISABLE.intValue()) {
+                return VALUE_ENTRY_PTHREAD_CANCEL_DISABLE;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property CancelState   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_CANCEL_ENABLE,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_CANCEL_DISABLE };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property CancelState   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_PTHREAD_CANCEL_ENABLE, VALUE_ENTRY_PTHREAD_CANCEL_DISABLE };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property CancelState   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_PTHREAD_CANCEL_ENABLE, VALUE_ENTRY_PTHREAD_CANCEL_DISABLE };
+
+    }
+
+    /**
+     * Constants of property CancelType
+     * Indicates the thread's cancelability type.
+     */
+    public static class PROPERTY_CANCELTYPE {
+        /**
+         * name of the property CancelType
+         */
+        public final static String NAME = "CancelType";
+
+        /**
+         * constant for value map entry 0
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_CANCEL_DEFERRED = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry PTHREAD_CANCEL_DEFERRED (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_PTHREAD_CANCEL_DEFERRED = "PTHREAD_CANCEL_DEFERRED";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_CANCEL_ASYNCHRONOUS = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry PTHREAD_CANCEL_ASYNCHRONOUS (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_PTHREAD_CANCEL_ASYNCHRONOUS = "PTHREAD_CANCEL_ASYNCHRONOUS";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@76b476b4
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_PTHREAD_CANCEL_DEFERRED.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_CANCEL_DEFERRED;
+            }
+
+            if (VALUE_ENTRY_PTHREAD_CANCEL_ASYNCHRONOUS.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_CANCEL_ASYNCHRONOUS;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_CANCEL_DEFERRED.intValue()) {
+                return VALUE_ENTRY_PTHREAD_CANCEL_DEFERRED;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_CANCEL_ASYNCHRONOUS.intValue()) {
+                return VALUE_ENTRY_PTHREAD_CANCEL_ASYNCHRONOUS;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property CancelType   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_CANCEL_DEFERRED,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_CANCEL_ASYNCHRONOUS };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property CancelType   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_PTHREAD_CANCEL_DEFERRED, VALUE_ENTRY_PTHREAD_CANCEL_ASYNCHRONOUS };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property CancelType   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_PTHREAD_CANCEL_DEFERRED, VALUE_ENTRY_PTHREAD_CANCEL_ASYNCHRONOUS };
+
+    }
+
+    /**
+     * Constants of property ConcurrencyLevel
+     * Indicates the thread's concurrency level.
+     */
+    public static class PROPERTY_CONCURRENCYLEVEL {
+        /**
+         * name of the property ConcurrencyLevel
+         */
+        public final static String NAME = "ConcurrencyLevel";
+
+    }
+
+    /**
+     * Constants of property ContentionScope
+     * Indicates the contention scope of the thread.
+     */
+    public static class PROPERTY_CONTENTIONSCOPE {
+        /**
+         * name of the property ContentionScope
+         */
+        public final static String NAME = "ContentionScope";
+
+        /**
+         * constant for value map entry 0
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_SCOPE_SYSTEM = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry PTHREAD_SCOPE_SYSTEM (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_PTHREAD_SCOPE_SYSTEM = "PTHREAD_SCOPE_SYSTEM";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_SCOPE_PROCESS = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry PTHREAD_SCOPE_PROCESS (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_PTHREAD_SCOPE_PROCESS = "PTHREAD_SCOPE_PROCESS";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@15381538
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_PTHREAD_SCOPE_SYSTEM.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_SCOPE_SYSTEM;
+            }
+
+            if (VALUE_ENTRY_PTHREAD_SCOPE_PROCESS.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_SCOPE_PROCESS;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_SCOPE_SYSTEM.intValue()) {
+                return VALUE_ENTRY_PTHREAD_SCOPE_SYSTEM;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_SCOPE_PROCESS.intValue()) {
+                return VALUE_ENTRY_PTHREAD_SCOPE_PROCESS;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property ContentionScope   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_SCOPE_SYSTEM,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_SCOPE_PROCESS };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property ContentionScope   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_PTHREAD_SCOPE_SYSTEM, VALUE_ENTRY_PTHREAD_SCOPE_PROCESS };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property ContentionScope   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_PTHREAD_SCOPE_SYSTEM, VALUE_ENTRY_PTHREAD_SCOPE_PROCESS };
+
+    }
+
+    /**
+     * Constants of property DetachState
+     * Indicates the creation state of the thread.
+     */
+    public static class PROPERTY_DETACHSTATE {
+        /**
+         * name of the property DetachState
+         */
+        public final static String NAME = "DetachState";
+
+        /**
+         * constant for value map entry 0
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_CREATE_DETACHED = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry PTHREAD_CREATE_DETACHED (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_PTHREAD_CREATE_DETACHED = "PTHREAD_CREATE_DETACHED";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_CREATE_JOINABLE = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry PTHREAD_CREATE_JOINABLE (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_PTHREAD_CREATE_JOINABLE = "PTHREAD_CREATE_JOINABLE";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@7d287d28
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_PTHREAD_CREATE_DETACHED.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_CREATE_DETACHED;
+            }
+
+            if (VALUE_ENTRY_PTHREAD_CREATE_JOINABLE.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_CREATE_JOINABLE;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_CREATE_DETACHED.intValue()) {
+                return VALUE_ENTRY_PTHREAD_CREATE_DETACHED;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_CREATE_JOINABLE.intValue()) {
+                return VALUE_ENTRY_PTHREAD_CREATE_JOINABLE;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property DetachState   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_CREATE_DETACHED,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_CREATE_JOINABLE };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property DetachState   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_PTHREAD_CREATE_DETACHED, VALUE_ENTRY_PTHREAD_CREATE_JOINABLE };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property DetachState   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_PTHREAD_CREATE_DETACHED, VALUE_ENTRY_PTHREAD_CREATE_JOINABLE };
+
+    }
+
+    /**
+     * Constants of property GuardSize
+     * Indicates the size of the guard area for a created thread's stack.
+     */
+    public static class PROPERTY_GUARDSIZE {
+        /**
+         * name of the property GuardSize
+         */
+        public final static String NAME = "GuardSize";
+
+    }
+
+    /**
+     * Constants of property InheritSched
+     * Indicates how the scheduling attributes are to be set.
+     */
+    public static class PROPERTY_INHERITSCHED {
+        /**
+         * name of the property InheritSched
+         */
+        public final static String NAME = "InheritSched";
+
+        /**
+         * constant for value map entry 0
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_INHERIT_SCHED = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry PTHREAD_INHERIT_SCHED (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_PTHREAD_INHERIT_SCHED = "PTHREAD_INHERIT_SCHED";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_EXPLICIT_SCHED = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry PTHREAD_EXPLICIT_SCHED (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_PTHREAD_EXPLICIT_SCHED = "PTHREAD_EXPLICIT_SCHED";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@50125012
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_PTHREAD_INHERIT_SCHED.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_INHERIT_SCHED;
+            }
+
+            if (VALUE_ENTRY_PTHREAD_EXPLICIT_SCHED.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_EXPLICIT_SCHED;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_INHERIT_SCHED.intValue()) {
+                return VALUE_ENTRY_PTHREAD_INHERIT_SCHED;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_EXPLICIT_SCHED.intValue()) {
+                return VALUE_ENTRY_PTHREAD_EXPLICIT_SCHED;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property InheritSched   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_PTHREAD_INHERIT_SCHED,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_PTHREAD_EXPLICIT_SCHED };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property InheritSched   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_PTHREAD_INHERIT_SCHED, VALUE_ENTRY_PTHREAD_EXPLICIT_SCHED };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property InheritSched   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_PTHREAD_INHERIT_SCHED, VALUE_ENTRY_PTHREAD_EXPLICIT_SCHED };
+
+    }
+
+    /**
+     * Constants of property OtherSchedPolicy
+     * Indicates the thread's scheduling policy when SchedPolicy is set to "Other".
+     */
+    public static class PROPERTY_OTHERSCHEDPOLICY {
+        /**
+         * name of the property OtherSchedPolicy
+         */
+        public final static String NAME = "OtherSchedPolicy";
+
+    }
+
+    /**
+     * Constants of property SchedPolicy
+     * Indicates the thread's scheduling policy. Set to "Other" when using OtherSchedPolicy to specifiy additional values. "Other" represents SCHED_OTHER as defined in sched.h.
+     */
+    public static class PROPERTY_SCHEDPOLICY {
+        /**
+         * name of the property SchedPolicy
+         */
+        public final static String NAME = "SchedPolicy";
+
+        /**
+         * constant for value map entry 0
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_SCHED_FIFO = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry SCHED_FIFO (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_SCHED_FIFO = "SCHED_FIFO";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_SCHED_RR = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry SCHED_RR (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_SCHED_RR = "SCHED_RR";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@3aae3aae
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_SCHED_FIFO.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_SCHED_FIFO;
+            }
+
+            if (VALUE_ENTRY_SCHED_RR.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_SCHED_RR;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_SCHED_FIFO.intValue()) {
+                return VALUE_ENTRY_SCHED_FIFO;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_SCHED_RR.intValue()) {
+                return VALUE_ENTRY_SCHED_RR;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property SchedPolicy   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown, VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_SCHED_FIFO,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_SCHED_RR };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property SchedPolicy   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown, VALUE_ENTRY_Other,
+                VALUE_ENTRY_SCHED_FIFO, VALUE_ENTRY_SCHED_RR };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property SchedPolicy   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Other, VALUE_ENTRY_SCHED_FIFO, VALUE_ENTRY_SCHED_RR };
+
+    }
+
+    /**
+     * Constants of property StackSize
+     * Indicates the size of storage to be used for the thread's stack.
+     */
+    public static class PROPERTY_STACKSIZE {
+        /**
+         * name of the property StackSize
+         */
+        public final static String NAME = "StackSize";
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_Thread.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   Threads represent the ability to execute units of a Process or task in parallel. A UnixThread inherits from the superclass, CIM_Thread, which is weak to the Process. The values used are defined in sched.h and psched.h.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_UnixThread(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   Threads represent the ability to execute units of a Process or task in parallel. A UnixThread inherits from the superclass, CIM_Thread, which is weak to the Process. The values used are defined in sched.h and psched.h.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_UnixThread(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_UnixThread() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("CancelState", new CIMProperty("CancelState", CIMDataType.UINT16_T,
+                null));
+        propertiesToCheck.put("CancelType", new CIMProperty("CancelType", CIMDataType.UINT16_T,
+                null));
+        propertiesToCheck.put("ConcurrencyLevel", new CIMProperty("ConcurrencyLevel",
+                CIMDataType.UINT64_T, null));
+        propertiesToCheck.put("ContentionScope", new CIMProperty("ContentionScope",
+                CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("DetachState", new CIMProperty("DetachState", CIMDataType.UINT16_T,
+                null));
+        propertiesToCheck
+                .put("GuardSize", new CIMProperty("GuardSize", CIMDataType.STRING_T, null));
+        propertiesToCheck.put("InheritSched", new CIMProperty("InheritSched", CIMDataType.UINT16_T,
+                null));
+        propertiesToCheck.put("OtherSchedPolicy", new CIMProperty("OtherSchedPolicy",
+                CIMDataType.STRING_T, null));
+        propertiesToCheck.put("SchedPolicy", new CIMProperty("SchedPolicy", CIMDataType.UINT16_T,
+                null));
+        propertiesToCheck
+                .put("StackSize", new CIMProperty("StackSize", CIMDataType.STRING_T, null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_UnixThread.Java_Package_List.toArray(new String[CIM_UnixThread.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property CancelState
+     *     * <br>
+     * Indicates the thread's cancelability state.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_CancelState() {
+        CIMProperty currentProperty = getProperty(PROPERTY_CANCELSTATE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_CANCELSTATE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property CancelState
+     * <br>
+     * Indicates the thread's cancelability state.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_UnixThread)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_UnixThread)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_UnixThread)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_UnixThread)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_UnixThread)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_UnixThread)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_UnixThread)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_UnixThread)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_UnixThread)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_UnixThread)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_CancelState(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_CANCELSTATE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_CancelState(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CANCELSTATE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute CancelState
-	
-	public UnsignedInt16 get_CancelState() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_CANCELSTATE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_CANCELSTATE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_CANCELSTATE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CancelState(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_CANCELSTATE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_CANCELSTATE + " could not be found");
-    		
-		} else if (!CIM_UnixThreadHelper.isValid_CancelState(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnixThread.CIM_PROPERTY_CANCELSTATE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_CANCELSTATE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute CancelType
-	
-	public UnsignedInt16 get_CancelType() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_CANCELTYPE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_CANCELTYPE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_CANCELTYPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CancelType(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_CANCELTYPE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_CANCELTYPE + " could not be found");
-    		
-		} else if (!CIM_UnixThreadHelper.isValid_CancelType(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnixThread.CIM_PROPERTY_CANCELTYPE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_CANCELTYPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property CancelState by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	// Attribute ConcurrencyLevel
-	
-	public UnsignedInt64 get_ConcurrencyLevel() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_CONCURRENCYLEVEL);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_CONCURRENCYLEVEL + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_CONCURRENCYLEVEL + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt64)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ConcurrencyLevel(UnsignedInt64 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_CONCURRENCYLEVEL);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_CONCURRENCYLEVEL + " could not be found");
-    		
-		} else if (!CIM_UnixThreadHelper.isValid_ConcurrencyLevel(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnixThread.CIM_PROPERTY_CONCURRENCYLEVEL);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_CONCURRENCYLEVEL + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT64));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public static CIMProperty create_CancelState(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_UnixThread fco = new CIM_UnixThread(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_CANCELSTATE.NAME);
+        if (property != null) {
+            property = setPropertyValue_CancelState(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CANCELSTATE.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	// Attribute ContentionScope
-	
-	public UnsignedInt16 get_ContentionScope() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_CONTENTIONSCOPE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_CONTENTIONSCOPE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_CONTENTIONSCOPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ContentionScope(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_CONTENTIONSCOPE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_CONTENTIONSCOPE + " could not be found");
-    		
-		} else if (!CIM_UnixThreadHelper.isValid_ContentionScope(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnixThread.CIM_PROPERTY_CONTENTIONSCOPE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_CONTENTIONSCOPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Set the property CancelState
+     * <br>
+     * Indicates the thread's cancelability state.
+     */
 
-	// Attribute DetachState
-	
-	public UnsignedInt16 get_DetachState() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_DETACHSTATE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_DETACHSTATE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_DETACHSTATE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_DetachState(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_DETACHSTATE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_DETACHSTATE + " could not be found");
-    		
-		} else if (!CIM_UnixThreadHelper.isValid_DetachState(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnixThread.CIM_PROPERTY_DETACHSTATE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_DETACHSTATE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    private static CIMProperty setPropertyValue_CancelState(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
 
-	// Attribute GuardSize
-	
-	public String get_GuardSize() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_GUARDSIZE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_GUARDSIZE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_GUARDSIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_GuardSize(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_GUARDSIZE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_GUARDSIZE + " could not be found");
-    		
-		} else if (!CIM_UnixThreadHelper.isValid_GuardSize(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnixThread.CIM_PROPERTY_GUARDSIZE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_GUARDSIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        setThis = newValue;
 
-	// Attribute InheritSched
-	
-	public UnsignedInt16 get_InheritSched() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_INHERITSCHED);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_INHERITSCHED + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_INHERITSCHED + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_InheritSched(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_INHERITSCHED);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_INHERITSCHED + " could not be found");
-    		
-		} else if (!CIM_UnixThreadHelper.isValid_InheritSched(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnixThread.CIM_PROPERTY_INHERITSCHED);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_INHERITSCHED + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
 
-	// Attribute OtherSchedPolicy
-	
-	public String get_OtherSchedPolicy() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_OTHERSCHEDPOLICY);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_OTHERSCHEDPOLICY + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_OTHERSCHEDPOLICY + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_OtherSchedPolicy(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_OTHERSCHEDPOLICY);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_OTHERSCHEDPOLICY + " could not be found");
-    		
-		} else if (!CIM_UnixThreadHelper.isValid_OtherSchedPolicy(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnixThread.CIM_PROPERTY_OTHERSCHEDPOLICY);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_OTHERSCHEDPOLICY + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        return newProperty;
+    }
 
-	// Attribute SchedPolicy
-	
-	public UnsignedInt16 get_SchedPolicy() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_SCHEDPOLICY);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_SCHEDPOLICY + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_SCHEDPOLICY + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_SchedPolicy(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_SCHEDPOLICY);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_SCHEDPOLICY + " could not be found");
-    		
-		} else if (!CIM_UnixThreadHelper.isValid_SchedPolicy(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnixThread.CIM_PROPERTY_SCHEDPOLICY);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_SCHEDPOLICY + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property CancelType
+     *     * <br>
+     * Indicates the thread's cancelability type.
+     *     */
 
-	// Attribute StackSize
-	
-	public String get_StackSize() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_STACKSIZE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_STACKSIZE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_STACKSIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_StackSize(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixThread.CIM_PROPERTY_STACKSIZE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixThread.CIM_PROPERTY_STACKSIZE + " could not be found");
-    		
-		} else if (!CIM_UnixThreadHelper.isValid_StackSize(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnixThread.CIM_PROPERTY_STACKSIZE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixThread.CIM_PROPERTY_STACKSIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public javax.cim.UnsignedInteger16 get_CancelType() {
+        CIMProperty currentProperty = getProperty(PROPERTY_CANCELTYPE.NAME);
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_CANCELTYPE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property CancelType
+     * <br>
+     * Indicates the thread's cancelability type.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_CancelType(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_CANCELTYPE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_CancelType(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CANCELTYPE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property CancelType by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_CancelType(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_UnixThread fco = new CIM_UnixThread(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_CANCELTYPE.NAME);
+        if (property != null) {
+            property = setPropertyValue_CancelType(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CANCELTYPE.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property CancelType
+     * <br>
+     * Indicates the thread's cancelability type.
+     */
+
+    private static CIMProperty setPropertyValue_CancelType(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ConcurrencyLevel
+     *     * <br>
+     * Indicates the thread's concurrency level.
+     *     */
+
+    public javax.cim.UnsignedInteger64 get_ConcurrencyLevel() {
+        CIMProperty currentProperty = getProperty(PROPERTY_CONCURRENCYLEVEL.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_CONCURRENCYLEVEL.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger64) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ConcurrencyLevel
+     * <br>
+     * Indicates the thread's concurrency level.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ConcurrencyLevel(javax.cim.UnsignedInteger64 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_CONCURRENCYLEVEL.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ConcurrencyLevel(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CONCURRENCYLEVEL.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ConcurrencyLevel by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ConcurrencyLevel(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger64 newValue) throws WbemsmtException {
+        CIM_UnixThread fco = new CIM_UnixThread(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_CONCURRENCYLEVEL.NAME);
+        if (property != null) {
+            property = setPropertyValue_ConcurrencyLevel(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CONCURRENCYLEVEL.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ConcurrencyLevel
+     * <br>
+     * Indicates the thread's concurrency level.
+     */
+
+    private static CIMProperty setPropertyValue_ConcurrencyLevel(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger64 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ContentionScope
+     *     * <br>
+     * Indicates the contention scope of the thread.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_ContentionScope() {
+        CIMProperty currentProperty = getProperty(PROPERTY_CONTENTIONSCOPE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_CONTENTIONSCOPE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ContentionScope
+     * <br>
+     * Indicates the contention scope of the thread.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ContentionScope(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_CONTENTIONSCOPE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ContentionScope(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CONTENTIONSCOPE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ContentionScope by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ContentionScope(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_UnixThread fco = new CIM_UnixThread(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_CONTENTIONSCOPE.NAME);
+        if (property != null) {
+            property = setPropertyValue_ContentionScope(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CONTENTIONSCOPE.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ContentionScope
+     * <br>
+     * Indicates the contention scope of the thread.
+     */
+
+    private static CIMProperty setPropertyValue_ContentionScope(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property DetachState
+     *     * <br>
+     * Indicates the creation state of the thread.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_DetachState() {
+        CIMProperty currentProperty = getProperty(PROPERTY_DETACHSTATE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_DETACHSTATE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property DetachState
+     * <br>
+     * Indicates the creation state of the thread.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_DetachState(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_DETACHSTATE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_DetachState(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DETACHSTATE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property DetachState by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_DetachState(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_UnixThread fco = new CIM_UnixThread(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_DETACHSTATE.NAME);
+        if (property != null) {
+            property = setPropertyValue_DetachState(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DETACHSTATE.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property DetachState
+     * <br>
+     * Indicates the creation state of the thread.
+     */
+
+    private static CIMProperty setPropertyValue_DetachState(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property GuardSize
+     *     * <br>
+     * Indicates the size of the guard area for a created thread's stack.
+     *     */
+
+    public String get_GuardSize() {
+        CIMProperty currentProperty = getProperty(PROPERTY_GUARDSIZE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_GUARDSIZE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property GuardSize
+     * <br>
+     * Indicates the size of the guard area for a created thread's stack.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_GuardSize(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_GUARDSIZE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_GuardSize(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_GUARDSIZE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property GuardSize by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_GuardSize(WBEMClient client, String namespace, String newValue)
+            throws WbemsmtException {
+        CIM_UnixThread fco = new CIM_UnixThread(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_GUARDSIZE.NAME);
+        if (property != null) {
+            property = setPropertyValue_GuardSize(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_GUARDSIZE.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property GuardSize
+     * <br>
+     * Indicates the size of the guard area for a created thread's stack.
+     */
+
+    private static CIMProperty setPropertyValue_GuardSize(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property InheritSched
+     *     * <br>
+     * Indicates how the scheduling attributes are to be set.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_InheritSched() {
+        CIMProperty currentProperty = getProperty(PROPERTY_INHERITSCHED.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_INHERITSCHED.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property InheritSched
+     * <br>
+     * Indicates how the scheduling attributes are to be set.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_InheritSched(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_INHERITSCHED.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_InheritSched(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_INHERITSCHED.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property InheritSched by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_InheritSched(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_UnixThread fco = new CIM_UnixThread(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_INHERITSCHED.NAME);
+        if (property != null) {
+            property = setPropertyValue_InheritSched(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_INHERITSCHED.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property InheritSched
+     * <br>
+     * Indicates how the scheduling attributes are to be set.
+     */
+
+    private static CIMProperty setPropertyValue_InheritSched(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property OtherSchedPolicy
+     *     * <br>
+     * Indicates the thread's scheduling policy when SchedPolicy is set to "Other".
+     *     */
+
+    public String get_OtherSchedPolicy() {
+        CIMProperty currentProperty = getProperty(PROPERTY_OTHERSCHEDPOLICY.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_OTHERSCHEDPOLICY.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property OtherSchedPolicy
+     * <br>
+     * Indicates the thread's scheduling policy when SchedPolicy is set to "Other".
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_OtherSchedPolicy(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_OTHERSCHEDPOLICY.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_OtherSchedPolicy(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_OTHERSCHEDPOLICY.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property OtherSchedPolicy by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_OtherSchedPolicy(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_UnixThread fco = new CIM_UnixThread(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_OTHERSCHEDPOLICY.NAME);
+        if (property != null) {
+            property = setPropertyValue_OtherSchedPolicy(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_OTHERSCHEDPOLICY.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property OtherSchedPolicy
+     * <br>
+     * Indicates the thread's scheduling policy when SchedPolicy is set to "Other".
+     */
+
+    private static CIMProperty setPropertyValue_OtherSchedPolicy(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property SchedPolicy
+     *     * <br>
+     * Indicates the thread's scheduling policy. Set to "Other" when using OtherSchedPolicy to specifiy additional values. "Other" represents SCHED_OTHER as defined in sched.h.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_SchedPolicy() {
+        CIMProperty currentProperty = getProperty(PROPERTY_SCHEDPOLICY.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_SCHEDPOLICY.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property SchedPolicy
+     * <br>
+     * Indicates the thread's scheduling policy. Set to "Other" when using OtherSchedPolicy to specifiy additional values. "Other" represents SCHED_OTHER as defined in sched.h.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_SchedPolicy(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_SCHEDPOLICY.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_SchedPolicy(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SCHEDPOLICY.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property SchedPolicy by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_SchedPolicy(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_UnixThread fco = new CIM_UnixThread(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_SCHEDPOLICY.NAME);
+        if (property != null) {
+            property = setPropertyValue_SchedPolicy(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SCHEDPOLICY.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property SchedPolicy
+     * <br>
+     * Indicates the thread's scheduling policy. Set to "Other" when using OtherSchedPolicy to specifiy additional values. "Other" represents SCHED_OTHER as defined in sched.h.
+     */
+
+    private static CIMProperty setPropertyValue_SchedPolicy(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property StackSize
+     *     * <br>
+     * Indicates the size of storage to be used for the thread's stack.
+     *     */
+
+    public String get_StackSize() {
+        CIMProperty currentProperty = getProperty(PROPERTY_STACKSIZE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_STACKSIZE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property StackSize
+     * <br>
+     * Indicates the size of storage to be used for the thread's stack.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_StackSize(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_STACKSIZE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_StackSize(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_STACKSIZE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property StackSize by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_StackSize(WBEMClient client, String namespace, String newValue)
+            throws WbemsmtException {
+        CIM_UnixThread fco = new CIM_UnixThread(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_STACKSIZE.NAME);
+        if (property != null) {
+            property = setPropertyValue_StackSize(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_STACKSIZE.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property StackSize
+     * <br>
+     * Indicates the size of storage to be used for the thread's stack.
+     */
+
+    private static CIMProperty setPropertyValue_StackSize(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_UnixThread.CIM_CLASS_NAME;
+    }
 
 }

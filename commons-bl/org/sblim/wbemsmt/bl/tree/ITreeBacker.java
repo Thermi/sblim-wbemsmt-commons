@@ -19,10 +19,10 @@
   */
 package org.sblim.wbemsmt.bl.tree;
 
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 
 public interface ITreeBacker {
 
-	public String updateTree()  throws WbemSmtException;
+	public String updateTree()  throws WbemsmtException;
 
 }

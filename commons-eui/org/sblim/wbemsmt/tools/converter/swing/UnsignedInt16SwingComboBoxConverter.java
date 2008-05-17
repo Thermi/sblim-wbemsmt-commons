@@ -21,10 +21,10 @@
 
 package org.sblim.wbemsmt.tools.converter.swing;
 
+import javax.cim.UnsignedInteger16;
 import javax.swing.JComboBox;
 
 import org.apache.commons.lang.ClassUtils;
-import org.sblim.wbem.cim.UnsignedInt16;
 import org.sblim.wbemsmt.tools.converter.ComboBoxIndexConverter;
 import org.sblim.wbemsmt.tools.converter.StringArrayConverter;
 
@@ -33,19 +33,19 @@ public class UnsignedInt16SwingComboBoxConverter implements ComboBoxIndexConvert
 	private String[] values;
 
 	/**
-	 * return the SelectedIndex(UnsignedInt16) To Set (as a IntegerObject)
+	 * return the SelectedIndex(UnsignedInteger16) To Set (as a IntegerObject)
 	 */
 	public Object convertForGui(Object value) {
-		UnsignedInt16 iValue = (UnsignedInt16)value;
+		UnsignedInteger16 iValue = (UnsignedInteger16)value;
 		return new Integer(iValue.intValue());
 	}
 
 	/**
-	 * Converts the selected Index of the param-given comboBox as UnsignedInt16-Object
+	 * Converts the selected Index of the param-given comboBox as UnsignedInteger16-Object
 	 */
 	public Object convertForModel(Object guiElement) {
 		JComboBox comboBox = (JComboBox) guiElement;
-		return new UnsignedInt16(comboBox.getSelectedIndex());
+		return new UnsignedInteger16(comboBox.getSelectedIndex());
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class UnsignedInt16SwingComboBoxConverter implements ComboBoxIndexConvert
 	}
 
 	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInt16.class);
+		return ClassUtils.getShortClassName(UnsignedInteger16.class);
 	}	
 	
 }

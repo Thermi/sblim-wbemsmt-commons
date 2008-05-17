@@ -21,8 +21,9 @@
 
 package org.sblim.wbemsmt.tools.converter.test;
 
+import javax.cim.UnsignedInteger64;
+
 import org.apache.commons.lang.ClassUtils;
-import org.sblim.wbem.cim.UnsignedInt64;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class UnsignedInt64StringConverter implements Converter {
@@ -31,12 +32,12 @@ public class UnsignedInt64StringConverter implements Converter {
 	 * return the SelectedIndex(UnsignedInt64) To Set (as a IntegerObject)
 	 */
 	public Object convertForGui(Object value) {
-		UnsignedInt64 iValue = (UnsignedInt64)value;
+		UnsignedInteger64 iValue = (UnsignedInteger64)value;
 		return iValue != null ? ""+iValue.longValue() : null;
 	}
 
 	/**
-	 * Converts the selected Index of the param-given comboBox as UnsignedInt64-Object
+	 * Converts the selected Index of the param-given comboBox as UnsignedInteger64-Object
 	 */
 	public Object convertForModel(Object guiElement) {
 		String value = (String) guiElement;
@@ -46,7 +47,7 @@ public class UnsignedInt64StringConverter implements Converter {
 		}
 		else
 		{
-			return new UnsignedInt64(Long.parseLong(value));
+			return new UnsignedInteger64(""+Long.parseLong(value));
 		}
 	}
 
@@ -68,7 +69,7 @@ public class UnsignedInt64StringConverter implements Converter {
 	}
 
 	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInt64.class);
+		return ClassUtils.getShortClassName(UnsignedInteger64.class);
 	}	
 
 }

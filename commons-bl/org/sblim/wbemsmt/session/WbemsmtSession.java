@@ -26,10 +26,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
+import javax.wbem.client.WBEMClient;
 
-import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.cim.CIMClientPool;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
+import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
+import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
 /**
@@ -38,6 +41,7 @@ import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
  */
 public class WbemsmtSession {
 	
+	private static final String KEYSUFFIX_CLIENT_POOL = "-clientPool";
 	private static WbemsmtSession session;
 	private Map sessionData = new HashMap();
 	
@@ -58,9 +62,28 @@ public class WbemsmtSession {
 		return sessionData.get(key);
 	}
 	
+	/**
+	 * @return
+	 * @see java.util.Map#entrySet()
+	 */
+	public Set entrySet()
+	{
+		return sessionData.entrySet();
+	}
+
 	public void clear()
 	{
+		Set entries = entrySet();
+		for (Iterator iterator = entries.iterator(); iterator.hasNext();) {
+			Map.Entry entry = (Map.Entry) iterator.next();
+			if (((String)entry.getKey()).endsWith(KEYSUFFIX_CLIENT_POOL))
+			{
+				CIMClientPool pool = (CIMClientPool) entry.getValue();
+				pool.cleanUp();
+			}
+		}
 		sessionData.clear();
+		
 	}
 	
 	public void initClientPool()
@@ -131,48 +154,66 @@ public class WbemsmtSession {
 	 * @param username  the user's name for the connection
 	 * @param password the user's password for the connection
 	 * @return
-	 * @throws UnknownHostException if the hostname cannot be resolved
+	 * @throws WbemsmtException if the hostname cannot be resolved
 	 */
 	
-	public CIMClientPool createCIMClientPool(String hostname, String port, String username, String password) throws UnknownHostException {
+	public CIMClientPool createCIMClientPool(String protocol,String hostname, String port, String username, String password) throws WbemsmtException {
 		
-		 String key = InetAddress.getByName(hostname).getHostName() + "-clientPool";
-		 CIMClientPool pool = new CIMClientPool(hostname,port,username,password.toCharArray());
-		 setAttribute(key, pool);
-		 return pool;
+	    try {
+            String key = InetAddress.getByName(hostname).getHostName() + KEYSUFFIX_CLIENT_POOL;
+             CIMClientPool pool = new CIMClientPool(protocol,hostname,port,username,password.toCharArray());
+             setAttribute(key, pool);
+             return pool;
+        }
+        catch (UnknownHostException e) {
+            WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages"});
+            throw new WbemsmtException(WbemsmtException.ERR_NOT_CONNECTED, bundle.getString("unknown.host",new Object[]{hostname}),e);
+        }
 	}
 	
 	/**
 	 * Get the client pool for the given target hostname
 	 * 
 	 * if there is no client pool the method returns null. In that case the method
-	 * createCIMClientPool should be used to create a new one 
+	 * createWBEMClientPool should be used to create a new one 
 	 * 
 	 * @param hostname
 	 * @return
 	 * 
-	 * @see #createCIMClientPool(String, String, String, String)
+	 * @see #createWBEMClientPool(String, String, String, String)
 	 */
 	public CIMClientPool getCIMClientPool(String hostname) {
 		
 		 try {
-			String key = InetAddress.getByName(hostname).getHostName() + "-clientPool";
-			 CIMClientPool pool = (CIMClientPool) getAttribute(key);
+			String key = InetAddress.getByName(hostname).getHostName() + KEYSUFFIX_CLIENT_POOL;
+			CIMClientPool pool = (CIMClientPool) getAttribute(key);
 			 return pool;
 		} catch (UnknownHostException e) {
-			//should not occur, because the method createCIMClientPool uses the same hostname
+			//should not occur, because the method createWBEMClientPool uses the same hostname
 			logger.log(Level.SEVERE, "Cannot get CimClientPool for hostname " + hostname, e);
 		}
 		return null;
 	}
 
 	/**
-	 * return a cimClient pool for the host contained in the cimClient
-	 * @param cimClient
+	 * get the pool of the CIMClient
+	 * @param client
 	 * @return
 	 */
-	public CIMClientPool getCIMClientPool(CIMClient cimClient) {
-		return getCIMClientPool(cimClient.getNameSpace().getHost());
+	public CIMClientPool getCIMClientPool(WBEMClient client) {
+		Set entries = entrySet();
+		for (Iterator iterator = entries.iterator(); iterator.hasNext();) {
+			Map.Entry entry = (Map.Entry) iterator.next();
+			if (((String)entry.getKey()).endsWith(KEYSUFFIX_CLIENT_POOL))
+			{
+				CIMClientPool pool = (CIMClientPool) entry.getValue();
+				if (pool.containsCIMClient(client))
+				{
+					return pool;
+				}
+			}
+		}
+		return null;
 	}
 
 }

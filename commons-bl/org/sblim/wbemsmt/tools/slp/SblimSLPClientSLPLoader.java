@@ -18,11 +18,7 @@
   */
 package org.sblim.wbemsmt.tools.slp;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 import java.util.logging.Level;
 
 import org.sblim.slp.ServiceLocationAttribute;
@@ -307,7 +303,8 @@ public class SblimSLPClientSLPLoader extends SLPLoader {
 					}
 					loaded = new Boolean(true);
 				} catch (Exception e1) {
-					logger.log(Level.SEVERE, "Cannot load config via slp",e1);
+					if (logger !=null)
+					    logger.log(Level.SEVERE, "Cannot load config via slp",e1);
 					loaded = new Boolean(false);
 					run = false;
 				}
@@ -318,7 +315,8 @@ public class SblimSLPClientSLPLoader extends SLPLoader {
 					e.printStackTrace();
 				}
 			}
-			logger.info(getName() + " stopped");
+			if (logger != null)
+			    logger.info(getName() + " stopped");
 		}
 		
 		public void stopThread() {

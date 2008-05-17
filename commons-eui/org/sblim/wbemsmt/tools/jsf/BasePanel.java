@@ -38,21 +38,13 @@ import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.converter.test.DummyConverter;
 import org.sblim.wbemsmt.tools.converter.test.UnsignedInt16StringConverter;
 import org.sblim.wbemsmt.tools.converter.test.UnsignedInt32StringConverter;
-import org.sblim.wbemsmt.tools.input.jsf.JSFButtonComponent;
-import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFCheckboxActionComponent;
-import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFCheckboxComponent;
-import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFInputComponent;
-import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFLabelComponent;
-import org.sblim.wbemsmt.tools.resources.ILocaleManager;
-import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
-import org.sblim.wbemsmt.tools.resources.LocaleManager;
-import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
-import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
+import org.sblim.wbemsmt.tools.input.jsf.*;
+import org.sblim.wbemsmt.tools.resources.*;
 import org.sblim.wbemsmt.tools.wizard.jsf.WizardBasePanel;
 import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
 import org.sblim.wbemsmt.webapp.jsf.style.StyleBean;
 
-public abstract class BasePanel {
+public abstract class BasePanel  {
 
 	//private static final String SUFFIX_INPUT = "Input";
 	protected String title;
@@ -62,8 +54,7 @@ public abstract class BasePanel {
 	protected Converter int32HtmlInputConverter = new UnsignedInt32StringConverter();
 	protected Converter int16HtmlInputConverter = new UnsignedInt16StringConverter();
 	protected WbemSmtResourceBundle bundle;
-	protected AbstractBaseCimAdapter adapter;
-	private String keyForTitle = null;
+	protected AbstractBaseCimAdapter adapter;	private String keyForTitle = null;
 	protected String bindingPrefix;
 	private String footerTextKey;
 	private String footerText;

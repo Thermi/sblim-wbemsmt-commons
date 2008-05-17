@@ -29,7 +29,9 @@ import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEventListener;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEventListenerImpl;
-import org.sblim.wbemsmt.exception.ModelLoadException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
+import org.sblim.wbemsmt.exception.impl.InitAdapterException;
+import org.sblim.wbemsmt.exception.impl.userobject.InitAdapterUserObject;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
@@ -77,7 +79,7 @@ public class InitAdapterListener extends TaskLauncherTreeNodeEventListenerImpl {
 					if (!adapter.isLoaded())
 					{
 						CimAdapterFactory.getInstance().removeAdapter(adapter);
-						logger.warning("The adapter " + adapter.getClass().getName() + " for client " + node.getCimClient().getNameSpace().toString() + " was marked as not loaded and is removed from CimAdapterFactory");
+						logger.warning("The adapter " + adapter.getClass().getName() + " for client " + node.getCimClient() + " was marked as not loaded and is removed from CimAdapterFactory");
 					}
 					else
 					{
@@ -91,8 +93,7 @@ public class InitAdapterListener extends TaskLauncherTreeNodeEventListenerImpl {
 				}
 				logger.info("Adapter initialized");
 			} catch (Exception e) {
-				ModelLoadException modelLoadException = new ModelLoadException(e);
-				modelLoadException.setCimIdentifier(adapterClass);
+			    WbemsmtException modelLoadException = new InitAdapterException(e,new InitAdapterUserObject(adapterClass));
 				if (RuntimeUtil.getInstance().isJSF())
 				{
 					JsfUtil.handleException(modelLoadException);

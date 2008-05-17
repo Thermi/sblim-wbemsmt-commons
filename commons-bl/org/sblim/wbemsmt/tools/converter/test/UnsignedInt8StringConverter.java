@@ -21,9 +21,10 @@
 
 package org.sblim.wbemsmt.tools.converter.test;
 
+import javax.cim.UnsignedInteger16;
+import javax.cim.UnsignedInteger8;
+
 import org.apache.commons.lang.ClassUtils;
-import org.sblim.wbem.cim.UnsignedInt16;
-import org.sblim.wbem.cim.UnsignedInt8;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class UnsignedInt8StringConverter implements Converter {
@@ -32,12 +33,12 @@ public class UnsignedInt8StringConverter implements Converter {
 	 * return the SelectedIndex(UnsignedInt8) To Set (as a IntegerObject)
 	 */
 	public Object convertForGui(Object value) {
-		UnsignedInt8 iValue = (UnsignedInt8)value;
+		UnsignedInteger8 iValue = (UnsignedInteger8)value;
 		return iValue != null ? ""+iValue.intValue() : null;
 	}
 
 	/**
-	 * Converts the selected Index of the param-given comboBox as UnsignedInt8-Object
+	 * Converts the selected Index of the param-given comboBox as UnsignedInteger8-Object
 	 */
 	public Object convertForModel(Object guiElement) {
 		String value = (String) guiElement;
@@ -47,7 +48,7 @@ public class UnsignedInt8StringConverter implements Converter {
 		}
 		else
 		{
-			return new UnsignedInt8(Short.parseShort(value));
+			return new UnsignedInteger8(Short.parseShort(value));
 		}
 	}
 
@@ -68,6 +69,6 @@ public class UnsignedInt8StringConverter implements Converter {
 	}
 
 	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInt16.class);
+		return ClassUtils.getShortClassName(UnsignedInteger16.class);
 	}	
 }

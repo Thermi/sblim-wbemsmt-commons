@@ -22,7 +22,8 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.ExceptionUtil;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.CimomData;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
@@ -53,10 +54,15 @@ public abstract class TreeSelector
         return null;
     }
     
-    public void setTaskLauncherController(TaskLauncherController taskLauncherController) throws WbemSmtException
+    public void setTaskLauncherController(TaskLauncherController taskLauncherController) throws WbemsmtException
     {
-        this.taskLauncherController = taskLauncherController;
-        this.factories = taskLauncherController.getTreeFactories();
+        try {
+            this.taskLauncherController = taskLauncherController;
+            this.factories = taskLauncherController.getTreeFactories();
+        }
+        catch (Exception e) {
+            ExceptionUtil.handleException(e);
+        }
         
     }
     
@@ -72,7 +78,7 @@ public abstract class TreeSelector
         }
     }
     
-	public void reloadConfig(String runtimeMode) throws WbemSmtException {
+	public void reloadConfig(String runtimeMode) throws WbemsmtException {
 		taskLauncherController.getTaskLauncherConfig().reload(runtimeMode);
 		Vector cimomData = taskLauncherController.getTaskLauncherConfig().getCimomData();
 		if (RuntimeUtil.MODE_SINGLE.equals(runtimeMode))

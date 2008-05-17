@@ -18,45 +18,30 @@
 
 package org.sblim.wbemsmt.tasklauncher;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.cim.*;
 import javax.faces.context.FacesContext;
+import javax.wbem.CloseableIterator;
+import javax.wbem.WBEMException;
+import javax.wbem.client.WBEMClient;
 
-import org.sblim.wbem.cim.CIMClass;
-import org.sblim.wbem.cim.CIMDataType;
-import org.sblim.wbem.cim.CIMInstance;
-import org.sblim.wbem.cim.CIMObjectPath;
-import org.sblim.wbem.cim.CIMSimpleDateTime;
-import org.sblim.wbem.cim.CIMValue;
-import org.sblim.wbem.cim.Numeric;
-import org.sblim.wbem.cim.UnsignedInt16;
-import org.sblim.wbem.cim.UnsignedInt32;
-import org.sblim.wbem.cim.UnsignedInt64;
-import org.sblim.wbem.cim.UnsignedInt8;
-import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
+import org.sblim.wbemsmt.bl.tree.InstanceNodeFilter;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEventListener;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
-import org.sblim.wbemsmt.exception.ModelLoadException;
-import org.sblim.wbemsmt.exception.WbemSmtException;
-import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CimclassDocument;
-import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CiminstanceDocument;
-import org.sblim.wbemsmt.tasklauncher.customtreeconfig.ContextmenuDocument;
-import org.sblim.wbemsmt.tasklauncher.customtreeconfig.EventListenerDocument;
-import org.sblim.wbemsmt.tasklauncher.customtreeconfig.KeypropertyDocument;
-import org.sblim.wbemsmt.tasklauncher.customtreeconfig.ParamDocument;
-import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument;
+import org.sblim.wbemsmt.exception.WbemsmtException;
+import org.sblim.wbemsmt.exception.impl.GetClassException;
+import org.sblim.wbemsmt.exception.impl.GetInstanceException;
+import org.sblim.wbemsmt.exception.impl.userobject.GetClassUserObject;
+import org.sblim.wbemsmt.exception.impl.userobject.GetInstanceUserObject;
+import org.sblim.wbemsmt.session.WbemsmtSession;
+import org.sblim.wbemsmt.tasklauncher.customtreeconfig.*;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.AssociationDocument.Association;
+import org.sblim.wbemsmt.tasklauncher.customtreeconfig.Cimdatatype.Enum;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.EventListenerDocument.EventListener;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.FilterDocument.Filter;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.InitialObjectLoaderClassDocument.InitialObjectLoaderClass;
@@ -82,9 +67,12 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     				  		TYPE_CIMCLASS = 2,
     				  		TYPE_CIMINSTANCE = 3;
     
+    protected static Map CIM_DATA_TYPES_BY_ENUM = new HashMap(); 
+    
     protected static final String NO_DESCRIPTION = "(no description)";
     
-    protected CIMClient cimClient;
+    protected WBEMClient cimClient;
+    protected String namespace;
     protected Vector subnodes;
     protected String name;
     protected boolean subnodesRead = false;
@@ -97,14 +85,34 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 
 	private CustomTreeConfig customTreeConfig;
 
+    private Map values;
+
 	//private TreeConfigData treeConfigData;
 
+	static
+	{
+		CIM_DATA_TYPES_BY_ENUM.put(Cimdatatype.BOOLEAN,CIMDataType.BOOLEAN_T);	
+		CIM_DATA_TYPES_BY_ENUM.put(Cimdatatype.DATETIME,CIMDataType.DATETIME_T);	
+		CIM_DATA_TYPES_BY_ENUM.put(Cimdatatype.STRING,CIMDataType.STRING_T);	
+		CIM_DATA_TYPES_BY_ENUM.put(Cimdatatype.CHAR_16,CIMDataType.CHAR16_T);	
+		CIM_DATA_TYPES_BY_ENUM.put(Cimdatatype.REAL_32,CIMDataType.REAL32_T);	
+		CIM_DATA_TYPES_BY_ENUM.put(Cimdatatype.REAL_64,CIMDataType.REAL64_T);	
+		CIM_DATA_TYPES_BY_ENUM.put(Cimdatatype.SINT_8,CIMDataType.BOOLEAN_T);	
+		CIM_DATA_TYPES_BY_ENUM.put(Cimdatatype.SINT_16,CIMDataType.BOOLEAN_T);	
+		CIM_DATA_TYPES_BY_ENUM.put(Cimdatatype.SINT_32,CIMDataType.BOOLEAN_T);	
+		CIM_DATA_TYPES_BY_ENUM.put(Cimdatatype.SINT_64,CIMDataType.BOOLEAN_T);	
+		CIM_DATA_TYPES_BY_ENUM.put(Cimdatatype.UINT_8,CIMDataType.UINT8_T);	
+		CIM_DATA_TYPES_BY_ENUM.put(Cimdatatype.UINT_16,CIMDataType.UINT16_T);	
+		CIM_DATA_TYPES_BY_ENUM.put(Cimdatatype.UINT_32,CIMDataType.UINT32_T);	
+		CIM_DATA_TYPES_BY_ENUM.put(Cimdatatype.UINT_64,CIMDataType.UINT64_T);	
+	}
+	
     /**
      * Constructs a Treenode, Name will be taken from xmlconfigNode's description.
      * @param cimClient
      * @param xmlconfigNode Representation of this node in the xml config, not null
      */
-    public TaskLauncherTreeNode(CIMClient cimClient, TreenodeDocument.Treenode xmlconfigNode)
+    public TaskLauncherTreeNode(WBEMClient cimClient, TreenodeDocument.Treenode xmlconfigNode)
     {
     	this(cimClient, xmlconfigNode, (xmlconfigNode != null && xmlconfigNode.getDescription() != null) ? xmlconfigNode.getDescription() : NO_DESCRIPTION);
     }
@@ -115,7 +123,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * @param xmlconfigNode Representation of this node in the xml config, can be null
      * @param name Display name of the node
      */
-    public TaskLauncherTreeNode(CIMClient cimClient, TreenodeDocument.Treenode xmlconfigNode, String name)
+    public TaskLauncherTreeNode(WBEMClient cimClient, TreenodeDocument.Treenode xmlconfigNode, String name)
     {
         this.cimClient = cimClient;
         this.xmlconfigNode = xmlconfigNode;
@@ -176,9 +184,9 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     /**
      * Returns all subnodes of the current node.
      * @return
-     * @throws WbemSmtException 
+     * @throws WbemsmtException 
      */
-    public Vector getSubnodes() throws WbemSmtException
+    public Vector getSubnodes() throws WbemsmtException
     {
     	return getSubnodes(true);
     }
@@ -187,9 +195,9 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * Returns all subnodes of the current node.
      * @param notifyEventListeners passes and Refresh-Event to all Listeners if set to true
      * @return
-     * @throws WbemSmtException 
+     * @throws WbemsmtException 
      */
-    public Vector getSubnodes(boolean notifyEventListeners) throws WbemSmtException
+    public Vector getSubnodes(boolean notifyEventListeners) throws WbemsmtException
     {
         if(!this.subnodesRead)
         {
@@ -355,14 +363,28 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
         return node;
     }
     
-    public CIMClient getCimClient()
+    public WBEMClient getCimClient()
     {
         return cimClient;
     }
 
-    public void setCimClient(CIMClient cimClient)
+    public void setCimClient(WBEMClient cimClient)
     {
         this.cimClient = cimClient;
+    }
+
+    public String getNamespace()
+    {
+    	if (namespace == null && cimClient != null)
+    	{
+    		namespace = WbemsmtSession.getSession().getCIMClientPool(cimClient).getNamespace(cimClient);
+    	}
+		return namespace;
+    }
+
+    public static String getNamespace(WBEMClient cimClient)
+    {
+    	return WbemsmtSession.getSession().getCIMClientPool(cimClient).getNamespace(cimClient);
     }
 
     public void setSubnodes(Vector subnodes)
@@ -413,9 +435,9 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     /**
      * Passes an {@link TaskLauncherTreeNodeEvent} to all EventListeners of this node.
      * @param event
-     * @throws WbemSmtException 
+     * @throws WbemsmtException 
      */
-    public String processEvent(TaskLauncherTreeNodeEvent event) throws WbemSmtException
+    public String processEvent(TaskLauncherTreeNodeEvent event) throws WbemsmtException
     {
     	String result = null;
     	
@@ -568,9 +590,9 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     /**
      * Reads subnodes of the current node.
      * These subnodes are treenodes of the xml configuration.
-     * @throws WbemSmtException 
+     * @throws WbemsmtException 
      */
-    public void readSubnodes() throws WbemSmtException
+    public void readSubnodes() throws WbemsmtException
     {
     	readSubnodes(false);
     }
@@ -578,9 +600,9 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     /**
      * Reads subnodes of the current node.
      * These subnodes are treenodes of the xml configuration.
-     * @throws WbemSmtException 
+     * @throws WbemsmtException 
      */
-    public void readSubnodes(boolean notifyEventListener) throws WbemSmtException
+    public void readSubnodes(boolean notifyEventListener) throws WbemsmtException
     {
     	this.subnodesRead = true;
         this.clearSubnodes();
@@ -608,14 +630,15 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     
     /**
      * Creates a TaskLauncherTreeNode (which can be a {@link CIMInstanceNode} or {@link CIMClassNode} aswell) from a xml configuration node.
-     * @param cimClient CIMClient to get information from
+     * @param cimClient WBEMClient to get information from
      * @param treenode XML Node to create the node from.
      * @return generated TaskLauncherTreeNode
-     * @throws WbemSmtException 
+     * @throws WbemsmtException 
      */
-    static public TaskLauncherTreeNode createNodeFromXML(CIMClient cimClient, TreenodeDocument.Treenode treenode, CustomTreeConfig customTreeConfig) throws ModelLoadException
+    static public TaskLauncherTreeNode createNodeFromXML(WBEMClient cimClient, TreenodeDocument.Treenode treenode, CustomTreeConfig customTreeConfig) throws WbemsmtException
     {
-        TaskLauncherTreeNode subnode = null;
+        String namespace = getNamespace(cimClient);
+    	TaskLauncherTreeNode subnode = null;
 		try {
 			subnode = null;
 			String description;
@@ -663,7 +686,15 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			        CIMClass cimClass;
 			        if(className != null)
 			        {
-			            cimClass = cimClient.getClass(new CIMObjectPath(className));
+			            CIMObjectPath objectPath = new CIMObjectPath(className,namespace);
+			            try
+			            {
+                            cimClass = cimClient.getClass(objectPath,false,true,false,null);
+			            }
+			            catch (WBEMException e)
+			            {
+			                throw new GetClassException(e, new GetClassUserObject(objectPath));
+			            }
 			            description = (treenode.getDescription() != null) ? treenode.getDescription() : cimClass.getName();
 			        }
 			        else
@@ -708,13 +739,12 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 						}
 					}
 				}
-			    catch(Exception e)
+			    catch(WbemsmtException e)
 			    {
 			        subnode = new TaskLauncherTreeNode(cimClient, treenode);
 					subnode.setCustomTreeConfig(customTreeConfig);
 					logger.log(Level.SEVERE,"Cannot load Node for class " + className,e);
-					ModelLoadException modelLoadException = new ModelLoadException("Cannot load Node for class " + className,e);
-					modelLoadException.setCimIdentifier(className);
+					WbemsmtException modelLoadException = new WbemsmtException(WbemsmtException.ERR_LOADING_MODEL,"Cannot load Node for class " + className,e);
 					throw modelLoadException;
 			    }
 			    break;
@@ -729,35 +759,28 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 					instanceClassName = ciminstancenode.getClassname();
 				}
 
-				try
-				{
-			        CIMInstance cimInstance;
+				CIMObjectPath cop = null;
+				CIMInstance cimInstance;
 			        if(instanceClassName != null)
 			        {
-			        	CIMObjectPath cop = new CIMObjectPath(instanceClassName);
 			        	KeypropertyDocument.Keyproperty[] properties = ciminstancenode.getKeypropertyArray();
+			        	CIMProperty[] keysProperties = new CIMProperty[properties.length];
+			        	
 			        	for(int i = 0; i < properties.length; i++)
 			        	{
 			        		KeypropertyDocument.Keyproperty property = properties[i];
 			        		
-			        		// transform string data from configuration to correct object types
-			        		if(property.getPropertyDatatype() != null)
-			        		{
-			        			CIMDataType dataType = CIMDataType.getDataType(property.getPropertyDatatype().toString(), false);
-			        			Object value = TaskLauncherTreeNode.createTypeFromString(dataType.getType(), property.getPropertyValue());
-			        			CIMValue cimValue = new CIMValue(value, dataType);
-			        		
-			        		
-			        			cop.addKey(property.getPropertyName(), cimValue);
-			        		}
+		        			CIMDataType dataType = getCIMDataType(property.getPropertyDatatype());
+		        			Object value = TaskLauncherTreeNode.createTypeFromString(dataType.getType(), property.getPropertyValue());
+		        			keysProperties[i] = new CIMProperty(property.getPropertyName(),dataType,value); 
 			        	}
-			        	try {
-							cimInstance = cimClient.getInstance(cop);
-						} catch (RuntimeException e) {
-							System.err.println(cop != null ? cop.toString() : " -----------> null ");
-							e.printStackTrace();
-							throw e;
-						}
+			        	cop = new CIMObjectPath(instanceClassName,namespace,keysProperties);
+						try {
+                            cimInstance = cimClient.getInstance(cop,false,false,null);
+                        }
+                        catch (WBEMException e) {
+                            throw new GetInstanceException(e, new GetInstanceUserObject(cop,false,false,null));
+                        }
 			            
 			            description = (treenode.getDescription() != null) ? treenode.getDescription() : cimInstance.getClassName();
 			        }
@@ -769,16 +792,6 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			        subnode = new CIMInstanceNode(cimClient, treenode, description, cimInstance);
 					subnode.setCustomTreeConfig(customTreeConfig);
 			        subnode.createEventListener(treenode.getEventListenerArray());
-				}
-			    catch(Exception e)
-			    {
-			        subnode = new TaskLauncherTreeNode(cimClient, treenode);
-					subnode.setCustomTreeConfig(customTreeConfig);
-					logger.log(Level.SEVERE,"Cannot load Node for instance " + instanceClassName,e);
-					ModelLoadException modelLoadException = new ModelLoadException("Cannot load Node for instance " + instanceClassName,e);
-					modelLoadException.setCimIdentifier(instanceClassName);
-					throw modelLoadException;
-			    }
 				
 				break;
 
@@ -797,9 +810,14 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 				subnode.setContextMenu((TaskLauncherContextMenu) new TaskLauncherContextMenu(treenode.getContextmenu(),bundles).clone());
 			} catch (CloneNotSupportedException e) {
 				logger.log(Level.SEVERE,"Exception while setting ContextMenu ",e);
-				throw new ModelLoadException("Exception while setting ContextMenu ",e);
+				throw new WbemsmtException(WbemsmtException.ERR_LOADING_MODEL,"Exception while setting ContextMenu ",e);
 			}
-		} catch (Exception e) {
+		}
+		catch (WbemsmtException e)
+        {
+            throw e;
+        }
+		catch (Exception e) {
 	        subnode = new TaskLauncherTreeNode(cimClient, treenode);
 			subnode.setCustomTreeConfig(customTreeConfig);
 			ExceptionUtil.handleException(e);
@@ -809,7 +827,16 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 		
     }
     
-    /**
+    private static CIMDataType getCIMDataType(Enum cimDataType) {
+		
+    	
+    	CIMDataType type = (CIMDataType) CIM_DATA_TYPES_BY_ENUM.get(cimDataType);
+    	if (type == null)
+    		throw new IllegalArgumentException(cimDataType.toString() + " is not supported.");
+    	return type;
+	}
+
+	/**
      * Create a simple TextNode
      * @param the name of the Node
      * @return
@@ -902,16 +929,16 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 		{
 			switch(type) {
 			case CIMDataType.UINT8: 
-					return new UnsignedInt8(value);
+					return new UnsignedInteger8(value);
 				
 			case CIMDataType.UINT16: 
-					return new UnsignedInt16(value);
+					return new UnsignedInteger16(value);
 	
 			case CIMDataType.UINT32: 
-					return new UnsignedInt32(value);
+					return new UnsignedInteger32(value);
 	
 			case CIMDataType.UINT64: 
-					return new UnsignedInt64(value);
+					return new UnsignedInteger64(value);
 	
 			case CIMDataType.SINT8: 
 					return new Byte(value);
@@ -938,16 +965,17 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 					return new Double(value);
 	
 			case CIMDataType.DATETIME: 
-					return new CIMSimpleDateTime(value);
-	
-			case CIMDataType.CHAR16:
-					return new Character(value.charAt(0));
+				if (value.toString().indexOf(":") > -1)
+				{
+					return new CIMDateTimeInterval(value);
+				}
+				else
+				{
+					return new CIMDateTimeAbsolute(value);
+				}
 	
 			case CIMDataType.REFERENCE:
 					return new CIMObjectPath(value);
-	
-			case CIMDataType.NUMERIC:
-					return new Numeric(value);
 			}
 		}
 		catch(Exception e) {} // ignore conversion errors
@@ -960,13 +988,13 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 	 * @param cim_class_name the Name of the class
 	 * @param label the label of the classNode
 	 */
-	public ITaskLauncherTreeNode findClassNode(String cimClassName, String label) throws WbemSmtException
+	public ITaskLauncherTreeNode findClassNode(String cimClassName, String label) throws WbemsmtException
 	{
 		ITaskLauncherTreeNode result = findClassNodeImpl(cimClassName,label);
 		if (result == null)
 		{
     		logger.log(Level.SEVERE,"CimClassNode for class " + cimClassName + " with label " + label + " was not found");
-    		throw new ModelLoadException("CimClassNode for class " + cimClassName + " with label " + label + " was not found");
+    		throw new WbemsmtException(WbemsmtException.ERR_LOADING_MODEL,"CimClassNode for class " + cimClassName + " with label " + label + " was not found");
 		}
 		return result;
 	}
@@ -975,13 +1003,13 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 	 * find a classNode and give it back
 	 * @param cim_class_name the Name of the class
 	 * @param label the label of the classNode
-	 * @throws WbemSmtException 
+	 * @throws WbemsmtException 
 	 */
-	public ITaskLauncherTreeNode findClassNode(CIMClassNode classNode) throws WbemSmtException {
+	public ITaskLauncherTreeNode findClassNode(CIMClassNode classNode) throws WbemsmtException {
 		return findClassNode(classNode.getCIMClass().getName(),classNode.getName());
 	}
 
-	TaskLauncherTreeNode findClassNodeImpl(String cimClassName, String label) throws WbemSmtException {
+	TaskLauncherTreeNode findClassNodeImpl(String cimClassName, String label) throws WbemsmtException {
 		CIMClassNode clsNode = (CIMClassNode) this;
 		if (clsNode.getCIMClass().getName().equals(cimClassName) && label.equals(clsNode.getName()))
 		{
@@ -1011,13 +1039,13 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 	}
 	
 	
-	public List findInstanceNodes(String cimClassName) throws WbemSmtException {
+	public List findInstanceNodes(String cimClassName) throws WbemsmtException {
 		List result = new ArrayList();
 		findInstanceNodes(cimClassName,result);
 		return result;
 	}
 
-	void findInstanceNodes(String cimClassName, List result) throws WbemSmtException {
+	void findInstanceNodes(String cimClassName, List result) throws WbemsmtException {
 		if (this instanceof CIMInstanceNode) {
 			CIMInstanceNode clsNode = (CIMInstanceNode) this;
 			if (clsNode.getCimInstance().getClassName().equals(cimClassName))
@@ -1034,17 +1062,23 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 		}
 	}
 	
-	public List findInstanceNodes(Class instanceClass) throws WbemSmtException {
+	public List findInstanceNodes(Class instanceClass) throws WbemsmtException {
 		List result = new ArrayList();
 		findInstanceNodes(instanceClass,result);
 		return result;
 	}
 
-	private void findInstanceNodes(Class instanceClass, List result) throws WbemSmtException {
+    public List findInstanceNodes(InstanceNodeFilter instanceNodeFilter) throws WbemsmtException {
+        List result = new ArrayList();
+        findInstanceNodes(instanceNodeFilter,result);
+        return result;
+    }
+
+    private void findInstanceNodes(Class instanceClass, List result) throws WbemsmtException {
 
 		if (this instanceof CIMInstanceNode) {
 			CIMInstanceNode clsNode = (CIMInstanceNode) this;
-			if (instanceClass.isAssignableFrom(clsNode.getCimObject().getWrappedObject().getClass()))
+			if (instanceClass.isAssignableFrom(clsNode.getCimObject().getClass()))
 			{
 				result.add(clsNode);
 			}
@@ -1057,13 +1091,30 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 		}
 	}
 
-	public List findClassNodes(String cimClassName) throws WbemSmtException {
+    private void findInstanceNodes(InstanceNodeFilter filter, List result) throws WbemsmtException {
+
+        if (this instanceof CIMInstanceNode) {
+            CIMInstanceNode clsNode = (CIMInstanceNode) this;
+            if (filter.accept(clsNode))
+            {
+                result.add(clsNode);
+            }
+        }
+        Vector subnodes2 = getSubnodes();
+        for (int i=0; i < subnodes2.size(); i++)
+        {
+            TaskLauncherTreeNode node = (TaskLauncherTreeNode) subnodes2.get(i);
+            node.findInstanceNodes(filter,result);
+        }
+    }
+    
+	public List findClassNodes(String cimClassName) throws WbemsmtException {
 		List result = new ArrayList();
 		findClassNodes(cimClassName,result);
 		return result;
 	}
 
-	void findClassNodes(String cimClassName, List result) throws WbemSmtException {
+	void findClassNodes(String cimClassName, List result) throws WbemsmtException {
 		if (this instanceof CIMClassNode) {
 			CIMClassNode clsNode = (CIMClassNode) this;
 			if (clsNode.getCIMClass().getName().equals(cimClassName))
@@ -1080,7 +1131,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 
 	}
 
-	public TaskLauncherTreeNode findInstanceNode(CIMObjectPath path) throws WbemSmtException {
+	public TaskLauncherTreeNode findInstanceNode(CIMObjectPath path) throws WbemsmtException {
 		if (this instanceof CIMInstanceNode) {
 			CIMInstanceNode clsNode = (CIMInstanceNode) this;
 			if (clsNode.getCimInstance().getObjectPath().equals(path) || path != null && clsNode.getCimInstance().getObjectPath().toString().equals(path.toString()))
@@ -1149,7 +1200,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 
 	}
 
-	public ITaskLauncherTreeNode findNode(ITaskLauncherTreeNode selectedNode) throws WbemSmtException {
+	public ITaskLauncherTreeNode findNode(ITaskLauncherTreeNode selectedNode) throws WbemsmtException {
 
 		if (this instanceof CIMClassNode) {
 			CIMClassNode classNode = (CIMClassNode) this;
@@ -1172,7 +1223,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 	}
 
 	
-	public ITaskLauncherTreeNode getRootNode() throws WbemSmtException {
+	public ITaskLauncherTreeNode getRootNode() throws WbemsmtException {
 		ITaskLauncherTreeNode parent = this;
 		while (parent.getParent() != null)
 		{
@@ -1181,13 +1232,13 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 		return parent;
 	}
 
-	public List findNodesByName(String name) throws WbemSmtException {
+	public List findNodesByName(String name) throws WbemsmtException {
 		List result = new ArrayList();
 		findNodesByName(name, result);
 		return result;
 	}
 
-	public void findNodesByName(String name,List result) throws WbemSmtException {
+	public void findNodesByName(String name,List result) throws WbemsmtException {
 
 		if (name.equalsIgnoreCase(getName()))
 		{
@@ -1206,8 +1257,47 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 		return subnodesRead;
 	}
 
+	/**
+	 * check if the Iterator carries a exception (Really does nothing and is only for convenience - is overwritten by 
+	 * checkException(CloseableIterator iterator, boolean silent)
+	 * @param iterator
+	 * @param silent if !silent a exception is thrown if the iterator carries one
+	 * @throws WbemsmtException
+	 */
+	protected void checkException(Iterator iterator, boolean silent) throws WbemsmtException {
+	}
 	
-	
+	/**
+	 * check if the Iterator carries a exception
+	 * @param iterator
+	 * @param silent if !silent a exception is thrown if the iterator carries one
+	 * @throws WbemsmtException
+	 */
+	protected void checkException(CloseableIterator iterator, boolean silent) throws WbemsmtException {
+		WBEMException exception = iterator.getWBEMException();
+		if (exception != null)
+		{
+			logger.log(Level.SEVERE,"Exception during iteration of a cim collection",exception);
+			if (!silent)
+			{
+				throw new WbemsmtException(WbemsmtException.ERR_CIM_ITERATION, exception);
+			}
+		}
+	}
+
+    public Object getValue(String key)
+    {
+        return values != null ? values.get(key) : null;
+    }
+    
+    public void setValue(String key, Object value)
+    {
+        if (values == null)
+        {
+            values = new HashMap();
+        }
+        values.put(key,value);
+    }
 	
 	
 

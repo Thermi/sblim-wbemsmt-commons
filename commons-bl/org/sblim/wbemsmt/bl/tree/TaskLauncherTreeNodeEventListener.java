@@ -21,7 +21,7 @@ package org.sblim.wbemsmt.bl.tree;
 import java.util.EventListener;
 import java.util.Properties;
 
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 
 public interface TaskLauncherTreeNodeEventListener extends EventListener
 {
@@ -31,7 +31,7 @@ public interface TaskLauncherTreeNodeEventListener extends EventListener
 	public static final Priority PRIO_HIGH = new Priority("HIGH",75);
 	public static final Priority PRIO_HIGHEST = new Priority("HIGHEST",100);
 	
-    public String processEvent(TaskLauncherTreeNodeEvent event) throws WbemSmtException;
+    public String processEvent(TaskLauncherTreeNodeEvent event) throws WbemsmtException;
     
     public void setParameters(Properties parameters);
     

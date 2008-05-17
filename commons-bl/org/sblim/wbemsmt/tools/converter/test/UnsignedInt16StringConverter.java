@@ -21,28 +21,29 @@
 
 package org.sblim.wbemsmt.tools.converter.test;
 
+import javax.cim.UnsignedInteger16;
+
 import org.apache.commons.lang.ClassUtils;
-import org.sblim.wbem.cim.UnsignedInt16;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class UnsignedInt16StringConverter implements Converter {
 
 	/**
-	 * return the SelectedIndex(UnsignedInt16) To Set (as a IntegerObject)
+	 * return the SelectedIndex(UnsignedInteger16) To Set (as a IntegerObject)
 	 */
 	public Object convertForGui(Object value) {
-		UnsignedInt16 iValue = (UnsignedInt16)value;
+		UnsignedInteger16 iValue = (UnsignedInteger16)value;
 		return iValue != null ? ""+iValue.intValue() : null;
 	}
 
 	/**
-	 * Converts the selected Index of the param-given comboBox as UnsignedInt16-Object
+	 * Converts the selected Index of the param-given comboBox as UnsignedInteger16-Object
 	 */
 	public Object convertForModel(Object guiElement) {
 		String value = (String) guiElement;
 		if (value != null && !value.equals(""))
 		{
-			return new UnsignedInt16(Integer.parseInt(value));
+			return new UnsignedInteger16(Integer.parseInt(value));
 		}
 		else
 		{
@@ -68,7 +69,7 @@ public class UnsignedInt16StringConverter implements Converter {
 	}
 	
 	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInt16.class);
+		return ClassUtils.getShortClassName(UnsignedInteger16.class);
 	}
 	
 

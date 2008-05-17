@@ -23,7 +23,7 @@ import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
-import org.sblim.wbemsmt.exception.ValidationException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 
 public class NumericFieldValidator extends Validator {
@@ -47,7 +47,7 @@ public class NumericFieldValidator extends Validator {
 	/**
 	 * @see org.sblim.wbemsmt.tools.validator.Validator#validate()
 	 */
-	public void validateElement(MessageList result) throws ValidationException {
+	public void validateElement(MessageList result) throws WbemsmtException {
 		
 		if  ( !component.isEmpty())
 		{
@@ -74,7 +74,7 @@ public class NumericFieldValidator extends Validator {
 					else
 					{
 						logger.severe("Cannot validate Field. It's not a number");
-						throw new ValidationException("Cannot validate Field. It's not a number");
+						throw new WbemsmtException(WbemsmtException.ERR_VALIDATION,"Cannot validate Field. It's not a number");
 					}
 				}
 			}

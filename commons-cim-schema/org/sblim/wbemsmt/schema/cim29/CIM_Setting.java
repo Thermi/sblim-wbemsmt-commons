@@ -1,1141 +1,2809 @@
 /** 
  * CIM_Setting.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  The Setting class represents configuration-related and operational parameters
- * for one or more ManagedSystemElement(s). An Element may have multiple Setting
- * objects associated with it. The current operational values for an Element's
- * parameters are reflected by properties in the Element itself or by properties
- * in its associations. These properties do not have to be the same values
- * present in the Setting object. For example, a modem may have a Setting baud
- * rate of 56Kb/sec but be operating at 19.2Kb/sec. Note that the
- * CIM_SettingData class is very similar to CIM_Setting, yet both classes are
- * present in the model. This is because many implementations have successfully
- * used CIM_Setting. However, issues have arisen that could not be resolved
- * without defining a new class. Therefore, until a new major release occurs,
- * both classes will exist in the model. Refer to the Core White Paper for
- * additional information.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: The Setting class represents configuration-related and operational parameters for one or more ManagedSystemElement(s). An Element may have multiple Setting objects associated with it. The current operational values for an Element's parameters are reflected by properties in the Element itself or by properties in its associations. These properties do not have to be the same values present in the Setting object. For example, a modem may have a Setting baud rate of 56Kb/sec but be operating at 19.2Kb/sec. 
+ * Note that the CIM_SettingData class is very similar to CIM_Setting, yet both classes are present in the model. This is because many implementations have successfully used CIM_Setting. However, issues have arisen that could not be resolved without defining a new class. Therefore, until a new major release occurs, both classes will exist in the model. Refer to the Core White Paper for additional information.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
-import java.util.Calendar;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.lang.reflect.Constructor;
-import org.sblim.wbem.client.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
+import org.sblim.wbemsmt.exception.impl.*;
+import org.sblim.wbemsmt.exception.impl.userobject.*;
 
+import java.lang.reflect.*;
+import javax.wbem.*;
 
-/**
- *  The Setting class represents configuration-related and operational parameters
- * for one or more ManagedSystemElement(s). An Element may have multiple Setting
- * objects associated with it. The current operational values for an Element's
- * parameters are reflected by properties in the Element itself or by properties
- * in its associations. These properties do not have to be the same values
- * present in the Setting object. For example, a modem may have a Setting baud
- * rate of 56Kb/sec but be operating at 19.2Kb/sec. Note that the
- * CIM_SettingData class is very similar to CIM_Setting, yet both classes are
- * present in the model. This is because many implementations have successfully
- * used CIM_Setting. However, issues have arisen that could not be resolved
- * without defining a new class. Therefore, until a new major release occurs,
- * both classes will exist in the model. Refer to the Core White Paper for
- * additional information.
- */
-public class CIM_Setting extends CIM_ManagedElement  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_Setting"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_Setting extends CIM_ManagedElement {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING = "CIM_CollectionSetting"; //$NON-NLS-1$
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING = "CIM_ElementSetting"; //$NON-NLS-1$
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT = "CIM_SettingContext"; //$NON-NLS-1$
-	
-	
-	/**
-	*	The identifier by which the Setting object is known.
-	*/
-	public final static String CIM_PROPERTY_SETTINGID = "SettingID"; //$NON-NLS-1$
-	
-	
-	/**
-	*	The ApplyIncrementalChangeToCollection method performs the application of a subset of the properties in this Setting to the referenced Collection of ManagedSystem Elements. The net effect is to execute the ApplyIncrementalChangeToMSE method against each of the Elements aggregated by the Collection. If the input value ContinueOnError is FALSE, this method applies the Setting to all Elements in the Collection until it encounters an error, in which case it stops execution, logs the key of the Element that caused the error in the CanNotApply array, and issues a return code of 2. If the input value ContinueOnError is TRUE, then this method applies the Setting to all the ManagedSystemElements in the Collection, and reports the failed Elements in the array, CanNotApply. For the latter, processing will continue until the method is applied to all Elements in the Collection, regardless of any errors encountered. The key of each ManagedSystemElement to which the Setting could not be applied is logged into the CanNotApply array. This method takes four input parameters: Collection (the Collection of Elements to which the Setting is being applied), TimeToApply (which, being a datetime, can be either a specific time or a time interval), ContinueOnError (TRUE means to continue processing on encountering an error), and MustBeCompletedBy (which indicates the required completion time for the method), and a PropertiesToApply array (which contains a list of the property names whose values will be applied.) If a property is not in this list, it will be ignored by the Apply. If the array is null or empty or contains the string "ALL" as a property name, then all Settings properties shall be applied. If it is set to "NONE", then no Settings properties will be applied. 
-The return value should be 0 if the Setting is successfully applied to the referenced Collection, 1 if the method is not supported, 2 if the Setting was not applied within the specified time, 3 if the Setting cannot be applied using the input value for ContinueOnError, and any other number if an error occurred. One output parameter is defined, CanNotApplystring, which is an array that lists the keys of the ManagedSystemElements to which the Setting was NOT able to be applied. This output parameter has meaning only when the ContinueOnError parameter is TRUE. 
-In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier. 
-Note: if an error occurs in applying the Setting to a ManagedSystemElement in the Collection, the Element must be configured as when the 'Apply' attempt began. That is, the Element should NOT be left in an indeterminate state.
-	*/
-	public final static String CIM_METHOD_APPLYINCREMENTALCHANGETOCOLLECTION = "ApplyIncrementalChangeToCollection";
-	/**
-	*	The ApplyIncrementalChangeToMSE method performs the actual application of a subset of the properties in the Setting to the referenced ManagedSystemElement. It takes four input parameters: MSE (the ManagedSystem Element to which the Setting is being applied), TimeToApply (which, being a datetime, can be either a specific time or a time interval), MustBeCompletedBy (which indicates the required completion time for the method), and a PropertiesToApply array (which contains a list of the property names whose values will be applied.) If a property is not in this list, it will be ignored by the Apply. If the array is null, empty or contains the string "ALL" as a property name, then all Settings properties shall be applied. If it is set to "NONE", then no Settings properties will be applied. 
-Note that the semantics of this method are that individual Settings are either wholly applied or not applied at all to their target ManagedSystemElement. The return value should be 0 if the Setting is successfully applied to the referenced ManagedSystemElement, 1 if the method is not supported, 2 if the Setting was not applied within the specified times, and any other number if an error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier. 
-Note: If an error occurs in applying the Setting to a ManagedSystemElement, the Element must be configured as when the 'Apply' attempt began. That is, the Element should NOT be left in an indeterminate state.
-	*/
-	public final static String CIM_METHOD_APPLYINCREMENTALCHANGETOMSE = "ApplyIncrementalChangeToMSE";
-	/**
-	*	The ApplyToCollection method performs the application of the Setting to the referenced Collection of ManagedSystem Elements. The net effect is to execute the ApplyToMSE method against each of the Elements aggregated by the Collection. If the input value ContinueOnError is FALSE, this method applies the Setting to all Elements in the Collection until it encounters an error, in which case it stops execution, logs the key of the Element that caused the error in the CanNotApply array, and issues a return code of 2. If the input value ContinueOnError is TRUE, then this method applies the Setting to all the ManagedSystemElements in the Collection, and reports the failed Elements in the array, CanNotApply. For the latter, processing will continue until the method is applied to all Elements in the Collection, regardless of any errors encountered. The key of each ManagedSystemElement to which the Setting could not be applied is logged into the CanNotApply array. This method takes four input parameters: Collection (the Collection of Elements to which the Setting is being applied), TimeToApply (which, being a datetime, can be either a specific time or a time interval), ContinueOnError (TRUE means to continue processing on encountering an error), and MustBeCompletedBy (which indicates the required completion time for the method). The return value should be 0 if the Setting is successfully applied to the referenced Collection, 1 if the method is not supported, 2 if the Setting was not applied within the specified times, 3 if the Setting cannot be applied using the input value for ContinueOnError, and any other number if an error occurred. One output parameter is defined, CanNotApplystring, which is an array that lists the keys of the ManagedSystemElements to which the Setting was NOT able to be applied. This output parameter has meaning only when the ContinueOnError parameter is TRUE. 
-In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier. 
-Note: if an error occurs in applying the Setting to a ManagedSystemElement in the Collection, the Element must be configured as when the 'Apply' attempt began. That is, the Element should NOT be left in an indeterminate state.
-	*/
-	public final static String CIM_METHOD_APPLYTOCOLLECTION = "ApplyToCollection";
-	/**
-	*	The ApplyToMSE method performs the actual application of the Setting to the referenced ManagedSystemElement. It takes three input parameters: MSE (the ManagedSystem Element to which the Setting is being applied), TimeToApply (which, being a datetime, can be either a specific time or a time interval), and MustBeCompletedBy (which indicates the required completion time for the method). Note that the semantics of this method are that individual Settings are either wholly applied or not applied at all to their target ManagedSystemElement. The return value should be 0 if the Setting is successfully applied to the referenced ManagedSystemElement, 1 if the method is not supported, 2 if the Setting was not applied within the specified times, and any other number if an error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier. 
-Note: If an error occurs in applying the Setting to a ManagedSystemElement, the Element must be configured as when the 'Apply' attempt began. That is, the Element should NOT be left in an indeterminate state.
-	*/
-	public final static String CIM_METHOD_APPLYTOMSE = "ApplyToMSE";
-	/**
-	*	The VerifyOKToApplyIncrementalChangeToCollection method is used to verify that a subset of the properties in this Setting can be 'applied' to the referenced Collection of ManagedSystemElements, at the given time or time interval, without causing adverse effects to either the Collection itself or its surrounding environment. The net effect is to execute the VerifyOKToApplyIncrementalChangeToMSE method against each of the Elements aggregated by the Collection. This method takes three input parameters: Collection (the Collection of Managed SystemElements that is being verified), TimeToApply (which, being a datetime, can be either a specific time or a time interval), MustBeCompletedBy (which indicates the required completion time for the method), and a PropertiesToApply array (which contains a list of the property names whose values will be verified. If they array is null or empty or constains the string "all" as a property name then all Settings properties shall be verified. If it is set to "none" then no Settings properties will be verified). The return value should be 0 if it is OK to apply the Setting, 1 if the method is not supported, 2 if the Setting cannot be applied within the specified times, and any other number if an error occurred. One output parameter is defined - CanNotApply - which is a string array that lists the keys of the ManagedSystemElements to which the Setting can NOT be applied. This enables those Elements to be revisited and either fixed, or other corrective action taken. 
-In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
-	*/
-	public final static String CIM_METHOD_VERIFYOKTOAPPLYINCREMENTALCHANGETOCOLLECTION = "VerifyOKToApplyIncrementalChangeToCollection";
-	/**
-	*	The VerifyOKToApplyIncrementalChangeToMSE method is used to verify that a subset of the properties in this Setting can be 'applied' to the referenced Managed SystemElement, at the given time or time interval. This method takes four input parameters: MSE (the Managed SystemElement that is being verified), TimeToApply (which, being a datetime, can be either a specific time or a time interval), MustBeCompletedBy (which indicates the required completion time for the method), and a PropertiesToApply array (which contains a list of the property names whose values will be verified.) If the array is null, empty or contains the string "ALL" as a property name, then all Settings properties shall be verified. If it is set to "NONE", then no Settings properties will be verified. The return value should be 0 if it is OK to apply the Setting, 1 if the method is not supported, 2 if the Setting cannot be applied within the specified times, and any other number if an error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
-	*/
-	public final static String CIM_METHOD_VERIFYOKTOAPPLYINCREMENTALCHANGETOMSE = "VerifyOKToApplyIncrementalChangeToMSE";
-	/**
-	*	The VerifyOKToApplyToCollection method is used to verify that this Setting can be 'applied' to the referenced Collection of ManagedSystemElements, at the given time or time interval, without causing adverse effects to either the Collection itself or its surrounding environment. The net effect is to execute the VerifyOKToApply method against each of the Elements aggregated by the Collection. This method takes three input parameters: Collection (the Collection of Managed SystemElements that is being verified), TimeToApply (which, being a datetime, can be either a specific time or a time interval), and MustBeCompletedBy (which indicates the required completion time for the method). The return value should be 0 if it is OK to apply the Setting, 1 if the method is not supported, 2 if the Setting cannot be applied within the specified times, and any other number if an error occurred. One output parameter is defined - CanNotApply - which is a string array that lists the keys of the ManagedSystemElements to which the Setting can NOT be applied. This enables those Elements to be revisited and either fixed, or other corrective action taken. 
-In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
-	*/
-	public final static String CIM_METHOD_VERIFYOKTOAPPLYTOCOLLECTION = "VerifyOKToApplyToCollection";
-	/**
-	*	The VerifyOKToApplyToMSE method is used to verify that this Setting can be 'applied' to the referenced Managed SystemElement, at the given time or time interval. This method takes three input parameters: MSE (the Managed SystemElement that is being verified), TimeToApply (which, being a datetime, can be either a specific time or a time interval), and MustBeCompletedBy (which indicates the required completion time for the method). The return value should be 0 if it is OK to apply the Setting, 1 if the method is not supported, 2 if the Setting cannot be applied within the specified times, and any other number if an error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
-	*/
-	public final static String CIM_METHOD_VERIFYOKTOAPPLYTOMSE = "VerifyOKToApplyToMSE";
-	
+    public final static String CIM_CLASS_NAME = "CIM_Setting";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_SETTINGID);
-				
-		for (int i = 0; i < CIM_ManagedElement.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_ManagedElement.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_SETTINGID)){
-				continue;
-			}
-			
-			CIM_Setting.CIM_PropertyNameList.add(CIM_ManagedElement.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_SETTINGID, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-				
-		for (int i = 0; i < CIM_ManagedElement.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_ManagedElement.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_SETTINGID)){
-				continue;
-			}
-			
-			CIM_Setting.CIM_PropertyList.add(CIM_ManagedElement.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_ManagedElement.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * ElementSetting represents the association between Managed SystemElements and the Setting class(es) defined for them.
+     */
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_Setting() {
+    public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING = "CIM_ElementSetting";
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * This relationship associates Configuration objects with Setting objects. For example, a NetworkAdapter's Settings could change based on the site/network to which its hosting ComputerSystem is attached. In this case, the ComputerSystem would have two different Configuration objects, corresponding to the differences in network configuration for the two network segments. Configuration A would aggregate a Setting object for the NetworkAdapter when operating on segment "ANet", whereas Configuration B would aggregate a different NetworkAdapter Setting object, specific to segment "BNet". Note that many Settings of the computer are independent of the network Configuration. For example, both Configurations A and B would aggregate the same Setting object for the ComputerSystem's MonitorResolution.
+     */
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT = "CIM_SettingContext";
 
-		setValidCimInstance(false);
-	}
+    /**
+     * CollectionSetting represents the association between a CollectionOfMSEs class and the Setting class(es) defined for them.
+     */
 
+    public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING = "CIM_CollectionSetting";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_Setting(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+    /**
+     * Constant for method\'s name and parameters
+     * The ApplyIncrementalChangeToCollection method performs the application of a subset of the properties in this Setting to the referenced Collection of ManagedSystem Elements. The net effect is to execute the ApplyIncrementalChangeToMSE method against each of the Elements aggregated by the Collection. If the input value ContinueOnError is FALSE, this method applies the Setting to all Elements in the Collection until it encounters an error, in which case it stops execution, logs the key of the Element that caused the error in the CanNotApply array, and issues a return code of 2. If the input value ContinueOnError is TRUE, then this method applies the Setting to all the ManagedSystemElements in the Collection, and reports the failed Elements in the array, CanNotApply. For the latter, processing will continue until the method is applied to all Elements in the Collection, regardless of any errors encountered. The key of each ManagedSystemElement to which the Setting could not be applied is logged into the CanNotApply array. This method takes four input parameters: Collection (the Collection of Elements to which the Setting is being applied), TimeToApply (which, being a datetime, can be either a specific time or a time interval), ContinueOnError (TRUE means to continue processing on encountering an error), and MustBeCompletedBy (which indicates the required completion time for the method), and a PropertiesToApply array (which contains a list of the property names whose values will be applied.) If a property is not in this list, it will be ignored by the Apply. If the array is null or empty or contains the string "ALL" as a property name, then all Settings properties shall be applied. If it is set to "NONE", then no Settings properties will be applied. 
+     * The return value should be 0 if the Setting is successfully applied to the referenced Collection, 1 if the method is not supported, 2 if the Setting was not applied within the specified time, 3 if the Setting cannot be applied using the input value for ContinueOnError, and any other number if an error occurred. One output parameter is defined, CanNotApplystring, which is an array that lists the keys of the ManagedSystemElements to which the Setting was NOT able to be applied. This output parameter has meaning only when the ContinueOnError parameter is TRUE. 
+     * In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier. 
+     * Note: if an error occurs in applying the Setting to a ManagedSystemElement in the Collection, the Element must be configured as when the 'Apply' attempt began. That is, the Element should NOT be left in an indeterminate state.
+     */
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_Setting(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+    public static class METHOD_APPLYINCREMENTALCHANGETOCOLLECTION {
+        /**
+         * Constant for method ApplyIncrementalChangeToCollection
+         */
+        public final static String NAME = "ApplyIncrementalChangeToCollection";
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
-            }
-            CIM_Setting.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+        /**
+         * constants for parameter Collection
+         */
+        public static class PARAMETER_COLLECTION {
+            /*
+             * Name of the parameter Collection
+             */
+            public final static String NAME = "Collection";
+
+        }
+
+        /**
+         * constants for parameter TimeToApply
+         */
+        public static class PARAMETER_TIMETOAPPLY {
+            /*
+             * Name of the parameter TimeToApply
+             */
+            public final static String NAME = "TimeToApply";
+
+        }
+
+        /**
+         * constants for parameter ContinueOnError
+         */
+        public static class PARAMETER_CONTINUEONERROR {
+            /*
+             * Name of the parameter ContinueOnError
+             */
+            public final static String NAME = "ContinueOnError";
+
+        }
+
+        /**
+         * constants for parameter MustBeCompletedBy
+         */
+        public static class PARAMETER_MUSTBECOMPLETEDBY {
+            /*
+             * Name of the parameter MustBeCompletedBy
+             */
+            public final static String NAME = "MustBeCompletedBy";
+
+        }
+
+        /**
+         * constants for parameter PropertiesToApply
+         */
+        public static class PARAMETER_PROPERTIESTOAPPLY {
+            /*
+             * Name of the parameter PropertiesToApply
+             */
+            public final static String NAME = "PropertiesToApply";
+
+        }
+
+        /**
+         * constants for parameter CanNotApply
+         */
+        public static class PARAMETER_CANNOTAPPLY {
+            /*
+             * Name of the parameter CanNotApply
+             */
+            public final static String NAME = "CanNotApply";
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_Setting.Java_Package_List.toArray(new String[CIM_Setting.Java_Package_List.size()]);
+    /**
+     * Constant for method\'s name and parameters
+     * The ApplyIncrementalChangeToMSE method performs the actual application of a subset of the properties in the Setting to the referenced ManagedSystemElement. It takes four input parameters: MSE (the ManagedSystem Element to which the Setting is being applied), TimeToApply (which, being a datetime, can be either a specific time or a time interval), MustBeCompletedBy (which indicates the required completion time for the method), and a PropertiesToApply array (which contains a list of the property names whose values will be applied.) If a property is not in this list, it will be ignored by the Apply. If the array is null, empty or contains the string "ALL" as a property name, then all Settings properties shall be applied. If it is set to "NONE", then no Settings properties will be applied. 
+     * Note that the semantics of this method are that individual Settings are either wholly applied or not applied at all to their target ManagedSystemElement. The return value should be 0 if the Setting is successfully applied to the referenced ManagedSystemElement, 1 if the method is not supported, 2 if the Setting was not applied within the specified times, and any other number if an error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier. 
+     * Note: If an error occurs in applying the Setting to a ManagedSystemElement, the Element must be configured as when the 'Apply' attempt began. That is, the Element should NOT be left in an indeterminate state.
+     */
+
+    public static class METHOD_APPLYINCREMENTALCHANGETOMSE {
+        /**
+         * Constant for method ApplyIncrementalChangeToMSE
+         */
+        public final static String NAME = "ApplyIncrementalChangeToMSE";
+
+        /**
+         * constants for parameter MSE
+         */
+        public static class PARAMETER_MSE {
+            /*
+             * Name of the parameter MSE
+             */
+            public final static String NAME = "MSE";
+
+        }
+
+        /**
+         * constants for parameter TimeToApply
+         */
+        public static class PARAMETER_TIMETOAPPLY {
+            /*
+             * Name of the parameter TimeToApply
+             */
+            public final static String NAME = "TimeToApply";
+
+        }
+
+        /**
+         * constants for parameter MustBeCompletedBy
+         */
+        public static class PARAMETER_MUSTBECOMPLETEDBY {
+            /*
+             * Name of the parameter MustBeCompletedBy
+             */
+            public final static String NAME = "MustBeCompletedBy";
+
+        }
+
+        /**
+         * constants for parameter PropertiesToApply
+         */
+        public static class PARAMETER_PROPERTIESTOAPPLY {
+            /*
+             * Name of the parameter PropertiesToApply
+             */
+            public final static String NAME = "PropertiesToApply";
+
+        }
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Constant for method\'s name and parameters
+     * The ApplyToCollection method performs the application of the Setting to the referenced Collection of ManagedSystem Elements. The net effect is to execute the ApplyToMSE method against each of the Elements aggregated by the Collection. If the input value ContinueOnError is FALSE, this method applies the Setting to all Elements in the Collection until it encounters an error, in which case it stops execution, logs the key of the Element that caused the error in the CanNotApply array, and issues a return code of 2. If the input value ContinueOnError is TRUE, then this method applies the Setting to all the ManagedSystemElements in the Collection, and reports the failed Elements in the array, CanNotApply. For the latter, processing will continue until the method is applied to all Elements in the Collection, regardless of any errors encountered. The key of each ManagedSystemElement to which the Setting could not be applied is logged into the CanNotApply array. This method takes four input parameters: Collection (the Collection of Elements to which the Setting is being applied), TimeToApply (which, being a datetime, can be either a specific time or a time interval), ContinueOnError (TRUE means to continue processing on encountering an error), and MustBeCompletedBy (which indicates the required completion time for the method). The return value should be 0 if the Setting is successfully applied to the referenced Collection, 1 if the method is not supported, 2 if the Setting was not applied within the specified times, 3 if the Setting cannot be applied using the input value for ContinueOnError, and any other number if an error occurred. One output parameter is defined, CanNotApplystring, which is an array that lists the keys of the ManagedSystemElements to which the Setting was NOT able to be applied. This output parameter has meaning only when the ContinueOnError parameter is TRUE. 
+     * In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier. 
+     * Note: if an error occurs in applying the Setting to a ManagedSystemElement in the Collection, the Element must be configured as when the 'Apply' attempt began. That is, the Element should NOT be left in an indeterminate state.
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_Setting)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_Setting)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_Setting)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_Setting)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_Setting)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_Setting)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_Setting)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_Setting)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_Setting)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_Setting)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public static class METHOD_APPLYTOCOLLECTION {
+        /**
+         * Constant for method ApplyToCollection
+         */
+        public final static String NAME = "ApplyToCollection";
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	public ArrayList getAssociated_CIM_CollectionOfMSEs_CIM_CollectionSettings(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
+        /**
+         * constants for parameter Collection
+         */
+        public static class PARAMETER_COLLECTION {
+            /*
+             * Name of the parameter Collection
+             */
+            public final static String NAME = "Collection";
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING, 
-					CIM_CollectionOfMSEs.CIM_CLASS_NAME, 
-					"Setting", //$NON-NLS-1$
-					"Collection", //$NON-NLS-1$
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
+        }
+
+        /**
+         * constants for parameter TimeToApply
+         */
+        public static class PARAMETER_TIMETOAPPLY {
+            /*
+             * Name of the parameter TimeToApply
+             */
+            public final static String NAME = "TimeToApply";
+
+        }
+
+        /**
+         * constants for parameter ContinueOnError
+         */
+        public static class PARAMETER_CONTINUEONERROR {
+            /*
+             * Name of the parameter ContinueOnError
+             */
+            public final static String NAME = "ContinueOnError";
+
+        }
+
+        /**
+         * constants for parameter MustBeCompletedBy
+         */
+        public static class PARAMETER_MUSTBECOMPLETEDBY {
+            /*
+             * Name of the parameter MustBeCompletedBy
+             */
+            public final static String NAME = "MustBeCompletedBy";
+
+        }
+
+        /**
+         * constants for parameter CanNotApply
+         */
+        public static class PARAMETER_CANNOTAPPLY {
+            /*
+             * Name of the parameter CanNotApply
+             */
+            public final static String NAME = "CanNotApply";
+
+        }
+    }
+
+    /**
+     * Constant for method\'s name and parameters
+     * The ApplyToMSE method performs the actual application of the Setting to the referenced ManagedSystemElement. It takes three input parameters: MSE (the ManagedSystem Element to which the Setting is being applied), TimeToApply (which, being a datetime, can be either a specific time or a time interval), and MustBeCompletedBy (which indicates the required completion time for the method). Note that the semantics of this method are that individual Settings are either wholly applied or not applied at all to their target ManagedSystemElement. The return value should be 0 if the Setting is successfully applied to the referenced ManagedSystemElement, 1 if the method is not supported, 2 if the Setting was not applied within the specified times, and any other number if an error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier. 
+     * Note: If an error occurs in applying the Setting to a ManagedSystemElement, the Element must be configured as when the 'Apply' attempt began. That is, the Element should NOT be left in an indeterminate state.
+     */
+
+    public static class METHOD_APPLYTOMSE {
+        /**
+         * Constant for method ApplyToMSE
+         */
+        public final static String NAME = "ApplyToMSE";
+
+        /**
+         * constants for parameter MSE
+         */
+        public static class PARAMETER_MSE {
+            /*
+             * Name of the parameter MSE
+             */
+            public final static String NAME = "MSE";
+
+        }
+
+        /**
+         * constants for parameter TimeToApply
+         */
+        public static class PARAMETER_TIMETOAPPLY {
+            /*
+             * Name of the parameter TimeToApply
+             */
+            public final static String NAME = "TimeToApply";
+
+        }
+
+        /**
+         * constants for parameter MustBeCompletedBy
+         */
+        public static class PARAMETER_MUSTBECOMPLETEDBY {
+            /*
+             * Name of the parameter MustBeCompletedBy
+             */
+            public final static String NAME = "MustBeCompletedBy";
+
+        }
+    }
+
+    /**
+     * Constant for method\'s name and parameters
+     * The VerifyOKToApplyIncrementalChangeToCollection method is used to verify that a subset of the properties in this Setting can be 'applied' to the referenced Collection of ManagedSystemElements, at the given time or time interval, without causing adverse effects to either the Collection itself or its surrounding environment. The net effect is to execute the VerifyOKToApplyIncrementalChangeToMSE method against each of the Elements aggregated by the Collection. This method takes three input parameters: Collection (the Collection of Managed SystemElements that is being verified), TimeToApply (which, being a datetime, can be either a specific time or a time interval), MustBeCompletedBy (which indicates the required completion time for the method), and a PropertiesToApply array (which contains a list of the property names whose values will be verified. If they array is null or empty or constains the string "all" as a property name then all Settings properties shall be verified. If it is set to "none" then no Settings properties will be verified). The return value should be 0 if it is OK to apply the Setting, 1 if the method is not supported, 2 if the Setting cannot be applied within the specified times, and any other number if an error occurred. One output parameter is defined - CanNotApply - which is a string array that lists the keys of the ManagedSystemElements to which the Setting can NOT be applied. This enables those Elements to be revisited and either fixed, or other corrective action taken. 
+     * In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
+     */
+
+    public static class METHOD_VERIFYOKTOAPPLYINCREMENTALCHANGETOCOLLECTION {
+        /**
+         * Constant for method VerifyOKToApplyIncrementalChangeToCollection
+         */
+        public final static String NAME = "VerifyOKToApplyIncrementalChangeToCollection";
+
+        /**
+         * constants for parameter Collection
+         */
+        public static class PARAMETER_COLLECTION {
+            /*
+             * Name of the parameter Collection
+             */
+            public final static String NAME = "Collection";
+
+        }
+
+        /**
+         * constants for parameter TimeToApply
+         */
+        public static class PARAMETER_TIMETOAPPLY {
+            /*
+             * Name of the parameter TimeToApply
+             */
+            public final static String NAME = "TimeToApply";
+
+        }
+
+        /**
+         * constants for parameter MustBeCompletedBy
+         */
+        public static class PARAMETER_MUSTBECOMPLETEDBY {
+            /*
+             * Name of the parameter MustBeCompletedBy
+             */
+            public final static String NAME = "MustBeCompletedBy";
+
+        }
+
+        /**
+         * constants for parameter PropertiesToApply
+         */
+        public static class PARAMETER_PROPERTIESTOAPPLY {
+            /*
+             * Name of the parameter PropertiesToApply
+             */
+            public final static String NAME = "PropertiesToApply";
+
+        }
+
+        /**
+         * constants for parameter CanNotApply
+         */
+        public static class PARAMETER_CANNOTAPPLY {
+            /*
+             * Name of the parameter CanNotApply
+             */
+            public final static String NAME = "CanNotApply";
+
+        }
+    }
+
+    /**
+     * Constant for method\'s name and parameters
+     * The VerifyOKToApplyIncrementalChangeToMSE method is used to verify that a subset of the properties in this Setting can be 'applied' to the referenced Managed SystemElement, at the given time or time interval. This method takes four input parameters: MSE (the Managed SystemElement that is being verified), TimeToApply (which, being a datetime, can be either a specific time or a time interval), MustBeCompletedBy (which indicates the required completion time for the method), and a PropertiesToApply array (which contains a list of the property names whose values will be verified.) If the array is null, empty or contains the string "ALL" as a property name, then all Settings properties shall be verified. If it is set to "NONE", then no Settings properties will be verified. The return value should be 0 if it is OK to apply the Setting, 1 if the method is not supported, 2 if the Setting cannot be applied within the specified times, and any other number if an error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
+     */
+
+    public static class METHOD_VERIFYOKTOAPPLYINCREMENTALCHANGETOMSE {
+        /**
+         * Constant for method VerifyOKToApplyIncrementalChangeToMSE
+         */
+        public final static String NAME = "VerifyOKToApplyIncrementalChangeToMSE";
+
+        /**
+         * constants for parameter MSE
+         */
+        public static class PARAMETER_MSE {
+            /*
+             * Name of the parameter MSE
+             */
+            public final static String NAME = "MSE";
+
+        }
+
+        /**
+         * constants for parameter TimeToApply
+         */
+        public static class PARAMETER_TIMETOAPPLY {
+            /*
+             * Name of the parameter TimeToApply
+             */
+            public final static String NAME = "TimeToApply";
+
+        }
+
+        /**
+         * constants for parameter MustBeCompletedBy
+         */
+        public static class PARAMETER_MUSTBECOMPLETEDBY {
+            /*
+             * Name of the parameter MustBeCompletedBy
+             */
+            public final static String NAME = "MustBeCompletedBy";
+
+        }
+
+        /**
+         * constants for parameter PropertiesToApply
+         */
+        public static class PARAMETER_PROPERTIESTOAPPLY {
+            /*
+             * Name of the parameter PropertiesToApply
+             */
+            public final static String NAME = "PropertiesToApply";
+
+        }
+    }
+
+    /**
+     * Constant for method\'s name and parameters
+     * The VerifyOKToApplyToCollection method is used to verify that this Setting can be 'applied' to the referenced Collection of ManagedSystemElements, at the given time or time interval, without causing adverse effects to either the Collection itself or its surrounding environment. The net effect is to execute the VerifyOKToApply method against each of the Elements aggregated by the Collection. This method takes three input parameters: Collection (the Collection of Managed SystemElements that is being verified), TimeToApply (which, being a datetime, can be either a specific time or a time interval), and MustBeCompletedBy (which indicates the required completion time for the method). The return value should be 0 if it is OK to apply the Setting, 1 if the method is not supported, 2 if the Setting cannot be applied within the specified times, and any other number if an error occurred. One output parameter is defined - CanNotApply - which is a string array that lists the keys of the ManagedSystemElements to which the Setting can NOT be applied. This enables those Elements to be revisited and either fixed, or other corrective action taken. 
+     * In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
+     */
+
+    public static class METHOD_VERIFYOKTOAPPLYTOCOLLECTION {
+        /**
+         * Constant for method VerifyOKToApplyToCollection
+         */
+        public final static String NAME = "VerifyOKToApplyToCollection";
+
+        /**
+         * constants for parameter Collection
+         */
+        public static class PARAMETER_COLLECTION {
+            /*
+             * Name of the parameter Collection
+             */
+            public final static String NAME = "Collection";
+
+        }
+
+        /**
+         * constants for parameter TimeToApply
+         */
+        public static class PARAMETER_TIMETOAPPLY {
+            /*
+             * Name of the parameter TimeToApply
+             */
+            public final static String NAME = "TimeToApply";
+
+        }
+
+        /**
+         * constants for parameter MustBeCompletedBy
+         */
+        public static class PARAMETER_MUSTBECOMPLETEDBY {
+            /*
+             * Name of the parameter MustBeCompletedBy
+             */
+            public final static String NAME = "MustBeCompletedBy";
+
+        }
+
+        /**
+         * constants for parameter CanNotApply
+         */
+        public static class PARAMETER_CANNOTAPPLY {
+            /*
+             * Name of the parameter CanNotApply
+             */
+            public final static String NAME = "CanNotApply";
+
+        }
+    }
+
+    /**
+     * Constant for method\'s name and parameters
+     * The VerifyOKToApplyToMSE method is used to verify that this Setting can be 'applied' to the referenced Managed SystemElement, at the given time or time interval. This method takes three input parameters: MSE (the Managed SystemElement that is being verified), TimeToApply (which, being a datetime, can be either a specific time or a time interval), and MustBeCompletedBy (which indicates the required completion time for the method). The return value should be 0 if it is OK to apply the Setting, 1 if the method is not supported, 2 if the Setting cannot be applied within the specified times, and any other number if an error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
+     */
+
+    public static class METHOD_VERIFYOKTOAPPLYTOMSE {
+        /**
+         * Constant for method VerifyOKToApplyToMSE
+         */
+        public final static String NAME = "VerifyOKToApplyToMSE";
+
+        /**
+         * constants for parameter MSE
+         */
+        public static class PARAMETER_MSE {
+            /*
+             * Name of the parameter MSE
+             */
+            public final static String NAME = "MSE";
+
+        }
+
+        /**
+         * constants for parameter TimeToApply
+         */
+        public static class PARAMETER_TIMETOAPPLY {
+            /*
+             * Name of the parameter TimeToApply
+             */
+            public final static String NAME = "TimeToApply";
+
+        }
+
+        /**
+         * constants for parameter MustBeCompletedBy
+         */
+        public static class PARAMETER_MUSTBECOMPLETEDBY {
+            /*
+             * Name of the parameter MustBeCompletedBy
+             */
+            public final static String NAME = "MustBeCompletedBy";
+
+        }
+    }
+
+    /**
+     * Constants of property SettingID
+     * The identifier by which the Setting object is known.
+     */
+    public static class PROPERTY_SETTINGID {
+        /**
+         * name of the property SettingID
+         */
+        public final static String NAME = "SettingID";
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_ManagedElement.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *   protected because this class should not be created directly because it represents an abstract CIM Class     *   <br>
+     *   The Setting class represents configuration-related and operational parameters for one or more ManagedSystemElement(s). An Element may have multiple Setting objects associated with it. The current operational values for an Element's parameters are reflected by properties in the Element itself or by properties in its associations. These properties do not have to be the same values present in the Setting object. For example, a modem may have a Setting baud rate of 56Kb/sec but be operating at 19.2Kb/sec. 
+     * Note that the CIM_SettingData class is very similar to CIM_Setting, yet both classes are present in the model. This is because many implementations have successfully used CIM_Setting. However, issues have arisen that could not be resolved without defining a new class. Therefore, until a new major release occurs, both classes will exist in the model. Refer to the Core White Paper for additional information.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    protected CIM_Setting(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *   protected because this class should not be created directly because it represents an abstract CIM Class     *   <br>
+     *   The Setting class represents configuration-related and operational parameters for one or more ManagedSystemElement(s). An Element may have multiple Setting objects associated with it. The current operational values for an Element's parameters are reflected by properties in the Element itself or by properties in its associations. These properties do not have to be the same values present in the Setting object. For example, a modem may have a Setting baud rate of 56Kb/sec but be operating at 19.2Kb/sec. 
+     * Note that the CIM_SettingData class is very similar to CIM_Setting, yet both classes are present in the model. This is because many implementations have successfully used CIM_Setting. However, issues have arisen that could not be resolved without defining a new class. Therefore, until a new major release occurs, both classes will exist in the model. Refer to the Core White Paper for additional information.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    protected CIM_Setting(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_Setting() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck
+                .put("SettingID", new CIMProperty("SettingID", CIMDataType.STRING_T, null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
+        }
+    }
+
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property SettingID
+     *     * <br>
+     * The identifier by which the Setting object is known.
+     *     */
+
+    public String get_SettingID() {
+        CIMProperty currentProperty = getProperty(PROPERTY_SETTINGID.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_SETTINGID.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property SettingID
+     * <br>
+     * The identifier by which the Setting object is known.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_SettingID(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_SETTINGID.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_SettingID(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SETTINGID.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property SettingID by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_SettingID(WBEMClient client, String namespace, String newValue)
+            throws WbemsmtException {
+        CIM_Setting fco = new CIM_Setting(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_SETTINGID.NAME);
+        if (property != null) {
+            property = setPropertyValue_SettingID(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SETTINGID.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property SettingID
+     * <br>
+     * The identifier by which the Setting object is known.
+     */
+
+    private static CIMProperty setPropertyValue_SettingID(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    /**
+     * Get the list with CIM_ManagedSystemElement objects associated by the association CIM_ElementSetting
+     * 
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ManagedSystemElement_CIM_ElementSettings(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_ManagedSystemElement_CIM_ElementSettings(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING,
+                CIM_ManagedSystemElement.CIM_CLASS_NAME, null, null, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_ManagedSystemElement objects associated by the association CIM_ElementSetting
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ManagedSystemElement_CIM_ElementSettings(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_ManagedSystemElement_CIM_ElementSettings(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING, resultClass, role, resultRole, false,
+                false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_ManagedSystemElement objects associated by the association CIM_ElementSetting
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param associationClass This string MUST either contain a valid CIM Association class name or be null. It filters the Objects returned to contain only Objects associated to the source Object via this CIM Association class or one of its subclasses.
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ManagedSystemElement_CIM_ElementSettings(
+            WBEMClient cimClient, String associationClass, String resultClass, String role,
+            String resultRole, boolean includeQualifiers, boolean includeClassOrigin,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associators(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole, includeQualifiers, includeClassOrigin,
+                    propertyList);
+        }
+        catch (WBEMException e) {
+            throw new AssociatorException(e, new AssociatorUserObject(this.getCimObjectPath(),
+                    associationClass, resultClass, role, resultRole, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_SettingHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_SettingHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
                     Class clazz = CIM_SettingHelper.findClass(cimClient, cimInstance);
-                    
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_CollectionOfMSEs(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_CollectionOfMSEs(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_CollectionOfMSEs(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
 
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_ManagedSystemElement(cimInstance));
+                        continue;
+                    }
 
-	public ArrayList getAssociated_CIM_CollectionOfMSEs_CIM_CollectionSetting_Names(CIMClient cimClient, boolean deep) {
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_ManagedSystemElement(cimInstance));
+                        continue;
+                    }
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_ManagedSystemElement(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_SettingHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
 
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING, 
-					CIM_CollectionOfMSEs.CIM_CLASS_NAME, 
-					"Setting", //$NON-NLS-1$
-					"Collection"); //$NON-NLS-1$
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_CollectionOfMSEs.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+        return result;
+    }
 
-	public ArrayList getAssociated_CIM_ManagedSystemElement_CIM_ElementSettings(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_ElementSetting
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING, 
-					CIM_ManagedSystemElement.CIM_CLASS_NAME, 
-					"Setting", //$NON-NLS-1$
-					"Element", //$NON-NLS-1$
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
+    public java.util.List getAssociated_CIM_ManagedSystemElement_CIM_ElementSettingNames(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_ManagedSystemElement_CIM_ElementSettingNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING,
+                CIM_ManagedSystemElement.CIM_CLASS_NAME, null, null);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_ElementSetting
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_ManagedSystemElement_CIM_ElementSettingNames(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_ManagedSystemElement_CIM_ElementSettingNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING, resultClass, role, resultRole);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_ElementSetting
+     * @param cimClient the WBEMClient for the communication
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_ManagedSystemElement_CIM_ElementSettingNames(
+            WBEMClient cimClient, boolean deep, String associationClass, String resultClass,
+            String role, String resultRole) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associatorNames(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole);
+
+        }
+        catch (WBEMException e) {
+            throw new AssociatorNamesException(e, new AssociatorNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING,
+                    CIM_ManagedSystemElement.CIM_CLASS_NAME, null, null));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_SettingHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_SettingHelper.checkException(enumeration);
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_ManagedSystemElement.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_SettingHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_ElementSetting associations
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#references(CIMObjectPath, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociations_CIM_ElementSetting(WBEMClient cimClient,
+            boolean includeQualifiers, boolean includeClassOrigin, String role,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.references(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING, role, includeQualifiers,
+                    includeClassOrigin, propertyList);
+        }
+        catch (WBEMException e) {
+            throw new ReferencesException(e, new ReferencesUserObject(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING, role, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_SettingHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_SettingHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_ElementSettingHelper.findClass(cimClient, cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_ElementSetting(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_ElementSetting(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_ElementSetting(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_SettingHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a list of CIMObjectPath items of the associations CIM_ElementSetting
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#referenceNames(CIMObjectPath, String, String)
+     **/
+
+    public java.util.List getAssociationNames_CIM_ElementSetting(WBEMClient cimClient, String role,
+            boolean deep) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.referenceNames(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING, role);
+        }
+        catch (WBEMException e) {
+            throw new ReferenceNamesException(e, new ReferenceNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING, role));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_SettingHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_SettingHelper.checkException(enumeration);
+
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_ElementSetting.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_SettingHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_Configuration objects associated by the association CIM_SettingContext
+     * 
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_Configuration_CIM_SettingContexts(WBEMClient cimClient)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_Configuration_CIM_SettingContexts(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT, CIM_Configuration.CIM_CLASS_NAME,
+                null, null, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_Configuration objects associated by the association CIM_SettingContext
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_Configuration_CIM_SettingContexts(WBEMClient cimClient,
+            String resultClass, String role, String resultRole) throws WbemsmtException {
+
+        return getAssociated_CIM_Configuration_CIM_SettingContexts(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT, resultClass, role, resultRole, false,
+                false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_Configuration objects associated by the association CIM_SettingContext
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param associationClass This string MUST either contain a valid CIM Association class name or be null. It filters the Objects returned to contain only Objects associated to the source Object via this CIM Association class or one of its subclasses.
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_Configuration_CIM_SettingContexts(WBEMClient cimClient,
+            String associationClass, String resultClass, String role, String resultRole,
+            boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList)
+            throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associators(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole, includeQualifiers, includeClassOrigin,
+                    propertyList);
+        }
+        catch (WBEMException e) {
+            throw new AssociatorException(e, new AssociatorUserObject(this.getCimObjectPath(),
+                    associationClass, resultClass, role, resultRole, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_SettingHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_SettingHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
                     Class clazz = CIM_SettingHelper.findClass(cimClient, cimInstance);
-                    
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ManagedSystemElement(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ManagedSystemElement(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ManagedSystemElement(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
 
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_Configuration(cimInstance));
+                        continue;
+                    }
 
-	public ArrayList getAssociated_CIM_ManagedSystemElement_CIM_ElementSetting_Names(CIMClient cimClient, boolean deep) {
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_Configuration(cimInstance));
+                        continue;
+                    }
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_Configuration(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_SettingHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
 
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSETTING, 
-					CIM_ManagedSystemElement.CIM_CLASS_NAME, 
-					"Setting", //$NON-NLS-1$
-					"Element"); //$NON-NLS-1$
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_ManagedSystemElement.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+        return result;
+    }
 
-	public ArrayList getAssociated_CIM_Configuration_CIM_SettingContexts(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_SettingContext
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT, 
-					CIM_Configuration.CIM_CLASS_NAME, 
-					"Setting", //$NON-NLS-1$
-					"Context", //$NON-NLS-1$
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
+    public java.util.List getAssociated_CIM_Configuration_CIM_SettingContextNames(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_Configuration_CIM_SettingContextNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT, CIM_Configuration.CIM_CLASS_NAME,
+                null, null);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_SettingContext
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_Configuration_CIM_SettingContextNames(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_Configuration_CIM_SettingContextNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT, resultClass, role, resultRole);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_SettingContext
+     * @param cimClient the WBEMClient for the communication
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_Configuration_CIM_SettingContextNames(
+            WBEMClient cimClient, boolean deep, String associationClass, String resultClass,
+            String role, String resultRole) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associatorNames(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole);
+
+        }
+        catch (WBEMException e) {
+            throw new AssociatorNamesException(e, new AssociatorNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT,
+                    CIM_Configuration.CIM_CLASS_NAME, null, null));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_SettingHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_SettingHelper.checkException(enumeration);
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_Configuration.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_SettingHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_SettingContext associations
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#references(CIMObjectPath, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociations_CIM_SettingContext(WBEMClient cimClient,
+            boolean includeQualifiers, boolean includeClassOrigin, String role,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.references(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT, role, includeQualifiers,
+                    includeClassOrigin, propertyList);
+        }
+        catch (WBEMException e) {
+            throw new ReferencesException(e, new ReferencesUserObject(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT, role, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_SettingHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_SettingHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_SettingContextHelper.findClass(cimClient, cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_SettingContext(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_SettingContext(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_SettingContext(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_SettingHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a list of CIMObjectPath items of the associations CIM_SettingContext
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#referenceNames(CIMObjectPath, String, String)
+     **/
+
+    public java.util.List getAssociationNames_CIM_SettingContext(WBEMClient cimClient, String role,
+            boolean deep) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.referenceNames(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT, role);
+        }
+        catch (WBEMException e) {
+            throw new ReferenceNamesException(e, new ReferenceNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT, role));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_SettingHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_SettingHelper.checkException(enumeration);
+
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_SettingContext.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_SettingHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_CollectionOfMSEs objects associated by the association CIM_CollectionSetting
+     * 
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_CollectionOfMSEs_CIM_CollectionSettings(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_CollectionOfMSEs_CIM_CollectionSettings(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING,
+                CIM_CollectionOfMSEs.CIM_CLASS_NAME, null, null, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_CollectionOfMSEs objects associated by the association CIM_CollectionSetting
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_CollectionOfMSEs_CIM_CollectionSettings(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_CollectionOfMSEs_CIM_CollectionSettings(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING, resultClass, role, resultRole,
+                false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_CollectionOfMSEs objects associated by the association CIM_CollectionSetting
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param associationClass This string MUST either contain a valid CIM Association class name or be null. It filters the Objects returned to contain only Objects associated to the source Object via this CIM Association class or one of its subclasses.
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_CollectionOfMSEs_CIM_CollectionSettings(
+            WBEMClient cimClient, String associationClass, String resultClass, String role,
+            String resultRole, boolean includeQualifiers, boolean includeClassOrigin,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associators(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole, includeQualifiers, includeClassOrigin,
+                    propertyList);
+        }
+        catch (WBEMException e) {
+            throw new AssociatorException(e, new AssociatorUserObject(this.getCimObjectPath(),
+                    associationClass, resultClass, role, resultRole, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_SettingHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_SettingHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
                     Class clazz = CIM_SettingHelper.findClass(cimClient, cimInstance);
-                    
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Configuration(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Configuration(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Configuration(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
 
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_CollectionOfMSEs(cimInstance));
+                        continue;
+                    }
 
-	public ArrayList getAssociated_CIM_Configuration_CIM_SettingContext_Names(CIMClient cimClient, boolean deep) {
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_CollectionOfMSEs(cimInstance));
+                        continue;
+                    }
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_CollectionOfMSEs(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_SettingHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
 
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SETTINGCONTEXT, 
-					CIM_Configuration.CIM_CLASS_NAME, 
-					"Setting", //$NON-NLS-1$
-					"Context"); //$NON-NLS-1$
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_Configuration.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+        return result;
+    }
 
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute SettingID
-	
-	public String get_SettingID() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Setting.CIM_PROPERTY_SETTINGID);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Setting.CIM_PROPERTY_SETTINGID + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Setting.CIM_PROPERTY_SETTINGID + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_SettingID(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Setting.CIM_PROPERTY_SETTINGID);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Setting.CIM_PROPERTY_SETTINGID + " could not be found");
-    		
-		} else if (!CIM_SettingHelper.isValid_SettingID(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_Setting.CIM_PROPERTY_SETTINGID);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Setting.CIM_PROPERTY_SETTINGID + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_CollectionSetting
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
-	public UnsignedInt32 invoke_applyIncrementalChangeToCollection(CIMClient cimClient, CIM_CollectionOfMSEs Collection, Calendar TimeToApply, Boolean ContinueOnError, Calendar MustBeCompletedBy, String PropertiesToApply, String CanNotApply) {
-	  	Vector inParameter = new Vector();
-	  	Vector outParameter = new Vector();
-	  	
-	  	if (!isValidCimInstance()) {
-	  		throw new CIMException(CIMException.CIM_ERR_METHOD_NOT_AVAILABLE,"Used instance of class '" + 
-	  				CIM_Setting.CIM_CLASS_NAME + "' is not a valid CIMInstance.");
-	  	}
-	  	
-	  	CIMValue cimValue_Collection = new CIMValue(Collection.getCimObjectPath(), new CIMDataType(CIMDataType.REFERENCE));
-		CIMValue cimValue_TimeToApply = new CIMValue(TimeToApply, new CIMDataType(CIMDataType.DATETIME));
-		CIMValue cimValue_ContinueOnError = new CIMValue(ContinueOnError, new CIMDataType(CIMDataType.BOOLEAN));
-		CIMValue cimValue_MustBeCompletedBy = new CIMValue(MustBeCompletedBy, new CIMDataType(CIMDataType.DATETIME));
-		CIMValue cimValue_PropertiesToApply = new CIMValue(PropertiesToApply, new CIMDataType(CIMDataType.STRING_ARRAY));
-		CIMValue cimValue_CanNotApply = new CIMValue(CanNotApply, new CIMDataType(CIMDataType.STRING_ARRAY));
-		
-	  	inParameter.add(new CIMArgument("Collection", cimValue_Collection));
-		inParameter.add(new CIMArgument("TimeToApply", cimValue_TimeToApply));
-		inParameter.add(new CIMArgument("ContinueOnError", cimValue_ContinueOnError));
-		inParameter.add(new CIMArgument("MustBeCompletedBy", cimValue_MustBeCompletedBy));
-		inParameter.add(new CIMArgument("PropertiesToApply", cimValue_PropertiesToApply));
-		inParameter.add(new CIMArgument("CanNotApply", cimValue_CanNotApply));
-		
-	  	outParameter.add(new CIMArgument("CanNotApply", cimValue_CanNotApply));
-		
-	  	CIMValue returnValue = cimClient.invokeMethod(this.getCimObjectPath(), 
-				  									  CIM_METHOD_APPLYINCREMENTALCHANGETOCOLLECTION,
-													  inParameter,
-													  outParameter);
-		
-		if (returnValue == null || returnValue.isNull()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The returned CIMValue from remote method call '" + 
-					CIM_Setting.CIM_METHOD_APPLYINCREMENTALCHANGETOCOLLECTION + "' is null.");
-		}
-		if (returnValue.getValue() == null || returnValue.isNullValue()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The return value from remote method call '" + 
-					CIM_Setting.CIM_METHOD_APPLYINCREMENTALCHANGETOCOLLECTION + "' is null.");
-		}
-		if (returnValue.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The return value from remote method call " + CIM_Setting.CIM_METHOD_APPLYINCREMENTALCHANGETOCOLLECTION + 
-					" is not of expected type: " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");		
-		}
+    public java.util.List getAssociated_CIM_CollectionOfMSEs_CIM_CollectionSettingNames(
+            WBEMClient cimClient) throws WbemsmtException {
 
-		return (UnsignedInt32)returnValue.getValue(); 		  	
-	  }
+        return getAssociated_CIM_CollectionOfMSEs_CIM_CollectionSettingNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING,
+                CIM_CollectionOfMSEs.CIM_CLASS_NAME, null, null);
+    }
 
-	
-	public UnsignedInt32 invoke_applyIncrementalChangeToMSE(CIMClient cimClient, CIM_ManagedSystemElement MSE, Calendar TimeToApply, Calendar MustBeCompletedBy, String PropertiesToApply) {
-	  	Vector inParameter = new Vector();
-	  	Vector outParameter = new Vector();
-	  	
-	  	if (!isValidCimInstance()) {
-	  		throw new CIMException(CIMException.CIM_ERR_METHOD_NOT_AVAILABLE,"Used instance of class '" + 
-	  				CIM_Setting.CIM_CLASS_NAME + "' is not a valid CIMInstance.");
-	  	}
-	  	
-	  	CIMValue cimValue_MSE = new CIMValue(MSE.getCimObjectPath(), new CIMDataType(CIMDataType.REFERENCE));
-		CIMValue cimValue_TimeToApply = new CIMValue(TimeToApply, new CIMDataType(CIMDataType.DATETIME));
-		CIMValue cimValue_MustBeCompletedBy = new CIMValue(MustBeCompletedBy, new CIMDataType(CIMDataType.DATETIME));
-		CIMValue cimValue_PropertiesToApply = new CIMValue(PropertiesToApply, new CIMDataType(CIMDataType.STRING_ARRAY));
-		
-	  	inParameter.add(new CIMArgument("MSE", cimValue_MSE));
-		inParameter.add(new CIMArgument("TimeToApply", cimValue_TimeToApply));
-		inParameter.add(new CIMArgument("MustBeCompletedBy", cimValue_MustBeCompletedBy));
-		inParameter.add(new CIMArgument("PropertiesToApply", cimValue_PropertiesToApply));
-		
-	  	
-	  	CIMValue returnValue = cimClient.invokeMethod(this.getCimObjectPath(), 
-				  									  CIM_METHOD_APPLYINCREMENTALCHANGETOMSE,
-													  inParameter,
-													  outParameter);
-		
-		if (returnValue == null || returnValue.isNull()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The returned CIMValue from remote method call '" + 
-					CIM_Setting.CIM_METHOD_APPLYINCREMENTALCHANGETOMSE + "' is null.");
-		}
-		if (returnValue.getValue() == null || returnValue.isNullValue()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The return value from remote method call '" + 
-					CIM_Setting.CIM_METHOD_APPLYINCREMENTALCHANGETOMSE + "' is null.");
-		}
-		if (returnValue.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The return value from remote method call " + CIM_Setting.CIM_METHOD_APPLYINCREMENTALCHANGETOMSE + 
-					" is not of expected type: " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");		
-		}
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_CollectionSetting
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
 
-		return (UnsignedInt32)returnValue.getValue(); 		  	
-	  }
+    public java.util.List getAssociated_CIM_CollectionOfMSEs_CIM_CollectionSettingNames(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
 
-	
-	public UnsignedInt32 invoke_applyToCollection(CIMClient cimClient, CIM_CollectionOfMSEs Collection, Calendar TimeToApply, Boolean ContinueOnError, Calendar MustBeCompletedBy, String CanNotApply) {
-	  	Vector inParameter = new Vector();
-	  	Vector outParameter = new Vector();
-	  	
-	  	if (!isValidCimInstance()) {
-	  		throw new CIMException(CIMException.CIM_ERR_METHOD_NOT_AVAILABLE,"Used instance of class '" + 
-	  				CIM_Setting.CIM_CLASS_NAME + "' is not a valid CIMInstance.");
-	  	}
-	  	
-	  	CIMValue cimValue_Collection = new CIMValue(Collection.getCimObjectPath(), new CIMDataType(CIMDataType.REFERENCE));
-		CIMValue cimValue_TimeToApply = new CIMValue(TimeToApply, new CIMDataType(CIMDataType.DATETIME));
-		CIMValue cimValue_ContinueOnError = new CIMValue(ContinueOnError, new CIMDataType(CIMDataType.BOOLEAN));
-		CIMValue cimValue_MustBeCompletedBy = new CIMValue(MustBeCompletedBy, new CIMDataType(CIMDataType.DATETIME));
-		CIMValue cimValue_CanNotApply = new CIMValue(CanNotApply, new CIMDataType(CIMDataType.STRING_ARRAY));
-		
-	  	inParameter.add(new CIMArgument("Collection", cimValue_Collection));
-		inParameter.add(new CIMArgument("TimeToApply", cimValue_TimeToApply));
-		inParameter.add(new CIMArgument("ContinueOnError", cimValue_ContinueOnError));
-		inParameter.add(new CIMArgument("MustBeCompletedBy", cimValue_MustBeCompletedBy));
-		inParameter.add(new CIMArgument("CanNotApply", cimValue_CanNotApply));
-		
-	  	outParameter.add(new CIMArgument("CanNotApply", cimValue_CanNotApply));
-		
-	  	CIMValue returnValue = cimClient.invokeMethod(this.getCimObjectPath(), 
-				  									  CIM_METHOD_APPLYTOCOLLECTION,
-													  inParameter,
-													  outParameter);
-		
-		if (returnValue == null || returnValue.isNull()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The returned CIMValue from remote method call '" + 
-					CIM_Setting.CIM_METHOD_APPLYTOCOLLECTION + "' is null.");
-		}
-		if (returnValue.getValue() == null || returnValue.isNullValue()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The return value from remote method call '" + 
-					CIM_Setting.CIM_METHOD_APPLYTOCOLLECTION + "' is null.");
-		}
-		if (returnValue.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The return value from remote method call " + CIM_Setting.CIM_METHOD_APPLYTOCOLLECTION + 
-					" is not of expected type: " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");		
-		}
+        return getAssociated_CIM_CollectionOfMSEs_CIM_CollectionSettingNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING, resultClass, role, resultRole);
+    }
 
-		return (UnsignedInt32)returnValue.getValue(); 		  	
-	  }
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_CollectionSetting
+     * @param cimClient the WBEMClient for the communication
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
 
-	
-	public UnsignedInt32 invoke_applyToMSE(CIMClient cimClient, CIM_ManagedSystemElement MSE, Calendar TimeToApply, Calendar MustBeCompletedBy) {
-	  	Vector inParameter = new Vector();
-	  	Vector outParameter = new Vector();
-	  	
-	  	if (!isValidCimInstance()) {
-	  		throw new CIMException(CIMException.CIM_ERR_METHOD_NOT_AVAILABLE,"Used instance of class '" + 
-	  				CIM_Setting.CIM_CLASS_NAME + "' is not a valid CIMInstance.");
-	  	}
-	  	
-	  	CIMValue cimValue_MSE = new CIMValue(MSE.getCimObjectPath(), new CIMDataType(CIMDataType.REFERENCE));
-		CIMValue cimValue_TimeToApply = new CIMValue(TimeToApply, new CIMDataType(CIMDataType.DATETIME));
-		CIMValue cimValue_MustBeCompletedBy = new CIMValue(MustBeCompletedBy, new CIMDataType(CIMDataType.DATETIME));
-		
-	  	inParameter.add(new CIMArgument("MSE", cimValue_MSE));
-		inParameter.add(new CIMArgument("TimeToApply", cimValue_TimeToApply));
-		inParameter.add(new CIMArgument("MustBeCompletedBy", cimValue_MustBeCompletedBy));
-		
-	  	
-	  	CIMValue returnValue = cimClient.invokeMethod(this.getCimObjectPath(), 
-				  									  CIM_METHOD_APPLYTOMSE,
-													  inParameter,
-													  outParameter);
-		
-		if (returnValue == null || returnValue.isNull()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The returned CIMValue from remote method call '" + 
-					CIM_Setting.CIM_METHOD_APPLYTOMSE + "' is null.");
-		}
-		if (returnValue.getValue() == null || returnValue.isNullValue()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The return value from remote method call '" + 
-					CIM_Setting.CIM_METHOD_APPLYTOMSE + "' is null.");
-		}
-		if (returnValue.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The return value from remote method call " + CIM_Setting.CIM_METHOD_APPLYTOMSE + 
-					" is not of expected type: " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");		
-		}
+    public java.util.List getAssociated_CIM_CollectionOfMSEs_CIM_CollectionSettingNames(
+            WBEMClient cimClient, boolean deep, String associationClass, String resultClass,
+            String role, String resultRole) throws WbemsmtException {
 
-		return (UnsignedInt32)returnValue.getValue(); 		  	
-	  }
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
 
-	
-	public UnsignedInt32 invoke_verifyOKToApplyIncrementalChangeToCollection(CIMClient cimClient, CIM_CollectionOfMSEs Collection, Calendar TimeToApply, Calendar MustBeCompletedBy, String PropertiesToApply, String CanNotApply) {
-	  	Vector inParameter = new Vector();
-	  	Vector outParameter = new Vector();
-	  	
-	  	if (!isValidCimInstance()) {
-	  		throw new CIMException(CIMException.CIM_ERR_METHOD_NOT_AVAILABLE,"Used instance of class '" + 
-	  				CIM_Setting.CIM_CLASS_NAME + "' is not a valid CIMInstance.");
-	  	}
-	  	
-	  	CIMValue cimValue_Collection = new CIMValue(Collection.getCimObjectPath(), new CIMDataType(CIMDataType.REFERENCE));
-		CIMValue cimValue_TimeToApply = new CIMValue(TimeToApply, new CIMDataType(CIMDataType.DATETIME));
-		CIMValue cimValue_MustBeCompletedBy = new CIMValue(MustBeCompletedBy, new CIMDataType(CIMDataType.DATETIME));
-		CIMValue cimValue_PropertiesToApply = new CIMValue(PropertiesToApply, new CIMDataType(CIMDataType.STRING_ARRAY));
-		CIMValue cimValue_CanNotApply = new CIMValue(CanNotApply, new CIMDataType(CIMDataType.STRING_ARRAY));
-		
-	  	inParameter.add(new CIMArgument("Collection", cimValue_Collection));
-		inParameter.add(new CIMArgument("TimeToApply", cimValue_TimeToApply));
-		inParameter.add(new CIMArgument("MustBeCompletedBy", cimValue_MustBeCompletedBy));
-		inParameter.add(new CIMArgument("PropertiesToApply", cimValue_PropertiesToApply));
-		inParameter.add(new CIMArgument("CanNotApply", cimValue_CanNotApply));
-		
-	  	outParameter.add(new CIMArgument("CanNotApply", cimValue_CanNotApply));
-		
-	  	CIMValue returnValue = cimClient.invokeMethod(this.getCimObjectPath(), 
-				  									  CIM_METHOD_VERIFYOKTOAPPLYINCREMENTALCHANGETOCOLLECTION,
-													  inParameter,
-													  outParameter);
-		
-		if (returnValue == null || returnValue.isNull()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The returned CIMValue from remote method call '" + 
-					CIM_Setting.CIM_METHOD_VERIFYOKTOAPPLYINCREMENTALCHANGETOCOLLECTION + "' is null.");
-		}
-		if (returnValue.getValue() == null || returnValue.isNullValue()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The return value from remote method call '" + 
-					CIM_Setting.CIM_METHOD_VERIFYOKTOAPPLYINCREMENTALCHANGETOCOLLECTION + "' is null.");
-		}
-		if (returnValue.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The return value from remote method call " + CIM_Setting.CIM_METHOD_VERIFYOKTOAPPLYINCREMENTALCHANGETOCOLLECTION + 
-					" is not of expected type: " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");		
-		}
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
 
-		return (UnsignedInt32)returnValue.getValue(); 		  	
-	  }
+        try {
+            enumeration = cimClient.associatorNames(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole);
 
-	
-	public UnsignedInt32 invoke_verifyOKToApplyIncrementalChangeToMSE(CIMClient cimClient, CIM_ManagedSystemElement MSE, Calendar TimeToApply, Calendar MustBeCompletedBy, String PropertiesToApply) {
-	  	Vector inParameter = new Vector();
-	  	Vector outParameter = new Vector();
-	  	
-	  	if (!isValidCimInstance()) {
-	  		throw new CIMException(CIMException.CIM_ERR_METHOD_NOT_AVAILABLE,"Used instance of class '" + 
-	  				CIM_Setting.CIM_CLASS_NAME + "' is not a valid CIMInstance.");
-	  	}
-	  	
-	  	CIMValue cimValue_MSE = new CIMValue(MSE.getCimObjectPath(), new CIMDataType(CIMDataType.REFERENCE));
-		CIMValue cimValue_TimeToApply = new CIMValue(TimeToApply, new CIMDataType(CIMDataType.DATETIME));
-		CIMValue cimValue_MustBeCompletedBy = new CIMValue(MustBeCompletedBy, new CIMDataType(CIMDataType.DATETIME));
-		CIMValue cimValue_PropertiesToApply = new CIMValue(PropertiesToApply, new CIMDataType(CIMDataType.STRING_ARRAY));
-		
-	  	inParameter.add(new CIMArgument("MSE", cimValue_MSE));
-		inParameter.add(new CIMArgument("TimeToApply", cimValue_TimeToApply));
-		inParameter.add(new CIMArgument("MustBeCompletedBy", cimValue_MustBeCompletedBy));
-		inParameter.add(new CIMArgument("PropertiesToApply", cimValue_PropertiesToApply));
-		
-	  	
-	  	CIMValue returnValue = cimClient.invokeMethod(this.getCimObjectPath(), 
-				  									  CIM_METHOD_VERIFYOKTOAPPLYINCREMENTALCHANGETOMSE,
-													  inParameter,
-													  outParameter);
-		
-		if (returnValue == null || returnValue.isNull()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The returned CIMValue from remote method call '" + 
-					CIM_Setting.CIM_METHOD_VERIFYOKTOAPPLYINCREMENTALCHANGETOMSE + "' is null.");
-		}
-		if (returnValue.getValue() == null || returnValue.isNullValue()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The return value from remote method call '" + 
-					CIM_Setting.CIM_METHOD_VERIFYOKTOAPPLYINCREMENTALCHANGETOMSE + "' is null.");
-		}
-		if (returnValue.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The return value from remote method call " + CIM_Setting.CIM_METHOD_VERIFYOKTOAPPLYINCREMENTALCHANGETOMSE + 
-					" is not of expected type: " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");		
-		}
+        }
+        catch (WBEMException e) {
+            throw new AssociatorNamesException(e, new AssociatorNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING,
+                    CIM_CollectionOfMSEs.CIM_CLASS_NAME, null, null));
+        }
 
-		return (UnsignedInt32)returnValue.getValue(); 		  	
-	  }
+        try {
+            while (enumeration.hasNext()) {
+                CIM_SettingHelper.checkException(enumeration);
 
-	
-	public UnsignedInt32 invoke_verifyOKToApplyToCollection(CIMClient cimClient, CIM_CollectionOfMSEs Collection, Calendar TimeToApply, Calendar MustBeCompletedBy, String CanNotApply) {
-	  	Vector inParameter = new Vector();
-	  	Vector outParameter = new Vector();
-	  	
-	  	if (!isValidCimInstance()) {
-	  		throw new CIMException(CIMException.CIM_ERR_METHOD_NOT_AVAILABLE,"Used instance of class '" + 
-	  				CIM_Setting.CIM_CLASS_NAME + "' is not a valid CIMInstance.");
-	  	}
-	  	
-	  	CIMValue cimValue_Collection = new CIMValue(Collection.getCimObjectPath(), new CIMDataType(CIMDataType.REFERENCE));
-		CIMValue cimValue_TimeToApply = new CIMValue(TimeToApply, new CIMDataType(CIMDataType.DATETIME));
-		CIMValue cimValue_MustBeCompletedBy = new CIMValue(MustBeCompletedBy, new CIMDataType(CIMDataType.DATETIME));
-		CIMValue cimValue_CanNotApply = new CIMValue(CanNotApply, new CIMDataType(CIMDataType.STRING_ARRAY));
-		
-	  	inParameter.add(new CIMArgument("Collection", cimValue_Collection));
-		inParameter.add(new CIMArgument("TimeToApply", cimValue_TimeToApply));
-		inParameter.add(new CIMArgument("MustBeCompletedBy", cimValue_MustBeCompletedBy));
-		inParameter.add(new CIMArgument("CanNotApply", cimValue_CanNotApply));
-		
-	  	outParameter.add(new CIMArgument("CanNotApply", cimValue_CanNotApply));
-		
-	  	CIMValue returnValue = cimClient.invokeMethod(this.getCimObjectPath(), 
-				  									  CIM_METHOD_VERIFYOKTOAPPLYTOCOLLECTION,
-													  inParameter,
-													  outParameter);
-		
-		if (returnValue == null || returnValue.isNull()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The returned CIMValue from remote method call '" + 
-					CIM_Setting.CIM_METHOD_VERIFYOKTOAPPLYTOCOLLECTION + "' is null.");
-		}
-		if (returnValue.getValue() == null || returnValue.isNullValue()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The return value from remote method call '" + 
-					CIM_Setting.CIM_METHOD_VERIFYOKTOAPPLYTOCOLLECTION + "' is null.");
-		}
-		if (returnValue.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The return value from remote method call " + CIM_Setting.CIM_METHOD_VERIFYOKTOAPPLYTOCOLLECTION + 
-					" is not of expected type: " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");		
-		}
+                Object obj = enumeration.next();
+                CIM_SettingHelper.checkException(enumeration);
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_CollectionOfMSEs.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_SettingHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
 
-		return (UnsignedInt32)returnValue.getValue(); 		  	
-	  }
+    /**
+     * Get the list with CIM_CollectionSetting associations
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#references(CIMObjectPath, String, String, boolean, boolean, String[])
+     **/
 
-	
-	public UnsignedInt32 invoke_verifyOKToApplyToMSE(CIMClient cimClient, CIM_ManagedSystemElement MSE, Calendar TimeToApply, Calendar MustBeCompletedBy) {
-	  	Vector inParameter = new Vector();
-	  	Vector outParameter = new Vector();
-	  	
-	  	if (!isValidCimInstance()) {
-	  		throw new CIMException(CIMException.CIM_ERR_METHOD_NOT_AVAILABLE,"Used instance of class '" + 
-	  				CIM_Setting.CIM_CLASS_NAME + "' is not a valid CIMInstance.");
-	  	}
-	  	
-	  	CIMValue cimValue_MSE = new CIMValue(MSE.getCimObjectPath(), new CIMDataType(CIMDataType.REFERENCE));
-		CIMValue cimValue_TimeToApply = new CIMValue(TimeToApply, new CIMDataType(CIMDataType.DATETIME));
-		CIMValue cimValue_MustBeCompletedBy = new CIMValue(MustBeCompletedBy, new CIMDataType(CIMDataType.DATETIME));
-		
-	  	inParameter.add(new CIMArgument("MSE", cimValue_MSE));
-		inParameter.add(new CIMArgument("TimeToApply", cimValue_TimeToApply));
-		inParameter.add(new CIMArgument("MustBeCompletedBy", cimValue_MustBeCompletedBy));
-		
-	  	
-	  	CIMValue returnValue = cimClient.invokeMethod(this.getCimObjectPath(), 
-				  									  CIM_METHOD_VERIFYOKTOAPPLYTOMSE,
-													  inParameter,
-													  outParameter);
-		
-		if (returnValue == null || returnValue.isNull()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The returned CIMValue from remote method call '" + 
-					CIM_Setting.CIM_METHOD_VERIFYOKTOAPPLYTOMSE + "' is null.");
-		}
-		if (returnValue.getValue() == null || returnValue.isNullValue()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The return value from remote method call '" + 
-					CIM_Setting.CIM_METHOD_VERIFYOKTOAPPLYTOMSE + "' is null.");
-		}
-		if (returnValue.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The return value from remote method call " + CIM_Setting.CIM_METHOD_VERIFYOKTOAPPLYTOMSE + 
-					" is not of expected type: " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");		
-		}
+    public java.util.List getAssociations_CIM_CollectionSetting(WBEMClient cimClient,
+            boolean includeQualifiers, boolean includeClassOrigin, String role,
+            java.lang.String[] propertyList) throws WbemsmtException {
 
-		return (UnsignedInt32)returnValue.getValue(); 		  	
-	  }
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
 
-	
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.references(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING, role, includeQualifiers,
+                    includeClassOrigin, propertyList);
+        }
+        catch (WBEMException e) {
+            throw new ReferencesException(e, new ReferencesUserObject(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING, role, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_SettingHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_SettingHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_CollectionSettingHelper.findClass(cimClient, cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_CollectionSetting(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_CollectionSetting(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_CollectionSetting(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_SettingHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a list of CIMObjectPath items of the associations CIM_CollectionSetting
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#referenceNames(CIMObjectPath, String, String)
+     **/
+
+    public java.util.List getAssociationNames_CIM_CollectionSetting(WBEMClient cimClient,
+            String role, boolean deep) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.referenceNames(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING, role);
+        }
+        catch (WBEMException e) {
+            throw new ReferenceNamesException(e, new ReferenceNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_COLLECTIONSETTING, role));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_SettingHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_SettingHelper.checkException(enumeration);
+
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_CollectionSetting.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_SettingHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    /**
+     * Invokes the Method ApplyIncrementalChangeToCollection
+     * <br>
+     * @param client the cimclient
+     * The ApplyIncrementalChangeToCollection method performs the application of a subset of the properties in this Setting to the referenced Collection of ManagedSystem Elements. The net effect is to execute the ApplyIncrementalChangeToMSE method against each of the Elements aggregated by the Collection. If the input value ContinueOnError is FALSE, this method applies the Setting to all Elements in the Collection until it encounters an error, in which case it stops execution, logs the key of the Element that caused the error in the CanNotApply array, and issues a return code of 2. If the input value ContinueOnError is TRUE, then this method applies the Setting to all the ManagedSystemElements in the Collection, and reports the failed Elements in the array, CanNotApply. For the latter, processing will continue until the method is applied to all Elements in the Collection, regardless of any errors encountered. The key of each ManagedSystemElement to which the Setting could not be applied is logged into the CanNotApply array. This method takes four input parameters: Collection (the Collection of Elements to which the Setting is being applied), TimeToApply (which, being a datetime, can be either a specific time or a time interval), ContinueOnError (TRUE means to continue processing on encountering an error), and MustBeCompletedBy (which indicates the required completion time for the method), and a PropertiesToApply array (which contains a list of the property names whose values will be applied.) If a property is not in this list, it will be ignored by the Apply. If the array is null or empty or contains the string "ALL" as a property name, then all Settings properties shall be applied. If it is set to "NONE", then no Settings properties will be applied. 
+     * The return value should be 0 if the Setting is successfully applied to the referenced Collection, 1 if the method is not supported, 2 if the Setting was not applied within the specified time, 3 if the Setting cannot be applied using the input value for ContinueOnError, and any other number if an error occurred. One output parameter is defined, CanNotApplystring, which is an array that lists the keys of the ManagedSystemElements to which the Setting was NOT able to be applied. This output parameter has meaning only when the ContinueOnError parameter is TRUE. 
+     * In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier. 
+     * Note: if an error occurs in applying the Setting to a ManagedSystemElement in the Collection, the Element must be configured as when the 'Apply' attempt began. That is, the Element should NOT be left in an indeterminate state.
+     *   @param Collection The Collection of Elements to which the Setting is being applied.
+     *   @param TimeToApply A specific time or a time interval.
+     *   @param ContinueOnError TRUE means to continue processing on encountering an error.
+     *   @param MustBeCompletedBy This parameter indicates the required completion time for the method.
+     *   @param PropertiesToApply A list of the property names whose values will be verified.
+     *
+     */
+
+    public ApplyIncrementalChangeToCollectionResult invoke_ApplyIncrementalChangeToCollection(
+            WBEMClient cimClient, CIM_CollectionOfMSEs Collection,
+            javax.cim.CIMDateTime TimeToApply, Boolean ContinueOnError,
+            javax.cim.CIMDateTime MustBeCompletedBy, String[] PropertiesToApply)
+            throws WbemsmtException {
+
+        CIMArgument[] inParameter = new CIMArgument[5];
+        CIMArgument[] outParameter = new CIMArgument[1];
+
+        inParameter[0] = new CIMArgument("Collection", new CIMDataType(
+                CIM_CollectionOfMSEs.CIM_CLASS_NAME), Collection);
+        inParameter[1] = new CIMArgument("TimeToApply", CIMDataType.DATETIME_T, TimeToApply);
+        inParameter[2] = new CIMArgument("ContinueOnError", CIMDataType.BOOLEAN_T, ContinueOnError);
+        inParameter[3] = new CIMArgument("MustBeCompletedBy", CIMDataType.DATETIME_T,
+                MustBeCompletedBy);
+        inParameter[4] = new CIMArgument("PropertiesToApply", CIMDataType.STRING_ARRAY_T,
+                PropertiesToApply);
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        try {
+            Object oResult = cimClient.invokeMethod(this.getCimObjectPath(),
+                    METHOD_APPLYINCREMENTALCHANGETOCOLLECTION.NAME, inParameter, outParameter);
+            if (oResult != null) {
+
+                resultObject = (javax.cim.UnsignedInteger32) oResult;
+            }
+        }
+        catch (WBEMException e) {
+            throw new InvokeMethodException(e, new InvokeMethodUserObject(this.getCimObjectPath(),
+                    METHOD_APPLYINCREMENTALCHANGETOCOLLECTION.NAME, inParameter, outParameter));
+        }
+
+        ApplyIncrementalChangeToCollectionResult result = new ApplyIncrementalChangeToCollectionResult();
+        result.setResultObject(resultObject);
+
+        java.util.HashMap mapOutParameter = new java.util.HashMap();
+        for (int i = 0; i < outParameter.length; i++) {
+            CIMArgument argument = outParameter[i];
+            if (argument != null) {
+                mapOutParameter.put(argument.getName(), argument);
+            }
+        }
+
+        CIMArgument arg_CanNotApply = (CIMArgument) mapOutParameter.get("CanNotApply");
+        if (arg_CanNotApply != null) {
+
+            String[] out_CanNotApply = (String[]) arg_CanNotApply.getValue();
+
+            result.set_CanNotApply(out_CanNotApply);
+        }
+
+        return result;
+    }
+
+    /**
+     * Result object for the method ApplyIncrementalChangeToCollection
+     */
+    public static class ApplyIncrementalChangeToCollectionResult {
+        /**
+         * The return value of the method
+         */
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        /**
+         * Default constructor
+         */
+        ApplyIncrementalChangeToCollectionResult() {
+        }
+
+        /**
+         * Set the return value
+         * @param rc
+         */
+        void setResultObject(javax.cim.UnsignedInteger32 resultObject) {
+            this.resultObject = resultObject;
+        }
+
+        /**
+         * Get the return value of the methid
+         * @return the return value
+         */
+        public javax.cim.UnsignedInteger32 getResultObject() {
+            return this.resultObject;
+        }
+
+        /**
+         * The out parameter CanNotApply
+         */
+        String[] CanNotApply = null;
+
+        /**
+         * Set the out parameter CanNotApply
+         * @param value
+         */
+        void set_CanNotApply(String[] value) {
+            this.CanNotApply = value;
+        }
+
+        /**
+         * get the out parameter CanNotApply
+         * @return
+         */
+        public String[] get_CanNotApply() {
+            return this.CanNotApply;
+        }
+    }
+
+    /**
+     * Invokes the Method ApplyIncrementalChangeToMSE
+     * <br>
+     * @param client the cimclient
+     * The ApplyIncrementalChangeToMSE method performs the actual application of a subset of the properties in the Setting to the referenced ManagedSystemElement. It takes four input parameters: MSE (the ManagedSystem Element to which the Setting is being applied), TimeToApply (which, being a datetime, can be either a specific time or a time interval), MustBeCompletedBy (which indicates the required completion time for the method), and a PropertiesToApply array (which contains a list of the property names whose values will be applied.) If a property is not in this list, it will be ignored by the Apply. If the array is null, empty or contains the string "ALL" as a property name, then all Settings properties shall be applied. If it is set to "NONE", then no Settings properties will be applied. 
+     * Note that the semantics of this method are that individual Settings are either wholly applied or not applied at all to their target ManagedSystemElement. The return value should be 0 if the Setting is successfully applied to the referenced ManagedSystemElement, 1 if the method is not supported, 2 if the Setting was not applied within the specified times, and any other number if an error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier. 
+     * Note: If an error occurs in applying the Setting to a ManagedSystemElement, the Element must be configured as when the 'Apply' attempt began. That is, the Element should NOT be left in an indeterminate state.
+     *   @param MSE The ManagedSystem Element to which the Setting is being applied.
+     *   @param TimeToApply TimeToApply can be either a specific time or a time interval.
+     *   @param MustBeCompletedBy The required completion time for the method.
+     *   @param PropertiesToApply A list of the property names whose values will be applied.
+     *
+     */
+
+    public ApplyIncrementalChangeToMSEResult invoke_ApplyIncrementalChangeToMSE(
+            WBEMClient cimClient, CIM_ManagedSystemElement MSE, javax.cim.CIMDateTime TimeToApply,
+            javax.cim.CIMDateTime MustBeCompletedBy, String[] PropertiesToApply)
+            throws WbemsmtException {
+
+        CIMArgument[] inParameter = new CIMArgument[4];
+        CIMArgument[] outParameter = new CIMArgument[0];
+
+        inParameter[0] = new CIMArgument("MSE", new CIMDataType(
+                CIM_ManagedSystemElement.CIM_CLASS_NAME), MSE);
+        inParameter[1] = new CIMArgument("TimeToApply", CIMDataType.DATETIME_T, TimeToApply);
+        inParameter[2] = new CIMArgument("MustBeCompletedBy", CIMDataType.DATETIME_T,
+                MustBeCompletedBy);
+        inParameter[3] = new CIMArgument("PropertiesToApply", CIMDataType.STRING_ARRAY_T,
+                PropertiesToApply);
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        try {
+            Object oResult = cimClient.invokeMethod(this.getCimObjectPath(),
+                    METHOD_APPLYINCREMENTALCHANGETOMSE.NAME, inParameter, outParameter);
+            if (oResult != null) {
+
+                resultObject = (javax.cim.UnsignedInteger32) oResult;
+            }
+        }
+        catch (WBEMException e) {
+            throw new InvokeMethodException(e, new InvokeMethodUserObject(this.getCimObjectPath(),
+                    METHOD_APPLYINCREMENTALCHANGETOMSE.NAME, inParameter, outParameter));
+        }
+
+        ApplyIncrementalChangeToMSEResult result = new ApplyIncrementalChangeToMSEResult();
+        result.setResultObject(resultObject);
+
+        java.util.HashMap mapOutParameter = new java.util.HashMap();
+        for (int i = 0; i < outParameter.length; i++) {
+            CIMArgument argument = outParameter[i];
+            if (argument != null) {
+                mapOutParameter.put(argument.getName(), argument);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Result object for the method ApplyIncrementalChangeToMSE
+     */
+    public static class ApplyIncrementalChangeToMSEResult {
+        /**
+         * The return value of the method
+         */
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        /**
+         * Default constructor
+         */
+        ApplyIncrementalChangeToMSEResult() {
+        }
+
+        /**
+         * Set the return value
+         * @param rc
+         */
+        void setResultObject(javax.cim.UnsignedInteger32 resultObject) {
+            this.resultObject = resultObject;
+        }
+
+        /**
+         * Get the return value of the methid
+         * @return the return value
+         */
+        public javax.cim.UnsignedInteger32 getResultObject() {
+            return this.resultObject;
+        }
+
+    }
+
+    /**
+     * Invokes the Method ApplyToCollection
+     * <br>
+     * @param client the cimclient
+     * The ApplyToCollection method performs the application of the Setting to the referenced Collection of ManagedSystem Elements. The net effect is to execute the ApplyToMSE method against each of the Elements aggregated by the Collection. If the input value ContinueOnError is FALSE, this method applies the Setting to all Elements in the Collection until it encounters an error, in which case it stops execution, logs the key of the Element that caused the error in the CanNotApply array, and issues a return code of 2. If the input value ContinueOnError is TRUE, then this method applies the Setting to all the ManagedSystemElements in the Collection, and reports the failed Elements in the array, CanNotApply. For the latter, processing will continue until the method is applied to all Elements in the Collection, regardless of any errors encountered. The key of each ManagedSystemElement to which the Setting could not be applied is logged into the CanNotApply array. This method takes four input parameters: Collection (the Collection of Elements to which the Setting is being applied), TimeToApply (which, being a datetime, can be either a specific time or a time interval), ContinueOnError (TRUE means to continue processing on encountering an error), and MustBeCompletedBy (which indicates the required completion time for the method). The return value should be 0 if the Setting is successfully applied to the referenced Collection, 1 if the method is not supported, 2 if the Setting was not applied within the specified times, 3 if the Setting cannot be applied using the input value for ContinueOnError, and any other number if an error occurred. One output parameter is defined, CanNotApplystring, which is an array that lists the keys of the ManagedSystemElements to which the Setting was NOT able to be applied. This output parameter has meaning only when the ContinueOnError parameter is TRUE. 
+     * In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier. 
+     * Note: if an error occurs in applying the Setting to a ManagedSystemElement in the Collection, the Element must be configured as when the 'Apply' attempt began. That is, the Element should NOT be left in an indeterminate state.
+     *   @param Collection The Collection of Managed SystemElements to be applied.
+     *   @param TimeToApply TimeToApply can be either a specific time or a time interval.
+     *   @param ContinueOnError TRUE means to continue processing on encountering an error.
+     *   @param MustBeCompletedBy The required completion time for the method.
+     *
+     */
+
+    public ApplyToCollectionResult invoke_ApplyToCollection(WBEMClient cimClient,
+            CIM_CollectionOfMSEs Collection, javax.cim.CIMDateTime TimeToApply,
+            Boolean ContinueOnError, javax.cim.CIMDateTime MustBeCompletedBy)
+            throws WbemsmtException {
+
+        CIMArgument[] inParameter = new CIMArgument[4];
+        CIMArgument[] outParameter = new CIMArgument[1];
+
+        inParameter[0] = new CIMArgument("Collection", new CIMDataType(
+                CIM_CollectionOfMSEs.CIM_CLASS_NAME), Collection);
+        inParameter[1] = new CIMArgument("TimeToApply", CIMDataType.DATETIME_T, TimeToApply);
+        inParameter[2] = new CIMArgument("ContinueOnError", CIMDataType.BOOLEAN_T, ContinueOnError);
+        inParameter[3] = new CIMArgument("MustBeCompletedBy", CIMDataType.DATETIME_T,
+                MustBeCompletedBy);
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        try {
+            Object oResult = cimClient.invokeMethod(this.getCimObjectPath(),
+                    METHOD_APPLYTOCOLLECTION.NAME, inParameter, outParameter);
+            if (oResult != null) {
+
+                resultObject = (javax.cim.UnsignedInteger32) oResult;
+            }
+        }
+        catch (WBEMException e) {
+            throw new InvokeMethodException(e, new InvokeMethodUserObject(this.getCimObjectPath(),
+                    METHOD_APPLYTOCOLLECTION.NAME, inParameter, outParameter));
+        }
+
+        ApplyToCollectionResult result = new ApplyToCollectionResult();
+        result.setResultObject(resultObject);
+
+        java.util.HashMap mapOutParameter = new java.util.HashMap();
+        for (int i = 0; i < outParameter.length; i++) {
+            CIMArgument argument = outParameter[i];
+            if (argument != null) {
+                mapOutParameter.put(argument.getName(), argument);
+            }
+        }
+
+        CIMArgument arg_CanNotApply = (CIMArgument) mapOutParameter.get("CanNotApply");
+        if (arg_CanNotApply != null) {
+
+            String[] out_CanNotApply = (String[]) arg_CanNotApply.getValue();
+
+            result.set_CanNotApply(out_CanNotApply);
+        }
+
+        return result;
+    }
+
+    /**
+     * Result object for the method ApplyToCollection
+     */
+    public static class ApplyToCollectionResult {
+        /**
+         * The return value of the method
+         */
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        /**
+         * Default constructor
+         */
+        ApplyToCollectionResult() {
+        }
+
+        /**
+         * Set the return value
+         * @param rc
+         */
+        void setResultObject(javax.cim.UnsignedInteger32 resultObject) {
+            this.resultObject = resultObject;
+        }
+
+        /**
+         * Get the return value of the methid
+         * @return the return value
+         */
+        public javax.cim.UnsignedInteger32 getResultObject() {
+            return this.resultObject;
+        }
+
+        /**
+         * The out parameter CanNotApply
+         */
+        String[] CanNotApply = null;
+
+        /**
+         * Set the out parameter CanNotApply
+         * @param value
+         */
+        void set_CanNotApply(String[] value) {
+            this.CanNotApply = value;
+        }
+
+        /**
+         * get the out parameter CanNotApply
+         * @return
+         */
+        public String[] get_CanNotApply() {
+            return this.CanNotApply;
+        }
+    }
+
+    /**
+     * Invokes the Method ApplyToMSE
+     * <br>
+     * @param client the cimclient
+     * The ApplyToMSE method performs the actual application of the Setting to the referenced ManagedSystemElement. It takes three input parameters: MSE (the ManagedSystem Element to which the Setting is being applied), TimeToApply (which, being a datetime, can be either a specific time or a time interval), and MustBeCompletedBy (which indicates the required completion time for the method). Note that the semantics of this method are that individual Settings are either wholly applied or not applied at all to their target ManagedSystemElement. The return value should be 0 if the Setting is successfully applied to the referenced ManagedSystemElement, 1 if the method is not supported, 2 if the Setting was not applied within the specified times, and any other number if an error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier. 
+     * Note: If an error occurs in applying the Setting to a ManagedSystemElement, the Element must be configured as when the 'Apply' attempt began. That is, the Element should NOT be left in an indeterminate state.
+     *   @param MSE The ManagedSystem Element to which the Setting is being applied.
+     *   @param TimeToApply TimeToApply can be either a specific time or a time interval.
+     *   @param MustBeCompletedBy The required completion time for the method.
+     *
+     */
+
+    public ApplyToMSEResult invoke_ApplyToMSE(WBEMClient cimClient, CIM_ManagedSystemElement MSE,
+            javax.cim.CIMDateTime TimeToApply, javax.cim.CIMDateTime MustBeCompletedBy)
+            throws WbemsmtException {
+
+        CIMArgument[] inParameter = new CIMArgument[3];
+        CIMArgument[] outParameter = new CIMArgument[0];
+
+        inParameter[0] = new CIMArgument("MSE", new CIMDataType(
+                CIM_ManagedSystemElement.CIM_CLASS_NAME), MSE);
+        inParameter[1] = new CIMArgument("TimeToApply", CIMDataType.DATETIME_T, TimeToApply);
+        inParameter[2] = new CIMArgument("MustBeCompletedBy", CIMDataType.DATETIME_T,
+                MustBeCompletedBy);
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        try {
+            Object oResult = cimClient.invokeMethod(this.getCimObjectPath(),
+                    METHOD_APPLYTOMSE.NAME, inParameter, outParameter);
+            if (oResult != null) {
+
+                resultObject = (javax.cim.UnsignedInteger32) oResult;
+            }
+        }
+        catch (WBEMException e) {
+            throw new InvokeMethodException(e, new InvokeMethodUserObject(this.getCimObjectPath(),
+                    METHOD_APPLYTOMSE.NAME, inParameter, outParameter));
+        }
+
+        ApplyToMSEResult result = new ApplyToMSEResult();
+        result.setResultObject(resultObject);
+
+        java.util.HashMap mapOutParameter = new java.util.HashMap();
+        for (int i = 0; i < outParameter.length; i++) {
+            CIMArgument argument = outParameter[i];
+            if (argument != null) {
+                mapOutParameter.put(argument.getName(), argument);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Result object for the method ApplyToMSE
+     */
+    public static class ApplyToMSEResult {
+        /**
+         * The return value of the method
+         */
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        /**
+         * Default constructor
+         */
+        ApplyToMSEResult() {
+        }
+
+        /**
+         * Set the return value
+         * @param rc
+         */
+        void setResultObject(javax.cim.UnsignedInteger32 resultObject) {
+            this.resultObject = resultObject;
+        }
+
+        /**
+         * Get the return value of the methid
+         * @return the return value
+         */
+        public javax.cim.UnsignedInteger32 getResultObject() {
+            return this.resultObject;
+        }
+
+    }
+
+    /**
+     * Invokes the Method VerifyOKToApplyIncrementalChangeToCollection
+     * <br>
+     * @param client the cimclient
+     * The VerifyOKToApplyIncrementalChangeToCollection method is used to verify that a subset of the properties in this Setting can be 'applied' to the referenced Collection of ManagedSystemElements, at the given time or time interval, without causing adverse effects to either the Collection itself or its surrounding environment. The net effect is to execute the VerifyOKToApplyIncrementalChangeToMSE method against each of the Elements aggregated by the Collection. This method takes three input parameters: Collection (the Collection of Managed SystemElements that is being verified), TimeToApply (which, being a datetime, can be either a specific time or a time interval), MustBeCompletedBy (which indicates the required completion time for the method), and a PropertiesToApply array (which contains a list of the property names whose values will be verified. If they array is null or empty or constains the string "all" as a property name then all Settings properties shall be verified. If it is set to "none" then no Settings properties will be verified). The return value should be 0 if it is OK to apply the Setting, 1 if the method is not supported, 2 if the Setting cannot be applied within the specified times, and any other number if an error occurred. One output parameter is defined - CanNotApply - which is a string array that lists the keys of the ManagedSystemElements to which the Setting can NOT be applied. This enables those Elements to be revisited and either fixed, or other corrective action taken. 
+     * In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
+     *   @param Collection The Collection of Managed SystemElements for which the setting is being verified.
+     *   @param TimeToApply TimeToApply can be either a specific time or a time interval.
+     *   @param MustBeCompletedBy The required completion time for the method.
+     *   @param PropertiesToApply A list of the property names whose values will be verified.
+     *
+     */
+
+    public VerifyOKToApplyIncrementalChangeToCollectionResult invoke_VerifyOKToApplyIncrementalChangeToCollection(
+            WBEMClient cimClient, CIM_CollectionOfMSEs Collection,
+            javax.cim.CIMDateTime TimeToApply, javax.cim.CIMDateTime MustBeCompletedBy,
+            String[] PropertiesToApply) throws WbemsmtException {
+
+        CIMArgument[] inParameter = new CIMArgument[4];
+        CIMArgument[] outParameter = new CIMArgument[1];
+
+        inParameter[0] = new CIMArgument("Collection", new CIMDataType(
+                CIM_CollectionOfMSEs.CIM_CLASS_NAME), Collection);
+        inParameter[1] = new CIMArgument("TimeToApply", CIMDataType.DATETIME_T, TimeToApply);
+        inParameter[2] = new CIMArgument("MustBeCompletedBy", CIMDataType.DATETIME_T,
+                MustBeCompletedBy);
+        inParameter[3] = new CIMArgument("PropertiesToApply", CIMDataType.STRING_ARRAY_T,
+                PropertiesToApply);
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        try {
+            Object oResult = cimClient.invokeMethod(this.getCimObjectPath(),
+                    METHOD_VERIFYOKTOAPPLYINCREMENTALCHANGETOCOLLECTION.NAME, inParameter,
+                    outParameter);
+            if (oResult != null) {
+
+                resultObject = (javax.cim.UnsignedInteger32) oResult;
+            }
+        }
+        catch (WBEMException e) {
+            throw new InvokeMethodException(e, new InvokeMethodUserObject(this.getCimObjectPath(),
+                    METHOD_VERIFYOKTOAPPLYINCREMENTALCHANGETOCOLLECTION.NAME, inParameter,
+                    outParameter));
+        }
+
+        VerifyOKToApplyIncrementalChangeToCollectionResult result = new VerifyOKToApplyIncrementalChangeToCollectionResult();
+        result.setResultObject(resultObject);
+
+        java.util.HashMap mapOutParameter = new java.util.HashMap();
+        for (int i = 0; i < outParameter.length; i++) {
+            CIMArgument argument = outParameter[i];
+            if (argument != null) {
+                mapOutParameter.put(argument.getName(), argument);
+            }
+        }
+
+        CIMArgument arg_CanNotApply = (CIMArgument) mapOutParameter.get("CanNotApply");
+        if (arg_CanNotApply != null) {
+
+            String[] out_CanNotApply = (String[]) arg_CanNotApply.getValue();
+
+            result.set_CanNotApply(out_CanNotApply);
+        }
+
+        return result;
+    }
+
+    /**
+     * Result object for the method VerifyOKToApplyIncrementalChangeToCollection
+     */
+    public static class VerifyOKToApplyIncrementalChangeToCollectionResult {
+        /**
+         * The return value of the method
+         */
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        /**
+         * Default constructor
+         */
+        VerifyOKToApplyIncrementalChangeToCollectionResult() {
+        }
+
+        /**
+         * Set the return value
+         * @param rc
+         */
+        void setResultObject(javax.cim.UnsignedInteger32 resultObject) {
+            this.resultObject = resultObject;
+        }
+
+        /**
+         * Get the return value of the methid
+         * @return the return value
+         */
+        public javax.cim.UnsignedInteger32 getResultObject() {
+            return this.resultObject;
+        }
+
+        /**
+         * The out parameter CanNotApply
+         */
+        String[] CanNotApply = null;
+
+        /**
+         * Set the out parameter CanNotApply
+         * @param value
+         */
+        void set_CanNotApply(String[] value) {
+            this.CanNotApply = value;
+        }
+
+        /**
+         * get the out parameter CanNotApply
+         * @return
+         */
+        public String[] get_CanNotApply() {
+            return this.CanNotApply;
+        }
+    }
+
+    /**
+     * Invokes the Method VerifyOKToApplyIncrementalChangeToMSE
+     * <br>
+     * @param client the cimclient
+     * The VerifyOKToApplyIncrementalChangeToMSE method is used to verify that a subset of the properties in this Setting can be 'applied' to the referenced Managed SystemElement, at the given time or time interval. This method takes four input parameters: MSE (the Managed SystemElement that is being verified), TimeToApply (which, being a datetime, can be either a specific time or a time interval), MustBeCompletedBy (which indicates the required completion time for the method), and a PropertiesToApply array (which contains a list of the property names whose values will be verified.) If the array is null, empty or contains the string "ALL" as a property name, then all Settings properties shall be verified. If it is set to "NONE", then no Settings properties will be verified. The return value should be 0 if it is OK to apply the Setting, 1 if the method is not supported, 2 if the Setting cannot be applied within the specified times, and any other number if an error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
+     *   @param MSE The ManagedSystem Element for which the Setting is being verified.
+     *   @param TimeToApply TimeToApply can be either a specific time or a time interval.
+     *   @param MustBeCompletedBy The required completion time for the method.
+     *   @param PropertiesToApply A list of the property names whose values will be verified.
+     *
+     */
+
+    public VerifyOKToApplyIncrementalChangeToMSEResult invoke_VerifyOKToApplyIncrementalChangeToMSE(
+            WBEMClient cimClient, CIM_ManagedSystemElement MSE, javax.cim.CIMDateTime TimeToApply,
+            javax.cim.CIMDateTime MustBeCompletedBy, String[] PropertiesToApply)
+            throws WbemsmtException {
+
+        CIMArgument[] inParameter = new CIMArgument[4];
+        CIMArgument[] outParameter = new CIMArgument[0];
+
+        inParameter[0] = new CIMArgument("MSE", new CIMDataType(
+                CIM_ManagedSystemElement.CIM_CLASS_NAME), MSE);
+        inParameter[1] = new CIMArgument("TimeToApply", CIMDataType.DATETIME_T, TimeToApply);
+        inParameter[2] = new CIMArgument("MustBeCompletedBy", CIMDataType.DATETIME_T,
+                MustBeCompletedBy);
+        inParameter[3] = new CIMArgument("PropertiesToApply", CIMDataType.STRING_ARRAY_T,
+                PropertiesToApply);
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        try {
+            Object oResult = cimClient.invokeMethod(this.getCimObjectPath(),
+                    METHOD_VERIFYOKTOAPPLYINCREMENTALCHANGETOMSE.NAME, inParameter, outParameter);
+            if (oResult != null) {
+
+                resultObject = (javax.cim.UnsignedInteger32) oResult;
+            }
+        }
+        catch (WBEMException e) {
+            throw new InvokeMethodException(e, new InvokeMethodUserObject(this.getCimObjectPath(),
+                    METHOD_VERIFYOKTOAPPLYINCREMENTALCHANGETOMSE.NAME, inParameter, outParameter));
+        }
+
+        VerifyOKToApplyIncrementalChangeToMSEResult result = new VerifyOKToApplyIncrementalChangeToMSEResult();
+        result.setResultObject(resultObject);
+
+        java.util.HashMap mapOutParameter = new java.util.HashMap();
+        for (int i = 0; i < outParameter.length; i++) {
+            CIMArgument argument = outParameter[i];
+            if (argument != null) {
+                mapOutParameter.put(argument.getName(), argument);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Result object for the method VerifyOKToApplyIncrementalChangeToMSE
+     */
+    public static class VerifyOKToApplyIncrementalChangeToMSEResult {
+        /**
+         * The return value of the method
+         */
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        /**
+         * Default constructor
+         */
+        VerifyOKToApplyIncrementalChangeToMSEResult() {
+        }
+
+        /**
+         * Set the return value
+         * @param rc
+         */
+        void setResultObject(javax.cim.UnsignedInteger32 resultObject) {
+            this.resultObject = resultObject;
+        }
+
+        /**
+         * Get the return value of the methid
+         * @return the return value
+         */
+        public javax.cim.UnsignedInteger32 getResultObject() {
+            return this.resultObject;
+        }
+
+    }
+
+    /**
+     * Invokes the Method VerifyOKToApplyToCollection
+     * <br>
+     * @param client the cimclient
+     * The VerifyOKToApplyToCollection method is used to verify that this Setting can be 'applied' to the referenced Collection of ManagedSystemElements, at the given time or time interval, without causing adverse effects to either the Collection itself or its surrounding environment. The net effect is to execute the VerifyOKToApply method against each of the Elements aggregated by the Collection. This method takes three input parameters: Collection (the Collection of Managed SystemElements that is being verified), TimeToApply (which, being a datetime, can be either a specific time or a time interval), and MustBeCompletedBy (which indicates the required completion time for the method). The return value should be 0 if it is OK to apply the Setting, 1 if the method is not supported, 2 if the Setting cannot be applied within the specified times, and any other number if an error occurred. One output parameter is defined - CanNotApply - which is a string array that lists the keys of the ManagedSystemElements to which the Setting can NOT be applied. This enables those Elements to be revisited and either fixed, or other corrective action taken. 
+     * In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
+     *   @param Collection The Collection of Managed SystemElements that is being verified.
+     *   @param TimeToApply TimeToApply can be either a specific time or a time interval.
+     *   @param MustBeCompletedBy The required completion time for the method.
+     *
+     */
+
+    public VerifyOKToApplyToCollectionResult invoke_VerifyOKToApplyToCollection(
+            WBEMClient cimClient, CIM_CollectionOfMSEs Collection,
+            javax.cim.CIMDateTime TimeToApply, javax.cim.CIMDateTime MustBeCompletedBy)
+            throws WbemsmtException {
+
+        CIMArgument[] inParameter = new CIMArgument[3];
+        CIMArgument[] outParameter = new CIMArgument[1];
+
+        inParameter[0] = new CIMArgument("Collection", new CIMDataType(
+                CIM_CollectionOfMSEs.CIM_CLASS_NAME), Collection);
+        inParameter[1] = new CIMArgument("TimeToApply", CIMDataType.DATETIME_T, TimeToApply);
+        inParameter[2] = new CIMArgument("MustBeCompletedBy", CIMDataType.DATETIME_T,
+                MustBeCompletedBy);
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        try {
+            Object oResult = cimClient.invokeMethod(this.getCimObjectPath(),
+                    METHOD_VERIFYOKTOAPPLYTOCOLLECTION.NAME, inParameter, outParameter);
+            if (oResult != null) {
+
+                resultObject = (javax.cim.UnsignedInteger32) oResult;
+            }
+        }
+        catch (WBEMException e) {
+            throw new InvokeMethodException(e, new InvokeMethodUserObject(this.getCimObjectPath(),
+                    METHOD_VERIFYOKTOAPPLYTOCOLLECTION.NAME, inParameter, outParameter));
+        }
+
+        VerifyOKToApplyToCollectionResult result = new VerifyOKToApplyToCollectionResult();
+        result.setResultObject(resultObject);
+
+        java.util.HashMap mapOutParameter = new java.util.HashMap();
+        for (int i = 0; i < outParameter.length; i++) {
+            CIMArgument argument = outParameter[i];
+            if (argument != null) {
+                mapOutParameter.put(argument.getName(), argument);
+            }
+        }
+
+        CIMArgument arg_CanNotApply = (CIMArgument) mapOutParameter.get("CanNotApply");
+        if (arg_CanNotApply != null) {
+
+            String[] out_CanNotApply = (String[]) arg_CanNotApply.getValue();
+
+            result.set_CanNotApply(out_CanNotApply);
+        }
+
+        return result;
+    }
+
+    /**
+     * Result object for the method VerifyOKToApplyToCollection
+     */
+    public static class VerifyOKToApplyToCollectionResult {
+        /**
+         * The return value of the method
+         */
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        /**
+         * Default constructor
+         */
+        VerifyOKToApplyToCollectionResult() {
+        }
+
+        /**
+         * Set the return value
+         * @param rc
+         */
+        void setResultObject(javax.cim.UnsignedInteger32 resultObject) {
+            this.resultObject = resultObject;
+        }
+
+        /**
+         * Get the return value of the methid
+         * @return the return value
+         */
+        public javax.cim.UnsignedInteger32 getResultObject() {
+            return this.resultObject;
+        }
+
+        /**
+         * The out parameter CanNotApply
+         */
+        String[] CanNotApply = null;
+
+        /**
+         * Set the out parameter CanNotApply
+         * @param value
+         */
+        void set_CanNotApply(String[] value) {
+            this.CanNotApply = value;
+        }
+
+        /**
+         * get the out parameter CanNotApply
+         * @return
+         */
+        public String[] get_CanNotApply() {
+            return this.CanNotApply;
+        }
+    }
+
+    /**
+     * Invokes the Method VerifyOKToApplyToMSE
+     * <br>
+     * @param client the cimclient
+     * The VerifyOKToApplyToMSE method is used to verify that this Setting can be 'applied' to the referenced Managed SystemElement, at the given time or time interval. This method takes three input parameters: MSE (the Managed SystemElement that is being verified), TimeToApply (which, being a datetime, can be either a specific time or a time interval), and MustBeCompletedBy (which indicates the required completion time for the method). The return value should be 0 if it is OK to apply the Setting, 1 if the method is not supported, 2 if the Setting cannot be applied within the specified times, and any other number if an error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
+     *   @param MSE The Managed SystemElement that is being verified.
+     *   @param TimeToApply TimeToApply can be either a specific time or a time interval.
+     *   @param MustBeCompletedBy The required completion time for the method.
+     *
+     */
+
+    public VerifyOKToApplyToMSEResult invoke_VerifyOKToApplyToMSE(WBEMClient cimClient,
+            CIM_ManagedSystemElement MSE, javax.cim.CIMDateTime TimeToApply,
+            javax.cim.CIMDateTime MustBeCompletedBy) throws WbemsmtException {
+
+        CIMArgument[] inParameter = new CIMArgument[3];
+        CIMArgument[] outParameter = new CIMArgument[0];
+
+        inParameter[0] = new CIMArgument("MSE", new CIMDataType(
+                CIM_ManagedSystemElement.CIM_CLASS_NAME), MSE);
+        inParameter[1] = new CIMArgument("TimeToApply", CIMDataType.DATETIME_T, TimeToApply);
+        inParameter[2] = new CIMArgument("MustBeCompletedBy", CIMDataType.DATETIME_T,
+                MustBeCompletedBy);
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        try {
+            Object oResult = cimClient.invokeMethod(this.getCimObjectPath(),
+                    METHOD_VERIFYOKTOAPPLYTOMSE.NAME, inParameter, outParameter);
+            if (oResult != null) {
+
+                resultObject = (javax.cim.UnsignedInteger32) oResult;
+            }
+        }
+        catch (WBEMException e) {
+            throw new InvokeMethodException(e, new InvokeMethodUserObject(this.getCimObjectPath(),
+                    METHOD_VERIFYOKTOAPPLYTOMSE.NAME, inParameter, outParameter));
+        }
+
+        VerifyOKToApplyToMSEResult result = new VerifyOKToApplyToMSEResult();
+        result.setResultObject(resultObject);
+
+        java.util.HashMap mapOutParameter = new java.util.HashMap();
+        for (int i = 0; i < outParameter.length; i++) {
+            CIMArgument argument = outParameter[i];
+            if (argument != null) {
+                mapOutParameter.put(argument.getName(), argument);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Result object for the method VerifyOKToApplyToMSE
+     */
+    public static class VerifyOKToApplyToMSEResult {
+        /**
+         * The return value of the method
+         */
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        /**
+         * Default constructor
+         */
+        VerifyOKToApplyToMSEResult() {
+        }
+
+        /**
+         * Set the return value
+         * @param rc
+         */
+        void setResultObject(javax.cim.UnsignedInteger32 resultObject) {
+            this.resultObject = resultObject;
+        }
+
+        /**
+         * Get the return value of the methid
+         * @return the return value
+         */
+        public javax.cim.UnsignedInteger32 getResultObject() {
+            return this.resultObject;
+        }
+
+    }
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_Setting.CIM_CLASS_NAME;
+    }
 
 }

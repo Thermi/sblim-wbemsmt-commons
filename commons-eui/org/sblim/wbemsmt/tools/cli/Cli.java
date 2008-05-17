@@ -27,8 +27,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.sblim.wbemsmt.exception.CommandNotFoundException;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.bl.adapter.MessageUtil;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
 public class Cli {
@@ -90,15 +90,20 @@ public class Cli {
 			CimCommandValues values = commandlet.prepare(args);
 			if (values.isExecute())
 			{
+			    MessageUtil.setCliChannels(values.getOut(), values.getErr(), values.getIn());
 				commandlet.execute(values);
 			}
 			commandlet.afterExecute();
-			
-		} catch (CommandNotFoundException e) {
-			System.err.println(e.getMessage());
-			printUsage();
-		} catch (WbemSmtException e) {
-			throw e;
+		} catch (WbemsmtException e) {
+		    if (e.getErrorCode() == WbemsmtException.ERR_COMMAND_NOT_FOUND)
+		    {
+	            System.err.println(e.getMessage());
+	            printUsage();
+		    }
+		    else
+		    {
+		        throw e;
+		    }
 		}
 	}
 
@@ -153,7 +158,7 @@ public class Cli {
 				commandlet.beforeExecute();
 				CimCommandValues values = commandlet.prepare(new String[]{"-h"});
 				commandlet.execute(values);
-			} catch (WbemSmtException e) {
+			} catch (WbemsmtException e) {
 				System.err.println("Cannot get help for command " + commandlet.getCommandName());
 				e.printStackTrace();
 			} finally
@@ -221,7 +226,7 @@ public class Cli {
 		return locale;
 	}
 
-	public void execute(String[] args) throws WbemSmtException
+	public void execute(String[] args) throws WbemsmtException
 	{
 		// do nothing
 	}

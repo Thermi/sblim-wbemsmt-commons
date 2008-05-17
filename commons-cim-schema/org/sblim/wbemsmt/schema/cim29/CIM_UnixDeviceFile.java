@@ -1,657 +1,878 @@
 /** 
  * CIM_UnixDeviceFile.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  DeviceFile is a special type of LogicalFile that represents a Device. This
- * class is a specialization of DeviceFile for a Unix environment.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: DeviceFile is a special type of LogicalFile that represents a Device. This class is a specialization of DeviceFile for a Unix environment.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
 
-/**
- *  DeviceFile is a special type of LogicalFile that represents a Device. This
- * class is a specialization of DeviceFile for a Unix environment.
- */
-public class CIM_UnixDeviceFile extends CIM_DeviceFile  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_UnixDeviceFile"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_UnixDeviceFile extends CIM_DeviceFile {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.8.0";
-	
-	
-	/**
-	*	Additional information provided by the driver. This property may be null if no information is available, or a general description of the device when available, e.g. "Non-rewind tape streamer".
-	*/
-	public final static String CIM_PROPERTY_DEVICEDESCRIPTION = "DeviceDescription"; //$NON-NLS-1$
-	/**
-	*	The type of device file.
-	*/
-	public final static String CIM_PROPERTY_DEVICEFILETYPE = "DeviceFileType"; //$NON-NLS-1$
-	/**
-	*	The device Identifier: this is the st_rdev field in the stat structure.
-	*/
-	public final static String CIM_PROPERTY_DEVICEID = "DeviceId"; //$NON-NLS-1$
-	/**
-	*	The Device's Major Id.
-	*/
-	public final static String CIM_PROPERTY_DEVICEMAJOR = "DeviceMajor"; //$NON-NLS-1$
-	/**
-	*	The Device's Minor Id.
-	*/
-	public final static String CIM_PROPERTY_DEVICEMINOR = "DeviceMinor"; //$NON-NLS-1$
-	/**
-	*	Additional information when the DeviceFileType property is set to "Other".
-	*/
-	public final static String CIM_PROPERTY_OTHERTYPEDESCRIPTION = "OtherTypeDescription"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_UnixDeviceFile";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_DEVICEDESCRIPTION);
-		CIM_PropertyNameList.add(CIM_PROPERTY_DEVICEFILETYPE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_DEVICEID);
-		CIM_PropertyNameList.add(CIM_PROPERTY_DEVICEMAJOR);
-		CIM_PropertyNameList.add(CIM_PROPERTY_DEVICEMINOR);
-		CIM_PropertyNameList.add(CIM_PROPERTY_OTHERTYPEDESCRIPTION);
-				
-		for (int i = 0; i < CIM_DeviceFile.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_DeviceFile.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_DEVICEDESCRIPTION)||
-				((String)CIM_DeviceFile.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_DEVICEFILETYPE)||
-				((String)CIM_DeviceFile.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_DEVICEID)||
-				((String)CIM_DeviceFile.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_DEVICEMAJOR)||
-				((String)CIM_DeviceFile.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_DEVICEMINOR)||
-				((String)CIM_DeviceFile.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_OTHERTYPEDESCRIPTION)){
-				continue;
-			}
-			
-			CIM_UnixDeviceFile.CIM_PropertyNameList.add(CIM_DeviceFile.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_DEVICEDESCRIPTION, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_DEVICEFILETYPE, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_DEVICEID, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_DEVICEMAJOR, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_DEVICEMINOR, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_OTHERTYPEDESCRIPTION, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-				
-		for (int i = 0; i < CIM_DeviceFile.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_DeviceFile.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_DEVICEDESCRIPTION)||
-				((CIMProperty)CIM_DeviceFile.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_DEVICEFILETYPE)||
-				((CIMProperty)CIM_DeviceFile.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_DEVICEID)||
-				((CIMProperty)CIM_DeviceFile.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_DEVICEMAJOR)||
-				((CIMProperty)CIM_DeviceFile.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_DEVICEMINOR)||
-				((CIMProperty)CIM_DeviceFile.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_OTHERTYPEDESCRIPTION)){
-				continue;
-			}
-			
-			CIM_UnixDeviceFile.CIM_PropertyList.add(CIM_DeviceFile.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_DeviceFile.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	public final static String[] CIM_VALUEMAP_DEVICEFILETYPE = {"Unknown","Other","Block","Character"};
-	
-	
-	public final static int DEVICEFILETYPE_UNKNOWN = 0;
-	public final static int DEVICEFILETYPE_OTHER = 1;
-	public final static int DEVICEFILETYPE_BLOCK = 2;
-	public final static int DEVICEFILETYPE_CHARACTER = 3;
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constants of property DeviceDescription
+     * Additional information provided by the driver. This property may be null if no information is available, or a general description of the device when available, e.g. "Non-rewind tape streamer".
+     */
+    public static class PROPERTY_DEVICEDESCRIPTION {
+        /**
+         * name of the property DeviceDescription
+         */
+        public final static String NAME = "DeviceDescription";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_UnixDeviceFile() {
+    }
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * Constants of property DeviceFileType
+     * The type of device file.
+     */
+    public static class PROPERTY_DEVICEFILETYPE {
+        /**
+         * name of the property DeviceFileType
+         */
+        public final static String NAME = "DeviceFileType";
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+        /**
+         * constant for value map entry 0
+         */
 
-		setValidCimInstance(false);
-	}
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
 
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_UnixDeviceFile(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+        /**
+         * constant for value map entry 1
+         */
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_UnixDeviceFile(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Block = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry Block (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Block = "Block";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Character = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Character (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Character = "Character";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@546a546a
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
             }
-            CIM_UnixDeviceFile.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_Block.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Block;
+            }
+
+            if (VALUE_ENTRY_Character.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Character;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Block.intValue()) {
+                return VALUE_ENTRY_Block;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Character.intValue()) {
+                return VALUE_ENTRY_Character;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property DeviceFileType   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown, VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Block,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Character };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property DeviceFileType   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown, VALUE_ENTRY_Other,
+                VALUE_ENTRY_Block, VALUE_ENTRY_Character };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property DeviceFileType   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Other, VALUE_ENTRY_Block, VALUE_ENTRY_Character };
+
+    }
+
+    /**
+     * Constants of property DeviceId
+     * The device Identifier: this is the st_rdev field in the stat structure.
+     */
+    public static class PROPERTY_DEVICEID {
+        /**
+         * name of the property DeviceId
+         */
+        public final static String NAME = "DeviceId";
+
+    }
+
+    /**
+     * Constants of property DeviceMajor
+     * The Device's Major Id.
+     */
+    public static class PROPERTY_DEVICEMAJOR {
+        /**
+         * name of the property DeviceMajor
+         */
+        public final static String NAME = "DeviceMajor";
+
+    }
+
+    /**
+     * Constants of property DeviceMinor
+     * The Device's Minor Id.
+     */
+    public static class PROPERTY_DEVICEMINOR {
+        /**
+         * name of the property DeviceMinor
+         */
+        public final static String NAME = "DeviceMinor";
+
+    }
+
+    /**
+     * Constants of property OtherTypeDescription
+     * Additional information when the DeviceFileType property is set to "Other".
+     */
+    public static class PROPERTY_OTHERTYPEDESCRIPTION {
+        /**
+         * name of the property OtherTypeDescription
+         */
+        public final static String NAME = "OtherTypeDescription";
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_DeviceFile.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   DeviceFile is a special type of LogicalFile that represents a Device. This class is a specialization of DeviceFile for a Unix environment.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_UnixDeviceFile(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   DeviceFile is a special type of LogicalFile that represents a Device. This class is a specialization of DeviceFile for a Unix environment.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_UnixDeviceFile(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_UnixDeviceFile() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("DeviceDescription", new CIMProperty("DeviceDescription",
+                CIMDataType.STRING_T, null));
+        propertiesToCheck.put("DeviceFileType", new CIMProperty("DeviceFileType",
+                CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("DeviceId", new CIMProperty("DeviceId", CIMDataType.STRING_T, null));
+        propertiesToCheck.put("DeviceMajor", new CIMProperty("DeviceMajor", CIMDataType.STRING_T,
+                null));
+        propertiesToCheck.put("DeviceMinor", new CIMProperty("DeviceMinor", CIMDataType.STRING_T,
+                null));
+        propertiesToCheck.put("OtherTypeDescription", new CIMProperty("OtherTypeDescription",
+                CIMDataType.STRING_T, null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_UnixDeviceFile.Java_Package_List.toArray(new String[CIM_UnixDeviceFile.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property DeviceDescription
+     *     * <br>
+     * Additional information provided by the driver. This property may be null if no information is available, or a general description of the device when available, e.g. "Non-rewind tape streamer".
+     *     */
+
+    public String get_DeviceDescription() {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEVICEDESCRIPTION.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_DEVICEDESCRIPTION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		CIMProperty CIMProperty_DeviceId = this.cimInstance.getProperty(CIM_PROPERTY_DEVICEID);
-		
-		if (CIMProperty_DeviceId == null || CIMProperty_DeviceId.getValue().isEmpty() || CIMProperty_DeviceId.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_DEVICEID, "Required"});
-			result = false;
-		}
-		
-		CIMProperty CIMProperty_DeviceMajor = this.cimInstance.getProperty(CIM_PROPERTY_DEVICEMAJOR);
-		
-		if (CIMProperty_DeviceMajor == null || CIMProperty_DeviceMajor.getValue().isEmpty() || CIMProperty_DeviceMajor.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_DEVICEMAJOR, "Required"});
-			result = false;
-		}
-		
-		CIMProperty CIMProperty_DeviceMinor = this.cimInstance.getProperty(CIM_PROPERTY_DEVICEMINOR);
-		
-		if (CIMProperty_DeviceMinor == null || CIMProperty_DeviceMinor.getValue().isEmpty() || CIMProperty_DeviceMinor.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_DEVICEMINOR, "Required"});
-			result = false;
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property DeviceDescription
+     * <br>
+     * Additional information provided by the driver. This property may be null if no information is available, or a general description of the device when available, e.g. "Non-rewind tape streamer".
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_UnixDeviceFile)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_UnixDeviceFile)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_UnixDeviceFile)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_UnixDeviceFile)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_UnixDeviceFile)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_UnixDeviceFile)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_UnixDeviceFile)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_UnixDeviceFile)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_UnixDeviceFile)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_UnixDeviceFile)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_DeviceDescription(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEVICEDESCRIPTION.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_DeviceDescription(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEVICEDESCRIPTION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute DeviceDescription
-	
-	public String get_DeviceDescription() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEDESCRIPTION);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEDESCRIPTION + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEDESCRIPTION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_DeviceDescription(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEDESCRIPTION);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEDESCRIPTION + " could not be found");
-    		
-		} else if (!CIM_UnixDeviceFileHelper.isValid_DeviceDescription(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEDESCRIPTION);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEDESCRIPTION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute DeviceFileType
-	
-	public UnsignedInt16 get_DeviceFileType() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEFILETYPE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEFILETYPE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEFILETYPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_DeviceFileType(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEFILETYPE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEFILETYPE + " could not be found");
-    		
-		} else if (!CIM_UnixDeviceFileHelper.isValid_DeviceFileType(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEFILETYPE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEFILETYPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property DeviceDescription by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	// Attribute DeviceId
-	
-	public String get_DeviceId() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEID);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEID + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEID + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_DeviceId(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEID);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEID + " could not be found");
-    		
-		} else if (!CIM_UnixDeviceFileHelper.isValid_DeviceId(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEID);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEID + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public static CIMProperty create_DeviceDescription(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_UnixDeviceFile fco = new CIM_UnixDeviceFile(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_DEVICEDESCRIPTION.NAME);
+        if (property != null) {
+            property = setPropertyValue_DeviceDescription(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEVICEDESCRIPTION.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	// Attribute DeviceMajor
-	
-	public String get_DeviceMajor() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEMAJOR);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEMAJOR + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEMAJOR + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_DeviceMajor(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEMAJOR);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEMAJOR + " could not be found");
-    		
-		} else if (!CIM_UnixDeviceFileHelper.isValid_DeviceMajor(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEMAJOR);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEMAJOR + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Set the property DeviceDescription
+     * <br>
+     * Additional information provided by the driver. This property may be null if no information is available, or a general description of the device when available, e.g. "Non-rewind tape streamer".
+     */
 
-	// Attribute DeviceMinor
-	
-	public String get_DeviceMinor() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEMINOR);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEMINOR + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEMINOR + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_DeviceMinor(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEMINOR);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEMINOR + " could not be found");
-    		
-		} else if (!CIM_UnixDeviceFileHelper.isValid_DeviceMinor(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEMINOR);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_DEVICEMINOR + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    private static CIMProperty setPropertyValue_DeviceDescription(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
 
-	// Attribute OtherTypeDescription
-	
-	public String get_OtherTypeDescription() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixDeviceFile.CIM_PROPERTY_OTHERTYPEDESCRIPTION);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_OTHERTYPEDESCRIPTION + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_OTHERTYPEDESCRIPTION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_OtherTypeDescription(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnixDeviceFile.CIM_PROPERTY_OTHERTYPEDESCRIPTION);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_OTHERTYPEDESCRIPTION + " could not be found");
-    		
-		} else if (!CIM_UnixDeviceFileHelper.isValid_OtherTypeDescription(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnixDeviceFile.CIM_PROPERTY_OTHERTYPEDESCRIPTION);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnixDeviceFile.CIM_PROPERTY_OTHERTYPEDESCRIPTION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        setThis = newValue;
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property DeviceFileType
+     *     * <br>
+     * The type of device file.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_DeviceFileType() {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEVICEFILETYPE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_DEVICEFILETYPE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property DeviceFileType
+     * <br>
+     * The type of device file.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_DeviceFileType(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEVICEFILETYPE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_DeviceFileType(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEVICEFILETYPE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property DeviceFileType by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_DeviceFileType(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_UnixDeviceFile fco = new CIM_UnixDeviceFile(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_DEVICEFILETYPE.NAME);
+        if (property != null) {
+            property = setPropertyValue_DeviceFileType(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEVICEFILETYPE.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property DeviceFileType
+     * <br>
+     * The type of device file.
+     */
+
+    private static CIMProperty setPropertyValue_DeviceFileType(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property DeviceId
+     *     * <br>
+     * The device Identifier: this is the st_rdev field in the stat structure.
+     *     */
+
+    public String get_DeviceId() {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEVICEID.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_DEVICEID.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property DeviceId
+     * <br>
+     * The device Identifier: this is the st_rdev field in the stat structure.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_DeviceId(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEVICEID.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_DeviceId(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEVICEID.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property DeviceId by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_DeviceId(WBEMClient client, String namespace, String newValue)
+            throws WbemsmtException {
+        CIM_UnixDeviceFile fco = new CIM_UnixDeviceFile(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_DEVICEID.NAME);
+        if (property != null) {
+            property = setPropertyValue_DeviceId(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEVICEID.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property DeviceId
+     * <br>
+     * The device Identifier: this is the st_rdev field in the stat structure.
+     */
+
+    private static CIMProperty setPropertyValue_DeviceId(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property DeviceMajor
+     *     * <br>
+     * The Device's Major Id.
+     *     */
+
+    public String get_DeviceMajor() {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEVICEMAJOR.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_DEVICEMAJOR.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property DeviceMajor
+     * <br>
+     * The Device's Major Id.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_DeviceMajor(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEVICEMAJOR.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_DeviceMajor(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEVICEMAJOR.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property DeviceMajor by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_DeviceMajor(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_UnixDeviceFile fco = new CIM_UnixDeviceFile(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_DEVICEMAJOR.NAME);
+        if (property != null) {
+            property = setPropertyValue_DeviceMajor(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEVICEMAJOR.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property DeviceMajor
+     * <br>
+     * The Device's Major Id.
+     */
+
+    private static CIMProperty setPropertyValue_DeviceMajor(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property DeviceMinor
+     *     * <br>
+     * The Device's Minor Id.
+     *     */
+
+    public String get_DeviceMinor() {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEVICEMINOR.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_DEVICEMINOR.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property DeviceMinor
+     * <br>
+     * The Device's Minor Id.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_DeviceMinor(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEVICEMINOR.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_DeviceMinor(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEVICEMINOR.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property DeviceMinor by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_DeviceMinor(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_UnixDeviceFile fco = new CIM_UnixDeviceFile(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_DEVICEMINOR.NAME);
+        if (property != null) {
+            property = setPropertyValue_DeviceMinor(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEVICEMINOR.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property DeviceMinor
+     * <br>
+     * The Device's Minor Id.
+     */
+
+    private static CIMProperty setPropertyValue_DeviceMinor(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property OtherTypeDescription
+     *     * <br>
+     * Additional information when the DeviceFileType property is set to "Other".
+     *     */
+
+    public String get_OtherTypeDescription() {
+        CIMProperty currentProperty = getProperty(PROPERTY_OTHERTYPEDESCRIPTION.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_OTHERTYPEDESCRIPTION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property OtherTypeDescription
+     * <br>
+     * Additional information when the DeviceFileType property is set to "Other".
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_OtherTypeDescription(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_OTHERTYPEDESCRIPTION.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_OtherTypeDescription(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_OTHERTYPEDESCRIPTION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property OtherTypeDescription by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_OtherTypeDescription(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_UnixDeviceFile fco = new CIM_UnixDeviceFile(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_OTHERTYPEDESCRIPTION.NAME);
+        if (property != null) {
+            property = setPropertyValue_OtherTypeDescription(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_OTHERTYPEDESCRIPTION.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property OtherTypeDescription
+     * <br>
+     * Additional information when the DeviceFileType property is set to "Other".
+     */
+
+    private static CIMProperty setPropertyValue_OtherTypeDescription(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_UnixDeviceFile.CIM_CLASS_NAME;
+    }
 
 }

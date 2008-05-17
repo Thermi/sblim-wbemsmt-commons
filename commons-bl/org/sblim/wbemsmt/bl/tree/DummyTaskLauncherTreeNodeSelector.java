@@ -21,11 +21,11 @@ package org.sblim.wbemsmt.bl.tree;
 
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.TaskLauncherTreeNodeSelector;
-import org.sblim.wbemsmt.exception.ObjectNotFoundException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 
 public class DummyTaskLauncherTreeNodeSelector implements TaskLauncherTreeNodeSelector {
 
-	public void select(ITaskLauncherTreeNode treeNode, AbstractBaseCimAdapter adapter, String editPanelId) throws ObjectNotFoundException {
+	public void select(ITaskLauncherTreeNode treeNode, AbstractBaseCimAdapter adapter, String editPanelId) throws WbemsmtException {
 		//do nothing
 	}
 

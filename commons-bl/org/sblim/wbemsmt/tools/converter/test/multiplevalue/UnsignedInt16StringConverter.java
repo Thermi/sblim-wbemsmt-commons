@@ -25,27 +25,28 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.cim.UnsignedInteger16;
+
 import org.apache.commons.lang.ClassUtils;
-import org.sblim.wbem.cim.UnsignedInt16;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class UnsignedInt16StringConverter extends MultipleValueConverter implements Converter {
 
 	/**
-	 * Converts the selected Index of the param-given comboBox as UnsignedInt16-Object
+	 * Converts the selected Index of the param-given comboBox as UnsignedInteger16-Object
 	 */
 	public Object convertForModel(Object guiElement) {
 		List values = (List) guiElement;
 		List result = new ArrayList();
 		for (Iterator iter = values.iterator(); iter.hasNext();) {
 			String value = (String) iter.next();
-			result.add(new UnsignedInt16(Integer.parseInt(value)));
+			result.add(new UnsignedInteger16(Integer.parseInt(value)));
 		}
 		return result;
 	}
 
 	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInt16.class);
+		return ClassUtils.getShortClassName(UnsignedInteger16.class);
 	}	
 	
 }

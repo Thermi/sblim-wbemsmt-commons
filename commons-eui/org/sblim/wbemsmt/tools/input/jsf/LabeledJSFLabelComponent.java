@@ -38,9 +38,14 @@ public class LabeledJSFLabelComponent extends LabeledJSFInputComponent {
 		setComponentBindings1((LabeledJSFLabelComponent) comp,prefix);
 	}
 
-	private static void setComponentBindings1(LabeledJSFLabelComponent component, String id) {
-		((HtmlOutputText)component.getComponent()).setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
+	public static void setComponentBindings1(LabeledJSFLabelComponent component, String id) {
+		HtmlOutputText htmlOutputText = ((HtmlOutputText)component.getComponent());
+        setComponentBindings(htmlOutputText, id);
 	}
+
+    public static void setComponentBindings(HtmlOutputText htmlOutputText, String id) {
+        htmlOutputText.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
+    }
 	
 
 }

@@ -24,11 +24,7 @@ import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,8 +32,8 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.util.WbemsmtStringEncrypter;
-import org.sblim.wbemsmt.util.WbemsmtStringEncrypter.EncryptionException;
 
 public class WbemsmtCookieUtil {
 
@@ -54,7 +50,7 @@ public class WbemsmtCookieUtil {
 
         try {
 			encrypter = new WbemsmtStringEncrypter( encryptionKey );
-		} catch (EncryptionException e) {
+		} catch (WbemsmtException e) {
 			logger.log(Level.SEVERE, "Cannot create encrypter", e);
 		}
 		
@@ -128,7 +124,7 @@ public class WbemsmtCookieUtil {
 				((HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse()).addCookie(cookie);
 
 			}
-		} catch (EncryptionException e) {
+		} catch (WbemsmtException e) {
 			logger.log(Level.SEVERE, "Cannot encrypt password - Cookie was not added", e);
 		}
 	}
@@ -200,7 +196,7 @@ public class WbemsmtCookieUtil {
 				//replace the "cookie's line break" - two spaces - by a regulare line break
 				value = value.replaceAll("  ", "\r\n");
 				return MultiHostLoginData.create(decrypt(value));
-			} catch (EncryptionException e) {
+			} catch (WbemsmtException e) {
 				logger.log(Level.SEVERE, "Cannot decrypt LoginData", e);
 			}
 		}
@@ -223,7 +219,7 @@ public class WbemsmtCookieUtil {
 				String value = cookie.getValue();
 				value = value.replaceAll("  ", "\r\n");
 				return LoginData.create(decrypt(value));
-			} catch (EncryptionException e) {
+			} catch (WbemsmtException e) {
 				logger.log(Level.SEVERE, "Cannot decrypt LoginData", e);
 			}
 		}
@@ -246,17 +242,17 @@ public class WbemsmtCookieUtil {
 				cookie.setMaxAge(DEFAULT_MAX_AGE);
 				((HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse()).addCookie(cookie);
 			} 
-			catch (EncryptionException e) {
+			catch (WbemsmtException e) {
 				logger.log(Level.SEVERE, "Cannot encrypt LoginData", e);
 			}
 		}		
 	}
 	
-	private static String encrypt(String value) throws EncryptionException {
+	private static String encrypt(String value) throws WbemsmtException {
         return value != null ? encrypter.encrypt( value ) : null;
 	}
 
-	private static String decrypt(String value) throws EncryptionException {
+	private static String decrypt(String value) throws WbemsmtException {
 		return value != null ? encrypter.decrypt( value ) : null;
 	}
 	

@@ -22,6 +22,8 @@ package org.sblim.wbemsmt.bl.metric;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.wbem.WBEMException;
+
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricDefinitionIf;
 
 public class MetricCalculatorFactory {
@@ -61,6 +63,7 @@ public class MetricCalculatorFactory {
 	 * 
 	 * @param definitionIf
 	 * @return If there is no calculator for this definition's unit the default calculator is returned
+	 * @throws WBEMException 
 	 */
 	public MetricCalculator getCalculatorByUnit(CIM_BaseMetricDefinitionIf definitionIf) {
 		

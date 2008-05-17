@@ -4,13 +4,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
-import org.sblim.wbem.cim.CIMObjectPath;
-import org.sblim.wbem.client.CIMClient;
-import org.sblim.wbemsmt.exception.ModelLoadException;
-import org.sblim.wbemsmt.exception.ObjectCreationException;
-import org.sblim.wbemsmt.exception.ObjectDeletionException;
-import org.sblim.wbemsmt.exception.ObjectNotFoundException;
-import org.sblim.wbemsmt.exception.ObjectSaveException;
+import javax.cim.CIMObjectPath;
+import javax.cim.CIMProperty;
+import javax.wbem.client.WBEMClient;
+
+import org.sblim.wbemsmt.exception.WbemsmtException;
 
 public interface FcoHelperIf {
 
@@ -19,162 +17,158 @@ public interface FcoHelperIf {
 	 * @param c a list of FCO instances which can be converted to a CIMObjectIf by the CIM_ObjectCreatorIf of the helper class
 	 * or instances of CIMObject If
 	 * @param cimClient
-	 * @throws ObjectDeletionException
+	 * @throws WbemsmtException
 	 */
-	public abstract void delete(Collection c, CIMClient cimClient)
-			throws ObjectDeletionException;
+	public abstract void delete(Collection c, WBEMClient cimClient)
+			throws WbemsmtException;
 
 	/**
 	 * deletes the object
 	 * @param fco the firstClassObject or a Collection with first class objects
 	 * @param cimClient
-	 * @throws ObjectDeletionException
+	 * @throws WbemsmtException
 	 */
-	public abstract void delete(Object fco, CIMClient cimClient)
-			throws ObjectDeletionException;
+	public abstract void delete(AbstractWbemsmtFco fco, WBEMClient cimClient)
+			throws WbemsmtException;
 
 	/**
 	 * deletes the object
 	 * @param fco the firstClassObject or a Collection with first class objects
 	 * @param cimClient
-	 * @throws ObjectDeletionException
+	 * @throws WbemsmtException
 	 */
-	public abstract void delete(Object fco, CIMClient cimClient,
+	public abstract void delete(AbstractWbemsmtFco fco, WBEMClient cimClient,
 			boolean testIfObjectRemovedAfterDeletion)
-			throws ObjectDeletionException;
+			throws WbemsmtException;
 
 	/**
 	 * Creates a new FCO with the given keyProperties and deletes it
 	 * @param fcoClass
+	 * @param namespace TODO
 	 * @param keyProperties
 	 * @param cimClient
 	 */
-	public abstract void delete(Class fcoClass, Vector keyProperties,
-			CIMClient cimClient) throws ObjectDeletionException;
+	public abstract void delete(Class fcoClass, String namespace,
+			CIMProperty[] keyProperties, WBEMClient cimClient) throws WbemsmtException;
 
 	/**
 	 * Creates a new FCO with the given keyProperties and deletes it
 	 * @param fcoClass
+	 * @param namespace TODO
 	 * @param keyProperties
 	 * @param cimClient
 	 */
-	public abstract void delete(Class fcoClass, Vector keyProperties,
-			CIMClient cimClient, boolean testIfObjectRemovedAfterDeletion)
-			throws ObjectDeletionException;
+	public abstract void delete(Class fcoClass, String namespace,
+	        CIMProperty[] keyProperties, WBEMClient cimClient, boolean testIfObjectRemovedAfterDeletion)
+			throws WbemsmtException;
 
 	/**
 	 * creates objects
 	 * @param o the firstClassObject or a Collection with first class objects
 	 * @param cimClient
 	 * @return 
-	 * @throws ObjectDeletionException
+	 * @throws WbemsmtException
 	 */
 
-	public abstract Collection create(Collection c, CIMClient cimClient)
-			throws ObjectCreationException;
+	public abstract Collection create(Collection c, WBEMClient cimClient)
+			throws WbemsmtException;
 
 	/**
 	 * creates objects
 	 * @param fco the firstClassObject or a Collection with first class objects
 	 * @param cimClient
 	 * @return 
-	 * @throws ObjectCreationException
+	 * @throws WbemsmtException
 	 */
 
-	public abstract Object create(Object fco, CIMClient cimClient)
-			throws ObjectCreationException;
+	public abstract AbstractWbemsmtFco create(AbstractWbemsmtFco fco, WBEMClient cimClient)
+			throws WbemsmtException;
 
 	/**
-	 * creates objects
-	 * @param fco the firstClassObject or a Collection with first class objects
+	 * create a FCO with the given Properties
+	 * @param fcoClass
 	 * @param cimClient
-	 * @return the created object or input-fco if no object was created
-	 * @throws ObjectCreationException
+	 * @param namespace
+	 * @param keyProperties
+	 * @return
+	 * @throws WbemsmtException
 	 */
+	public abstract AbstractWbemsmtFco create(Class fcoClass, WBEMClient cimClient, String namespace, Vector keyProperties) throws WbemsmtException;
 
-	public abstract Object create(Object fco, CIMClient cimClient,
-			boolean testIfObjectExists) throws ObjectCreationException;
-
-	public abstract Object create(Class fcoClass, CIMClient cimClient,
-			Vector keyProperties) throws ObjectCreationException;
-
-	public abstract Object create(Class fcoClass, CIMClient cimClient,
-			Vector keyProperties, boolean b) throws ObjectCreationException;
 
 	/**
 	 * saves objects
 	 * @param o the firstClassObject or a Collection with first class objects
 	 * @param cimClient
-	 * @throws ObjectDeletionException
+	 * @throws WbemsmtException
 	 */
 
-	public abstract void save(Collection c, CIMClient cimClient)
-			throws ObjectSaveException;
+	public abstract void save(Collection c, WBEMClient cimClient)
+			throws WbemsmtException;
 
 	/**
 	 * saves objects, if it was modified
 	 * @param o the firstClassObject or a Collection with first class objects
 	 * @param cimClient
-	 * @throws ObjectSaveException
+	 * @throws WbemsmtException
 	 * @return the modified instance - or the not modified instance if an event listener stopped the processing
 	 */
 
-	public abstract Object save(Object o, CIMClient cimClient)
-			throws ObjectSaveException;
+	public abstract AbstractWbemsmtFco save(AbstractWbemsmtFco o, WBEMClient cimClient)
+			throws WbemsmtException;
 
 	/**
 	 * Reloads a fco from the servr
 	 * @param fcoToReload
 	 * @param cc
 	 * @return
-	 * @throws ModelLoadException 
+	 * @throws WbemsmtException 
 	 */
-	public abstract Object reload(Object fcoToReload,
-			CIMClient cimClient) throws ModelLoadException;
+	public abstract AbstractWbemsmtFco reload(AbstractWbemsmtFco fcoToReload,
+			WBEMClient cimClient) throws WbemsmtException;
 
 	/**
 	 * Reloads a fco from the servr
 	 * @param fcoToReload
 	 * @param cc
 	 * @return
-	 * @throws ModelLoadException 
+	 * @throws WbemsmtException 
 	 */
-	public abstract Object reload(Class helperClass, CIMObjectPath path,
-			CIMClient cimClient) throws ModelLoadException;
+	public abstract AbstractWbemsmtFco reload(Class helperClass, CIMObjectPath path,
+			WBEMClient cimClient) throws WbemsmtException;
 
 	/**
 	 * gets an instance
+	 * @param namespace TODO
 	 * @param fcoToReload
 	 * @param cc
 	 * @return
-	 * @throws ModelLoadException 
+	 * @throws WbemsmtException 
 	 */
-	public abstract Object getInstance(Class helperClass, Vector keys,
-			CIMClient cimClient) throws ModelLoadException;
+	public abstract AbstractWbemsmtFco getInstance(Class helperClass, String namespace,
+			Vector keys, WBEMClient cimClient) throws WbemsmtException;
 
-	public abstract CIMObjectPath getPath(Class fcoClass, String keyFieldName,
-			Object keyFieldValue, CIMClient cimClient)
-			throws ObjectNotFoundException;
+	public abstract CIMObjectPath getPath(Class fcoClass, String namespace,
+			String keyFieldName, Object keyFieldValue, WBEMClient cimClient)
+			throws WbemsmtException;
 
 	public abstract CIMObjectPath getPath(Class fcoClass,
-			String[] keyFieldNames, Object[] keyFieldValues, CIMClient cimClient)
-			throws ObjectNotFoundException;
+			String namespace, String[] keyFieldNames, Object[] keyFieldValues, WBEMClient cimClient)
+			throws WbemsmtException;
 
 	public abstract CIMObjectPath getPath(List objectPathList,
 			String keyFieldName, String keyFieldValue)
-			throws ObjectNotFoundException;
+			throws WbemsmtException;
 
 	public abstract CIMObjectPath getPath(List objectPathList,
 			String[] keyFieldNames, Object[] keyFieldValues)
-			throws ObjectNotFoundException;
+			throws WbemsmtException;
 
 	public abstract void addFcoHelperListener(Class fcoClass,
 			FcoHelperListener listener);
 
 	public abstract void removeFcoHelperListener(Class fcoClass,
 			FcoHelperListener listener);
-	
-	public abstract CIM_ObjectCreatorIf getCIM_ObjectCreator();
 	
 	/**
 	 * Set the notifyChanges flag of modifyInstance and createInstance

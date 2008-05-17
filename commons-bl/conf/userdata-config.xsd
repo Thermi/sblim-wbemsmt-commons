@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Michael Bauschert (private) -->
+<xs:schema targetNamespace="http://sblim.org/wbemsmt/tasklauncher/userdataconfig" xmlns:userdataconfig="http://sblim.org/wbemsmt/tasklauncher/userdataconfig" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified">
+	<xs:element name="entry">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="userdataconfig:entry" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="key" type="xs:string" use="required"/>
+			<xs:attribute name="value" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="userdata">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="userdataconfig:entry" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="version" type="userdataconfig:version" use="required"/>
+			<xs:attribute name="comment" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="version">
+		<xs:annotation>
+			<xs:documentation>
+        	Versions
+        	</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="VERSION_1_0"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -65,6 +65,11 @@ public class ComponentProperties extends Hashtable
 	public String getColor() {
 		return (String) (get(KEY_COLOR) == null ? COLOR_BLACK : get(KEY_COLOR));
 	}
+	
+	/**
+	 * Use one of the COLOR_ variables to set the color
+	 * @param color
+	 */
 	public void setColor(String color) {
 		setProperty(KEY_COLOR,color);
 	}

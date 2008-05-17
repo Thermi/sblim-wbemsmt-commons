@@ -1,793 +1,2235 @@
 /** 
  * CIM_CacheMemory.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  Capabilities and management of Cache Memory. Cache memory is dedicated or
- * allocated RAM that a Processor searches first for data, before going to
- * 'regular' memory. CacheMemory is used to speed up the delivery of data to a
- * Processor. It is usually described by its closeness to the Processor (for
- * example, Primary or Secondary Cache). If a DiskDrive includes RAM allocated
- * for holding the disk's most recently read and/or adjacent data (in order to
- * speed up retrieval), this also would be modeled as CacheMemory. Note that
- * CacheMemory is NOT operating system or application level buffers but actual
- * RAM allocated for caching data for a Processor, from a hard disk, etc.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: Capabilities and management of Cache Memory. Cache memory is dedicated or allocated RAM that a Processor searches first for data, before going to 'regular' memory. CacheMemory is used to speed up the delivery of data to a Processor. It is usually described by its closeness to the Processor (for example, Primary or Secondary Cache). 
+ * If a DiskDrive includes RAM allocated for holding the disk's most recently read and/or adjacent data (in order to speed up retrieval), this also would be modeled as CacheMemory. Note that CacheMemory is NOT operating system or application level buffers but actual RAM allocated for caching data for a Processor, from a hard disk, etc.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
 
-/**
- *  Capabilities and management of Cache Memory. Cache memory is dedicated or
- * allocated RAM that a Processor searches first for data, before going to
- * 'regular' memory. CacheMemory is used to speed up the delivery of data to a
- * Processor. It is usually described by its closeness to the Processor (for
- * example, Primary or Secondary Cache). If a DiskDrive includes RAM allocated
- * for holding the disk's most recently read and/or adjacent data (in order to
- * speed up retrieval), this also would be modeled as CacheMemory. Note that
- * CacheMemory is NOT operating system or application level buffers but actual
- * RAM allocated for caching data for a Processor, from a hard disk, etc.
- */
-public class CIM_CacheMemory extends CIM_Memory  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_CacheMemory"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_CacheMemory extends CIM_Memory {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.8.0";
-	
-	
-	/**
-	*	An integer enumeration defining the system cache associativity. For example, 6 indicates a fully associative cache.
-	*/
-	public final static String CIM_PROPERTY_ASSOCIATIVITY = "Associativity"; //$NON-NLS-1$
-	/**
-	*	Defines whether this is for instruction caching (value=3), data caching (value=4) or both (value=5, "Unified"). Also, "Other" (1) and "Unknown" (2) can be defined.
-	*/
-	public final static String CIM_PROPERTY_CACHETYPE = "CacheType"; //$NON-NLS-1$
-	/**
-	*	Maximum amount of time, in seconds, dirty lines or buckets may remain in the Cache before they are flushed. A value of zero indicated that a cache flush is not controlled by a flushing timer.
-	*/
-	public final static String CIM_PROPERTY_FLUSHTIMER = "FlushTimer"; //$NON-NLS-1$
-	/**
-	*	Defines whether this is the Primary (value=3), Secondary (value=4) or Tertiary (value=5) Cache. Also, "Other" (1), "Unknown" (2) and "Not Applicable" (6) can be defined.
-	*/
-	public final static String CIM_PROPERTY_LEVEL = "Level"; //$NON-NLS-1$
-	/**
-	*	Size, in bytes, of a single cache bucket or line.
-	*/
-	public final static String CIM_PROPERTY_LINESIZE = "LineSize"; //$NON-NLS-1$
-	/**
-	*	Policy that shall be employed by the Cache for handling read requests. For example, "Read", "Read-Ahead" or both can be specified using the values, 3, 4 or 5, respectively. If the read policy is determined individually (ie, for each request), then the value 6 ("Determination per I/O") should be specified. "Other" (1) and "Unknown" (2) are also valid values.
-	*/
-	public final static String CIM_PROPERTY_READPOLICY = "ReadPolicy"; //$NON-NLS-1$
-	/**
-	*	An integer enumeration describing the algorithm to determine which cache lines or buckets should be re-used.
-	*/
-	public final static String CIM_PROPERTY_REPLACEMENTPOLICY = "ReplacementPolicy"; //$NON-NLS-1$
-	/**
-	*	Defines whether this is write-back (value=3) or write-through (value=4) Cache, or whether this information "Varies with Address" (5) or is defined individually for each I/O (6). Also, "Other" (1) and "Unknown" (2) can be specified.
-	*/
-	public final static String CIM_PROPERTY_WRITEPOLICY = "WritePolicy"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_CacheMemory";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_ASSOCIATIVITY);
-		CIM_PropertyNameList.add(CIM_PROPERTY_CACHETYPE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_FLUSHTIMER);
-		CIM_PropertyNameList.add(CIM_PROPERTY_LEVEL);
-		CIM_PropertyNameList.add(CIM_PROPERTY_LINESIZE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_READPOLICY);
-		CIM_PropertyNameList.add(CIM_PROPERTY_REPLACEMENTPOLICY);
-		CIM_PropertyNameList.add(CIM_PROPERTY_WRITEPOLICY);
-				
-		for (int i = 0; i < CIM_Memory.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_Memory.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ASSOCIATIVITY)||
-				((String)CIM_Memory.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_CACHETYPE)||
-				((String)CIM_Memory.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_FLUSHTIMER)||
-				((String)CIM_Memory.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_LEVEL)||
-				((String)CIM_Memory.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_LINESIZE)||
-				((String)CIM_Memory.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_READPOLICY)||
-				((String)CIM_Memory.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_REPLACEMENTPOLICY)||
-				((String)CIM_Memory.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_WRITEPOLICY)){
-				continue;
-			}
-			
-			CIM_CacheMemory.CIM_PropertyNameList.add(CIM_Memory.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ASSOCIATIVITY, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CACHETYPE, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_FLUSHTIMER, new CIMValue(null, new CIMDataType(CIMDataType.UINT32))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_LEVEL, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_LINESIZE, new CIMValue(null, new CIMDataType(CIMDataType.UINT32))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_READPOLICY, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_REPLACEMENTPOLICY, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_WRITEPOLICY, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-				
-		for (int i = 0; i < CIM_Memory.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_Memory.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ASSOCIATIVITY)||
-				((CIMProperty)CIM_Memory.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_CACHETYPE)||
-				((CIMProperty)CIM_Memory.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_FLUSHTIMER)||
-				((CIMProperty)CIM_Memory.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_LEVEL)||
-				((CIMProperty)CIM_Memory.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_LINESIZE)||
-				((CIMProperty)CIM_Memory.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_READPOLICY)||
-				((CIMProperty)CIM_Memory.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_REPLACEMENTPOLICY)||
-				((CIMProperty)CIM_Memory.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_WRITEPOLICY)){
-				continue;
-			}
-			
-			CIM_CacheMemory.CIM_PropertyList.add(CIM_Memory.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_Memory.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	public final static String[] CIM_VALUEMAP_ASSOCIATIVITY = {"Other","Unknown","Direct Mapped","2-way Set-Associative","4-way Set-Associative","Fully Associative","8-way Set-Associative","16-way Set-Associative"};
-	public final static String[] CIM_VALUEMAP_CACHETYPE = {"Other","Unknown","Instruction","Data","Unified"};
-	public final static String[] CIM_VALUEMAP_LEVEL = {"Other","Unknown","Primary","Secondary","Tertiary","Not Applicable"};
-	public final static String[] CIM_VALUEMAP_READPOLICY = {"Other","Unknown","Read","Read-Ahead","Read and Read-Ahead","Determination Per I/O"};
-	public final static String[] CIM_VALUEMAP_REPLACEMENTPOLICY = {"Other","Unknown","Least Recently Used (LRU)","First In First Out (FIFO)","Last In First Out (LIFO)","Least Frequently Used (LFU)","Most Frequently Used (MFU)","Data Dependent Multiple Algorithms"};
-	public final static String[] CIM_VALUEMAP_WRITEPOLICY = {"Other","Unknown","Write Back","Write Through","Varies with Address","Determination Per I/O"};
-	
-	
-	public final static int ASSOCIATIVITY_OTHER = 1;
-	public final static int ASSOCIATIVITY_UNKNOWN = 2;
-	public final static int ASSOCIATIVITY_DIRECTMAPPED = 3;
-	public final static int ASSOCIATIVITY_2_WAYSET_ASSOCIATIVE = 4;
-	public final static int ASSOCIATIVITY_4_WAYSET_ASSOCIATIVE = 5;
-	public final static int ASSOCIATIVITY_FULLYASSOCIATIVE = 6;
-	public final static int ASSOCIATIVITY_8_WAYSET_ASSOCIATIVE = 7;
-	public final static int ASSOCIATIVITY_16_WAYSET_ASSOCIATIVE = 8;
-	
-	public final static int CACHETYPE_OTHER = 1;
-	public final static int CACHETYPE_UNKNOWN = 2;
-	public final static int CACHETYPE_INSTRUCTION = 3;
-	public final static int CACHETYPE_DATA = 4;
-	public final static int CACHETYPE_UNIFIED = 5;
-	
-	public final static int LEVEL_OTHER = 1;
-	public final static int LEVEL_UNKNOWN = 2;
-	public final static int LEVEL_PRIMARY = 3;
-	public final static int LEVEL_SECONDARY = 4;
-	public final static int LEVEL_TERTIARY = 5;
-	public final static int LEVEL_NOTAPPLICABLE = 6;
-	
-	public final static int READPOLICY_OTHER = 1;
-	public final static int READPOLICY_UNKNOWN = 2;
-	public final static int READPOLICY_READ = 3;
-	public final static int READPOLICY_READ_AHEAD = 4;
-	public final static int READPOLICY_READANDREAD_AHEAD = 5;
-	public final static int READPOLICY_DETERMINATIONPERI_O = 6;
-	
-	public final static int REPLACEMENTPOLICY_OTHER = 1;
-	public final static int REPLACEMENTPOLICY_UNKNOWN = 2;
-	public final static int REPLACEMENTPOLICY_LEASTRECENTLYUSEDLRU = 3;
-	public final static int REPLACEMENTPOLICY_FIRSTINFIRSTOUTFIFO = 4;
-	public final static int REPLACEMENTPOLICY_LASTINFIRSTOUTLIFO = 5;
-	public final static int REPLACEMENTPOLICY_LEASTFREQUENTLYUSEDLFU = 6;
-	public final static int REPLACEMENTPOLICY_MOSTFREQUENTLYUSEDMFU = 7;
-	public final static int REPLACEMENTPOLICY_DATADEPENDENTMULTIPLEALGORITHMS = 8;
-	
-	public final static int WRITEPOLICY_OTHER = 1;
-	public final static int WRITEPOLICY_UNKNOWN = 2;
-	public final static int WRITEPOLICY_WRITEBACK = 3;
-	public final static int WRITEPOLICY_WRITETHROUGH = 4;
-	public final static int WRITEPOLICY_VARIESWITHADDRESS = 5;
-	public final static int WRITEPOLICY_DETERMINATIONPERI_O = 6;
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constants of property Associativity
+     * An integer enumeration defining the system cache associativity. For example, 6 indicates a fully associative cache.
+     */
+    public static class PROPERTY_ASSOCIATIVITY {
+        /**
+         * name of the property Associativity
+         */
+        public final static String NAME = "Associativity";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_CacheMemory() {
+        /**
+         * constant for value map entry 1
+         */
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
 
-		setValidCimInstance(false);
-	}
+        /**
+         * constant for value map entry 2
+         */
 
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "2");
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_CacheMemory(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_CacheMemory(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+        /**
+         * constant for value map entry 3
+         */
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Direct_Mapped = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Direct Mapped (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Direct_Mapped = "Direct Mapped";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_2_way_Set_Associative = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry 2-way Set-Associative (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_2_way_Set_Associative = "2-way Set-Associative";
+
+        /**
+         * constant for value map entry 5
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_4_way_Set_Associative = new javax.cim.UnsignedInteger16(
+                "5");
+
+        /**
+         * constant for value entry 4-way Set-Associative (corresponds to mapEntry 5 )
+         */
+        public final static String VALUE_ENTRY_4_way_Set_Associative = "4-way Set-Associative";
+
+        /**
+         * constant for value map entry 6
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Fully_Associative = new javax.cim.UnsignedInteger16(
+                "6");
+
+        /**
+         * constant for value entry Fully Associative (corresponds to mapEntry 6 )
+         */
+        public final static String VALUE_ENTRY_Fully_Associative = "Fully Associative";
+
+        /**
+         * constant for value map entry 7
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_8_way_Set_Associative = new javax.cim.UnsignedInteger16(
+                "7");
+
+        /**
+         * constant for value entry 8-way Set-Associative (corresponds to mapEntry 7 )
+         */
+        public final static String VALUE_ENTRY_8_way_Set_Associative = "8-way Set-Associative";
+
+        /**
+         * constant for value map entry 8
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_16_way_Set_Associative = new javax.cim.UnsignedInteger16(
+                "8");
+
+        /**
+         * constant for value entry 16-way Set-Associative (corresponds to mapEntry 8 )
+         */
+        public final static String VALUE_ENTRY_16_way_Set_Associative = "16-way Set-Associative";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@76ec76ec
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
             }
-            CIM_CacheMemory.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_Direct_Mapped.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Direct_Mapped;
+            }
+
+            if (VALUE_ENTRY_2_way_Set_Associative.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_2_way_Set_Associative;
+            }
+
+            if (VALUE_ENTRY_4_way_Set_Associative.equals(value)) {
+                return VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_4_way_Set_Associative;
+            }
+
+            if (VALUE_ENTRY_Fully_Associative.equals(value)) {
+                return VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Fully_Associative;
+            }
+
+            if (VALUE_ENTRY_8_way_Set_Associative.equals(value)) {
+                return VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_8_way_Set_Associative;
+            }
+
+            if (VALUE_ENTRY_16_way_Set_Associative.equals(value)) {
+                return VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_16_way_Set_Associative;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Direct_Mapped.intValue()) {
+                return VALUE_ENTRY_Direct_Mapped;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_2_way_Set_Associative.intValue()) {
+                return VALUE_ENTRY_2_way_Set_Associative;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_4_way_Set_Associative.intValue()) {
+                return VALUE_ENTRY_4_way_Set_Associative;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Fully_Associative.intValue()) {
+                return VALUE_ENTRY_Fully_Associative;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_8_way_Set_Associative.intValue()) {
+                return VALUE_ENTRY_8_way_Set_Associative;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_16_way_Set_Associative.intValue()) {
+                return VALUE_ENTRY_16_way_Set_Associative;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property Associativity   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other, VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Direct_Mapped,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_2_way_Set_Associative,
+                VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_4_way_Set_Associative,
+                VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Fully_Associative,
+                VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_8_way_Set_Associative,
+                VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_16_way_Set_Associative };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property Associativity   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Other, VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Direct_Mapped, VALUE_ENTRY_2_way_Set_Associative,
+                VALUE_ENTRY_4_way_Set_Associative, VALUE_ENTRY_Fully_Associative,
+                VALUE_ENTRY_8_way_Set_Associative, VALUE_ENTRY_16_way_Set_Associative };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property Associativity   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Other,
+                VALUE_ENTRY_Unknown, VALUE_ENTRY_Direct_Mapped, VALUE_ENTRY_2_way_Set_Associative,
+                VALUE_ENTRY_4_way_Set_Associative, VALUE_ENTRY_Fully_Associative,
+                VALUE_ENTRY_8_way_Set_Associative, VALUE_ENTRY_16_way_Set_Associative };
+
+    }
+
+    /**
+     * Constants of property CacheType
+     * Defines whether this is for instruction caching (value=3), data caching (value=4) or both (value=5, "Unified"). Also, "Other" (1) and "Unknown" (2) can be defined.
+     */
+    public static class PROPERTY_CACHETYPE {
+        /**
+         * name of the property CacheType
+         */
+        public final static String NAME = "CacheType";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Instruction = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Instruction (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Instruction = "Instruction";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Data = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry Data (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_Data = "Data";
+
+        /**
+         * constant for value map entry 5
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Unified = new javax.cim.UnsignedInteger16(
+                "5");
+
+        /**
+         * constant for value entry Unified (corresponds to mapEntry 5 )
+         */
+        public final static String VALUE_ENTRY_Unified = "Unified";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@276e276e
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_Instruction.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Instruction;
+            }
+
+            if (VALUE_ENTRY_Data.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Data;
+            }
+
+            if (VALUE_ENTRY_Unified.equals(value)) {
+                return VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Unified;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Instruction.intValue()) {
+                return VALUE_ENTRY_Instruction;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Data.intValue()) {
+                return VALUE_ENTRY_Data;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Unified.intValue()) {
+                return VALUE_ENTRY_Unified;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property CacheType   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other, VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Instruction,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Data, VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Unified };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property CacheType   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Other, VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Instruction, VALUE_ENTRY_Data, VALUE_ENTRY_Unified };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property CacheType   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Other,
+                VALUE_ENTRY_Unknown, VALUE_ENTRY_Instruction, VALUE_ENTRY_Data, VALUE_ENTRY_Unified };
+
+    }
+
+    /**
+     * Constants of property FlushTimer
+     * Maximum amount of time, in seconds, dirty lines or buckets may remain in the Cache before they are flushed. A value of zero indicated that a cache flush is not controlled by a flushing timer.
+     */
+    public static class PROPERTY_FLUSHTIMER {
+        /**
+         * name of the property FlushTimer
+         */
+        public final static String NAME = "FlushTimer";
+
+    }
+
+    /**
+     * Constants of property Level
+     * Defines whether this is the Primary (value=3), Secondary (value=4) or Tertiary (value=5) Cache. Also, "Other" (1), "Unknown" (2) and "Not Applicable" (6) can be defined.
+     */
+    public static class PROPERTY_LEVEL {
+        /**
+         * name of the property Level
+         */
+        public final static String NAME = "Level";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Primary = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Primary (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Primary = "Primary";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Secondary = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry Secondary (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_Secondary = "Secondary";
+
+        /**
+         * constant for value map entry 5
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Tertiary = new javax.cim.UnsignedInteger16(
+                "5");
+
+        /**
+         * constant for value entry Tertiary (corresponds to mapEntry 5 )
+         */
+        public final static String VALUE_ENTRY_Tertiary = "Tertiary";
+
+        /**
+         * constant for value map entry 6
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Not_Applicable = new javax.cim.UnsignedInteger16(
+                "6");
+
+        /**
+         * constant for value entry Not Applicable (corresponds to mapEntry 6 )
+         */
+        public final static String VALUE_ENTRY_Not_Applicable = "Not Applicable";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@3c823c82
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_Primary.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Primary;
+            }
+
+            if (VALUE_ENTRY_Secondary.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Secondary;
+            }
+
+            if (VALUE_ENTRY_Tertiary.equals(value)) {
+                return VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Tertiary;
+            }
+
+            if (VALUE_ENTRY_Not_Applicable.equals(value)) {
+                return VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Not_Applicable;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Primary.intValue()) {
+                return VALUE_ENTRY_Primary;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Secondary.intValue()) {
+                return VALUE_ENTRY_Secondary;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Tertiary.intValue()) {
+                return VALUE_ENTRY_Tertiary;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Not_Applicable.intValue()) {
+                return VALUE_ENTRY_Not_Applicable;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property Level   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other, VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Primary,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Secondary,
+                VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Tertiary,
+                VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Not_Applicable };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property Level   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Other, VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Primary, VALUE_ENTRY_Secondary, VALUE_ENTRY_Tertiary,
+                VALUE_ENTRY_Not_Applicable };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property Level   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Other,
+                VALUE_ENTRY_Unknown, VALUE_ENTRY_Primary, VALUE_ENTRY_Secondary,
+                VALUE_ENTRY_Tertiary, VALUE_ENTRY_Not_Applicable };
+
+    }
+
+    /**
+     * Constants of property LineSize
+     * Size, in bytes, of a single cache bucket or line.
+     */
+    public static class PROPERTY_LINESIZE {
+        /**
+         * name of the property LineSize
+         */
+        public final static String NAME = "LineSize";
+
+    }
+
+    /**
+     * Constants of property ReadPolicy
+     * Policy that shall be employed by the Cache for handling read requests. For example, "Read", "Read-Ahead" or both can be specified using the values, 3, 4 or 5, respectively. If the read policy is determined individually (ie, for each request), then the value 6 ("Determination per I/O") should be specified. "Other" (1) and "Unknown" (2) are also valid values.
+     */
+    public static class PROPERTY_READPOLICY {
+        /**
+         * name of the property ReadPolicy
+         */
+        public final static String NAME = "ReadPolicy";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Read = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Read (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Read = "Read";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Read_Ahead = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry Read-Ahead (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_Read_Ahead = "Read-Ahead";
+
+        /**
+         * constant for value map entry 5
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Read_and_Read_Ahead = new javax.cim.UnsignedInteger16(
+                "5");
+
+        /**
+         * constant for value entry Read and Read-Ahead (corresponds to mapEntry 5 )
+         */
+        public final static String VALUE_ENTRY_Read_and_Read_Ahead = "Read and Read-Ahead";
+
+        /**
+         * constant for value map entry 6
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Determination_Per_I_O = new javax.cim.UnsignedInteger16(
+                "6");
+
+        /**
+         * constant for value entry Determination Per I/O (corresponds to mapEntry 6 )
+         */
+        public final static String VALUE_ENTRY_Determination_Per_I_O = "Determination Per I/O";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@65a065a
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_Read.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Read;
+            }
+
+            if (VALUE_ENTRY_Read_Ahead.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Read_Ahead;
+            }
+
+            if (VALUE_ENTRY_Read_and_Read_Ahead.equals(value)) {
+                return VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Read_and_Read_Ahead;
+            }
+
+            if (VALUE_ENTRY_Determination_Per_I_O.equals(value)) {
+                return VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Determination_Per_I_O;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Read.intValue()) {
+                return VALUE_ENTRY_Read;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Read_Ahead.intValue()) {
+                return VALUE_ENTRY_Read_Ahead;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Read_and_Read_Ahead.intValue()) {
+                return VALUE_ENTRY_Read_and_Read_Ahead;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Determination_Per_I_O.intValue()) {
+                return VALUE_ENTRY_Determination_Per_I_O;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property ReadPolicy   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other, VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Read,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Read_Ahead,
+                VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Read_and_Read_Ahead,
+                VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Determination_Per_I_O };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property ReadPolicy   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Other, VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Read, VALUE_ENTRY_Read_Ahead, VALUE_ENTRY_Read_and_Read_Ahead,
+                VALUE_ENTRY_Determination_Per_I_O };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property ReadPolicy   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Other,
+                VALUE_ENTRY_Unknown, VALUE_ENTRY_Read, VALUE_ENTRY_Read_Ahead,
+                VALUE_ENTRY_Read_and_Read_Ahead, VALUE_ENTRY_Determination_Per_I_O };
+
+    }
+
+    /**
+     * Constants of property ReplacementPolicy
+     * An integer enumeration describing the algorithm to determine which cache lines or buckets should be re-used.
+     */
+    public static class PROPERTY_REPLACEMENTPOLICY {
+        /**
+         * name of the property ReplacementPolicy
+         */
+        public final static String NAME = "ReplacementPolicy";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Least_Recently_Used__LRU_ = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Least Recently Used (LRU) (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Least_Recently_Used__LRU_ = "Least Recently Used (LRU)";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_First_In_First_Out__FIFO_ = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry First In First Out (FIFO) (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_First_In_First_Out__FIFO_ = "First In First Out (FIFO)";
+
+        /**
+         * constant for value map entry 5
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Last_In_First_Out__LIFO_ = new javax.cim.UnsignedInteger16(
+                "5");
+
+        /**
+         * constant for value entry Last In First Out (LIFO) (corresponds to mapEntry 5 )
+         */
+        public final static String VALUE_ENTRY_Last_In_First_Out__LIFO_ = "Last In First Out (LIFO)";
+
+        /**
+         * constant for value map entry 6
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Least_Frequently_Used__LFU_ = new javax.cim.UnsignedInteger16(
+                "6");
+
+        /**
+         * constant for value entry Least Frequently Used (LFU) (corresponds to mapEntry 6 )
+         */
+        public final static String VALUE_ENTRY_Least_Frequently_Used__LFU_ = "Least Frequently Used (LFU)";
+
+        /**
+         * constant for value map entry 7
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Most_Frequently_Used__MFU_ = new javax.cim.UnsignedInteger16(
+                "7");
+
+        /**
+         * constant for value entry Most Frequently Used (MFU) (corresponds to mapEntry 7 )
+         */
+        public final static String VALUE_ENTRY_Most_Frequently_Used__MFU_ = "Most Frequently Used (MFU)";
+
+        /**
+         * constant for value map entry 8
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Data_Dependent_Multiple_Algorithms = new javax.cim.UnsignedInteger16(
+                "8");
+
+        /**
+         * constant for value entry Data Dependent Multiple Algorithms (corresponds to mapEntry 8 )
+         */
+        public final static String VALUE_ENTRY_Data_Dependent_Multiple_Algorithms = "Data Dependent Multiple Algorithms";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@38b438b4
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_Least_Recently_Used__LRU_.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Least_Recently_Used__LRU_;
+            }
+
+            if (VALUE_ENTRY_First_In_First_Out__FIFO_.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_First_In_First_Out__FIFO_;
+            }
+
+            if (VALUE_ENTRY_Last_In_First_Out__LIFO_.equals(value)) {
+                return VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Last_In_First_Out__LIFO_;
+            }
+
+            if (VALUE_ENTRY_Least_Frequently_Used__LFU_.equals(value)) {
+                return VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Least_Frequently_Used__LFU_;
+            }
+
+            if (VALUE_ENTRY_Most_Frequently_Used__MFU_.equals(value)) {
+                return VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Most_Frequently_Used__MFU_;
+            }
+
+            if (VALUE_ENTRY_Data_Dependent_Multiple_Algorithms.equals(value)) {
+                return VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Data_Dependent_Multiple_Algorithms;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Least_Recently_Used__LRU_.intValue()) {
+                return VALUE_ENTRY_Least_Recently_Used__LRU_;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_First_In_First_Out__FIFO_.intValue()) {
+                return VALUE_ENTRY_First_In_First_Out__FIFO_;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Last_In_First_Out__LIFO_.intValue()) {
+                return VALUE_ENTRY_Last_In_First_Out__LIFO_;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Least_Frequently_Used__LFU_.intValue()) {
+                return VALUE_ENTRY_Least_Frequently_Used__LFU_;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Most_Frequently_Used__MFU_.intValue()) {
+                return VALUE_ENTRY_Most_Frequently_Used__MFU_;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Data_Dependent_Multiple_Algorithms
+                    .intValue()) {
+                return VALUE_ENTRY_Data_Dependent_Multiple_Algorithms;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property ReplacementPolicy   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other, VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Least_Recently_Used__LRU_,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_First_In_First_Out__FIFO_,
+                VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Last_In_First_Out__LIFO_,
+                VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Least_Frequently_Used__LFU_,
+                VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Most_Frequently_Used__MFU_,
+                VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Data_Dependent_Multiple_Algorithms };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property ReplacementPolicy   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Other, VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Least_Recently_Used__LRU_, VALUE_ENTRY_First_In_First_Out__FIFO_,
+                VALUE_ENTRY_Last_In_First_Out__LIFO_, VALUE_ENTRY_Least_Frequently_Used__LFU_,
+                VALUE_ENTRY_Most_Frequently_Used__MFU_,
+                VALUE_ENTRY_Data_Dependent_Multiple_Algorithms };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property ReplacementPolicy   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Other,
+                VALUE_ENTRY_Unknown, VALUE_ENTRY_Least_Recently_Used__LRU_,
+                VALUE_ENTRY_First_In_First_Out__FIFO_, VALUE_ENTRY_Last_In_First_Out__LIFO_,
+                VALUE_ENTRY_Least_Frequently_Used__LFU_, VALUE_ENTRY_Most_Frequently_Used__MFU_,
+                VALUE_ENTRY_Data_Dependent_Multiple_Algorithms };
+
+    }
+
+    /**
+     * Constants of property WritePolicy
+     * Defines whether this is write-back (value=3) or write-through (value=4) Cache, or whether this information "Varies with Address" (5) or is defined individually for each I/O (6). Also, "Other" (1) and "Unknown" (2) can be specified.
+     */
+    public static class PROPERTY_WRITEPOLICY {
+        /**
+         * name of the property WritePolicy
+         */
+        public final static String NAME = "WritePolicy";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Write_Back = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Write Back (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Write_Back = "Write Back";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Write_Through = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry Write Through (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_Write_Through = "Write Through";
+
+        /**
+         * constant for value map entry 5
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Varies_with_Address = new javax.cim.UnsignedInteger16(
+                "5");
+
+        /**
+         * constant for value entry Varies with Address (corresponds to mapEntry 5 )
+         */
+        public final static String VALUE_ENTRY_Varies_with_Address = "Varies with Address";
+
+        /**
+         * constant for value map entry 6
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Determination_Per_I_O = new javax.cim.UnsignedInteger16(
+                "6");
+
+        /**
+         * constant for value entry Determination Per I/O (corresponds to mapEntry 6 )
+         */
+        public final static String VALUE_ENTRY_Determination_Per_I_O = "Determination Per I/O";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@1d041d04
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_Write_Back.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Write_Back;
+            }
+
+            if (VALUE_ENTRY_Write_Through.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Write_Through;
+            }
+
+            if (VALUE_ENTRY_Varies_with_Address.equals(value)) {
+                return VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Varies_with_Address;
+            }
+
+            if (VALUE_ENTRY_Determination_Per_I_O.equals(value)) {
+                return VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Determination_Per_I_O;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Write_Back.intValue()) {
+                return VALUE_ENTRY_Write_Back;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Write_Through.intValue()) {
+                return VALUE_ENTRY_Write_Through;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Varies_with_Address.intValue()) {
+                return VALUE_ENTRY_Varies_with_Address;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Determination_Per_I_O.intValue()) {
+                return VALUE_ENTRY_Determination_Per_I_O;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property WritePolicy   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other, VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Write_Back,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Write_Through,
+                VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Varies_with_Address,
+                VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Determination_Per_I_O };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property WritePolicy   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Other, VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Write_Back, VALUE_ENTRY_Write_Through, VALUE_ENTRY_Varies_with_Address,
+                VALUE_ENTRY_Determination_Per_I_O };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property WritePolicy   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Other,
+                VALUE_ENTRY_Unknown, VALUE_ENTRY_Write_Back, VALUE_ENTRY_Write_Through,
+                VALUE_ENTRY_Varies_with_Address, VALUE_ENTRY_Determination_Per_I_O };
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_Memory.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   Capabilities and management of Cache Memory. Cache memory is dedicated or allocated RAM that a Processor searches first for data, before going to 'regular' memory. CacheMemory is used to speed up the delivery of data to a Processor. It is usually described by its closeness to the Processor (for example, Primary or Secondary Cache). 
+     * If a DiskDrive includes RAM allocated for holding the disk's most recently read and/or adjacent data (in order to speed up retrieval), this also would be modeled as CacheMemory. Note that CacheMemory is NOT operating system or application level buffers but actual RAM allocated for caching data for a Processor, from a hard disk, etc.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_CacheMemory(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   Capabilities and management of Cache Memory. Cache memory is dedicated or allocated RAM that a Processor searches first for data, before going to 'regular' memory. CacheMemory is used to speed up the delivery of data to a Processor. It is usually described by its closeness to the Processor (for example, Primary or Secondary Cache). 
+     * If a DiskDrive includes RAM allocated for holding the disk's most recently read and/or adjacent data (in order to speed up retrieval), this also would be modeled as CacheMemory. Note that CacheMemory is NOT operating system or application level buffers but actual RAM allocated for caching data for a Processor, from a hard disk, etc.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_CacheMemory(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_CacheMemory() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("Associativity", new CIMProperty("Associativity",
+                CIMDataType.UINT16_T, null));
+        propertiesToCheck
+                .put("CacheType", new CIMProperty("CacheType", CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("FlushTimer", new CIMProperty("FlushTimer", CIMDataType.UINT32_T,
+                null));
+        propertiesToCheck.put("Level", new CIMProperty("Level", CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("LineSize", new CIMProperty("LineSize", CIMDataType.UINT32_T, null));
+        propertiesToCheck.put("ReadPolicy", new CIMProperty("ReadPolicy", CIMDataType.UINT16_T,
+                null));
+        propertiesToCheck.put("ReplacementPolicy", new CIMProperty("ReplacementPolicy",
+                CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("WritePolicy", new CIMProperty("WritePolicy", CIMDataType.UINT16_T,
+                null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_CacheMemory.Java_Package_List.toArray(new String[CIM_CacheMemory.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property Associativity
+     *     * <br>
+     * An integer enumeration defining the system cache associativity. For example, 6 indicates a fully associative cache.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_Associativity() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ASSOCIATIVITY.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ASSOCIATIVITY.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property Associativity
+     * <br>
+     * An integer enumeration defining the system cache associativity. For example, 6 indicates a fully associative cache.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_CacheMemory)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_CacheMemory)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_CacheMemory)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_CacheMemory)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_CacheMemory)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_CacheMemory)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_CacheMemory)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_CacheMemory)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_CacheMemory)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_CacheMemory)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_Associativity(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ASSOCIATIVITY.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_Associativity(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ASSOCIATIVITY.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute Associativity
-	
-	public UnsignedInt16 get_Associativity() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CacheMemory.CIM_PROPERTY_ASSOCIATIVITY);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CacheMemory.CIM_PROPERTY_ASSOCIATIVITY + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CacheMemory.CIM_PROPERTY_ASSOCIATIVITY + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_Associativity(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CacheMemory.CIM_PROPERTY_ASSOCIATIVITY);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CacheMemory.CIM_PROPERTY_ASSOCIATIVITY + " could not be found");
-    		
-		} else if (!CIM_CacheMemoryHelper.isValid_Associativity(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CacheMemory.CIM_PROPERTY_ASSOCIATIVITY);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CacheMemory.CIM_PROPERTY_ASSOCIATIVITY + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute CacheType
-	
-	public UnsignedInt16 get_CacheType() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CacheMemory.CIM_PROPERTY_CACHETYPE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CacheMemory.CIM_PROPERTY_CACHETYPE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CacheMemory.CIM_PROPERTY_CACHETYPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CacheType(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CacheMemory.CIM_PROPERTY_CACHETYPE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CacheMemory.CIM_PROPERTY_CACHETYPE + " could not be found");
-    		
-		} else if (!CIM_CacheMemoryHelper.isValid_CacheType(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CacheMemory.CIM_PROPERTY_CACHETYPE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CacheMemory.CIM_PROPERTY_CACHETYPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property Associativity by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	// Attribute FlushTimer
-	
-	public UnsignedInt32 get_FlushTimer() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CacheMemory.CIM_PROPERTY_FLUSHTIMER);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CacheMemory.CIM_PROPERTY_FLUSHTIMER + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CacheMemory.CIM_PROPERTY_FLUSHTIMER + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt32)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_FlushTimer(UnsignedInt32 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CacheMemory.CIM_PROPERTY_FLUSHTIMER);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CacheMemory.CIM_PROPERTY_FLUSHTIMER + " could not be found");
-    		
-		} else if (!CIM_CacheMemoryHelper.isValid_FlushTimer(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CacheMemory.CIM_PROPERTY_FLUSHTIMER);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CacheMemory.CIM_PROPERTY_FLUSHTIMER + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT32));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public static CIMProperty create_Associativity(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_CacheMemory fco = new CIM_CacheMemory(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ASSOCIATIVITY.NAME);
+        if (property != null) {
+            property = setPropertyValue_Associativity(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ASSOCIATIVITY.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	// Attribute Level
-	
-	public UnsignedInt16 get_Level() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CacheMemory.CIM_PROPERTY_LEVEL);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CacheMemory.CIM_PROPERTY_LEVEL + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CacheMemory.CIM_PROPERTY_LEVEL + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_Level(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CacheMemory.CIM_PROPERTY_LEVEL);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CacheMemory.CIM_PROPERTY_LEVEL + " could not be found");
-    		
-		} else if (!CIM_CacheMemoryHelper.isValid_Level(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CacheMemory.CIM_PROPERTY_LEVEL);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CacheMemory.CIM_PROPERTY_LEVEL + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Set the property Associativity
+     * <br>
+     * An integer enumeration defining the system cache associativity. For example, 6 indicates a fully associative cache.
+     */
 
-	// Attribute LineSize
-	
-	public UnsignedInt32 get_LineSize() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CacheMemory.CIM_PROPERTY_LINESIZE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CacheMemory.CIM_PROPERTY_LINESIZE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CacheMemory.CIM_PROPERTY_LINESIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt32)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_LineSize(UnsignedInt32 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CacheMemory.CIM_PROPERTY_LINESIZE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CacheMemory.CIM_PROPERTY_LINESIZE + " could not be found");
-    		
-		} else if (!CIM_CacheMemoryHelper.isValid_LineSize(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CacheMemory.CIM_PROPERTY_LINESIZE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CacheMemory.CIM_PROPERTY_LINESIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT32));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    private static CIMProperty setPropertyValue_Associativity(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
 
-	// Attribute ReadPolicy
-	
-	public UnsignedInt16 get_ReadPolicy() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CacheMemory.CIM_PROPERTY_READPOLICY);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CacheMemory.CIM_PROPERTY_READPOLICY + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CacheMemory.CIM_PROPERTY_READPOLICY + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ReadPolicy(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CacheMemory.CIM_PROPERTY_READPOLICY);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CacheMemory.CIM_PROPERTY_READPOLICY + " could not be found");
-    		
-		} else if (!CIM_CacheMemoryHelper.isValid_ReadPolicy(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CacheMemory.CIM_PROPERTY_READPOLICY);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CacheMemory.CIM_PROPERTY_READPOLICY + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        setThis = newValue;
 
-	// Attribute ReplacementPolicy
-	
-	public UnsignedInt16 get_ReplacementPolicy() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CacheMemory.CIM_PROPERTY_REPLACEMENTPOLICY);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CacheMemory.CIM_PROPERTY_REPLACEMENTPOLICY + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CacheMemory.CIM_PROPERTY_REPLACEMENTPOLICY + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ReplacementPolicy(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CacheMemory.CIM_PROPERTY_REPLACEMENTPOLICY);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CacheMemory.CIM_PROPERTY_REPLACEMENTPOLICY + " could not be found");
-    		
-		} else if (!CIM_CacheMemoryHelper.isValid_ReplacementPolicy(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CacheMemory.CIM_PROPERTY_REPLACEMENTPOLICY);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CacheMemory.CIM_PROPERTY_REPLACEMENTPOLICY + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
 
-	// Attribute WritePolicy
-	
-	public UnsignedInt16 get_WritePolicy() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CacheMemory.CIM_PROPERTY_WRITEPOLICY);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CacheMemory.CIM_PROPERTY_WRITEPOLICY + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CacheMemory.CIM_PROPERTY_WRITEPOLICY + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_WritePolicy(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CacheMemory.CIM_PROPERTY_WRITEPOLICY);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CacheMemory.CIM_PROPERTY_WRITEPOLICY + " could not be found");
-    		
-		} else if (!CIM_CacheMemoryHelper.isValid_WritePolicy(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CacheMemory.CIM_PROPERTY_WRITEPOLICY);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CacheMemory.CIM_PROPERTY_WRITEPOLICY + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        return newProperty;
+    }
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+    /**
+     * Get the property CacheType
+     *     * <br>
+     * Defines whether this is for instruction caching (value=3), data caching (value=4) or both (value=5, "Unified"). Also, "Other" (1) and "Unknown" (2) can be defined.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_CacheType() {
+        CIMProperty currentProperty = getProperty(PROPERTY_CACHETYPE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_CACHETYPE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property CacheType
+     * <br>
+     * Defines whether this is for instruction caching (value=3), data caching (value=4) or both (value=5, "Unified"). Also, "Other" (1) and "Unknown" (2) can be defined.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_CacheType(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_CACHETYPE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_CacheType(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CACHETYPE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property CacheType by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_CacheType(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_CacheMemory fco = new CIM_CacheMemory(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_CACHETYPE.NAME);
+        if (property != null) {
+            property = setPropertyValue_CacheType(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CACHETYPE.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property CacheType
+     * <br>
+     * Defines whether this is for instruction caching (value=3), data caching (value=4) or both (value=5, "Unified"). Also, "Other" (1) and "Unknown" (2) can be defined.
+     */
+
+    private static CIMProperty setPropertyValue_CacheType(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property FlushTimer
+     *     * <br>
+     * Maximum amount of time, in seconds, dirty lines or buckets may remain in the Cache before they are flushed. A value of zero indicated that a cache flush is not controlled by a flushing timer.
+     *     */
+
+    public javax.cim.UnsignedInteger32 get_FlushTimer() {
+        CIMProperty currentProperty = getProperty(PROPERTY_FLUSHTIMER.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_FLUSHTIMER.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger32) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property FlushTimer
+     * <br>
+     * Maximum amount of time, in seconds, dirty lines or buckets may remain in the Cache before they are flushed. A value of zero indicated that a cache flush is not controlled by a flushing timer.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_FlushTimer(javax.cim.UnsignedInteger32 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_FLUSHTIMER.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_FlushTimer(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_FLUSHTIMER.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property FlushTimer by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_FlushTimer(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger32 newValue) throws WbemsmtException {
+        CIM_CacheMemory fco = new CIM_CacheMemory(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_FLUSHTIMER.NAME);
+        if (property != null) {
+            property = setPropertyValue_FlushTimer(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_FLUSHTIMER.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property FlushTimer
+     * <br>
+     * Maximum amount of time, in seconds, dirty lines or buckets may remain in the Cache before they are flushed. A value of zero indicated that a cache flush is not controlled by a flushing timer.
+     */
+
+    private static CIMProperty setPropertyValue_FlushTimer(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger32 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property Level
+     *     * <br>
+     * Defines whether this is the Primary (value=3), Secondary (value=4) or Tertiary (value=5) Cache. Also, "Other" (1), "Unknown" (2) and "Not Applicable" (6) can be defined.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_Level() {
+        CIMProperty currentProperty = getProperty(PROPERTY_LEVEL.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_LEVEL.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property Level
+     * <br>
+     * Defines whether this is the Primary (value=3), Secondary (value=4) or Tertiary (value=5) Cache. Also, "Other" (1), "Unknown" (2) and "Not Applicable" (6) can be defined.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_Level(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_LEVEL.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_Level(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_LEVEL.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property Level by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_Level(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_CacheMemory fco = new CIM_CacheMemory(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_LEVEL.NAME);
+        if (property != null) {
+            property = setPropertyValue_Level(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_LEVEL.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property Level
+     * <br>
+     * Defines whether this is the Primary (value=3), Secondary (value=4) or Tertiary (value=5) Cache. Also, "Other" (1), "Unknown" (2) and "Not Applicable" (6) can be defined.
+     */
+
+    private static CIMProperty setPropertyValue_Level(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property LineSize
+     *     * <br>
+     * Size, in bytes, of a single cache bucket or line.
+     *     */
+
+    public javax.cim.UnsignedInteger32 get_LineSize() {
+        CIMProperty currentProperty = getProperty(PROPERTY_LINESIZE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_LINESIZE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger32) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property LineSize
+     * <br>
+     * Size, in bytes, of a single cache bucket or line.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_LineSize(javax.cim.UnsignedInteger32 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_LINESIZE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_LineSize(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_LINESIZE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property LineSize by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_LineSize(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger32 newValue) throws WbemsmtException {
+        CIM_CacheMemory fco = new CIM_CacheMemory(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_LINESIZE.NAME);
+        if (property != null) {
+            property = setPropertyValue_LineSize(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_LINESIZE.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property LineSize
+     * <br>
+     * Size, in bytes, of a single cache bucket or line.
+     */
+
+    private static CIMProperty setPropertyValue_LineSize(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger32 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ReadPolicy
+     *     * <br>
+     * Policy that shall be employed by the Cache for handling read requests. For example, "Read", "Read-Ahead" or both can be specified using the values, 3, 4 or 5, respectively. If the read policy is determined individually (ie, for each request), then the value 6 ("Determination per I/O") should be specified. "Other" (1) and "Unknown" (2) are also valid values.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_ReadPolicy() {
+        CIMProperty currentProperty = getProperty(PROPERTY_READPOLICY.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_READPOLICY.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ReadPolicy
+     * <br>
+     * Policy that shall be employed by the Cache for handling read requests. For example, "Read", "Read-Ahead" or both can be specified using the values, 3, 4 or 5, respectively. If the read policy is determined individually (ie, for each request), then the value 6 ("Determination per I/O") should be specified. "Other" (1) and "Unknown" (2) are also valid values.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ReadPolicy(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_READPOLICY.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ReadPolicy(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_READPOLICY.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ReadPolicy by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ReadPolicy(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_CacheMemory fco = new CIM_CacheMemory(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_READPOLICY.NAME);
+        if (property != null) {
+            property = setPropertyValue_ReadPolicy(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_READPOLICY.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ReadPolicy
+     * <br>
+     * Policy that shall be employed by the Cache for handling read requests. For example, "Read", "Read-Ahead" or both can be specified using the values, 3, 4 or 5, respectively. If the read policy is determined individually (ie, for each request), then the value 6 ("Determination per I/O") should be specified. "Other" (1) and "Unknown" (2) are also valid values.
+     */
+
+    private static CIMProperty setPropertyValue_ReadPolicy(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ReplacementPolicy
+     *     * <br>
+     * An integer enumeration describing the algorithm to determine which cache lines or buckets should be re-used.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_ReplacementPolicy() {
+        CIMProperty currentProperty = getProperty(PROPERTY_REPLACEMENTPOLICY.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_REPLACEMENTPOLICY.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ReplacementPolicy
+     * <br>
+     * An integer enumeration describing the algorithm to determine which cache lines or buckets should be re-used.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ReplacementPolicy(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_REPLACEMENTPOLICY.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ReplacementPolicy(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_REPLACEMENTPOLICY.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ReplacementPolicy by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ReplacementPolicy(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_CacheMemory fco = new CIM_CacheMemory(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_REPLACEMENTPOLICY.NAME);
+        if (property != null) {
+            property = setPropertyValue_ReplacementPolicy(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_REPLACEMENTPOLICY.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ReplacementPolicy
+     * <br>
+     * An integer enumeration describing the algorithm to determine which cache lines or buckets should be re-used.
+     */
+
+    private static CIMProperty setPropertyValue_ReplacementPolicy(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property WritePolicy
+     *     * <br>
+     * Defines whether this is write-back (value=3) or write-through (value=4) Cache, or whether this information "Varies with Address" (5) or is defined individually for each I/O (6). Also, "Other" (1) and "Unknown" (2) can be specified.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_WritePolicy() {
+        CIMProperty currentProperty = getProperty(PROPERTY_WRITEPOLICY.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_WRITEPOLICY.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property WritePolicy
+     * <br>
+     * Defines whether this is write-back (value=3) or write-through (value=4) Cache, or whether this information "Varies with Address" (5) or is defined individually for each I/O (6). Also, "Other" (1) and "Unknown" (2) can be specified.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_WritePolicy(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_WRITEPOLICY.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_WritePolicy(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_WRITEPOLICY.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property WritePolicy by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_WritePolicy(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_CacheMemory fco = new CIM_CacheMemory(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_WRITEPOLICY.NAME);
+        if (property != null) {
+            property = setPropertyValue_WritePolicy(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_WRITEPOLICY.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property WritePolicy
+     * <br>
+     * Defines whether this is write-back (value=3) or write-through (value=4) Cache, or whether this information "Varies with Address" (5) or is defined individually for each I/O (6). Also, "Other" (1) and "Unknown" (2) can be specified.
+     */
+
+    private static CIMProperty setPropertyValue_WritePolicy(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_CacheMemory.CIM_CLASS_NAME;
+    }
 
 }

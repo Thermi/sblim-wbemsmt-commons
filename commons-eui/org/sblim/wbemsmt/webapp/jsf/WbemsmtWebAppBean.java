@@ -24,11 +24,7 @@ import java.util.Locale;
 import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
-import org.sblim.wbemsmt.tools.resources.ILocaleManager;
-import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
-import org.sblim.wbemsmt.tools.resources.LocaleManager;
-import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
-import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
+import org.sblim.wbemsmt.tools.resources.*;
 
 public abstract class WbemsmtWebAppBean
 {

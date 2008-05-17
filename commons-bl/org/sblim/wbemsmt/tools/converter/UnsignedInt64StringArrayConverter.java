@@ -20,9 +20,10 @@
 
 package org.sblim.wbemsmt.tools.converter;
 
+import javax.cim.UnsignedInteger64;
+
 import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.StringUtils;
-import org.sblim.wbem.cim.UnsignedInt64;
 
 /**
  * Converts a int in the model to a string based on the given array for th view
@@ -60,7 +61,7 @@ public class UnsignedInt64StringArrayConverter implements StringArrayConverter {
 			index = Integer.parseInt(s);
 		}
 		else if (value == null) {
-			index = 0;
+		    return null;
 		}
 		else
 		{
@@ -76,7 +77,7 @@ public class UnsignedInt64StringArrayConverter implements StringArrayConverter {
 	 */
 	public Object convertForModel(Object guiElement) {
 		
-		if (values == null)
+		if (values == null || guiElement == null)
 		{
 			return null;
 		}
@@ -86,7 +87,7 @@ public class UnsignedInt64StringArrayConverter implements StringArrayConverter {
 			String textInArray = values[i];
 			if (textInArray.equals(text))
 			{
-				return new UnsignedInt64(i);
+				return new UnsignedInteger64(""+i);
 			}
 		}
 		if ("".equals(guiElement.toString()))
@@ -116,7 +117,7 @@ public class UnsignedInt64StringArrayConverter implements StringArrayConverter {
 	}
 	
 	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInt64.class);
+		return ClassUtils.getShortClassName(UnsignedInteger64.class);
 	}	
 	
 }

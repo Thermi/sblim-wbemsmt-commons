@@ -19,7 +19,8 @@
   */
 package org.sblim.wbemsmt.bl.welcome;
 
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
+import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
 /**
  * @author Bauschert
@@ -31,9 +32,9 @@ public interface WelcomeListener {
 	 * Return a presentation layer specific welcome listener
 	 * The implementor can query RuntimeUtil to find out the current presentation technology used
 	 * @return
-	 * @throws WbemSmtException 
+	 * @throws WbemsmtException 
 	 * @see RuntimeUtil
 	 */
-	public WelcomeListener getListenerByPlType() throws WbemSmtException;
+	public WelcomeListener getListenerByPlType() throws WbemsmtException;
 
 }

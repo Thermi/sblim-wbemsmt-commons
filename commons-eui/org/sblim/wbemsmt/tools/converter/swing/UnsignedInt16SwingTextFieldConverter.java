@@ -21,10 +21,10 @@
 
 package org.sblim.wbemsmt.tools.converter.swing;
 
+import javax.cim.UnsignedInteger16;
 import javax.swing.JTextField;
 
 import org.apache.commons.lang.ClassUtils;
-import org.sblim.wbem.cim.UnsignedInt16;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class UnsignedInt16SwingTextFieldConverter implements Converter {
@@ -37,12 +37,12 @@ public class UnsignedInt16SwingTextFieldConverter implements Converter {
 	}
 
 	/**
-	 * Converts the content of the given Textfield as UnsignedInt32
+	 * Converts the content of the given Textfield as UnsignedInteger32
 	 */
 	public Object convertForModel(Object guiElement)
 	{
 		JTextField tf = (JTextField)guiElement;
-		return new UnsignedInt16(Integer.parseInt(tf.getText()));
+		return new UnsignedInteger16(Integer.parseInt(tf.getText()));
 	}
 	
 
@@ -61,7 +61,7 @@ public class UnsignedInt16SwingTextFieldConverter implements Converter {
 	}
 	
 	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInt16.class);
+		return ClassUtils.getShortClassName(UnsignedInteger16.class);
 	}	
 
 }

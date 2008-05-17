@@ -26,11 +26,9 @@ import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
-import org.sblim.wbemsmt.tools.resources.ILocaleManager;
-import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
-import org.sblim.wbemsmt.tools.resources.LocaleManager;
-import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
-import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
+import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
+import org.sblim.wbemsmt.tools.resources.*;
+import org.sblim.wbemsmt.webapp.jsf.MessageHandlerBean;
 
 public class JsfBase {
 
@@ -53,8 +51,10 @@ public class JsfBase {
 	
 	
 	public static void addMessage(Message message) {
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		facesContext.addMessage(null,new WbemsmtFacesMessage(message));
+//		FacesContext facesContext = FacesContext.getCurrentInstance();
+//		facesContext.addMessage(null,new WbemsmtFacesMessage(message));
+	    MessageHandlerBean handler = (MessageHandlerBean) BeanNameConstants.MESSAGE_HANDLER.getBoundValue(FacesContext.getCurrentInstance());
+	    handler.addMessage(new WbemsmtFacesMessage(message));
 	}
 
 	/**

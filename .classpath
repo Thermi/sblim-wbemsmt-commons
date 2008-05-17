@@ -5,18 +5,16 @@
 	<classpathentry excluding="conf/|doc/|logging/" kind="src" path="commons-bl"/>
 	<classpathentry kind="src" path="commons-wizards"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="var" path="JAR_REPO/myfaces/tomahawk/current/tomahawk.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/commons-cli/commons-cli/current/commons-cli.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/xmlbeans/xbean/current/xbean.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/commons-collections/commons-collections/3.1/commons-collections-3.1.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/commons-lang/commons-lang/current/commons-lang.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/junit/junit/current/junit.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/sblim/sblim-wbemsmt-commons-launcher-config/current/sblim-wbemsmt-commons-launcher-config.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/myfaces/myfaces-api/current/myfaces-api.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/javax/servlet/servlet-api/current/servlet-api.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/jsp-api/jsp-api/current/jsp-api.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/sblim/sblim-cim-client/current/sblim-cim-client.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/sblim/sblim-slp-client/current/sblim-slp-client.jar"/>
+	<classpathentry exported="true" kind="var" path="JAR_REPO/myfaces/tomahawk/current/tomahawk.jar"/>
+	<classpathentry exported="true" kind="var" path="JAR_REPO/commons-cli/commons-cli/current/commons-cli.jar"/>
+	<classpathentry exported="true" kind="var" path="JAR_REPO/xmlbeans/xbean/current/xbean.jar"/>
+	<classpathentry exported="true" kind="var" path="JAR_REPO/commons-collections/commons-collections/3.1/commons-collections-3.1.jar"/>
+	<classpathentry exported="true" kind="var" path="JAR_REPO/commons-lang/commons-lang/current/commons-lang.jar"/>
+	<classpathentry exported="true" kind="var" path="JAR_REPO/sblim/sblim-wbemsmt-commons-launcher-config/current/sblim-wbemsmt-commons-launcher-config.jar"/>
+	<classpathentry exported="true" kind="var" path="JAR_REPO/myfaces/myfaces-api/current/myfaces-api.jar"/>
+	<classpathentry exported="true" kind="var" path="JAR_REPO/javax/servlet/servlet-api/current/servlet-api.jar"/>
+	<classpathentry exported="true" kind="var" path="JAR_REPO/sblim/sblim-cim-client/2.0.4/sblim-cim-client-2.0.4.jar" sourcepath="/WORKSPACE/jsr48-client/src"/>
 	<classpathentry kind="var" path="JAR_REPO/myfaces/myfaces-impl/current/myfaces-impl.jar"/>
+	<classpathentry kind="var" path="JAR_REPO/jsp-api/jsp-api/current/jsp-api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

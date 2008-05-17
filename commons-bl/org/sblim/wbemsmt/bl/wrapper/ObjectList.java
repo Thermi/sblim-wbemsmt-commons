@@ -19,15 +19,12 @@
   */
 package org.sblim.wbemsmt.bl.wrapper;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.logging.Logger;
 
 import org.sblim.wbemsmt.bl.WbemsmtBusinessObject;
 import org.sblim.wbemsmt.bl.adapter.CimObjectKey;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.util.StringComparator;
 
 public abstract class ObjectList {
@@ -53,6 +50,8 @@ public abstract class ObjectList {
 	 */
 	private List fcos = new ArrayList();
 	
+    protected static Logger logger = Logger.getLogger(ObjectList.class.getName());
+	
 	/**
 	 * Set to true if reload from server is wanted (Flag can be queried by comsuming classes)
 	 */
@@ -68,12 +67,13 @@ public abstract class ObjectList {
 	/**
 	 * Return the size of the list
 	 * @return
+	 * @throws WbemsmtException 
 	 */
-	public int size() {
+	public int size() throws WbemsmtException {
 		return getList().size();
 	}
 
-	public boolean getHasItems() {
+	public boolean getHasItems() throws WbemsmtException {
 		return size() > 0;
 	}
 
@@ -81,7 +81,7 @@ public abstract class ObjectList {
 	 * clear the list
 	 *
 	 */
-	public void clear() {
+	public void clear() throws WbemsmtException {
 		objectsByCimObjectKey.clear();
 	}
 
@@ -96,8 +96,9 @@ public abstract class ObjectList {
 	/**
 	 * Return a list with names to display for each item
 	 * @return
+	 * @throws WbemsmtException 
 	 */
-	public String[] getNameArray() {
+	public String[] getNameArray() throws WbemsmtException {
 		if (nameArray == null) reloadListValues();
 		return nameArray;
 	}
@@ -105,8 +106,9 @@ public abstract class ObjectList {
 	/**
 	 * return the List of the FCOs of the items in the list 
 	 * @return
+	 * @throws WbemsmtException 
 	 */
-	public List getFCOs() {
+	public List getFCOs() throws WbemsmtException {
 		if (fcos.size() == 0) reloadListValues();
 		return fcos;
 	}
@@ -114,8 +116,9 @@ public abstract class ObjectList {
 	/**
 	 * Get List with objects
 	 * @return
+	 * @throws WbemsmtException 
 	 */
-	public List getList() {
+	public List getList() throws WbemsmtException {
 		if (list.size() == 0) reloadListValues();
 		return list;
 	}
@@ -123,23 +126,25 @@ public abstract class ObjectList {
 	/**
 	 * Get the Objects byName
 	 * @return
+	 * @throws WbemsmtException 
 	 */
-	protected Map getObjectsByName() {
+	protected Map getObjectsByName() throws WbemsmtException {
 		if (objectsByName.size() == 0) reloadListValues();
 		return objectsByName;
 	}
 
 	/**
 	 * reload the list values
+	 * @throws WbemsmtException 
 	 *
 	 */
-	public void reloadListValues() {
+	public void reloadListValues() throws WbemsmtException {
 		
 		List names = new ArrayList();
 		objectsByName.clear();
 		for (Iterator iter = objectsByCimObjectKey.values().iterator(); iter.hasNext();) {
 			Object o = iter.next();
-			Object key = getKey(o);
+			String key = getKey(o).toString();
 			names.add(key);
 			objectsByName.put(key,o);
 		}
@@ -166,7 +171,7 @@ public abstract class ObjectList {
 	 * @param value
 	 * @return
 	 */
-	protected abstract Object getKey(Object value);
+	protected abstract Object getKey(Object value) throws WbemsmtException;
 	
 	/**
 	 * Must return the fco belonging to this object
@@ -197,10 +202,15 @@ public abstract class ObjectList {
 	
 	/**
 	 * put a BusinessObject into the locale store by using the CimObjectKey of the businessObject as Key
-	 * @param businessObject
+	 * @param businessObject - if the method getCimObjectKey returns null the businessObject cannot be stored and the method returns a NullPointerException
+	 * @throws WbemsmtException 
 	 */
-	protected void put(WbemsmtBusinessObject businessObject)
+	protected void put(WbemsmtBusinessObject businessObject) throws WbemsmtException
 	{
+	    if (businessObject.getCimObjectKey() == null) 
+	    {
+	        throw new NullPointerException("getCimObjectKey of businessObject returned null");
+	    }
 		objectsByCimObjectKey.put(businessObject.getCimObjectKey(), businessObject);
 		clearDependentObjects();
 		

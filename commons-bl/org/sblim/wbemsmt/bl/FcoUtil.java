@@ -20,22 +20,18 @@
 package org.sblim.wbemsmt.bl;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.cim.*;
+import javax.wbem.client.WBEMClient;
+
 import org.apache.commons.lang.StringUtils;
-import org.sblim.wbem.cim.CIMElement;
-import org.sblim.wbem.cim.CIMInstance;
-import org.sblim.wbem.cim.CIMObjectPath;
-import org.sblim.wbem.cim.CIMProperty;
-import org.sblim.wbem.cimxml.CIMXmlUtil;
-import org.sblim.wbem.cimxml.CIMXmlUtilFactory;
-import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
-import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
-import org.sblim.wbemsmt.exception.ModelLoadException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
+import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
 public class FcoUtil {
 
@@ -93,23 +89,23 @@ public class FcoUtil {
 		
 	}
 	
-	public static Object getFirstChild(Class mustReturnThis, List list, boolean silent, boolean createIfNotExists, CIMClient client) throws ModelLoadException {
+	public static Object getFirstChild(Class mustReturnThis, List list, boolean silent, boolean createIfNotExists, WBEMClient client) throws WbemsmtException {
 		if (!silent && list.size() != 1)
 		{
 			logger.severe("Cannot get Element of Type " + mustReturnThis.getName() + " beause not exact one element was found in List. Found: " + list.size());
-			throw new ModelLoadException("Cannot load data model");
+			throw new WbemsmtException(WbemsmtException.ERR_LOADING_MODEL,"Cannot load data model");
 		}
 		
 		if (!silent && list.get(0) == null)
 		{
 			logger.severe("Cannot get Element of Type " + mustReturnThis.getName() + " beause first element was null");
-			throw new ModelLoadException("Cannot load data model");
+			throw new WbemsmtException(WbemsmtException.ERR_LOADING_MODEL,"Cannot load data model");
 		}
 	
 		if (!silent && !mustReturnThis.isAssignableFrom(list.get(0).getClass()) && !(list.get(0) instanceof CIMObjectPath) )
 		{
 			logger.severe("Cannot get Element of Type " + mustReturnThis.getName() + " beause first element is not from type " + mustReturnThis.getName() + "  but is of type " + list.get(0).getClass());
-			throw new ModelLoadException("Cannot load data model");
+			throw new WbemsmtException(WbemsmtException.ERR_LOADING_MODEL,"Cannot load data model");
 		}
 		
 		if (list.size() == 0 && createIfNotExists)
@@ -117,7 +113,7 @@ public class FcoUtil {
 			try {
 				return mustReturnThis.newInstance();
 			} catch (Exception e) {
-				throw new ModelLoadException(e);
+				throw new WbemsmtException(WbemsmtException.ERR_LOADING_MODEL,e);
 			}
 		}
 		
@@ -135,11 +131,11 @@ public class FcoUtil {
 				Object fco = null;
 				try {
 					Class clsHelper = Class.forName(helper);
-					Method method = clsHelper.getMethod("getInstance",new Class[]{CIMClient.class,CIMObjectPath.class});
+					Method method = clsHelper.getMethod("getInstance",new Class[]{WBEMClient.class,CIMObjectPath.class});
 					fco = method.invoke(null,new Object[]{client,path});
 					return fco;
 				} catch (Exception e) {
-					throw new ModelLoadException("Cannot load element with path " + path, e);
+					throw new WbemsmtException(WbemsmtException.ERR_LOADING_MODEL,"Cannot load element with path " + path, e);
 				}
 			}
 			else
@@ -149,75 +145,200 @@ public class FcoUtil {
 		}
 	}
 
+    /**
+     * Converts a value from a CIM Property to a String for the UI
+     * @param propertyValue
+     * @param cls 
+     * @param propertyName 
+     * @param bundle 
+     * @return
+     */
+    public static String getValueAsString(CIMInstance instance, String propertyName, CIMClass cls, WbemSmtResourceBundle bundle) {
+    
+        String result = "";
+        
+        CIMProperty property = instance.getProperty(propertyName);
+        CIMClassProperty clsProperty = cls.getProperty(propertyName);
+        
+        if (property != null)
+        {
+            Object propertyValue = property.getValue();
+            if (propertyValue != null)
+            {
+                if (property.getDataType() == CIMDataType.BOOLEAN_T)
+                {
+                    result = getBooleanValue(property, clsProperty);
+                }
+                else if (property.getDataType() == CIMDataType.UINT8_T 
+                    || property.getDataType() == CIMDataType.UINT16_T 
+                    || property.getDataType() == CIMDataType.UINT32_T
+                    || property.getDataType() == CIMDataType.UINT64_T)
+                {
+                    Object value = (Object) property.getValue();
+                    if (value == null && clsProperty != null)
+                    {
+                        value = (Object) clsProperty.getValue(); 
+                    }
+                    
+                    if (clsProperty != null)
+                    {
+                        String[] valueMap = (String[]) clsProperty.getQualifierValue("ValueMap");
+                        String[] values = (String[]) clsProperty.getQualifierValue("Values");
+                        if (valueMap != null || values != null)
+                        {
+                            result = getValueFromValueMap(value, valueMap, values);
+                        }
+                        else
+                        {
+                            result = getNumber(value);
+                        }
+                    }
+                    else
+                    {
+                        result = getNumber(value);
+                    }
+                }
+                else if (property.getDataType() == CIMDataType.STRING_T)
+                {
+                    result = getString(property, clsProperty);
+                }
+                else
+                {
+                    if (cls != null)
+                    {
+                        logger.warning("CIMProperty " + cls.getName() + "." + property.getName() + " with type " + property.getDataType().toString() + " cannot be used for a GenericField");
+                    }
+                    else
+                    {
+                        logger.warning("CIMProperty " + property.getName() + " with type " + property.getDataType().toString() + " cannot be used for a GenericField");
+                    }
+                    result = bundle.getString("type.not.supported");
+                }
+                
+            }
+        }
+        
+        return result;
+    }
 
-	
-	/**
-	 * Create a embedded instance (a cim object as xml representation) with all attributes
-	 * @param cimObject
-	 * @return
-	 */
-	public static String getEmbeddedInstance(CIM_ObjectIf cimObject) {
-		return getEmbeddedInstance(cimObject, false);
-	}
-	
-	/**
-	 * Create a embedded instance (a cim object as xml representation)
-	 * @param cimObject
-	 * @param onlyKeys set to true if the instance should contain only key properties
-	 * @return
-	 */
-	public static String getEmbeddedInstance(CIM_ObjectIf cimObject, boolean onlyKeys) {
-		CIMInstance cimInstance = cimObject.getCimInstance();
-		return getEmbeddedInstance(cimInstance, onlyKeys);
-	}
+    private static String getString(CIMProperty property, CIMClassProperty clsProperty) {
+        String result;
+        String value = (String) property.getValue();
+        if (value == null && clsProperty != null)
+        {
+            value = (String) clsProperty.getValue(); 
+        }
+        
+        String s =  value != null ? value : "";
+        result = s;
+        return result;
+    }
 
-	public static String getEmbeddedInstance(CIMInstance cimInstance, boolean onlyKeys) {
-		if (onlyKeys)
-		{
-			//we need to clone the object because we are removing the non-key-properties
-			cimInstance = (CIMInstance) cimInstance.clone();
+    private static String getNumber(Object value) {
+        String result;
+        String s = "0";
+        if (value != null)
+        {
+            s = "" +  ((Number)value).longValue();
+        }
+        result = s;
+        return result;
+    }
 
-			//collect the key properties
-			Vector keys = cimInstance.getObjectPath().getKeys();
-			Set keynames = new HashSet();
-			for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
-				CIMProperty property = (CIMProperty) iterator.next();
-				keynames.add(property.getName());
-				
-			}
+    private static String getValueFromValueMap(Object value, String[] valueMap,String[] values) {
+        
+        String result = null;
+        
+        int idx = 0;
+        if (value != null)
+        {
+            idx = ((Number)value).intValue();
+        }
+      
+        if (values != null && valueMap == null)
+        {
+            valueMap = new String[values.length];
+            for (int i = 0; i < values.length; i++) {
+                valueMap[i] = ""+i;
+            }
+        }
+        
+        if (values != null && valueMap != null)
+        {
+            //1. try the exact Matches
+            boolean found = false;
+            for (int i = 0; i < valueMap.length && !found; i++) {
+                String valueMapEntry = valueMap[i];
+                if (valueMapEntry.indexOf("..") == -1 && valueMapEntry.equals(""+idx))
+                {
+                    found = true;
+                    result = values[i];
+                }
+            }
+            
+            //2. check the <= conditions ( valueMapEntries with ..<number> ) 
+            for (int i = 0; i < valueMap.length && !found; i++) {
+                String valueMapEntry = valueMap[i];
+                String valueBefore = i > 0 ? valueMap[i-1].replace(".", "") : null; 
+                if (valueMapEntry.length() > 2 
+                        && valueMapEntry.startsWith("..") 
+                        && Integer.parseInt(valueMapEntry.substring(2)) >= idx
+                        && (valueBefore == null || valueBefore != null && Integer.parseInt(valueBefore)  < idx)
+                )
+                {
+                    found = true;
+                    result = values[i];
+                }
+            }
+            //3. check the >= conditions ( valueMapEntries with <number>.. ) 
+            for (int i = valueMap.length -1; i >= 0 && !found; i--) {
+                String valueMapEntry = valueMap[i];
+                String valueAfter = i < valueMap.length -1 ? valueMap[i+1].replace(".", "") : null; 
+                if (valueMapEntry.length() > 2 
+                        && valueMapEntry.endsWith("..") 
+                        && Integer.parseInt(valueMapEntry.substring(0,valueMapEntry.length()-2)) <= idx
+                        && (valueAfter == null || valueAfter != null && Integer.parseInt(valueAfter)  > idx)
+                )
+                {
+                    found = true;
+                    result = values[i];
+                }
+            }
+            //4. check if there is a else clause (valueMapEntries with ..) 
+            for (int i = 0; i < valueMap.length && !found; i++) {
+                String valueMapEntry = valueMap[i];
+                if (valueMapEntry.equals(".."))
+                {
+                    found = true;
+                    result = values[i];
+                }
+            }
+            
+            //5. If no entry matches we return the idx itself
+            if (!found)
+            {
+                result = ""+idx;
+            }
+            
+        }
+        else //having only the valueMap entries
+        {
+            result = valueMap[idx];
+        }
+        return result;
+    }
 
-			//remove the non-key properties
-			Vector properties = cimInstance.getAllProperties();
-			for (int i = properties.size() - 1; i >= 0; i--) {
-				CIMProperty property = (CIMProperty) properties.get(i);
-				String propertyName = property.getName();
-				if (!keynames.contains(propertyName))
-				{
-					cimInstance.removeProperty(propertyName);
-				}
-			}
-			
-		}
-		
-		//create the XML
-		CIMXmlUtil util = CIMXmlUtilFactory.getCIMXmlUtil();
-		String xml = util.CIMElementToXml(cimInstance);
-		
-		//cut of the first two lines - <xml...> and a empty line
-		xml = xml.substring(xml.indexOf("<INSTA"));
-		return xml;
-	}
-	
-	public static CIMInstance getFromEmbeddedInstance(String embeddedInstance)
-	{
-		CIMXmlUtil util = CIMXmlUtilFactory.getCIMXmlUtil();
-		try {
-			CIMElement element = util.getCIMElement(embeddedInstance);
-			return (CIMInstance)element;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+    private static String getBooleanValue(CIMProperty property, CIMClassProperty clsProperty) {
+        String result;
+        Boolean value = (Boolean) property.getValue();
+        if (value == null && clsProperty != null)
+        {
+            value = (Boolean) clsProperty.getValue(); 
+        }
+        
+        boolean b = value != null && value.booleanValue();
+        result = "" + b;
+        return result;
+    }
 
 }

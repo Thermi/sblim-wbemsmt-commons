@@ -20,18 +20,11 @@
 package org.sblim.wbemsmt.tools.cli;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.sblim.wbemsmt.exception.CommandNotFoundException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
@@ -51,9 +44,9 @@ public class Commands {
 	 * Get a command by it's name
 	 * @param name
 	 * @return
-	 * @throws CommandNotFoundException
+	 * @throws WbemsmtException
 	 */
-	public CimCommand getCimCommandByName(String name, Locale locale) throws CommandNotFoundException {
+	public CimCommand getCimCommandByName(String name, Locale locale) throws WbemsmtException {
 		try {
 			Class cls = (Class) commands.get(name);
 			if (cls != null)
@@ -67,17 +60,17 @@ public class Commands {
 				else
 				{
 					logger.severe("Class " + cls.getName() + " is no " + CimCommand.class.getName());
-					throw new CommandNotFoundException("Class " + cls.getName() + " is no " + CimCommand.class.getName());
+					throw new WbemsmtException(WbemsmtException.ERR_COMMAND_NOT_FOUND,"Class " + cls.getName() + " is no " + CimCommand.class.getName());
 				}
 			}
 			else
 			{
 				logger.severe("Cannot find Command with name " + name + " defined in Class " + cls.getName());
-				throw new CommandNotFoundException("Cannot find Command with name " + name + " defined in Class " + cls.getName());
+				throw new WbemsmtException(WbemsmtException.ERR_COMMAND_NOT_FOUND,"Cannot find Command with name " + name + " defined in Class " + cls.getName());
 			}
 		} catch (Exception e) {
 			logger.log(Level.SEVERE,"Cannot create CimCommand for Command " + name,e);
-			throw new CommandNotFoundException("Cannot create CimCommand for Command " + name,e);
+			throw new WbemsmtException(WbemsmtException.ERR_COMMAND_NOT_FOUND,"Cannot create CimCommand for Command " + name,e);
 		}
 	}
 
@@ -104,7 +97,7 @@ public class Commands {
 			try {
 				CimCommand cimCmd = getCimCommandByName(name,locale);
 				result.add(cimCmd);
-			} catch (CommandNotFoundException e) {
+			} catch (WbemsmtException e) {
 				System.err.println(e.getMessage());
 				e.printStackTrace();
 			}

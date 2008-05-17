@@ -21,7 +21,7 @@ package org.sblim.wbemsmt.tools.cli;
 
 import org.apache.commons.cli.CommandLine;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
-import org.sblim.wbemsmt.exception.ObjectNotFoundException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
 public interface CliDataLoader {
@@ -34,10 +34,10 @@ public interface CliDataLoader {
 	 * @param bundle the resourceBundle for Exceptions
 	 * @param adapter the adapter for making the selection
 	 * @param commandValues the Commandline
-	 * @throws ObjectNotFoundException
+	 * @throws WbemsmtException
 	 * 
 	 * @see AbstractBaseCimAdapter#select(org.sblim.wbemsmt.bl.adapter.CimObjectKey)
 	 * @see CliUtil#getOption(CommandLine, OptionDefinition)
 	 */
-	public void load(WbemSmtResourceBundle bundle, AbstractBaseCimAdapter adapter, CimCommandValues commandValues) throws ObjectNotFoundException ;
+	public void load(WbemSmtResourceBundle bundle, AbstractBaseCimAdapter adapter, CimCommandValues commandValues) throws WbemsmtException ;
 }

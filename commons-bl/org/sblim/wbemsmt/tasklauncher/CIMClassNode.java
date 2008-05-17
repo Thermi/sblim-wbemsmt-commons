@@ -19,31 +19,37 @@
 package org.sblim.wbemsmt.tasklauncher;
 
 import java.math.BigInteger;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import javax.cim.CIMClass;
+import javax.cim.CIMInstance;
+import javax.cim.CIMObjectPath;
+import javax.cim.CIMProperty;
 import javax.faces.context.FacesContext;
+import javax.wbem.CloseableIterator;
+import javax.wbem.WBEMException;
+import javax.wbem.client.WBEMClient;
 
-import org.sblim.wbem.cim.CIMClass;
-import org.sblim.wbem.cim.CIMInstance;
-import org.sblim.wbem.cim.CIMObjectPath;
-import org.sblim.wbem.cim.CIMProperty;
-import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.tree.ICIMClassNode;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
-import org.sblim.wbemsmt.exception.InstanceNamingException;
-import org.sblim.wbemsmt.exception.ModelLoadException;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
+import org.sblim.wbemsmt.exception.impl.AssociatorException;
+import org.sblim.wbemsmt.exception.impl.EnumerateInstancesException;
+import org.sblim.wbemsmt.exception.impl.GetClassException;
+import org.sblim.wbemsmt.exception.impl.userobject.AssociatorUserObject;
+import org.sblim.wbemsmt.exception.impl.userobject.EnumerateInstancesUserObject;
+import org.sblim.wbemsmt.exception.impl.userobject.GetClassUserObject;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CimclassDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.InstanceSubnodesDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument;
 import org.sblim.wbemsmt.tasklauncher.filter.CIMInstanceFilter;
 import org.sblim.wbemsmt.tasklauncher.initialobjectloading.WbemsmtInitialObjectLoader;
 import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNaming;
+import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNamingFactory;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
@@ -92,7 +98,7 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
      * @param name Displayed name
      * @param cimClass The cim class which is represented by this node
      */
-    public CIMClassNode(CIMClient cimClient, TreenodeDocument.Treenode xmlconfigNode, String name, CIMClass cimClass)
+    public CIMClassNode(WBEMClient cimClient, TreenodeDocument.Treenode xmlconfigNode, String name, CIMClass cimClass)
     {
         super(cimClient, xmlconfigNode, name);
         this.cimClass = cimClass;
@@ -229,9 +235,9 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
      * Reads subnodes of the current {@link CIMClass} which can be textnodes of the xml configuration ({@link TaskLauncherTreeNode}),
      * instances ({@link CIMInstanceNode}) or subclasses ({@link CIMClassNode}).
      * Instances are labeled according to the instanceNamingKey or to the cimInstanceNaming property.
-     * @throws WbemSmtException 
+     * @throws WbemsmtException 
      */
-    public void readSubnodes(boolean notifyEventListener) throws WbemSmtException
+    public void readSubnodes(boolean notifyEventListener) throws WbemsmtException
     {
     	this.clearSubnodes();
     	
@@ -258,28 +264,54 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
         		CIMInstanceNode instanceNode = (CIMInstanceNode) parent;
         		CIMInstance instance = instanceNode.getCimInstance();
         		
-    			Enumeration enumeration = null;
+    			CloseableIterator it = null;
     			
     			try {
     				//first do a getClass to check if the target Classname is found
     				//(for the case the cimom is not checking that while a associators-call)
     				
-    				cimClient.getClass(new CIMObjectPath(this.associationTargetClassName));
+    			    CIMObjectPath objectPath = new CIMObjectPath(this.associationTargetClassName,getNamespace());
+    			    try {
+                        cimClient.getClass(objectPath,false,true,false,null);
+    			    } catch (WBEMException e)
+    			    {
+    			        throw new GetClassException(e,new GetClassUserObject(objectPath));
+    			    }
+    			    
     				
     				//then get the associated Objects
-    				enumeration = cimClient.associators(
-    						instance.getObjectPath(),
-    						this.cimClass.getName(), 
-    		 		 		this.associationTargetClassName, 
-    						this.associationSourceReferenceName,
-    						this.associationTargetReferenceName,
-    						false,
-    						false,
-    						null);
-    				while(enumeration.hasMoreElements())
+    				try {
+                        it = cimClient.associators(
+                        		instance.getObjectPath(),
+                        		this.cimClass.getName(), 
+                         		this.associationTargetClassName, 
+                        		this.associationSourceReferenceName,
+                        		this.associationTargetReferenceName,
+                        		false,
+                        		false,
+                        		null);
+                    }
+                    catch (WBEMException e) {
+                        WbemsmtException modelLoadException = new AssociatorException(e,
+                            new AssociatorUserObject(
+                                instance.getObjectPath(),
+                                this.cimClass.getName(),
+                                associationTargetClassName ,
+                                associationSourceReferenceName,
+                                associationTargetReferenceName,false,false,null ));
+                        logger.log(Level.SEVERE, 
+                                "Error while enumeration associators from CIM Association " 
+                                + this.cimClass.getName() 
+                                + " with targetClasName " + associationTargetClassName 
+                                + " source/targetReferenceName " + associationSourceReferenceName + "/" + associationTargetReferenceName,modelLoadException);
+                        throw modelLoadException;
+                    }
+    				while(it.hasNext())
     				{
+    					checkException(it,false);
     					logger.log(Level.FINE, "Adding Associator.");
-    					Object o = enumeration.nextElement();
+    					Object o = it.next();
+    					checkException(it,false);
                 		CIMInstance associator = (CIMInstance) o;
 
                 		if (filter == null || filter.accept(associator, cimClient))
@@ -308,23 +340,18 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
                         	}
                         	addSubnode(associatorNode);
                 		}
-                    		
-                		
+    					checkException(it,false);
                 		
     				}
     			}
-    			catch(Exception e)
+    			catch(WbemsmtException e)
     			{
-    				ModelLoadException modelLoadException = new ModelLoadException(e);
-    				modelLoadException.setCimIdentifier("Association: "+ this.cimClass.getName() 
-    						+ " Target: " + associationTargetClassName 
-    						+ " RefNames: " + associationSourceReferenceName + "/" + associationTargetReferenceName );
-    				logger.log(Level.SEVERE, 
-    						"Error while enumeration associators from CIM Association " 
-    						+ this.cimClass.getName() 
-    						+ " with targetClasName " + associationTargetClassName 
-    						+ " source/targetReferenceName " + associationSourceReferenceName + "/" + associationTargetReferenceName,modelLoadException);
-					ExceptionUtil.handleException(modelLoadException);
+					ExceptionUtil.handleException(e);
+    			}
+    			catch (Exception e)
+    			{
+                    WbemsmtException modelLoadException = new WbemsmtException(WbemsmtException.ERR_FAILED, e);
+                    ExceptionUtil.handleException(modelLoadException);
     			}
         	}
 
@@ -335,22 +362,30 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
             CIMObjectPath path = cimClass.getObjectPath();
             try
             {
-                Enumeration cimInstances;
+                Iterator cimInstances;
                 
                 if (initialObjectLoader != null)
                 {
                 	initialObjectLoader.load(this);
-                	cimInstances = initialObjectLoader.getInitialObjects().elements();
+                	cimInstances = initialObjectLoader.getInitialObjects().iterator();
                 	this.cimClient = initialObjectLoader.getChangedCimClient();
                 }
                 else //if there is no initial object loader use a "normal" enumeration
                 {
-                	cimInstances = this.cimClient.enumerateInstances(path);
+                	try {
+                        cimInstances = this.cimClient.enumerateInstances(path,true,false,false,null);
+                    }
+                    catch (WBEMException e) {
+                        logger.log(Level.SEVERE, "Error while enumeration instances of " + cimClass.getName() + ": " + e.getLocalizedMessage(),e);
+                        throw new EnumerateInstancesException(e,new EnumerateInstancesUserObject(path,true,false,false,null));
+                    }
                 }
 
-                while(cimInstances.hasMoreElements())
+                while(cimInstances.hasNext())
                 {
-                    CIMInstance currentInstance = (CIMInstance) cimInstances.nextElement();
+                	checkException(cimInstances, false);
+                    CIMInstance currentInstance = (CIMInstance) cimInstances.next();
+                    checkException(cimInstances, false);
                     if (filter == null || filter.accept(currentInstance, cimClient))
                     {
                     	String name = getName(currentInstance);
@@ -379,18 +414,14 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
                     	this.addSubnode(newInstanceNode);
                     }
                 }
+                checkException(cimInstances, false);
             }
-            catch(Exception e)
+            catch(WbemsmtException e)
             {
-            	logger.log(Level.SEVERE, "Error while enumeration instances of " + cimClass.getName() + ": " + e.getLocalizedMessage(),e);
-				if (RuntimeUtil.getInstance().isJSF())
-				{
-					JsfUtil.handleException(e);
-				}
-				else if (RuntimeUtil.getInstance().isSwing())
-				{
-					
-				}
+                ExceptionUtil.handleException(e);
+            }
+            catch (CloneNotSupportedException e) {
+                ExceptionUtil.handleException(new WbemsmtException(WbemsmtException.ERR_FAILED,e));
             }  
         }
         
@@ -428,13 +459,13 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
 		if(instanceNamingKey != null)
 		{
 			CIMProperty nameprop = currentInstance.getProperty(instanceNamingKey);
-			if(nameprop != null && nameprop.getValue() != null) name = (String) nameprop.getValue().getValue();
+			if(nameprop != null && nameprop.getValue() != null) name = nameprop.getValue().toString();
 		}
 		else if(cimInstanceNaming != null)
 		{
 		     try {
 				name = cimInstanceNaming.getDisplayString(currentInstance, cimClient);
-			} catch (InstanceNamingException e) {
+			} catch (WbemsmtException e) {
 				logger.log(Level.SEVERE, "Cannot get Naming for TreeNode",e);
 			}
 		}
@@ -453,18 +484,27 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
         this.instances.clear();
         try
         {
-            Enumeration cimInstances = this.cimClient.enumerateInstances(this.cimClass.getObjectPath());
+            CloseableIterator it;
+            try {
+                it = this.cimClient.enumerateInstances(this.cimClass.getObjectPath(),true,false,false,null);
+            }
+            catch (WBEMException e) {
+                throw new EnumerateInstancesException(e, new EnumerateInstancesUserObject(this.cimClass.getObjectPath(),true,false,false,null));
+            }
 
-            while(cimInstances.hasMoreElements())
+            while(it.hasNext())
             {
-                CIMInstance currentInstance = (CIMInstance) cimInstances.nextElement();
+            	checkException(it, false);
+                CIMInstance currentInstance = (CIMInstance) it.next();
+            	checkException(it, false);
         
                 logger.log(Level.FINEST, "Got CIM Instance from " + currentInstance.getClassName());
                 CIMInstanceNode newNode = new CIMInstanceNode(this.cimClient, xmlconfigNode, currentInstance);
                 this.instances.add(newNode);
             }
+        	checkException(it, false);
         }
-        catch(Exception e)
+        catch(WbemsmtException e)
         {
 			if (RuntimeUtil.getInstance().isJSF())
 			{

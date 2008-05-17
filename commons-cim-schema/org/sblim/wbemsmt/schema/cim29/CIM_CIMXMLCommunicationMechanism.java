@@ -1,569 +1,676 @@
 /** 
  * CIM_CIMXMLCommunicationMechanism.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  This class specializes ObjectManagerCommunicationMechanism, adding properties
- * specific to the CIM-XML protocol (XML encoding and CIM Operations).
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: This class specializes ObjectManagerCommunicationMechanism, adding properties specific to the CIM-XML protocol (XML encoding and CIM Operations).
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
 
-/**
- *  This class specializes ObjectManagerCommunicationMechanism, adding properties
- * specific to the CIM-XML protocol (XML encoding and CIM Operations).
- */
-public class CIM_CIMXMLCommunicationMechanism extends CIM_ObjectManagerCommunicationMechanism  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_CIMXMLCommunicationMechanism"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_CIMXMLCommunicationMechanism extends CIM_ObjectManagerCommunicationMechanism {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.6.0";
-	
-	
-	/**
-	*	Describes whether the CIM Server is strictly validating (validates the XML document against the DTD) or not (loosely validating).
-	*/
-	public final static String CIM_PROPERTY_CIMVALIDATED = "CIMValidated"; //$NON-NLS-1$
-	/**
-	*	Enumeration describing the CIM-XML protocol version supported by the ObjectManager. It is deprecated in lieu of a more general, inherited property (Version).
-	*/
-	public final static String CIM_PROPERTY_CIMXMLPROTOCOLVERSION = "CIMXMLProtocolVersion"; //$NON-NLS-1$
-	/**
-	*	
-	*/
-	public final static String CIM_PROPERTY_COMMUNICATIONMECHANISM = "CommunicationMechanism"; //$NON-NLS-1$
-	/**
-	*	Enumeration describing the CIM-XML protocol version supported by the ObjectManager.
-	*/
-	public final static String CIM_PROPERTY_VERSION = "Version"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_CIMXMLCommunicationMechanism";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_CIMVALIDATED);
-		CIM_PropertyNameList.add(CIM_PROPERTY_CIMXMLPROTOCOLVERSION);
-		CIM_PropertyNameList.add(CIM_PROPERTY_COMMUNICATIONMECHANISM);
-		CIM_PropertyNameList.add(CIM_PROPERTY_VERSION);
-				
-		for (int i = 0; i < CIM_ObjectManagerCommunicationMechanism.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_ObjectManagerCommunicationMechanism.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_CIMVALIDATED)||
-				((String)CIM_ObjectManagerCommunicationMechanism.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_CIMXMLPROTOCOLVERSION)||
-				((String)CIM_ObjectManagerCommunicationMechanism.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_COMMUNICATIONMECHANISM)||
-				((String)CIM_ObjectManagerCommunicationMechanism.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_VERSION)){
-				continue;
-			}
-			
-			CIM_CIMXMLCommunicationMechanism.CIM_PropertyNameList.add(CIM_ObjectManagerCommunicationMechanism.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIMVALIDATED, new CIMValue(null, new CIMDataType(CIMDataType.BOOLEAN))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIMXMLPROTOCOLVERSION, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_COMMUNICATIONMECHANISM, new CIMValue(new UnsignedInt16("2"), new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_VERSION, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-				
-		for (int i = 0; i < CIM_ObjectManagerCommunicationMechanism.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_ObjectManagerCommunicationMechanism.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_CIMVALIDATED)||
-				((CIMProperty)CIM_ObjectManagerCommunicationMechanism.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_CIMXMLPROTOCOLVERSION)||
-				((CIMProperty)CIM_ObjectManagerCommunicationMechanism.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_COMMUNICATIONMECHANISM)||
-				((CIMProperty)CIM_ObjectManagerCommunicationMechanism.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_VERSION)){
-				continue;
-			}
-			
-			CIM_CIMXMLCommunicationMechanism.CIM_PropertyList.add(CIM_ObjectManagerCommunicationMechanism.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_ObjectManagerCommunicationMechanism.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	public final static String[] CIM_VALUEMAP_CIMXMLPROTOCOLVERSION = {"Unknown","1.0"};
-	public final static String[] CIM_VALUEMAP_VERSION = {"Value0","Value1","Value2"};
-	
-	
-	public final static int CIMXMLPROTOCOLVERSION_UNKNOWN = 0;
-	public final static int CIMXMLPROTOCOLVERSION_1_0 = 1;
-	
-	public final static String VERSION_VALUE0 = "1.0";
-	public final static String VERSION_VALUE1 = "1.1";
-	public final static String VERSION_VALUE2 = "1.2";
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constants of property CIMValidated
+     * Describes whether the CIM Server is strictly validating (validates the XML document against the DTD) or not (loosely validating).
+     */
+    public static class PROPERTY_CIMVALIDATED {
+        /**
+         * name of the property CIMValidated
+         */
+        public final static String NAME = "CIMValidated";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_CIMXMLCommunicationMechanism() {
+    }
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * Constants of property CIMXMLProtocolVersion
+     * Enumeration describing the CIM-XML protocol version supported by the ObjectManager. It is deprecated in lieu of a more general, inherited property (Version).
+     */
+    public static class PROPERTY_CIMXMLPROTOCOLVERSION {
+        /**
+         * name of the property CIMXMLProtocolVersion
+         */
+        public final static String NAME = "CIMXMLProtocolVersion";
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+        /**
+         * constant for value map entry 0
+         */
 
-		setValidCimInstance(false);
-	}
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
 
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_CIMXMLCommunicationMechanism(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+        /**
+         * constant for value map entry 1
+         */
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_CIMXMLCommunicationMechanism(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_1_0 = new javax.cim.UnsignedInteger16(
+                "1");
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
+        /**
+         * constant for value entry 1.0 (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_1_0 = "1.0";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@247e247e
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
             }
-            CIM_CIMXMLCommunicationMechanism.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+
+            if (VALUE_ENTRY_1_0.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_1_0;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_1_0.intValue()) {
+                return VALUE_ENTRY_1_0;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property CIMXMLProtocolVersion   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown, VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_1_0 };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property CIMXMLProtocolVersion   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown, VALUE_ENTRY_1_0 };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property CIMXMLProtocolVersion   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_1_0 };
+
+    }
+
+    /**
+     * Constants of property CommunicationMechanism
+     * 
+     */
+    public static class PROPERTY_COMMUNICATIONMECHANISM {
+        /**
+         * name of the property CommunicationMechanism
+         */
+        public final static String NAME = "CommunicationMechanism";
+
+    }
+
+    /**
+     * Constants of property Version
+     * Enumeration describing the CIM-XML protocol version supported by the ObjectManager.
+     */
+    public static class PROPERTY_VERSION {
+        /**
+         * name of the property Version
+         */
+        public final static String NAME = "Version";
+
+        /**
+         * constant for value map entry 1.0
+         */
+
+        public final static String VALUE_MAP_ENTRY_1_0 = new String("1.0");
+
+        /**
+         * constant for value map entry 1.1
+         */
+
+        public final static String VALUE_MAP_ENTRY_1_1 = new String("1.1");
+
+        /**
+         * constant for value map entry 1.2
+         */
+
+        public final static String VALUE_MAP_ENTRY_1_2 = new String("1.2");
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property Version   
+         */
+        public final static String[] VALUE_MAP_ENTRIES = { VALUE_MAP_ENTRY_1_0,
+                VALUE_MAP_ENTRY_1_1, VALUE_MAP_ENTRY_1_2 };
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_ObjectManagerCommunicationMechanism.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   This class specializes ObjectManagerCommunicationMechanism, adding properties specific to the CIM-XML protocol (XML encoding and CIM Operations).
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_CIMXMLCommunicationMechanism(WBEMClient client, String namespace)
+            throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   This class specializes ObjectManagerCommunicationMechanism, adding properties specific to the CIM-XML protocol (XML encoding and CIM Operations).
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_CIMXMLCommunicationMechanism(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_CIMXMLCommunicationMechanism() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("CIMValidated", new CIMProperty("CIMValidated",
+                CIMDataType.BOOLEAN_T, null));
+        propertiesToCheck.put("CIMXMLProtocolVersion", new CIMProperty("CIMXMLProtocolVersion",
+                CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("CommunicationMechanism", new CIMProperty("CommunicationMechanism",
+                CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("Version", new CIMProperty("Version", CIMDataType.STRING_T, null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_CIMXMLCommunicationMechanism.Java_Package_List.toArray(new String[CIM_CIMXMLCommunicationMechanism.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property CIMValidated
+     *     * <br>
+     * Describes whether the CIM Server is strictly validating (validates the XML document against the DTD) or not (loosely validating).
+     *     */
+
+    public Boolean get_CIMValidated() {
+        CIMProperty currentProperty = getProperty(PROPERTY_CIMVALIDATED.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_CIMVALIDATED.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (Boolean) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		CIMProperty CIMProperty_CIMValidated = this.cimInstance.getProperty(CIM_PROPERTY_CIMVALIDATED);
-		
-		if (CIMProperty_CIMValidated == null || CIMProperty_CIMValidated.getValue().isEmpty() || CIMProperty_CIMValidated.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_CIMVALIDATED, "Required"});
-			result = false;
-		}
-		
-		CIMProperty CIMProperty_CIMXMLProtocolVersion = this.cimInstance.getProperty(CIM_PROPERTY_CIMXMLPROTOCOLVERSION);
-		
-		if (CIMProperty_CIMXMLProtocolVersion == null || CIMProperty_CIMXMLProtocolVersion.getValue().isEmpty() || CIMProperty_CIMXMLProtocolVersion.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_CIMXMLPROTOCOLVERSION, "Required"});
-			result = false;
-		}
-		
-		CIMProperty CIMProperty_CommunicationMechanism = this.cimInstance.getProperty(CIM_PROPERTY_COMMUNICATIONMECHANISM);
-		
-		if (CIMProperty_CommunicationMechanism == null || CIMProperty_CommunicationMechanism.getValue().isEmpty() || CIMProperty_CommunicationMechanism.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_COMMUNICATIONMECHANISM, "Required"});
-			result = false;
-		}
-		
-		CIMProperty CIMProperty_Version = this.cimInstance.getProperty(CIM_PROPERTY_VERSION);
-		
-		if (CIMProperty_Version == null || CIMProperty_Version.getValue().isEmpty() || CIMProperty_Version.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_VERSION, "Required"});
-			result = false;
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property CIMValidated
+     * <br>
+     * Describes whether the CIM Server is strictly validating (validates the XML document against the DTD) or not (loosely validating).
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_CIMXMLCommunicationMechanism)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_CIMXMLCommunicationMechanism)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_CIMXMLCommunicationMechanism)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_CIMXMLCommunicationMechanism)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_CIMXMLCommunicationMechanism)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_CIMXMLCommunicationMechanism)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_CIMXMLCommunicationMechanism)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_CIMXMLCommunicationMechanism)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_CIMXMLCommunicationMechanism)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_CIMXMLCommunicationMechanism)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_CIMValidated(Boolean newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_CIMVALIDATED.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_CIMValidated(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CIMVALIDATED.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute CIMValidated
-	
-	public Boolean get_CIMValidated() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_CIMVALIDATED);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_CIMVALIDATED + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_CIMVALIDATED + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (Boolean)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CIMValidated(Boolean newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_CIMVALIDATED);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_CIMVALIDATED + " could not be found");
-    		
-		} else if (!CIM_CIMXMLCommunicationMechanismHelper.isValid_CIMValidated(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_CIMVALIDATED);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_CIMVALIDATED + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.BOOLEAN));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute CIMXMLProtocolVersion
-	
-	public UnsignedInt16 get_CIMXMLProtocolVersion() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_CIMXMLPROTOCOLVERSION);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_CIMXMLPROTOCOLVERSION + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_CIMXMLPROTOCOLVERSION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CIMXMLProtocolVersion(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_CIMXMLPROTOCOLVERSION);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_CIMXMLPROTOCOLVERSION + " could not be found");
-    		
-		} else if (!CIM_CIMXMLCommunicationMechanismHelper.isValid_CIMXMLProtocolVersion(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_CIMXMLPROTOCOLVERSION);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_CIMXMLPROTOCOLVERSION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property CIMValidated by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	// Attribute CommunicationMechanism
-	
-	public UnsignedInt16 get_CommunicationMechanism() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_COMMUNICATIONMECHANISM);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_COMMUNICATIONMECHANISM + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_COMMUNICATIONMECHANISM + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CommunicationMechanism(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_COMMUNICATIONMECHANISM);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_COMMUNICATIONMECHANISM + " could not be found");
-    		
-		} else if (!CIM_CIMXMLCommunicationMechanismHelper.isValid_CommunicationMechanism(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_COMMUNICATIONMECHANISM);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_COMMUNICATIONMECHANISM + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public static CIMProperty create_CIMValidated(WBEMClient client, String namespace,
+            Boolean newValue) throws WbemsmtException {
+        CIM_CIMXMLCommunicationMechanism fco = new CIM_CIMXMLCommunicationMechanism(client,
+                namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_CIMVALIDATED.NAME);
+        if (property != null) {
+            property = setPropertyValue_CIMValidated(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CIMVALIDATED.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	// Attribute Version
-	
-	public String get_Version() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_VERSION);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_VERSION + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_VERSION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_Version(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_VERSION);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_VERSION + " could not be found");
-    		
-		} else if (!CIM_CIMXMLCommunicationMechanismHelper.isValid_Version(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_VERSION);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CIMXMLCommunicationMechanism.CIM_PROPERTY_VERSION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Set the property CIMValidated
+     * <br>
+     * Describes whether the CIM Server is strictly validating (validates the XML document against the DTD) or not (loosely validating).
+     */
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+    private static CIMProperty setPropertyValue_CIMValidated(CIMProperty currentProperty,
+            Boolean newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property CIMXMLProtocolVersion
+     *     * <br>
+     * Enumeration describing the CIM-XML protocol version supported by the ObjectManager. It is deprecated in lieu of a more general, inherited property (Version).
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_CIMXMLProtocolVersion() {
+        CIMProperty currentProperty = getProperty(PROPERTY_CIMXMLPROTOCOLVERSION.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_CIMXMLPROTOCOLVERSION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property CIMXMLProtocolVersion
+     * <br>
+     * Enumeration describing the CIM-XML protocol version supported by the ObjectManager. It is deprecated in lieu of a more general, inherited property (Version).
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_CIMXMLProtocolVersion(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_CIMXMLPROTOCOLVERSION.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_CIMXMLProtocolVersion(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CIMXMLPROTOCOLVERSION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property CIMXMLProtocolVersion by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_CIMXMLProtocolVersion(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_CIMXMLCommunicationMechanism fco = new CIM_CIMXMLCommunicationMechanism(client,
+                namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_CIMXMLPROTOCOLVERSION.NAME);
+        if (property != null) {
+            property = setPropertyValue_CIMXMLProtocolVersion(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CIMXMLPROTOCOLVERSION.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property CIMXMLProtocolVersion
+     * <br>
+     * Enumeration describing the CIM-XML protocol version supported by the ObjectManager. It is deprecated in lieu of a more general, inherited property (Version).
+     */
+
+    private static CIMProperty setPropertyValue_CIMXMLProtocolVersion(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property CommunicationMechanism
+     *     * <br>
+     * 
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_CommunicationMechanism() {
+        CIMProperty currentProperty = getProperty(PROPERTY_COMMUNICATIONMECHANISM.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_COMMUNICATIONMECHANISM.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property CommunicationMechanism
+     * <br>
+     * 
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_CommunicationMechanism(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_COMMUNICATIONMECHANISM.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_CommunicationMechanism(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_COMMUNICATIONMECHANISM.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property CommunicationMechanism by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_CommunicationMechanism(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_CIMXMLCommunicationMechanism fco = new CIM_CIMXMLCommunicationMechanism(client,
+                namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_COMMUNICATIONMECHANISM.NAME);
+        if (property != null) {
+            property = setPropertyValue_CommunicationMechanism(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_COMMUNICATIONMECHANISM.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property CommunicationMechanism
+     * <br>
+     * 
+     */
+
+    private static CIMProperty setPropertyValue_CommunicationMechanism(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property Version
+     *     * <br>
+     * Enumeration describing the CIM-XML protocol version supported by the ObjectManager.
+     *     */
+
+    public String get_Version() {
+        CIMProperty currentProperty = getProperty(PROPERTY_VERSION.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_VERSION.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property Version
+     * <br>
+     * Enumeration describing the CIM-XML protocol version supported by the ObjectManager.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_Version(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_VERSION.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_Version(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_VERSION.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property Version by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_Version(WBEMClient client, String namespace, String newValue)
+            throws WbemsmtException {
+        CIM_CIMXMLCommunicationMechanism fco = new CIM_CIMXMLCommunicationMechanism(client,
+                namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_VERSION.NAME);
+        if (property != null) {
+            property = setPropertyValue_Version(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_VERSION.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property Version
+     * <br>
+     * Enumeration describing the CIM-XML protocol version supported by the ObjectManager.
+     */
+
+    private static CIMProperty setPropertyValue_Version(CIMProperty currentProperty, String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_CIMXMLCommunicationMechanism.CIM_CLASS_NAME;
+    }
 
 }

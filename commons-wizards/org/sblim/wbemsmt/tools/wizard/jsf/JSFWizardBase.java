@@ -32,28 +32,15 @@ import javax.faces.event.ActionEvent;
 
 import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.bl.ErrCodes;
-import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
-import org.sblim.wbemsmt.bl.adapter.DataContainer;
-import org.sblim.wbemsmt.bl.adapter.DataContainerUtil;
-import org.sblim.wbemsmt.bl.adapter.Message;
-import org.sblim.wbemsmt.bl.adapter.MessageList;
+import org.sblim.wbemsmt.bl.adapter.*;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.ITreeSelector;
-import org.sblim.wbemsmt.exception.ExceptionUtil;
-import org.sblim.wbemsmt.exception.ObjectSaveException;
-import org.sblim.wbemsmt.exception.ObjectUpdateException;
-import org.sblim.wbemsmt.exception.UpdateControlsException;
-import org.sblim.wbemsmt.exception.ValidationException;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.*;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.jsf.JsfBase;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
-import org.sblim.wbemsmt.tools.resources.ILocaleManager;
-import org.sblim.wbemsmt.tools.resources.LocaleChangeListener;
-import org.sblim.wbemsmt.tools.resources.LocaleManager;
-import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
-import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
+import org.sblim.wbemsmt.tools.resources.*;
 import org.sblim.wbemsmt.tools.wizard.IWizardBasePanel;
 import org.sblim.wbemsmt.tools.wizard.WizardBase;
 import org.sblim.wbemsmt.tools.wizard.WizardStepList;
@@ -157,7 +144,6 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 
 	public void next(ActionEvent event)
 	{
-		System.err.println("Action");
 	}
 
 	/**
@@ -184,7 +170,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 
 			try {
 				selectContainerWhileSteppingBack(pageName);
-			} catch (UpdateControlsException e) {
+			} catch (WbemsmtException e) {
 				ExceptionUtil.handleException(e);
 			}
 
@@ -200,7 +186,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 		return JSFWizardBase.WIZARD_PAGE;
 	}
 	
-	public String next() throws ValidationException, ObjectUpdateException, UpdateControlsException
+	public String next() throws WbemsmtException
 	{
 	
 		try
@@ -242,8 +228,8 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 					container.getPages().put(actualPanelName, currentPanel);
 
 					countAndCreateChilds((DataContainer) currentPanel);
-				} catch (WbemSmtException e) {
-					throw new UpdateControlsException("Cannot find WizardPage " + actualPanelName,e);
+				} catch (WbemsmtException e) {
+					throw new WbemsmtException(WbemsmtException.ERR_UPDATE_CONTROLS,"Cannot find WizardPage " + actualPanelName,e);
 				}
 	        	DataContainer oldPanel = (DataContainer) pages.get(actualPanelName);
 	            //if the page was displayed before
@@ -265,13 +251,10 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 	            try {
 					currentPanel = (IWizardBasePanel) container.getPage(actualPanelName);
 					container.getPages().put(actualPanelName, currentPanel);
-				} catch (WbemSmtException e) {
-					throw new UpdateControlsException("Cannot find WizardPage " + actualPanelName,e);
+				} catch (WbemsmtException e) {
+					throw new WbemsmtException(WbemsmtException.ERR_UPDATE_CONTROLS,"Cannot find WizardPage " + actualPanelName,e);
 				}
 	            currentPanel =  (IWizardBasePanel) DataContainerUtil.copyValues(oldPanel, (DataContainer) currentPanel);
-	            baseCimAdapter.updateControls((DataContainer) currentPanel);
-	            //revalidate to get the wrong fields marked
-	            baseCimAdapter.validateValues((DataContainer) currentPanel);
 	        }
 	        result.clear();
 	        container.updateButtonStates(container.isLast(actualPanelName),container.isFirst(actualPanelName));
@@ -286,7 +269,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 		return JSFWizardBase.WIZARD_PAGE;
 	}
 	
-	public String back() throws ValidationException, UpdateControlsException
+	public String back() throws WbemsmtException
 	{
         String actualPanelName = (String) container.getUsedPages().pop();
         container.getStepList().getWizardStep(actualPanelName).setCurrent(false);
@@ -296,14 +279,14 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
         return JSFWizardBase.WIZARD_PAGE;
 	}
 
-	private void selectContainerWhileSteppingBack(String actualPanelName) throws UpdateControlsException {
+	private void selectContainerWhileSteppingBack(String actualPanelName) throws WbemsmtException {
 		container.getStepList().getWizardStep(actualPanelName).setCurrent(true);
         DataContainer oldPanel = (DataContainer) pages.get(actualPanelName);
         try {
 			currentPanel = (IWizardBasePanel)container.getPage(actualPanelName);
 			container.getPages().put(actualPanelName, currentPanel);
-		} catch (WbemSmtException e) {
-			throw new UpdateControlsException("Cannot find WizardPage " + actualPanelName,e);
+		} catch (WbemsmtException e) {
+			throw new WbemsmtException(WbemsmtException.ERR_UPDATE_CONTROLS,"Cannot find WizardPage " + actualPanelName,e);
 		}
         DataContainerUtil.copyValues(oldPanel,(DataContainer) currentPanel);
         baseCimAdapter.updateControls((DataContainer) currentPanel);
@@ -384,7 +367,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 		}
 	}	
 	
-	public String cancel() throws ValidationException, ObjectUpdateException, UpdateControlsException, ObjectSaveException
+	public String cancel() throws WbemsmtException
 	{
 		ITreeSelector treeSelectorBean = (ITreeSelector)BeanNameConstants.TREE_SELECTOR.getBoundValue(FacesContext.getCurrentInstance());
 		ObjectActionControllerBean objectActionController = (ObjectActionControllerBean)BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
@@ -450,7 +433,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 		return adapter;
 	}	
 	
-	public abstract void countAndCreateChilds(DataContainer dataContainer) throws UpdateControlsException;
+	public abstract void countAndCreateChilds(DataContainer dataContainer) throws WbemsmtException;
 
 	public WizardStepList getStepList() {
 		return container.getStepList();

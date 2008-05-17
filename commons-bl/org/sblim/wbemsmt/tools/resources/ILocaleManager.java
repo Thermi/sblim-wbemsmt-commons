@@ -21,8 +21,6 @@ package org.sblim.wbemsmt.tools.resources;
 
 import java.util.Locale;
 
-import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
-
 public interface ILocaleManager {
 
 	public void setCurrentLocale(Locale newLocale);
@@ -30,12 +28,4 @@ public interface ILocaleManager {
 	public void addLocaleChangeListener(LocaleChangeListener listener);
 	public void removeLocaleChangeListener(LocaleChangeListener listener);
 	public void addResourceBundleEntry(String appName, String[] bundles);
-	public void addFcoPackage(String appName, String fcoPackage);
-
-	/**
-	 * Returns the Bundle which belongs to a task 
-	 * @param fcoClass
-	 * @return
-	 */
-	public WbemSmtResourceBundle getBundleByFco(CIM_ObjectIf me);
 }

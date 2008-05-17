@@ -4,17 +4,17 @@ Update from unknown to VERSION_2_0
 
  	- ADD Attribute version to root-element tasklauncherconfig (version="VERSION_2_0")
 
-Update from unknown to VERSION_2_1
+Update from 2_0 to VERSION_2_1
 
  	- Modifed Attribute version of root-element tasklauncherconfig (version="VERSION_2_1")
  	- ADD Attribute welcomeListener to element treeconfig (optional)
 
-Update from unknown to VERSION_2_2
+Update from 2_1 to VERSION_2_2
 
  	- Modifed Attribute version of root-element tasklauncherconfig (version="VERSION_2_2")
  	- ADD Attribute applicationNamespace to element cimom (optional)
 
-Update from unknown to VERSION_2_3
+Update from 2_2 to VERSION_2_3
 
  	- Modifed Attribute version of root-element tasklauncherconfig (version="VERSION_2_3")
  	- Add optional element configurationDefinition below parent treeconfig to define configuration attributes for tasks
@@ -24,17 +24,22 @@ Update from unknown to VERSION_2_3
  	  Example:
  	     <tas:configurationValue name="metricUpdateInterval" value="1000"/>
 
-Update from unknown to VERSION_2_4
+Update from 2_3 to VERSION_2_4
 
     - Change is compatible to 2_3
  	- Modifed Attribute version of root-element tasklauncherconfig (version="VERSION_2_4")
  	- Remove attribute applicationNamespace in cimom element
 
-Update from unknown to VERSION_2_5
+Update from 2_4 to VERSION_2_5
 
     - Change is *not* compatible to 2_4
  	- Modifed Attribute version of root-element tasklauncherconfig (version="VERSION_2_5")
  	- Remove attribute namespace in cimom element
  	- Add attribute namespace to treeconfig
  	- Add attribute namespace to treeconfigReference
+
+Update from 2_5 to VERSION_2_6
+
+    - Change is *not* compatible to 2_5
+ 	- Remove attribute fcoPackage in treeconfig element
  	

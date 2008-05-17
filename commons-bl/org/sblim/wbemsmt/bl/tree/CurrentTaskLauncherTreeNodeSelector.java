@@ -25,7 +25,7 @@ import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.CimObjectKey;
 import org.sblim.wbemsmt.bl.adapter.TaskLauncherTreeNodeSelector;
 import org.sblim.wbemsmt.bl.adapter.TaskLauncherTreeNodeSelectorForCreate;
-import org.sblim.wbemsmt.exception.ObjectNotFoundException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 
 public class CurrentTaskLauncherTreeNodeSelector implements TaskLauncherTreeNodeSelector, TaskLauncherTreeNodeSelectorForCreate {
 
@@ -37,14 +37,14 @@ public class CurrentTaskLauncherTreeNodeSelector implements TaskLauncherTreeNode
 	 * @see AbstractBaseCimAdapter#getKeyByTreeNode(ITaskLauncherTreeNode)
 	 * @see AbstractBaseCimAdapter#select(CimObjectKey)
 	 */
-	public void select(ITaskLauncherTreeNode treeNode, AbstractBaseCimAdapter adapter, String editPanelId) throws ObjectNotFoundException {
+	public void select(ITaskLauncherTreeNode treeNode, AbstractBaseCimAdapter adapter, String editPanelId) throws WbemsmtException {
 		this.adapter = adapter;
 		CimObjectKey key = adapter.select(treeNode);
 		if (key == null)
 		{
 			Logger logger = Logger.getLogger(CurrentTaskLauncherTreeNodeSelector.class.getName());
 			logger.severe("Cannot select with adapter " + adapter + " and treeNode " + treeNode);
-			throw new ObjectNotFoundException("Cannot select with adapter " + adapter + " and treeNode " + treeNode.getName());
+			throw new WbemsmtException(WbemsmtException.ERR_OBJECT_NOT_FOUND,"Cannot select with adapter " + adapter + " and treeNode " + treeNode.getName());
 		}
 	}
 

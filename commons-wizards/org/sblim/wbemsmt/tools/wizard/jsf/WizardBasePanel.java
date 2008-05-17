@@ -25,8 +25,7 @@ import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainerUtil;
-import org.sblim.wbemsmt.exception.InitContainerException;
-import org.sblim.wbemsmt.exception.UpdateControlsException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFInputComponent;
 import org.sblim.wbemsmt.tools.jsf.BasePanel;
 import org.sblim.wbemsmt.tools.wizard.IWizardBasePanel;
@@ -146,13 +145,13 @@ public abstract class WizardBasePanel extends BasePanel implements IWizardBasePa
 	 * @throws InitContainerExceptio
 	 */
 	
-	public void countAndCreateChildren() throws InitContainerException 	{}
+	public void countAndCreateChildren() throws WbemsmtException 	{}
 
 	/**
 	 * 
-	 * @throws UpdateControlsException
+	 * @throws WbemsmtException
 	 */
-	public void updateControls() throws UpdateControlsException {}
+	public void updateControls() throws WbemsmtException {}
     
 
 }

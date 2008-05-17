@@ -21,6 +21,8 @@ package org.sblim.wbemsmt.bl.adapter;
 
 import java.io.PrintWriter;
 
+import org.sblim.wbemsmt.exception.WbemsmtException;
+
 public abstract class BaseDataContainer implements DataContainer {
 
 	/**
@@ -188,5 +190,12 @@ public abstract class BaseDataContainer implements DataContainer {
 		return messageList;
 	}
 	
+    /**
+     * can be implemented to count and create the children objects
+     * TODO enable cli subclasses to create and count children
+     * @throws InitContainerExceptio
+     */
+    public void countAndCreateChildren() throws WbemsmtException
+    {}
 
 }

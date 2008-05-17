@@ -28,7 +28,7 @@ import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tasklauncher.CimomTreeNode;
 import org.sblim.wbemsmt.tasklauncher.TreeSelector;
 import org.sblim.wbemsmt.tasklauncher.event.TaskLauncherContextMenuEventListenerImpl;
@@ -90,7 +90,7 @@ public class CimomLoginLogoutListener extends TaskLauncherContextMenuEventListen
 							}
 							nodes.addAll(nodeWithInactiveCimomsNodes.getSubnodes());
 						}
-					} catch (WbemSmtException e) {
+					} catch (WbemsmtException e) {
 						logger.log(Level.SEVERE,"Cannot get Inactive CimomTreeNodes",e);
 					}
 					oac.setCimomTreeNodesForLogin(nodes);

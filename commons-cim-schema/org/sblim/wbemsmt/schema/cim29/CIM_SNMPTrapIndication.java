@@ -1,785 +1,1453 @@
 /** 
  * CIM_SNMPTrapIndication.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  A concrete class for mapping an SNMP Trap to CIM based on the IETF RFC 1157.
- * The usefulness of this class is to describe common trap semantics. But, a
- * complete understanding of any trap data received relies on the Indicaton
- * recipient having access to the sender's MIB. Understanding can be improved by
- * mapping the SNMP domain to CIM, and using CIM LifeCycle and standard
- * subclasses of CIM_ProcessIndication.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: A concrete class for mapping an SNMP Trap to CIM based on the IETF RFC 1157. The usefulness of this class is to describe common trap semantics. But, a complete understanding of any trap data received relies on the Indicaton recipient having access to the sender's MIB. Understanding can be improved by mapping the SNMP domain to CIM, and using CIM LifeCycle and standard subclasses of CIM_ProcessIndication.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
-import java.util.Calendar;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
 
-/**
- *  A concrete class for mapping an SNMP Trap to CIM based on the IETF RFC 1157.
- * The usefulness of this class is to describe common trap semantics. But, a
- * complete understanding of any trap data received relies on the Indicaton
- * recipient having access to the sender's MIB. Understanding can be improved by
- * mapping the SNMP domain to CIM, and using CIM LifeCycle and standard
- * subclasses of CIM_ProcessIndication.
- */
-public class CIM_SNMPTrapIndication extends CIM_ProcessIndication  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_SNMPTrapIndication"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_SNMPTrapIndication extends CIM_ProcessIndication {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.7.0";
-	
-	
-	/**
-	*	Address of the object generating the trap.
-	*/
-	public final static String CIM_PROPERTY_AGENTADDRESS = "AgentAddress"; //$NON-NLS-1$
-	/**
-	*	Type of object generating the trap.
-	*/
-	public final static String CIM_PROPERTY_ENTERPRISE = "Enterprise"; //$NON-NLS-1$
-	/**
-	*	An enumerated value that describes the generic trap type: 
-- The coldStart(0) trap signifies that the sending protocol entity is reinitializing itself such that the agent's configuration or the protocol entity implementation may be altered. 
-- The warmStart(1) trap signifies that the sending protocol entity is reinitializing itself such that neither the agent configuration nor the protocol entity implementation is altered. 
-- The linkDown(2) trap signifies that the sending protocol recognizes a failure in one of the communication links represented in the agent's configuration. The Trap-PDU of type linkDown contains as the first element of its variable-bindings the name and value of the ifIndex instance for the affected interface. 
-- The linkUp(3) trap signifies that the sending protocol entity recognizes that one of the communication links represented in the agent's configuration has come up. The Trap-PDU of type linkUp contains as the first element of its variable-bindings, the name and value of the ifIndex instance for the affected interface. 
-- An authenticationFailure(4) trap signifies that the sending protocol entity is the adressee of a protocol message that was not properly authenticated. While implementations of SNMP must be capable of generating this trap, they must also be capable of suppressing the emission of such traps via an implementation- specific mechanism. 
-- An egpNeighborLoss(5) trap signifies that an EGP neighbor for whom the sending protocol entity was an EGP peer has been marked as down and the peer relationship no longer pertains. The Trap-PDU of type egpNeighborLoss contains as the first element of its variable-bindings, the name and value of the egpNeighAddr instance for the affected neighbor. 
-- An enterpriseSpecific(6) trap signifies that the sending protocol entity recognizes that some enterprise-specific event has occurred. The specific-trap field identifies the particular trap which occurred.
-	*/
-	public final static String CIM_PROPERTY_GENERICTRAP = "GenericTrap"; //$NON-NLS-1$
-	/**
-	*	Specific trap code.
-	*/
-	public final static String CIM_PROPERTY_SPECIFICTRAP = "SpecificTrap"; //$NON-NLS-1$
-	/**
-	*	Time elapsed between the last (re)intialization of the managed entity and the generation of the trap.
-	*/
-	public final static String CIM_PROPERTY_TIMESTAMP = "TimeStamp"; //$NON-NLS-1$
-	/**
-	*	Object naming information (an OID) from the 'variable binding' portion of the Trap. This array is correlated with the VarBindSyntaxes and VarBindValues arrays. Each entry is related to the entries in the other arrays, that are located at the same index. In this way, the variable binding's name/syntax/value tuple can be constructed.
-	*/
-	public final static String CIM_PROPERTY_VARBINDNAMES = "VarBindNames"; //$NON-NLS-1$
-	/**
-	*	Object syntax information (defined as an enumerated value) from the 'variable binding' portion of the Trap. This array is correlated with the VarBindNames and VarBindValues arrays. Each entry is related to the entries in the other arrays, that are located at the same index. In this way, the variable binding's name/syntax/value tuple can be constructed.
-	*/
-	public final static String CIM_PROPERTY_VARBINDSYNTAXES = "VarBindSyntaxes"; //$NON-NLS-1$
-	/**
-	*	An OctetString representing object value information from the 'variable binding' portion of the Trap. This array is correlated with the VarBindNames and VarBindSyntaxes arrays. Each entry is related to the entries in the other arrays, that are located at the same index. In this way, the variable binding's name/syntax/value tuple can be constructed.
-	*/
-	public final static String CIM_PROPERTY_VARBINDVALUES = "VarBindValues"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_SNMPTrapIndication";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_AGENTADDRESS);
-		CIM_PropertyNameList.add(CIM_PROPERTY_ENTERPRISE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_GENERICTRAP);
-		CIM_PropertyNameList.add(CIM_PROPERTY_SPECIFICTRAP);
-		CIM_PropertyNameList.add(CIM_PROPERTY_TIMESTAMP);
-		CIM_PropertyNameList.add(CIM_PROPERTY_VARBINDNAMES);
-		CIM_PropertyNameList.add(CIM_PROPERTY_VARBINDSYNTAXES);
-		CIM_PropertyNameList.add(CIM_PROPERTY_VARBINDVALUES);
-				
-		for (int i = 0; i < CIM_ProcessIndication.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_ProcessIndication.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_AGENTADDRESS)||
-				((String)CIM_ProcessIndication.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ENTERPRISE)||
-				((String)CIM_ProcessIndication.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_GENERICTRAP)||
-				((String)CIM_ProcessIndication.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_SPECIFICTRAP)||
-				((String)CIM_ProcessIndication.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_TIMESTAMP)||
-				((String)CIM_ProcessIndication.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_VARBINDNAMES)||
-				((String)CIM_ProcessIndication.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_VARBINDSYNTAXES)||
-				((String)CIM_ProcessIndication.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_VARBINDVALUES)){
-				continue;
-			}
-			
-			CIM_SNMPTrapIndication.CIM_PropertyNameList.add(CIM_ProcessIndication.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_AGENTADDRESS, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ENTERPRISE, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_GENERICTRAP, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_SPECIFICTRAP, new CIMValue(null, new CIMDataType(CIMDataType.UINT32))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_TIMESTAMP, new CIMValue(null, new CIMDataType(CIMDataType.DATETIME))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_VARBINDNAMES, new CIMValue(null, new CIMDataType(CIMDataType.STRING_ARRAY))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_VARBINDSYNTAXES, new CIMValue(null, new CIMDataType(CIMDataType.UINT16_ARRAY))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_VARBINDVALUES, new CIMValue(null, new CIMDataType(CIMDataType.STRING_ARRAY))));
-				
-		for (int i = 0; i < CIM_ProcessIndication.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_ProcessIndication.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_AGENTADDRESS)||
-				((CIMProperty)CIM_ProcessIndication.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ENTERPRISE)||
-				((CIMProperty)CIM_ProcessIndication.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_GENERICTRAP)||
-				((CIMProperty)CIM_ProcessIndication.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_SPECIFICTRAP)||
-				((CIMProperty)CIM_ProcessIndication.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_TIMESTAMP)||
-				((CIMProperty)CIM_ProcessIndication.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_VARBINDNAMES)||
-				((CIMProperty)CIM_ProcessIndication.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_VARBINDSYNTAXES)||
-				((CIMProperty)CIM_ProcessIndication.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_VARBINDVALUES)){
-				continue;
-			}
-			
-			CIM_SNMPTrapIndication.CIM_PropertyList.add(CIM_ProcessIndication.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_ProcessIndication.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	public final static String[] CIM_VALUEMAP_GENERICTRAP = {"Cold Start","Warm Start","Link Down","Link Up","Authentication Failure","EGP Neighbor Loss","Enterprise Specific"};
-	public final static String[] CIM_VALUEMAP_VARBINDSYNTAXES = {"Integer","OctetString","ObjectIdentifier","NetworkAddress","Counter","Gauge","TimeTicks","Opaque"};
-	
-	
-	public final static int GENERICTRAP_COLDSTART = 0;
-	public final static int GENERICTRAP_WARMSTART = 1;
-	public final static int GENERICTRAP_LINKDOWN = 2;
-	public final static int GENERICTRAP_LINKUP = 3;
-	public final static int GENERICTRAP_AUTHENTICATIONFAILURE = 4;
-	public final static int GENERICTRAP_EGPNEIGHBORLOSS = 5;
-	public final static int GENERICTRAP_ENTERPRISESPECIFIC = 6;
-	
-	public final static int VARBINDSYNTAXES_INTEGER = 1;
-	public final static int VARBINDSYNTAXES_OCTETSTRING = 2;
-	public final static int VARBINDSYNTAXES_OBJECTIDENTIFIER = 3;
-	public final static int VARBINDSYNTAXES_NETWORKADDRESS = 4;
-	public final static int VARBINDSYNTAXES_COUNTER = 5;
-	public final static int VARBINDSYNTAXES_GAUGE = 6;
-	public final static int VARBINDSYNTAXES_TIMETICKS = 7;
-	public final static int VARBINDSYNTAXES_OPAQUE = 8;
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constants of property AgentAddress
+     * Address of the object generating the trap.
+     */
+    public static class PROPERTY_AGENTADDRESS {
+        /**
+         * name of the property AgentAddress
+         */
+        public final static String NAME = "AgentAddress";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_SNMPTrapIndication() {
+    }
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * Constants of property Enterprise
+     * Type of object generating the trap.
+     */
+    public static class PROPERTY_ENTERPRISE {
+        /**
+         * name of the property Enterprise
+         */
+        public final static String NAME = "Enterprise";
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    }
 
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property GenericTrap
+     * An enumerated value that describes the generic trap type: 
+     * - The coldStart(0) trap signifies that the sending protocol entity is reinitializing itself such that the agent's configuration or the protocol entity implementation may be altered. 
+     * - The warmStart(1) trap signifies that the sending protocol entity is reinitializing itself such that neither the agent configuration nor the protocol entity implementation is altered. 
+     * - The linkDown(2) trap signifies that the sending protocol recognizes a failure in one of the communication links represented in the agent's configuration. The Trap-PDU of type linkDown contains as the first element of its variable-bindings the name and value of the ifIndex instance for the affected interface. 
+     * - The linkUp(3) trap signifies that the sending protocol entity recognizes that one of the communication links represented in the agent's configuration has come up. The Trap-PDU of type linkUp contains as the first element of its variable-bindings, the name and value of the ifIndex instance for the affected interface. 
+     * - An authenticationFailure(4) trap signifies that the sending protocol entity is the adressee of a protocol message that was not properly authenticated. While implementations of SNMP must be capable of generating this trap, they must also be capable of suppressing the emission of such traps via an implementation- specific mechanism. 
+     * - An egpNeighborLoss(5) trap signifies that an EGP neighbor for whom the sending protocol entity was an EGP peer has been marked as down and the peer relationship no longer pertains. The Trap-PDU of type egpNeighborLoss contains as the first element of its variable-bindings, the name and value of the egpNeighAddr instance for the affected neighbor. 
+     * - An enterpriseSpecific(6) trap signifies that the sending protocol entity recognizes that some enterprise-specific event has occurred. The specific-trap field identifies the particular trap which occurred.
+     */
+    public static class PROPERTY_GENERICTRAP {
+        /**
+         * name of the property GenericTrap
+         */
+        public final static String NAME = "GenericTrap";
 
+        /**
+         * constant for value map entry 0
+         */
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_SNMPTrapIndication(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Cold_Start = new javax.cim.UnsignedInteger16(
+                "0");
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_SNMPTrapIndication(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+        /**
+         * constant for value entry Cold Start (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Cold_Start = "Cold Start";
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Warm_Start = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Warm Start (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Warm_Start = "Warm Start";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Link_Down = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry Link Down (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Link_Down = "Link Down";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Link_Up = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Link Up (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Link_Up = "Link Up";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Authentication_Failure = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry Authentication Failure (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_Authentication_Failure = "Authentication Failure";
+
+        /**
+         * constant for value map entry 5
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_EGP_Neighbor_Loss = new javax.cim.UnsignedInteger16(
+                "5");
+
+        /**
+         * constant for value entry EGP Neighbor Loss (corresponds to mapEntry 5 )
+         */
+        public final static String VALUE_ENTRY_EGP_Neighbor_Loss = "EGP Neighbor Loss";
+
+        /**
+         * constant for value map entry 6
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Enterprise_Specific = new javax.cim.UnsignedInteger16(
+                "6");
+
+        /**
+         * constant for value entry Enterprise Specific (corresponds to mapEntry 6 )
+         */
+        public final static String VALUE_ENTRY_Enterprise_Specific = "Enterprise Specific";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@61e461e4
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Cold_Start.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Cold_Start;
             }
-            CIM_SNMPTrapIndication.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+
+            if (VALUE_ENTRY_Warm_Start.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Warm_Start;
+            }
+
+            if (VALUE_ENTRY_Link_Down.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Link_Down;
+            }
+
+            if (VALUE_ENTRY_Link_Up.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Link_Up;
+            }
+
+            if (VALUE_ENTRY_Authentication_Failure.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Authentication_Failure;
+            }
+
+            if (VALUE_ENTRY_EGP_Neighbor_Loss.equals(value)) {
+                return VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_EGP_Neighbor_Loss;
+            }
+
+            if (VALUE_ENTRY_Enterprise_Specific.equals(value)) {
+                return VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Enterprise_Specific;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Cold_Start.intValue()) {
+                return VALUE_ENTRY_Cold_Start;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Warm_Start.intValue()) {
+                return VALUE_ENTRY_Warm_Start;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Link_Down.intValue()) {
+                return VALUE_ENTRY_Link_Down;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Link_Up.intValue()) {
+                return VALUE_ENTRY_Link_Up;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Authentication_Failure.intValue()) {
+                return VALUE_ENTRY_Authentication_Failure;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_EGP_Neighbor_Loss.intValue()) {
+                return VALUE_ENTRY_EGP_Neighbor_Loss;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Enterprise_Specific.intValue()) {
+                return VALUE_ENTRY_Enterprise_Specific;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property GenericTrap   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Cold_Start,
+                VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Warm_Start,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Link_Down,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Link_Up,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Authentication_Failure,
+                VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_EGP_Neighbor_Loss,
+                VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Enterprise_Specific };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property GenericTrap   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Cold_Start,
+                VALUE_ENTRY_Warm_Start, VALUE_ENTRY_Link_Down, VALUE_ENTRY_Link_Up,
+                VALUE_ENTRY_Authentication_Failure, VALUE_ENTRY_EGP_Neighbor_Loss,
+                VALUE_ENTRY_Enterprise_Specific };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property GenericTrap   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Cold_Start,
+                VALUE_ENTRY_Warm_Start, VALUE_ENTRY_Link_Down, VALUE_ENTRY_Link_Up,
+                VALUE_ENTRY_Authentication_Failure, VALUE_ENTRY_EGP_Neighbor_Loss,
+                VALUE_ENTRY_Enterprise_Specific };
+
+    }
+
+    /**
+     * Constants of property SpecificTrap
+     * Specific trap code.
+     */
+    public static class PROPERTY_SPECIFICTRAP {
+        /**
+         * name of the property SpecificTrap
+         */
+        public final static String NAME = "SpecificTrap";
+
+    }
+
+    /**
+     * Constants of property TimeStamp
+     * Time elapsed between the last (re)intialization of the managed entity and the generation of the trap.
+     */
+    public static class PROPERTY_TIMESTAMP {
+        /**
+         * name of the property TimeStamp
+         */
+        public final static String NAME = "TimeStamp";
+
+    }
+
+    /**
+     * Constants of property VarBindNames
+     * Object naming information (an OID) from the 'variable binding' portion of the Trap. This array is correlated with the VarBindSyntaxes and VarBindValues arrays. Each entry is related to the entries in the other arrays, that are located at the same index. In this way, the variable binding's name/syntax/value tuple can be constructed.
+     */
+    public static class PROPERTY_VARBINDNAMES {
+        /**
+         * name of the property VarBindNames
+         */
+        public final static String NAME = "VarBindNames";
+
+    }
+
+    /**
+     * Constants of property VarBindSyntaxes
+     * Object syntax information (defined as an enumerated value) from the 'variable binding' portion of the Trap. This array is correlated with the VarBindNames and VarBindValues arrays. Each entry is related to the entries in the other arrays, that are located at the same index. In this way, the variable binding's name/syntax/value tuple can be constructed.
+     */
+    public static class PROPERTY_VARBINDSYNTAXES {
+        /**
+         * name of the property VarBindSyntaxes
+         */
+        public final static String NAME = "VarBindSyntaxes";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Integer = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Integer (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Integer = "Integer";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_OctetString = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry OctetString (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_OctetString = "OctetString";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_ObjectIdentifier = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry ObjectIdentifier (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_ObjectIdentifier = "ObjectIdentifier";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_NetworkAddress = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry NetworkAddress (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_NetworkAddress = "NetworkAddress";
+
+        /**
+         * constant for value map entry 5
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Counter = new javax.cim.UnsignedInteger16(
+                "5");
+
+        /**
+         * constant for value entry Counter (corresponds to mapEntry 5 )
+         */
+        public final static String VALUE_ENTRY_Counter = "Counter";
+
+        /**
+         * constant for value map entry 6
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Gauge = new javax.cim.UnsignedInteger16(
+                "6");
+
+        /**
+         * constant for value entry Gauge (corresponds to mapEntry 6 )
+         */
+        public final static String VALUE_ENTRY_Gauge = "Gauge";
+
+        /**
+         * constant for value map entry 7
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_TimeTicks = new javax.cim.UnsignedInteger16(
+                "7");
+
+        /**
+         * constant for value entry TimeTicks (corresponds to mapEntry 7 )
+         */
+        public final static String VALUE_ENTRY_TimeTicks = "TimeTicks";
+
+        /**
+         * constant for value map entry 8
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Opaque = new javax.cim.UnsignedInteger16(
+                "8");
+
+        /**
+         * constant for value entry Opaque (corresponds to mapEntry 8 )
+         */
+        public final static String VALUE_ENTRY_Opaque = "Opaque";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@20fc20fc
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Integer.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Integer;
+            }
+
+            if (VALUE_ENTRY_OctetString.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_OctetString;
+            }
+
+            if (VALUE_ENTRY_ObjectIdentifier.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_ObjectIdentifier;
+            }
+
+            if (VALUE_ENTRY_NetworkAddress.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_NetworkAddress;
+            }
+
+            if (VALUE_ENTRY_Counter.equals(value)) {
+                return VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Counter;
+            }
+
+            if (VALUE_ENTRY_Gauge.equals(value)) {
+                return VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Gauge;
+            }
+
+            if (VALUE_ENTRY_TimeTicks.equals(value)) {
+                return VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_TimeTicks;
+            }
+
+            if (VALUE_ENTRY_Opaque.equals(value)) {
+                return VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Opaque;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Integer.intValue()) {
+                return VALUE_ENTRY_Integer;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_OctetString.intValue()) {
+                return VALUE_ENTRY_OctetString;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_ObjectIdentifier.intValue()) {
+                return VALUE_ENTRY_ObjectIdentifier;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_NetworkAddress.intValue()) {
+                return VALUE_ENTRY_NetworkAddress;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Counter.intValue()) {
+                return VALUE_ENTRY_Counter;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Gauge.intValue()) {
+                return VALUE_ENTRY_Gauge;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_TimeTicks.intValue()) {
+                return VALUE_ENTRY_TimeTicks;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Opaque.intValue()) {
+                return VALUE_ENTRY_Opaque;
+            }
+            return null;
+
+        }
+
+        /**
+         * get the ValueEntries of the given valueMapEntries
+         * @param values the values to find the ValueMapEntries for
+         * @return the array with ValueMap entries. Some of them may be null to if no valueMap entry was found
+         */
+
+        public static javax.cim.UnsignedInteger16[] getValueMapEntries(String[] values) {
+            javax.cim.UnsignedInteger16[] result = new javax.cim.UnsignedInteger16[values.length];
+
+            for (int i = 0; i < result.length; i++) {
+                result[i] = getValueMapEntry(values[i]);
+            }
+
+            return result;
+        }
+
+        /**
+         * get the ValueMapEntries of the given valueEntries
+         * @param valueMapEntries the valueMap entries to find the Values for
+         * @return the array with Value entries. Some of them may be null to if no value entry was found
+         */
+
+        public static String[] getValueEntries(javax.cim.UnsignedInteger16[] values) {
+            String[] result = new String[values.length];
+
+            for (int i = 0; i < result.length; i++) {
+                result[i] = getValueEntry(values[i]);
+            }
+
+            return result;
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property VarBindSyntaxes   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Integer,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_OctetString,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_ObjectIdentifier,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_NetworkAddress,
+                VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Counter, VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Gauge,
+                VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_TimeTicks,
+                VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Opaque };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property VarBindSyntaxes   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Integer,
+                VALUE_ENTRY_OctetString, VALUE_ENTRY_ObjectIdentifier, VALUE_ENTRY_NetworkAddress,
+                VALUE_ENTRY_Counter, VALUE_ENTRY_Gauge, VALUE_ENTRY_TimeTicks, VALUE_ENTRY_Opaque };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property VarBindSyntaxes   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Integer,
+                VALUE_ENTRY_OctetString, VALUE_ENTRY_ObjectIdentifier, VALUE_ENTRY_NetworkAddress,
+                VALUE_ENTRY_Counter, VALUE_ENTRY_Gauge, VALUE_ENTRY_TimeTicks, VALUE_ENTRY_Opaque };
+
+    }
+
+    /**
+     * Constants of property VarBindValues
+     * An OctetString representing object value information from the 'variable binding' portion of the Trap. This array is correlated with the VarBindNames and VarBindSyntaxes arrays. Each entry is related to the entries in the other arrays, that are located at the same index. In this way, the variable binding's name/syntax/value tuple can be constructed.
+     */
+    public static class PROPERTY_VARBINDVALUES {
+        /**
+         * name of the property VarBindValues
+         */
+        public final static String NAME = "VarBindValues";
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_ProcessIndication.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   A concrete class for mapping an SNMP Trap to CIM based on the IETF RFC 1157. The usefulness of this class is to describe common trap semantics. But, a complete understanding of any trap data received relies on the Indicaton recipient having access to the sender's MIB. Understanding can be improved by mapping the SNMP domain to CIM, and using CIM LifeCycle and standard subclasses of CIM_ProcessIndication.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_SNMPTrapIndication(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   A concrete class for mapping an SNMP Trap to CIM based on the IETF RFC 1157. The usefulness of this class is to describe common trap semantics. But, a complete understanding of any trap data received relies on the Indicaton recipient having access to the sender's MIB. Understanding can be improved by mapping the SNMP domain to CIM, and using CIM LifeCycle and standard subclasses of CIM_ProcessIndication.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_SNMPTrapIndication(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_SNMPTrapIndication() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("AgentAddress", new CIMProperty("AgentAddress", CIMDataType.STRING_T,
+                null));
+        propertiesToCheck.put("Enterprise", new CIMProperty("Enterprise", CIMDataType.STRING_T,
+                null));
+        propertiesToCheck.put("GenericTrap", new CIMProperty("GenericTrap", CIMDataType.UINT16_T,
+                null));
+        propertiesToCheck.put("SpecificTrap", new CIMProperty("SpecificTrap", CIMDataType.UINT32_T,
+                null));
+        propertiesToCheck.put("TimeStamp", new CIMProperty("TimeStamp", CIMDataType.DATETIME_T,
+                null));
+        propertiesToCheck.put("VarBindNames", new CIMProperty("VarBindNames",
+                CIMDataType.STRING_ARRAY_T, null));
+        propertiesToCheck.put("VarBindSyntaxes", new CIMProperty("VarBindSyntaxes",
+                CIMDataType.UINT16_ARRAY_T, null));
+        propertiesToCheck.put("VarBindValues", new CIMProperty("VarBindValues",
+                CIMDataType.STRING_ARRAY_T, null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_SNMPTrapIndication.Java_Package_List.toArray(new String[CIM_SNMPTrapIndication.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property AgentAddress
+     *     * <br>
+     * Address of the object generating the trap.
+     *     */
+
+    public String get_AgentAddress() {
+        CIMProperty currentProperty = getProperty(PROPERTY_AGENTADDRESS.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_AGENTADDRESS.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property AgentAddress
+     * <br>
+     * Address of the object generating the trap.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_SNMPTrapIndication)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_SNMPTrapIndication)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_SNMPTrapIndication)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_SNMPTrapIndication)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_SNMPTrapIndication)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_SNMPTrapIndication)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_SNMPTrapIndication)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_SNMPTrapIndication)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_SNMPTrapIndication)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_SNMPTrapIndication)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_AgentAddress(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_AGENTADDRESS.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_AgentAddress(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_AGENTADDRESS.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute AgentAddress
-	
-	public String get_AgentAddress() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_SNMPTrapIndication.CIM_PROPERTY_AGENTADDRESS);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_AGENTADDRESS + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_AGENTADDRESS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_AgentAddress(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_SNMPTrapIndication.CIM_PROPERTY_AGENTADDRESS);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_AGENTADDRESS + " could not be found");
-    		
-		} else if (!CIM_SNMPTrapIndicationHelper.isValid_AgentAddress(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_SNMPTrapIndication.CIM_PROPERTY_AGENTADDRESS);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_AGENTADDRESS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute Enterprise
-	
-	public String get_Enterprise() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_SNMPTrapIndication.CIM_PROPERTY_ENTERPRISE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_ENTERPRISE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_ENTERPRISE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_Enterprise(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_SNMPTrapIndication.CIM_PROPERTY_ENTERPRISE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_ENTERPRISE + " could not be found");
-    		
-		} else if (!CIM_SNMPTrapIndicationHelper.isValid_Enterprise(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_SNMPTrapIndication.CIM_PROPERTY_ENTERPRISE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_ENTERPRISE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property AgentAddress by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	// Attribute GenericTrap
-	
-	public UnsignedInt16 get_GenericTrap() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_SNMPTrapIndication.CIM_PROPERTY_GENERICTRAP);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_GENERICTRAP + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_GENERICTRAP + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_GenericTrap(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_SNMPTrapIndication.CIM_PROPERTY_GENERICTRAP);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_GENERICTRAP + " could not be found");
-    		
-		} else if (!CIM_SNMPTrapIndicationHelper.isValid_GenericTrap(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_SNMPTrapIndication.CIM_PROPERTY_GENERICTRAP);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_GENERICTRAP + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public static CIMProperty create_AgentAddress(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_SNMPTrapIndication fco = new CIM_SNMPTrapIndication(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_AGENTADDRESS.NAME);
+        if (property != null) {
+            property = setPropertyValue_AgentAddress(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_AGENTADDRESS.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	// Attribute SpecificTrap
-	
-	public UnsignedInt32 get_SpecificTrap() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_SNMPTrapIndication.CIM_PROPERTY_SPECIFICTRAP);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_SPECIFICTRAP + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_SPECIFICTRAP + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt32)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_SpecificTrap(UnsignedInt32 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_SNMPTrapIndication.CIM_PROPERTY_SPECIFICTRAP);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_SPECIFICTRAP + " could not be found");
-    		
-		} else if (!CIM_SNMPTrapIndicationHelper.isValid_SpecificTrap(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_SNMPTrapIndication.CIM_PROPERTY_SPECIFICTRAP);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_SPECIFICTRAP + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT32));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Set the property AgentAddress
+     * <br>
+     * Address of the object generating the trap.
+     */
 
-	// Attribute TimeStamp
-	
-	public Calendar get_TimeStamp() {
+    private static CIMProperty setPropertyValue_AgentAddress(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
 
-		CIMProperty property = this.cimInstance.getProperty(CIM_SNMPTrapIndication.CIM_PROPERTY_TIMESTAMP);
-        
-		if (property == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_TIMESTAMP + " could not be found");
-    		
-		} else if (property.getType() == null || property.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_TIMESTAMP + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-        
-		if (property.getValue() == null) {
-			return null;
-		}
-        
-        CIMDateTime cimDateTime = (CIMDateTime)property.getValue().getValue();
-		return cimDateTime != null?cimDateTime.getCalendar():null;
-	}
-	
-	
-	public void set_TimeStamp(Calendar newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_SNMPTrapIndication.CIM_PROPERTY_TIMESTAMP);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_TIMESTAMP + " could not be found");
-    		
-		} else if (!CIM_SNMPTrapIndicationHelper.isValid_TimeStamp(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_SNMPTrapIndication.CIM_PROPERTY_TIMESTAMP);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_TIMESTAMP + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(new CIMSimpleDateTime(newValue), new CIMDataType(CIMDataType.DATETIME));
-		currentProperty.setValue(updatedValue);
-	}
-    
-	
+        setThis = newValue;
 
-	// Attribute VarBindNames
-	
-	public String[] get_VarBindNames() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDNAMES);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDNAMES + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDNAMES + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING_ARRAY) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		Vector returnedVector = (Vector)currentProperty.getValue().getValue();
-		
-		String[] resultArray = new String[returnedVector!=null?returnedVector.size():0];
-		for (int i = 0; i < resultArray.length; i++) {
-			resultArray[i] = (String)returnedVector.get(i);
-		}
-		
-		return resultArray;
-	}
-	    
-			
-	public void set_VarBindNames(String[] newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDNAMES);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDNAMES + " could not be found");
-    		
-		} else if (!CIM_SNMPTrapIndicationHelper.isValid_VarBindNames(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDNAMES);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDNAMES + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING_ARRAY) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING_ARRAY));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
 
-	// Attribute VarBindSyntaxes
-	
-	public UnsignedInt16[] get_VarBindSyntaxes() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDSYNTAXES);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDSYNTAXES + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDSYNTAXES + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16_ARRAY) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		Vector returnedVector = (Vector)currentProperty.getValue().getValue();
-		
-		UnsignedInt16[] resultArray = new UnsignedInt16[returnedVector!=null?returnedVector.size():0];
-		for (int i = 0; i < resultArray.length; i++) {
-			resultArray[i] = (UnsignedInt16)returnedVector.get(i);
-		}
-		
-		return resultArray;
-	}
-	    
-			
-	public void set_VarBindSyntaxes(UnsignedInt16[] newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDSYNTAXES);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDSYNTAXES + " could not be found");
-    		
-		} else if (!CIM_SNMPTrapIndicationHelper.isValid_VarBindSyntaxes(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDSYNTAXES);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDSYNTAXES + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16_ARRAY) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16_ARRAY));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        return newProperty;
+    }
 
-	// Attribute VarBindValues
-	
-	public String[] get_VarBindValues() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDVALUES);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDVALUES + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDVALUES + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING_ARRAY) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		Vector returnedVector = (Vector)currentProperty.getValue().getValue();
-		
-		String[] resultArray = new String[returnedVector!=null?returnedVector.size():0];
-		for (int i = 0; i < resultArray.length; i++) {
-			resultArray[i] = (String)returnedVector.get(i);
-		}
-		
-		return resultArray;
-	}
-	    
-			
-	public void set_VarBindValues(String[] newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDVALUES);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDVALUES + " could not be found");
-    		
-		} else if (!CIM_SNMPTrapIndicationHelper.isValid_VarBindValues(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDVALUES);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_SNMPTrapIndication.CIM_PROPERTY_VARBINDVALUES + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING_ARRAY) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING_ARRAY));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property Enterprise
+     *     * <br>
+     * Type of object generating the trap.
+     *     */
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+    public String get_Enterprise() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ENTERPRISE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ENTERPRISE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property Enterprise
+     * <br>
+     * Type of object generating the trap.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_Enterprise(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ENTERPRISE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_Enterprise(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ENTERPRISE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property Enterprise by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_Enterprise(WBEMClient client, String namespace, String newValue)
+            throws WbemsmtException {
+        CIM_SNMPTrapIndication fco = new CIM_SNMPTrapIndication(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ENTERPRISE.NAME);
+        if (property != null) {
+            property = setPropertyValue_Enterprise(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ENTERPRISE.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property Enterprise
+     * <br>
+     * Type of object generating the trap.
+     */
+
+    private static CIMProperty setPropertyValue_Enterprise(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property GenericTrap
+     *     * <br>
+     * An enumerated value that describes the generic trap type: 
+     * - The coldStart(0) trap signifies that the sending protocol entity is reinitializing itself such that the agent's configuration or the protocol entity implementation may be altered. 
+     * - The warmStart(1) trap signifies that the sending protocol entity is reinitializing itself such that neither the agent configuration nor the protocol entity implementation is altered. 
+     * - The linkDown(2) trap signifies that the sending protocol recognizes a failure in one of the communication links represented in the agent's configuration. The Trap-PDU of type linkDown contains as the first element of its variable-bindings the name and value of the ifIndex instance for the affected interface. 
+     * - The linkUp(3) trap signifies that the sending protocol entity recognizes that one of the communication links represented in the agent's configuration has come up. The Trap-PDU of type linkUp contains as the first element of its variable-bindings, the name and value of the ifIndex instance for the affected interface. 
+     * - An authenticationFailure(4) trap signifies that the sending protocol entity is the adressee of a protocol message that was not properly authenticated. While implementations of SNMP must be capable of generating this trap, they must also be capable of suppressing the emission of such traps via an implementation- specific mechanism. 
+     * - An egpNeighborLoss(5) trap signifies that an EGP neighbor for whom the sending protocol entity was an EGP peer has been marked as down and the peer relationship no longer pertains. The Trap-PDU of type egpNeighborLoss contains as the first element of its variable-bindings, the name and value of the egpNeighAddr instance for the affected neighbor. 
+     * - An enterpriseSpecific(6) trap signifies that the sending protocol entity recognizes that some enterprise-specific event has occurred. The specific-trap field identifies the particular trap which occurred.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_GenericTrap() {
+        CIMProperty currentProperty = getProperty(PROPERTY_GENERICTRAP.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_GENERICTRAP.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property GenericTrap
+     * <br>
+     * An enumerated value that describes the generic trap type: 
+     * - The coldStart(0) trap signifies that the sending protocol entity is reinitializing itself such that the agent's configuration or the protocol entity implementation may be altered. 
+     * - The warmStart(1) trap signifies that the sending protocol entity is reinitializing itself such that neither the agent configuration nor the protocol entity implementation is altered. 
+     * - The linkDown(2) trap signifies that the sending protocol recognizes a failure in one of the communication links represented in the agent's configuration. The Trap-PDU of type linkDown contains as the first element of its variable-bindings the name and value of the ifIndex instance for the affected interface. 
+     * - The linkUp(3) trap signifies that the sending protocol entity recognizes that one of the communication links represented in the agent's configuration has come up. The Trap-PDU of type linkUp contains as the first element of its variable-bindings, the name and value of the ifIndex instance for the affected interface. 
+     * - An authenticationFailure(4) trap signifies that the sending protocol entity is the adressee of a protocol message that was not properly authenticated. While implementations of SNMP must be capable of generating this trap, they must also be capable of suppressing the emission of such traps via an implementation- specific mechanism. 
+     * - An egpNeighborLoss(5) trap signifies that an EGP neighbor for whom the sending protocol entity was an EGP peer has been marked as down and the peer relationship no longer pertains. The Trap-PDU of type egpNeighborLoss contains as the first element of its variable-bindings, the name and value of the egpNeighAddr instance for the affected neighbor. 
+     * - An enterpriseSpecific(6) trap signifies that the sending protocol entity recognizes that some enterprise-specific event has occurred. The specific-trap field identifies the particular trap which occurred.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_GenericTrap(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_GENERICTRAP.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_GenericTrap(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_GENERICTRAP.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property GenericTrap by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_GenericTrap(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_SNMPTrapIndication fco = new CIM_SNMPTrapIndication(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_GENERICTRAP.NAME);
+        if (property != null) {
+            property = setPropertyValue_GenericTrap(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_GENERICTRAP.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property GenericTrap
+     * <br>
+     * An enumerated value that describes the generic trap type: 
+     * - The coldStart(0) trap signifies that the sending protocol entity is reinitializing itself such that the agent's configuration or the protocol entity implementation may be altered. 
+     * - The warmStart(1) trap signifies that the sending protocol entity is reinitializing itself such that neither the agent configuration nor the protocol entity implementation is altered. 
+     * - The linkDown(2) trap signifies that the sending protocol recognizes a failure in one of the communication links represented in the agent's configuration. The Trap-PDU of type linkDown contains as the first element of its variable-bindings the name and value of the ifIndex instance for the affected interface. 
+     * - The linkUp(3) trap signifies that the sending protocol entity recognizes that one of the communication links represented in the agent's configuration has come up. The Trap-PDU of type linkUp contains as the first element of its variable-bindings, the name and value of the ifIndex instance for the affected interface. 
+     * - An authenticationFailure(4) trap signifies that the sending protocol entity is the adressee of a protocol message that was not properly authenticated. While implementations of SNMP must be capable of generating this trap, they must also be capable of suppressing the emission of such traps via an implementation- specific mechanism. 
+     * - An egpNeighborLoss(5) trap signifies that an EGP neighbor for whom the sending protocol entity was an EGP peer has been marked as down and the peer relationship no longer pertains. The Trap-PDU of type egpNeighborLoss contains as the first element of its variable-bindings, the name and value of the egpNeighAddr instance for the affected neighbor. 
+     * - An enterpriseSpecific(6) trap signifies that the sending protocol entity recognizes that some enterprise-specific event has occurred. The specific-trap field identifies the particular trap which occurred.
+     */
+
+    private static CIMProperty setPropertyValue_GenericTrap(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property SpecificTrap
+     *     * <br>
+     * Specific trap code.
+     *     */
+
+    public javax.cim.UnsignedInteger32 get_SpecificTrap() {
+        CIMProperty currentProperty = getProperty(PROPERTY_SPECIFICTRAP.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_SPECIFICTRAP.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger32) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property SpecificTrap
+     * <br>
+     * Specific trap code.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_SpecificTrap(javax.cim.UnsignedInteger32 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_SPECIFICTRAP.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_SpecificTrap(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SPECIFICTRAP.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property SpecificTrap by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_SpecificTrap(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger32 newValue) throws WbemsmtException {
+        CIM_SNMPTrapIndication fco = new CIM_SNMPTrapIndication(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_SPECIFICTRAP.NAME);
+        if (property != null) {
+            property = setPropertyValue_SpecificTrap(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SPECIFICTRAP.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property SpecificTrap
+     * <br>
+     * Specific trap code.
+     */
+
+    private static CIMProperty setPropertyValue_SpecificTrap(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger32 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property TimeStamp
+     *     * <br>
+     * Time elapsed between the last (re)intialization of the managed entity and the generation of the trap.
+     *     */
+
+    public javax.cim.CIMDateTime get_TimeStamp() {
+        CIMProperty currentProperty = getProperty(PROPERTY_TIMESTAMP.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_TIMESTAMP.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.CIMDateTime) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property TimeStamp
+     * <br>
+     * Time elapsed between the last (re)intialization of the managed entity and the generation of the trap.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_TimeStamp(javax.cim.CIMDateTime newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_TIMESTAMP.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_TimeStamp(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_TIMESTAMP.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property TimeStamp by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_TimeStamp(WBEMClient client, String namespace,
+            javax.cim.CIMDateTime newValue) throws WbemsmtException {
+        CIM_SNMPTrapIndication fco = new CIM_SNMPTrapIndication(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_TIMESTAMP.NAME);
+        if (property != null) {
+            property = setPropertyValue_TimeStamp(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_TIMESTAMP.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property TimeStamp
+     * <br>
+     * Time elapsed between the last (re)intialization of the managed entity and the generation of the trap.
+     */
+
+    private static CIMProperty setPropertyValue_TimeStamp(CIMProperty currentProperty,
+            javax.cim.CIMDateTime newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property VarBindNames
+     *     * <br>
+     * Object naming information (an OID) from the 'variable binding' portion of the Trap. This array is correlated with the VarBindSyntaxes and VarBindValues arrays. Each entry is related to the entries in the other arrays, that are located at the same index. In this way, the variable binding's name/syntax/value tuple can be constructed.
+     *     */
+
+    public String[] get_VarBindNames() {
+        CIMProperty currentProperty = getProperty(PROPERTY_VARBINDNAMES.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_VARBINDNAMES.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String[]) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property VarBindNames
+     * <br>
+     * Object naming information (an OID) from the 'variable binding' portion of the Trap. This array is correlated with the VarBindSyntaxes and VarBindValues arrays. Each entry is related to the entries in the other arrays, that are located at the same index. In this way, the variable binding's name/syntax/value tuple can be constructed.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_VarBindNames(String[] newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_VARBINDNAMES.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_VarBindNames(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_VARBINDNAMES.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property VarBindNames by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_VarBindNames(WBEMClient client, String namespace,
+            String[] newValue) throws WbemsmtException {
+        CIM_SNMPTrapIndication fco = new CIM_SNMPTrapIndication(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_VARBINDNAMES.NAME);
+        if (property != null) {
+            property = setPropertyValue_VarBindNames(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_VARBINDNAMES.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property VarBindNames
+     * <br>
+     * Object naming information (an OID) from the 'variable binding' portion of the Trap. This array is correlated with the VarBindSyntaxes and VarBindValues arrays. Each entry is related to the entries in the other arrays, that are located at the same index. In this way, the variable binding's name/syntax/value tuple can be constructed.
+     */
+
+    private static CIMProperty setPropertyValue_VarBindNames(CIMProperty currentProperty,
+            String[] newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property VarBindSyntaxes
+     *     * <br>
+     * Object syntax information (defined as an enumerated value) from the 'variable binding' portion of the Trap. This array is correlated with the VarBindNames and VarBindValues arrays. Each entry is related to the entries in the other arrays, that are located at the same index. In this way, the variable binding's name/syntax/value tuple can be constructed.
+     *     */
+
+    public javax.cim.UnsignedInteger16[] get_VarBindSyntaxes() {
+        CIMProperty currentProperty = getProperty(PROPERTY_VARBINDSYNTAXES.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_VARBINDSYNTAXES.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16[]) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property VarBindSyntaxes
+     * <br>
+     * Object syntax information (defined as an enumerated value) from the 'variable binding' portion of the Trap. This array is correlated with the VarBindNames and VarBindValues arrays. Each entry is related to the entries in the other arrays, that are located at the same index. In this way, the variable binding's name/syntax/value tuple can be constructed.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_VarBindSyntaxes(javax.cim.UnsignedInteger16[] newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_VARBINDSYNTAXES.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_VarBindSyntaxes(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_VARBINDSYNTAXES.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property VarBindSyntaxes by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_VarBindSyntaxes(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16[] newValue) throws WbemsmtException {
+        CIM_SNMPTrapIndication fco = new CIM_SNMPTrapIndication(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_VARBINDSYNTAXES.NAME);
+        if (property != null) {
+            property = setPropertyValue_VarBindSyntaxes(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_VARBINDSYNTAXES.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property VarBindSyntaxes
+     * <br>
+     * Object syntax information (defined as an enumerated value) from the 'variable binding' portion of the Trap. This array is correlated with the VarBindNames and VarBindValues arrays. Each entry is related to the entries in the other arrays, that are located at the same index. In this way, the variable binding's name/syntax/value tuple can be constructed.
+     */
+
+    private static CIMProperty setPropertyValue_VarBindSyntaxes(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16[] newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property VarBindValues
+     *     * <br>
+     * An OctetString representing object value information from the 'variable binding' portion of the Trap. This array is correlated with the VarBindNames and VarBindSyntaxes arrays. Each entry is related to the entries in the other arrays, that are located at the same index. In this way, the variable binding's name/syntax/value tuple can be constructed.
+     *     */
+
+    public String[] get_VarBindValues() {
+        CIMProperty currentProperty = getProperty(PROPERTY_VARBINDVALUES.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_VARBINDVALUES.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String[]) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property VarBindValues
+     * <br>
+     * An OctetString representing object value information from the 'variable binding' portion of the Trap. This array is correlated with the VarBindNames and VarBindSyntaxes arrays. Each entry is related to the entries in the other arrays, that are located at the same index. In this way, the variable binding's name/syntax/value tuple can be constructed.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_VarBindValues(String[] newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_VARBINDVALUES.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_VarBindValues(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_VARBINDVALUES.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property VarBindValues by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_VarBindValues(WBEMClient client, String namespace,
+            String[] newValue) throws WbemsmtException {
+        CIM_SNMPTrapIndication fco = new CIM_SNMPTrapIndication(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_VARBINDVALUES.NAME);
+        if (property != null) {
+            property = setPropertyValue_VarBindValues(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_VARBINDVALUES.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property VarBindValues
+     * <br>
+     * An OctetString representing object value information from the 'variable binding' portion of the Trap. This array is correlated with the VarBindNames and VarBindSyntaxes arrays. Each entry is related to the entries in the other arrays, that are located at the same index. In this way, the variable binding's name/syntax/value tuple can be constructed.
+     */
+
+    private static CIMProperty setPropertyValue_VarBindValues(CIMProperty currentProperty,
+            String[] newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_SNMPTrapIndication.CIM_CLASS_NAME;
+    }
 
 }

@@ -20,29 +20,24 @@
 package org.sblim.wbemsmt.cim.indication;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.net.InetAddress;
 import java.util.logging.Logger;
 
-import org.sblim.wbem.client.indications.CIMEventDispatcher;
-import org.sblim.wbem.client.indications.CIMIndicationHandler;
-import org.sblim.wbem.client.indications.CIMIndicationListenertList;
-import org.sblim.wbem.client.indications.CIMListener;
-import org.sblim.wbem.http.HttpConnectionHandler;
-import org.sblim.wbem.http.HttpServerConnection;
+import javax.wbem.listener.IndicationListener;
+import javax.wbem.listener.WBEMListener;
+import javax.wbem.listener.WBEMListenerFactory;
 
 public class HttpServerConnectionManager
 {
 	private static HttpServerConnectionManager instance = null;
-	private static Logger logger = Logger.getLogger(HttpServerConnectionManager.class.getName());	
+	protected static Logger logger = Logger.getLogger(HttpServerConnectionManager.class.getName());	
+	private final static String protocol = "CIM-XML";
 	
-	private Map connectionsByPort = new HashMap();
-	private Map listenerListsByPort = new HashMap();
-	private Map dispatchersByPort = new HashMap();
+	private WBEMListener wbemListener;
 	
 	private HttpServerConnectionManager()
 	{
-		
+		 wbemListener = WBEMListenerFactory.getListener(protocol);
 	}
 	
 	public static HttpServerConnectionManager getInstance()
@@ -58,59 +53,29 @@ public class HttpServerConnectionManager
 	 * Add a listener for the port - if there is no connection for that port a new one is created
 	 * @param listener
 	 * @param port
+	 * @param transport http or https
 	 * @throws IOException if the Connection cannot be created
 	 */
-	public void addListener(CIMListener listener, int port) throws IOException
+	public void addListener(IndicationListener listener, IndicationDestination destination) throws IOException
 	{
-		CIMIndicationListenertList list = null;
-		String key = ""+port;
-		if (connectionsByPort.containsKey(key))
-		{
-			list = (CIMIndicationListenertList) listenerListsByPort.get(key);
-			list.addListener(listener);
-		}
-		else
-		{
-			list = new CIMIndicationListenertList();
-			list.addListener(listener);
-			CIMEventDispatcher dispatcher = new CIMEventDispatcher(list);
-			CIMIndicationHandler indicationHdlr = new CIMIndicationHandler(dispatcher);
-			HttpServerConnection httpServerConnection = new HttpServerConnection(new HttpConnectionHandler(indicationHdlr), port);
-			httpServerConnection.setName("CIMListener - Http Server");
-			httpServerConnection.start();
-			logger.info("Server started on port " + port + " for Listener " + listener);
-			
-			connectionsByPort.put(key, httpServerConnection);
-			dispatchersByPort.put(key, dispatcher);
-			listenerListsByPort.put(key, list);
-		}
+	    int port = destination.getCalculatedUrl().getPort();
+	    String transport = destination.getCalculatedUrl().getProtocol();
+	    boolean usingNoIp = destination.isUsingNoIp();
+	    
+	    if (usingNoIp)
+	    {
+	        wbemListener.addListener(listener, port, transport);
+	    }
+	    else
+	    {
+	        wbemListener.addListener(listener, port, transport, InetAddress.getByName(destination.getCalculatedUrl().getHost()).getHostAddress());
+	    }
+	    
+		logger.info("Added listener " + listener + " to port with transport " + transport);
 	}
 	
-	public void removeListener(CIMListener listener, int port)
+	public void removeListener(int port)
 	{
-		String key = ""+port;
-		if (connectionsByPort.containsKey(key))
-		{
-			CIMIndicationListenertList list = (CIMIndicationListenertList) listenerListsByPort.get(key);
-			list.removeListener(listener);
-			
-			logger.info("Listener " + listener + " removed from port " + port);
-			
-			if (list.getListeners().size() == 0)
-			{
-				CIMEventDispatcher dispatcher = (CIMEventDispatcher) dispatchersByPort.get(key);
-				HttpServerConnection connection = (HttpServerConnection)connectionsByPort.get(key);
-				connection.close();
-				dispatcher.kill();
-				
-				connectionsByPort.remove(key);
-				dispatchersByPort.remove(key);
-				listenerListsByPort.remove(key);
-				
-				logger.info("Closed port " + port);
-				
-			}
-			
-		}
+		wbemListener.removeListener(port);
 	}
 }

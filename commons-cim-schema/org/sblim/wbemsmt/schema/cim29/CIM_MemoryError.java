@@ -1,951 +1,1945 @@
 /** 
  * CIM_MemoryError.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  MemoryError defines a memory space that has errors. The Key of the class is the
- * StartingAddress of the bytes in error.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: MemoryError defines a memory space that has errors. The Key of the class is the StartingAddress of the bytes in error.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
-import java.util.Calendar;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
 
-/**
- *  MemoryError defines a memory space that has errors. The Key of the class is the
- * StartingAddress of the bytes in error.
- */
-public class CIM_MemoryError extends CIM_StorageError  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_MemoryError"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_MemoryError extends CIM_StorageError {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.8.0";
-	
-	
-	/**
-	*	An array of octets holding additional error information. An example is ECC Syndrome or the return of the check bits if a CRC-based ErrorMethodology is used. In the latter case, if a single bit error is recognized and the CRC algorithm is known, it is possible to determine the exact bit that failed. This type of data (ECC Syndrome, Check Bit or Parity Bit data, or other vendor supplied information) is included in this field. If the ErrorInfo property is equal to 3, "OK", then AdditionalErrorData has no meaning.
-	*/
-	public final static String CIM_PROPERTY_ADDITIONALERRORDATA = "AdditionalErrorData"; //$NON-NLS-1$
-	/**
-	*	Boolean indicating that the most recent error was correctable. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
-	*/
-	public final static String CIM_PROPERTY_CORRECTABLEERROR = "CorrectableError"; //$NON-NLS-1$
-	/**
-	*	An integer enumeration indicating the memory access operation that caused the last error. The type of error MUST be described by the ErrorInfo property. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
-	*/
-	public final static String CIM_PROPERTY_ERRORACCESS = "ErrorAccess"; //$NON-NLS-1$
-	/**
-	*	The ordering for data stored in the ErrorData property. "Least Significant Byte First" (value=1) or "Most Significant Byte First" (2) can be specified. If ErrorTransferSize is 0, then this property has no meaning.
-	*/
-	public final static String CIM_PROPERTY_ERRORDATAORDER = "ErrorDataOrder"; //$NON-NLS-1$
-	/**
-	*	Data captured during the last erroneous mebmory access. The data occupies the first n octets of the array necessary to hold the number of bits specified by the ErrorTransferSize property. If ErrorTransferSize is 0, then this property has no meaning.
-	*/
-	public final static String CIM_PROPERTY_ERRORDATA = "ErrorData"; //$NON-NLS-1$
-	/**
-	*	An integer enumeration describing the type of error that occurred most recently. For example, single (value=6) or double bit errors (7) can be specified using this property. The values, 12-14, are undefined in the CIM Schema since in DMI, they mix the semantics of the type of error and whether it was correctable or not. The latter is indicated in the property, CorrectableError.
-	*/
-	public final static String CIM_PROPERTY_ERRORINFO = "ErrorInfo"; //$NON-NLS-1$
-	/**
-	*	Specifies the range, in bytes, to which the last error can be resolved. For example, if error addresses are resolved to bit 11 (ie, on a typical page basis), then errors can be resolved to 4K boundaries and this property is set to 4000. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
-	*/
-	public final static String CIM_PROPERTY_ERRORRESOLUTION = "ErrorResolution"; //$NON-NLS-1$
-	/**
-	*	The time that the last memory error occurred. The type of error is described by the ErrorInfo property. If the Error Info property is equal to 3, "OK", then this property has no meaning.
-	*/
-	public final static String CIM_PROPERTY_ERRORTIME = "ErrorTime"; //$NON-NLS-1$
-	/**
-	*	The size of the data transfer in bits that caused the last error. 0 indicates no error. If the ErrorInfo property is equal to 3, "OK", then this property should be set to 0.
-	*/
-	public final static String CIM_PROPERTY_ERRORTRANSFERSIZE = "ErrorTransferSize"; //$NON-NLS-1$
-	/**
-	*	Free form string providing more information if the Error Type property is set to 1, "Other". If not set to 1, this string has no meaning.
-	*/
-	public final static String CIM_PROPERTY_OTHERERRORDESCRIPTION = "OtherErrorDescription"; //$NON-NLS-1$
-	/**
-	*	Specifies the address of the memory error. The type of error is described by the ErrorInfo property. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
-	*/
-	public final static String CIM_PROPERTY_STARTINGADDRESS = "StartingAddress"; //$NON-NLS-1$
-	/**
-	*	Boolean indicating whether the address information in the property, ErrorAddress, is a system-level address (TRUE) or a physical address (FALSE). If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
-	*/
-	public final static String CIM_PROPERTY_SYSTEMLEVELADDRESS = "SystemLevelAddress"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_MemoryError";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_ADDITIONALERRORDATA);
-		CIM_PropertyNameList.add(CIM_PROPERTY_CORRECTABLEERROR);
-		CIM_PropertyNameList.add(CIM_PROPERTY_ERRORACCESS);
-		CIM_PropertyNameList.add(CIM_PROPERTY_ERRORDATAORDER);
-		CIM_PropertyNameList.add(CIM_PROPERTY_ERRORDATA);
-		CIM_PropertyNameList.add(CIM_PROPERTY_ERRORINFO);
-		CIM_PropertyNameList.add(CIM_PROPERTY_ERRORRESOLUTION);
-		CIM_PropertyNameList.add(CIM_PROPERTY_ERRORTIME);
-		CIM_PropertyNameList.add(CIM_PROPERTY_ERRORTRANSFERSIZE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_OTHERERRORDESCRIPTION);
-		CIM_PropertyNameList.add(CIM_PROPERTY_STARTINGADDRESS);
-		CIM_PropertyNameList.add(CIM_PROPERTY_SYSTEMLEVELADDRESS);
-				
-		for (int i = 0; i < CIM_StorageError.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_StorageError.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ADDITIONALERRORDATA)||
-				((String)CIM_StorageError.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_CORRECTABLEERROR)||
-				((String)CIM_StorageError.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ERRORACCESS)||
-				((String)CIM_StorageError.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ERRORDATAORDER)||
-				((String)CIM_StorageError.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ERRORDATA)||
-				((String)CIM_StorageError.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ERRORINFO)||
-				((String)CIM_StorageError.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ERRORRESOLUTION)||
-				((String)CIM_StorageError.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ERRORTIME)||
-				((String)CIM_StorageError.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ERRORTRANSFERSIZE)||
-				((String)CIM_StorageError.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_OTHERERRORDESCRIPTION)||
-				((String)CIM_StorageError.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_STARTINGADDRESS)||
-				((String)CIM_StorageError.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_SYSTEMLEVELADDRESS)){
-				continue;
-			}
-			
-			CIM_MemoryError.CIM_PropertyNameList.add(CIM_StorageError.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ADDITIONALERRORDATA, new CIMValue(null, new CIMDataType(CIMDataType.UINT8))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CORRECTABLEERROR, new CIMValue(null, new CIMDataType(CIMDataType.BOOLEAN))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ERRORACCESS, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ERRORDATAORDER, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ERRORDATA, new CIMValue(null, new CIMDataType(CIMDataType.UINT8))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ERRORINFO, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ERRORRESOLUTION, new CIMValue(null, new CIMDataType(CIMDataType.UINT64))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ERRORTIME, new CIMValue(null, new CIMDataType(CIMDataType.DATETIME))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ERRORTRANSFERSIZE, new CIMValue(null, new CIMDataType(CIMDataType.UINT32))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_OTHERERRORDESCRIPTION, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_STARTINGADDRESS, new CIMValue(null, new CIMDataType(CIMDataType.UINT64))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_SYSTEMLEVELADDRESS, new CIMValue(null, new CIMDataType(CIMDataType.BOOLEAN))));
-				
-		for (int i = 0; i < CIM_StorageError.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_StorageError.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ADDITIONALERRORDATA)||
-				((CIMProperty)CIM_StorageError.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_CORRECTABLEERROR)||
-				((CIMProperty)CIM_StorageError.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ERRORACCESS)||
-				((CIMProperty)CIM_StorageError.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ERRORDATAORDER)||
-				((CIMProperty)CIM_StorageError.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ERRORDATA)||
-				((CIMProperty)CIM_StorageError.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ERRORINFO)||
-				((CIMProperty)CIM_StorageError.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ERRORRESOLUTION)||
-				((CIMProperty)CIM_StorageError.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ERRORTIME)||
-				((CIMProperty)CIM_StorageError.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ERRORTRANSFERSIZE)||
-				((CIMProperty)CIM_StorageError.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_OTHERERRORDESCRIPTION)||
-				((CIMProperty)CIM_StorageError.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_STARTINGADDRESS)||
-				((CIMProperty)CIM_StorageError.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_SYSTEMLEVELADDRESS)){
-				continue;
-			}
-			
-			CIM_MemoryError.CIM_PropertyList.add(CIM_StorageError.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_StorageError.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	public final static String[] CIM_VALUEMAP_ERRORACCESS = {"Unknown","Other","Read","Write","Partial Write"};
-	public final static String[] CIM_VALUEMAP_ERRORDATAORDER = {"Unknown","Least Significant Byte First","Most Significant Byte First"};
-	public final static String[] CIM_VALUEMAP_ERRORINFO = {"Unknown","Other","OK","Bad Read","Parity Error","Single-Bit Error","Double-Bit Error","Multi-Bit Error","Nibble Error","Checksum Error","CRC Error"};
-	
-	
-	public final static int ERRORACCESS_UNKNOWN = 0;
-	public final static int ERRORACCESS_OTHER = 1;
-	public final static int ERRORACCESS_READ = 2;
-	public final static int ERRORACCESS_WRITE = 3;
-	public final static int ERRORACCESS_PARTIALWRITE = 4;
-	
-	public final static int ERRORDATAORDER_UNKNOWN = 0;
-	public final static int ERRORDATAORDER_LEASTSIGNIFICANTBYTEFIRST = 1;
-	public final static int ERRORDATAORDER_MOSTSIGNIFICANTBYTEFIRST = 2;
-	
-	public final static int ERRORINFO_UNKNOWN = 0;
-	public final static int ERRORINFO_OTHER = 1;
-	public final static int ERRORINFO_OK = 2;
-	public final static int ERRORINFO_BADREAD = 3;
-	public final static int ERRORINFO_PARITYERROR = 4;
-	public final static int ERRORINFO_SINGLE_BITERROR = 5;
-	public final static int ERRORINFO_DOUBLE_BITERROR = 6;
-	public final static int ERRORINFO_MULTI_BITERROR = 7;
-	public final static int ERRORINFO_NIBBLEERROR = 8;
-	public final static int ERRORINFO_CHECKSUMERROR = 9;
-	public final static int ERRORINFO_CRCERROR = 10;
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constants of property AdditionalErrorData
+     * An array of octets holding additional error information. An example is ECC Syndrome or the return of the check bits if a CRC-based ErrorMethodology is used. In the latter case, if a single bit error is recognized and the CRC algorithm is known, it is possible to determine the exact bit that failed. This type of data (ECC Syndrome, Check Bit or Parity Bit data, or other vendor supplied information) is included in this field. If the ErrorInfo property is equal to 3, "OK", then AdditionalErrorData has no meaning.
+     */
+    public static class PROPERTY_ADDITIONALERRORDATA {
+        /**
+         * name of the property AdditionalErrorData
+         */
+        public final static String NAME = "AdditionalErrorData";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_MemoryError() {
+    }
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * Constants of property CorrectableError
+     * Boolean indicating that the most recent error was correctable. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     */
+    public static class PROPERTY_CORRECTABLEERROR {
+        /**
+         * name of the property CorrectableError
+         */
+        public final static String NAME = "CorrectableError";
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    }
 
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property ErrorAccess
+     * An integer enumeration indicating the memory access operation that caused the last error. The type of error MUST be described by the ErrorInfo property. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     */
+    public static class PROPERTY_ERRORACCESS {
+        /**
+         * name of the property ErrorAccess
+         */
+        public final static String NAME = "ErrorAccess";
 
+        /**
+         * constant for value map entry 0
+         */
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_MemoryError(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_MemoryError(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Read = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry Read (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Read = "Read";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Write = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Write (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Write = "Write";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Partial_Write = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry Partial Write (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_Partial_Write = "Partial Write";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@50a050a
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
             }
-            CIM_MemoryError.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_Read.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Read;
+            }
+
+            if (VALUE_ENTRY_Write.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Write;
+            }
+
+            if (VALUE_ENTRY_Partial_Write.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Partial_Write;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Read.intValue()) {
+                return VALUE_ENTRY_Read;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Write.intValue()) {
+                return VALUE_ENTRY_Write;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Partial_Write.intValue()) {
+                return VALUE_ENTRY_Partial_Write;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property ErrorAccess   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown, VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Read, VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Write,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Partial_Write };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property ErrorAccess   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown, VALUE_ENTRY_Other,
+                VALUE_ENTRY_Read, VALUE_ENTRY_Write, VALUE_ENTRY_Partial_Write };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property ErrorAccess   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Other, VALUE_ENTRY_Read, VALUE_ENTRY_Write, VALUE_ENTRY_Partial_Write };
+
+    }
+
+    /**
+     * Constants of property ErrorDataOrder
+     * The ordering for data stored in the ErrorData property. "Least Significant Byte First" (value=1) or "Most Significant Byte First" (2) can be specified. If ErrorTransferSize is 0, then this property has no meaning.
+     */
+    public static class PROPERTY_ERRORDATAORDER {
+        /**
+         * name of the property ErrorDataOrder
+         */
+        public final static String NAME = "ErrorDataOrder";
+
+        /**
+         * constant for value map entry 0
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Least_Significant_Byte_First = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Least Significant Byte First (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Least_Significant_Byte_First = "Least Significant Byte First";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Most_Significant_Byte_First = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry Most Significant Byte First (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Most_Significant_Byte_First = "Most Significant Byte First";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@4900490
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_Least_Significant_Byte_First.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Least_Significant_Byte_First;
+            }
+
+            if (VALUE_ENTRY_Most_Significant_Byte_First.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Most_Significant_Byte_First;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Least_Significant_Byte_First.intValue()) {
+                return VALUE_ENTRY_Least_Significant_Byte_First;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Most_Significant_Byte_First.intValue()) {
+                return VALUE_ENTRY_Most_Significant_Byte_First;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property ErrorDataOrder   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown,
+                VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Least_Significant_Byte_First,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Most_Significant_Byte_First };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property ErrorDataOrder   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Least_Significant_Byte_First, VALUE_ENTRY_Most_Significant_Byte_First };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property ErrorDataOrder   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Least_Significant_Byte_First, VALUE_ENTRY_Most_Significant_Byte_First };
+
+    }
+
+    /**
+     * Constants of property ErrorData
+     * Data captured during the last erroneous mebmory access. The data occupies the first n octets of the array necessary to hold the number of bits specified by the ErrorTransferSize property. If ErrorTransferSize is 0, then this property has no meaning.
+     */
+    public static class PROPERTY_ERRORDATA {
+        /**
+         * name of the property ErrorData
+         */
+        public final static String NAME = "ErrorData";
+
+    }
+
+    /**
+     * Constants of property ErrorInfo
+     * An integer enumeration describing the type of error that occurred most recently. For example, single (value=6) or double bit errors (7) can be specified using this property. The values, 12-14, are undefined in the CIM Schema since in DMI, they mix the semantics of the type of error and whether it was correctable or not. The latter is indicated in the property, CorrectableError.
+     */
+    public static class PROPERTY_ERRORINFO {
+        /**
+         * name of the property ErrorInfo
+         */
+        public final static String NAME = "ErrorInfo";
+
+        /**
+         * constant for value map entry 0
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_OK = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry OK (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_OK = "OK";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Bad_Read = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Bad Read (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Bad_Read = "Bad Read";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Parity_Error = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry Parity Error (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_Parity_Error = "Parity Error";
+
+        /**
+         * constant for value map entry 5
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Single_Bit_Error = new javax.cim.UnsignedInteger16(
+                "5");
+
+        /**
+         * constant for value entry Single-Bit Error (corresponds to mapEntry 5 )
+         */
+        public final static String VALUE_ENTRY_Single_Bit_Error = "Single-Bit Error";
+
+        /**
+         * constant for value map entry 6
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Double_Bit_Error = new javax.cim.UnsignedInteger16(
+                "6");
+
+        /**
+         * constant for value entry Double-Bit Error (corresponds to mapEntry 6 )
+         */
+        public final static String VALUE_ENTRY_Double_Bit_Error = "Double-Bit Error";
+
+        /**
+         * constant for value map entry 7
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Multi_Bit_Error = new javax.cim.UnsignedInteger16(
+                "7");
+
+        /**
+         * constant for value entry Multi-Bit Error (corresponds to mapEntry 7 )
+         */
+        public final static String VALUE_ENTRY_Multi_Bit_Error = "Multi-Bit Error";
+
+        /**
+         * constant for value map entry 8
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Nibble_Error = new javax.cim.UnsignedInteger16(
+                "8");
+
+        /**
+         * constant for value entry Nibble Error (corresponds to mapEntry 8 )
+         */
+        public final static String VALUE_ENTRY_Nibble_Error = "Nibble Error";
+
+        /**
+         * constant for value map entry 9
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_9_FOR_VALUE_ENTRY_Checksum_Error = new javax.cim.UnsignedInteger16(
+                "9");
+
+        /**
+         * constant for value entry Checksum Error (corresponds to mapEntry 9 )
+         */
+        public final static String VALUE_ENTRY_Checksum_Error = "Checksum Error";
+
+        /**
+         * constant for value map entry 10
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_10_FOR_VALUE_ENTRY_CRC_Error = new javax.cim.UnsignedInteger16(
+                "10");
+
+        /**
+         * constant for value entry CRC Error (corresponds to mapEntry 10 )
+         */
+        public final static String VALUE_ENTRY_CRC_Error = "CRC Error";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@b500b50
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_OK.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_OK;
+            }
+
+            if (VALUE_ENTRY_Bad_Read.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Bad_Read;
+            }
+
+            if (VALUE_ENTRY_Parity_Error.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Parity_Error;
+            }
+
+            if (VALUE_ENTRY_Single_Bit_Error.equals(value)) {
+                return VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Single_Bit_Error;
+            }
+
+            if (VALUE_ENTRY_Double_Bit_Error.equals(value)) {
+                return VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Double_Bit_Error;
+            }
+
+            if (VALUE_ENTRY_Multi_Bit_Error.equals(value)) {
+                return VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Multi_Bit_Error;
+            }
+
+            if (VALUE_ENTRY_Nibble_Error.equals(value)) {
+                return VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Nibble_Error;
+            }
+
+            if (VALUE_ENTRY_Checksum_Error.equals(value)) {
+                return VALUE_MAP_ENTRY_9_FOR_VALUE_ENTRY_Checksum_Error;
+            }
+
+            if (VALUE_ENTRY_CRC_Error.equals(value)) {
+                return VALUE_MAP_ENTRY_10_FOR_VALUE_ENTRY_CRC_Error;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_OK.intValue()) {
+                return VALUE_ENTRY_OK;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Bad_Read.intValue()) {
+                return VALUE_ENTRY_Bad_Read;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Parity_Error.intValue()) {
+                return VALUE_ENTRY_Parity_Error;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Single_Bit_Error.intValue()) {
+                return VALUE_ENTRY_Single_Bit_Error;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Double_Bit_Error.intValue()) {
+                return VALUE_ENTRY_Double_Bit_Error;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Multi_Bit_Error.intValue()) {
+                return VALUE_ENTRY_Multi_Bit_Error;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Nibble_Error.intValue()) {
+                return VALUE_ENTRY_Nibble_Error;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_9_FOR_VALUE_ENTRY_Checksum_Error.intValue()) {
+                return VALUE_ENTRY_Checksum_Error;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_10_FOR_VALUE_ENTRY_CRC_Error.intValue()) {
+                return VALUE_ENTRY_CRC_Error;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property ErrorInfo   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown, VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_OK, VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Bad_Read,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Parity_Error,
+                VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Single_Bit_Error,
+                VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Double_Bit_Error,
+                VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Multi_Bit_Error,
+                VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Nibble_Error,
+                VALUE_MAP_ENTRY_9_FOR_VALUE_ENTRY_Checksum_Error,
+                VALUE_MAP_ENTRY_10_FOR_VALUE_ENTRY_CRC_Error };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property ErrorInfo   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown, VALUE_ENTRY_Other,
+                VALUE_ENTRY_OK, VALUE_ENTRY_Bad_Read, VALUE_ENTRY_Parity_Error,
+                VALUE_ENTRY_Single_Bit_Error, VALUE_ENTRY_Double_Bit_Error,
+                VALUE_ENTRY_Multi_Bit_Error, VALUE_ENTRY_Nibble_Error, VALUE_ENTRY_Checksum_Error,
+                VALUE_ENTRY_CRC_Error };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property ErrorInfo   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Other, VALUE_ENTRY_OK, VALUE_ENTRY_Bad_Read, VALUE_ENTRY_Parity_Error,
+                VALUE_ENTRY_Single_Bit_Error, VALUE_ENTRY_Double_Bit_Error,
+                VALUE_ENTRY_Multi_Bit_Error, VALUE_ENTRY_Nibble_Error, VALUE_ENTRY_Checksum_Error,
+                VALUE_ENTRY_CRC_Error };
+
+    }
+
+    /**
+     * Constants of property ErrorResolution
+     * Specifies the range, in bytes, to which the last error can be resolved. For example, if error addresses are resolved to bit 11 (ie, on a typical page basis), then errors can be resolved to 4K boundaries and this property is set to 4000. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     */
+    public static class PROPERTY_ERRORRESOLUTION {
+        /**
+         * name of the property ErrorResolution
+         */
+        public final static String NAME = "ErrorResolution";
+
+    }
+
+    /**
+     * Constants of property ErrorTime
+     * The time that the last memory error occurred. The type of error is described by the ErrorInfo property. If the Error Info property is equal to 3, "OK", then this property has no meaning.
+     */
+    public static class PROPERTY_ERRORTIME {
+        /**
+         * name of the property ErrorTime
+         */
+        public final static String NAME = "ErrorTime";
+
+    }
+
+    /**
+     * Constants of property ErrorTransferSize
+     * The size of the data transfer in bits that caused the last error. 0 indicates no error. If the ErrorInfo property is equal to 3, "OK", then this property should be set to 0.
+     */
+    public static class PROPERTY_ERRORTRANSFERSIZE {
+        /**
+         * name of the property ErrorTransferSize
+         */
+        public final static String NAME = "ErrorTransferSize";
+
+    }
+
+    /**
+     * Constants of property OtherErrorDescription
+     * Free form string providing more information if the Error Type property is set to 1, "Other". If not set to 1, this string has no meaning.
+     */
+    public static class PROPERTY_OTHERERRORDESCRIPTION {
+        /**
+         * name of the property OtherErrorDescription
+         */
+        public final static String NAME = "OtherErrorDescription";
+
+    }
+
+    /**
+     * Constants of property StartingAddress
+     * Specifies the address of the memory error. The type of error is described by the ErrorInfo property. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     */
+    public static class PROPERTY_STARTINGADDRESS {
+        /**
+         * name of the property StartingAddress
+         */
+        public final static String NAME = "StartingAddress";
+
+    }
+
+    /**
+     * Constants of property SystemLevelAddress
+     * Boolean indicating whether the address information in the property, ErrorAddress, is a system-level address (TRUE) or a physical address (FALSE). If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     */
+    public static class PROPERTY_SYSTEMLEVELADDRESS {
+        /**
+         * name of the property SystemLevelAddress
+         */
+        public final static String NAME = "SystemLevelAddress";
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_StorageError.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   MemoryError defines a memory space that has errors. The Key of the class is the StartingAddress of the bytes in error.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_MemoryError(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   MemoryError defines a memory space that has errors. The Key of the class is the StartingAddress of the bytes in error.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_MemoryError(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_MemoryError() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("AdditionalErrorData", new CIMProperty("AdditionalErrorData",
+                CIMDataType.UINT8_ARRAY_T, null));
+        propertiesToCheck.put("CorrectableError", new CIMProperty("CorrectableError",
+                CIMDataType.BOOLEAN_T, null));
+        propertiesToCheck.put("ErrorAccess", new CIMProperty("ErrorAccess", CIMDataType.UINT16_T,
+                null));
+        propertiesToCheck.put("ErrorDataOrder", new CIMProperty("ErrorDataOrder",
+                CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("ErrorData", new CIMProperty("ErrorData", CIMDataType.UINT8_ARRAY_T,
+                null));
+        propertiesToCheck
+                .put("ErrorInfo", new CIMProperty("ErrorInfo", CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("ErrorResolution", new CIMProperty("ErrorResolution",
+                CIMDataType.UINT64_T, null));
+        propertiesToCheck.put("ErrorTime", new CIMProperty("ErrorTime", CIMDataType.DATETIME_T,
+                null));
+        propertiesToCheck.put("ErrorTransferSize", new CIMProperty("ErrorTransferSize",
+                CIMDataType.UINT32_T, null));
+        propertiesToCheck.put("OtherErrorDescription", new CIMProperty("OtherErrorDescription",
+                CIMDataType.STRING_T, null));
+        propertiesToCheck.put("StartingAddress", new CIMProperty("StartingAddress",
+                CIMDataType.UINT64_T, null));
+        propertiesToCheck.put("SystemLevelAddress", new CIMProperty("SystemLevelAddress",
+                CIMDataType.BOOLEAN_T, null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_MemoryError.Java_Package_List.toArray(new String[CIM_MemoryError.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property AdditionalErrorData
+     *     * <br>
+     * An array of octets holding additional error information. An example is ECC Syndrome or the return of the check bits if a CRC-based ErrorMethodology is used. In the latter case, if a single bit error is recognized and the CRC algorithm is known, it is possible to determine the exact bit that failed. This type of data (ECC Syndrome, Check Bit or Parity Bit data, or other vendor supplied information) is included in this field. If the ErrorInfo property is equal to 3, "OK", then AdditionalErrorData has no meaning.
+     *     */
+
+    public javax.cim.UnsignedInteger8[] get_AdditionalErrorData() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ADDITIONALERRORDATA.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ADDITIONALERRORDATA.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger8[]) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property AdditionalErrorData
+     * <br>
+     * An array of octets holding additional error information. An example is ECC Syndrome or the return of the check bits if a CRC-based ErrorMethodology is used. In the latter case, if a single bit error is recognized and the CRC algorithm is known, it is possible to determine the exact bit that failed. This type of data (ECC Syndrome, Check Bit or Parity Bit data, or other vendor supplied information) is included in this field. If the ErrorInfo property is equal to 3, "OK", then AdditionalErrorData has no meaning.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_MemoryError)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_MemoryError)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_MemoryError)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_MemoryError)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_MemoryError)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_MemoryError)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_MemoryError)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_MemoryError)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_MemoryError)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_MemoryError)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_AdditionalErrorData(javax.cim.UnsignedInteger8[] newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ADDITIONALERRORDATA.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_AdditionalErrorData(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ADDITIONALERRORDATA.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute AdditionalErrorData
-	
-	public UnsignedInt8 get_AdditionalErrorData() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_ADDITIONALERRORDATA);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_ADDITIONALERRORDATA + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT8) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_ADDITIONALERRORDATA + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT8) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt8)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_AdditionalErrorData(UnsignedInt8 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_ADDITIONALERRORDATA);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_ADDITIONALERRORDATA + " could not be found");
-    		
-		} else if (!CIM_MemoryErrorHelper.isValid_AdditionalErrorData(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_MemoryError.CIM_PROPERTY_ADDITIONALERRORDATA);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT8) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_ADDITIONALERRORDATA + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT8) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT8));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute CorrectableError
-	
-	public Boolean get_CorrectableError() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_CORRECTABLEERROR);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_CORRECTABLEERROR + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_CORRECTABLEERROR + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (Boolean)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CorrectableError(Boolean newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_CORRECTABLEERROR);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_CORRECTABLEERROR + " could not be found");
-    		
-		} else if (!CIM_MemoryErrorHelper.isValid_CorrectableError(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_MemoryError.CIM_PROPERTY_CORRECTABLEERROR);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_CORRECTABLEERROR + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.BOOLEAN));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property AdditionalErrorData by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	// Attribute ErrorAccess
-	
-	public UnsignedInt16 get_ErrorAccess() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_ERRORACCESS);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORACCESS + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORACCESS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ErrorAccess(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_ERRORACCESS);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORACCESS + " could not be found");
-    		
-		} else if (!CIM_MemoryErrorHelper.isValid_ErrorAccess(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_MemoryError.CIM_PROPERTY_ERRORACCESS);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORACCESS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public static CIMProperty create_AdditionalErrorData(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger8[] newValue) throws WbemsmtException {
+        CIM_MemoryError fco = new CIM_MemoryError(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ADDITIONALERRORDATA.NAME);
+        if (property != null) {
+            property = setPropertyValue_AdditionalErrorData(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ADDITIONALERRORDATA.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	// Attribute ErrorDataOrder
-	
-	public UnsignedInt16 get_ErrorDataOrder() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_ERRORDATAORDER);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORDATAORDER + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORDATAORDER + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ErrorDataOrder(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_ERRORDATAORDER);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORDATAORDER + " could not be found");
-    		
-		} else if (!CIM_MemoryErrorHelper.isValid_ErrorDataOrder(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_MemoryError.CIM_PROPERTY_ERRORDATAORDER);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORDATAORDER + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Set the property AdditionalErrorData
+     * <br>
+     * An array of octets holding additional error information. An example is ECC Syndrome or the return of the check bits if a CRC-based ErrorMethodology is used. In the latter case, if a single bit error is recognized and the CRC algorithm is known, it is possible to determine the exact bit that failed. This type of data (ECC Syndrome, Check Bit or Parity Bit data, or other vendor supplied information) is included in this field. If the ErrorInfo property is equal to 3, "OK", then AdditionalErrorData has no meaning.
+     */
 
-	// Attribute ErrorData
-	
-	public UnsignedInt8 get_ErrorData() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_ERRORDATA);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORDATA + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT8) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORDATA + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT8) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt8)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ErrorData(UnsignedInt8 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_ERRORDATA);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORDATA + " could not be found");
-    		
-		} else if (!CIM_MemoryErrorHelper.isValid_ErrorData(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_MemoryError.CIM_PROPERTY_ERRORDATA);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT8) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORDATA + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT8) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT8));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    private static CIMProperty setPropertyValue_AdditionalErrorData(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger8[] newValue) {
+        Object setThis = null;
 
-	// Attribute ErrorInfo
-	
-	public UnsignedInt16 get_ErrorInfo() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_ERRORINFO);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORINFO + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORINFO + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ErrorInfo(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_ERRORINFO);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORINFO + " could not be found");
-    		
-		} else if (!CIM_MemoryErrorHelper.isValid_ErrorInfo(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_MemoryError.CIM_PROPERTY_ERRORINFO);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORINFO + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        setThis = newValue;
 
-	// Attribute ErrorResolution
-	
-	public UnsignedInt64 get_ErrorResolution() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_ERRORRESOLUTION);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORRESOLUTION + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORRESOLUTION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt64)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ErrorResolution(UnsignedInt64 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_ERRORRESOLUTION);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORRESOLUTION + " could not be found");
-    		
-		} else if (!CIM_MemoryErrorHelper.isValid_ErrorResolution(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_MemoryError.CIM_PROPERTY_ERRORRESOLUTION);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORRESOLUTION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT64));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
 
-	// Attribute ErrorTime
-	
-	public Calendar get_ErrorTime() {
+        return newProperty;
+    }
 
-		CIMProperty property = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_ERRORTIME);
-        
-		if (property == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORTIME + " could not be found");
-    		
-		} else if (property.getType() == null || property.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORTIME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-        
-		if (property.getValue() == null) {
-			return null;
-		}
-        
-        CIMDateTime cimDateTime = (CIMDateTime)property.getValue().getValue();
-		return cimDateTime != null?cimDateTime.getCalendar():null;
-	}
-	
-	
-	public void set_ErrorTime(Calendar newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_ERRORTIME);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORTIME + " could not be found");
-    		
-		} else if (!CIM_MemoryErrorHelper.isValid_ErrorTime(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_MemoryError.CIM_PROPERTY_ERRORTIME);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORTIME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(new CIMSimpleDateTime(newValue), new CIMDataType(CIMDataType.DATETIME));
-		currentProperty.setValue(updatedValue);
-	}
-    
-	
+    /**
+     * Get the property CorrectableError
+     *     * <br>
+     * Boolean indicating that the most recent error was correctable. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     *     */
 
-	// Attribute ErrorTransferSize
-	
-	public UnsignedInt32 get_ErrorTransferSize() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_ERRORTRANSFERSIZE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORTRANSFERSIZE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORTRANSFERSIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt32)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ErrorTransferSize(UnsignedInt32 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_ERRORTRANSFERSIZE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORTRANSFERSIZE + " could not be found");
-    		
-		} else if (!CIM_MemoryErrorHelper.isValid_ErrorTransferSize(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_MemoryError.CIM_PROPERTY_ERRORTRANSFERSIZE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_ERRORTRANSFERSIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT32));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public Boolean get_CorrectableError() {
+        CIMProperty currentProperty = getProperty(PROPERTY_CORRECTABLEERROR.NAME);
 
-	// Attribute OtherErrorDescription
-	
-	public String get_OtherErrorDescription() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_OTHERERRORDESCRIPTION);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_OTHERERRORDESCRIPTION + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_OTHERERRORDESCRIPTION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_OtherErrorDescription(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_OTHERERRORDESCRIPTION);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_OTHERERRORDESCRIPTION + " could not be found");
-    		
-		} else if (!CIM_MemoryErrorHelper.isValid_OtherErrorDescription(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_MemoryError.CIM_PROPERTY_OTHERERRORDESCRIPTION);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_OTHERERRORDESCRIPTION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_CORRECTABLEERROR.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
 
-	// Attribute StartingAddress
-	
-	public UnsignedInt64 get_StartingAddress() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_STARTINGADDRESS);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_STARTINGADDRESS + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_STARTINGADDRESS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt64)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_StartingAddress(UnsignedInt64 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_STARTINGADDRESS);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_STARTINGADDRESS + " could not be found");
-    		
-		} else if (!CIM_MemoryErrorHelper.isValid_StartingAddress(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_MemoryError.CIM_PROPERTY_STARTINGADDRESS);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_STARTINGADDRESS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT64));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        return (Boolean) currentProperty.getValue();
 
-	// Attribute SystemLevelAddress
-	
-	public Boolean get_SystemLevelAddress() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_SYSTEMLEVELADDRESS);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_SYSTEMLEVELADDRESS + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_SYSTEMLEVELADDRESS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (Boolean)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_SystemLevelAddress(Boolean newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_MemoryError.CIM_PROPERTY_SYSTEMLEVELADDRESS);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_MemoryError.CIM_PROPERTY_SYSTEMLEVELADDRESS + " could not be found");
-    		
-		} else if (!CIM_MemoryErrorHelper.isValid_SystemLevelAddress(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_MemoryError.CIM_PROPERTY_SYSTEMLEVELADDRESS);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_MemoryError.CIM_PROPERTY_SYSTEMLEVELADDRESS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.BOOLEAN));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+    /**
+     * Set the property CorrectableError
+     * <br>
+     * Boolean indicating that the most recent error was correctable. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_CorrectableError(Boolean newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_CORRECTABLEERROR.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_CorrectableError(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CORRECTABLEERROR.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property CorrectableError by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_CorrectableError(WBEMClient client, String namespace,
+            Boolean newValue) throws WbemsmtException {
+        CIM_MemoryError fco = new CIM_MemoryError(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_CORRECTABLEERROR.NAME);
+        if (property != null) {
+            property = setPropertyValue_CorrectableError(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_CORRECTABLEERROR.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property CorrectableError
+     * <br>
+     * Boolean indicating that the most recent error was correctable. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     */
+
+    private static CIMProperty setPropertyValue_CorrectableError(CIMProperty currentProperty,
+            Boolean newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ErrorAccess
+     *     * <br>
+     * An integer enumeration indicating the memory access operation that caused the last error. The type of error MUST be described by the ErrorInfo property. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_ErrorAccess() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ERRORACCESS.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ERRORACCESS.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ErrorAccess
+     * <br>
+     * An integer enumeration indicating the memory access operation that caused the last error. The type of error MUST be described by the ErrorInfo property. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ErrorAccess(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ERRORACCESS.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ErrorAccess(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ERRORACCESS.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ErrorAccess by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ErrorAccess(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_MemoryError fco = new CIM_MemoryError(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ERRORACCESS.NAME);
+        if (property != null) {
+            property = setPropertyValue_ErrorAccess(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ERRORACCESS.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ErrorAccess
+     * <br>
+     * An integer enumeration indicating the memory access operation that caused the last error. The type of error MUST be described by the ErrorInfo property. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     */
+
+    private static CIMProperty setPropertyValue_ErrorAccess(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ErrorDataOrder
+     *     * <br>
+     * The ordering for data stored in the ErrorData property. "Least Significant Byte First" (value=1) or "Most Significant Byte First" (2) can be specified. If ErrorTransferSize is 0, then this property has no meaning.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_ErrorDataOrder() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ERRORDATAORDER.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ERRORDATAORDER.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ErrorDataOrder
+     * <br>
+     * The ordering for data stored in the ErrorData property. "Least Significant Byte First" (value=1) or "Most Significant Byte First" (2) can be specified. If ErrorTransferSize is 0, then this property has no meaning.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ErrorDataOrder(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ERRORDATAORDER.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ErrorDataOrder(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ERRORDATAORDER.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ErrorDataOrder by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ErrorDataOrder(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_MemoryError fco = new CIM_MemoryError(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ERRORDATAORDER.NAME);
+        if (property != null) {
+            property = setPropertyValue_ErrorDataOrder(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ERRORDATAORDER.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ErrorDataOrder
+     * <br>
+     * The ordering for data stored in the ErrorData property. "Least Significant Byte First" (value=1) or "Most Significant Byte First" (2) can be specified. If ErrorTransferSize is 0, then this property has no meaning.
+     */
+
+    private static CIMProperty setPropertyValue_ErrorDataOrder(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ErrorData
+     *     * <br>
+     * Data captured during the last erroneous mebmory access. The data occupies the first n octets of the array necessary to hold the number of bits specified by the ErrorTransferSize property. If ErrorTransferSize is 0, then this property has no meaning.
+     *     */
+
+    public javax.cim.UnsignedInteger8[] get_ErrorData() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ERRORDATA.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ERRORDATA.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger8[]) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ErrorData
+     * <br>
+     * Data captured during the last erroneous mebmory access. The data occupies the first n octets of the array necessary to hold the number of bits specified by the ErrorTransferSize property. If ErrorTransferSize is 0, then this property has no meaning.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ErrorData(javax.cim.UnsignedInteger8[] newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ERRORDATA.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ErrorData(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ERRORDATA.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ErrorData by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ErrorData(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger8[] newValue) throws WbemsmtException {
+        CIM_MemoryError fco = new CIM_MemoryError(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ERRORDATA.NAME);
+        if (property != null) {
+            property = setPropertyValue_ErrorData(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ERRORDATA.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ErrorData
+     * <br>
+     * Data captured during the last erroneous mebmory access. The data occupies the first n octets of the array necessary to hold the number of bits specified by the ErrorTransferSize property. If ErrorTransferSize is 0, then this property has no meaning.
+     */
+
+    private static CIMProperty setPropertyValue_ErrorData(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger8[] newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ErrorInfo
+     *     * <br>
+     * An integer enumeration describing the type of error that occurred most recently. For example, single (value=6) or double bit errors (7) can be specified using this property. The values, 12-14, are undefined in the CIM Schema since in DMI, they mix the semantics of the type of error and whether it was correctable or not. The latter is indicated in the property, CorrectableError.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_ErrorInfo() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ERRORINFO.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ERRORINFO.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ErrorInfo
+     * <br>
+     * An integer enumeration describing the type of error that occurred most recently. For example, single (value=6) or double bit errors (7) can be specified using this property. The values, 12-14, are undefined in the CIM Schema since in DMI, they mix the semantics of the type of error and whether it was correctable or not. The latter is indicated in the property, CorrectableError.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ErrorInfo(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ERRORINFO.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ErrorInfo(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ERRORINFO.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ErrorInfo by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ErrorInfo(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_MemoryError fco = new CIM_MemoryError(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ERRORINFO.NAME);
+        if (property != null) {
+            property = setPropertyValue_ErrorInfo(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ERRORINFO.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ErrorInfo
+     * <br>
+     * An integer enumeration describing the type of error that occurred most recently. For example, single (value=6) or double bit errors (7) can be specified using this property. The values, 12-14, are undefined in the CIM Schema since in DMI, they mix the semantics of the type of error and whether it was correctable or not. The latter is indicated in the property, CorrectableError.
+     */
+
+    private static CIMProperty setPropertyValue_ErrorInfo(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ErrorResolution
+     *     * <br>
+     * Specifies the range, in bytes, to which the last error can be resolved. For example, if error addresses are resolved to bit 11 (ie, on a typical page basis), then errors can be resolved to 4K boundaries and this property is set to 4000. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     *     */
+
+    public javax.cim.UnsignedInteger64 get_ErrorResolution() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ERRORRESOLUTION.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ERRORRESOLUTION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger64) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ErrorResolution
+     * <br>
+     * Specifies the range, in bytes, to which the last error can be resolved. For example, if error addresses are resolved to bit 11 (ie, on a typical page basis), then errors can be resolved to 4K boundaries and this property is set to 4000. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ErrorResolution(javax.cim.UnsignedInteger64 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ERRORRESOLUTION.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ErrorResolution(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ERRORRESOLUTION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ErrorResolution by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ErrorResolution(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger64 newValue) throws WbemsmtException {
+        CIM_MemoryError fco = new CIM_MemoryError(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ERRORRESOLUTION.NAME);
+        if (property != null) {
+            property = setPropertyValue_ErrorResolution(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ERRORRESOLUTION.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ErrorResolution
+     * <br>
+     * Specifies the range, in bytes, to which the last error can be resolved. For example, if error addresses are resolved to bit 11 (ie, on a typical page basis), then errors can be resolved to 4K boundaries and this property is set to 4000. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     */
+
+    private static CIMProperty setPropertyValue_ErrorResolution(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger64 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ErrorTime
+     *     * <br>
+     * The time that the last memory error occurred. The type of error is described by the ErrorInfo property. If the Error Info property is equal to 3, "OK", then this property has no meaning.
+     *     */
+
+    public javax.cim.CIMDateTime get_ErrorTime() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ERRORTIME.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ERRORTIME.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.CIMDateTime) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ErrorTime
+     * <br>
+     * The time that the last memory error occurred. The type of error is described by the ErrorInfo property. If the Error Info property is equal to 3, "OK", then this property has no meaning.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ErrorTime(javax.cim.CIMDateTime newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ERRORTIME.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ErrorTime(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ERRORTIME.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ErrorTime by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ErrorTime(WBEMClient client, String namespace,
+            javax.cim.CIMDateTime newValue) throws WbemsmtException {
+        CIM_MemoryError fco = new CIM_MemoryError(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ERRORTIME.NAME);
+        if (property != null) {
+            property = setPropertyValue_ErrorTime(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ERRORTIME.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ErrorTime
+     * <br>
+     * The time that the last memory error occurred. The type of error is described by the ErrorInfo property. If the Error Info property is equal to 3, "OK", then this property has no meaning.
+     */
+
+    private static CIMProperty setPropertyValue_ErrorTime(CIMProperty currentProperty,
+            javax.cim.CIMDateTime newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ErrorTransferSize
+     *     * <br>
+     * The size of the data transfer in bits that caused the last error. 0 indicates no error. If the ErrorInfo property is equal to 3, "OK", then this property should be set to 0.
+     *     */
+
+    public javax.cim.UnsignedInteger32 get_ErrorTransferSize() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ERRORTRANSFERSIZE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ERRORTRANSFERSIZE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger32) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ErrorTransferSize
+     * <br>
+     * The size of the data transfer in bits that caused the last error. 0 indicates no error. If the ErrorInfo property is equal to 3, "OK", then this property should be set to 0.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ErrorTransferSize(javax.cim.UnsignedInteger32 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ERRORTRANSFERSIZE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ErrorTransferSize(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ERRORTRANSFERSIZE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ErrorTransferSize by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ErrorTransferSize(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger32 newValue) throws WbemsmtException {
+        CIM_MemoryError fco = new CIM_MemoryError(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ERRORTRANSFERSIZE.NAME);
+        if (property != null) {
+            property = setPropertyValue_ErrorTransferSize(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ERRORTRANSFERSIZE.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ErrorTransferSize
+     * <br>
+     * The size of the data transfer in bits that caused the last error. 0 indicates no error. If the ErrorInfo property is equal to 3, "OK", then this property should be set to 0.
+     */
+
+    private static CIMProperty setPropertyValue_ErrorTransferSize(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger32 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property OtherErrorDescription
+     *     * <br>
+     * Free form string providing more information if the Error Type property is set to 1, "Other". If not set to 1, this string has no meaning.
+     *     */
+
+    public String get_OtherErrorDescription() {
+        CIMProperty currentProperty = getProperty(PROPERTY_OTHERERRORDESCRIPTION.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_OTHERERRORDESCRIPTION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property OtherErrorDescription
+     * <br>
+     * Free form string providing more information if the Error Type property is set to 1, "Other". If not set to 1, this string has no meaning.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_OtherErrorDescription(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_OTHERERRORDESCRIPTION.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_OtherErrorDescription(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_OTHERERRORDESCRIPTION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property OtherErrorDescription by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_OtherErrorDescription(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_MemoryError fco = new CIM_MemoryError(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_OTHERERRORDESCRIPTION.NAME);
+        if (property != null) {
+            property = setPropertyValue_OtherErrorDescription(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_OTHERERRORDESCRIPTION.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property OtherErrorDescription
+     * <br>
+     * Free form string providing more information if the Error Type property is set to 1, "Other". If not set to 1, this string has no meaning.
+     */
+
+    private static CIMProperty setPropertyValue_OtherErrorDescription(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property StartingAddress
+     *     * <br>
+     * Specifies the address of the memory error. The type of error is described by the ErrorInfo property. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     *     */
+
+    public javax.cim.UnsignedInteger64 get_StartingAddress() {
+        CIMProperty currentProperty = getProperty(PROPERTY_STARTINGADDRESS.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_STARTINGADDRESS.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger64) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property StartingAddress
+     * <br>
+     * Specifies the address of the memory error. The type of error is described by the ErrorInfo property. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_StartingAddress(javax.cim.UnsignedInteger64 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_STARTINGADDRESS.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_StartingAddress(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_STARTINGADDRESS.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property StartingAddress by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_StartingAddress(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger64 newValue) throws WbemsmtException {
+        CIM_MemoryError fco = new CIM_MemoryError(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_STARTINGADDRESS.NAME);
+        if (property != null) {
+            property = setPropertyValue_StartingAddress(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_STARTINGADDRESS.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property StartingAddress
+     * <br>
+     * Specifies the address of the memory error. The type of error is described by the ErrorInfo property. If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     */
+
+    private static CIMProperty setPropertyValue_StartingAddress(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger64 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property SystemLevelAddress
+     *     * <br>
+     * Boolean indicating whether the address information in the property, ErrorAddress, is a system-level address (TRUE) or a physical address (FALSE). If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     *     */
+
+    public Boolean get_SystemLevelAddress() {
+        CIMProperty currentProperty = getProperty(PROPERTY_SYSTEMLEVELADDRESS.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_SYSTEMLEVELADDRESS.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (Boolean) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property SystemLevelAddress
+     * <br>
+     * Boolean indicating whether the address information in the property, ErrorAddress, is a system-level address (TRUE) or a physical address (FALSE). If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_SystemLevelAddress(Boolean newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_SYSTEMLEVELADDRESS.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_SystemLevelAddress(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SYSTEMLEVELADDRESS.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property SystemLevelAddress by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_SystemLevelAddress(WBEMClient client, String namespace,
+            Boolean newValue) throws WbemsmtException {
+        CIM_MemoryError fco = new CIM_MemoryError(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_SYSTEMLEVELADDRESS.NAME);
+        if (property != null) {
+            property = setPropertyValue_SystemLevelAddress(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SYSTEMLEVELADDRESS.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property SystemLevelAddress
+     * <br>
+     * Boolean indicating whether the address information in the property, ErrorAddress, is a system-level address (TRUE) or a physical address (FALSE). If the ErrorInfo property is equal to 3, "OK", then this property has no meaning.
+     */
+
+    private static CIMProperty setPropertyValue_SystemLevelAddress(CIMProperty currentProperty,
+            Boolean newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_MemoryError.CIM_CLASS_NAME;
+    }
 
 }

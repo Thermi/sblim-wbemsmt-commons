@@ -22,9 +22,10 @@ package org.sblim.wbemsmt.tasklauncher.filter;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.sblim.wbem.cim.CIMInstance;
-import org.sblim.wbem.client.CIMClient;
-import org.sblim.wbemsmt.exception.FilterException;
+import javax.cim.CIMInstance;
+import javax.wbem.client.WBEMClient;
+
+import org.sblim.wbemsmt.exception.WbemsmtException;
 
 public abstract class CIMInstanceFilter
 {
@@ -36,7 +37,7 @@ public abstract class CIMInstanceFilter
 	 * @param cimClient
 	 * @return
 	 */
-	public abstract boolean accept(CIMInstance cimInstance, CIMClient cimClient) throws FilterException;
+	public abstract boolean accept(CIMInstance cimInstance, WBEMClient cimClient) throws WbemsmtException;
 	
 	public void addParameter(String name, String value)
 	{

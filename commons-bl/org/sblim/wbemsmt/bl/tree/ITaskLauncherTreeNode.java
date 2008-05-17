@@ -24,9 +24,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
-import org.sblim.wbem.cim.CIMObjectPath;
-import org.sblim.wbem.client.CIMClient;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import javax.cim.CIMObjectPath;
+import javax.wbem.client.WBEMClient;
+
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tasklauncher.CIMClassNode;
 import org.sblim.wbemsmt.tasklauncher.CustomTreeConfig;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherContextMenu;
@@ -39,9 +40,9 @@ public interface ITaskLauncherTreeNode {
 	/**
 	 * Returns all subnodes of the current node.
 	 * @return
-	 * @throws WbemSmtException 
+	 * @throws WbemsmtException 
 	 */
-	public abstract Vector getSubnodes() throws WbemSmtException;
+	public abstract Vector getSubnodes() throws WbemsmtException;
 
 	/**
 	 * Returns wether the current node has subnodes.
@@ -49,9 +50,11 @@ public interface ITaskLauncherTreeNode {
 	 */
 	public abstract boolean hasSubnodes();
 
-	public abstract CIMClient getCimClient();
+	public abstract WBEMClient getCimClient();
 
-    /**
+	public abstract String getNamespace();
+
+	/**
      * Returns the display name of the current node.
      * @return
      */
@@ -67,31 +70,31 @@ public interface ITaskLauncherTreeNode {
 	
 	public abstract void deleteSubnode(ITaskLauncherTreeNode subnode);
 
-	public abstract ITaskLauncherTreeNode findClassNode(String cimClassName, String label) throws WbemSmtException;
+	public abstract ITaskLauncherTreeNode findClassNode(String cimClassName, String label) throws WbemsmtException;
 
-	public abstract ITaskLauncherTreeNode findClassNode(CIMClassNode classNode) throws WbemSmtException;
+	public abstract ITaskLauncherTreeNode findClassNode(CIMClassNode classNode) throws WbemsmtException;
 
-	public abstract ITaskLauncherTreeNode findNode(ITaskLauncherTreeNode treeNode) throws WbemSmtException;
+	public abstract ITaskLauncherTreeNode findNode(ITaskLauncherTreeNode treeNode) throws WbemsmtException;
 
-	public abstract ITaskLauncherTreeNode getRootNode() throws WbemSmtException;
+	public abstract ITaskLauncherTreeNode getRootNode() throws WbemsmtException;
 
-	public abstract List findInstanceNodes(String cimClassName) throws WbemSmtException;
+	public abstract List findInstanceNodes(String cimClassName) throws WbemsmtException;
 
-	public abstract List findInstanceNodes(Class instanceClass) throws WbemSmtException;
+	public abstract List findInstanceNodes(Class instanceClass) throws WbemsmtException;
 
-	public abstract List findClassNodes(String cimClassName) throws WbemSmtException;
+	public abstract List findClassNodes(String cimClassName) throws WbemsmtException;
 
-	public abstract void readSubnodes() throws WbemSmtException;
+	public abstract void readSubnodes() throws WbemsmtException;
 
-	public abstract void readSubnodes(boolean notifyListeners) throws WbemSmtException;
+	public abstract void readSubnodes(boolean notifyListeners) throws WbemsmtException;
 
 	public void addEventListener(TaskLauncherTreeNodeEventListener eventListener);
 
 	public abstract void setParent(ITaskLauncherTreeNode node);
 	
-	public String processEvent(TaskLauncherTreeNodeEvent event) throws WbemSmtException;
+	public String processEvent(TaskLauncherTreeNodeEvent event) throws WbemsmtException;
 
-	public abstract TaskLauncherTreeNode findInstanceNode(CIMObjectPath pathOfCreatedNode) throws WbemSmtException;
+	public abstract TaskLauncherTreeNode findInstanceNode(CIMObjectPath pathOfCreatedNode) throws WbemsmtException;
 
 	public abstract String getInfo();
 	
@@ -127,11 +130,16 @@ public interface ITaskLauncherTreeNode {
 
 	public abstract void setName(String string);
 
-	public abstract List findNodesByName(String name) throws WbemSmtException;
+	public abstract List findNodesByName(String name) throws WbemsmtException;
 
 	public void setCustomTreeConfig(CustomTreeConfig customTreeConfig);
 
 	public CustomTreeConfig getCustomTreeConfig();
+
+    public abstract List findInstanceNodes(InstanceNodeFilter instanceNodeFilter) throws WbemsmtException;
 	
+    public Object getValue(String key);
+    
+    public void setValue(String key, Object value);
 
 }

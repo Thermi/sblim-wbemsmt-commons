@@ -1,773 +1,1583 @@
 /** 
  * CIM_StatisticalData.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  CIM_StatisticalData is a root class for any arbitrary collection of statistical
- * data and/or metrics applicable to one or more ManagedElements. These
- * statistics MUST represent the most recent observations and MUST NOT be
- * provided if irrelevant or stale. Note that this class uses a simplified
- * naming/identity algorithm as compared to CIM_StatisticalInformation.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: CIM_StatisticalData is a root class for any arbitrary collection of statistical data and/or metrics applicable to one or more ManagedElements. These statistics MUST represent the most recent observations and MUST NOT be provided if irrelevant or stale. Note that this class uses a simplified naming/identity algorithm as compared to CIM_StatisticalInformation.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
-import java.util.Calendar;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.lang.reflect.Constructor;
-import org.sblim.wbem.client.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
+import org.sblim.wbemsmt.exception.impl.*;
+import org.sblim.wbemsmt.exception.impl.userobject.*;
 
+import java.lang.reflect.*;
+import javax.wbem.*;
 
-/**
- *  CIM_StatisticalData is a root class for any arbitrary collection of statistical
- * data and/or metrics applicable to one or more ManagedElements. These
- * statistics MUST represent the most recent observations and MUST NOT be
- * provided if irrelevant or stale. Note that this class uses a simplified
- * naming/identity algorithm as compared to CIM_StatisticalInformation.
- */
-public class CIM_StatisticalData extends CIM_ManagedElement  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_StatisticalData"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_StatisticalData extends CIM_ManagedElement {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.8.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA = "CIM_ElementStatisticalData"; //$NON-NLS-1$
-	
-	
-	/**
-	*	The user friendly name for this instance of StatisticalData. In addition, the user friendly name can be used as a index property for a search of query. (Note: Name does not have to be unique within a namespace.)
-	*/
-	public final static String CIM_PROPERTY_ELEMENTNAME = "ElementName"; //$NON-NLS-1$
-	/**
-	*	Within the scope of the instantiating Namespace, InstanceID opaquely and uniquely identifies an instance of this class. In order to ensure uniqueness within the NameSpace, the value of InstanceID SHOULD be constructed using the following 'preferred' algorithm: 
-<OrgID>:<LocalID> 
-Where <OrgID> and <LocalID> are separated by a colon ':', and where <OrgID> MUST include a copyrighted, trademarked or otherwise unique name that is owned by the business entity creating/defining the InstanceID, or is a registered ID that is assigned to the business entity by a recognized global authority (This is similar to the <Schema Name>_<Class Name> structure of Schema class names.) In addition, to ensure uniqueness <OrgID> MUST NOT contain a colon (':'). When using this algorithm, the first colon to appear in InstanceID MUST appear between <OrgID> and <LocalID>. 
-<LocalID> is chosen by the business entity and SHOULD not be re-used to identify different underlying (real-world) elements. If the above 'preferred' algorithm is not used, the defining entity MUST assure that the resultant InstanceID is not re-used across any InstanceIDs produced by this or other providers for this instance's NameSpace. 
-For DMTF defined instances, the 'preferred' algorithm MUST be used with the <OrgID> set to 'CIM'.
-	*/
-	public final static String CIM_PROPERTY_INSTANCEID = "InstanceID"; //$NON-NLS-1$
-	/**
-	*	Some statistics are sampled at consistent time intervals. This property provides the sample interval so that client applications can determine the minimum time that new statistics should be pulled. If the statistics are not sampled at consistent time intervals, this property must be set to a zero time interval.
-	*/
-	public final static String CIM_PROPERTY_SAMPLEINTERVAL = "SampleInterval"; //$NON-NLS-1$
-	/**
-	*	The time, relative to managed element where the statistic was collected, when the first measurement was taken. If the statistic is reset, the StartStatisticTime is the time when the reset was performed.
-	*/
-	public final static String CIM_PROPERTY_STARTSTATISTICTIME = "StartStatisticTime"; //$NON-NLS-1$
-	/**
-	*	The time the most recent measurement was taken, relative to the managed element where the statistic was collected.
-	*/
-	public final static String CIM_PROPERTY_STATISTICTIME = "StatisticTime"; //$NON-NLS-1$
-	
-	
-	/**
-	*	Method to reset one or more of the instance's statistics. The method takes one parameter as input - an array of strings indicating which statistics to reset. If all the statistics in the instance should be reset, the first element of the array MUST be set to "All" or "ALL". If one or more individual statistics should be reset, the corresponding property names are entered into the elements of the array. 
-The method returns 0 if successful, 1 if not supported, and any other value if an error occurred. A method is specified so that the StatisticalInformation's provider/ instrumentation, which calculates the statistics, can reset its internal processing, counters, etc. 
-In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
-	*/
-	public final static String CIM_METHOD_RESETSELECTEDSTATS = "ResetSelectedStats";
-	
+    public final static String CIM_CLASS_NAME = "CIM_StatisticalData";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_ELEMENTNAME);
-		CIM_PropertyNameList.add(CIM_PROPERTY_INSTANCEID);
-		CIM_PropertyNameList.add(CIM_PROPERTY_SAMPLEINTERVAL);
-		CIM_PropertyNameList.add(CIM_PROPERTY_STARTSTATISTICTIME);
-		CIM_PropertyNameList.add(CIM_PROPERTY_STATISTICTIME);
-				
-		for (int i = 0; i < CIM_ManagedElement.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_ManagedElement.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ELEMENTNAME)||
-				((String)CIM_ManagedElement.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_INSTANCEID)||
-				((String)CIM_ManagedElement.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_SAMPLEINTERVAL)||
-				((String)CIM_ManagedElement.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_STARTSTATISTICTIME)||
-				((String)CIM_ManagedElement.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_STATISTICTIME)){
-				continue;
-			}
-			
-			CIM_StatisticalData.CIM_PropertyNameList.add(CIM_ManagedElement.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ELEMENTNAME, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_INSTANCEID, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_SAMPLEINTERVAL, new CIMValue(new CIMSimpleDateTime("00000000000000.000000:000"), new CIMDataType(CIMDataType.DATETIME))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_STARTSTATISTICTIME, new CIMValue(null, new CIMDataType(CIMDataType.DATETIME))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_STATISTICTIME, new CIMValue(null, new CIMDataType(CIMDataType.DATETIME))));
-				
-		for (int i = 0; i < CIM_ManagedElement.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_ManagedElement.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ELEMENTNAME)||
-				((CIMProperty)CIM_ManagedElement.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_INSTANCEID)||
-				((CIMProperty)CIM_ManagedElement.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_SAMPLEINTERVAL)||
-				((CIMProperty)CIM_ManagedElement.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_STARTSTATISTICTIME)||
-				((CIMProperty)CIM_ManagedElement.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_STATISTICTIME)){
-				continue;
-			}
-			
-			CIM_StatisticalData.CIM_PropertyList.add(CIM_ManagedElement.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_ManagedElement.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * CIM_ElementStatisticalData is an association that relates a ManagedElement to its StatisticalData. Note that the cardinality of the ManagedElement reference is Min(1), Max(1). This cardinality mandates the instantiation of the ElementStatisticalData association for the referenced instance of CIM_StatisticalData. ElementStatisticalData describes the existence requirements and context for the CIM_StatisticalData, relative to a specific ManagedElement.
+     */
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_StatisticalData() {
+    public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA = "CIM_ElementStatisticalData";
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * CIM_RelatedStatisticalData is an association that defines hierarchies and/or dependencies of related CIM_Statistical Data classes.
+     */
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA = "CIM_RelatedStatisticalData";
 
-		setValidCimInstance(false);
-	}
+    /**
+     * Constant for method\'s name and parameters
+     * Method to reset one or more of the instance's statistics. The method takes one parameter as input - an array of strings indicating which statistics to reset. If all the statistics in the instance should be reset, the first element of the array MUST be set to "All" or "ALL". If one or more individual statistics should be reset, the corresponding property names are entered into the elements of the array. 
+     * The method returns 0 if successful, 1 if not supported, and any other value if an error occurred. A method is specified so that the StatisticalInformation's provider/ instrumentation, which calculates the statistics, can reset its internal processing, counters, etc. 
+     * In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
+     */
 
+    public static class METHOD_RESETSELECTEDSTATS {
+        /**
+         * Constant for method ResetSelectedStats
+         */
+        public final static String NAME = "ResetSelectedStats";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_StatisticalData(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+        /**
+         * constants for parameter SelectedStatistics
+         */
+        public static class PARAMETER_SELECTEDSTATISTICS {
+            /*
+             * Name of the parameter SelectedStatistics
+             */
+            public final static String NAME = "SelectedStatistics";
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_StatisticalData(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
-
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
-            }
-            CIM_StatisticalData.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_StatisticalData.Java_Package_List.toArray(new String[CIM_StatisticalData.Java_Package_List.size()]);
+    /**
+     * Constants of property ElementName
+     * The user friendly name for this instance of StatisticalData. In addition, the user friendly name can be used as a index property for a search of query. (Note: Name does not have to be unique within a namespace.)
+     */
+    public static class PROPERTY_ELEMENTNAME {
+        /**
+         * name of the property ElementName
+         */
+        public final static String NAME = "ElementName";
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		CIMProperty CIMProperty_ElementName = this.cimInstance.getProperty(CIM_PROPERTY_ELEMENTNAME);
-		
-		if (CIMProperty_ElementName == null || CIMProperty_ElementName.getValue().isEmpty() || CIMProperty_ElementName.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_ELEMENTNAME, "Required"});
-			result = false;
-		}
-		
-		CIMProperty CIMProperty_InstanceID = this.cimInstance.getProperty(CIM_PROPERTY_INSTANCEID);
-		
-		if (CIMProperty_InstanceID == null || CIMProperty_InstanceID.getValue().isEmpty() || CIMProperty_InstanceID.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_INSTANCEID, "Key"});
-			result = false;
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Constants of property InstanceID
+     * Within the scope of the instantiating Namespace, InstanceID opaquely and uniquely identifies an instance of this class. In order to ensure uniqueness within the NameSpace, the value of InstanceID SHOULD be constructed using the following 'preferred' algorithm: 
+     * <OrgID>:<LocalID> 
+     * Where <OrgID> and <LocalID> are separated by a colon ':', and where <OrgID> MUST include a copyrighted, trademarked or otherwise unique name that is owned by the business entity creating/defining the InstanceID, or is a registered ID that is assigned to the business entity by a recognized global authority (This is similar to the <Schema Name>_<Class Name> structure of Schema class names.) In addition, to ensure uniqueness <OrgID> MUST NOT contain a colon (':'). When using this algorithm, the first colon to appear in InstanceID MUST appear between <OrgID> and <LocalID>. 
+     * <LocalID> is chosen by the business entity and SHOULD not be re-used to identify different underlying (real-world) elements. If the above 'preferred' algorithm is not used, the defining entity MUST assure that the resultant InstanceID is not re-used across any InstanceIDs produced by this or other providers for this instance's NameSpace. 
+     * For DMTF defined instances, the 'preferred' algorithm MUST be used with the <OrgID> set to 'CIM'.
+     */
+    public static class PROPERTY_INSTANCEID {
+        /**
+         * name of the property InstanceID
+         */
+        public final static String NAME = "InstanceID";
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_StatisticalData)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_StatisticalData)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_StatisticalData)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_StatisticalData)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_StatisticalData)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_StatisticalData)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_StatisticalData)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_StatisticalData)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_StatisticalData)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_StatisticalData)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	public ArrayList getAssociated_CIM_ManagedElement_CIM_ElementStatisticalDatas(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
+    /**
+     * Constants of property SampleInterval
+     * Some statistics are sampled at consistent time intervals. This property provides the sample interval so that client applications can determine the minimum time that new statistics should be pulled. If the statistics are not sampled at consistent time intervals, this property must be set to a zero time interval.
+     */
+    public static class PROPERTY_SAMPLEINTERVAL {
+        /**
+         * name of the property SampleInterval
+         */
+        public final static String NAME = "SampleInterval";
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA, 
-					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Stats", //$NON-NLS-1$
-					"ManagedElement", //$NON-NLS-1$
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
+    }
+
+    /**
+     * Constants of property StartStatisticTime
+     * The time, relative to managed element where the statistic was collected, when the first measurement was taken. If the statistic is reset, the StartStatisticTime is the time when the reset was performed.
+     */
+    public static class PROPERTY_STARTSTATISTICTIME {
+        /**
+         * name of the property StartStatisticTime
+         */
+        public final static String NAME = "StartStatisticTime";
+
+    }
+
+    /**
+     * Constants of property StatisticTime
+     * The time the most recent measurement was taken, relative to the managed element where the statistic was collected.
+     */
+    public static class PROPERTY_STATISTICTIME {
+        /**
+         * name of the property StatisticTime
+         */
+        public final static String NAME = "StatisticTime";
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_ManagedElement.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *   protected because this class should not be created directly because it represents an abstract CIM Class     *   <br>
+     *   CIM_StatisticalData is a root class for any arbitrary collection of statistical data and/or metrics applicable to one or more ManagedElements. These statistics MUST represent the most recent observations and MUST NOT be provided if irrelevant or stale. Note that this class uses a simplified naming/identity algorithm as compared to CIM_StatisticalInformation.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    protected CIM_StatisticalData(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *   protected because this class should not be created directly because it represents an abstract CIM Class     *   <br>
+     *   CIM_StatisticalData is a root class for any arbitrary collection of statistical data and/or metrics applicable to one or more ManagedElements. These statistics MUST represent the most recent observations and MUST NOT be provided if irrelevant or stale. Note that this class uses a simplified naming/identity algorithm as compared to CIM_StatisticalInformation.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    protected CIM_StatisticalData(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_StatisticalData() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("ElementName", new CIMProperty("ElementName", CIMDataType.STRING_T,
+                null));
+        propertiesToCheck.put("InstanceID", new CIMProperty("InstanceID", CIMDataType.STRING_T,
+                null));
+        propertiesToCheck.put("SampleInterval", new CIMProperty("SampleInterval",
+                CIMDataType.DATETIME_T, null));
+        propertiesToCheck.put("StartStatisticTime", new CIMProperty("StartStatisticTime",
+                CIMDataType.DATETIME_T, null));
+        propertiesToCheck.put("StatisticTime", new CIMProperty("StatisticTime",
+                CIMDataType.DATETIME_T, null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
+        }
+    }
+
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property ElementName
+     *     * <br>
+     * The user friendly name for this instance of StatisticalData. In addition, the user friendly name can be used as a index property for a search of query. (Note: Name does not have to be unique within a namespace.)
+     *     */
+
+    public String get_ElementName() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ELEMENTNAME.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ELEMENTNAME.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ElementName
+     * <br>
+     * The user friendly name for this instance of StatisticalData. In addition, the user friendly name can be used as a index property for a search of query. (Note: Name does not have to be unique within a namespace.)
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ElementName(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ELEMENTNAME.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ElementName(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ELEMENTNAME.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ElementName by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ElementName(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_StatisticalData fco = new CIM_StatisticalData(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ELEMENTNAME.NAME);
+        if (property != null) {
+            property = setPropertyValue_ElementName(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ELEMENTNAME.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ElementName
+     * <br>
+     * The user friendly name for this instance of StatisticalData. In addition, the user friendly name can be used as a index property for a search of query. (Note: Name does not have to be unique within a namespace.)
+     */
+
+    private static CIMProperty setPropertyValue_ElementName(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property InstanceID
+     *     * <br>
+     * Within the scope of the instantiating Namespace, InstanceID opaquely and uniquely identifies an instance of this class. In order to ensure uniqueness within the NameSpace, the value of InstanceID SHOULD be constructed using the following 'preferred' algorithm: 
+     * <OrgID>:<LocalID> 
+     * Where <OrgID> and <LocalID> are separated by a colon ':', and where <OrgID> MUST include a copyrighted, trademarked or otherwise unique name that is owned by the business entity creating/defining the InstanceID, or is a registered ID that is assigned to the business entity by a recognized global authority (This is similar to the <Schema Name>_<Class Name> structure of Schema class names.) In addition, to ensure uniqueness <OrgID> MUST NOT contain a colon (':'). When using this algorithm, the first colon to appear in InstanceID MUST appear between <OrgID> and <LocalID>. 
+     * <LocalID> is chosen by the business entity and SHOULD not be re-used to identify different underlying (real-world) elements. If the above 'preferred' algorithm is not used, the defining entity MUST assure that the resultant InstanceID is not re-used across any InstanceIDs produced by this or other providers for this instance's NameSpace. 
+     * For DMTF defined instances, the 'preferred' algorithm MUST be used with the <OrgID> set to 'CIM'.
+     *     */
+
+    public String get_key_InstanceID() {
+        CIMProperty currentProperty = getProperty(PROPERTY_INSTANCEID.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_INSTANCEID.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property InstanceID
+     * <br>
+     * Within the scope of the instantiating Namespace, InstanceID opaquely and uniquely identifies an instance of this class. In order to ensure uniqueness within the NameSpace, the value of InstanceID SHOULD be constructed using the following 'preferred' algorithm: 
+     * <OrgID>:<LocalID> 
+     * Where <OrgID> and <LocalID> are separated by a colon ':', and where <OrgID> MUST include a copyrighted, trademarked or otherwise unique name that is owned by the business entity creating/defining the InstanceID, or is a registered ID that is assigned to the business entity by a recognized global authority (This is similar to the <Schema Name>_<Class Name> structure of Schema class names.) In addition, to ensure uniqueness <OrgID> MUST NOT contain a colon (':'). When using this algorithm, the first colon to appear in InstanceID MUST appear between <OrgID> and <LocalID>. 
+     * <LocalID> is chosen by the business entity and SHOULD not be re-used to identify different underlying (real-world) elements. If the above 'preferred' algorithm is not used, the defining entity MUST assure that the resultant InstanceID is not re-used across any InstanceIDs produced by this or other providers for this instance's NameSpace. 
+     * For DMTF defined instances, the 'preferred' algorithm MUST be used with the <OrgID> set to 'CIM'.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_key_InstanceID(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_INSTANCEID.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_key_InstanceID(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_INSTANCEID.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property InstanceID by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_key_InstanceID(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_StatisticalData fco = new CIM_StatisticalData(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_INSTANCEID.NAME);
+        if (property != null) {
+            property = setPropertyValue_key_InstanceID(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_INSTANCEID.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property InstanceID
+     * <br>
+     * Within the scope of the instantiating Namespace, InstanceID opaquely and uniquely identifies an instance of this class. In order to ensure uniqueness within the NameSpace, the value of InstanceID SHOULD be constructed using the following 'preferred' algorithm: 
+     * <OrgID>:<LocalID> 
+     * Where <OrgID> and <LocalID> are separated by a colon ':', and where <OrgID> MUST include a copyrighted, trademarked or otherwise unique name that is owned by the business entity creating/defining the InstanceID, or is a registered ID that is assigned to the business entity by a recognized global authority (This is similar to the <Schema Name>_<Class Name> structure of Schema class names.) In addition, to ensure uniqueness <OrgID> MUST NOT contain a colon (':'). When using this algorithm, the first colon to appear in InstanceID MUST appear between <OrgID> and <LocalID>. 
+     * <LocalID> is chosen by the business entity and SHOULD not be re-used to identify different underlying (real-world) elements. If the above 'preferred' algorithm is not used, the defining entity MUST assure that the resultant InstanceID is not re-used across any InstanceIDs produced by this or other providers for this instance's NameSpace. 
+     * For DMTF defined instances, the 'preferred' algorithm MUST be used with the <OrgID> set to 'CIM'.
+     */
+
+    private static CIMProperty setPropertyValue_key_InstanceID(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property SampleInterval
+     *     * <br>
+     * Some statistics are sampled at consistent time intervals. This property provides the sample interval so that client applications can determine the minimum time that new statistics should be pulled. If the statistics are not sampled at consistent time intervals, this property must be set to a zero time interval.
+     *     */
+
+    public javax.cim.CIMDateTime get_SampleInterval() {
+        CIMProperty currentProperty = getProperty(PROPERTY_SAMPLEINTERVAL.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_SAMPLEINTERVAL.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.CIMDateTime) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property SampleInterval
+     * <br>
+     * Some statistics are sampled at consistent time intervals. This property provides the sample interval so that client applications can determine the minimum time that new statistics should be pulled. If the statistics are not sampled at consistent time intervals, this property must be set to a zero time interval.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_SampleInterval(javax.cim.CIMDateTime newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_SAMPLEINTERVAL.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_SampleInterval(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SAMPLEINTERVAL.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property SampleInterval by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_SampleInterval(WBEMClient client, String namespace,
+            javax.cim.CIMDateTime newValue) throws WbemsmtException {
+        CIM_StatisticalData fco = new CIM_StatisticalData(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_SAMPLEINTERVAL.NAME);
+        if (property != null) {
+            property = setPropertyValue_SampleInterval(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SAMPLEINTERVAL.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property SampleInterval
+     * <br>
+     * Some statistics are sampled at consistent time intervals. This property provides the sample interval so that client applications can determine the minimum time that new statistics should be pulled. If the statistics are not sampled at consistent time intervals, this property must be set to a zero time interval.
+     */
+
+    private static CIMProperty setPropertyValue_SampleInterval(CIMProperty currentProperty,
+            javax.cim.CIMDateTime newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property StartStatisticTime
+     *     * <br>
+     * The time, relative to managed element where the statistic was collected, when the first measurement was taken. If the statistic is reset, the StartStatisticTime is the time when the reset was performed.
+     *     */
+
+    public javax.cim.CIMDateTime get_StartStatisticTime() {
+        CIMProperty currentProperty = getProperty(PROPERTY_STARTSTATISTICTIME.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_STARTSTATISTICTIME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.CIMDateTime) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property StartStatisticTime
+     * <br>
+     * The time, relative to managed element where the statistic was collected, when the first measurement was taken. If the statistic is reset, the StartStatisticTime is the time when the reset was performed.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_StartStatisticTime(javax.cim.CIMDateTime newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_STARTSTATISTICTIME.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_StartStatisticTime(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_STARTSTATISTICTIME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property StartStatisticTime by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_StartStatisticTime(WBEMClient client, String namespace,
+            javax.cim.CIMDateTime newValue) throws WbemsmtException {
+        CIM_StatisticalData fco = new CIM_StatisticalData(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_STARTSTATISTICTIME.NAME);
+        if (property != null) {
+            property = setPropertyValue_StartStatisticTime(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_STARTSTATISTICTIME.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property StartStatisticTime
+     * <br>
+     * The time, relative to managed element where the statistic was collected, when the first measurement was taken. If the statistic is reset, the StartStatisticTime is the time when the reset was performed.
+     */
+
+    private static CIMProperty setPropertyValue_StartStatisticTime(CIMProperty currentProperty,
+            javax.cim.CIMDateTime newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property StatisticTime
+     *     * <br>
+     * The time the most recent measurement was taken, relative to the managed element where the statistic was collected.
+     *     */
+
+    public javax.cim.CIMDateTime get_StatisticTime() {
+        CIMProperty currentProperty = getProperty(PROPERTY_STATISTICTIME.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_STATISTICTIME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.CIMDateTime) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property StatisticTime
+     * <br>
+     * The time the most recent measurement was taken, relative to the managed element where the statistic was collected.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_StatisticTime(javax.cim.CIMDateTime newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_STATISTICTIME.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_StatisticTime(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_STATISTICTIME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property StatisticTime by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_StatisticTime(WBEMClient client, String namespace,
+            javax.cim.CIMDateTime newValue) throws WbemsmtException {
+        CIM_StatisticalData fco = new CIM_StatisticalData(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_STATISTICTIME.NAME);
+        if (property != null) {
+            property = setPropertyValue_StatisticTime(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_STATISTICTIME.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property StatisticTime
+     * <br>
+     * The time the most recent measurement was taken, relative to the managed element where the statistic was collected.
+     */
+
+    private static CIMProperty setPropertyValue_StatisticTime(CIMProperty currentProperty,
+            javax.cim.CIMDateTime newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    /**
+     * Get the list with CIM_ManagedElement objects associated by the association CIM_ElementStatisticalData
+     * 
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ManagedElement_CIM_ElementStatisticalDatas(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_ManagedElement_CIM_ElementStatisticalDatas(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA,
+                CIM_ManagedElement.CIM_CLASS_NAME, null, null, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_ManagedElement objects associated by the association CIM_ElementStatisticalData
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ManagedElement_CIM_ElementStatisticalDatas(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_ManagedElement_CIM_ElementStatisticalDatas(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA, resultClass, role,
+                resultRole, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_ManagedElement objects associated by the association CIM_ElementStatisticalData
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param associationClass This string MUST either contain a valid CIM Association class name or be null. It filters the Objects returned to contain only Objects associated to the source Object via this CIM Association class or one of its subclasses.
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ManagedElement_CIM_ElementStatisticalDatas(
+            WBEMClient cimClient, String associationClass, String resultClass, String role,
+            String resultRole, boolean includeQualifiers, boolean includeClassOrigin,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associators(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole, includeQualifiers, includeClassOrigin,
+                    propertyList);
+        }
+        catch (WBEMException e) {
+            throw new AssociatorException(e, new AssociatorUserObject(this.getCimObjectPath(),
+                    associationClass, resultClass, role, resultRole, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_StatisticalDataHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_StatisticalDataHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
                     Class clazz = CIM_StatisticalDataHelper.findClass(cimClient, cimInstance);
-                    
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ManagedElement(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ManagedElement(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ManagedElement(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
 
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_ManagedElement(cimInstance));
+                        continue;
+                    }
 
-	public ArrayList getAssociated_CIM_ManagedElement_CIM_ElementStatisticalData_Names(CIMClient cimClient, boolean deep) {
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_ManagedElement(cimInstance));
+                        continue;
+                    }
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_ManagedElement(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_StatisticalDataHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
 
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA, 
-					CIM_ManagedElement.CIM_CLASS_NAME, 
-					"Stats", //$NON-NLS-1$
-					"ManagedElement"); //$NON-NLS-1$
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_ManagedElement.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+        return result;
+    }
 
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute ElementName
-	
-	public String get_ElementName() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_StatisticalData.CIM_PROPERTY_ELEMENTNAME);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_StatisticalData.CIM_PROPERTY_ELEMENTNAME + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_StatisticalData.CIM_PROPERTY_ELEMENTNAME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ElementName(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_StatisticalData.CIM_PROPERTY_ELEMENTNAME);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_StatisticalData.CIM_PROPERTY_ELEMENTNAME + " could not be found");
-    		
-		} else if (!CIM_StatisticalDataHelper.isValid_ElementName(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_StatisticalData.CIM_PROPERTY_ELEMENTNAME);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_StatisticalData.CIM_PROPERTY_ELEMENTNAME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_ElementStatisticalData
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
 
-	// Attribute InstanceID
-	
-	public String get_InstanceID() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_StatisticalData.CIM_PROPERTY_INSTANCEID);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_StatisticalData.CIM_PROPERTY_INSTANCEID + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_StatisticalData.CIM_PROPERTY_INSTANCEID + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_InstanceID(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_StatisticalData.CIM_PROPERTY_INSTANCEID);
-    	
-		if (isValidCimInstance()) {
-    		throw new InvalidParameterException("The property " + CIM_StatisticalData.CIM_PROPERTY_INSTANCEID + "can not be modified. It is a KEY value.");
-    		
-		} else if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_StatisticalData.CIM_PROPERTY_INSTANCEID + " could not be found");
-    		
-		} else if (!CIM_StatisticalDataHelper.isValid_InstanceID(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_StatisticalData.CIM_PROPERTY_INSTANCEID);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_StatisticalData.CIM_PROPERTY_INSTANCEID + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public java.util.List getAssociated_CIM_ManagedElement_CIM_ElementStatisticalDataNames(
+            WBEMClient cimClient) throws WbemsmtException {
 
-	// Attribute SampleInterval
-	
-	public Calendar get_SampleInterval() {
+        return getAssociated_CIM_ManagedElement_CIM_ElementStatisticalDataNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA,
+                CIM_ManagedElement.CIM_CLASS_NAME, null, null);
+    }
 
-		CIMProperty property = this.cimInstance.getProperty(CIM_StatisticalData.CIM_PROPERTY_SAMPLEINTERVAL);
-        
-		if (property == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_StatisticalData.CIM_PROPERTY_SAMPLEINTERVAL + " could not be found");
-    		
-		} else if (property.getType() == null || property.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_StatisticalData.CIM_PROPERTY_SAMPLEINTERVAL + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-        
-		if (property.getValue() == null) {
-			return null;
-		}
-        
-        CIMDateTime cimDateTime = (CIMDateTime)property.getValue().getValue();
-		return cimDateTime != null?cimDateTime.getCalendar():null;
-	}
-	
-	
-	public void set_SampleInterval(Calendar newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_StatisticalData.CIM_PROPERTY_SAMPLEINTERVAL);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_StatisticalData.CIM_PROPERTY_SAMPLEINTERVAL + " could not be found");
-    		
-		} else if (!CIM_StatisticalDataHelper.isValid_SampleInterval(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_StatisticalData.CIM_PROPERTY_SAMPLEINTERVAL);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_StatisticalData.CIM_PROPERTY_SAMPLEINTERVAL + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(new CIMSimpleDateTime(newValue), new CIMDataType(CIMDataType.DATETIME));
-		currentProperty.setValue(updatedValue);
-	}
-    
-	
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_ElementStatisticalData
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
 
-	// Attribute StartStatisticTime
-	
-	public Calendar get_StartStatisticTime() {
+    public java.util.List getAssociated_CIM_ManagedElement_CIM_ElementStatisticalDataNames(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
 
-		CIMProperty property = this.cimInstance.getProperty(CIM_StatisticalData.CIM_PROPERTY_STARTSTATISTICTIME);
-        
-		if (property == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_StatisticalData.CIM_PROPERTY_STARTSTATISTICTIME + " could not be found");
-    		
-		} else if (property.getType() == null || property.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_StatisticalData.CIM_PROPERTY_STARTSTATISTICTIME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-        
-		if (property.getValue() == null) {
-			return null;
-		}
-        
-        CIMDateTime cimDateTime = (CIMDateTime)property.getValue().getValue();
-		return cimDateTime != null?cimDateTime.getCalendar():null;
-	}
-	
-	
-	public void set_StartStatisticTime(Calendar newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_StatisticalData.CIM_PROPERTY_STARTSTATISTICTIME);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_StatisticalData.CIM_PROPERTY_STARTSTATISTICTIME + " could not be found");
-    		
-		} else if (!CIM_StatisticalDataHelper.isValid_StartStatisticTime(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_StatisticalData.CIM_PROPERTY_STARTSTATISTICTIME);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_StatisticalData.CIM_PROPERTY_STARTSTATISTICTIME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(new CIMSimpleDateTime(newValue), new CIMDataType(CIMDataType.DATETIME));
-		currentProperty.setValue(updatedValue);
-	}
-    
-	
+        return getAssociated_CIM_ManagedElement_CIM_ElementStatisticalDataNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA, resultClass, role, resultRole);
+    }
 
-	// Attribute StatisticTime
-	
-	public Calendar get_StatisticTime() {
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_ElementStatisticalData
+     * @param cimClient the WBEMClient for the communication
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
 
-		CIMProperty property = this.cimInstance.getProperty(CIM_StatisticalData.CIM_PROPERTY_STATISTICTIME);
-        
-		if (property == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_StatisticalData.CIM_PROPERTY_STATISTICTIME + " could not be found");
-    		
-		} else if (property.getType() == null || property.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_StatisticalData.CIM_PROPERTY_STATISTICTIME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-        
-		if (property.getValue() == null) {
-			return null;
-		}
-        
-        CIMDateTime cimDateTime = (CIMDateTime)property.getValue().getValue();
-		return cimDateTime != null?cimDateTime.getCalendar():null;
-	}
-	
-	
-	public void set_StatisticTime(Calendar newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_StatisticalData.CIM_PROPERTY_STATISTICTIME);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_StatisticalData.CIM_PROPERTY_STATISTICTIME + " could not be found");
-    		
-		} else if (!CIM_StatisticalDataHelper.isValid_StatisticTime(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_StatisticalData.CIM_PROPERTY_STATISTICTIME);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_StatisticalData.CIM_PROPERTY_STATISTICTIME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(new CIMSimpleDateTime(newValue), new CIMDataType(CIMDataType.DATETIME));
-		currentProperty.setValue(updatedValue);
-	}
-    
-	
+    public java.util.List getAssociated_CIM_ManagedElement_CIM_ElementStatisticalDataNames(
+            WBEMClient cimClient, boolean deep, String associationClass, String resultClass,
+            String role, String resultRole) throws WbemsmtException {
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
-	public UnsignedInt32 invoke_resetSelectedStats(CIMClient cimClient, String SelectedStatistics) {
-	  	Vector inParameter = new Vector();
-	  	Vector outParameter = new Vector();
-	  	
-	  	if (!isValidCimInstance()) {
-	  		throw new CIMException(CIMException.CIM_ERR_METHOD_NOT_AVAILABLE,"Used instance of class '" + 
-	  				CIM_StatisticalData.CIM_CLASS_NAME + "' is not a valid CIMInstance.");
-	  	}
-	  	
-	  	CIMValue cimValue_SelectedStatistics = new CIMValue(SelectedStatistics, new CIMDataType(CIMDataType.STRING_ARRAY));
-		
-	  	inParameter.add(new CIMArgument("SelectedStatistics", cimValue_SelectedStatistics));
-		
-	  	
-	  	CIMValue returnValue = cimClient.invokeMethod(this.getCimObjectPath(), 
-				  									  CIM_METHOD_RESETSELECTEDSTATS,
-													  inParameter,
-													  outParameter);
-		
-		if (returnValue == null || returnValue.isNull()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The returned CIMValue from remote method call '" + 
-					CIM_StatisticalData.CIM_METHOD_RESETSELECTEDSTATS + "' is null.");
-		}
-		if (returnValue.getValue() == null || returnValue.isNullValue()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The return value from remote method call '" + 
-					CIM_StatisticalData.CIM_METHOD_RESETSELECTEDSTATS + "' is null.");
-		}
-		if (returnValue.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The return value from remote method call " + CIM_StatisticalData.CIM_METHOD_RESETSELECTEDSTATS + 
-					" is not of expected type: " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");		
-		}
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
 
-		return (UnsignedInt32)returnValue.getValue(); 		  	
-	  }
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
 
-	
+        try {
+            enumeration = cimClient.associatorNames(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole);
+
+        }
+        catch (WBEMException e) {
+            throw new AssociatorNamesException(e, new AssociatorNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA,
+                    CIM_ManagedElement.CIM_CLASS_NAME, null, null));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_StatisticalDataHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_StatisticalDataHelper.checkException(enumeration);
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_ManagedElement.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_StatisticalDataHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_ElementStatisticalData associations
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#references(CIMObjectPath, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociations_CIM_ElementStatisticalData(WBEMClient cimClient,
+            boolean includeQualifiers, boolean includeClassOrigin, String role,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.references(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA, role, includeQualifiers,
+                    includeClassOrigin, propertyList);
+        }
+        catch (WBEMException e) {
+            throw new ReferencesException(e, new ReferencesUserObject(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA, role, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_StatisticalDataHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_StatisticalDataHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_ElementStatisticalDataHelper
+                            .findClass(cimClient, cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_ElementStatisticalData(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_ElementStatisticalData(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_ElementStatisticalData(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_StatisticalDataHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a list of CIMObjectPath items of the associations CIM_ElementStatisticalData
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#referenceNames(CIMObjectPath, String, String)
+     **/
+
+    public java.util.List getAssociationNames_CIM_ElementStatisticalData(WBEMClient cimClient,
+            String role, boolean deep) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.referenceNames(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA, role);
+        }
+        catch (WBEMException e) {
+            throw new ReferenceNamesException(e,
+                    new ReferenceNamesUserObject(this.getCimObjectPath(),
+                            CIM_ASSOCIATOR_CLASS_NAME_CIM_ELEMENTSTATISTICALDATA, role));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_StatisticalDataHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_StatisticalDataHelper.checkException(enumeration);
+
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_ElementStatisticalData.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_StatisticalDataHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_StatisticalData objects associated by the association CIM_RelatedStatisticalData
+     * 
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_StatisticalData_CIM_RelatedStatisticalDatas(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_StatisticalData_CIM_RelatedStatisticalDatas(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA,
+                CIM_StatisticalData.CIM_CLASS_NAME, null, null, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_StatisticalData objects associated by the association CIM_RelatedStatisticalData
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_StatisticalData_CIM_RelatedStatisticalDatas(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_StatisticalData_CIM_RelatedStatisticalDatas(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA, resultClass, role,
+                resultRole, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_StatisticalData objects associated by the association CIM_RelatedStatisticalData
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param associationClass This string MUST either contain a valid CIM Association class name or be null. It filters the Objects returned to contain only Objects associated to the source Object via this CIM Association class or one of its subclasses.
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_StatisticalData_CIM_RelatedStatisticalDatas(
+            WBEMClient cimClient, String associationClass, String resultClass, String role,
+            String resultRole, boolean includeQualifiers, boolean includeClassOrigin,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associators(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole, includeQualifiers, includeClassOrigin,
+                    propertyList);
+        }
+        catch (WBEMException e) {
+            throw new AssociatorException(e, new AssociatorUserObject(this.getCimObjectPath(),
+                    associationClass, resultClass, role, resultRole, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_StatisticalDataHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_StatisticalDataHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_StatisticalDataHelper.findClass(cimClient, cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_StatisticalData(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_StatisticalData(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_StatisticalData(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_StatisticalDataHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_RelatedStatisticalData
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_StatisticalData_CIM_RelatedStatisticalDataNames(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_StatisticalData_CIM_RelatedStatisticalDataNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA,
+                CIM_StatisticalData.CIM_CLASS_NAME, null, null);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_RelatedStatisticalData
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_StatisticalData_CIM_RelatedStatisticalDataNames(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_StatisticalData_CIM_RelatedStatisticalDataNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA, resultClass, role, resultRole);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_RelatedStatisticalData
+     * @param cimClient the WBEMClient for the communication
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_StatisticalData_CIM_RelatedStatisticalDataNames(
+            WBEMClient cimClient, boolean deep, String associationClass, String resultClass,
+            String role, String resultRole) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associatorNames(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole);
+
+        }
+        catch (WBEMException e) {
+            throw new AssociatorNamesException(e, new AssociatorNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA,
+                    CIM_StatisticalData.CIM_CLASS_NAME, null, null));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_StatisticalDataHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_StatisticalDataHelper.checkException(enumeration);
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_StatisticalData.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_StatisticalDataHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_RelatedStatisticalData associations
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#references(CIMObjectPath, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociations_CIM_RelatedStatisticalData(WBEMClient cimClient,
+            boolean includeQualifiers, boolean includeClassOrigin, String role,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.references(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA, role, includeQualifiers,
+                    includeClassOrigin, propertyList);
+        }
+        catch (WBEMException e) {
+            throw new ReferencesException(e, new ReferencesUserObject(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA, role, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_StatisticalDataHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_StatisticalDataHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_RelatedStatisticalDataHelper
+                            .findClass(cimClient, cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_RelatedStatisticalData(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_RelatedStatisticalData(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_RelatedStatisticalData(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_StatisticalDataHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a list of CIMObjectPath items of the associations CIM_RelatedStatisticalData
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#referenceNames(CIMObjectPath, String, String)
+     **/
+
+    public java.util.List getAssociationNames_CIM_RelatedStatisticalData(WBEMClient cimClient,
+            String role, boolean deep) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.referenceNames(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA, role);
+        }
+        catch (WBEMException e) {
+            throw new ReferenceNamesException(e,
+                    new ReferenceNamesUserObject(this.getCimObjectPath(),
+                            CIM_ASSOCIATOR_CLASS_NAME_CIM_RELATEDSTATISTICALDATA, role));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_StatisticalDataHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_StatisticalDataHelper.checkException(enumeration);
+
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_RelatedStatisticalData.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_StatisticalDataHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    /**
+     * Invokes the Method ResetSelectedStats
+     * <br>
+     * @param client the cimclient
+     * Method to reset one or more of the instance's statistics. The method takes one parameter as input - an array of strings indicating which statistics to reset. If all the statistics in the instance should be reset, the first element of the array MUST be set to "All" or "ALL". If one or more individual statistics should be reset, the corresponding property names are entered into the elements of the array. 
+     * The method returns 0 if successful, 1 if not supported, and any other value if an error occurred. A method is specified so that the StatisticalInformation's provider/ instrumentation, which calculates the statistics, can reset its internal processing, counters, etc. 
+     * In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
+     *   @param SelectedStatistics Array of strings indicating which statistics to reset.
+     *
+     */
+
+    public ResetSelectedStatsResult invoke_ResetSelectedStats(WBEMClient cimClient,
+            String[] SelectedStatistics) throws WbemsmtException {
+
+        CIMArgument[] inParameter = new CIMArgument[1];
+        CIMArgument[] outParameter = new CIMArgument[0];
+
+        inParameter[0] = new CIMArgument("SelectedStatistics", CIMDataType.STRING_ARRAY_T,
+                SelectedStatistics);
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        try {
+            Object oResult = cimClient.invokeMethod(this.getCimObjectPath(),
+                    METHOD_RESETSELECTEDSTATS.NAME, inParameter, outParameter);
+            if (oResult != null) {
+
+                resultObject = (javax.cim.UnsignedInteger32) oResult;
+            }
+        }
+        catch (WBEMException e) {
+            throw new InvokeMethodException(e, new InvokeMethodUserObject(this.getCimObjectPath(),
+                    METHOD_RESETSELECTEDSTATS.NAME, inParameter, outParameter));
+        }
+
+        ResetSelectedStatsResult result = new ResetSelectedStatsResult();
+        result.setResultObject(resultObject);
+
+        java.util.HashMap mapOutParameter = new java.util.HashMap();
+        for (int i = 0; i < outParameter.length; i++) {
+            CIMArgument argument = outParameter[i];
+            if (argument != null) {
+                mapOutParameter.put(argument.getName(), argument);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Result object for the method ResetSelectedStats
+     */
+    public static class ResetSelectedStatsResult {
+        /**
+         * The return value of the method
+         */
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        /**
+         * Default constructor
+         */
+        ResetSelectedStatsResult() {
+        }
+
+        /**
+         * Set the return value
+         * @param rc
+         */
+        void setResultObject(javax.cim.UnsignedInteger32 resultObject) {
+            this.resultObject = resultObject;
+        }
+
+        /**
+         * Get the return value of the methid
+         * @return the return value
+         */
+        public javax.cim.UnsignedInteger32 getResultObject() {
+            return this.resultObject;
+        }
+
+    }
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_StatisticalData.CIM_CLASS_NAME;
+    }
 
 }

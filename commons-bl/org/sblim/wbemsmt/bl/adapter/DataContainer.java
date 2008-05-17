@@ -21,6 +21,8 @@ package org.sblim.wbemsmt.bl.adapter;
 
 import java.util.List;
 
+import org.sblim.wbemsmt.exception.WbemsmtException;
+
 
 public interface DataContainer
 {
@@ -77,12 +79,19 @@ public interface DataContainer
 	 * Copy the content of a DataContainer to a other
 	 * @param source
 	 */
-	public void copyFrom(DataContainer source);
+	public void copyFrom(DataContainer source) throws WbemsmtException;
 	
 	/**
 	 * return true if a container or it's children is modified
 	 * @return
 	 */
 	public boolean isModified();
+	
+    /**
+     * can be implemented to count and cerate the children objects
+     * @throws InitContainerExceptio
+     */
+    public void countAndCreateChildren() throws WbemsmtException;
+	
 	
 }

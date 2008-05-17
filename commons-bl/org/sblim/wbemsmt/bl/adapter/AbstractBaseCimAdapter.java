@@ -23,39 +23,26 @@ package org.sblim.wbemsmt.bl.adapter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.cim.CIMClass;
+import javax.cim.CIMObjectPath;
 import javax.faces.context.FacesContext;
+import javax.wbem.client.WBEMClient;
+
 import org.apache.commons.collections.MultiHashMap;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.ClassUtils;
-import org.sblim.wbem.cim.CIMObjectPath;
-import org.sblim.wbem.client.CIMClient;
+import org.apache.commons.lang.StringUtils;
 import org.sblim.wbemsmt.bl.Cleanup;
 import org.sblim.wbemsmt.bl.adapter.refresh.RemoveDataContainerThread;
+import org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFcoHelper;
 import org.sblim.wbemsmt.bl.fco.FcoHelperIf;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
-import org.sblim.wbemsmt.exception.CountException;
-import org.sblim.wbemsmt.exception.InitContainerException;
-import org.sblim.wbemsmt.exception.InitWizardException;
-import org.sblim.wbemsmt.exception.ModelLoadException;
-import org.sblim.wbemsmt.exception.ObjectCreationException;
-import org.sblim.wbemsmt.exception.ObjectDeletionException;
-import org.sblim.wbemsmt.exception.ObjectNotFoundException;
-import org.sblim.wbemsmt.exception.ObjectRevertException;
-import org.sblim.wbemsmt.exception.ObjectSaveException;
-import org.sblim.wbemsmt.exception.ObjectUpdateException;
-import org.sblim.wbemsmt.exception.UpdateControlsException;
-import org.sblim.wbemsmt.exception.ValidationException;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
+import org.sblim.wbemsmt.session.WbemsmtSession;
 import org.sblim.wbemsmt.tasklauncher.CustomTreeConfig;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.ConfigurationValueData;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
@@ -80,7 +67,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	
 	static Logger logger = Logger.getLogger(AbstractBaseCimAdapter.class.getName());	
 	
-	protected CIMClient cimClient;
+	protected WBEMClient cimClient;
 	private MultiHashMap validators = new MultiHashMap();
 	private SelectionHierarchy selectionHierarchy;
 
@@ -123,8 +110,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	private RemoveDataContainerThread removeDataContainerThread;
 	protected CustomTreeConfig customTreeConfig;
 	private Map configurationValues;
-	private AsynchronousMessageHandler asynchronousMessageHandler;
-
+    protected String namespace;
+    private AsynchronousMessageHandler asynchronousMessageHandler;
+	
 	public AbstractBaseCimAdapter()
 	{
 		if (!RuntimeUtil.getInstance().isCommandline())
@@ -158,17 +146,17 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 	/**
 	 * execute a reload, discards all changes in the local model an loads the data from the cim server
-	 * @throws ModelLoadException
+	 * @throws WbemsmtException
 	 */
-	protected abstract void reLoad(CIMClient cimClient) throws ModelLoadException;
+	protected abstract void reLoad(WBEMClient cimClient) throws WbemsmtException;
 	
 	/**
 	 * execute a reload, discards all changes in the local model an loads the data from the cim server
 	 * reset all flags and calls the task-implementation's
 	 * @param cimClient
-	 * @throws ModelLoadException
+	 * @throws WbemsmtException
 	 */
-	public void reload(CIMClient cimClient)  throws ModelLoadException {
+	public void reload(WBEMClient cimClient)  throws WbemsmtException {
 		resetFlags();		
 		reLoad(cimClient);
 	}
@@ -185,9 +173,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * 
 	 * The cimClient should be stored in the object for later actions
 	 * 
-	 * @throws ModelLoadException
+	 * @throws WbemsmtException
 	 */
-	public abstract void load(CIMClient cimClient) throws ModelLoadException;
+	public abstract void load(WBEMClient cimClient) throws WbemsmtException;
 	
 	/**
 	 * initially loads the data (Called from cli-Commands)
@@ -195,23 +183,23 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * 
 	 * The cimClient should be stored in the object for later actions
 	 * 
-	 * @throws ModelLoadException
+	 * @throws WbemsmtException
 	 */
-	public abstract void loadInitial(CIMClient cimClient) throws ModelLoadException;
+	public abstract void loadInitial(WBEMClient cimClient) throws WbemsmtException;
 
 	/**
 	 * ReLoads with the help from Treenodes
 	 * @param rootNode
 	 */
-	protected abstract void reLoad(ITaskLauncherTreeNode rootNode) throws ModelLoadException;
+	protected abstract void reLoad(ITaskLauncherTreeNode rootNode) throws WbemsmtException;
 
 	/**
 	 * execute a reload, discards all changes in the local model an loads the data from the cim server
 	 * reset all flags and calls the task-implementation's
 	 * @param rootNode
-	 * @throws ModelLoadException
+	 * @throws WbemsmtException
 	 */
-	public void reload(ITaskLauncherTreeNode rootNode)  throws ModelLoadException {
+	public void reload(ITaskLauncherTreeNode rootNode)  throws WbemsmtException {
 		resetFlags();		
 		reLoad(rootNode);
 	}
@@ -221,15 +209,15 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * The treeFactory should be stored in the object for later actions
 	 * @param rootNode
 	 */
-	public abstract void load(ITaskLauncherTreeNode rootNode) throws ModelLoadException;
+	public abstract void load(ITaskLauncherTreeNode rootNode) throws WbemsmtException;
 
 	/**
 	 * Returns the object with the given tree Node
 	 * 
 	 * @return The method can return null. If the method returns null no select-Method is called
-	 * @throws ObjectNotFoundException
+	 * @throws WbemsmtException
 	 */
-	public abstract CimObjectKey getKeyByTreeNode(ITaskLauncherTreeNode treeNode) throws ObjectNotFoundException;
+	public abstract CimObjectKey getKeyByTreeNode(ITaskLauncherTreeNode treeNode) throws WbemsmtException;
 
 	public abstract String[] getResourceBundleNames();
 	
@@ -237,9 +225,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * Selects the current object by the given node
 	 * @param treeNode
 	 * @return the Key that was uses for selection or null if there was no key found to select
- 	 * @throws ObjectNotFoundException if the key was found but the selection was not possible
+ 	 * @throws WbemsmtException if the key was found but the selection was not possible
 	 */
-	public CimObjectKey select(ITaskLauncherTreeNode treeNode) throws ObjectNotFoundException
+	public CimObjectKey select(ITaskLauncherTreeNode treeNode) throws WbemsmtException
 	{
 		logger.info("Get key by Treenode " + treeNode.getName());
 		CimObjectKey key = getKeyByTreeNode(treeNode);
@@ -249,12 +237,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			logger.info("For Treenode " + treeNode.getName() + " no CIMObjectKey returned");
 		}
 		
-		if (key != null && (lastSelectedKey == null || !key.toString().equals(lastSelectedKey.toString())))
+		if (key != null)
 		{
-			if (key != null)
-			{
-				select(key);
-			}
+			select(key);
 		}
 		
 		return key;
@@ -266,58 +251,69 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * 
 	 * Is used by the CommandLine classes to initialize certain parts of the adapter
 	 * 
-	 * @throws ObjectNotFoundException
+	 * @throws WbemsmtException
 	 */
-	public void select(CimObjectKey keyContainer) throws ObjectNotFoundException
+	public void select(CimObjectKey keyToSelect) throws WbemsmtException
 	{
-		logger.info("Selecting:\n " + keyContainer.toString());		
+		
+	    if (lastSelectedKey != null && keyToSelect.toString().equals(lastSelectedKey.toString()))
+	    {
+	        logger.info("Using previous selection");
+	        return;
+	    }
+	    
+	    logger.info("Selecting:\n " + keyToSelect.toString());		
 
 		selectionHierarchy.clear();
-		List keys = keyContainer.getKeyList();
+		List keys = keyToSelect.getKeyList();
 		for (int i=0; i < keys.size(); i++)
 		{
 			CimObjectKey key = (CimObjectKey)keys.get(i);
+			String methodPrefix = "select_" + i + "_";
 			String name;
+			Method method = null;
 			if (key.getCimObject() != null)
 			{
-				name = ClassUtils.getShortClassName(key.getCimObject().getWrappedObject().getClass());
+				Class cls = key.getCimObject().getClass();
+                name = ClassUtils.getShortClassName(cls);
+                method = findSelectMethod(methodPrefix, cls);
 			}
 			else
 			{
 				name = key.getObjectPath().getObjectName();
+				method = findSelectMethod(methodPrefix, name);
 			}
 			
-			String methodName = "select_" + i + "_" + name;
+			if (method == null)
+			{
+				throw new WbemsmtException(WbemsmtException.ERR_OBJECT_NOT_FOUND,"Internal error");				
+			}
 
-			logger.fine("Using method " + methodName);		
-			
 			try {
-				Method method = this.getClass().getMethod(methodName, new Class[]{CimObjectKey.class});
-				method.setAccessible(true);
 				Boolean success = (Boolean)method.invoke(this,new Object[]{key});
 				if (!success.booleanValue())
 				{
 					logger.severe("Cannot select the object " + name + " with the key " + key.toString());
-					throw new ObjectNotFoundException("Internal error");
+					throw new WbemsmtException(WbemsmtException.ERR_OBJECT_NOT_FOUND,"Internal error");
 				}
-			} catch (NoSuchMethodException e) {
-				logger.log(Level.SEVERE, "Cannot select Object with Method " + methodName + ". Method not exists",e);
-				throw new ObjectNotFoundException("Internal error");
 			} catch (Exception e) {
-				logger.log(Level.SEVERE, "Cannot select Object with Method " + methodName,e);
-				throw new ObjectNotFoundException("Internal error");
+				logger.log(Level.SEVERE, "Cannot select Object ",e);
+				throw new WbemsmtException(WbemsmtException.ERR_OBJECT_NOT_FOUND,"Internal error");
 			} 
 		}
+		
+		lastSelectedKey = keyToSelect;
 	}
 	
-	/**
+
+    /**
 	 * Init container is called after the container
 	 * Here the implementor can add things that are existant from start on and independent on 
 	 * which fco will be displayed (for example the values of pulldown elements)
 	 * @param dataContainer
-	 * @throws InitContainerException
+	 * @throws WbemsmtException
 	 */
-	public void initContainer(DataContainer dataContainer) throws InitContainerException {
+	public void initContainer(DataContainer dataContainer) throws WbemsmtException {
 		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		
@@ -335,30 +331,30 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			method.invoke(getInitContainerDelegatee(),new Object[]{dataContainer});
 		} catch (NoSuchMethodException e) {
 			logger.log(Level.SEVERE,"Cannot init Container with Method " + methodName + "(" + interfaceClass.getName().toString() + "). Method not exists",e);
-			throw new InitContainerException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_INIT_CONTAINER,"Internal error");
 		} catch (InvocationTargetException e) {
 			Throwable t = e.getTargetException();
 			logger.log(Level.SEVERE, "Cannot init Container with Method " + methodName,t);
-			if (t instanceof InitContainerException) {
-				InitContainerException e1 = (InitContainerException) t;
+			if (t instanceof WbemsmtException) {
+			    WbemsmtException e1 = (WbemsmtException) t;
 				throw e1;
 			}
 			else
 			{
-				throw new InitContainerException("Internal error",t);
+				throw new WbemsmtException(WbemsmtException.ERR_INIT_CONTAINER,"Internal error",t);
 			}
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Cannot init Container with Method " + methodName,e);
-			throw new InitContainerException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_INIT_CONTAINER,"Internal error");
 		} 
 	}
 
 	/**
 	 * updates the GUI-Elements with the values from the model
 	 * @param dataContainer
-	 * @throws UpdateControlsException
+	 * @throws WbemsmtException
 	 */
-	public void updateControls(DataContainer dataContainer) throws UpdateControlsException
+	public void updateControls(DataContainer dataContainer) throws WbemsmtException
 	{
 		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
@@ -376,21 +372,21 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			method.invoke(getUpdateControlsDelegatee(),new Object[]{dataContainer});
 		} catch (NoSuchMethodException e) {
 			logger.log(Level.SEVERE,"Cannot update Controls with Method " + methodName + "(" + interfaceClass.getName().toString() + "). Method not exists",e);
-			throw new UpdateControlsException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_UPDATE_CONTROLS,"Internal error");
 		} catch (InvocationTargetException e) {
 			Throwable t = e.getTargetException();
 			logger.log(Level.SEVERE, "Cannot update Controls with Method " + methodName,t);
-			if (t instanceof UpdateControlsException) {
-				UpdateControlsException e1 = (UpdateControlsException) t;
+			if (t instanceof WbemsmtException) {
+			    WbemsmtException e1 = (WbemsmtException) t;
 				throw e1;
 			}
 			else
 			{
-				throw new UpdateControlsException("Internal error",t);
+				throw new WbemsmtException(WbemsmtException.ERR_UPDATE_CONTROLS,"Internal error",t);
 			}
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Cannot update Controls with Method " + methodName,e);
-			throw new UpdateControlsException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_UPDATE_CONTROLS,"Internal error");
 		} 
 	}
 	
@@ -402,14 +398,14 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 *     e.g. if a user wants to update a resourceRecord-ContainerItem with a zone-ModelElement   
 	 * @param dataContainer
 	 * @param modelElements
-	 * @throws UpdateControlsException
+	 * @throws WbemsmtException
 	 */
-	public void updateControls(List containerList, List modelElements) throws UpdateControlsException
+	public void updateControls(List containerList, List modelElements) throws WbemsmtException
 	{
 		if (modelElements.size() != containerList.size())
 		{
 			String msg = "There are {0} entries found in Model and {1} in GUI. Cannot update the GUI";
-			throw new UpdateControlsException(MessageFormat.format(msg,new Object[]{new Integer(modelElements.size()),new Integer(containerList.size())}));
+			throw new WbemsmtException(WbemsmtException.ERR_UPDATE_CONTROLS,MessageFormat.format(msg,new Object[]{new Integer(modelElements.size()),new Integer(containerList.size())}));
 		}
 		
 		for (int i=0; i <  modelElements.size(); i++) {
@@ -427,32 +423,150 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 			String signature = methodName + "(" + containerClass.getName().toString() + "," + modelClass.getName().toString() +")";
 			try {
-				Method method = getUpdateControlsDelegatee().getClass().getMethod(methodName, new Class[]{containerClass,modelClass});
-				method.setAccessible(true);
+				Method method = findMethod(getUpdateControlsDelegatee().getClass(),methodName,containerClass,modelClass);
 				//1.5 method.invoke(this,new Object[]{containerClass.cast(containerElement),modelClass.cast(modelElement)});
 				method.invoke(getUpdateControlsDelegatee(),new Object[]{containerElement,modelElement});
 			} catch (NoSuchMethodException e) {
 				logger.log(Level.SEVERE, "Cannot update Controls with Method " + signature +". Method not exists");
-				throw new UpdateControlsException("Internal error");
+				throw new WbemsmtException(WbemsmtException.ERR_UPDATE_CONTROLS,"Internal error");
 			} catch (InvocationTargetException e) {
 				Throwable t = e.getTargetException();
 				logger.log(Level.SEVERE, "Cannot update Object with Method " + signature,t);
-				if (t instanceof UpdateControlsException) {
-					UpdateControlsException e1 = (UpdateControlsException) t;
+				if (t instanceof WbemsmtException) {
+				    WbemsmtException e1 = (WbemsmtException) t;
 					throw e1;
 				}
 				else
 				{
-					throw new UpdateControlsException("Internal error",t);
+					throw new WbemsmtException(WbemsmtException.ERR_UPDATE_CONTROLS,"Internal error",t);
 				}
 			} catch (Exception e) {
 				logger.log(Level.SEVERE, "Cannot update Object with Method " + signature,e);
-				throw new UpdateControlsException("Internal error");
+				throw new WbemsmtException(WbemsmtException.ERR_UPDATE_CONTROLS,"Internal error");
 			} 
 		}		
 	}
 	
 	/**
+	 * Try to find the method on the delegatee
+	 * @param delegateeClass
+	 * @param methodName the name of the method
+	 * @param containerClass the container class (first parameter of the method)
+	 * @param fcoClass the fco class (first parameter of the method) - if a method signature with the fcoClass was not found the method tries to use the baseclass 
+	 * @return the method - never null (in this case the NoSuchMethodException is thrown)
+	 * @throws NoSuchMethodException
+	 */
+	private Method findMethod(Class delegateeClass, String methodName, Class containerClass,
+            Class fcoClass) throws NoSuchMethodException {
+
+	    Method result = null;
+	    String signature = null;
+	    Class cls = fcoClass; 
+	    
+	    while (cls != null && result == null)
+	    {
+    	    try {
+                signature = methodName + "(" + containerClass.getName().toString() + "," + cls.getName().toString() +")";
+                result = delegateeClass.getMethod(methodName, new Class[]{containerClass,cls});
+                result.setAccessible(true);
+                logger.fine("Using method with signature " + signature);
+            }
+            catch (NoSuchMethodException e) {
+                //that's okay we try the baseClass
+                logger.info("Cannot find method with siganture " + signature + " - Trying to use the baseclass of the FCO");
+                cls = cls.getSuperclass();
+            }
+	    }
+        
+	    return result;
+    }
+
+    /**
+     * Try to find the select method , with the name select_<number>_CIMClass
+     * @param selectMethodPrefix the prefix of the select method ==> select_<number>_
+     * @param fcoClass the fco class last part of the method name - if a method signature with the fcoClass was not found the method tries to use the baseclass 
+     * @return the method - never null (in this case the NoSuchMethodException is thrown)
+     * @throws NoSuchMethodException
+     */
+    private Method findSelectMethod(String selectMethodPrefix, Class fcoClass)  {
+
+        Method result = null;
+        String methodName = null;
+        Class cls = fcoClass; 
+        
+        while (cls != null && result == null)
+        {
+            try {
+                methodName = selectMethodPrefix + ClassUtils.getShortClassName(cls);
+                result = getClass().getMethod(methodName, new Class[]{CimObjectKey.class});
+                result.setAccessible(true);
+                logger.fine("Using select method " + methodName+ "(CimObjectKey)");
+            }
+            catch (NoSuchMethodException e) {
+                //that's okay we try the baseClass
+                logger.info("Cannot find select method with siganture " + methodName + "(CimObjectKey) - Trying to use the baseclass of the FCO");
+                cls = cls.getSuperclass();
+            }
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Try to find the select method , with the name select_<number>_CIMClass
+     * @param selectMethodPrefix the prefix of the select method ==> select_<number>_
+     * @param cimClass the fco class last part of the method name - if a method signature with the fcoClass was not found the method tries to use the baseclass 
+     * @return the method - never null (in this case the NoSuchMethodException is thrown)
+     * @throws NoSuchMethodException
+     */
+    private Method findSelectMethod(String selectMethodPrefix, String cimClass) {
+
+        Method result = null;
+        String methodName = null;
+        CIMClass cls;
+        try {
+            cls = AbstractWbemsmtFcoHelper.getClass(getCimClient(),cimClass,getNamespace());
+        }
+        catch (WbemsmtException e2) {
+        	logger.log(Level.SEVERE, "Cannot get Class " + cimClass,e2);
+            return null;
+        } 
+        
+        while (cls != null && result == null)
+        {
+            try {
+                methodName = selectMethodPrefix + cls.getName();
+                result = getClass().getMethod(methodName, new Class[]{CimObjectKey.class});
+                result.setAccessible(true);
+                logger.fine("Using select method " + methodName+ "(CimObjectKey)");
+            }
+            catch (NoSuchMethodException e) {
+                //that's okay we try the baseClass
+                logger.info("Cannot find select method with siganture " + methodName + "(CimObjectKey) - Trying to use the baseclass of the FCO");
+                String superClass = cls.getSuperClassName();
+                //the jsr48 api is not clear on the return value of getSuperClassName() - What is returned if there is no super class ??? 
+                if (superClass != null && superClass.length() > 0 && ! superClass.equals(cimClass))
+                {
+                	try {
+                        cls = AbstractWbemsmtFcoHelper.getClass(getCimClient(),superClass,getNamespace());
+                    }
+                    catch (WbemsmtException e1) {
+                        logger.log(Level.SEVERE, "Cannot get SuperClass " + superClass,e1);
+                    } 
+                }
+                else
+                {
+                    cls = null;
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+
+    
+    /**
 	 * saves the changes contained in the dataContainer
 	 * 
 	 * The implementor have to decide if he wants to save the childs too
@@ -460,9 +574,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * Calls the saveImpl-Methods on the derived class
 	 * 
 	 * @param dataContainer
-	 * @throws ObjectUpdateException
+	 * @throws WbemsmtException
 	 */
-	public void save(DataContainer dataContainer) throws ObjectSaveException
+	public void save(DataContainer dataContainer) throws WbemsmtException
 	{
 		
 		if (!DataContainerUtil.validateEnteredValues(dataContainer))
@@ -489,21 +603,21 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			}
 		} catch (NoSuchMethodException e) {
 			logger.log(Level.SEVERE, "Cannot save Object with Method " + methodName + "(" + interfaceClass.getName().toString() + "). Method not exists");
-			throw new ObjectSaveException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_SAVE_OBJECT,"Internal error");
 		} catch (InvocationTargetException e) {
 			Throwable t = e.getTargetException();
 			logger.log(Level.SEVERE, "Cannot save Object with Method " + methodName,t);
-			if (t instanceof ObjectSaveException) {
-				ObjectSaveException e1 = (ObjectSaveException) t;
+			if (t instanceof WbemsmtException) {
+			    WbemsmtException e1 = (WbemsmtException) t;
 				throw e1;
 			}
 			else
 			{
-				throw new ObjectSaveException("Internal error",t);
+				throw new WbemsmtException(WbemsmtException.ERR_SAVE_OBJECT,"Internal error",t);
 			}
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Cannot save Object with Method " + methodName,e);
-			throw new ObjectSaveException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_SAVE_OBJECT,"Internal error");
 		}
 		
 		
@@ -517,15 +631,15 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 *     e.g. if a user wants to update a resourceRecord-ContainerItem with a zone-ModelElement   
 	 * @param dataContainer
 	 * @param modelElements
-	 * @throws UpdateControlsException
+	 * @throws WbemsmtException
 	 */
-	public MessageList save(List containerList, List modelElements) throws ObjectSaveException
+	public MessageList save(List containerList, List modelElements) throws WbemsmtException
 	{
 		
 		if (modelElements.size() != containerList.size())
 		{
 			String msg = "There are {0} resource Records found in Model and [1} in GUI. Cannot save the GUI";
-			throw new ObjectSaveException(bundle.getString(msg,new Object[]{new Integer(modelElements.size()),new Integer(containerList.size())}));
+			throw new WbemsmtException(WbemsmtException.ERR_SAVE_OBJECT,bundle.getString(msg,new Object[]{new Integer(modelElements.size()),new Integer(containerList.size())}));
 		}
 		
 		MessageList result = new MessageList();
@@ -549,27 +663,27 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 			String signature = methodName + "(" + containerClass.getName().toString() + "," + modelClass.getName().toString() +")";
 			try {
-				Method method = getSaveDelegatee().getClass().getMethod(methodName, new Class[]{containerClass,modelClass});
+			    Method method = findMethod(getSaveDelegatee().getClass(),methodName, containerClass,modelClass);
 				method.setAccessible(true);
 				MessageList result1 = (MessageList) method.invoke(getSaveDelegatee(),new Object[]{containerElement,modelElement});
 				result.addAll(result1);
 			} catch (NoSuchMethodException e) {
 				logger.log(Level.SEVERE, "Cannot save Controls with Method " + signature +". Method not exists");
-				throw new ObjectSaveException("Internal error");
+				throw new WbemsmtException(WbemsmtException.ERR_SAVE_OBJECT,"Internal error");
 			} catch (InvocationTargetException e) {
 				Throwable t = e.getTargetException();
 				logger.log(Level.SEVERE, "Cannot save Object with Method " + signature,t);
-				if (t instanceof ObjectSaveException) {
-					ObjectSaveException e1 = (ObjectSaveException) t;
+				if (t instanceof WbemsmtException) {
+				    WbemsmtException e1 = (WbemsmtException) t;
 					throw e1;
 				}
 				else
 				{
-					throw new ObjectSaveException("Internal error",t);
+					throw new WbemsmtException(WbemsmtException.ERR_SAVE_OBJECT,"Internal error",t);
 				}
 			} catch (Exception e) {
 				logger.log(Level.SEVERE, "Cannot save Object with Method " + signature,e);
-				throw new ObjectSaveException("Internal error");
+				throw new WbemsmtException(WbemsmtException.ERR_SAVE_OBJECT,"Internal error");
 			} 
 		}		
 
@@ -592,9 +706,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * Calls the saveImpl-Methods on the derived class
 	 * 
 	 * @param dataContainer
-	 * @throws ObjectUpdateException
+	 * @throws WbemsmtException
 	 */
-	public void revert(DataContainer dataContainer) throws ObjectRevertException
+	public void revert(DataContainer dataContainer) throws WbemsmtException
 	{
 		
 		if (!DataContainerUtil.validateEnteredValues(dataContainer))
@@ -627,21 +741,21 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			
 		} catch (NoSuchMethodException e) {
 			logger.log(Level.SEVERE, "Cannot revert Object with Method " + methodName + "(" + interfaceClass.getName().toString() + "). Method not exists");
-			throw new ObjectRevertException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_REVERT_OBJECT,"Internal error");
 		} catch (InvocationTargetException e) {
 			Throwable t = e.getTargetException();
 			logger.log(Level.SEVERE, "Cannot revert Object with Method " + methodName,t);
-			if (t instanceof ObjectRevertException) {
-				ObjectRevertException e1 = (ObjectRevertException) t;
+			if (t instanceof WbemsmtException) {
+			    WbemsmtException e1 = (WbemsmtException) t;
 				throw e1;
 			}
 			else
 			{
-				throw new ObjectRevertException("Internal error",t);
+				throw new WbemsmtException(WbemsmtException.ERR_REVERT_OBJECT,"Internal error",t);
 			}
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Cannot revert Object with Method " + methodName,e);
-			throw new ObjectRevertException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_REVERT_OBJECT,"Internal error");
 		} 
 		
 		DataContainerUtil.resetModifiedFlag(dataContainer);
@@ -655,15 +769,15 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 *     e.g. if a user wants to update a resourceRecord-ContainerItem with a zone-ModelElement   
 	 * @param dataContainer
 	 * @param modelElements
-	 * @throws UpdateControlsException
+	 * @throws WbemsmtException
 	 */
-	public MessageList revert(List containerList, List modelElements) throws ObjectRevertException
+	public MessageList revert(List containerList, List modelElements) throws WbemsmtException
 	{
 		
 		if (modelElements.size() != containerList.size())
 		{
 			String msg = "There are {0} resource Records found in Model and [1} in GUI. Cannot revert the GUI";
-			throw new ObjectRevertException(bundle.getString(msg,new Object[]{new Integer(modelElements.size()),new Integer(containerList.size())}));
+			throw new WbemsmtException(WbemsmtException.ERR_REVERT_OBJECT,bundle.getString(msg,new Object[]{new Integer(modelElements.size()),new Integer(containerList.size())}));
 		}
 		
 		MessageList result = new MessageList();
@@ -687,27 +801,27 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 			String signature = methodName + "(" + containerClass.getName().toString() + "," + modelClass.getName().toString() +")";
 			try {
-				Method method = getRevertDelegatee().getClass().getMethod(methodName, new Class[]{containerClass,modelClass});
+			    Method method = findMethod(getRevertDelegatee().getClass(),methodName, containerClass,modelClass);
 				method.setAccessible(true);
 				MessageList result1 = (MessageList) method.invoke(getRevertDelegatee(),new Object[]{containerElement,modelElement});
 				result.addAll(result1);
 			} catch (NoSuchMethodException e) {
 				logger.log(Level.SEVERE, "Cannot revert Controls with Method " + signature +". Method not exists");
-				throw new ObjectRevertException("Internal error");
+				throw new WbemsmtException(WbemsmtException.ERR_REVERT_OBJECT,"Internal error");
 			} catch (InvocationTargetException e) {
 				Throwable t = e.getTargetException();
 				logger.log(Level.SEVERE, "Cannot revert Object with Method " + signature,t);
-				if (t instanceof ObjectRevertException) {
-					ObjectRevertException e1 = (ObjectRevertException) t;
+				if (t instanceof WbemsmtException) {
+				    WbemsmtException e1 = (WbemsmtException) t;
 					throw e1;
 				}
 				else
 				{
-					throw new ObjectRevertException("Internal error",t);
+					throw new WbemsmtException(WbemsmtException.ERR_REVERT_OBJECT,"Internal error",t);
 				}
 			} catch (Exception e) {
 				logger.log(Level.SEVERE, "Cannot revert Object with Method " + signature,e);
-				throw new ObjectRevertException("Internal error");
+				throw new WbemsmtException(WbemsmtException.ERR_REVERT_OBJECT,"Internal error");
 			} 
 		}		
 		
@@ -730,9 +844,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * The implementor have to decide if he wants to save the childs too
 	 * 
 	 * @param dataContainer
-	 * @throws ObjectUpdateException
+	 * @throws WbemsmtException
 	 */
-	public void updateModel(DataContainer dataContainer) throws ObjectUpdateException
+	public void updateModel(DataContainer dataContainer) throws WbemsmtException
 	{
 		updateModel(dataContainer, null);
 	}	
@@ -746,9 +860,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * 
 	 * @param dataContainer
 	 * @param updateTrigger The input component who triggered the update
-	 * @throws ObjectUpdateException
+	 * @throws WbemsmtException
 	 */
-	public void updateModel(DataContainer dataContainer, LabeledBaseInputComponentIf updateTrigger) throws ObjectUpdateException
+	public void updateModel(DataContainer dataContainer, LabeledBaseInputComponentIf updateTrigger) throws WbemsmtException
 	{
 		//This variable can be set by the business logic which is creating a new object
 		pathOfTreeNode = null;
@@ -773,21 +887,21 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			method.invoke(getUpdateModelDelegatee(),new Object[]{dataContainer});
 		} catch (NoSuchMethodException e) {
 			logger.log(Level.SEVERE, "Cannot update Object with Method " + methodName + "(" + interfaceClass.getName().toString() + "). Method not exists");
-			throw new ObjectUpdateException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_UPDATE_OBJECT,"Internal error");
 		} catch (InvocationTargetException e) {
 			Throwable t = e.getTargetException();
 			logger.log(Level.SEVERE, "Cannot update Object with Method " + methodName,t);
-			if (t instanceof ObjectUpdateException) {
-				ObjectUpdateException e1 = (ObjectUpdateException) t;
+			if (t instanceof WbemsmtException) {
+			    WbemsmtException e1 = (WbemsmtException) t;
 				throw e1;
 			}
 			else
 			{
-				throw new ObjectUpdateException("Internal error",t);
+				throw new WbemsmtException(WbemsmtException.ERR_UPDATE_OBJECT,"Internal error",t);
 			}
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Cannot update Object with Method " + methodName,e);
-			throw new ObjectUpdateException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_UPDATE_OBJECT,"Internal error");
 		} 
 	}
 	
@@ -799,14 +913,14 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 *     e.g. if a user wants to update a resourceRecord-ContainerItem with a zone-ModelElement   
 	 * @param dataContainer
 	 * @param modelElements
-	 * @throws UpdateControlsException
+	 * @throws WbemsmtException
 	 */
-	public void updateModel(List containerList, List modelElements) throws ObjectUpdateException
+	public void updateModel(List containerList, List modelElements) throws WbemsmtException
 	{
 		if (modelElements.size() != containerList.size())
 		{
 			String msg = "There are {0} resource Records found in Model and [1} in GUI. Cannot update the GUI";
-			throw new ObjectUpdateException(bundle.getString(msg,new Object[]{new Integer(modelElements.size()),new Integer(containerList.size())}));
+			throw new WbemsmtException(WbemsmtException.ERR_UPDATE_OBJECT,bundle.getString(msg,new Object[]{new Integer(modelElements.size()),new Integer(containerList.size())}));
 		}
 		
 		for (int i=0; i <  modelElements.size(); i++) {
@@ -824,26 +938,26 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 			String signature = methodName + "(" + containerClass.getName().toString() + "," + modelClass.getName().toString() +")";
 			try {
-				Method method = getUpdateModelDelegatee().getClass().getMethod(methodName, new Class[]{containerClass,modelClass});
+			    Method method = findMethod(getUpdateModelDelegatee().getClass(),methodName, containerClass,modelClass);
 				method.setAccessible(true);
 				method.invoke(getUpdateModelDelegatee(),new Object[]{containerElement,modelElement});
 			} catch (NoSuchMethodException e) {
 				logger.log(Level.SEVERE, "Cannot update Model with Method " + signature +". Method not exists");
-				throw new ObjectUpdateException("Internal error");
+				throw new WbemsmtException(WbemsmtException.ERR_UPDATE_OBJECT,"Internal error");
 			} catch (InvocationTargetException e) {
 				Throwable t = e.getTargetException();
 				logger.log(Level.SEVERE, "Cannot update Model with Method " + signature,t);
-				if (t instanceof ObjectUpdateException) {
-					ObjectUpdateException e1 = (ObjectUpdateException) t;
+				if (t instanceof WbemsmtException) {
+				    WbemsmtException e1 = (WbemsmtException) t;
 					throw e1;
 				}
 				else
 				{
-					throw new ObjectUpdateException("Internal error",t);
+					throw new WbemsmtException(WbemsmtException.ERR_UPDATE_OBJECT,"Internal error",t);
 				}
 			} catch (Exception e) {
 				logger.log(Level.SEVERE, "Cannot update Model with Method " + signature,e);
-				throw new ObjectUpdateException("Internal error");
+				throw new WbemsmtException(WbemsmtException.ERR_UPDATE_OBJECT,"Internal error");
 			} 
 		}		
 	}
@@ -851,9 +965,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	/**
 	 * Deletes the selected Object of the given type
 	 * @param dataContainerClass
-	 * @throws ObjectDeletionException
+	 * @throws WbemsmtException
 	 */
-	public void delete() throws ObjectDeletionException
+	public void delete() throws WbemsmtException
 	{
 		Object obj = selectionHierarchy.peek();
 		Class objectClass = obj.getClass();
@@ -877,30 +991,30 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		
 		} catch (NoSuchMethodException e) {
 			logger.log(Level.SEVERE, "Cannot delete Object with Method " + methodName + "(" + objectClass.getName().toString() + "). Method not exists");
-			throw new ObjectDeletionException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_DELETE_OBJECT,"Internal error");
 		} catch (InvocationTargetException e) {
 			Throwable t = e.getTargetException();
 			logger.log(Level.SEVERE, "Cannot delete Object with Method " + methodName,t);
-			if (t instanceof ObjectDeletionException) {
-				ObjectDeletionException e1 = (ObjectDeletionException) t;
+			if (t instanceof WbemsmtException) {
+			    WbemsmtException e1 = (WbemsmtException) t;
 				throw e1;
 			}
 			else
 			{
-				throw new ObjectDeletionException("Internal error",t);
+				throw new WbemsmtException(WbemsmtException.ERR_DELETE_OBJECT,"Internal error",t);
 			}
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Cannot delete Object with Method " + methodName,e);
-			throw new ObjectDeletionException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_DELETE_OBJECT,"Internal error");
 		} 
 	}
 	
 	/**
 	 * creates the object that belongs to the given container
 	 * @param dataContainer
-	 * @throws ObjectCreationException
+	 * @throws WbemsmtException
 	 */
-	public void create(DataContainer dataContainer) throws ObjectCreationException
+	public void create(DataContainer dataContainer) throws WbemsmtException
 	{
 		
 		//This variable can be set by the business logic which is creating a new object
@@ -920,30 +1034,30 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			method.invoke(getCreateDelegatee(),new Object[]{dataContainer});
 		} catch (NoSuchMethodException e) {
 			logger.log(Level.SEVERE, "Cannot create Object with Method " + methodName + "(" + interfaceClass.getName().toString() + "). Method not exists");
-			throw new ObjectCreationException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_CREATE_OBJECT,"Internal error");
 		} catch (InvocationTargetException e) {
 			Throwable t = e.getTargetException();
 			logger.log(Level.SEVERE, "Cannot create Object with Method " + methodName,t);
-			if (t instanceof ObjectCreationException) {
-				ObjectCreationException e1 = (ObjectCreationException) t;
+			if (t instanceof WbemsmtException) {
+			    WbemsmtException e1 = (WbemsmtException) t;
 				throw e1;
 			}
 			else
 			{
-				throw new ObjectCreationException("Internal error",t);
+				throw new WbemsmtException(WbemsmtException.ERR_CREATE_OBJECT,"Internal error",t);
 			}
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Cannot create Object with Method " + methodName,e);
-			throw new ObjectCreationException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_CREATE_OBJECT,"Internal error");
 		} 
 	}
 
 	/**
 	 * install the validators for the given container
 	 * @param dataContainer
-	 * @throws ValidationException 
+	 * @throws WbemsmtException 
 	 */
-	private void installValidators(DataContainer dataContainer) throws ValidationException
+	private void installValidators(DataContainer dataContainer) throws WbemsmtException
 	{
 		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
@@ -959,21 +1073,21 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			method.invoke(getInstallValidatorsDelegatee(),new Object[]{dataContainer});
 		} catch (NoSuchMethodException e) {
 			logger.log(Level.SEVERE, "Cannot InstallValidators with Method " + methodName + "(" + interfaceClass.getName() + "). Method not exists");
-			throw new ValidationException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_VALIDATION,"Internal error");
 		} catch (InvocationTargetException e) {
 			Throwable t = e.getTargetException();
 			logger.log(Level.SEVERE, "Cannot InstallValidators with Method " + methodName,t);
-			if (t instanceof ValidationException) {
-				ValidationException e1 = (ValidationException) t;
+			if (t instanceof WbemsmtException) {
+			    WbemsmtException e1 = (WbemsmtException) t;
 				throw e1;
 			}
 			else
 			{
-				throw new ValidationException("Internal error",t);
+				throw new WbemsmtException(WbemsmtException.ERR_VALIDATION,"Internal error",t);
 			}
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Cannot InstallValidators with Method " + methodName,e);
-			throw new ValidationException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_VALIDATION,"Internal error");
 		} 
 	}
 	
@@ -991,9 +1105,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * validates the dataContainer
 	 * @param dataContainer
 	 * @return
-	 * @throws ValidationException
+	 * @throws WbemsmtException
 	 */
-	public void validateValues(DataContainer dataContainer) throws ValidationException {
+	public void validateValues(DataContainer dataContainer) throws WbemsmtException {
 		
 		if (!validators.containsKey(dataContainer))
 		{
@@ -1013,58 +1127,182 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * Count a class that should be the fco of datacontainer linked as list within a parent container
 	 * @param classToCount
 	 * @return
-	 * @throws CountException
+	 * @throws WbemsmtException
 	 */
-	public int count(Class classToCount) throws CountException
+	public int count(Class classToCount) throws WbemsmtException
 	{
-		String className = classToCount.getName();
-		if (className.indexOf(".")>-1)
-		{
-			className = className.substring(className.lastIndexOf(".")+1);
-		}
-		
-		logger.fine("Counting " + className);		
-
-		String methodName = "countImpl_" + className;
-		
-		logger.fine("Using method " + methodName);		
-		
-		try {
-			Method method = getCountDelegatee().getClass().getMethod(methodName, new Class[]{});
-			method.setAccessible(true);
-			Integer count = (Integer)method.invoke(getCountDelegatee(),new Object[]{});
-			return count.intValue();
-		} catch (NoSuchMethodException e) {
-			logger.log(Level.SEVERE, "Cannot count with Method " + methodName +". Method not exists or returns no int");
-			throw new CountException("Internal error");
-		} catch (InvocationTargetException e) {
-			Throwable t = e.getTargetException();
-			logger.log(Level.SEVERE, "Cannot update Object with Method " + methodName,t);
-			if (t instanceof CountException) {
-				throw (CountException)t;
-			}
-			throw new CountException("Internal error",t);
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, "Cannot update Object with Method " + methodName,e);
-			throw new CountException("Internal error");
-		} 		
+		return count(classToCount, null); 		
 	}
 
-	/**
+    /**
+     * Count a class that should be the fco of datacontainer linked as list within a parent container<br>
+     * <br>
+     * if parentContainer != null the method searches<br>
+     * <br>
+     * first for a method count_&lt;classToCount&gt;(DataContainer parentClass)<br>
+     * <br>
+     * if parentContainer == null or method count_&lt;classToCount&gt;(DataContainer parentClass) was not found<br>
+     * the method searches for<br>
+     * <br>
+     * count_&lt;classToCount&gt;<br>
+     * <br>
+     * <br>
+     * @param classToCount the child to be counted
+     * @param parentContainer the parentContainer
+     * @return
+     * @throws WbemsmtException
+     * @deprecated count(String role, Class classToCount, DataContainer parentContainer) should be used
+     */
+    public int count(Class classToCount, DataContainer parentContainer) throws WbemsmtException
+    {
+        String child = ClassUtils.getShortClassName(classToCount);
+        
+        if (parentContainer != null)
+        {
+            Class interfaceClass = DataContainerUtil.getDataContainerInterface(parentContainer);
+            logger.fine("Counting " + child + " with parent " + interfaceClass.getName());       
+            String methodName = "countImpl_" + child;
+            logger.fine("Using method " + methodName + "( DataContainer " + interfaceClass.getName() + ")");      
+            try {
+                Method method = getCountDelegatee().getClass().getMethod(methodName, new Class[]{interfaceClass});
+                method.setAccessible(true);
+                Integer count = (Integer)method.invoke(getCountDelegatee(),new Object[]{parentContainer});
+                return count.intValue();
+            } catch (NoSuchMethodException e) {
+                //do nothing but add a log 
+                logger.info("method " + methodName + " was not found. Using method without parent");
+            } catch (InvocationTargetException e) {
+                Throwable t = e.getTargetException();
+                logger.log(Level.SEVERE, "Cannot update Object with Method " + methodName,t);
+                if (t instanceof WbemsmtException) {
+                    throw (WbemsmtException)t;
+                }
+                throw new WbemsmtException(WbemsmtException.ERR_COUNT,"Internal error",t);
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, "Cannot update Object with Method " + methodName,e);
+                throw new WbemsmtException(WbemsmtException.ERR_COUNT,"Internal error");
+            }       
+        }
+        
+        logger.fine("Counting " + child);       
+        String methodName = "countImpl_" + child;
+        logger.fine("Using method " + methodName);      
+        try {
+            Method method = getCountDelegatee().getClass().getMethod(methodName, new Class[]{});
+            method.setAccessible(true);
+            Integer count = (Integer)method.invoke(getCountDelegatee(),new Object[]{});
+            return count.intValue();
+        } catch (NoSuchMethodException e) {
+            logger.log(Level.SEVERE, "Cannot count with Method " + methodName +". Method not exists or returns no int");
+            throw new WbemsmtException(WbemsmtException.ERR_COUNT,"Internal error");
+        } catch (InvocationTargetException e) {
+            Throwable t = e.getTargetException();
+            logger.log(Level.SEVERE, "Cannot update Object with Method " + methodName,t);
+            if (t instanceof WbemsmtException) {
+                throw (WbemsmtException)t;
+            }
+            throw new WbemsmtException(WbemsmtException.ERR_COUNT,"Internal error",t);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Cannot update Object with Method " + methodName,e);
+            throw new WbemsmtException(WbemsmtException.ERR_COUNT,"Internal error");
+        }       
+        
+    }
+    
+    
+    /**
+     * Count a class that should be the fco of datacontainer linked as list within a parent container<br>
+     * <br>
+     * if parentContainer != null the method searches<br>
+     * <br>
+     * first for a method count_&lt;classToCount&gt;(DataContainer parentClass)<br>
+     * <br>
+     * if parentContainer == null or method count_&lt;classToCount&gt;(DataContainer parentClass) was not found<br>
+     * the method searches for<br>
+     * <br>
+     * count_&lt;classToCount&gt;<br>
+     * <br>
+     * <br>
+     * @param classToCount the child to be counted
+     * @param parentContainer the parentContainer
+     * @param role the role of the children
+     * @return
+     * @throws WbemsmtException
+     */
+    public int count(String role, Class classToCount, DataContainer parentContainer) throws WbemsmtException
+    {
+        String child = ClassUtils.getShortClassName(classToCount);
+        
+        role = StringUtils.capitalize(role);
+        
+        if (parentContainer != null)
+        {
+            Class interfaceClass = DataContainerUtil.getDataContainerInterface(parentContainer);
+            logger.fine("Counting " + child + " with parent " + interfaceClass.getName() + " and with role " + role);       
+            String methodName = "countImpl_" + role;
+            logger.fine("Using method " + methodName + "(Class childClass, DataContainer " + interfaceClass.getName() + ")");      
+            try {
+                Method method = getCountDelegatee().getClass().getMethod(methodName, new Class[]{Class.class, interfaceClass});
+                method.setAccessible(true);
+                Integer count = (Integer)method.invoke(getCountDelegatee(),new Object[]{classToCount, parentContainer});
+                return count.intValue();
+            } catch (NoSuchMethodException e) {
+                //do nothing but add a log 
+                logger.info("method " + methodName + " was not found. Using method without parent");
+            } catch (InvocationTargetException e) {
+                Throwable t = e.getTargetException();
+                logger.log(Level.SEVERE, "Cannot update Object with Method " + methodName,t);
+                if (t instanceof WbemsmtException) {
+                    throw (WbemsmtException)t;
+                }
+                throw new WbemsmtException(WbemsmtException.ERR_COUNT,"Internal error",t);
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, "Cannot update Object with Method " + methodName,e);
+                throw new WbemsmtException(WbemsmtException.ERR_COUNT,"Internal error");
+            }       
+        }
+        
+        logger.fine("Counting " + child);       
+        String methodName = "countImpl_" + role;
+        logger.fine("Using method " + methodName);      
+        try {
+            Method method = getCountDelegatee().getClass().getMethod(methodName, new Class[]{Class.class});
+            method.setAccessible(true);
+            Integer count = (Integer)method.invoke(getCountDelegatee(),new Object[]{classToCount});
+            return count.intValue();
+        } catch (NoSuchMethodException e) {
+            logger.log(Level.SEVERE, "Cannot count with Method " + methodName +". Method not exists or returns no int");
+            throw new WbemsmtException(WbemsmtException.ERR_COUNT,"Internal error");
+        } catch (InvocationTargetException e) {
+            Throwable t = e.getTargetException();
+            logger.log(Level.SEVERE, "Cannot update Object with Method " + methodName,t);
+            if (t instanceof WbemsmtException) {
+                throw (WbemsmtException)t;
+            }
+            throw new WbemsmtException(WbemsmtException.ERR_COUNT,"Internal error",t);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Cannot update Object with Method " + methodName,e);
+            throw new WbemsmtException(WbemsmtException.ERR_COUNT,"Internal error");
+        }       
+        
+    }
+        
+    /**
 	 * Get the CimClient of this adapter
 	 * @return
 	 */
-	public CIMClient getCimClient() {
+	public WBEMClient getCimClient() {
 		return cimClient;
 	}
 
 	/**
 	 * set the CimClient of this Adapter
 	 * @param cimClient
-	 * @throws ModelLoadException 
+	 * @throws WbemsmtException 
 	 */
-	public void setCimClient(CIMClient cimClient) throws ModelLoadException {
+	public void setCimClient(WBEMClient cimClient) throws WbemsmtException {
 		this.cimClient = cimClient;
+		namespace = WbemsmtSession.getSession().getCIMClientPool(cimClient).getNamespace(cimClient);
 	}
 
 	/**
@@ -1119,9 +1357,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * init the wizard with the given Container
 	 * @param base 
 	 * @param dataContainer
-	 * @throws InitWizardException 
+	 * @throws WbemsmtException 
 	 */
-	public void initWizard(WizardBase base, DataContainer dataContainer, String currentPageName) throws InitWizardException {
+	public void initWizard(WizardBase base, DataContainer dataContainer, String currentPageName) throws WbemsmtException {
 		
 		activeModule = ACTIVE_WIZARD;
 		
@@ -1145,21 +1383,21 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			method.invoke(getInitWizardDelegatee(),new Object[]{dataContainer,base.getWizardContainer(),currentPageName});
 		} catch (NoSuchMethodException e) {
 			logger.log(Level.SEVERE,"Cannot init wizard with Method " + methodName + "(" + interfaceClass.getName().toString() + "). Method not exists",e);
-			throw new InitWizardException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_INIT_WIZARD,"Internal error");
 		} catch (InvocationTargetException e) {
 			Throwable t = e.getTargetException();
 			logger.log(Level.SEVERE, "Cannot init wizard with Method " + methodName,t);
-			if (t instanceof InitWizardException) {
-				InitWizardException e1 = (InitWizardException) t;
+			if (t instanceof WbemsmtException) {
+			    WbemsmtException e1 = (WbemsmtException) t;
 				throw e1;
 			}
 			else
 			{
-				throw new InitWizardException("Internal error",t);
+				throw new WbemsmtException(WbemsmtException.ERR_INIT_WIZARD,"Internal error",t);
 			}
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Cannot init wizard with Method " + methodName,e);
-			throw new InitWizardException("Internal error");
+			throw new WbemsmtException(WbemsmtException.ERR_INIT_WIZARD,"Internal error");
 		} 
 		
 	}
@@ -1198,10 +1436,10 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	
 	/**
 	 * reloads the Tree. Is only executed if marked for reload
-	 * @throws WbemSmtException
+	 * @throws WbemsmtException
 	 * @see AbstractBaseCimAdapter#markedForReload
 	 */
-	public void reload() throws WbemSmtException
+	public void reload() throws WbemsmtException
 	{
 		if (markedForReload)
 		{
@@ -1224,7 +1462,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	{
 		CimAdapterFactory.getInstance().removeAdapter(this);
 		refreshItems.clear();
-		
+		clearSelection();
 		if ( removeDataContainerThread != null)
 		{
 			removeDataContainerThread.cleanup();
@@ -1360,27 +1598,58 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 */
 	public String getConfigurationValue(String key)
 	{
-		if (configurationValues != null && configurationValues.get(key) != null)
-		{
-			ConfigurationValueData value = (ConfigurationValueData) configurationValues.get(key);
-			return value.getValue();
-		}
-		else
-		{
-			return null;
-		}
+		return getConfigurationValue(key,null);
 	}
+	
+    /**
+     * get the configured value
+     * @param key
+     * @param defaultValue
+     * @return the value or default value if for the given key no value was found
+     */
+    public String getConfigurationValue(String key, String defaultValue)
+    {
+        if (configurationValues != null && configurationValues.get(key) != null)
+        {
+            ConfigurationValueData value = (ConfigurationValueData) configurationValues.get(key);
+            return value.getValue() != null ? value.getValue() : defaultValue;
+        }
+        else
+        {
+            return defaultValue;
+        }
+    }	
 
-	   /**
+    public String getNamespace() {
+        return namespace;
+    }
+
+    /**
      * Get the presentationlayer specific component which is responsible for adding asynchronous messages
      * @return
      */
     public AsynchronousMessageHandler getAsynchronousMessageHandler() {
         return asynchronousMessageHandler;
     }
-	
 
+    /**
+     * Clear the current selection
+     * 
+     * subclasses can override this method to clear the selected business objects
+     */
+    public void clearSelection()
+    {
+        selectionHierarchy.clear();
+    }
+
+    /**
+     * get a new CIM Client instance
+     * @return
+     * @throws WbemsmtException
+     */
+    public WBEMClient getNewCimClient() throws WbemsmtException {
+        return WbemsmtSession.getSession().getCIMClientPool(getCimClient()).getNewCIMClient(getNamespace());
+    }
 	
-	
-	
+    
 }

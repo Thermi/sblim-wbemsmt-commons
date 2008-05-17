@@ -21,17 +21,18 @@
 
 package org.sblim.wbemsmt.tools.converter.multiplevalue;
 
+import javax.cim.UnsignedInteger8;
+
 import org.apache.commons.lang.ClassUtils;
-import org.sblim.wbem.cim.UnsignedInt8;
 import org.sblim.wbemsmt.tools.converter.StringArrayConverter;
 
 public class UnsignedInt8StringArrayConverter extends MultipleValueConverter implements StringArrayConverter {
 
 	protected Object getTypeWithInt(int ii) {
-		return new UnsignedInt8((short)ii);
+		return new UnsignedInteger8((short)ii);
 	}
 	
 	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInt8.class);
+		return ClassUtils.getShortClassName(UnsignedInteger8.class);
 	}	
 }

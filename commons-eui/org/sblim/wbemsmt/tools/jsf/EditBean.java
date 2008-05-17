@@ -36,7 +36,7 @@ import org.sblim.wbemsmt.bl.MessageNumber;
 import org.sblim.wbemsmt.bl.adapter.*;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.ITreeSelector;
-import org.sblim.wbemsmt.exception.*;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
@@ -68,22 +68,22 @@ public abstract class EditBean extends JsfBase{
 	protected static Logger logger = Logger.getLogger(EditBean.class.getName());
 	
 	   
-	public String revert() throws ObjectRevertException
+	public String revert() throws WbemsmtException
 	{
 		return revert(false);
 	}
 	
-	public String revert(boolean silent) throws ObjectRevertException
+	public String revert(boolean silent) throws WbemsmtException
 	{
 		return revert(true,silent);
 	}
 
-	public String revert(boolean doUpdateControls, boolean silent) throws ObjectRevertException {
+	public String revert(boolean doUpdateControls, boolean silent) throws WbemsmtException {
 		EditBean.revert(containers,bundle,doUpdateControls,silent);
 		return EditBean.PAGE_EDIT;
 	}
 	
-	public static MessageList revert(List containers, WbemSmtResourceBundle bundle, boolean doUpdateControls, boolean silent) throws ObjectRevertException {
+	public static MessageList revert(List containers, WbemSmtResourceBundle bundle, boolean doUpdateControls, boolean silent) throws WbemsmtException {
 
 		DataContainerUtil.clearContainerMessages(containers);
 		
@@ -100,15 +100,11 @@ public abstract class EditBean extends JsfBase{
 		{
 			for (Iterator iter = containers.iterator(); iter.hasNext();) {
 				DataContainer dataContainer = (DataContainer) iter.next();
-				try {
-					dataContainer.getAdapter().updateControls(dataContainer);
-					if (MessageList.init(dataContainer).hasErrors())
-					{
-						return DataContainerUtil.getContainerMessages(containers);
-					}
-				} catch (UpdateControlsException e) {
-					throw new ObjectRevertException("Cannot updateControls after Reverting the changes",e);
-				}
+				dataContainer.getAdapter().updateControls(dataContainer);
+                if (MessageList.init(dataContainer).hasErrors())
+                {
+                	return DataContainerUtil.getContainerMessages(containers);
+                }
 			}
 		}
 		
@@ -121,8 +117,8 @@ public abstract class EditBean extends JsfBase{
 		return messages;
 	}
 
-	public abstract String save() throws ValidationException, ObjectSaveException,UpdateControlsException;
-	public abstract void edit(ITaskLauncherTreeNode treeNode) throws ObjectNotFoundException, UpdateControlsException, CountException, InitContainerException;
+	public abstract String save() throws WbemsmtException;
+	public abstract void edit(ITaskLauncherTreeNode treeNode) throws WbemsmtException;
 	public abstract HtmlPanelGrid getPanel();
 	public List getContainers() {
 		return containers;

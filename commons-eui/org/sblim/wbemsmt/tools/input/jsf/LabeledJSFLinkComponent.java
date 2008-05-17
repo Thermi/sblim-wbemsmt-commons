@@ -32,7 +32,7 @@ import org.sblim.wbemsmt.bl.fielddata.LinkData;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tasklauncher.TreeSelector;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.converter.Converter;
@@ -75,7 +75,7 @@ public class LabeledJSFLinkComponent extends LabeledJSFInputComponent {
 				TaskLauncherTreeNodeEvent event1 = new TaskLauncherTreeNodeEvent(this, nodeOfAction ,FacesContext.getCurrentInstance(),TaskLauncherTreeNodeEvent.TYPE_CLICKED);
 				try {
 					outcome = data.getListener().processEvent(event1);
-				} catch (WbemSmtException e) {
+				} catch (WbemsmtException e) {
 					ExceptionUtil.handleException(e);
 					outcome = "";
 				}

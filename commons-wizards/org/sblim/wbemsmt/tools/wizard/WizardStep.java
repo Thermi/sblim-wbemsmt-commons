@@ -20,7 +20,7 @@
 package org.sblim.wbemsmt.tools.wizard;
 
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.wizard.container.IWizardContainer;
 
 /**
@@ -98,9 +98,9 @@ public class WizardStep {
 	 * If adapter and bundleKey is set the resovled bundleKey is returned
 	 * Otrherwise the caption (getTitleText) of the via pageName referenced container is returned
 	 * @return
-	 * @throws WbemSmtException
+	 * @throws WbemsmtException
 	 */
-	public String getText() throws WbemSmtException {
+	public String getText() throws WbemsmtException {
 		if (userdefined)
 		{
 			return adapter.getBundle().getString(bundleKey);

@@ -20,9 +20,10 @@
 
 package org.sblim.wbemsmt.tools.converter;
 
+import javax.cim.UnsignedInteger32;
+
 import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.StringUtils;
-import org.sblim.wbem.cim.UnsignedInt32;
 
 public class UnsignedInt32StringArrayConverter implements StringArrayConverter {
 
@@ -55,7 +56,7 @@ public class UnsignedInt32StringArrayConverter implements StringArrayConverter {
 			index = Integer.parseInt(s);
 		}
 		else if (value == null) {
-			index = 0;
+		    return null;
 		}
 		else
 		{
@@ -70,7 +71,7 @@ public class UnsignedInt32StringArrayConverter implements StringArrayConverter {
 	 */
 	public Object convertForModel(Object guiElement) {
 		
-		if (values == null)
+		if (values == null || guiElement == null)
 		{
 			return null;
 		}
@@ -79,10 +80,10 @@ public class UnsignedInt32StringArrayConverter implements StringArrayConverter {
 			String textInArray = values[i];
 			if (textInArray.equals(text))
 			{
-				return new UnsignedInt32(i);
+				return new UnsignedInteger32(i);
 			}
 		}
-		if ("".equals(guiElement.toString()))
+		if (guiElement != null || "".equals(guiElement.toString()))
 		{
 			return null;
 		}
@@ -109,7 +110,7 @@ public class UnsignedInt32StringArrayConverter implements StringArrayConverter {
 	}
 	
 	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInt32.class);
+		return ClassUtils.getShortClassName(UnsignedInteger32.class);
 	}	
 	
 }

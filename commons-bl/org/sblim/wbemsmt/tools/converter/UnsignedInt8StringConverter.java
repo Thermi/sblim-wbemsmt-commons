@@ -20,7 +20,8 @@
 
 package org.sblim.wbemsmt.tools.converter;
 
-import org.sblim.wbem.cim.UnsignedInt8;
+import javax.cim.UnsignedInteger8;
+
 
 /**
  * Converts a int in the model to a string based on the given array for th view
@@ -38,7 +39,7 @@ public class UnsignedInt8StringConverter {
 	 */
 	public Object convertForGui(Object value) {
 		try {
-			return "" + ((UnsignedInt8)value).shortValue();
+			return "" + ((UnsignedInteger8)value).shortValue();
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Cannot Convert Object " + value + " to a String");
 		}
@@ -58,7 +59,7 @@ public class UnsignedInt8StringConverter {
 			e.printStackTrace();
 			throw new IllegalArgumentException("Cannot Convert Object " + guiElement + " to a int");
 		}
-		return new UnsignedInt8(index);
+		return new UnsignedInteger8(index);
 	}
 
 	/**

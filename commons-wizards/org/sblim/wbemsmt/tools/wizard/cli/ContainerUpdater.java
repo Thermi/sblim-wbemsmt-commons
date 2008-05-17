@@ -20,10 +20,10 @@
 package org.sblim.wbemsmt.tools.wizard.cli;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
-import org.sblim.wbemsmt.exception.UpdateControlsException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 
 public interface ContainerUpdater {
 
-	public void prepareForUpdateControls(DataContainer container) throws UpdateControlsException;
+	public void prepareForUpdateControls(DataContainer container) throws WbemsmtException;
 	
 }

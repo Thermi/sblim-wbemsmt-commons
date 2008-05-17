@@ -22,26 +22,22 @@ package org.sblim.wbemsmt.cim.indication;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+
 public class IndicationDestination {
 
-	boolean calculatedPort;
-	int port;
-	URL calculatedUrl;
-	String calculatedUrlString;
+	Integer port;
 	private IndicationDestinationPresets presets;
+    private String calculatedUrlString;
+    private URL calculatedUrl;
+    private boolean usingNoIp;
 	
-	public boolean isCalculatedPort() {
-		return calculatedPort;
-	}
-	public void setCalculatedPort(boolean calculatedPort) {
-		this.calculatedPort = calculatedPort;
-	}
-	public int getPort() {
+	public Integer getPort() {
 		return port;
 	}
-	public void setPort(int port) {
+	public void setPort(Integer port) {
 		this.port = port;
 	}
+	
 	public String getCalculatedUrlString() {
 		return calculatedUrlString;
 	}
@@ -52,12 +48,20 @@ public class IndicationDestination {
 		this.calculatedUrlString = url;
 		this.calculatedUrl = new URL(url);
 	}
+	
 	public IndicationDestinationPresets getPresets() {
 		return presets;
 	}
 	public void setPresets(IndicationDestinationPresets presets) {
 		this.presets = presets;
 	}
+    public boolean isUsingNoIp() {
+        return usingNoIp;
+    }
+    public void setUsingNoIp(boolean usingNoIp) {
+        this.usingNoIp = usingNoIp;
+    }
+	
 	
 	
 	

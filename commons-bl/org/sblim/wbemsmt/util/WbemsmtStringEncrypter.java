@@ -27,7 +27,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
 import org.apache.xmlbeans.impl.util.Base64;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 
 public class WbemsmtStringEncrypter
 {
@@ -44,7 +44,7 @@ public class WbemsmtStringEncrypter
      private static final String     UNICODE_FORMAT               = "UTF8";
 
      public WbemsmtStringEncrypter( String encryptionKey )
-               throws EncryptionException
+               throws WbemsmtException
      {
 
           if ( encryptionKey == null )
@@ -62,12 +62,12 @@ public class WbemsmtStringEncrypter
           }
           catch (Exception e)
           {
-               throw new EncryptionException( e );
+              throw new WbemsmtException(WbemsmtException.ERR_CRYPTO, e );
           }
 
      }
 
-     public String encrypt( String unencryptedString ) throws EncryptionException
+     public String encrypt( String unencryptedString ) throws WbemsmtException
      {
           if ( unencryptedString == null || unencryptedString.trim().length() == 0 )
                     throw new IllegalArgumentException(
@@ -85,11 +85,11 @@ public class WbemsmtStringEncrypter
           }
           catch (Exception e)
           {
-               throw new EncryptionException( e );
+              throw new WbemsmtException(WbemsmtException.ERR_CRYPTO, e );
           }
      }
 
-     public String decrypt( String encryptedString ) throws EncryptionException
+     public String decrypt( String encryptedString ) throws WbemsmtException
      {
           if ( encryptedString == null || encryptedString.trim().length() <= 0 )
                     throw new IllegalArgumentException( "encrypted string was null or empty" );
@@ -107,7 +107,7 @@ public class WbemsmtStringEncrypter
           }
           catch (Exception e)
           {
-               throw new EncryptionException( e );
+               throw new WbemsmtException(WbemsmtException.ERR_CRYPTO, e );
           }
      }
 
@@ -121,13 +121,4 @@ public class WbemsmtStringEncrypter
           return stringBuffer.toString();
      }
 
-     public static class EncryptionException extends WbemSmtException
-     {
-		private static final long serialVersionUID = 7119843762595364046L;
-
-		public EncryptionException( Throwable t )
-          {
-               super( t );
-          }
-     }
 }

@@ -20,6 +20,7 @@
   */
 package org.sblim.wbemsmt.bl.fco.metric;
 
+
 public interface CIM_BaseMetricValueIf {
 
 	/**

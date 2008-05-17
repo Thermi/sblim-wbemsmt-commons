@@ -15,7 +15,7 @@
  * Contributors: 
  *              
  *
- * Description: Class for Converting MemoDatas to the value of a HTMLOutputText 
+ * Description: Class for Converting MemoDatas 
  * 
  */
 
@@ -43,7 +43,7 @@ public class MemoDataConverter implements Converter {
 	}
 
 	/**
-	 * Returns true
+	 * Returns true if the guiElement is a string
 	 */
 	public boolean canConvert(Object guiElement) {
 		return guiElement instanceof String;

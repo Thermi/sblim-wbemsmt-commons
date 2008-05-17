@@ -1,485 +1,422 @@
 /** 
  * CIM_ThresholdIndication.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  A subclass of CIM_AlertIndications carrying additional threshold information
- * related to the notification. This subclass is used when one of the
- * ProbableCauses is set to 53, "Threshold Crossed".
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: A subclass of CIM_AlertIndications carrying additional threshold information related to the notification. This subclass is used when one of the ProbableCauses is set to 53, "Threshold Crossed".
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
 
-/**
- *  A subclass of CIM_AlertIndications carrying additional threshold information
- * related to the notification. This subclass is used when one of the
- * ProbableCauses is set to 53, "Threshold Crossed".
- */
-public class CIM_ThresholdIndication extends CIM_AlertIndication  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_ThresholdIndication"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_ThresholdIndication extends CIM_AlertIndication {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.6.0";
-	
-	
-	/**
-	*	A string holding the current reading value that exceeds the threshold. This is modeled as a string for universal mapping, similar to the CIM_Sensor properties in the Device Model.
-	*/
-	public final static String CIM_PROPERTY_OBSERVEDVALUE = "ObservedValue"; //$NON-NLS-1$
-	/**
-	*	A string describing the threshold or naming the property that represents the threshold, if modeled in the CIM hierarchy. In the latter case, the value should be written as <schema name>_ <class name>.<property name>.
-	*/
-	public final static String CIM_PROPERTY_THRESHOLDIDENTIFIER = "ThresholdIdentifier"; //$NON-NLS-1$
-	/**
-	*	A string holding the current value of the threshold. This is modeled as a string for universal mapping, similar to the CIM_Sensor properties in the Device Model.
-	*/
-	public final static String CIM_PROPERTY_THRESHOLDVALUE = "ThresholdValue"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_ThresholdIndication";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_OBSERVEDVALUE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_THRESHOLDIDENTIFIER);
-		CIM_PropertyNameList.add(CIM_PROPERTY_THRESHOLDVALUE);
-				
-		for (int i = 0; i < CIM_AlertIndication.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_AlertIndication.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_OBSERVEDVALUE)||
-				((String)CIM_AlertIndication.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_THRESHOLDIDENTIFIER)||
-				((String)CIM_AlertIndication.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_THRESHOLDVALUE)){
-				continue;
-			}
-			
-			CIM_ThresholdIndication.CIM_PropertyNameList.add(CIM_AlertIndication.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_OBSERVEDVALUE, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_THRESHOLDIDENTIFIER, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_THRESHOLDVALUE, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-				
-		for (int i = 0; i < CIM_AlertIndication.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_AlertIndication.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_OBSERVEDVALUE)||
-				((CIMProperty)CIM_AlertIndication.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_THRESHOLDIDENTIFIER)||
-				((CIMProperty)CIM_AlertIndication.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_THRESHOLDVALUE)){
-				continue;
-			}
-			
-			CIM_ThresholdIndication.CIM_PropertyList.add(CIM_AlertIndication.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_AlertIndication.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constants of property ObservedValue
+     * A string holding the current reading value that exceeds the threshold. This is modeled as a string for universal mapping, similar to the CIM_Sensor properties in the Device Model.
+     */
+    public static class PROPERTY_OBSERVEDVALUE {
+        /**
+         * name of the property ObservedValue
+         */
+        public final static String NAME = "ObservedValue";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_ThresholdIndication() {
+    }
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * Constants of property ThresholdIdentifier
+     * A string describing the threshold or naming the property that represents the threshold, if modeled in the CIM hierarchy. In the latter case, the value should be written as <schema name>_ <class name>.<property name>.
+     */
+    public static class PROPERTY_THRESHOLDIDENTIFIER {
+        /**
+         * name of the property ThresholdIdentifier
+         */
+        public final static String NAME = "ThresholdIdentifier";
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    }
 
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property ThresholdValue
+     * A string holding the current value of the threshold. This is modeled as a string for universal mapping, similar to the CIM_Sensor properties in the Device Model.
+     */
+    public static class PROPERTY_THRESHOLDVALUE {
+        /**
+         * name of the property ThresholdValue
+         */
+        public final static String NAME = "ThresholdValue";
 
+    }
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_ThresholdIndication(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_AlertIndication.getPackages();
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_ThresholdIndication(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
-            }
-            CIM_ThresholdIndication.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   A subclass of CIM_AlertIndications carrying additional threshold information related to the notification. This subclass is used when one of the ProbableCauses is set to 53, "Threshold Crossed".
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_ThresholdIndication(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   A subclass of CIM_AlertIndications carrying additional threshold information related to the notification. This subclass is used when one of the ProbableCauses is set to 53, "Threshold Crossed".
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_ThresholdIndication(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_ThresholdIndication() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("ObservedValue", new CIMProperty("ObservedValue",
+                CIMDataType.STRING_T, null));
+        propertiesToCheck.put("ThresholdIdentifier", new CIMProperty("ThresholdIdentifier",
+                CIMDataType.STRING_T, null));
+        propertiesToCheck.put("ThresholdValue", new CIMProperty("ThresholdValue",
+                CIMDataType.STRING_T, null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_ThresholdIndication.Java_Package_List.toArray(new String[CIM_ThresholdIndication.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property ObservedValue
+     *     * <br>
+     * A string holding the current reading value that exceeds the threshold. This is modeled as a string for universal mapping, similar to the CIM_Sensor properties in the Device Model.
+     *     */
+
+    public String get_ObservedValue() {
+        CIMProperty currentProperty = getProperty(PROPERTY_OBSERVEDVALUE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_OBSERVEDVALUE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property ObservedValue
+     * <br>
+     * A string holding the current reading value that exceeds the threshold. This is modeled as a string for universal mapping, similar to the CIM_Sensor properties in the Device Model.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_ThresholdIndication)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_ThresholdIndication)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_ThresholdIndication)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_ThresholdIndication)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_ThresholdIndication)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_ThresholdIndication)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_ThresholdIndication)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_ThresholdIndication)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_ThresholdIndication)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_ThresholdIndication)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_ObservedValue(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_OBSERVEDVALUE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ObservedValue(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_OBSERVEDVALUE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute ObservedValue
-	
-	public String get_ObservedValue() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ThresholdIndication.CIM_PROPERTY_OBSERVEDVALUE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ThresholdIndication.CIM_PROPERTY_OBSERVEDVALUE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ThresholdIndication.CIM_PROPERTY_OBSERVEDVALUE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ObservedValue(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ThresholdIndication.CIM_PROPERTY_OBSERVEDVALUE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ThresholdIndication.CIM_PROPERTY_OBSERVEDVALUE + " could not be found");
-    		
-		} else if (!CIM_ThresholdIndicationHelper.isValid_ObservedValue(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ThresholdIndication.CIM_PROPERTY_OBSERVEDVALUE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ThresholdIndication.CIM_PROPERTY_OBSERVEDVALUE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute ThresholdIdentifier
-	
-	public String get_ThresholdIdentifier() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ThresholdIndication.CIM_PROPERTY_THRESHOLDIDENTIFIER);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ThresholdIndication.CIM_PROPERTY_THRESHOLDIDENTIFIER + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ThresholdIndication.CIM_PROPERTY_THRESHOLDIDENTIFIER + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ThresholdIdentifier(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ThresholdIndication.CIM_PROPERTY_THRESHOLDIDENTIFIER);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ThresholdIndication.CIM_PROPERTY_THRESHOLDIDENTIFIER + " could not be found");
-    		
-		} else if (!CIM_ThresholdIndicationHelper.isValid_ThresholdIdentifier(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ThresholdIndication.CIM_PROPERTY_THRESHOLDIDENTIFIER);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ThresholdIndication.CIM_PROPERTY_THRESHOLDIDENTIFIER + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property ObservedValue by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	// Attribute ThresholdValue
-	
-	public String get_ThresholdValue() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ThresholdIndication.CIM_PROPERTY_THRESHOLDVALUE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ThresholdIndication.CIM_PROPERTY_THRESHOLDVALUE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ThresholdIndication.CIM_PROPERTY_THRESHOLDVALUE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ThresholdValue(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ThresholdIndication.CIM_PROPERTY_THRESHOLDVALUE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ThresholdIndication.CIM_PROPERTY_THRESHOLDVALUE + " could not be found");
-    		
-		} else if (!CIM_ThresholdIndicationHelper.isValid_ThresholdValue(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ThresholdIndication.CIM_PROPERTY_THRESHOLDVALUE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ThresholdIndication.CIM_PROPERTY_THRESHOLDVALUE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public static CIMProperty create_ObservedValue(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_ThresholdIndication fco = new CIM_ThresholdIndication(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_OBSERVEDVALUE.NAME);
+        if (property != null) {
+            property = setPropertyValue_ObservedValue(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_OBSERVEDVALUE.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+    /**
+     * Set the property ObservedValue
+     * <br>
+     * A string holding the current reading value that exceeds the threshold. This is modeled as a string for universal mapping, similar to the CIM_Sensor properties in the Device Model.
+     */
+
+    private static CIMProperty setPropertyValue_ObservedValue(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ThresholdIdentifier
+     *     * <br>
+     * A string describing the threshold or naming the property that represents the threshold, if modeled in the CIM hierarchy. In the latter case, the value should be written as <schema name>_ <class name>.<property name>.
+     *     */
+
+    public String get_ThresholdIdentifier() {
+        CIMProperty currentProperty = getProperty(PROPERTY_THRESHOLDIDENTIFIER.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_THRESHOLDIDENTIFIER.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ThresholdIdentifier
+     * <br>
+     * A string describing the threshold or naming the property that represents the threshold, if modeled in the CIM hierarchy. In the latter case, the value should be written as <schema name>_ <class name>.<property name>.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ThresholdIdentifier(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_THRESHOLDIDENTIFIER.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ThresholdIdentifier(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_THRESHOLDIDENTIFIER.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ThresholdIdentifier by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ThresholdIdentifier(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_ThresholdIndication fco = new CIM_ThresholdIndication(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_THRESHOLDIDENTIFIER.NAME);
+        if (property != null) {
+            property = setPropertyValue_ThresholdIdentifier(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_THRESHOLDIDENTIFIER.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ThresholdIdentifier
+     * <br>
+     * A string describing the threshold or naming the property that represents the threshold, if modeled in the CIM hierarchy. In the latter case, the value should be written as <schema name>_ <class name>.<property name>.
+     */
+
+    private static CIMProperty setPropertyValue_ThresholdIdentifier(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ThresholdValue
+     *     * <br>
+     * A string holding the current value of the threshold. This is modeled as a string for universal mapping, similar to the CIM_Sensor properties in the Device Model.
+     *     */
+
+    public String get_ThresholdValue() {
+        CIMProperty currentProperty = getProperty(PROPERTY_THRESHOLDVALUE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_THRESHOLDVALUE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ThresholdValue
+     * <br>
+     * A string holding the current value of the threshold. This is modeled as a string for universal mapping, similar to the CIM_Sensor properties in the Device Model.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ThresholdValue(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_THRESHOLDVALUE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ThresholdValue(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_THRESHOLDVALUE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ThresholdValue by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ThresholdValue(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_ThresholdIndication fco = new CIM_ThresholdIndication(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_THRESHOLDVALUE.NAME);
+        if (property != null) {
+            property = setPropertyValue_ThresholdValue(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_THRESHOLDVALUE.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ThresholdValue
+     * <br>
+     * A string holding the current value of the threshold. This is modeled as a string for universal mapping, similar to the CIM_Sensor properties in the Device Model.
+     */
+
+    private static CIMProperty setPropertyValue_ThresholdValue(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_ThresholdIndication.CIM_CLASS_NAME;
+    }
 
 }

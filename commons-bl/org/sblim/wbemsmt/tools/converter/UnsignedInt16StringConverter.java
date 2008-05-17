@@ -21,7 +21,8 @@
 
 package org.sblim.wbemsmt.tools.converter;
 
-import org.sblim.wbem.cim.UnsignedInt16;
+import javax.cim.UnsignedInteger16;
+
 
 public class UnsignedInt16StringConverter {
 
@@ -34,7 +35,7 @@ public class UnsignedInt16StringConverter {
 	 */
 	public Object convertForGui(Object value) {
 		try {
-			return "" + ((UnsignedInt16)value).intValue();
+			return "" + ((UnsignedInteger16)value).intValue();
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Cannot Convert Object " + value + " to a String");
 		}
@@ -53,7 +54,7 @@ public class UnsignedInt16StringConverter {
 			e.printStackTrace();
 			throw new IllegalArgumentException("Cannot Convert Object " + guiElement + " to a int");
 		}
-		return new UnsignedInt16(index);
+		return new UnsignedInteger16(index);
 	}
 
 	/**

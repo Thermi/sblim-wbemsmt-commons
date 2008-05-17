@@ -1,655 +1,943 @@
 /** 
  * CIM_VideoBIOSElement.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  VideoBIOSElement represents the low-level software that is loaded into
- * non-volatile storage and used to bring up, configure and access a
- * ComputerSystem's VideoController and Display.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: VideoBIOSElement represents the low-level software that is loaded into non-volatile storage and used to bring up, configure and access a ComputerSystem's VideoController and Display.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
-import java.util.Calendar;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.lang.reflect.Constructor;
-import org.sblim.wbem.client.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
+import org.sblim.wbemsmt.exception.impl.*;
+import org.sblim.wbemsmt.exception.impl.userobject.*;
 
+import java.lang.reflect.*;
+import javax.wbem.*;
 
-/**
- *  VideoBIOSElement represents the low-level software that is loaded into
- * non-volatile storage and used to bring up, configure and access a
- * ComputerSystem's VideoController and Display.
- */
-public class CIM_VideoBIOSElement extends CIM_SoftwareElement  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_VideoBIOSElement"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_VideoBIOSElement extends CIM_SoftwareElement {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS = "CIM_VideoBIOSFeatureVideoBIOSElements"; //$NON-NLS-1$
-	
-	
-	/**
-	*	If true, indicates that the Video BIOS is shadowed.
-	*/
-	public final static String CIM_PROPERTY_ISSHADOWED = "IsShadowed"; //$NON-NLS-1$
-	/**
-	*	
-	*/
-	public final static String CIM_PROPERTY_MANUFACTURER = "Manufacturer"; //$NON-NLS-1$
-	/**
-	*	Date that this BIOS was released.
-	*/
-	public final static String CIM_PROPERTY_RELEASEDATE = "ReleaseDate"; //$NON-NLS-1$
-	/**
-	*	
-	*/
-	public final static String CIM_PROPERTY_VERSION = "Version"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_VideoBIOSElement";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_ISSHADOWED);
-		CIM_PropertyNameList.add(CIM_PROPERTY_MANUFACTURER);
-		CIM_PropertyNameList.add(CIM_PROPERTY_RELEASEDATE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_VERSION);
-				
-		for (int i = 0; i < CIM_SoftwareElement.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_SoftwareElement.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ISSHADOWED)||
-				((String)CIM_SoftwareElement.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_MANUFACTURER)||
-				((String)CIM_SoftwareElement.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_RELEASEDATE)||
-				((String)CIM_SoftwareElement.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_VERSION)){
-				continue;
-			}
-			
-			CIM_VideoBIOSElement.CIM_PropertyNameList.add(CIM_SoftwareElement.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ISSHADOWED, new CIMValue(null, new CIMDataType(CIMDataType.BOOLEAN))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_MANUFACTURER, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_RELEASEDATE, new CIMValue(null, new CIMDataType(CIMDataType.DATETIME))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_VERSION, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-				
-		for (int i = 0; i < CIM_SoftwareElement.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_SoftwareElement.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ISSHADOWED)||
-				((CIMProperty)CIM_SoftwareElement.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_MANUFACTURER)||
-				((CIMProperty)CIM_SoftwareElement.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_RELEASEDATE)||
-				((CIMProperty)CIM_SoftwareElement.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_VERSION)){
-				continue;
-			}
-			
-			CIM_VideoBIOSElement.CIM_PropertyList.add(CIM_SoftwareElement.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_SoftwareElement.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * A link between VideoBIOSFeature and its aggregated VideoBIOSElements.
+     */
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_VideoBIOSElement() {
+    public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS = "CIM_VideoBIOSFeatureVideoBIOSElements";
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * Constants of property IsShadowed
+     * If true, indicates that the Video BIOS is shadowed.
+     */
+    public static class PROPERTY_ISSHADOWED {
+        /**
+         * name of the property IsShadowed
+         */
+        public final static String NAME = "IsShadowed";
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    }
 
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property Manufacturer
+     * 
+     */
+    public static class PROPERTY_MANUFACTURER {
+        /**
+         * name of the property Manufacturer
+         */
+        public final static String NAME = "Manufacturer";
 
+    }
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_VideoBIOSElement(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property ReleaseDate
+     * Date that this BIOS was released.
+     */
+    public static class PROPERTY_RELEASEDATE {
+        /**
+         * name of the property ReleaseDate
+         */
+        public final static String NAME = "ReleaseDate";
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_VideoBIOSElement(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+    }
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
-            }
-            CIM_VideoBIOSElement.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+    /**
+     * Constants of property Version
+     * 
+     */
+    public static class PROPERTY_VERSION {
+        /**
+         * name of the property Version
+         */
+        public final static String NAME = "Version";
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_SoftwareElement.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   VideoBIOSElement represents the low-level software that is loaded into non-volatile storage and used to bring up, configure and access a ComputerSystem's VideoController and Display.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_VideoBIOSElement(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   VideoBIOSElement represents the low-level software that is loaded into non-volatile storage and used to bring up, configure and access a ComputerSystem's VideoController and Display.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_VideoBIOSElement(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_VideoBIOSElement() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("IsShadowed", new CIMProperty("IsShadowed", CIMDataType.BOOLEAN_T,
+                null));
+        propertiesToCheck.put("Manufacturer", new CIMProperty("Manufacturer", CIMDataType.STRING_T,
+                null));
+        propertiesToCheck.put("ReleaseDate", new CIMProperty("ReleaseDate", CIMDataType.DATETIME_T,
+                null));
+        propertiesToCheck.put("Version", new CIMProperty("Version", CIMDataType.STRING_T, null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_VideoBIOSElement.Java_Package_List.toArray(new String[CIM_VideoBIOSElement.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property IsShadowed
+     *     * <br>
+     * If true, indicates that the Video BIOS is shadowed.
+     *     */
+
+    public Boolean get_IsShadowed() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ISSHADOWED.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ISSHADOWED.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (Boolean) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property IsShadowed
+     * <br>
+     * If true, indicates that the Video BIOS is shadowed.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_VideoBIOSElement)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_VideoBIOSElement)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_VideoBIOSElement)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_VideoBIOSElement)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_VideoBIOSElement)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_VideoBIOSElement)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_VideoBIOSElement)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_VideoBIOSElement)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_VideoBIOSElement)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_VideoBIOSElement)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_IsShadowed(Boolean newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ISSHADOWED.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_IsShadowed(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ISSHADOWED.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	public ArrayList getAssociated_CIM_VideoBIOSFeature_CIM_VideoBIOSFeatureVideoBIOSElementss(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
+    }
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS, 
-					CIM_VideoBIOSFeature.CIM_CLASS_NAME, 
-					"PartComponent", //$NON-NLS-1$
-					"GroupComponent", //$NON-NLS-1$
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
+    /**
+     * Get the property IsShadowed by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_IsShadowed(WBEMClient client, String namespace,
+            Boolean newValue) throws WbemsmtException {
+        CIM_VideoBIOSElement fco = new CIM_VideoBIOSElement(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ISSHADOWED.NAME);
+        if (property != null) {
+            property = setPropertyValue_IsShadowed(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ISSHADOWED.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property IsShadowed
+     * <br>
+     * If true, indicates that the Video BIOS is shadowed.
+     */
+
+    private static CIMProperty setPropertyValue_IsShadowed(CIMProperty currentProperty,
+            Boolean newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property Manufacturer
+     *     * <br>
+     * 
+     *     */
+
+    public String get_Manufacturer() {
+        CIMProperty currentProperty = getProperty(PROPERTY_MANUFACTURER.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_MANUFACTURER.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property Manufacturer
+     * <br>
+     * 
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_Manufacturer(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_MANUFACTURER.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_Manufacturer(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MANUFACTURER.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property Manufacturer by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_Manufacturer(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_VideoBIOSElement fco = new CIM_VideoBIOSElement(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_MANUFACTURER.NAME);
+        if (property != null) {
+            property = setPropertyValue_Manufacturer(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MANUFACTURER.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property Manufacturer
+     * <br>
+     * 
+     */
+
+    private static CIMProperty setPropertyValue_Manufacturer(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ReleaseDate
+     *     * <br>
+     * Date that this BIOS was released.
+     *     */
+
+    public javax.cim.CIMDateTime get_ReleaseDate() {
+        CIMProperty currentProperty = getProperty(PROPERTY_RELEASEDATE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_RELEASEDATE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.CIMDateTime) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ReleaseDate
+     * <br>
+     * Date that this BIOS was released.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ReleaseDate(javax.cim.CIMDateTime newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_RELEASEDATE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ReleaseDate(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_RELEASEDATE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ReleaseDate by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ReleaseDate(WBEMClient client, String namespace,
+            javax.cim.CIMDateTime newValue) throws WbemsmtException {
+        CIM_VideoBIOSElement fco = new CIM_VideoBIOSElement(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_RELEASEDATE.NAME);
+        if (property != null) {
+            property = setPropertyValue_ReleaseDate(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_RELEASEDATE.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ReleaseDate
+     * <br>
+     * Date that this BIOS was released.
+     */
+
+    private static CIMProperty setPropertyValue_ReleaseDate(CIMProperty currentProperty,
+            javax.cim.CIMDateTime newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property Version
+     *     * <br>
+     * 
+     *     */
+
+    public String get_Version() {
+        CIMProperty currentProperty = getProperty(PROPERTY_VERSION.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_VERSION.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property Version
+     * <br>
+     * 
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_Version(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_VERSION.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_Version(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_VERSION.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property Version by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_Version(WBEMClient client, String namespace, String newValue)
+            throws WbemsmtException {
+        CIM_VideoBIOSElement fco = new CIM_VideoBIOSElement(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_VERSION.NAME);
+        if (property != null) {
+            property = setPropertyValue_Version(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_VERSION.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property Version
+     * <br>
+     * 
+     */
+
+    private static CIMProperty setPropertyValue_Version(CIMProperty currentProperty, String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    /**
+     * Get the list with CIM_VideoBIOSFeature objects associated by the association CIM_VideoBIOSFeatureVideoBIOSElements
+     * 
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_VideoBIOSFeature_CIM_VideoBIOSFeatureVideoBIOSElementss(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_VideoBIOSFeature_CIM_VideoBIOSFeatureVideoBIOSElementss(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS,
+                CIM_VideoBIOSFeature.CIM_CLASS_NAME, null, null, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_VideoBIOSFeature objects associated by the association CIM_VideoBIOSFeatureVideoBIOSElements
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_VideoBIOSFeature_CIM_VideoBIOSFeatureVideoBIOSElementss(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_VideoBIOSFeature_CIM_VideoBIOSFeatureVideoBIOSElementss(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS, resultClass, role,
+                resultRole, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_VideoBIOSFeature objects associated by the association CIM_VideoBIOSFeatureVideoBIOSElements
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param associationClass This string MUST either contain a valid CIM Association class name or be null. It filters the Objects returned to contain only Objects associated to the source Object via this CIM Association class or one of its subclasses.
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_VideoBIOSFeature_CIM_VideoBIOSFeatureVideoBIOSElementss(
+            WBEMClient cimClient, String associationClass, String resultClass, String role,
+            String resultRole, boolean includeQualifiers, boolean includeClassOrigin,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associators(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole, includeQualifiers, includeClassOrigin,
+                    propertyList);
+        }
+        catch (WBEMException e) {
+            throw new AssociatorException(e, new AssociatorUserObject(this.getCimObjectPath(),
+                    associationClass, resultClass, role, resultRole, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_VideoBIOSElementHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_VideoBIOSElementHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
                     Class clazz = CIM_VideoBIOSElementHelper.findClass(cimClient, cimInstance);
-                    
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_VideoBIOSFeature(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_VideoBIOSFeature(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_VideoBIOSFeature(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
 
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_VideoBIOSFeature(cimInstance));
+                        continue;
+                    }
 
-	public ArrayList getAssociated_CIM_VideoBIOSFeature_CIM_VideoBIOSFeatureVideoBIOSElements_Names(CIMClient cimClient, boolean deep) {
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_VideoBIOSFeature(cimInstance));
+                        continue;
+                    }
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_VideoBIOSFeature(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_VideoBIOSElementHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
 
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS, 
-					CIM_VideoBIOSFeature.CIM_CLASS_NAME, 
-					"PartComponent", //$NON-NLS-1$
-					"GroupComponent"); //$NON-NLS-1$
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_VideoBIOSFeature.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+        return result;
+    }
 
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute IsShadowed
-	
-	public Boolean get_IsShadowed() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_VideoBIOSElement.CIM_PROPERTY_ISSHADOWED);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_VideoBIOSElement.CIM_PROPERTY_ISSHADOWED + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_VideoBIOSElement.CIM_PROPERTY_ISSHADOWED + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (Boolean)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_IsShadowed(Boolean newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_VideoBIOSElement.CIM_PROPERTY_ISSHADOWED);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_VideoBIOSElement.CIM_PROPERTY_ISSHADOWED + " could not be found");
-    		
-		} else if (!CIM_VideoBIOSElementHelper.isValid_IsShadowed(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_VideoBIOSElement.CIM_PROPERTY_ISSHADOWED);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_VideoBIOSElement.CIM_PROPERTY_ISSHADOWED + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.BOOLEAN));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_VideoBIOSFeatureVideoBIOSElements
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
 
-	// Attribute Manufacturer
-	
-	public String get_Manufacturer() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_VideoBIOSElement.CIM_PROPERTY_MANUFACTURER);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_VideoBIOSElement.CIM_PROPERTY_MANUFACTURER + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_VideoBIOSElement.CIM_PROPERTY_MANUFACTURER + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_Manufacturer(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_VideoBIOSElement.CIM_PROPERTY_MANUFACTURER);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_VideoBIOSElement.CIM_PROPERTY_MANUFACTURER + " could not be found");
-    		
-		} else if (!CIM_VideoBIOSElementHelper.isValid_Manufacturer(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_VideoBIOSElement.CIM_PROPERTY_MANUFACTURER);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_VideoBIOSElement.CIM_PROPERTY_MANUFACTURER + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public java.util.List getAssociated_CIM_VideoBIOSFeature_CIM_VideoBIOSFeatureVideoBIOSElementsNames(
+            WBEMClient cimClient) throws WbemsmtException {
 
-	// Attribute ReleaseDate
-	
-	public Calendar get_ReleaseDate() {
+        return getAssociated_CIM_VideoBIOSFeature_CIM_VideoBIOSFeatureVideoBIOSElementsNames(
+                cimClient, true, CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS,
+                CIM_VideoBIOSFeature.CIM_CLASS_NAME, null, null);
+    }
 
-		CIMProperty property = this.cimInstance.getProperty(CIM_VideoBIOSElement.CIM_PROPERTY_RELEASEDATE);
-        
-		if (property == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_VideoBIOSElement.CIM_PROPERTY_RELEASEDATE + " could not be found");
-    		
-		} else if (property.getType() == null || property.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_VideoBIOSElement.CIM_PROPERTY_RELEASEDATE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-        
-		if (property.getValue() == null) {
-			return null;
-		}
-        
-        CIMDateTime cimDateTime = (CIMDateTime)property.getValue().getValue();
-		return cimDateTime != null?cimDateTime.getCalendar():null;
-	}
-	
-	
-	public void set_ReleaseDate(Calendar newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_VideoBIOSElement.CIM_PROPERTY_RELEASEDATE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_VideoBIOSElement.CIM_PROPERTY_RELEASEDATE + " could not be found");
-    		
-		} else if (!CIM_VideoBIOSElementHelper.isValid_ReleaseDate(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_VideoBIOSElement.CIM_PROPERTY_RELEASEDATE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_VideoBIOSElement.CIM_PROPERTY_RELEASEDATE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(new CIMSimpleDateTime(newValue), new CIMDataType(CIMDataType.DATETIME));
-		currentProperty.setValue(updatedValue);
-	}
-    
-	
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_VideoBIOSFeatureVideoBIOSElements
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
 
-	// Attribute Version
-	
-	public String get_Version() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_VideoBIOSElement.CIM_PROPERTY_VERSION);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_VideoBIOSElement.CIM_PROPERTY_VERSION + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_VideoBIOSElement.CIM_PROPERTY_VERSION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_Version(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_VideoBIOSElement.CIM_PROPERTY_VERSION);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_VideoBIOSElement.CIM_PROPERTY_VERSION + " could not be found");
-    		
-		} else if (!CIM_VideoBIOSElementHelper.isValid_Version(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_VideoBIOSElement.CIM_PROPERTY_VERSION);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_VideoBIOSElement.CIM_PROPERTY_VERSION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public java.util.List getAssociated_CIM_VideoBIOSFeature_CIM_VideoBIOSFeatureVideoBIOSElementsNames(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+        return getAssociated_CIM_VideoBIOSFeature_CIM_VideoBIOSFeatureVideoBIOSElementsNames(
+                cimClient, true, CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS,
+                resultClass, role, resultRole);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_VideoBIOSFeatureVideoBIOSElements
+     * @param cimClient the WBEMClient for the communication
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_VideoBIOSFeature_CIM_VideoBIOSFeatureVideoBIOSElementsNames(
+            WBEMClient cimClient, boolean deep, String associationClass, String resultClass,
+            String role, String resultRole) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associatorNames(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole);
+
+        }
+        catch (WBEMException e) {
+            throw new AssociatorNamesException(e, new AssociatorNamesUserObject(this
+                    .getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS,
+                    CIM_VideoBIOSFeature.CIM_CLASS_NAME, null, null));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_VideoBIOSElementHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_VideoBIOSElementHelper.checkException(enumeration);
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_VideoBIOSFeature.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_VideoBIOSElementHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_VideoBIOSFeatureVideoBIOSElements associations
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#references(CIMObjectPath, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociations_CIM_VideoBIOSFeatureVideoBIOSElements(
+            WBEMClient cimClient, boolean includeQualifiers, boolean includeClassOrigin,
+            String role, java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.references(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS, role,
+                    includeQualifiers, includeClassOrigin, propertyList);
+        }
+        catch (WBEMException e) {
+            throw new ReferencesException(e, new ReferencesUserObject(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS, role,
+                    includeQualifiers, includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_VideoBIOSElementHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_VideoBIOSElementHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_VideoBIOSFeatureVideoBIOSElementsHelper.findClass(cimClient,
+                            cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_VideoBIOSFeatureVideoBIOSElements(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_VideoBIOSFeatureVideoBIOSElements(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_VideoBIOSFeatureVideoBIOSElements(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_VideoBIOSElementHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a list of CIMObjectPath items of the associations CIM_VideoBIOSFeatureVideoBIOSElements
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#referenceNames(CIMObjectPath, String, String)
+     **/
+
+    public java.util.List getAssociationNames_CIM_VideoBIOSFeatureVideoBIOSElements(
+            WBEMClient cimClient, String role, boolean deep) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.referenceNames(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS, role);
+        }
+        catch (WBEMException e) {
+            throw new ReferenceNamesException(e, new ReferenceNamesUserObject(this
+                    .getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_VIDEOBIOSFEATUREVIDEOBIOSELEMENTS, role));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_VideoBIOSElementHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_VideoBIOSElementHelper.checkException(enumeration);
+
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_VideoBIOSFeatureVideoBIOSElements.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_VideoBIOSElementHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_VideoBIOSElement.CIM_CLASS_NAME;
+    }
 
 }

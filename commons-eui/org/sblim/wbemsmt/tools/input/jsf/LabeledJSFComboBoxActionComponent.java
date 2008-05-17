@@ -28,8 +28,7 @@ import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
-import org.sblim.wbemsmt.exception.ObjectUpdateException;
-import org.sblim.wbemsmt.exception.UpdateControlsException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.ActionComponent;
 import org.sblim.wbemsmt.tools.input.LabeledStringArrayInputComponentIf;
@@ -83,10 +82,10 @@ public class LabeledJSFComboBoxActionComponent extends LabeledJSFInputComponent 
 	/**
 	 * ActionListenerCalled by JSF Framwork
 	 * @param event
-	 * @throws ObjectUpdateException 
-	 * @throws UpdateControlsException 
+	 * @throws WbemsmtException 
+	 * @throws WbemsmtException 
 	 */
-	public String itemAction() throws ObjectUpdateException, UpdateControlsException
+	public String itemAction() throws WbemsmtException
 	{
 		return handleAction();
 	}

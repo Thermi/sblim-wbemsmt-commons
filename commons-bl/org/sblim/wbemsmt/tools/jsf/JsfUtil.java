@@ -40,7 +40,7 @@ import org.apache.myfaces.custom.tree2.TreeNode;
 import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
@@ -150,19 +150,14 @@ public class JsfUtil {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		ILocaleManager localeManager = (ILocaleManager) BeanNameConstants.LOCALE_MANAGER.asValueBinding(fc).getValue(fc);
 		Locale currentLocale = localeManager.getCurrentLocale();
-		WbemSmtResourceBundle taskBundle = null;
 		WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages"},currentLocale);
 		
-		//first search for the deepest WbemSmtException
-		WbemSmtException smtException = (WbemSmtException) ExceptionUtil.findDeepest(WbemSmtException.class, t);
-		if (smtException != null && smtException.getCIM_Object() != null && smtException.getCIM_Object().getWrappedObject() != null)
-		{
-				taskBundle = localeManager.getBundleByFco(smtException.getCIM_Object());
-		} 
+		//first search for the deepest WbemsmtException
+		WbemsmtException smtException = (WbemsmtException) ExceptionUtil.findDeepest(WbemsmtException.class, t);
 
 		
-		Message msgTitle = new Message(ErrCodes.MSG_ERROR_WHILE_EXECUTION,Message.ERROR,bundle.getString(ErrCodes.MSG_ERROR_WHILE_EXECUTION,"error.while.execution")); 
-		Message msg = ExceptionUtil.getEnduserExceptionText(t, currentLocale, bundle, taskBundle, smtException, null, "");
+		Message msgTitle = Message.create(ErrCodes.MSGDEF_ERROR_WHILE_EXECUTION,bundle); 
+		Message msg = ExceptionUtil.getEnduserExceptionText(t, currentLocale, bundle, smtException, null, "");
 		
 		JsfBase.addMessage(msgTitle);
 		JsfBase.addMessage(msg);

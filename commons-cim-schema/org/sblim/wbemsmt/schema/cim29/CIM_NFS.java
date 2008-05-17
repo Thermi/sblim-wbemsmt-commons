@@ -1,1034 +1,1509 @@
 /** 
  * CIM_NFS.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  A class derived from RemoteFileSystem representing that the FileSystem is
- * mounted, using the NFS protocol, from a ComputerSystem. The properties of the
- * NFS object deal with the operational aspects of the mount and represent the
- * client-side configuration for NFS access. The FileSystemType (inherited from
- * FileSystem) should be set to indicate the type of this FileSystem as it
- * appears to the client.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: A class derived from RemoteFileSystem representing that the FileSystem is mounted, using the NFS protocol, from a ComputerSystem. The properties of the NFS object deal with the operational aspects of the mount and represent the client-side configuration for NFS access. The FileSystemType (inherited from FileSystem) should be set to indicate the type of this FileSystem as it appears to the client.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
 
-/**
- *  A class derived from RemoteFileSystem representing that the FileSystem is
- * mounted, using the NFS protocol, from a ComputerSystem. The properties of the
- * NFS object deal with the operational aspects of the mount and represent the
- * client-side configuration for NFS access. The FileSystemType (inherited from
- * FileSystem) should be set to indicate the type of this FileSystem as it
- * appears to the client.
- */
-public class CIM_NFS extends CIM_RemoteFileSystem  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_NFS"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_NFS extends CIM_RemoteFileSystem {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.6.0";
-	
-	
-	/**
-	*	If set to true: Control attribute caching is enabled. 
-If set to false: Control attribute caching is disabled.
-	*/
-	public final static String CIM_PROPERTY_ATTRIBUTECACHING = "AttributeCaching"; //$NON-NLS-1$
-	/**
-	*	Maximum number of seconds that cached attributes are held after directory update.
-	*/
-	public final static String CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX = "AttributeCachingForDirectoriesMax"; //$NON-NLS-1$
-	/**
-	*	Minimum number of seconds that cached attributes are held after directory update.
-	*/
-	public final static String CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN = "AttributeCachingForDirectoriesMin"; //$NON-NLS-1$
-	/**
-	*	Maximum number of seconds that cached attributes are held after file modification.
-	*/
-	public final static String CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX = "AttributeCachingForRegularFilesMax"; //$NON-NLS-1$
-	/**
-	*	Minimum number of seconds that cached attributes are held after file modification.
-	*/
-	public final static String CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN = "AttributeCachingForRegularFilesMin"; //$NON-NLS-1$
-	/**
-	*	If set to true: Retries are performed in the foreground. 
-If set to false: If the first mount attempt fails, retries are performed in the background.
-	*/
-	public final static String CIM_PROPERTY_FOREGROUNDMOUNT = "ForegroundMount"; //$NON-NLS-1$
-	/**
-	*	If set to true: Once the FileSystem is mounted, NFS requests are retried until the hosting System responds. 
-If set to false: Once the FileSystem is mounted, an error is returned if the hosting System does not respond.
-	*/
-	public final static String CIM_PROPERTY_HARDMOUNT = "HardMount"; //$NON-NLS-1$
-	/**
-	*	If set to true: Interrupts are permitted for hard mounts. 
-If set to false : Interrupts are ignored for hard mounts.
-	*/
-	public final static String CIM_PROPERTY_INTERRUPT = "Interrupt"; //$NON-NLS-1$
-	/**
-	*	Maximum number of mount failure retries allowed.
-	*/
-	public final static String CIM_PROPERTY_MOUNTFAILURERETRIES = "MountFailureRetries"; //$NON-NLS-1$
-	/**
-	*	Read buffer size in bytes.
-	*/
-	public final static String CIM_PROPERTY_READBUFFERSIZE = "ReadBufferSize"; //$NON-NLS-1$
-	/**
-	*	Maximum number of NFS retransmissions allowed.
-	*/
-	public final static String CIM_PROPERTY_RETRANSMISSIONATTEMPTS = "RetransmissionAttempts"; //$NON-NLS-1$
-	/**
-	*	NFS timeout in tenths of a second.
-	*/
-	public final static String CIM_PROPERTY_RETRANSMISSIONTIMEOUT = "RetransmissionTimeout"; //$NON-NLS-1$
-	/**
-	*	The remote ComputerSystem's (ie, the NFS File 'Server's) UDP port number.
-	*/
-	public final static String CIM_PROPERTY_SERVERCOMMUNICATIONPORT = "ServerCommunicationPort"; //$NON-NLS-1$
-	/**
-	*	Write buffer size in bytes.
-	*/
-	public final static String CIM_PROPERTY_WRITEBUFFERSIZE = "WriteBufferSize"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_NFS";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_ATTRIBUTECACHING);
-		CIM_PropertyNameList.add(CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX);
-		CIM_PropertyNameList.add(CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN);
-		CIM_PropertyNameList.add(CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX);
-		CIM_PropertyNameList.add(CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN);
-		CIM_PropertyNameList.add(CIM_PROPERTY_FOREGROUNDMOUNT);
-		CIM_PropertyNameList.add(CIM_PROPERTY_HARDMOUNT);
-		CIM_PropertyNameList.add(CIM_PROPERTY_INTERRUPT);
-		CIM_PropertyNameList.add(CIM_PROPERTY_MOUNTFAILURERETRIES);
-		CIM_PropertyNameList.add(CIM_PROPERTY_READBUFFERSIZE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_RETRANSMISSIONATTEMPTS);
-		CIM_PropertyNameList.add(CIM_PROPERTY_RETRANSMISSIONTIMEOUT);
-		CIM_PropertyNameList.add(CIM_PROPERTY_SERVERCOMMUNICATIONPORT);
-		CIM_PropertyNameList.add(CIM_PROPERTY_WRITEBUFFERSIZE);
-				
-		for (int i = 0; i < CIM_RemoteFileSystem.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_RemoteFileSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ATTRIBUTECACHING)||
-				((String)CIM_RemoteFileSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX)||
-				((String)CIM_RemoteFileSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN)||
-				((String)CIM_RemoteFileSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX)||
-				((String)CIM_RemoteFileSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN)||
-				((String)CIM_RemoteFileSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_FOREGROUNDMOUNT)||
-				((String)CIM_RemoteFileSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_HARDMOUNT)||
-				((String)CIM_RemoteFileSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_INTERRUPT)||
-				((String)CIM_RemoteFileSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_MOUNTFAILURERETRIES)||
-				((String)CIM_RemoteFileSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_READBUFFERSIZE)||
-				((String)CIM_RemoteFileSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_RETRANSMISSIONATTEMPTS)||
-				((String)CIM_RemoteFileSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_RETRANSMISSIONTIMEOUT)||
-				((String)CIM_RemoteFileSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_SERVERCOMMUNICATIONPORT)||
-				((String)CIM_RemoteFileSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_WRITEBUFFERSIZE)){
-				continue;
-			}
-			
-			CIM_NFS.CIM_PropertyNameList.add(CIM_RemoteFileSystem.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ATTRIBUTECACHING, new CIMValue(null, new CIMDataType(CIMDataType.BOOLEAN))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_FOREGROUNDMOUNT, new CIMValue(null, new CIMDataType(CIMDataType.BOOLEAN))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_HARDMOUNT, new CIMValue(null, new CIMDataType(CIMDataType.BOOLEAN))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_INTERRUPT, new CIMValue(null, new CIMDataType(CIMDataType.BOOLEAN))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_MOUNTFAILURERETRIES, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_READBUFFERSIZE, new CIMValue(null, new CIMDataType(CIMDataType.UINT64))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_RETRANSMISSIONATTEMPTS, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_RETRANSMISSIONTIMEOUT, new CIMValue(null, new CIMDataType(CIMDataType.UINT32))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_SERVERCOMMUNICATIONPORT, new CIMValue(null, new CIMDataType(CIMDataType.UINT32))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_WRITEBUFFERSIZE, new CIMValue(null, new CIMDataType(CIMDataType.UINT64))));
-				
-		for (int i = 0; i < CIM_RemoteFileSystem.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_RemoteFileSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ATTRIBUTECACHING)||
-				((CIMProperty)CIM_RemoteFileSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX)||
-				((CIMProperty)CIM_RemoteFileSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN)||
-				((CIMProperty)CIM_RemoteFileSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX)||
-				((CIMProperty)CIM_RemoteFileSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN)||
-				((CIMProperty)CIM_RemoteFileSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_FOREGROUNDMOUNT)||
-				((CIMProperty)CIM_RemoteFileSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_HARDMOUNT)||
-				((CIMProperty)CIM_RemoteFileSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_INTERRUPT)||
-				((CIMProperty)CIM_RemoteFileSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_MOUNTFAILURERETRIES)||
-				((CIMProperty)CIM_RemoteFileSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_READBUFFERSIZE)||
-				((CIMProperty)CIM_RemoteFileSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_RETRANSMISSIONATTEMPTS)||
-				((CIMProperty)CIM_RemoteFileSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_RETRANSMISSIONTIMEOUT)||
-				((CIMProperty)CIM_RemoteFileSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_SERVERCOMMUNICATIONPORT)||
-				((CIMProperty)CIM_RemoteFileSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_WRITEBUFFERSIZE)){
-				continue;
-			}
-			
-			CIM_NFS.CIM_PropertyList.add(CIM_RemoteFileSystem.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_RemoteFileSystem.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constants of property AttributeCaching
+     * If set to true: Control attribute caching is enabled. 
+     * If set to false: Control attribute caching is disabled.
+     */
+    public static class PROPERTY_ATTRIBUTECACHING {
+        /**
+         * name of the property AttributeCaching
+         */
+        public final static String NAME = "AttributeCaching";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_NFS() {
+    }
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * Constants of property AttributeCachingForDirectoriesMax
+     * Maximum number of seconds that cached attributes are held after directory update.
+     */
+    public static class PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX {
+        /**
+         * name of the property AttributeCachingForDirectoriesMax
+         */
+        public final static String NAME = "AttributeCachingForDirectoriesMax";
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    }
 
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property AttributeCachingForDirectoriesMin
+     * Minimum number of seconds that cached attributes are held after directory update.
+     */
+    public static class PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN {
+        /**
+         * name of the property AttributeCachingForDirectoriesMin
+         */
+        public final static String NAME = "AttributeCachingForDirectoriesMin";
 
+    }
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_NFS(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property AttributeCachingForRegularFilesMax
+     * Maximum number of seconds that cached attributes are held after file modification.
+     */
+    public static class PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX {
+        /**
+         * name of the property AttributeCachingForRegularFilesMax
+         */
+        public final static String NAME = "AttributeCachingForRegularFilesMax";
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_NFS(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+    }
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
-            }
-            CIM_NFS.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+    /**
+     * Constants of property AttributeCachingForRegularFilesMin
+     * Minimum number of seconds that cached attributes are held after file modification.
+     */
+    public static class PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN {
+        /**
+         * name of the property AttributeCachingForRegularFilesMin
+         */
+        public final static String NAME = "AttributeCachingForRegularFilesMin";
+
+    }
+
+    /**
+     * Constants of property ForegroundMount
+     * If set to true: Retries are performed in the foreground. 
+     * If set to false: If the first mount attempt fails, retries are performed in the background.
+     */
+    public static class PROPERTY_FOREGROUNDMOUNT {
+        /**
+         * name of the property ForegroundMount
+         */
+        public final static String NAME = "ForegroundMount";
+
+    }
+
+    /**
+     * Constants of property HardMount
+     * If set to true: Once the FileSystem is mounted, NFS requests are retried until the hosting System responds. 
+     * If set to false: Once the FileSystem is mounted, an error is returned if the hosting System does not respond.
+     */
+    public static class PROPERTY_HARDMOUNT {
+        /**
+         * name of the property HardMount
+         */
+        public final static String NAME = "HardMount";
+
+    }
+
+    /**
+     * Constants of property Interrupt
+     * If set to true: Interrupts are permitted for hard mounts. 
+     * If set to false : Interrupts are ignored for hard mounts.
+     */
+    public static class PROPERTY_INTERRUPT {
+        /**
+         * name of the property Interrupt
+         */
+        public final static String NAME = "Interrupt";
+
+    }
+
+    /**
+     * Constants of property MountFailureRetries
+     * Maximum number of mount failure retries allowed.
+     */
+    public static class PROPERTY_MOUNTFAILURERETRIES {
+        /**
+         * name of the property MountFailureRetries
+         */
+        public final static String NAME = "MountFailureRetries";
+
+    }
+
+    /**
+     * Constants of property ReadBufferSize
+     * Read buffer size in bytes.
+     */
+    public static class PROPERTY_READBUFFERSIZE {
+        /**
+         * name of the property ReadBufferSize
+         */
+        public final static String NAME = "ReadBufferSize";
+
+    }
+
+    /**
+     * Constants of property RetransmissionAttempts
+     * Maximum number of NFS retransmissions allowed.
+     */
+    public static class PROPERTY_RETRANSMISSIONATTEMPTS {
+        /**
+         * name of the property RetransmissionAttempts
+         */
+        public final static String NAME = "RetransmissionAttempts";
+
+    }
+
+    /**
+     * Constants of property RetransmissionTimeout
+     * NFS timeout in tenths of a second.
+     */
+    public static class PROPERTY_RETRANSMISSIONTIMEOUT {
+        /**
+         * name of the property RetransmissionTimeout
+         */
+        public final static String NAME = "RetransmissionTimeout";
+
+    }
+
+    /**
+     * Constants of property ServerCommunicationPort
+     * The remote ComputerSystem's (ie, the NFS File 'Server's) UDP port number.
+     */
+    public static class PROPERTY_SERVERCOMMUNICATIONPORT {
+        /**
+         * name of the property ServerCommunicationPort
+         */
+        public final static String NAME = "ServerCommunicationPort";
+
+    }
+
+    /**
+     * Constants of property WriteBufferSize
+     * Write buffer size in bytes.
+     */
+    public static class PROPERTY_WRITEBUFFERSIZE {
+        /**
+         * name of the property WriteBufferSize
+         */
+        public final static String NAME = "WriteBufferSize";
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_RemoteFileSystem.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   A class derived from RemoteFileSystem representing that the FileSystem is mounted, using the NFS protocol, from a ComputerSystem. The properties of the NFS object deal with the operational aspects of the mount and represent the client-side configuration for NFS access. The FileSystemType (inherited from FileSystem) should be set to indicate the type of this FileSystem as it appears to the client.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_NFS(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   A class derived from RemoteFileSystem representing that the FileSystem is mounted, using the NFS protocol, from a ComputerSystem. The properties of the NFS object deal with the operational aspects of the mount and represent the client-side configuration for NFS access. The FileSystemType (inherited from FileSystem) should be set to indicate the type of this FileSystem as it appears to the client.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_NFS(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_NFS() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("AttributeCaching", new CIMProperty("AttributeCaching",
+                CIMDataType.BOOLEAN_T, null));
+        propertiesToCheck.put("AttributeCachingForDirectoriesMax", new CIMProperty(
+                "AttributeCachingForDirectoriesMax", CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("AttributeCachingForDirectoriesMin", new CIMProperty(
+                "AttributeCachingForDirectoriesMin", CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("AttributeCachingForRegularFilesMax", new CIMProperty(
+                "AttributeCachingForRegularFilesMax", CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("AttributeCachingForRegularFilesMin", new CIMProperty(
+                "AttributeCachingForRegularFilesMin", CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("ForegroundMount", new CIMProperty("ForegroundMount",
+                CIMDataType.BOOLEAN_T, null));
+        propertiesToCheck.put("HardMount",
+                new CIMProperty("HardMount", CIMDataType.BOOLEAN_T, null));
+        propertiesToCheck.put("Interrupt",
+                new CIMProperty("Interrupt", CIMDataType.BOOLEAN_T, null));
+        propertiesToCheck.put("MountFailureRetries", new CIMProperty("MountFailureRetries",
+                CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("ReadBufferSize", new CIMProperty("ReadBufferSize",
+                CIMDataType.UINT64_T, null));
+        propertiesToCheck.put("RetransmissionAttempts", new CIMProperty("RetransmissionAttempts",
+                CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("RetransmissionTimeout", new CIMProperty("RetransmissionTimeout",
+                CIMDataType.UINT32_T, null));
+        propertiesToCheck.put("ServerCommunicationPort", new CIMProperty("ServerCommunicationPort",
+                CIMDataType.UINT32_T, null));
+        propertiesToCheck.put("WriteBufferSize", new CIMProperty("WriteBufferSize",
+                CIMDataType.UINT64_T, null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_NFS.Java_Package_List.toArray(new String[CIM_NFS.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property AttributeCaching
+     *     * <br>
+     * If set to true: Control attribute caching is enabled. 
+     * If set to false: Control attribute caching is disabled.
+     *     */
+
+    public Boolean get_AttributeCaching() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ATTRIBUTECACHING.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ATTRIBUTECACHING.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (Boolean) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property AttributeCaching
+     * <br>
+     * If set to true: Control attribute caching is enabled. 
+     * If set to false: Control attribute caching is disabled.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_NFS)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_NFS)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_NFS)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_NFS)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_NFS)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_NFS)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_NFS)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_NFS)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_NFS)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_NFS)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_AttributeCaching(Boolean newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ATTRIBUTECACHING.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_AttributeCaching(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ATTRIBUTECACHING.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute AttributeCaching
-	
-	public Boolean get_AttributeCaching() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHING);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHING + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHING + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (Boolean)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_AttributeCaching(Boolean newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHING);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHING + " could not be found");
-    		
-		} else if (!CIM_NFSHelper.isValid_AttributeCaching(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHING);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHING + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.BOOLEAN));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute AttributeCachingForDirectoriesMax
-	
-	public UnsignedInt16 get_AttributeCachingForDirectoriesMax() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_AttributeCachingForDirectoriesMax(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX + " could not be found");
-    		
-		} else if (!CIM_NFSHelper.isValid_AttributeCachingForDirectoriesMax(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property AttributeCaching by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	// Attribute AttributeCachingForDirectoriesMin
-	
-	public UnsignedInt16 get_AttributeCachingForDirectoriesMin() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_AttributeCachingForDirectoriesMin(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN + " could not be found");
-    		
-		} else if (!CIM_NFSHelper.isValid_AttributeCachingForDirectoriesMin(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public static CIMProperty create_AttributeCaching(WBEMClient client, String namespace,
+            Boolean newValue) throws WbemsmtException {
+        CIM_NFS fco = new CIM_NFS(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ATTRIBUTECACHING.NAME);
+        if (property != null) {
+            property = setPropertyValue_AttributeCaching(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ATTRIBUTECACHING.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	// Attribute AttributeCachingForRegularFilesMax
-	
-	public UnsignedInt16 get_AttributeCachingForRegularFilesMax() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_AttributeCachingForRegularFilesMax(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX + " could not be found");
-    		
-		} else if (!CIM_NFSHelper.isValid_AttributeCachingForRegularFilesMax(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Set the property AttributeCaching
+     * <br>
+     * If set to true: Control attribute caching is enabled. 
+     * If set to false: Control attribute caching is disabled.
+     */
 
-	// Attribute AttributeCachingForRegularFilesMin
-	
-	public UnsignedInt16 get_AttributeCachingForRegularFilesMin() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_AttributeCachingForRegularFilesMin(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN + " could not be found");
-    		
-		} else if (!CIM_NFSHelper.isValid_AttributeCachingForRegularFilesMin(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    private static CIMProperty setPropertyValue_AttributeCaching(CIMProperty currentProperty,
+            Boolean newValue) {
+        Object setThis = null;
 
-	// Attribute ForegroundMount
-	
-	public Boolean get_ForegroundMount() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_FOREGROUNDMOUNT);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_FOREGROUNDMOUNT + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_FOREGROUNDMOUNT + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (Boolean)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ForegroundMount(Boolean newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_FOREGROUNDMOUNT);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_FOREGROUNDMOUNT + " could not be found");
-    		
-		} else if (!CIM_NFSHelper.isValid_ForegroundMount(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_NFS.CIM_PROPERTY_FOREGROUNDMOUNT);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_FOREGROUNDMOUNT + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.BOOLEAN));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        setThis = newValue;
 
-	// Attribute HardMount
-	
-	public Boolean get_HardMount() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_HARDMOUNT);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_HARDMOUNT + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_HARDMOUNT + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (Boolean)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_HardMount(Boolean newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_HARDMOUNT);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_HARDMOUNT + " could not be found");
-    		
-		} else if (!CIM_NFSHelper.isValid_HardMount(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_NFS.CIM_PROPERTY_HARDMOUNT);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_HARDMOUNT + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.BOOLEAN));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
 
-	// Attribute Interrupt
-	
-	public Boolean get_Interrupt() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_INTERRUPT);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_INTERRUPT + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_INTERRUPT + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (Boolean)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_Interrupt(Boolean newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_INTERRUPT);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_INTERRUPT + " could not be found");
-    		
-		} else if (!CIM_NFSHelper.isValid_Interrupt(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_NFS.CIM_PROPERTY_INTERRUPT);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_INTERRUPT + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.BOOLEAN));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        return newProperty;
+    }
 
-	// Attribute MountFailureRetries
-	
-	public UnsignedInt16 get_MountFailureRetries() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_MOUNTFAILURERETRIES);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_MOUNTFAILURERETRIES + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_MOUNTFAILURERETRIES + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_MountFailureRetries(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_MOUNTFAILURERETRIES);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_MOUNTFAILURERETRIES + " could not be found");
-    		
-		} else if (!CIM_NFSHelper.isValid_MountFailureRetries(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_NFS.CIM_PROPERTY_MOUNTFAILURERETRIES);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_MOUNTFAILURERETRIES + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property AttributeCachingForDirectoriesMax
+     *     * <br>
+     * Maximum number of seconds that cached attributes are held after directory update.
+     *     */
 
-	// Attribute ReadBufferSize
-	
-	public UnsignedInt64 get_ReadBufferSize() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_READBUFFERSIZE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_READBUFFERSIZE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_READBUFFERSIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt64)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ReadBufferSize(UnsignedInt64 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_READBUFFERSIZE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_READBUFFERSIZE + " could not be found");
-    		
-		} else if (!CIM_NFSHelper.isValid_ReadBufferSize(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_NFS.CIM_PROPERTY_READBUFFERSIZE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_READBUFFERSIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT64));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public javax.cim.UnsignedInteger16 get_AttributeCachingForDirectoriesMax() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX.NAME);
 
-	// Attribute RetransmissionAttempts
-	
-	public UnsignedInt16 get_RetransmissionAttempts() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_RETRANSMISSIONATTEMPTS);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_RETRANSMISSIONATTEMPTS + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_RETRANSMISSIONATTEMPTS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_RetransmissionAttempts(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_RETRANSMISSIONATTEMPTS);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_RETRANSMISSIONATTEMPTS + " could not be found");
-    		
-		} else if (!CIM_NFSHelper.isValid_RetransmissionAttempts(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_NFS.CIM_PROPERTY_RETRANSMISSIONATTEMPTS);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_RETRANSMISSIONATTEMPTS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
 
-	// Attribute RetransmissionTimeout
-	
-	public UnsignedInt32 get_RetransmissionTimeout() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_RETRANSMISSIONTIMEOUT);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_RETRANSMISSIONTIMEOUT + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_RETRANSMISSIONTIMEOUT + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt32)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_RetransmissionTimeout(UnsignedInt32 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_RETRANSMISSIONTIMEOUT);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_RETRANSMISSIONTIMEOUT + " could not be found");
-    		
-		} else if (!CIM_NFSHelper.isValid_RetransmissionTimeout(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_NFS.CIM_PROPERTY_RETRANSMISSIONTIMEOUT);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_RETRANSMISSIONTIMEOUT + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT32));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
 
-	// Attribute ServerCommunicationPort
-	
-	public UnsignedInt32 get_ServerCommunicationPort() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_SERVERCOMMUNICATIONPORT);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_SERVERCOMMUNICATIONPORT + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_SERVERCOMMUNICATIONPORT + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt32)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ServerCommunicationPort(UnsignedInt32 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_SERVERCOMMUNICATIONPORT);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_SERVERCOMMUNICATIONPORT + " could not be found");
-    		
-		} else if (!CIM_NFSHelper.isValid_ServerCommunicationPort(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_NFS.CIM_PROPERTY_SERVERCOMMUNICATIONPORT);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_SERVERCOMMUNICATIONPORT + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT32));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute WriteBufferSize
-	
-	public UnsignedInt64 get_WriteBufferSize() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_WRITEBUFFERSIZE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_WRITEBUFFERSIZE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_WRITEBUFFERSIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt64)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_WriteBufferSize(UnsignedInt64 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_NFS.CIM_PROPERTY_WRITEBUFFERSIZE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_NFS.CIM_PROPERTY_WRITEBUFFERSIZE + " could not be found");
-    		
-		} else if (!CIM_NFSHelper.isValid_WriteBufferSize(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_NFS.CIM_PROPERTY_WRITEBUFFERSIZE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_NFS.CIM_PROPERTY_WRITEBUFFERSIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT64));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Set the property AttributeCachingForDirectoriesMax
+     * <br>
+     * Maximum number of seconds that cached attributes are held after directory update.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+    public boolean set_AttributeCachingForDirectoriesMax(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_AttributeCachingForDirectoriesMax(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property AttributeCachingForDirectoriesMax by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_AttributeCachingForDirectoriesMax(WBEMClient client,
+            String namespace, javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_NFS fco = new CIM_NFS(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX.NAME);
+        if (property != null) {
+            property = setPropertyValue_AttributeCachingForDirectoriesMax(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMAX.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property AttributeCachingForDirectoriesMax
+     * <br>
+     * Maximum number of seconds that cached attributes are held after directory update.
+     */
+
+    private static CIMProperty setPropertyValue_AttributeCachingForDirectoriesMax(
+            CIMProperty currentProperty, javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property AttributeCachingForDirectoriesMin
+     *     * <br>
+     * Minimum number of seconds that cached attributes are held after directory update.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_AttributeCachingForDirectoriesMin() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property AttributeCachingForDirectoriesMin
+     * <br>
+     * Minimum number of seconds that cached attributes are held after directory update.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_AttributeCachingForDirectoriesMin(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_AttributeCachingForDirectoriesMin(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property AttributeCachingForDirectoriesMin by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_AttributeCachingForDirectoriesMin(WBEMClient client,
+            String namespace, javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_NFS fco = new CIM_NFS(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN.NAME);
+        if (property != null) {
+            property = setPropertyValue_AttributeCachingForDirectoriesMin(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ATTRIBUTECACHINGFORDIRECTORIESMIN.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property AttributeCachingForDirectoriesMin
+     * <br>
+     * Minimum number of seconds that cached attributes are held after directory update.
+     */
+
+    private static CIMProperty setPropertyValue_AttributeCachingForDirectoriesMin(
+            CIMProperty currentProperty, javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property AttributeCachingForRegularFilesMax
+     *     * <br>
+     * Maximum number of seconds that cached attributes are held after file modification.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_AttributeCachingForRegularFilesMax() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property AttributeCachingForRegularFilesMax
+     * <br>
+     * Maximum number of seconds that cached attributes are held after file modification.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_AttributeCachingForRegularFilesMax(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_AttributeCachingForRegularFilesMax(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property AttributeCachingForRegularFilesMax by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_AttributeCachingForRegularFilesMax(WBEMClient client,
+            String namespace, javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_NFS fco = new CIM_NFS(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX.NAME);
+        if (property != null) {
+            property = setPropertyValue_AttributeCachingForRegularFilesMax(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMAX.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property AttributeCachingForRegularFilesMax
+     * <br>
+     * Maximum number of seconds that cached attributes are held after file modification.
+     */
+
+    private static CIMProperty setPropertyValue_AttributeCachingForRegularFilesMax(
+            CIMProperty currentProperty, javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property AttributeCachingForRegularFilesMin
+     *     * <br>
+     * Minimum number of seconds that cached attributes are held after file modification.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_AttributeCachingForRegularFilesMin() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property AttributeCachingForRegularFilesMin
+     * <br>
+     * Minimum number of seconds that cached attributes are held after file modification.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_AttributeCachingForRegularFilesMin(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_AttributeCachingForRegularFilesMin(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property AttributeCachingForRegularFilesMin by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_AttributeCachingForRegularFilesMin(WBEMClient client,
+            String namespace, javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_NFS fco = new CIM_NFS(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN.NAME);
+        if (property != null) {
+            property = setPropertyValue_AttributeCachingForRegularFilesMin(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ATTRIBUTECACHINGFORREGULARFILESMIN.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property AttributeCachingForRegularFilesMin
+     * <br>
+     * Minimum number of seconds that cached attributes are held after file modification.
+     */
+
+    private static CIMProperty setPropertyValue_AttributeCachingForRegularFilesMin(
+            CIMProperty currentProperty, javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ForegroundMount
+     *     * <br>
+     * If set to true: Retries are performed in the foreground. 
+     * If set to false: If the first mount attempt fails, retries are performed in the background.
+     *     */
+
+    public Boolean get_ForegroundMount() {
+        CIMProperty currentProperty = getProperty(PROPERTY_FOREGROUNDMOUNT.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_FOREGROUNDMOUNT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (Boolean) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ForegroundMount
+     * <br>
+     * If set to true: Retries are performed in the foreground. 
+     * If set to false: If the first mount attempt fails, retries are performed in the background.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ForegroundMount(Boolean newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_FOREGROUNDMOUNT.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ForegroundMount(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_FOREGROUNDMOUNT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ForegroundMount by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ForegroundMount(WBEMClient client, String namespace,
+            Boolean newValue) throws WbemsmtException {
+        CIM_NFS fco = new CIM_NFS(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_FOREGROUNDMOUNT.NAME);
+        if (property != null) {
+            property = setPropertyValue_ForegroundMount(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_FOREGROUNDMOUNT.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ForegroundMount
+     * <br>
+     * If set to true: Retries are performed in the foreground. 
+     * If set to false: If the first mount attempt fails, retries are performed in the background.
+     */
+
+    private static CIMProperty setPropertyValue_ForegroundMount(CIMProperty currentProperty,
+            Boolean newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property HardMount
+     *     * <br>
+     * If set to true: Once the FileSystem is mounted, NFS requests are retried until the hosting System responds. 
+     * If set to false: Once the FileSystem is mounted, an error is returned if the hosting System does not respond.
+     *     */
+
+    public Boolean get_HardMount() {
+        CIMProperty currentProperty = getProperty(PROPERTY_HARDMOUNT.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_HARDMOUNT.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (Boolean) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property HardMount
+     * <br>
+     * If set to true: Once the FileSystem is mounted, NFS requests are retried until the hosting System responds. 
+     * If set to false: Once the FileSystem is mounted, an error is returned if the hosting System does not respond.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_HardMount(Boolean newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_HARDMOUNT.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_HardMount(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_HARDMOUNT.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property HardMount by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_HardMount(WBEMClient client, String namespace, Boolean newValue)
+            throws WbemsmtException {
+        CIM_NFS fco = new CIM_NFS(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_HARDMOUNT.NAME);
+        if (property != null) {
+            property = setPropertyValue_HardMount(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_HARDMOUNT.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property HardMount
+     * <br>
+     * If set to true: Once the FileSystem is mounted, NFS requests are retried until the hosting System responds. 
+     * If set to false: Once the FileSystem is mounted, an error is returned if the hosting System does not respond.
+     */
+
+    private static CIMProperty setPropertyValue_HardMount(CIMProperty currentProperty,
+            Boolean newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property Interrupt
+     *     * <br>
+     * If set to true: Interrupts are permitted for hard mounts. 
+     * If set to false : Interrupts are ignored for hard mounts.
+     *     */
+
+    public Boolean get_Interrupt() {
+        CIMProperty currentProperty = getProperty(PROPERTY_INTERRUPT.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_INTERRUPT.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (Boolean) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property Interrupt
+     * <br>
+     * If set to true: Interrupts are permitted for hard mounts. 
+     * If set to false : Interrupts are ignored for hard mounts.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_Interrupt(Boolean newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_INTERRUPT.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_Interrupt(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_INTERRUPT.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property Interrupt by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_Interrupt(WBEMClient client, String namespace, Boolean newValue)
+            throws WbemsmtException {
+        CIM_NFS fco = new CIM_NFS(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_INTERRUPT.NAME);
+        if (property != null) {
+            property = setPropertyValue_Interrupt(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_INTERRUPT.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property Interrupt
+     * <br>
+     * If set to true: Interrupts are permitted for hard mounts. 
+     * If set to false : Interrupts are ignored for hard mounts.
+     */
+
+    private static CIMProperty setPropertyValue_Interrupt(CIMProperty currentProperty,
+            Boolean newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property MountFailureRetries
+     *     * <br>
+     * Maximum number of mount failure retries allowed.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_MountFailureRetries() {
+        CIMProperty currentProperty = getProperty(PROPERTY_MOUNTFAILURERETRIES.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_MOUNTFAILURERETRIES.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property MountFailureRetries
+     * <br>
+     * Maximum number of mount failure retries allowed.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_MountFailureRetries(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_MOUNTFAILURERETRIES.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_MountFailureRetries(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MOUNTFAILURERETRIES.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property MountFailureRetries by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_MountFailureRetries(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_NFS fco = new CIM_NFS(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_MOUNTFAILURERETRIES.NAME);
+        if (property != null) {
+            property = setPropertyValue_MountFailureRetries(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MOUNTFAILURERETRIES.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property MountFailureRetries
+     * <br>
+     * Maximum number of mount failure retries allowed.
+     */
+
+    private static CIMProperty setPropertyValue_MountFailureRetries(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ReadBufferSize
+     *     * <br>
+     * Read buffer size in bytes.
+     *     */
+
+    public javax.cim.UnsignedInteger64 get_ReadBufferSize() {
+        CIMProperty currentProperty = getProperty(PROPERTY_READBUFFERSIZE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_READBUFFERSIZE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger64) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ReadBufferSize
+     * <br>
+     * Read buffer size in bytes.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ReadBufferSize(javax.cim.UnsignedInteger64 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_READBUFFERSIZE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ReadBufferSize(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_READBUFFERSIZE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ReadBufferSize by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ReadBufferSize(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger64 newValue) throws WbemsmtException {
+        CIM_NFS fco = new CIM_NFS(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_READBUFFERSIZE.NAME);
+        if (property != null) {
+            property = setPropertyValue_ReadBufferSize(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_READBUFFERSIZE.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ReadBufferSize
+     * <br>
+     * Read buffer size in bytes.
+     */
+
+    private static CIMProperty setPropertyValue_ReadBufferSize(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger64 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property RetransmissionAttempts
+     *     * <br>
+     * Maximum number of NFS retransmissions allowed.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_RetransmissionAttempts() {
+        CIMProperty currentProperty = getProperty(PROPERTY_RETRANSMISSIONATTEMPTS.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_RETRANSMISSIONATTEMPTS.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property RetransmissionAttempts
+     * <br>
+     * Maximum number of NFS retransmissions allowed.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_RetransmissionAttempts(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_RETRANSMISSIONATTEMPTS.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_RetransmissionAttempts(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_RETRANSMISSIONATTEMPTS.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property RetransmissionAttempts by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_RetransmissionAttempts(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_NFS fco = new CIM_NFS(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_RETRANSMISSIONATTEMPTS.NAME);
+        if (property != null) {
+            property = setPropertyValue_RetransmissionAttempts(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_RETRANSMISSIONATTEMPTS.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property RetransmissionAttempts
+     * <br>
+     * Maximum number of NFS retransmissions allowed.
+     */
+
+    private static CIMProperty setPropertyValue_RetransmissionAttempts(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property RetransmissionTimeout
+     *     * <br>
+     * NFS timeout in tenths of a second.
+     *     */
+
+    public javax.cim.UnsignedInteger32 get_RetransmissionTimeout() {
+        CIMProperty currentProperty = getProperty(PROPERTY_RETRANSMISSIONTIMEOUT.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_RETRANSMISSIONTIMEOUT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger32) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property RetransmissionTimeout
+     * <br>
+     * NFS timeout in tenths of a second.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_RetransmissionTimeout(javax.cim.UnsignedInteger32 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_RETRANSMISSIONTIMEOUT.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_RetransmissionTimeout(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_RETRANSMISSIONTIMEOUT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property RetransmissionTimeout by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_RetransmissionTimeout(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger32 newValue) throws WbemsmtException {
+        CIM_NFS fco = new CIM_NFS(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_RETRANSMISSIONTIMEOUT.NAME);
+        if (property != null) {
+            property = setPropertyValue_RetransmissionTimeout(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_RETRANSMISSIONTIMEOUT.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property RetransmissionTimeout
+     * <br>
+     * NFS timeout in tenths of a second.
+     */
+
+    private static CIMProperty setPropertyValue_RetransmissionTimeout(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger32 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ServerCommunicationPort
+     *     * <br>
+     * The remote ComputerSystem's (ie, the NFS File 'Server's) UDP port number.
+     *     */
+
+    public javax.cim.UnsignedInteger32 get_ServerCommunicationPort() {
+        CIMProperty currentProperty = getProperty(PROPERTY_SERVERCOMMUNICATIONPORT.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_SERVERCOMMUNICATIONPORT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger32) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ServerCommunicationPort
+     * <br>
+     * The remote ComputerSystem's (ie, the NFS File 'Server's) UDP port number.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ServerCommunicationPort(javax.cim.UnsignedInteger32 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_SERVERCOMMUNICATIONPORT.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ServerCommunicationPort(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SERVERCOMMUNICATIONPORT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ServerCommunicationPort by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ServerCommunicationPort(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger32 newValue) throws WbemsmtException {
+        CIM_NFS fco = new CIM_NFS(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_SERVERCOMMUNICATIONPORT.NAME);
+        if (property != null) {
+            property = setPropertyValue_ServerCommunicationPort(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SERVERCOMMUNICATIONPORT.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ServerCommunicationPort
+     * <br>
+     * The remote ComputerSystem's (ie, the NFS File 'Server's) UDP port number.
+     */
+
+    private static CIMProperty setPropertyValue_ServerCommunicationPort(
+            CIMProperty currentProperty, javax.cim.UnsignedInteger32 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property WriteBufferSize
+     *     * <br>
+     * Write buffer size in bytes.
+     *     */
+
+    public javax.cim.UnsignedInteger64 get_WriteBufferSize() {
+        CIMProperty currentProperty = getProperty(PROPERTY_WRITEBUFFERSIZE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_WRITEBUFFERSIZE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger64) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property WriteBufferSize
+     * <br>
+     * Write buffer size in bytes.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_WriteBufferSize(javax.cim.UnsignedInteger64 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_WRITEBUFFERSIZE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_WriteBufferSize(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_WRITEBUFFERSIZE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property WriteBufferSize by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_WriteBufferSize(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger64 newValue) throws WbemsmtException {
+        CIM_NFS fco = new CIM_NFS(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_WRITEBUFFERSIZE.NAME);
+        if (property != null) {
+            property = setPropertyValue_WriteBufferSize(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_WRITEBUFFERSIZE.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property WriteBufferSize
+     * <br>
+     * Write buffer size in bytes.
+     */
+
+    private static CIMProperty setPropertyValue_WriteBufferSize(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger64 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_NFS.CIM_CLASS_NAME;
+    }
 
 }

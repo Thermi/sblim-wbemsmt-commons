@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
-import org.sblim.wbemsmt.exception.ValidationException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 
 public abstract class Validator {
@@ -50,9 +50,9 @@ public abstract class Validator {
 	 * Returns a list with error Messages 
 	 * if there is no errorMessage, the List.size() must be 0.
 	 * @return
-	 * @throws ValidationException 
+	 * @throws WbemsmtException 
 	 */
-	public MessageList validate() throws ValidationException
+	public MessageList validate() throws WbemsmtException
 	{
 		//can be overwrittemn by the subclass
 		stopWithoutMessage = false;
@@ -97,7 +97,7 @@ public abstract class Validator {
 
 	protected abstract LabeledBaseInputComponentIf[] getComponents();
 
-	public abstract void validateElement(MessageList result) throws ValidationException;
+	public abstract void validateElement(MessageList result) throws WbemsmtException;
 
 	List childs = new ArrayList();
 	List parents = new ArrayList();
@@ -120,7 +120,7 @@ public abstract class Validator {
 		parents.add(validator);
 	}
 
-	private void validateChilds(MessageList result) throws ValidationException
+	private void validateChilds(MessageList result) throws WbemsmtException
 	{
 		for (Iterator iter = childs.iterator(); iter.hasNext();) {
 			Validator child = (Validator) iter.next();
@@ -128,7 +128,7 @@ public abstract class Validator {
 		}
 	}
 
-	private void validateParents(MessageList result) throws ValidationException
+	private void validateParents(MessageList result) throws WbemsmtException
 	{
 		for (Iterator iter = parents.iterator(); iter.hasNext();) {
 			Validator child = (Validator) iter.next();

@@ -1,763 +1,1671 @@
 /** 
  * CIM_Watchdog.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  CIM_Watchdog is a timer implemented in system hardware. It allows the hardware
- * to monitor the state of the Operating System, BIOS or a software component
- * installed on the System. If the monitored component fails to re-arm the timer
- * before its expiration, the hardware assumes that the System is in a critical
- * state, and could reset the ComputerSystem. This feature can also be used as
- * an application watchdog timer for a mission-critical application. In this
- * case, the application would assume responsibility for re-arming the timer
- * before expiration.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: CIM_Watchdog is a timer implemented in system hardware. It allows the hardware to monitor the state of the Operating System, BIOS or a software component installed on the System. If the monitored component fails to re-arm the timer before its expiration, the hardware assumes that the System is in a critical state, and could reset the ComputerSystem. This feature can also be used as an application watchdog timer for a mission-critical application. In this case, the application would assume responsibility for re-arming the timer before expiration.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
-import java.util.Calendar;
-import org.sblim.wbem.client.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
+import org.sblim.wbemsmt.exception.impl.*;
+import org.sblim.wbemsmt.exception.impl.userobject.*;
 
+import javax.wbem.*;
 
-/**
- *  CIM_Watchdog is a timer implemented in system hardware. It allows the hardware
- * to monitor the state of the Operating System, BIOS or a software component
- * installed on the System. If the monitored component fails to re-arm the timer
- * before its expiration, the hardware assumes that the System is in a critical
- * state, and could reset the ComputerSystem. This feature can also be used as
- * an application watchdog timer for a mission-critical application. In this
- * case, the application would assume responsibility for re-arming the timer
- * before expiration.
- */
-public class CIM_Watchdog extends CIM_LogicalDevice  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_Watchdog"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_Watchdog extends CIM_LogicalDevice {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.7.0";
-	
-	
-	/**
-	*	The action that should happen upon the expiry of the watchdog.
-	*/
-	public final static String CIM_PROPERTY_ACTIONONEXPIRATION = "ActionOnExpiration"; //$NON-NLS-1$
-	/**
-	*	The entity that is currently being monitored by the WatchDog. This property is used to identify the module that is responsible for or whose information is used to re-arm the watchdog at periodic intervals.
-	*/
-	public final static String CIM_PROPERTY_MONITOREDENTITY = "MonitoredEntity"; //$NON-NLS-1$
-	/**
-	*	A string describing more textual information about the monitored entity.
-	*/
-	public final static String CIM_PROPERTY_MONITOREDENTITYDESCRIPTION = "MonitoredEntityDescription"; //$NON-NLS-1$
-	/**
-	*	Monitored entity at the time of last timer expiry.
-	*/
-	public final static String CIM_PROPERTY_MONITOREDENTITYONLASTEXPIRATION = "MonitoredEntityOnLastExpiration"; //$NON-NLS-1$
-	/**
-	*	The time of the last timer expiry.
-	*/
-	public final static String CIM_PROPERTY_TIMEOFLASTEXPIRATION = "TimeOfLastExpiration"; //$NON-NLS-1$
-	/**
-	*	The timeout interval used by the watchdog, in MicroSeconds.
-	*/
-	public final static String CIM_PROPERTY_TIMEOUTINTERVAL = "TimeoutInterval"; //$NON-NLS-1$
-	/**
-	*	Resolution of the timer. For example, if this value is 100, then the timer can expire anytime between (TimeoutInterval- 100) microseconds or (TimeoutInterval+100) microseconds.
-	*/
-	public final static String CIM_PROPERTY_TIMERRESOLUTION = "TimerResolution"; //$NON-NLS-1$
-	
-	
-	/**
-	*	A method to re-arm the timer. This method is only used if the MonitoredEntity is "Application". It returns 0 if successful, 1 if unsupported, and any other value if an error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
-	*/
-	public final static String CIM_METHOD_KEEPALIVE = "KeepAlive";
-	
+    public final static String CIM_CLASS_NAME = "CIM_Watchdog";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_ACTIONONEXPIRATION);
-		CIM_PropertyNameList.add(CIM_PROPERTY_MONITOREDENTITY);
-		CIM_PropertyNameList.add(CIM_PROPERTY_MONITOREDENTITYDESCRIPTION);
-		CIM_PropertyNameList.add(CIM_PROPERTY_MONITOREDENTITYONLASTEXPIRATION);
-		CIM_PropertyNameList.add(CIM_PROPERTY_TIMEOFLASTEXPIRATION);
-		CIM_PropertyNameList.add(CIM_PROPERTY_TIMEOUTINTERVAL);
-		CIM_PropertyNameList.add(CIM_PROPERTY_TIMERRESOLUTION);
-				
-		for (int i = 0; i < CIM_LogicalDevice.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_LogicalDevice.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ACTIONONEXPIRATION)||
-				((String)CIM_LogicalDevice.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_MONITOREDENTITY)||
-				((String)CIM_LogicalDevice.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_MONITOREDENTITYDESCRIPTION)||
-				((String)CIM_LogicalDevice.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_MONITOREDENTITYONLASTEXPIRATION)||
-				((String)CIM_LogicalDevice.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_TIMEOFLASTEXPIRATION)||
-				((String)CIM_LogicalDevice.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_TIMEOUTINTERVAL)||
-				((String)CIM_LogicalDevice.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_TIMERRESOLUTION)){
-				continue;
-			}
-			
-			CIM_Watchdog.CIM_PropertyNameList.add(CIM_LogicalDevice.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ACTIONONEXPIRATION, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_MONITOREDENTITY, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_MONITOREDENTITYDESCRIPTION, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_MONITOREDENTITYONLASTEXPIRATION, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_TIMEOFLASTEXPIRATION, new CIMValue(null, new CIMDataType(CIMDataType.DATETIME))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_TIMEOUTINTERVAL, new CIMValue(null, new CIMDataType(CIMDataType.UINT32))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_TIMERRESOLUTION, new CIMValue(null, new CIMDataType(CIMDataType.UINT32))));
-				
-		for (int i = 0; i < CIM_LogicalDevice.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_LogicalDevice.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ACTIONONEXPIRATION)||
-				((CIMProperty)CIM_LogicalDevice.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_MONITOREDENTITY)||
-				((CIMProperty)CIM_LogicalDevice.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_MONITOREDENTITYDESCRIPTION)||
-				((CIMProperty)CIM_LogicalDevice.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_MONITOREDENTITYONLASTEXPIRATION)||
-				((CIMProperty)CIM_LogicalDevice.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_TIMEOFLASTEXPIRATION)||
-				((CIMProperty)CIM_LogicalDevice.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_TIMEOUTINTERVAL)||
-				((CIMProperty)CIM_LogicalDevice.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_TIMERRESOLUTION)){
-				continue;
-			}
-			
-			CIM_Watchdog.CIM_PropertyList.add(CIM_LogicalDevice.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_LogicalDevice.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	public final static String[] CIM_VALUEMAP_ACTIONONEXPIRATION = {"None - Status Only","System Reset","System Power Off","System Power Off, then On","Generate System NonMaskableInterrupt (NMI)","Generate System Management Interrupt (SMI)"};
-	public final static String[] CIM_VALUEMAP_MONITOREDENTITY = {"Unknown","Other","Operating System","Operating System Boot Process","Operating System Shutdown Process","Firmware Boot Process","BIOS Boot Process","Application","Service Processor"};
-	public final static String[] CIM_VALUEMAP_MONITOREDENTITYONLASTEXPIRATION = {"Unknown","Other","Operating System","Operating System Boot Process","Operating System Shutdown Process","Firmware Boot Process","BIOS Boot Process","Application","Service Processor"};
-	
-	
-	public final static int ACTIONONEXPIRATION_NONE_STATUSONLY = 0;
-	public final static int ACTIONONEXPIRATION_SYSTEMRESET = 1;
-	public final static int ACTIONONEXPIRATION_SYSTEMPOWEROFF = 2;
-	public final static int ACTIONONEXPIRATION_SYSTEMPOWEROFF_THENON = 3;
-	public final static int ACTIONONEXPIRATION_GENERATESYSTEMNONMASKABLEINTERRUPTNMI = 4;
-	public final static int ACTIONONEXPIRATION_GENERATESYSTEMMANAGEMENTINTERRUPTSMI = 5;
-	
-	public final static int MONITOREDENTITY_UNKNOWN = 0;
-	public final static int MONITOREDENTITY_OTHER = 1;
-	public final static int MONITOREDENTITY_OPERATINGSYSTEM = 2;
-	public final static int MONITOREDENTITY_OPERATINGSYSTEMBOOTPROCESS = 3;
-	public final static int MONITOREDENTITY_OPERATINGSYSTEMSHUTDOWNPROCESS = 4;
-	public final static int MONITOREDENTITY_FIRMWAREBOOTPROCESS = 5;
-	public final static int MONITOREDENTITY_BIOSBOOTPROCESS = 6;
-	public final static int MONITOREDENTITY_APPLICATION = 7;
-	public final static int MONITOREDENTITY_SERVICEPROCESSOR = 8;
-	
-	public final static int MONITOREDENTITYONLASTEXPIRATION_UNKNOWN = 0;
-	public final static int MONITOREDENTITYONLASTEXPIRATION_OTHER = 1;
-	public final static int MONITOREDENTITYONLASTEXPIRATION_OPERATINGSYSTEM = 2;
-	public final static int MONITOREDENTITYONLASTEXPIRATION_OPERATINGSYSTEMBOOTPROCESS = 3;
-	public final static int MONITOREDENTITYONLASTEXPIRATION_OPERATINGSYSTEMSHUTDOWNPROCESS = 4;
-	public final static int MONITOREDENTITYONLASTEXPIRATION_FIRMWAREBOOTPROCESS = 5;
-	public final static int MONITOREDENTITYONLASTEXPIRATION_BIOSBOOTPROCESS = 6;
-	public final static int MONITOREDENTITYONLASTEXPIRATION_APPLICATION = 7;
-	public final static int MONITOREDENTITYONLASTEXPIRATION_SERVICEPROCESSOR = 8;
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constant for method\'s name and parameters
+     * A method to re-arm the timer. This method is only used if the MonitoredEntity is "Application". It returns 0 if successful, 1 if unsupported, and any other value if an error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
+     */
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_Watchdog() {
+    public static class METHOD_KEEPALIVE {
+        /**
+         * Constant for method KeepAlive
+         */
+        public final static String NAME = "KeepAlive";
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    }
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    /**
+     * Constants of property ActionOnExpiration
+     * The action that should happen upon the expiry of the watchdog.
+     */
+    public static class PROPERTY_ACTIONONEXPIRATION {
+        /**
+         * name of the property ActionOnExpiration
+         */
+        public final static String NAME = "ActionOnExpiration";
 
-		setValidCimInstance(false);
-	}
+        /**
+         * constant for value map entry 0
+         */
 
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_None___Status_Only = new javax.cim.UnsignedInteger16(
+                "0");
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_Watchdog(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+        /**
+         * constant for value entry None - Status Only (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_None___Status_Only = "None - Status Only";
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_Watchdog(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+        /**
+         * constant for value map entry 1
+         */
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_System_Reset = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry System Reset (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_System_Reset = "System Reset";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_System_Power_Off = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry System Power Off (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_System_Power_Off = "System Power Off";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_System_Power_Off = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_then_On = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry then On (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_then_On = "then On";
+
+        /**
+         * constant for value map entry 5
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Generate_System_NonMaskableInterrupt__NMI_ = new javax.cim.UnsignedInteger16(
+                "5");
+
+        /**
+         * constant for value entry Generate System NonMaskableInterrupt (NMI) (corresponds to mapEntry 5 )
+         */
+        public final static String VALUE_ENTRY_Generate_System_NonMaskableInterrupt__NMI_ = "Generate System NonMaskableInterrupt (NMI)";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@6a486a48
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_None___Status_Only.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_None___Status_Only;
             }
-            CIM_Watchdog.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+
+            if (VALUE_ENTRY_System_Reset.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_System_Reset;
+            }
+
+            if (VALUE_ENTRY_System_Power_Off.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_System_Power_Off;
+            }
+
+            if (VALUE_ENTRY_System_Power_Off.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_System_Power_Off;
+            }
+
+            if (VALUE_ENTRY_then_On.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_then_On;
+            }
+
+            if (VALUE_ENTRY_Generate_System_NonMaskableInterrupt__NMI_.equals(value)) {
+                return VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Generate_System_NonMaskableInterrupt__NMI_;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_None___Status_Only.intValue()) {
+                return VALUE_ENTRY_None___Status_Only;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_System_Reset.intValue()) {
+                return VALUE_ENTRY_System_Reset;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_System_Power_Off.intValue()) {
+                return VALUE_ENTRY_System_Power_Off;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_System_Power_Off.intValue()) {
+                return VALUE_ENTRY_System_Power_Off;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_then_On.intValue()) {
+                return VALUE_ENTRY_then_On;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Generate_System_NonMaskableInterrupt__NMI_
+                    .intValue()) {
+                return VALUE_ENTRY_Generate_System_NonMaskableInterrupt__NMI_;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property ActionOnExpiration   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_None___Status_Only,
+                VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_System_Reset,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_System_Power_Off,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_System_Power_Off,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_then_On,
+                VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Generate_System_NonMaskableInterrupt__NMI_ };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property ActionOnExpiration   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_None___Status_Only,
+                VALUE_ENTRY_System_Reset, VALUE_ENTRY_System_Power_Off, VALUE_ENTRY_then_On,
+                VALUE_ENTRY_Generate_System_NonMaskableInterrupt__NMI_ };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property ActionOnExpiration   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_None___Status_Only,
+                VALUE_ENTRY_System_Reset, VALUE_ENTRY_System_Power_Off, VALUE_ENTRY_then_On,
+                VALUE_ENTRY_Generate_System_NonMaskableInterrupt__NMI_ };
+
+    }
+
+    /**
+     * Constants of property MonitoredEntity
+     * The entity that is currently being monitored by the WatchDog. This property is used to identify the module that is responsible for or whose information is used to re-arm the watchdog at periodic intervals.
+     */
+    public static class PROPERTY_MONITOREDENTITY {
+        /**
+         * name of the property MonitoredEntity
+         */
+        public final static String NAME = "MonitoredEntity";
+
+        /**
+         * constant for value map entry 0
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Operating_System = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry Operating System (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Operating_System = "Operating System";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Operating_System_Boot_Process = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Operating System Boot Process (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Operating_System_Boot_Process = "Operating System Boot Process";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Operating_System_Shutdown_Process = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry Operating System Shutdown Process (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_Operating_System_Shutdown_Process = "Operating System Shutdown Process";
+
+        /**
+         * constant for value map entry 5
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Firmware_Boot_Process = new javax.cim.UnsignedInteger16(
+                "5");
+
+        /**
+         * constant for value entry Firmware Boot Process (corresponds to mapEntry 5 )
+         */
+        public final static String VALUE_ENTRY_Firmware_Boot_Process = "Firmware Boot Process";
+
+        /**
+         * constant for value map entry 6
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_BIOS_Boot_Process = new javax.cim.UnsignedInteger16(
+                "6");
+
+        /**
+         * constant for value entry BIOS Boot Process (corresponds to mapEntry 6 )
+         */
+        public final static String VALUE_ENTRY_BIOS_Boot_Process = "BIOS Boot Process";
+
+        /**
+         * constant for value map entry 7
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Application = new javax.cim.UnsignedInteger16(
+                "7");
+
+        /**
+         * constant for value entry Application (corresponds to mapEntry 7 )
+         */
+        public final static String VALUE_ENTRY_Application = "Application";
+
+        /**
+         * constant for value map entry 8
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Service_Processor = new javax.cim.UnsignedInteger16(
+                "8");
+
+        /**
+         * constant for value entry Service Processor (corresponds to mapEntry 8 )
+         */
+        public final static String VALUE_ENTRY_Service_Processor = "Service Processor";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@289a289a
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_Operating_System.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Operating_System;
+            }
+
+            if (VALUE_ENTRY_Operating_System_Boot_Process.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Operating_System_Boot_Process;
+            }
+
+            if (VALUE_ENTRY_Operating_System_Shutdown_Process.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Operating_System_Shutdown_Process;
+            }
+
+            if (VALUE_ENTRY_Firmware_Boot_Process.equals(value)) {
+                return VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Firmware_Boot_Process;
+            }
+
+            if (VALUE_ENTRY_BIOS_Boot_Process.equals(value)) {
+                return VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_BIOS_Boot_Process;
+            }
+
+            if (VALUE_ENTRY_Application.equals(value)) {
+                return VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Application;
+            }
+
+            if (VALUE_ENTRY_Service_Processor.equals(value)) {
+                return VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Service_Processor;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Operating_System.intValue()) {
+                return VALUE_ENTRY_Operating_System;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Operating_System_Boot_Process
+                    .intValue()) {
+                return VALUE_ENTRY_Operating_System_Boot_Process;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Operating_System_Shutdown_Process
+                    .intValue()) {
+                return VALUE_ENTRY_Operating_System_Shutdown_Process;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Firmware_Boot_Process.intValue()) {
+                return VALUE_ENTRY_Firmware_Boot_Process;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_BIOS_Boot_Process.intValue()) {
+                return VALUE_ENTRY_BIOS_Boot_Process;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Application.intValue()) {
+                return VALUE_ENTRY_Application;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Service_Processor.intValue()) {
+                return VALUE_ENTRY_Service_Processor;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property MonitoredEntity   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown, VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Operating_System,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Operating_System_Boot_Process,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Operating_System_Shutdown_Process,
+                VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Firmware_Boot_Process,
+                VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_BIOS_Boot_Process,
+                VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Application,
+                VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Service_Processor };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property MonitoredEntity   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown, VALUE_ENTRY_Other,
+                VALUE_ENTRY_Operating_System, VALUE_ENTRY_Operating_System_Boot_Process,
+                VALUE_ENTRY_Operating_System_Shutdown_Process, VALUE_ENTRY_Firmware_Boot_Process,
+                VALUE_ENTRY_BIOS_Boot_Process, VALUE_ENTRY_Application,
+                VALUE_ENTRY_Service_Processor };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property MonitoredEntity   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Other, VALUE_ENTRY_Operating_System,
+                VALUE_ENTRY_Operating_System_Boot_Process,
+                VALUE_ENTRY_Operating_System_Shutdown_Process, VALUE_ENTRY_Firmware_Boot_Process,
+                VALUE_ENTRY_BIOS_Boot_Process, VALUE_ENTRY_Application,
+                VALUE_ENTRY_Service_Processor };
+
+    }
+
+    /**
+     * Constants of property MonitoredEntityDescription
+     * A string describing more textual information about the monitored entity.
+     */
+    public static class PROPERTY_MONITOREDENTITYDESCRIPTION {
+        /**
+         * name of the property MonitoredEntityDescription
+         */
+        public final static String NAME = "MonitoredEntityDescription";
+
+    }
+
+    /**
+     * Constants of property MonitoredEntityOnLastExpiration
+     * Monitored entity at the time of last timer expiry.
+     */
+    public static class PROPERTY_MONITOREDENTITYONLASTEXPIRATION {
+        /**
+         * name of the property MonitoredEntityOnLastExpiration
+         */
+        public final static String NAME = "MonitoredEntityOnLastExpiration";
+
+        /**
+         * constant for value map entry 0
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Operating_System = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry Operating System (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Operating_System = "Operating System";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Operating_System_Boot_Process = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Operating System Boot Process (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Operating_System_Boot_Process = "Operating System Boot Process";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Operating_System_Shutdown_Process = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry Operating System Shutdown Process (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_Operating_System_Shutdown_Process = "Operating System Shutdown Process";
+
+        /**
+         * constant for value map entry 5
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Firmware_Boot_Process = new javax.cim.UnsignedInteger16(
+                "5");
+
+        /**
+         * constant for value entry Firmware Boot Process (corresponds to mapEntry 5 )
+         */
+        public final static String VALUE_ENTRY_Firmware_Boot_Process = "Firmware Boot Process";
+
+        /**
+         * constant for value map entry 6
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_BIOS_Boot_Process = new javax.cim.UnsignedInteger16(
+                "6");
+
+        /**
+         * constant for value entry BIOS Boot Process (corresponds to mapEntry 6 )
+         */
+        public final static String VALUE_ENTRY_BIOS_Boot_Process = "BIOS Boot Process";
+
+        /**
+         * constant for value map entry 7
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Application = new javax.cim.UnsignedInteger16(
+                "7");
+
+        /**
+         * constant for value entry Application (corresponds to mapEntry 7 )
+         */
+        public final static String VALUE_ENTRY_Application = "Application";
+
+        /**
+         * constant for value map entry 8
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Service_Processor = new javax.cim.UnsignedInteger16(
+                "8");
+
+        /**
+         * constant for value entry Service Processor (corresponds to mapEntry 8 )
+         */
+        public final static String VALUE_ENTRY_Service_Processor = "Service Processor";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@3e2e3e2e
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_Operating_System.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Operating_System;
+            }
+
+            if (VALUE_ENTRY_Operating_System_Boot_Process.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Operating_System_Boot_Process;
+            }
+
+            if (VALUE_ENTRY_Operating_System_Shutdown_Process.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Operating_System_Shutdown_Process;
+            }
+
+            if (VALUE_ENTRY_Firmware_Boot_Process.equals(value)) {
+                return VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Firmware_Boot_Process;
+            }
+
+            if (VALUE_ENTRY_BIOS_Boot_Process.equals(value)) {
+                return VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_BIOS_Boot_Process;
+            }
+
+            if (VALUE_ENTRY_Application.equals(value)) {
+                return VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Application;
+            }
+
+            if (VALUE_ENTRY_Service_Processor.equals(value)) {
+                return VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Service_Processor;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Operating_System.intValue()) {
+                return VALUE_ENTRY_Operating_System;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Operating_System_Boot_Process
+                    .intValue()) {
+                return VALUE_ENTRY_Operating_System_Boot_Process;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Operating_System_Shutdown_Process
+                    .intValue()) {
+                return VALUE_ENTRY_Operating_System_Shutdown_Process;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Firmware_Boot_Process.intValue()) {
+                return VALUE_ENTRY_Firmware_Boot_Process;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_BIOS_Boot_Process.intValue()) {
+                return VALUE_ENTRY_BIOS_Boot_Process;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Application.intValue()) {
+                return VALUE_ENTRY_Application;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Service_Processor.intValue()) {
+                return VALUE_ENTRY_Service_Processor;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property MonitoredEntityOnLastExpiration   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown, VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Operating_System,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Operating_System_Boot_Process,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Operating_System_Shutdown_Process,
+                VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Firmware_Boot_Process,
+                VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_BIOS_Boot_Process,
+                VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Application,
+                VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Service_Processor };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property MonitoredEntityOnLastExpiration   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown, VALUE_ENTRY_Other,
+                VALUE_ENTRY_Operating_System, VALUE_ENTRY_Operating_System_Boot_Process,
+                VALUE_ENTRY_Operating_System_Shutdown_Process, VALUE_ENTRY_Firmware_Boot_Process,
+                VALUE_ENTRY_BIOS_Boot_Process, VALUE_ENTRY_Application,
+                VALUE_ENTRY_Service_Processor };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property MonitoredEntityOnLastExpiration   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Other, VALUE_ENTRY_Operating_System,
+                VALUE_ENTRY_Operating_System_Boot_Process,
+                VALUE_ENTRY_Operating_System_Shutdown_Process, VALUE_ENTRY_Firmware_Boot_Process,
+                VALUE_ENTRY_BIOS_Boot_Process, VALUE_ENTRY_Application,
+                VALUE_ENTRY_Service_Processor };
+
+    }
+
+    /**
+     * Constants of property TimeOfLastExpiration
+     * The time of the last timer expiry.
+     */
+    public static class PROPERTY_TIMEOFLASTEXPIRATION {
+        /**
+         * name of the property TimeOfLastExpiration
+         */
+        public final static String NAME = "TimeOfLastExpiration";
+
+    }
+
+    /**
+     * Constants of property TimeoutInterval
+     * The timeout interval used by the watchdog, in MicroSeconds.
+     */
+    public static class PROPERTY_TIMEOUTINTERVAL {
+        /**
+         * name of the property TimeoutInterval
+         */
+        public final static String NAME = "TimeoutInterval";
+
+    }
+
+    /**
+     * Constants of property TimerResolution
+     * Resolution of the timer. For example, if this value is 100, then the timer can expire anytime between (TimeoutInterval- 100) microseconds or (TimeoutInterval+100) microseconds.
+     */
+    public static class PROPERTY_TIMERRESOLUTION {
+        /**
+         * name of the property TimerResolution
+         */
+        public final static String NAME = "TimerResolution";
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_LogicalDevice.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   CIM_Watchdog is a timer implemented in system hardware. It allows the hardware to monitor the state of the Operating System, BIOS or a software component installed on the System. If the monitored component fails to re-arm the timer before its expiration, the hardware assumes that the System is in a critical state, and could reset the ComputerSystem. This feature can also be used as an application watchdog timer for a mission-critical application. In this case, the application would assume responsibility for re-arming the timer before expiration.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_Watchdog(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   CIM_Watchdog is a timer implemented in system hardware. It allows the hardware to monitor the state of the Operating System, BIOS or a software component installed on the System. If the monitored component fails to re-arm the timer before its expiration, the hardware assumes that the System is in a critical state, and could reset the ComputerSystem. This feature can also be used as an application watchdog timer for a mission-critical application. In this case, the application would assume responsibility for re-arming the timer before expiration.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_Watchdog(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_Watchdog() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("ActionOnExpiration", new CIMProperty("ActionOnExpiration",
+                CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("MonitoredEntity", new CIMProperty("MonitoredEntity",
+                CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("MonitoredEntityDescription", new CIMProperty(
+                "MonitoredEntityDescription", CIMDataType.STRING_T, null));
+        propertiesToCheck.put("MonitoredEntityOnLastExpiration", new CIMProperty(
+                "MonitoredEntityOnLastExpiration", CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("TimeOfLastExpiration", new CIMProperty("TimeOfLastExpiration",
+                CIMDataType.DATETIME_T, null));
+        propertiesToCheck.put("TimeoutInterval", new CIMProperty("TimeoutInterval",
+                CIMDataType.UINT32_T, null));
+        propertiesToCheck.put("TimerResolution", new CIMProperty("TimerResolution",
+                CIMDataType.UINT32_T, null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_Watchdog.Java_Package_List.toArray(new String[CIM_Watchdog.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property ActionOnExpiration
+     *     * <br>
+     * The action that should happen upon the expiry of the watchdog.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_ActionOnExpiration() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ACTIONONEXPIRATION.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ACTIONONEXPIRATION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property ActionOnExpiration
+     * <br>
+     * The action that should happen upon the expiry of the watchdog.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_Watchdog)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_Watchdog)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_Watchdog)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_Watchdog)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_Watchdog)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_Watchdog)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_Watchdog)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_Watchdog)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_Watchdog)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_Watchdog)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_ActionOnExpiration(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ACTIONONEXPIRATION.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_ActionOnExpiration(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ACTIONONEXPIRATION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute ActionOnExpiration
-	
-	public UnsignedInt16 get_ActionOnExpiration() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Watchdog.CIM_PROPERTY_ACTIONONEXPIRATION);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Watchdog.CIM_PROPERTY_ACTIONONEXPIRATION + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Watchdog.CIM_PROPERTY_ACTIONONEXPIRATION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ActionOnExpiration(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Watchdog.CIM_PROPERTY_ACTIONONEXPIRATION);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Watchdog.CIM_PROPERTY_ACTIONONEXPIRATION + " could not be found");
-    		
-		} else if (!CIM_WatchdogHelper.isValid_ActionOnExpiration(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_Watchdog.CIM_PROPERTY_ACTIONONEXPIRATION);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Watchdog.CIM_PROPERTY_ACTIONONEXPIRATION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute MonitoredEntity
-	
-	public UnsignedInt16 get_MonitoredEntity() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITY);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITY + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITY + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_MonitoredEntity(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITY);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITY + " could not be found");
-    		
-		} else if (!CIM_WatchdogHelper.isValid_MonitoredEntity(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITY);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITY + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property ActionOnExpiration by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	// Attribute MonitoredEntityDescription
-	
-	public String get_MonitoredEntityDescription() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITYDESCRIPTION);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITYDESCRIPTION + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITYDESCRIPTION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_MonitoredEntityDescription(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITYDESCRIPTION);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITYDESCRIPTION + " could not be found");
-    		
-		} else if (!CIM_WatchdogHelper.isValid_MonitoredEntityDescription(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITYDESCRIPTION);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITYDESCRIPTION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public static CIMProperty create_ActionOnExpiration(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_Watchdog fco = new CIM_Watchdog(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ACTIONONEXPIRATION.NAME);
+        if (property != null) {
+            property = setPropertyValue_ActionOnExpiration(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ACTIONONEXPIRATION.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	// Attribute MonitoredEntityOnLastExpiration
-	
-	public UnsignedInt16 get_MonitoredEntityOnLastExpiration() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITYONLASTEXPIRATION);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITYONLASTEXPIRATION + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITYONLASTEXPIRATION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_MonitoredEntityOnLastExpiration(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITYONLASTEXPIRATION);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITYONLASTEXPIRATION + " could not be found");
-    		
-		} else if (!CIM_WatchdogHelper.isValid_MonitoredEntityOnLastExpiration(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITYONLASTEXPIRATION);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Watchdog.CIM_PROPERTY_MONITOREDENTITYONLASTEXPIRATION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Set the property ActionOnExpiration
+     * <br>
+     * The action that should happen upon the expiry of the watchdog.
+     */
 
-	// Attribute TimeOfLastExpiration
-	
-	public Calendar get_TimeOfLastExpiration() {
+    private static CIMProperty setPropertyValue_ActionOnExpiration(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
 
-		CIMProperty property = this.cimInstance.getProperty(CIM_Watchdog.CIM_PROPERTY_TIMEOFLASTEXPIRATION);
-        
-		if (property == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Watchdog.CIM_PROPERTY_TIMEOFLASTEXPIRATION + " could not be found");
-    		
-		} else if (property.getType() == null || property.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Watchdog.CIM_PROPERTY_TIMEOFLASTEXPIRATION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-        
-		if (property.getValue() == null) {
-			return null;
-		}
-        
-        CIMDateTime cimDateTime = (CIMDateTime)property.getValue().getValue();
-		return cimDateTime != null?cimDateTime.getCalendar():null;
-	}
-	
-	
-	public void set_TimeOfLastExpiration(Calendar newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Watchdog.CIM_PROPERTY_TIMEOFLASTEXPIRATION);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Watchdog.CIM_PROPERTY_TIMEOFLASTEXPIRATION + " could not be found");
-    		
-		} else if (!CIM_WatchdogHelper.isValid_TimeOfLastExpiration(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_Watchdog.CIM_PROPERTY_TIMEOFLASTEXPIRATION);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Watchdog.CIM_PROPERTY_TIMEOFLASTEXPIRATION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(new CIMSimpleDateTime(newValue), new CIMDataType(CIMDataType.DATETIME));
-		currentProperty.setValue(updatedValue);
-	}
-    
-	
+        setThis = newValue;
 
-	// Attribute TimeoutInterval
-	
-	public UnsignedInt32 get_TimeoutInterval() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Watchdog.CIM_PROPERTY_TIMEOUTINTERVAL);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Watchdog.CIM_PROPERTY_TIMEOUTINTERVAL + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Watchdog.CIM_PROPERTY_TIMEOUTINTERVAL + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt32)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_TimeoutInterval(UnsignedInt32 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Watchdog.CIM_PROPERTY_TIMEOUTINTERVAL);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Watchdog.CIM_PROPERTY_TIMEOUTINTERVAL + " could not be found");
-    		
-		} else if (!CIM_WatchdogHelper.isValid_TimeoutInterval(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_Watchdog.CIM_PROPERTY_TIMEOUTINTERVAL);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Watchdog.CIM_PROPERTY_TIMEOUTINTERVAL + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT32));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
 
-	// Attribute TimerResolution
-	
-	public UnsignedInt32 get_TimerResolution() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Watchdog.CIM_PROPERTY_TIMERRESOLUTION);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Watchdog.CIM_PROPERTY_TIMERRESOLUTION + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Watchdog.CIM_PROPERTY_TIMERRESOLUTION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt32)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_TimerResolution(UnsignedInt32 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_Watchdog.CIM_PROPERTY_TIMERRESOLUTION);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_Watchdog.CIM_PROPERTY_TIMERRESOLUTION + " could not be found");
-    		
-		} else if (!CIM_WatchdogHelper.isValid_TimerResolution(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_Watchdog.CIM_PROPERTY_TIMERRESOLUTION);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_Watchdog.CIM_PROPERTY_TIMERRESOLUTION + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT32));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        return newProperty;
+    }
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
-	public UnsignedInt32 invoke_keepAlive(CIMClient cimClient) {
-	  	Vector inParameter = new Vector();
-	  	Vector outParameter = new Vector();
-	  	
-	  	if (!isValidCimInstance()) {
-	  		throw new CIMException(CIMException.CIM_ERR_METHOD_NOT_AVAILABLE,"Used instance of class '" + 
-	  				CIM_Watchdog.CIM_CLASS_NAME + "' is not a valid CIMInstance.");
-	  	}
-	  	
-	  	
-	  	
-	  	
-	  	CIMValue returnValue = cimClient.invokeMethod(this.getCimObjectPath(), 
-				  									  CIM_METHOD_KEEPALIVE,
-													  inParameter,
-													  outParameter);
-		
-		if (returnValue == null || returnValue.isNull()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The returned CIMValue from remote method call '" + 
-					CIM_Watchdog.CIM_METHOD_KEEPALIVE + "' is null.");
-		}
-		if (returnValue.getValue() == null || returnValue.isNullValue()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The return value from remote method call '" + 
-					CIM_Watchdog.CIM_METHOD_KEEPALIVE + "' is null.");
-		}
-		if (returnValue.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The return value from remote method call " + CIM_Watchdog.CIM_METHOD_KEEPALIVE + 
-					" is not of expected type: " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");		
-		}
+    /**
+     * Get the property MonitoredEntity
+     *     * <br>
+     * The entity that is currently being monitored by the WatchDog. This property is used to identify the module that is responsible for or whose information is used to re-arm the watchdog at periodic intervals.
+     *     */
 
-		return (UnsignedInt32)returnValue.getValue(); 		  	
-	  }
+    public javax.cim.UnsignedInteger16 get_MonitoredEntity() {
+        CIMProperty currentProperty = getProperty(PROPERTY_MONITOREDENTITY.NAME);
 
-	
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_MONITOREDENTITY.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property MonitoredEntity
+     * <br>
+     * The entity that is currently being monitored by the WatchDog. This property is used to identify the module that is responsible for or whose information is used to re-arm the watchdog at periodic intervals.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_MonitoredEntity(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_MONITOREDENTITY.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_MonitoredEntity(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MONITOREDENTITY.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property MonitoredEntity by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_MonitoredEntity(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_Watchdog fco = new CIM_Watchdog(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_MONITOREDENTITY.NAME);
+        if (property != null) {
+            property = setPropertyValue_MonitoredEntity(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MONITOREDENTITY.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property MonitoredEntity
+     * <br>
+     * The entity that is currently being monitored by the WatchDog. This property is used to identify the module that is responsible for or whose information is used to re-arm the watchdog at periodic intervals.
+     */
+
+    private static CIMProperty setPropertyValue_MonitoredEntity(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property MonitoredEntityDescription
+     *     * <br>
+     * A string describing more textual information about the monitored entity.
+     *     */
+
+    public String get_MonitoredEntityDescription() {
+        CIMProperty currentProperty = getProperty(PROPERTY_MONITOREDENTITYDESCRIPTION.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_MONITOREDENTITYDESCRIPTION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property MonitoredEntityDescription
+     * <br>
+     * A string describing more textual information about the monitored entity.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_MonitoredEntityDescription(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_MONITOREDENTITYDESCRIPTION.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_MonitoredEntityDescription(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MONITOREDENTITYDESCRIPTION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property MonitoredEntityDescription by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_MonitoredEntityDescription(WBEMClient client,
+            String namespace, String newValue) throws WbemsmtException {
+        CIM_Watchdog fco = new CIM_Watchdog(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_MONITOREDENTITYDESCRIPTION.NAME);
+        if (property != null) {
+            property = setPropertyValue_MonitoredEntityDescription(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MONITOREDENTITYDESCRIPTION.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property MonitoredEntityDescription
+     * <br>
+     * A string describing more textual information about the monitored entity.
+     */
+
+    private static CIMProperty setPropertyValue_MonitoredEntityDescription(
+            CIMProperty currentProperty, String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property MonitoredEntityOnLastExpiration
+     *     * <br>
+     * Monitored entity at the time of last timer expiry.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_MonitoredEntityOnLastExpiration() {
+        CIMProperty currentProperty = getProperty(PROPERTY_MONITOREDENTITYONLASTEXPIRATION.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_MONITOREDENTITYONLASTEXPIRATION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property MonitoredEntityOnLastExpiration
+     * <br>
+     * Monitored entity at the time of last timer expiry.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_MonitoredEntityOnLastExpiration(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_MONITOREDENTITYONLASTEXPIRATION.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_MonitoredEntityOnLastExpiration(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MONITOREDENTITYONLASTEXPIRATION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property MonitoredEntityOnLastExpiration by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_MonitoredEntityOnLastExpiration(WBEMClient client,
+            String namespace, javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_Watchdog fco = new CIM_Watchdog(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_MONITOREDENTITYONLASTEXPIRATION.NAME);
+        if (property != null) {
+            property = setPropertyValue_MonitoredEntityOnLastExpiration(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MONITOREDENTITYONLASTEXPIRATION.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property MonitoredEntityOnLastExpiration
+     * <br>
+     * Monitored entity at the time of last timer expiry.
+     */
+
+    private static CIMProperty setPropertyValue_MonitoredEntityOnLastExpiration(
+            CIMProperty currentProperty, javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property TimeOfLastExpiration
+     *     * <br>
+     * The time of the last timer expiry.
+     *     */
+
+    public javax.cim.CIMDateTime get_TimeOfLastExpiration() {
+        CIMProperty currentProperty = getProperty(PROPERTY_TIMEOFLASTEXPIRATION.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_TIMEOFLASTEXPIRATION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.CIMDateTime) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property TimeOfLastExpiration
+     * <br>
+     * The time of the last timer expiry.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_TimeOfLastExpiration(javax.cim.CIMDateTime newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_TIMEOFLASTEXPIRATION.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_TimeOfLastExpiration(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_TIMEOFLASTEXPIRATION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property TimeOfLastExpiration by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_TimeOfLastExpiration(WBEMClient client, String namespace,
+            javax.cim.CIMDateTime newValue) throws WbemsmtException {
+        CIM_Watchdog fco = new CIM_Watchdog(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_TIMEOFLASTEXPIRATION.NAME);
+        if (property != null) {
+            property = setPropertyValue_TimeOfLastExpiration(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_TIMEOFLASTEXPIRATION.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property TimeOfLastExpiration
+     * <br>
+     * The time of the last timer expiry.
+     */
+
+    private static CIMProperty setPropertyValue_TimeOfLastExpiration(CIMProperty currentProperty,
+            javax.cim.CIMDateTime newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property TimeoutInterval
+     *     * <br>
+     * The timeout interval used by the watchdog, in MicroSeconds.
+     *     */
+
+    public javax.cim.UnsignedInteger32 get_TimeoutInterval() {
+        CIMProperty currentProperty = getProperty(PROPERTY_TIMEOUTINTERVAL.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_TIMEOUTINTERVAL.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger32) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property TimeoutInterval
+     * <br>
+     * The timeout interval used by the watchdog, in MicroSeconds.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_TimeoutInterval(javax.cim.UnsignedInteger32 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_TIMEOUTINTERVAL.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_TimeoutInterval(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_TIMEOUTINTERVAL.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property TimeoutInterval by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_TimeoutInterval(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger32 newValue) throws WbemsmtException {
+        CIM_Watchdog fco = new CIM_Watchdog(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_TIMEOUTINTERVAL.NAME);
+        if (property != null) {
+            property = setPropertyValue_TimeoutInterval(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_TIMEOUTINTERVAL.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property TimeoutInterval
+     * <br>
+     * The timeout interval used by the watchdog, in MicroSeconds.
+     */
+
+    private static CIMProperty setPropertyValue_TimeoutInterval(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger32 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property TimerResolution
+     *     * <br>
+     * Resolution of the timer. For example, if this value is 100, then the timer can expire anytime between (TimeoutInterval- 100) microseconds or (TimeoutInterval+100) microseconds.
+     *     */
+
+    public javax.cim.UnsignedInteger32 get_TimerResolution() {
+        CIMProperty currentProperty = getProperty(PROPERTY_TIMERRESOLUTION.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_TIMERRESOLUTION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger32) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property TimerResolution
+     * <br>
+     * Resolution of the timer. For example, if this value is 100, then the timer can expire anytime between (TimeoutInterval- 100) microseconds or (TimeoutInterval+100) microseconds.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_TimerResolution(javax.cim.UnsignedInteger32 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_TIMERRESOLUTION.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_TimerResolution(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_TIMERRESOLUTION.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property TimerResolution by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_TimerResolution(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger32 newValue) throws WbemsmtException {
+        CIM_Watchdog fco = new CIM_Watchdog(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_TIMERRESOLUTION.NAME);
+        if (property != null) {
+            property = setPropertyValue_TimerResolution(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_TIMERRESOLUTION.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property TimerResolution
+     * <br>
+     * Resolution of the timer. For example, if this value is 100, then the timer can expire anytime between (TimeoutInterval- 100) microseconds or (TimeoutInterval+100) microseconds.
+     */
+
+    private static CIMProperty setPropertyValue_TimerResolution(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger32 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    /**
+     * Invokes the Method KeepAlive
+     * <br>
+     * @param client the cimclient
+     * A method to re-arm the timer. This method is only used if the MonitoredEntity is "Application". It returns 0 if successful, 1 if unsupported, and any other value if an error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
+     *
+     */
+
+    public KeepAliveResult invoke_KeepAlive(WBEMClient cimClient) throws WbemsmtException {
+
+        CIMArgument[] inParameter = new CIMArgument[0];
+        CIMArgument[] outParameter = new CIMArgument[0];
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        try {
+            Object oResult = cimClient.invokeMethod(this.getCimObjectPath(), METHOD_KEEPALIVE.NAME,
+                    inParameter, outParameter);
+            if (oResult != null) {
+
+                resultObject = (javax.cim.UnsignedInteger32) oResult;
+            }
+        }
+        catch (WBEMException e) {
+            throw new InvokeMethodException(e, new InvokeMethodUserObject(this.getCimObjectPath(),
+                    METHOD_KEEPALIVE.NAME, inParameter, outParameter));
+        }
+
+        KeepAliveResult result = new KeepAliveResult();
+        result.setResultObject(resultObject);
+
+        java.util.HashMap mapOutParameter = new java.util.HashMap();
+        for (int i = 0; i < outParameter.length; i++) {
+            CIMArgument argument = outParameter[i];
+            if (argument != null) {
+                mapOutParameter.put(argument.getName(), argument);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Result object for the method KeepAlive
+     */
+    public static class KeepAliveResult {
+        /**
+         * The return value of the method
+         */
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        /**
+         * Default constructor
+         */
+        KeepAliveResult() {
+        }
+
+        /**
+         * Set the return value
+         * @param rc
+         */
+        void setResultObject(javax.cim.UnsignedInteger32 resultObject) {
+            this.resultObject = resultObject;
+        }
+
+        /**
+         * Get the return value of the methid
+         * @return the return value
+         */
+        public javax.cim.UnsignedInteger32 getResultObject() {
+            return this.resultObject;
+        }
+
+    }
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_Watchdog.CIM_CLASS_NAME;
+    }
 
 }

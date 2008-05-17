@@ -19,9 +19,10 @@
   */
 package org.sblim.wbemsmt.bl.welcome;
 
-import org.sblim.wbemsmt.exception.WbemSmtException;
-import org.sblim.wbem.client.CIMClient;
+import javax.wbem.client.WBEMClient;
+
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.TreeConfigData;
 
 /**
@@ -31,41 +32,41 @@ import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.TreeConfigData;
 public class WelcomeData {
 
 	TreeConfigData treeConfigData;
-	CIMClient cimClient;
+	WBEMClient cimClient;
 	
-	public WelcomeData(TreeConfigData treeConfigData, CIMClient cimClient) {
+	public WelcomeData(TreeConfigData treeConfigData, WBEMClient cimClient) {
 		super();
 		this.treeConfigData = treeConfigData;
 		this.cimClient = cimClient;
 	}
 
-	public WelcomeData(ITaskLauncherTreeNode node) throws WbemSmtException {
+	public WelcomeData(ITaskLauncherTreeNode node) throws WbemsmtException {
 		super();
 		if (node == null)
 		{
-			throw new WbemSmtException("node was null. Cannot create WelcomeData");
+			throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER, "node was null. Cannot create WelcomeData");
 		}
 		if (node.getCustomTreeConfig()  == null)
 		{
-			throw new WbemSmtException("customTreeConfig of node " + node.getInfo() + " was null. Cannot create WelcomeData");
+			throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,"customTreeConfig of node " + node.getInfo() + " was null. Cannot create WelcomeData");
 		}
 		if (node.getCustomTreeConfig().getTreeConfigData()  == null)
 		{
-			throw new WbemSmtException("treeConfigData of node " + node.getInfo() + " was null. Cannot create WelcomeData");
+			throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,"treeConfigData of node " + node.getInfo() + " was null. Cannot create WelcomeData");
 		}
 		if (node.getCimClient() == null)
 		{
-			throw new WbemSmtException("cimClient of node " + node.getInfo() + " was null. Cannot create WelcomeData");
+			throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,"cimClient of node " + node.getInfo() + " was null. Cannot create WelcomeData");
 		}
 		this.treeConfigData = node.getCustomTreeConfig().getTreeConfigData();
 		this.cimClient = node.getCimClient();
 	}
 
-	public CIMClient getCimClient() {
+	public WBEMClient getCimClient() {
 		return cimClient;
 	}
 
-	public void setCimClient(CIMClient cimClient) {
+	public void setCimClient(WBEMClient cimClient) {
 		this.cimClient = cimClient;
 	}
 

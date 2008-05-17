@@ -20,20 +20,8 @@
 
 package org.sblim.wbemsmt.tools.resources;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.io.*;
+import java.util.*;
 import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
@@ -47,12 +35,16 @@ public class ResourceBundleManager
 	private static Map instances = new HashMap();
 	private static List keys = new ArrayList();
 	
+	private static Logger logger = Logger.getLogger(ResourceBundleManager.class.getName());
+
 	static
 	{
 		File file = new File(ResourceBundleManager.MISSING_TRANSLATIONS_TXT);
 		if (file.exists())
 		{
 			try {
+			    logger.fine("Reading missingTranslations from " + file.getAbsolutePath());
+			    
 				BufferedReader in = new BufferedReader(new FileReader(file));
 				String line = null;
 				while ((line = in.readLine()) != null)
@@ -74,7 +66,6 @@ public class ResourceBundleManager
 		}
 	}
 	
-	private static Logger logger = Logger.getLogger(ResourceBundleManager.class.getName());
 	/**
 	 * loads all the given ResourceBundle in the given order. New read resorceBundles are added to existing ones.
 	 * If there exists a entry with the same key in two bundles the value of that resourceBundle which is last in Array is used.
@@ -91,7 +82,7 @@ public class ResourceBundleManager
 	{
 		if (RuntimeUtil.getInstance().isJSF())
 		{
-			return getResourceBundle(array,LocaleManager.getCurrent(FacesContext.getCurrentInstance()).getCurrentLocale(),false);
+			return getResourceBundle(array,LocaleManager.getJsfUserLocale(),false);
 		}
 		else
 		{
@@ -285,7 +276,7 @@ public class ResourceBundleManager
 			keys.add(key);
 			if (keys.size() == 1)
 			{
-				System.err.println("Writing missingTranslations to " + file.getAbsolutePath());
+			    logger.fine("Writing missingTranslations to " + file.getAbsolutePath());
 			}
 
 			PrintWriter pw = new PrintWriter(new FileWriter(file,keys.size() > 1));

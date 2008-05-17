@@ -1,875 +1,1206 @@
 /** 
  * CIM_CompositeExtentBasedOn.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  This specialization defines how data is striped across StorageExtents.
- * Additionally, it includes information on distribution of check data so that
- * the 'usual case' RAID devices can be created in one step.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: This specialization defines how data is striped across StorageExtents. Additionally, it includes information on distribution of check data so that the 'usual case' RAID devices can be created in one step.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
 
-/**
- *  This specialization defines how data is striped across StorageExtents.
- * Additionally, it includes information on distribution of check data so that
- * the 'usual case' RAID devices can be created in one step.
- */
-public class CIM_CompositeExtentBasedOn extends CIM_BasedOn  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_CompositeExtentBasedOn"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_CompositeExtentBasedOn extends CIM_BasedOn {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_PROPERTY_CIM_STORAGEEXTENT = "Antecedent"; //$NON-NLS-1$
-	public final static String CIM_PROPERTY_CIM_COMPOSITEEXTENT = "Dependent"; //$NON-NLS-1$
-	
-	
-	/**
-	*	The Dependent's BlockSize is limited by the Antecedent's. In SCC, this is equivalent to the NUMBER OF BYTES PER LBA_PS field in the RedundancyGroup P_Extent Descriptor.
-	*/
-	public final static String CIM_PROPERTY_BLOCKSIZE = "BlockSize"; //$NON-NLS-1$
-	/**
-	*	True if the logical block mapping algorithm includes check data bytes. This property corresponds to the NOCHKSKIP attribute in the SCC-2 Volume Set PS_Extent Descriptor.
-	*/
-	public final static String CIM_PROPERTY_LBAMAPPINGINCLUDESCHECKDATA = "LBAMappingIncludesCheckData"; //$NON-NLS-1$
-	/**
-	*	True if logical blocks in the underlying StorageExtents are mapped in decrementing order. This property corresponds to the INCDEC value in the SCC-2 Volume Set PS_Extent Descriptor.
-	*/
-	public final static String CIM_PROPERTY_LBASMAPPEDBYDECREMENTING = "LBAsMappedByDecrementing"; //$NON-NLS-1$
-	/**
-	*	The total number of blocks that will be consumed on the Dependent Extent. This is limited by the Antecedent's NumberOfBlocks, but is included explicitly to provide for the DMTF MIF mapping. In SCC, this is equivalent to the NUMBER OF LBA_PS(s) field in the Volume Set PS_Extent Descriptor.
-	*/
-	public final static String CIM_PROPERTY_NUMBEROFBLOCKS = "NumberOfBlocks"; //$NON-NLS-1$
-	/**
-	*	Order matters to CompositeExtents. An example of the use of this property is when defining a RAID-0 striped array of 3 disks. The resultant RAID array is a CompositeExtent that is dependent on (as described by CompositeExtentBasedOn) the StorageExtents that represent each of the 3 disks. The OrderIndex of each CompositeExtentBasedOn association from the disk Extents to the RAID array could be specified as 1, 2 and 3 to indicate the order in which the disk Extents are used to access the RAID data.
-	*/
-	public final static String CIM_PROPERTY_ORDERINDEX = "OrderIndex"; //$NON-NLS-1$
-	/**
-	*	Number of bytes of user data to skip before starting the check data interleave.
-	*/
-	public final static String CIM_PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE = "UnitsBeforeCheckDataInterleave"; //$NON-NLS-1$
-	/**
-	*	Number of bytes to be reserved for check data.
-	*/
-	public final static String CIM_PROPERTY_UNITSOFCHECKDATA = "UnitsOfCheckData"; //$NON-NLS-1$
-	/**
-	*	Number of bytes to be reserved for user data.
-	*/
-	public final static String CIM_PROPERTY_UNITSOFUSERDATA = "UnitsOfUserData"; //$NON-NLS-1$
-	/**
-	*	Number of bytes which form the stripe size for the Dependent StorageExtent. If the CompositeExtent is concatenated instead of striped, then UserDataStripeDepth should be set to zero.
-	*/
-	public final static String CIM_PROPERTY_USERDATASTRIPEDEPTH = "UserDataStripeDepth"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_CompositeExtentBasedOn";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_BLOCKSIZE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_LBAMAPPINGINCLUDESCHECKDATA);
-		CIM_PropertyNameList.add(CIM_PROPERTY_LBASMAPPEDBYDECREMENTING);
-		CIM_PropertyNameList.add(CIM_PROPERTY_NUMBEROFBLOCKS);
-		CIM_PropertyNameList.add(CIM_PROPERTY_ORDERINDEX);
-		CIM_PropertyNameList.add(CIM_PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_UNITSOFCHECKDATA);
-		CIM_PropertyNameList.add(CIM_PROPERTY_UNITSOFUSERDATA);
-		CIM_PropertyNameList.add(CIM_PROPERTY_USERDATASTRIPEDEPTH);
-		CIM_PropertyNameList.add(CIM_PROPERTY_CIM_STORAGEEXTENT);
-		CIM_PropertyNameList.add(CIM_PROPERTY_CIM_COMPOSITEEXTENT);
-				
-		for (int i = 0; i < CIM_BasedOn.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_BasedOn.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_BLOCKSIZE)||
-				((String)CIM_BasedOn.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_LBAMAPPINGINCLUDESCHECKDATA)||
-				((String)CIM_BasedOn.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_LBASMAPPEDBYDECREMENTING)||
-				((String)CIM_BasedOn.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_NUMBEROFBLOCKS)||
-				((String)CIM_BasedOn.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ORDERINDEX)||
-				((String)CIM_BasedOn.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE)||
-				((String)CIM_BasedOn.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_UNITSOFCHECKDATA)||
-				((String)CIM_BasedOn.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_UNITSOFUSERDATA)||
-				((String)CIM_BasedOn.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_USERDATASTRIPEDEPTH)){
-				continue;
-			}
-			
-			CIM_CompositeExtentBasedOn.CIM_PropertyNameList.add(CIM_BasedOn.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_BLOCKSIZE, new CIMValue(null, new CIMDataType(CIMDataType.UINT64))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_LBAMAPPINGINCLUDESCHECKDATA, new CIMValue(null, new CIMDataType(CIMDataType.BOOLEAN))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_LBASMAPPEDBYDECREMENTING, new CIMValue(null, new CIMDataType(CIMDataType.BOOLEAN))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_NUMBEROFBLOCKS, new CIMValue(null, new CIMDataType(CIMDataType.UINT64))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ORDERINDEX, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE, new CIMValue(null, new CIMDataType(CIMDataType.UINT64))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_UNITSOFCHECKDATA, new CIMValue(null, new CIMDataType(CIMDataType.UINT64))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_UNITSOFUSERDATA, new CIMValue(null, new CIMDataType(CIMDataType.UINT64))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_USERDATASTRIPEDEPTH, new CIMValue(null, new CIMDataType(CIMDataType.UINT64))));
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_STORAGEEXTENT, new CIMValue(null, new CIMDataType(CIM_StorageExtent.CIM_CLASS_NAME))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_COMPOSITEEXTENT, new CIMValue(null, new CIMDataType(CIM_CompositeExtent.CIM_CLASS_NAME))));
-				
-		for (int i = 0; i < CIM_BasedOn.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_BasedOn.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_BLOCKSIZE)||
-				((CIMProperty)CIM_BasedOn.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_LBAMAPPINGINCLUDESCHECKDATA)||
-				((CIMProperty)CIM_BasedOn.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_LBASMAPPEDBYDECREMENTING)||
-				((CIMProperty)CIM_BasedOn.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_NUMBEROFBLOCKS)||
-				((CIMProperty)CIM_BasedOn.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ORDERINDEX)||
-				((CIMProperty)CIM_BasedOn.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE)||
-				((CIMProperty)CIM_BasedOn.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_UNITSOFCHECKDATA)||
-				((CIMProperty)CIM_BasedOn.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_UNITSOFUSERDATA)||
-				((CIMProperty)CIM_BasedOn.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_USERDATASTRIPEDEPTH)){
-				continue;
-			}
-			
-			CIM_CompositeExtentBasedOn.CIM_PropertyList.add(CIM_BasedOn.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_BasedOn.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constants of property BlockSize
+     * The Dependent's BlockSize is limited by the Antecedent's. In SCC, this is equivalent to the NUMBER OF BYTES PER LBA_PS field in the RedundancyGroup P_Extent Descriptor.
+     */
+    public static class PROPERTY_BLOCKSIZE {
+        /**
+         * name of the property BlockSize
+         */
+        public final static String NAME = "BlockSize";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_CompositeExtentBasedOn() {
+    }
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * Constants of property LBAMappingIncludesCheckData
+     * True if the logical block mapping algorithm includes check data bytes. This property corresponds to the NOCHKSKIP attribute in the SCC-2 Volume Set PS_Extent Descriptor.
+     */
+    public static class PROPERTY_LBAMAPPINGINCLUDESCHECKDATA {
+        /**
+         * name of the property LBAMappingIncludesCheckData
+         */
+        public final static String NAME = "LBAMappingIncludesCheckData";
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    }
 
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property LBAsMappedByDecrementing
+     * True if logical blocks in the underlying StorageExtents are mapped in decrementing order. This property corresponds to the INCDEC value in the SCC-2 Volume Set PS_Extent Descriptor.
+     */
+    public static class PROPERTY_LBASMAPPEDBYDECREMENTING {
+        /**
+         * name of the property LBAsMappedByDecrementing
+         */
+        public final static String NAME = "LBAsMappedByDecrementing";
 
+    }
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_CompositeExtentBasedOn(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property NumberOfBlocks
+     * The total number of blocks that will be consumed on the Dependent Extent. This is limited by the Antecedent's NumberOfBlocks, but is included explicitly to provide for the DMTF MIF mapping. In SCC, this is equivalent to the NUMBER OF LBA_PS(s) field in the Volume Set PS_Extent Descriptor.
+     */
+    public static class PROPERTY_NUMBEROFBLOCKS {
+        /**
+         * name of the property NumberOfBlocks
+         */
+        public final static String NAME = "NumberOfBlocks";
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_CompositeExtentBasedOn(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+    }
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
-            }
-            CIM_CompositeExtentBasedOn.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+    /**
+     * Constants of property OrderIndex
+     * Order matters to CompositeExtents. An example of the use of this property is when defining a RAID-0 striped array of 3 disks. The resultant RAID array is a CompositeExtent that is dependent on (as described by CompositeExtentBasedOn) the StorageExtents that represent each of the 3 disks. The OrderIndex of each CompositeExtentBasedOn association from the disk Extents to the RAID array could be specified as 1, 2 and 3 to indicate the order in which the disk Extents are used to access the RAID data.
+     */
+    public static class PROPERTY_ORDERINDEX {
+        /**
+         * name of the property OrderIndex
+         */
+        public final static String NAME = "OrderIndex";
+
+    }
+
+    /**
+     * Constants of property UnitsBeforeCheckDataInterleave
+     * Number of bytes of user data to skip before starting the check data interleave.
+     */
+    public static class PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE {
+        /**
+         * name of the property UnitsBeforeCheckDataInterleave
+         */
+        public final static String NAME = "UnitsBeforeCheckDataInterleave";
+
+    }
+
+    /**
+     * Constants of property UnitsOfCheckData
+     * Number of bytes to be reserved for check data.
+     */
+    public static class PROPERTY_UNITSOFCHECKDATA {
+        /**
+         * name of the property UnitsOfCheckData
+         */
+        public final static String NAME = "UnitsOfCheckData";
+
+    }
+
+    /**
+     * Constants of property UnitsOfUserData
+     * Number of bytes to be reserved for user data.
+     */
+    public static class PROPERTY_UNITSOFUSERDATA {
+        /**
+         * name of the property UnitsOfUserData
+         */
+        public final static String NAME = "UnitsOfUserData";
+
+    }
+
+    /**
+     * Constants of property UserDataStripeDepth
+     * Number of bytes which form the stripe size for the Dependent StorageExtent. If the CompositeExtent is concatenated instead of striped, then UserDataStripeDepth should be set to zero.
+     */
+    public static class PROPERTY_USERDATASTRIPEDEPTH {
+        /**
+         * name of the property UserDataStripeDepth
+         */
+        public final static String NAME = "UserDataStripeDepth";
+
+    }
+
+    /**
+     * Constants of property Antecedent
+     * 
+     */
+    public static class PROPERTY_ANTECEDENT_CIM_STORAGEEXTENT {
+        /**
+         * name of the property Antecedent
+         */
+        public final static String NAME = "Antecedent";
+
+    }
+
+    /**
+     * Constants of property Dependent
+     * 
+     */
+    public static class PROPERTY_DEPENDENT_CIM_COMPOSITEEXTENT {
+        /**
+         * name of the property Dependent
+         */
+        public final static String NAME = "Dependent";
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_BasedOn.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   This specialization defines how data is striped across StorageExtents. Additionally, it includes information on distribution of check data so that the 'usual case' RAID devices can be created in one step.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_CompositeExtentBasedOn(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   This specialization defines how data is striped across StorageExtents. Additionally, it includes information on distribution of check data so that the 'usual case' RAID devices can be created in one step.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_CompositeExtentBasedOn(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_CompositeExtentBasedOn() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck
+                .put("BlockSize", new CIMProperty("BlockSize", CIMDataType.UINT64_T, null));
+        propertiesToCheck.put("LBAMappingIncludesCheckData", new CIMProperty(
+                "LBAMappingIncludesCheckData", CIMDataType.BOOLEAN_T, null));
+        propertiesToCheck.put("LBAsMappedByDecrementing", new CIMProperty(
+                "LBAsMappedByDecrementing", CIMDataType.BOOLEAN_T, null));
+        propertiesToCheck.put("NumberOfBlocks", new CIMProperty("NumberOfBlocks",
+                CIMDataType.UINT64_T, null));
+        propertiesToCheck.put("OrderIndex", new CIMProperty("OrderIndex", CIMDataType.UINT16_T,
+                null));
+        propertiesToCheck.put("UnitsBeforeCheckDataInterleave", new CIMProperty(
+                "UnitsBeforeCheckDataInterleave", CIMDataType.UINT64_T, null));
+        propertiesToCheck.put("UnitsOfCheckData", new CIMProperty("UnitsOfCheckData",
+                CIMDataType.UINT64_T, null));
+        propertiesToCheck.put("UnitsOfUserData", new CIMProperty("UnitsOfUserData",
+                CIMDataType.UINT64_T, null));
+        propertiesToCheck.put("UserDataStripeDepth", new CIMProperty("UserDataStripeDepth",
+                CIMDataType.UINT64_T, null));
+        propertiesToCheck.put("Antecedent", new CIMProperty("Antecedent", new CIMDataType(
+                CIM_StorageExtent.CIM_CLASS_NAME), null));
+        propertiesToCheck.put("Dependent", new CIMProperty("Dependent", new CIMDataType(
+                CIM_CompositeExtent.CIM_CLASS_NAME), null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_CompositeExtentBasedOn.Java_Package_List.toArray(new String[CIM_CompositeExtentBasedOn.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property BlockSize
+     *     * <br>
+     * The Dependent's BlockSize is limited by the Antecedent's. In SCC, this is equivalent to the NUMBER OF BYTES PER LBA_PS field in the RedundancyGroup P_Extent Descriptor.
+     *     */
+
+    public javax.cim.UnsignedInteger64 get_BlockSize() {
+        CIMProperty currentProperty = getProperty(PROPERTY_BLOCKSIZE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_BLOCKSIZE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger64) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		CIMProperty CIMProperty_OrderIndex = this.cimInstance.getProperty(CIM_PROPERTY_ORDERINDEX);
-		
-		if (CIMProperty_OrderIndex == null || CIMProperty_OrderIndex.getValue().isEmpty() || CIMProperty_OrderIndex.getValue().isNullValue()) {
-			invalidProperties.add(new String[]{CIM_PROPERTY_ORDERINDEX, "Required"});
-			result = false;
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property BlockSize
+     * <br>
+     * The Dependent's BlockSize is limited by the Antecedent's. In SCC, this is equivalent to the NUMBER OF BYTES PER LBA_PS field in the RedundancyGroup P_Extent Descriptor.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_CompositeExtentBasedOn)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_CompositeExtentBasedOn)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_CompositeExtentBasedOn)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_CompositeExtentBasedOn)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_CompositeExtentBasedOn)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_CompositeExtentBasedOn)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_CompositeExtentBasedOn)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_CompositeExtentBasedOn)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_CompositeExtentBasedOn)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_CompositeExtentBasedOn)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_BlockSize(javax.cim.UnsignedInteger64 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_BLOCKSIZE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_BlockSize(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_BLOCKSIZE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute BlockSize
-	
-	public UnsignedInt64 get_BlockSize() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_BLOCKSIZE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_BLOCKSIZE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_BLOCKSIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt64)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_BlockSize(UnsignedInt64 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_BLOCKSIZE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_BLOCKSIZE + " could not be found");
-    		
-		} else if (!CIM_CompositeExtentBasedOnHelper.isValid_BlockSize(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_BLOCKSIZE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_BLOCKSIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT64));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute LBAMappingIncludesCheckData
-	
-	public Boolean get_LBAMappingIncludesCheckData() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_LBAMAPPINGINCLUDESCHECKDATA);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_LBAMAPPINGINCLUDESCHECKDATA + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_LBAMAPPINGINCLUDESCHECKDATA + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (Boolean)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_LBAMappingIncludesCheckData(Boolean newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_LBAMAPPINGINCLUDESCHECKDATA);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_LBAMAPPINGINCLUDESCHECKDATA + " could not be found");
-    		
-		} else if (!CIM_CompositeExtentBasedOnHelper.isValid_LBAMappingIncludesCheckData(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_LBAMAPPINGINCLUDESCHECKDATA);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_LBAMAPPINGINCLUDESCHECKDATA + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.BOOLEAN));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property BlockSize by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	// Attribute LBAsMappedByDecrementing
-	
-	public Boolean get_LBAsMappedByDecrementing() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_LBASMAPPEDBYDECREMENTING);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_LBASMAPPEDBYDECREMENTING + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_LBASMAPPEDBYDECREMENTING + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (Boolean)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_LBAsMappedByDecrementing(Boolean newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_LBASMAPPEDBYDECREMENTING);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_LBASMAPPEDBYDECREMENTING + " could not be found");
-    		
-		} else if (!CIM_CompositeExtentBasedOnHelper.isValid_LBAsMappedByDecrementing(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_LBASMAPPEDBYDECREMENTING);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_LBASMAPPEDBYDECREMENTING + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.BOOLEAN));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public static CIMProperty create_BlockSize(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger64 newValue) throws WbemsmtException {
+        CIM_CompositeExtentBasedOn fco = new CIM_CompositeExtentBasedOn(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_BLOCKSIZE.NAME);
+        if (property != null) {
+            property = setPropertyValue_BlockSize(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_BLOCKSIZE.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	// Attribute NumberOfBlocks
-	
-	public UnsignedInt64 get_NumberOfBlocks() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_NUMBEROFBLOCKS);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_NUMBEROFBLOCKS + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_NUMBEROFBLOCKS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt64)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_NumberOfBlocks(UnsignedInt64 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_NUMBEROFBLOCKS);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_NUMBEROFBLOCKS + " could not be found");
-    		
-		} else if (!CIM_CompositeExtentBasedOnHelper.isValid_NumberOfBlocks(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_NUMBEROFBLOCKS);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_NUMBEROFBLOCKS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT64));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Set the property BlockSize
+     * <br>
+     * The Dependent's BlockSize is limited by the Antecedent's. In SCC, this is equivalent to the NUMBER OF BYTES PER LBA_PS field in the RedundancyGroup P_Extent Descriptor.
+     */
 
-	// Attribute OrderIndex
-	
-	public UnsignedInt16 get_OrderIndex() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_ORDERINDEX);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_ORDERINDEX + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_ORDERINDEX + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_OrderIndex(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_ORDERINDEX);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_ORDERINDEX + " could not be found");
-    		
-		} else if (!CIM_CompositeExtentBasedOnHelper.isValid_OrderIndex(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_ORDERINDEX);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_ORDERINDEX + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    private static CIMProperty setPropertyValue_BlockSize(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger64 newValue) {
+        Object setThis = null;
 
-	// Attribute UnitsBeforeCheckDataInterleave
-	
-	public UnsignedInt64 get_UnitsBeforeCheckDataInterleave() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt64)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_UnitsBeforeCheckDataInterleave(UnsignedInt64 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE + " could not be found");
-    		
-		} else if (!CIM_CompositeExtentBasedOnHelper.isValid_UnitsBeforeCheckDataInterleave(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT64));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        setThis = newValue;
 
-	// Attribute UnitsOfCheckData
-	
-	public UnsignedInt64 get_UnitsOfCheckData() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSOFCHECKDATA);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSOFCHECKDATA + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSOFCHECKDATA + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt64)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_UnitsOfCheckData(UnsignedInt64 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSOFCHECKDATA);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSOFCHECKDATA + " could not be found");
-    		
-		} else if (!CIM_CompositeExtentBasedOnHelper.isValid_UnitsOfCheckData(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSOFCHECKDATA);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSOFCHECKDATA + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT64));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
 
-	// Attribute UnitsOfUserData
-	
-	public UnsignedInt64 get_UnitsOfUserData() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSOFUSERDATA);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSOFUSERDATA + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSOFUSERDATA + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt64)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_UnitsOfUserData(UnsignedInt64 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSOFUSERDATA);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSOFUSERDATA + " could not be found");
-    		
-		} else if (!CIM_CompositeExtentBasedOnHelper.isValid_UnitsOfUserData(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSOFUSERDATA);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_UNITSOFUSERDATA + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT64));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        return newProperty;
+    }
 
-	// Attribute UserDataStripeDepth
-	
-	public UnsignedInt64 get_UserDataStripeDepth() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_USERDATASTRIPEDEPTH);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_USERDATASTRIPEDEPTH + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_USERDATASTRIPEDEPTH + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt64)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_UserDataStripeDepth(UnsignedInt64 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_USERDATASTRIPEDEPTH);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_USERDATASTRIPEDEPTH + " could not be found");
-    		
-		} else if (!CIM_CompositeExtentBasedOnHelper.isValid_UserDataStripeDepth(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_USERDATASTRIPEDEPTH);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_USERDATASTRIPEDEPTH + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT64));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property LBAMappingIncludesCheckData
+     *     * <br>
+     * True if the logical block mapping algorithm includes check data bytes. This property corresponds to the NOCHKSKIP attribute in the SCC-2 Volume Set PS_Extent Descriptor.
+     *     */
 
-	// Attribute CIM_StorageExtent
-	
-	public CIMObjectPath get_CIM_StorageExtent() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_CIM_STORAGEEXTENT);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_CIM_STORAGEEXTENT + " could not be found");
-    		
-		} else if (currentProperty.getType() == null ) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_CIM_STORAGEEXTENT + " is not of expected type CIM_StorageExtent.");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (CIMObjectPath)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CIM_StorageExtent(CIM_StorageExtent newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_CIM_STORAGEEXTENT);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_CIM_STORAGEEXTENT + " could not be found");
-    		
-		} else if (!CIM_CompositeExtentBasedOnHelper.isValid_CIM_StorageExtent(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_CIM_STORAGEEXTENT);
-    		
-		} else if (currentProperty.getType() == null ) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_CIM_STORAGEEXTENT + " is not of expected type CIM_StorageExtent.");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue.getCimObjectPath(), new CIMDataType(CIM_StorageExtent.CIM_CLASS_NAME));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public Boolean get_LBAMappingIncludesCheckData() {
+        CIMProperty currentProperty = getProperty(PROPERTY_LBAMAPPINGINCLUDESCHECKDATA.NAME);
 
-	// Attribute CIM_CompositeExtent
-	
-	public CIMObjectPath get_CIM_CompositeExtent() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_CIM_COMPOSITEEXTENT);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_CIM_COMPOSITEEXTENT + " could not be found");
-    		
-		} else if (currentProperty.getType() == null ) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_CIM_COMPOSITEEXTENT + " is not of expected type CIM_CompositeExtent.");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (CIMObjectPath)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CIM_CompositeExtent(CIM_CompositeExtent newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_CompositeExtentBasedOn.CIM_PROPERTY_CIM_COMPOSITEEXTENT);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_CIM_COMPOSITEEXTENT + " could not be found");
-    		
-		} else if (!CIM_CompositeExtentBasedOnHelper.isValid_CIM_CompositeExtent(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_CIM_COMPOSITEEXTENT);
-    		
-		} else if (currentProperty.getType() == null ) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_CompositeExtentBasedOn.CIM_PROPERTY_CIM_COMPOSITEEXTENT + " is not of expected type CIM_CompositeExtent.");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue.getCimObjectPath(), new CIMDataType(CIM_CompositeExtent.CIM_CLASS_NAME));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_LBAMAPPINGINCLUDESCHECKDATA.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+        return (Boolean) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property LBAMappingIncludesCheckData
+     * <br>
+     * True if the logical block mapping algorithm includes check data bytes. This property corresponds to the NOCHKSKIP attribute in the SCC-2 Volume Set PS_Extent Descriptor.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_LBAMappingIncludesCheckData(Boolean newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_LBAMAPPINGINCLUDESCHECKDATA.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_LBAMappingIncludesCheckData(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_LBAMAPPINGINCLUDESCHECKDATA.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property LBAMappingIncludesCheckData by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_LBAMappingIncludesCheckData(WBEMClient client,
+            String namespace, Boolean newValue) throws WbemsmtException {
+        CIM_CompositeExtentBasedOn fco = new CIM_CompositeExtentBasedOn(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_LBAMAPPINGINCLUDESCHECKDATA.NAME);
+        if (property != null) {
+            property = setPropertyValue_LBAMappingIncludesCheckData(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_LBAMAPPINGINCLUDESCHECKDATA.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property LBAMappingIncludesCheckData
+     * <br>
+     * True if the logical block mapping algorithm includes check data bytes. This property corresponds to the NOCHKSKIP attribute in the SCC-2 Volume Set PS_Extent Descriptor.
+     */
+
+    private static CIMProperty setPropertyValue_LBAMappingIncludesCheckData(
+            CIMProperty currentProperty, Boolean newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property LBAsMappedByDecrementing
+     *     * <br>
+     * True if logical blocks in the underlying StorageExtents are mapped in decrementing order. This property corresponds to the INCDEC value in the SCC-2 Volume Set PS_Extent Descriptor.
+     *     */
+
+    public Boolean get_LBAsMappedByDecrementing() {
+        CIMProperty currentProperty = getProperty(PROPERTY_LBASMAPPEDBYDECREMENTING.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_LBASMAPPEDBYDECREMENTING.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (Boolean) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property LBAsMappedByDecrementing
+     * <br>
+     * True if logical blocks in the underlying StorageExtents are mapped in decrementing order. This property corresponds to the INCDEC value in the SCC-2 Volume Set PS_Extent Descriptor.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_LBAsMappedByDecrementing(Boolean newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_LBASMAPPEDBYDECREMENTING.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_LBAsMappedByDecrementing(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_LBASMAPPEDBYDECREMENTING.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property LBAsMappedByDecrementing by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_LBAsMappedByDecrementing(WBEMClient client, String namespace,
+            Boolean newValue) throws WbemsmtException {
+        CIM_CompositeExtentBasedOn fco = new CIM_CompositeExtentBasedOn(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_LBASMAPPEDBYDECREMENTING.NAME);
+        if (property != null) {
+            property = setPropertyValue_LBAsMappedByDecrementing(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_LBASMAPPEDBYDECREMENTING.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property LBAsMappedByDecrementing
+     * <br>
+     * True if logical blocks in the underlying StorageExtents are mapped in decrementing order. This property corresponds to the INCDEC value in the SCC-2 Volume Set PS_Extent Descriptor.
+     */
+
+    private static CIMProperty setPropertyValue_LBAsMappedByDecrementing(
+            CIMProperty currentProperty, Boolean newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property NumberOfBlocks
+     *     * <br>
+     * The total number of blocks that will be consumed on the Dependent Extent. This is limited by the Antecedent's NumberOfBlocks, but is included explicitly to provide for the DMTF MIF mapping. In SCC, this is equivalent to the NUMBER OF LBA_PS(s) field in the Volume Set PS_Extent Descriptor.
+     *     */
+
+    public javax.cim.UnsignedInteger64 get_NumberOfBlocks() {
+        CIMProperty currentProperty = getProperty(PROPERTY_NUMBEROFBLOCKS.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_NUMBEROFBLOCKS.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger64) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property NumberOfBlocks
+     * <br>
+     * The total number of blocks that will be consumed on the Dependent Extent. This is limited by the Antecedent's NumberOfBlocks, but is included explicitly to provide for the DMTF MIF mapping. In SCC, this is equivalent to the NUMBER OF LBA_PS(s) field in the Volume Set PS_Extent Descriptor.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_NumberOfBlocks(javax.cim.UnsignedInteger64 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_NUMBEROFBLOCKS.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_NumberOfBlocks(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_NUMBEROFBLOCKS.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property NumberOfBlocks by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_NumberOfBlocks(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger64 newValue) throws WbemsmtException {
+        CIM_CompositeExtentBasedOn fco = new CIM_CompositeExtentBasedOn(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_NUMBEROFBLOCKS.NAME);
+        if (property != null) {
+            property = setPropertyValue_NumberOfBlocks(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_NUMBEROFBLOCKS.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property NumberOfBlocks
+     * <br>
+     * The total number of blocks that will be consumed on the Dependent Extent. This is limited by the Antecedent's NumberOfBlocks, but is included explicitly to provide for the DMTF MIF mapping. In SCC, this is equivalent to the NUMBER OF LBA_PS(s) field in the Volume Set PS_Extent Descriptor.
+     */
+
+    private static CIMProperty setPropertyValue_NumberOfBlocks(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger64 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property OrderIndex
+     *     * <br>
+     * Order matters to CompositeExtents. An example of the use of this property is when defining a RAID-0 striped array of 3 disks. The resultant RAID array is a CompositeExtent that is dependent on (as described by CompositeExtentBasedOn) the StorageExtents that represent each of the 3 disks. The OrderIndex of each CompositeExtentBasedOn association from the disk Extents to the RAID array could be specified as 1, 2 and 3 to indicate the order in which the disk Extents are used to access the RAID data.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_OrderIndex() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ORDERINDEX.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ORDERINDEX.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property OrderIndex
+     * <br>
+     * Order matters to CompositeExtents. An example of the use of this property is when defining a RAID-0 striped array of 3 disks. The resultant RAID array is a CompositeExtent that is dependent on (as described by CompositeExtentBasedOn) the StorageExtents that represent each of the 3 disks. The OrderIndex of each CompositeExtentBasedOn association from the disk Extents to the RAID array could be specified as 1, 2 and 3 to indicate the order in which the disk Extents are used to access the RAID data.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_OrderIndex(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ORDERINDEX.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_OrderIndex(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ORDERINDEX.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property OrderIndex by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_OrderIndex(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_CompositeExtentBasedOn fco = new CIM_CompositeExtentBasedOn(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ORDERINDEX.NAME);
+        if (property != null) {
+            property = setPropertyValue_OrderIndex(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ORDERINDEX.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property OrderIndex
+     * <br>
+     * Order matters to CompositeExtents. An example of the use of this property is when defining a RAID-0 striped array of 3 disks. The resultant RAID array is a CompositeExtent that is dependent on (as described by CompositeExtentBasedOn) the StorageExtents that represent each of the 3 disks. The OrderIndex of each CompositeExtentBasedOn association from the disk Extents to the RAID array could be specified as 1, 2 and 3 to indicate the order in which the disk Extents are used to access the RAID data.
+     */
+
+    private static CIMProperty setPropertyValue_OrderIndex(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property UnitsBeforeCheckDataInterleave
+     *     * <br>
+     * Number of bytes of user data to skip before starting the check data interleave.
+     *     */
+
+    public javax.cim.UnsignedInteger64 get_UnitsBeforeCheckDataInterleave() {
+        CIMProperty currentProperty = getProperty(PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger64) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property UnitsBeforeCheckDataInterleave
+     * <br>
+     * Number of bytes of user data to skip before starting the check data interleave.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_UnitsBeforeCheckDataInterleave(javax.cim.UnsignedInteger64 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_UnitsBeforeCheckDataInterleave(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property UnitsBeforeCheckDataInterleave by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_UnitsBeforeCheckDataInterleave(WBEMClient client,
+            String namespace, javax.cim.UnsignedInteger64 newValue) throws WbemsmtException {
+        CIM_CompositeExtentBasedOn fco = new CIM_CompositeExtentBasedOn(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE.NAME);
+        if (property != null) {
+            property = setPropertyValue_UnitsBeforeCheckDataInterleave(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_UNITSBEFORECHECKDATAINTERLEAVE.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property UnitsBeforeCheckDataInterleave
+     * <br>
+     * Number of bytes of user data to skip before starting the check data interleave.
+     */
+
+    private static CIMProperty setPropertyValue_UnitsBeforeCheckDataInterleave(
+            CIMProperty currentProperty, javax.cim.UnsignedInteger64 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property UnitsOfCheckData
+     *     * <br>
+     * Number of bytes to be reserved for check data.
+     *     */
+
+    public javax.cim.UnsignedInteger64 get_UnitsOfCheckData() {
+        CIMProperty currentProperty = getProperty(PROPERTY_UNITSOFCHECKDATA.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_UNITSOFCHECKDATA.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger64) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property UnitsOfCheckData
+     * <br>
+     * Number of bytes to be reserved for check data.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_UnitsOfCheckData(javax.cim.UnsignedInteger64 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_UNITSOFCHECKDATA.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_UnitsOfCheckData(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_UNITSOFCHECKDATA.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property UnitsOfCheckData by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_UnitsOfCheckData(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger64 newValue) throws WbemsmtException {
+        CIM_CompositeExtentBasedOn fco = new CIM_CompositeExtentBasedOn(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_UNITSOFCHECKDATA.NAME);
+        if (property != null) {
+            property = setPropertyValue_UnitsOfCheckData(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_UNITSOFCHECKDATA.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property UnitsOfCheckData
+     * <br>
+     * Number of bytes to be reserved for check data.
+     */
+
+    private static CIMProperty setPropertyValue_UnitsOfCheckData(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger64 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property UnitsOfUserData
+     *     * <br>
+     * Number of bytes to be reserved for user data.
+     *     */
+
+    public javax.cim.UnsignedInteger64 get_UnitsOfUserData() {
+        CIMProperty currentProperty = getProperty(PROPERTY_UNITSOFUSERDATA.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_UNITSOFUSERDATA.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger64) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property UnitsOfUserData
+     * <br>
+     * Number of bytes to be reserved for user data.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_UnitsOfUserData(javax.cim.UnsignedInteger64 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_UNITSOFUSERDATA.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_UnitsOfUserData(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_UNITSOFUSERDATA.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property UnitsOfUserData by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_UnitsOfUserData(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger64 newValue) throws WbemsmtException {
+        CIM_CompositeExtentBasedOn fco = new CIM_CompositeExtentBasedOn(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_UNITSOFUSERDATA.NAME);
+        if (property != null) {
+            property = setPropertyValue_UnitsOfUserData(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_UNITSOFUSERDATA.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property UnitsOfUserData
+     * <br>
+     * Number of bytes to be reserved for user data.
+     */
+
+    private static CIMProperty setPropertyValue_UnitsOfUserData(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger64 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property UserDataStripeDepth
+     *     * <br>
+     * Number of bytes which form the stripe size for the Dependent StorageExtent. If the CompositeExtent is concatenated instead of striped, then UserDataStripeDepth should be set to zero.
+     *     */
+
+    public javax.cim.UnsignedInteger64 get_UserDataStripeDepth() {
+        CIMProperty currentProperty = getProperty(PROPERTY_USERDATASTRIPEDEPTH.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_USERDATASTRIPEDEPTH.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger64) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property UserDataStripeDepth
+     * <br>
+     * Number of bytes which form the stripe size for the Dependent StorageExtent. If the CompositeExtent is concatenated instead of striped, then UserDataStripeDepth should be set to zero.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_UserDataStripeDepth(javax.cim.UnsignedInteger64 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_USERDATASTRIPEDEPTH.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_UserDataStripeDepth(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_USERDATASTRIPEDEPTH.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property UserDataStripeDepth by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_UserDataStripeDepth(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger64 newValue) throws WbemsmtException {
+        CIM_CompositeExtentBasedOn fco = new CIM_CompositeExtentBasedOn(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_USERDATASTRIPEDEPTH.NAME);
+        if (property != null) {
+            property = setPropertyValue_UserDataStripeDepth(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_USERDATASTRIPEDEPTH.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property UserDataStripeDepth
+     * <br>
+     * Number of bytes which form the stripe size for the Dependent StorageExtent. If the CompositeExtent is concatenated instead of striped, then UserDataStripeDepth should be set to zero.
+     */
+
+    private static CIMProperty setPropertyValue_UserDataStripeDepth(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger64 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property Antecedent
+     * @param client the client used to get the JavaObject by the retrieved CIMObjectPath of this attribute    * <br>
+     * 
+     *     */
+
+    public CIM_StorageExtent get_Antecedent_CIM_StorageExtent(javax.wbem.client.WBEMClient client)
+            throws WbemsmtException {
+        CIMProperty currentProperty = getProperty(PROPERTY_ANTECEDENT_CIM_STORAGEEXTENT.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ANTECEDENT_CIM_STORAGEEXTENT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return CIM_StorageExtentHelper.getInstance(client, (CIMObjectPath) currentProperty
+                .getValue());
+
+    }
+
+    /**
+     * Set the property Antecedent
+     * <br>
+     * 
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_Antecedent_CIM_StorageExtent(CIM_StorageExtent newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ANTECEDENT_CIM_STORAGEEXTENT.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_Antecedent_CIM_StorageExtent(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ANTECEDENT_CIM_STORAGEEXTENT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property Antecedent by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_Antecedent_CIM_StorageExtent(WBEMClient client,
+            String namespace, CIM_StorageExtent newValue) throws WbemsmtException {
+        CIM_CompositeExtentBasedOn fco = new CIM_CompositeExtentBasedOn(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ANTECEDENT_CIM_STORAGEEXTENT.NAME);
+        if (property != null) {
+            property = setPropertyValue_Antecedent_CIM_StorageExtent(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ANTECEDENT_CIM_STORAGEEXTENT.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property Antecedent
+     * <br>
+     * 
+     */
+
+    private static CIMProperty setPropertyValue_Antecedent_CIM_StorageExtent(
+            CIMProperty currentProperty, CIM_StorageExtent newValue) {
+        Object setThis = null;
+
+        setThis = newValue != null ? newValue.getCimObjectPath() : null;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property Dependent
+     * @param client the client used to get the JavaObject by the retrieved CIMObjectPath of this attribute    * <br>
+     * 
+     *     */
+
+    public CIM_CompositeExtent get_Dependent_CIM_CompositeExtent(javax.wbem.client.WBEMClient client)
+            throws WbemsmtException {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEPENDENT_CIM_COMPOSITEEXTENT.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_DEPENDENT_CIM_COMPOSITEEXTENT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return CIM_CompositeExtentHelper.getInstance(client, (CIMObjectPath) currentProperty
+                .getValue());
+
+    }
+
+    /**
+     * Set the property Dependent
+     * <br>
+     * 
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_Dependent_CIM_CompositeExtent(CIM_CompositeExtent newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEPENDENT_CIM_COMPOSITEEXTENT.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_Dependent_CIM_CompositeExtent(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEPENDENT_CIM_COMPOSITEEXTENT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property Dependent by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_Dependent_CIM_CompositeExtent(WBEMClient client,
+            String namespace, CIM_CompositeExtent newValue) throws WbemsmtException {
+        CIM_CompositeExtentBasedOn fco = new CIM_CompositeExtentBasedOn(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_DEPENDENT_CIM_COMPOSITEEXTENT.NAME);
+        if (property != null) {
+            property = setPropertyValue_Dependent_CIM_CompositeExtent(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEPENDENT_CIM_COMPOSITEEXTENT.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property Dependent
+     * <br>
+     * 
+     */
+
+    private static CIMProperty setPropertyValue_Dependent_CIM_CompositeExtent(
+            CIMProperty currentProperty, CIM_CompositeExtent newValue) {
+        Object setThis = null;
+
+        setThis = newValue != null ? newValue.getCimObjectPath() : null;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_CompositeExtentBasedOn.CIM_CLASS_NAME;
+    }
 
 }

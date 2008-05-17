@@ -60,8 +60,12 @@ public class LabeledJSFInputFieldComponent extends LabeledJSFInputComponent {
 
 	private static void setComponentBindings1(LabeledJSFInputFieldComponent component, String id) {
 		HtmlInputText txt = ((HtmlInputText)component.getComponent());
-		txt.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
+		setComponentBindings(txt, id);
+	}
+
+    public static void setComponentBindings(HtmlInputText txt, String id) {
+        txt.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 		txt.setValueBinding("size", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Size}"));
 		txt.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
-	}		
+    }		
 }

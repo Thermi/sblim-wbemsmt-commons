@@ -1,0 +1,81 @@
+	
+	/**
+	 * get the Destination
+	 * @param fcoHelper
+	 * @param cimClient
+	 * @param interOpNamespace
+	 * @param indicationDestination the destination which contains the URL to search for
+	 * @return
+	 * @throws WbemsmtException
+	 */
+	public static CIM_ListenerDestinationCIMXML getDestination(FcoHelperIf fcoHelper, WBEMClient cimClient, String interOpNamespace, IndicationDestination indicationDestination) throws WbemsmtException {
+		//create the subscriptions
+		
+		CIM_ListenerDestinationCIMXML ourDestination = null;
+        
+        List destinations = CIM_ListenerDestinationHelper.enumerateInstances(cimClient,interOpNamespace,true);
+        for (Iterator iterator = destinations.iterator(); iterator.hasNext() && ourDestination == null;) {
+        	CIM_ListenerDestination destination = (CIM_ListenerDestination) iterator.next();
+        	if (destination instanceof CIM_ListenerDestinationCIMXML) {
+        		CIM_ListenerDestinationCIMXML xmlDestination = (CIM_ListenerDestinationCIMXML) destination;
+        		if (xmlDestination.get_Destination().equals(indicationDestination.getCalculatedUrlString()))
+        		{
+        			ourDestination =  xmlDestination;
+        		}
+        		
+        	}
+        }
+        if (ourDestination == null)
+        {
+        	ourDestination = new CIM_ListenerDestinationCIMXML(cimClient,interOpNamespace);
+        	ourDestination.set_key_Name("CIM_ListenerDestinationCIMXML for " + indicationDestination.getCalculatedUrlString());
+        	ourDestination.set_PersistenceType(CIM_ListenerDestinationCIMXML.PROPERTY_PERSISTENCETYPE.VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Permanent);
+        	ourDestination.set_Destination(indicationDestination.getCalculatedUrlString());
+        	ourDestination = (CIM_ListenerDestinationCIMXML) fcoHelper.create(ourDestination, cimClient);
+        }
+        
+        return ourDestination;
+	}
+	
+	/**
+	 * Create Subscriptions
+	 * @param ourDestination 
+	 * @param profile the registered profile to which the indications belonging
+	 * @throws WbemsmtException
+	 */
+	protected void createSubscriptions(CIM_ListenerDestinationCIMXML ourDestination,CIM_RegisteredProfile profile) throws WbemsmtException {
+		List dependencys = profile.getAssociated_CIM_ManagedElement_CIM_ConcreteDependencys(getCimClient(), false, false, null);
+        for (Iterator iterator = dependencys.iterator(); iterator.hasNext();) {
+        	CIM_ManagedElement dependency = (CIM_ManagedElement) iterator.next();
+        	if (dependency instanceof CIM_FilterCollection) {
+        		CIM_FilterCollection filterCollection = (CIM_FilterCollection) dependency;
+        		if (filterCollection.get_CollectionName().equals(FILTER_COLLECTION_NAME_ALERT)
+        			|| filterCollection.get_CollectionName().equals(FILTER_COLLECTION_NAME_OPTIONAL)
+        		)
+        		{
+        			boolean foundSubscription = false;
+        			//check if we have already subscribed
+        			List subscriptions = filterCollection.getAssociations_CIM_FilterCollectionSubscription(getCimClient(), false, false, null, null);
+        			for (Iterator iterator2 = subscriptions.iterator(); iterator2.hasNext() && !foundSubscription;) {
+        				CIM_FilterCollectionSubscription subscription = (CIM_FilterCollectionSubscription) iterator2.next();
+        				if (subscription.get_Handler_CIM_ListenerDestination(getCimClient()).getCimObjectPath().toString().equals(ourDestination.getCimObjectPath().toString()))
+        				{
+        					foundSubscription = true;
+        				}
+        			}
+        			if (!foundSubscription)
+        			{
+        				CIM_FilterCollectionSubscription subscription = new CIM_FilterCollectionSubscription(getCimClient(),interOpNamespace);
+        				subscription.set_Filter_CIM_FilterCollection(filterCollection);
+        				subscription.set_Handler_CIM_ListenerDestination(ourDestination);
+        				subscription.set_OnFatalErrorPolicy(CIM_FilterCollectionSubscription.PROPERTY_ONFATALERRORPOLICY.VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Ignore);
+        				subscription = (CIM_FilterCollectionSubscription) getFcoHelper().create(subscription, getCimClient());
+        			}
+        		}
+        		else
+        		{
+        			logger.severe("Unknown FilterCollection " + filterCollection.getCimObjectPath() + " and collectionName " + filterCollection.get_CollectionName());
+        		}
+        	}
+        }
+	}

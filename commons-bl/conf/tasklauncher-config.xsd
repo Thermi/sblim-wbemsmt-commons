@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Michael Bauschert (private) -->
-<xs:schema targetNamespace="http://sblim.org/wbemsmt/tasklauncher/tasklauncherconfig" xmlns:tasklauncher="http://sblim.org/wbemsmt/tasklauncher/tasklauncherconfig" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified">
+<xs:schema targetNamespace="http://sblim.org/wbemsmt/tasklauncher/tasklauncherconfig" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tasklauncher="http://sblim.org/wbemsmt/tasklauncher/tasklauncherconfig" elementFormDefault="unqualified">
 	<xs:element name="cimom">
 		<xs:complexType>
 			<xs:sequence>
@@ -24,7 +24,6 @@
 	<xs:element name="treeconfig">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="tasklauncher:fcoPackage" maxOccurs="unbounded"/>
 				<xs:element ref="tasklauncher:resourceBundle" maxOccurs="unbounded"/>
 				<xs:element ref="tasklauncher:configurationDefinition" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
@@ -51,11 +50,6 @@
 			<xs:attribute name="name" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="fcoPackage">
-		<xs:complexType>
-			<xs:attribute name="name" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="configurationDefinition">
 		<xs:complexType>
 			<xs:attribute name="name" type="xs:string" use="required"/>
@@ -76,7 +70,7 @@
         	</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="VERSION_2_5"/>
+			<xs:enumeration value="VERSION_2_6"/>
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>

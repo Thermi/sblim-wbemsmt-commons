@@ -22,22 +22,11 @@
 package org.sblim.wbemsmt.tools.slp;
 
 import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Vector;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.sblim.slp.Locator;
-import org.sblim.slp.ServiceLocationAttribute;
-import org.sblim.slp.ServiceLocationException;
-import org.sblim.slp.ServiceLocationManager;
-import org.sblim.slp.ServiceType;
-import org.sblim.slp.ServiceURL;
+import org.sblim.slp.*;
 
 /**
  * Sample simplified SLP client that provides methods to find wbem services and

@@ -26,7 +26,7 @@ import java.util.Stack;
 import java.util.Vector;
 
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.wizard.WizardStepList;
 
 public interface IWizardContainer {
@@ -58,7 +58,7 @@ public interface IWizardContainer {
 	/*
 	 * Do initialization stuff for wizard container
 	 */
-	public void initWizardContainer() throws WbemSmtException;
+	public void initWizardContainer() throws WbemsmtException;
 
 	public boolean isBackButtonFlag();
 	public boolean isCancelButtonFlag();
@@ -105,7 +105,7 @@ public interface IWizardContainer {
 	 * @param actualPanelName
 	 * @return
 	 */
-	public Object getPage(String actualPanelName) throws WbemSmtException;
+	public Object getPage(String actualPanelName) throws WbemsmtException;
 	
 	/**
 	 * Get the List with Wizard Steps

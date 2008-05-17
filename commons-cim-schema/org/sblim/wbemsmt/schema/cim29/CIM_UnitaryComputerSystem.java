@@ -1,961 +1,2460 @@
 /** 
  * CIM_UnitaryComputerSystem.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  A class derived from ComputerSystem that represents a Desktop, Mobile, NetPC,
- * Server or other type of a single node Computer System.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: A class derived from ComputerSystem that represents a Desktop, Mobile, NetPC, Server or other type of a single node Computer System.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.lang.reflect.Constructor;
-import org.sblim.wbem.client.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
+import org.sblim.wbemsmt.exception.impl.*;
+import org.sblim.wbemsmt.exception.impl.userobject.*;
 
+import java.lang.reflect.*;
+import javax.wbem.*;
 
-/**
- *  A class derived from ComputerSystem that represents a Desktop, Mobile, NetPC,
- * Server or other type of a single node Computer System.
- */
-public class CIM_UnitaryComputerSystem extends CIM_ComputerSystem  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_UnitaryComputerSystem"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_UnitaryComputerSystem extends CIM_ComputerSystem {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.8.0";
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY = "CIM_ComputerSystemMemory"; //$NON-NLS-1$
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR = "CIM_ComputerSystemProcessor"; //$NON-NLS-1$
-	public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION = "CIM_SystemPartition"; //$NON-NLS-1$
-	
-	
-	/**
-	*	This object contains the data needed to find either the initial load device (its key) or the boot service to request the operating system to start up. In addition, the load parameters (ie, a pathname and parameters) may also be specified.
-	*/
-	public final static String CIM_PROPERTY_INITIALLOADINFO = "InitialLoadInfo"; //$NON-NLS-1$
-	/**
-	*	This object contains the data identifying either the initial load device (its key) or the boot service that requested the last operating system load. In addition, the load parameters (ie, a pathname and parameters) may also be specified.
-	*/
-	public final static String CIM_PROPERTY_LASTLOADINFO = "LastLoadInfo"; //$NON-NLS-1$
-	/**
-	*	When TRUE, indicates that the computer can be power managed. The use of this property has been deprecated. Instead, the existence of an associated PowerManagementCapabilities class (associated using the ElementCapabilites relationship) indicates that power management is supported.
-	*/
-	public final static String CIM_PROPERTY_POWERMANAGEMENTSUPPORTED = "PowerManagementSupported"; //$NON-NLS-1$
-	/**
-	*	Indicates the current power state of the ComputerSystem and its associated OperatingSystem. Regarding the Power Save states, these are defined as follows: Value 4 ("Power Save - Unknown") indicates that the System is known to be in a power save mode, but its exact status in this mode is unknown; 
-Value 2 ("Power Save - Low Power Mode") indicates that the System is in a power save state but still functioning, and may exhibit degraded performance; 
-Value 3 ("Power Save - Standby") describes that the System is not functioning but could be brought to full power 'quickly'; value 7 ("Power Save - Warning") indicates that the ComputerSystem is in a warning state, though also in a power save mode. 
-Values 8 and 9 describe the ACPI "Hibernate" and "Soft Off" states.
-	*/
-	public final static String CIM_PROPERTY_POWERSTATE = "PowerState"; //$NON-NLS-1$
-	/**
-	*	The event that caused the System to power up. This information is available in SMBIOS, in the Type 1 structure, the Wake Up Type attribute.
-	*/
-	public final static String CIM_PROPERTY_WAKEUPTYPE = "WakeUpType"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_UnitaryComputerSystem";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_INITIALLOADINFO);
-		CIM_PropertyNameList.add(CIM_PROPERTY_LASTLOADINFO);
-		CIM_PropertyNameList.add(CIM_PROPERTY_POWERMANAGEMENTSUPPORTED);
-		CIM_PropertyNameList.add(CIM_PROPERTY_POWERSTATE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_WAKEUPTYPE);
-				
-		for (int i = 0; i < CIM_ComputerSystem.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_ComputerSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_INITIALLOADINFO)||
-				((String)CIM_ComputerSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_LASTLOADINFO)||
-				((String)CIM_ComputerSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_POWERMANAGEMENTSUPPORTED)||
-				((String)CIM_ComputerSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_POWERSTATE)||
-				((String)CIM_ComputerSystem.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_WAKEUPTYPE)){
-				continue;
-			}
-			
-			CIM_UnitaryComputerSystem.CIM_PropertyNameList.add(CIM_ComputerSystem.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_INITIALLOADINFO, new CIMValue(null, new CIMDataType(CIMDataType.STRING_ARRAY))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_LASTLOADINFO, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_POWERMANAGEMENTSUPPORTED, new CIMValue(null, new CIMDataType(CIMDataType.BOOLEAN))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_POWERSTATE, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_WAKEUPTYPE, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-				
-		for (int i = 0; i < CIM_ComputerSystem.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_ComputerSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_INITIALLOADINFO)||
-				((CIMProperty)CIM_ComputerSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_LASTLOADINFO)||
-				((CIMProperty)CIM_ComputerSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_POWERMANAGEMENTSUPPORTED)||
-				((CIMProperty)CIM_ComputerSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_POWERSTATE)||
-				((CIMProperty)CIM_ComputerSystem.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_WAKEUPTYPE)){
-				continue;
-			}
-			
-			CIM_UnitaryComputerSystem.CIM_PropertyList.add(CIM_ComputerSystem.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_ComputerSystem.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	public final static String[] CIM_VALUEMAP_POWERSTATE = {"Unknown","Full Power","Power Save - Low Power Mode","Power Save - Standby","Power Save - Unknown","Power Cycle","Power Off","Power Save - Warning","Power Save - Hibernate","Power Save - Soft Off"};
-	public final static String[] CIM_VALUEMAP_WAKEUPTYPE = {"Reserved","Other","Unknown","APM Timer","Modem Ring","LAN Remote","Power Switch","PCI PME#","A/C Power Restored"};
-	
-	
-	public final static int POWERSTATE_UNKNOWN = 0;
-	public final static int POWERSTATE_FULLPOWER = 1;
-	public final static int POWERSTATE_POWERSAVE_LOWPOWERMODE = 2;
-	public final static int POWERSTATE_POWERSAVE_STANDBY = 3;
-	public final static int POWERSTATE_POWERSAVE_UNKNOWN = 4;
-	public final static int POWERSTATE_POWERCYCLE = 5;
-	public final static int POWERSTATE_POWEROFF = 6;
-	public final static int POWERSTATE_POWERSAVE_WARNING = 7;
-	public final static int POWERSTATE_POWERSAVE_HIBERNATE = 8;
-	public final static int POWERSTATE_POWERSAVE_SOFTOFF = 9;
-	
-	public final static int WAKEUPTYPE_RESERVED = 0;
-	public final static int WAKEUPTYPE_OTHER = 1;
-	public final static int WAKEUPTYPE_UNKNOWN = 2;
-	public final static int WAKEUPTYPE_APMTIMER = 3;
-	public final static int WAKEUPTYPE_MODEMRING = 4;
-	public final static int WAKEUPTYPE_LANREMOTE = 5;
-	public final static int WAKEUPTYPE_POWERSWITCH = 6;
-	public final static int WAKEUPTYPE_PCIPME = 7;
-	public final static int WAKEUPTYPE_A_CPOWERRESTORED = 8;
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * The use of this association has be deprecated in lieu of SystemDevice. Association indicating that memory is installed and required for the UnitaryComputerSystem to operate. Note that this relationship inherits from the SystemDevice association, and therefore, the Memory StorageExtent is weak to the aggregating UnitaryComputerSystem.
+     */
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_UnitaryComputerSystem() {
+    public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY = "CIM_ComputerSystemMemory";
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * Association indicating the processor(s) of a UnitaryComputer System. ComputerSystemProcessor is depreacted in lieu of its superclass, SystemDevice, since it adds no detail and changes none of the cardinalities in the superclass' definition.
+     */
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR = "CIM_ComputerSystemProcessor";
 
-		setValidCimInstance(false);
-	}
+    /**
+     * A Partition is an instance of a UnitaryComputerSystem (with its own OperatingSystem and Devices dedicated to the Partition) that is supported by underlying hardware and software. A Partition is not a virtualization of a Computer System, but the segmentation of the System's compute capabilities. Partitions can run independent copies of possibly different OperatingSystems and have dedicated Devices. The 'real', underlying System (perhaps a Cluster or another UnitaryComputerSystem) aggregates its Partitions. These semantics are described by the System Partition association.
+     */
 
+    public final static String CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION = "CIM_SystemPartition";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_UnitaryComputerSystem(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property InitialLoadInfo
+     * This object contains the data needed to find either the initial load device (its key) or the boot service to request the operating system to start up. In addition, the load parameters (ie, a pathname and parameters) may also be specified.
+     */
+    public static class PROPERTY_INITIALLOADINFO {
+        /**
+         * name of the property InitialLoadInfo
+         */
+        public final static String NAME = "InitialLoadInfo";
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_UnitaryComputerSystem(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+    }
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
+    /**
+     * Constants of property LastLoadInfo
+     * This object contains the data identifying either the initial load device (its key) or the boot service that requested the last operating system load. In addition, the load parameters (ie, a pathname and parameters) may also be specified.
+     */
+    public static class PROPERTY_LASTLOADINFO {
+        /**
+         * name of the property LastLoadInfo
+         */
+        public final static String NAME = "LastLoadInfo";
+
+    }
+
+    /**
+     * Constants of property PowerManagementSupported
+     * When TRUE, indicates that the computer can be power managed. The use of this property has been deprecated. Instead, the existence of an associated PowerManagementCapabilities class (associated using the ElementCapabilites relationship) indicates that power management is supported.
+     */
+    public static class PROPERTY_POWERMANAGEMENTSUPPORTED {
+        /**
+         * name of the property PowerManagementSupported
+         */
+        public final static String NAME = "PowerManagementSupported";
+
+    }
+
+    /**
+     * Constants of property PowerState
+     * Indicates the current power state of the ComputerSystem and its associated OperatingSystem. Regarding the Power Save states, these are defined as follows: Value 4 ("Power Save - Unknown") indicates that the System is known to be in a power save mode, but its exact status in this mode is unknown; 
+     * Value 2 ("Power Save - Low Power Mode") indicates that the System is in a power save state but still functioning, and may exhibit degraded performance; 
+     * Value 3 ("Power Save - Standby") describes that the System is not functioning but could be brought to full power 'quickly'; value 7 ("Power Save - Warning") indicates that the ComputerSystem is in a warning state, though also in a power save mode. 
+     * Values 8 and 9 describe the ACPI "Hibernate" and "Soft Off" states.
+     */
+    public static class PROPERTY_POWERSTATE {
+        /**
+         * name of the property PowerState
+         */
+        public final static String NAME = "PowerState";
+
+        /**
+         * constant for value map entry 0
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Full_Power = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Full Power (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Full_Power = "Full Power";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Power_Save___Low_Power_Mode = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry Power Save - Low Power Mode (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Power_Save___Low_Power_Mode = "Power Save - Low Power Mode";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Power_Save___Standby = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Power Save - Standby (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Power_Save___Standby = "Power Save - Standby";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Power_Save___Unknown = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry Power Save - Unknown (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_Power_Save___Unknown = "Power Save - Unknown";
+
+        /**
+         * constant for value map entry 5
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Power_Cycle = new javax.cim.UnsignedInteger16(
+                "5");
+
+        /**
+         * constant for value entry Power Cycle (corresponds to mapEntry 5 )
+         */
+        public final static String VALUE_ENTRY_Power_Cycle = "Power Cycle";
+
+        /**
+         * constant for value map entry 6
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Power_Off = new javax.cim.UnsignedInteger16(
+                "6");
+
+        /**
+         * constant for value entry Power Off (corresponds to mapEntry 6 )
+         */
+        public final static String VALUE_ENTRY_Power_Off = "Power Off";
+
+        /**
+         * constant for value map entry 7
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Power_Save___Warning = new javax.cim.UnsignedInteger16(
+                "7");
+
+        /**
+         * constant for value entry Power Save - Warning (corresponds to mapEntry 7 )
+         */
+        public final static String VALUE_ENTRY_Power_Save___Warning = "Power Save - Warning";
+
+        /**
+         * constant for value map entry 8
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Power_Save___Hibernate = new javax.cim.UnsignedInteger16(
+                "8");
+
+        /**
+         * constant for value entry Power Save - Hibernate (corresponds to mapEntry 8 )
+         */
+        public final static String VALUE_ENTRY_Power_Save___Hibernate = "Power Save - Hibernate";
+
+        /**
+         * constant for value map entry 9
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_9_FOR_VALUE_ENTRY_Power_Save___Soft_Off = new javax.cim.UnsignedInteger16(
+                "9");
+
+        /**
+         * constant for value entry Power Save - Soft Off (corresponds to mapEntry 9 )
+         */
+        public final static String VALUE_ENTRY_Power_Save___Soft_Off = "Power Save - Soft Off";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@405e405e
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
             }
-            CIM_UnitaryComputerSystem.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+
+            if (VALUE_ENTRY_Full_Power.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Full_Power;
+            }
+
+            if (VALUE_ENTRY_Power_Save___Low_Power_Mode.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Power_Save___Low_Power_Mode;
+            }
+
+            if (VALUE_ENTRY_Power_Save___Standby.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Power_Save___Standby;
+            }
+
+            if (VALUE_ENTRY_Power_Save___Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Power_Save___Unknown;
+            }
+
+            if (VALUE_ENTRY_Power_Cycle.equals(value)) {
+                return VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Power_Cycle;
+            }
+
+            if (VALUE_ENTRY_Power_Off.equals(value)) {
+                return VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Power_Off;
+            }
+
+            if (VALUE_ENTRY_Power_Save___Warning.equals(value)) {
+                return VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Power_Save___Warning;
+            }
+
+            if (VALUE_ENTRY_Power_Save___Hibernate.equals(value)) {
+                return VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Power_Save___Hibernate;
+            }
+
+            if (VALUE_ENTRY_Power_Save___Soft_Off.equals(value)) {
+                return VALUE_MAP_ENTRY_9_FOR_VALUE_ENTRY_Power_Save___Soft_Off;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Full_Power.intValue()) {
+                return VALUE_ENTRY_Full_Power;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Power_Save___Low_Power_Mode.intValue()) {
+                return VALUE_ENTRY_Power_Save___Low_Power_Mode;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Power_Save___Standby.intValue()) {
+                return VALUE_ENTRY_Power_Save___Standby;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Power_Save___Unknown.intValue()) {
+                return VALUE_ENTRY_Power_Save___Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Power_Cycle.intValue()) {
+                return VALUE_ENTRY_Power_Cycle;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Power_Off.intValue()) {
+                return VALUE_ENTRY_Power_Off;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Power_Save___Warning.intValue()) {
+                return VALUE_ENTRY_Power_Save___Warning;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Power_Save___Hibernate.intValue()) {
+                return VALUE_ENTRY_Power_Save___Hibernate;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_9_FOR_VALUE_ENTRY_Power_Save___Soft_Off.intValue()) {
+                return VALUE_ENTRY_Power_Save___Soft_Off;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property PowerState   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown,
+                VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Full_Power,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Power_Save___Low_Power_Mode,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Power_Save___Standby,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Power_Save___Unknown,
+                VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Power_Cycle,
+                VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Power_Off,
+                VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Power_Save___Warning,
+                VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Power_Save___Hibernate,
+                VALUE_MAP_ENTRY_9_FOR_VALUE_ENTRY_Power_Save___Soft_Off };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property PowerState   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown, VALUE_ENTRY_Full_Power,
+                VALUE_ENTRY_Power_Save___Low_Power_Mode, VALUE_ENTRY_Power_Save___Standby,
+                VALUE_ENTRY_Power_Save___Unknown, VALUE_ENTRY_Power_Cycle, VALUE_ENTRY_Power_Off,
+                VALUE_ENTRY_Power_Save___Warning, VALUE_ENTRY_Power_Save___Hibernate,
+                VALUE_ENTRY_Power_Save___Soft_Off };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property PowerState   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Full_Power, VALUE_ENTRY_Power_Save___Low_Power_Mode,
+                VALUE_ENTRY_Power_Save___Standby, VALUE_ENTRY_Power_Save___Unknown,
+                VALUE_ENTRY_Power_Cycle, VALUE_ENTRY_Power_Off, VALUE_ENTRY_Power_Save___Warning,
+                VALUE_ENTRY_Power_Save___Hibernate, VALUE_ENTRY_Power_Save___Soft_Off };
+
+    }
+
+    /**
+     * Constants of property WakeUpType
+     * The event that caused the System to power up. This information is available in SMBIOS, in the Type 1 structure, the Wake Up Type attribute.
+     */
+    public static class PROPERTY_WAKEUPTYPE {
+        /**
+         * name of the property WakeUpType
+         */
+        public final static String NAME = "WakeUpType";
+
+        /**
+         * constant for value map entry 0
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Reserved = new javax.cim.UnsignedInteger16(
+                "0");
+
+        /**
+         * constant for value entry Reserved (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Reserved = "Reserved";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_APM_Timer = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry APM Timer (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_APM_Timer = "APM Timer";
+
+        /**
+         * constant for value map entry 4
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Modem_Ring = new javax.cim.UnsignedInteger16(
+                "4");
+
+        /**
+         * constant for value entry Modem Ring (corresponds to mapEntry 4 )
+         */
+        public final static String VALUE_ENTRY_Modem_Ring = "Modem Ring";
+
+        /**
+         * constant for value map entry 5
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_LAN_Remote = new javax.cim.UnsignedInteger16(
+                "5");
+
+        /**
+         * constant for value entry LAN Remote (corresponds to mapEntry 5 )
+         */
+        public final static String VALUE_ENTRY_LAN_Remote = "LAN Remote";
+
+        /**
+         * constant for value map entry 6
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Power_Switch = new javax.cim.UnsignedInteger16(
+                "6");
+
+        /**
+         * constant for value entry Power Switch (corresponds to mapEntry 6 )
+         */
+        public final static String VALUE_ENTRY_Power_Switch = "Power Switch";
+
+        /**
+         * constant for value map entry 7
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_PCI_PME_ = new javax.cim.UnsignedInteger16(
+                "7");
+
+        /**
+         * constant for value entry PCI PME# (corresponds to mapEntry 7 )
+         */
+        public final static String VALUE_ENTRY_PCI_PME_ = "PCI PME#";
+
+        /**
+         * constant for value map entry 8
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_A_C_Power_Restored = new javax.cim.UnsignedInteger16(
+                "8");
+
+        /**
+         * constant for value entry A/C Power Restored (corresponds to mapEntry 8 )
+         */
+        public final static String VALUE_ENTRY_A_C_Power_Restored = "A/C Power Restored";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@30443044
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Reserved.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Reserved;
+            }
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_APM_Timer.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_APM_Timer;
+            }
+
+            if (VALUE_ENTRY_Modem_Ring.equals(value)) {
+                return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Modem_Ring;
+            }
+
+            if (VALUE_ENTRY_LAN_Remote.equals(value)) {
+                return VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_LAN_Remote;
+            }
+
+            if (VALUE_ENTRY_Power_Switch.equals(value)) {
+                return VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Power_Switch;
+            }
+
+            if (VALUE_ENTRY_PCI_PME_.equals(value)) {
+                return VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_PCI_PME_;
+            }
+
+            if (VALUE_ENTRY_A_C_Power_Restored.equals(value)) {
+                return VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_A_C_Power_Restored;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Reserved.intValue()) {
+                return VALUE_ENTRY_Reserved;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_APM_Timer.intValue()) {
+                return VALUE_ENTRY_APM_Timer;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Modem_Ring.intValue()) {
+                return VALUE_ENTRY_Modem_Ring;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_LAN_Remote.intValue()) {
+                return VALUE_ENTRY_LAN_Remote;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Power_Switch.intValue()) {
+                return VALUE_ENTRY_Power_Switch;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_PCI_PME_.intValue()) {
+                return VALUE_ENTRY_PCI_PME_;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_A_C_Power_Restored.intValue()) {
+                return VALUE_ENTRY_A_C_Power_Restored;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property WakeUpType   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Reserved,
+                VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other, VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Unknown,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_APM_Timer,
+                VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Modem_Ring,
+                VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_LAN_Remote,
+                VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Power_Switch,
+                VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_PCI_PME_,
+                VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_A_C_Power_Restored };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property WakeUpType   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Reserved, VALUE_ENTRY_Other,
+                VALUE_ENTRY_Unknown, VALUE_ENTRY_APM_Timer, VALUE_ENTRY_Modem_Ring,
+                VALUE_ENTRY_LAN_Remote, VALUE_ENTRY_Power_Switch, VALUE_ENTRY_PCI_PME_,
+                VALUE_ENTRY_A_C_Power_Restored };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property WakeUpType   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Reserved,
+                VALUE_ENTRY_Other, VALUE_ENTRY_Unknown, VALUE_ENTRY_APM_Timer,
+                VALUE_ENTRY_Modem_Ring, VALUE_ENTRY_LAN_Remote, VALUE_ENTRY_Power_Switch,
+                VALUE_ENTRY_PCI_PME_, VALUE_ENTRY_A_C_Power_Restored };
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_ComputerSystem.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   A class derived from ComputerSystem that represents a Desktop, Mobile, NetPC, Server or other type of a single node Computer System.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_UnitaryComputerSystem(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   A class derived from ComputerSystem that represents a Desktop, Mobile, NetPC, Server or other type of a single node Computer System.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_UnitaryComputerSystem(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_UnitaryComputerSystem() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("InitialLoadInfo", new CIMProperty("InitialLoadInfo",
+                CIMDataType.STRING_ARRAY_T, null));
+        propertiesToCheck.put("LastLoadInfo", new CIMProperty("LastLoadInfo", CIMDataType.STRING_T,
+                null));
+        propertiesToCheck.put("PowerManagementSupported", new CIMProperty(
+                "PowerManagementSupported", CIMDataType.BOOLEAN_T, null));
+        propertiesToCheck.put("PowerState", new CIMProperty("PowerState", CIMDataType.UINT16_T,
+                null));
+        propertiesToCheck.put("WakeUpType", new CIMProperty("WakeUpType", CIMDataType.UINT16_T,
+                null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_UnitaryComputerSystem.Java_Package_List.toArray(new String[CIM_UnitaryComputerSystem.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property InitialLoadInfo
+     *     * <br>
+     * This object contains the data needed to find either the initial load device (its key) or the boot service to request the operating system to start up. In addition, the load parameters (ie, a pathname and parameters) may also be specified.
+     *     */
+
+    public String[] get_InitialLoadInfo() {
+        CIMProperty currentProperty = getProperty(PROPERTY_INITIALLOADINFO.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_INITIALLOADINFO.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (String[]) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property InitialLoadInfo
+     * <br>
+     * This object contains the data needed to find either the initial load device (its key) or the boot service to request the operating system to start up. In addition, the load parameters (ie, a pathname and parameters) may also be specified.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_UnitaryComputerSystem)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_UnitaryComputerSystem)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_UnitaryComputerSystem)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_UnitaryComputerSystem)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_UnitaryComputerSystem)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_UnitaryComputerSystem)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_UnitaryComputerSystem)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_UnitaryComputerSystem)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_UnitaryComputerSystem)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_UnitaryComputerSystem)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_InitialLoadInfo(String[] newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_INITIALLOADINFO.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_InitialLoadInfo(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_INITIALLOADINFO.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	public ArrayList getAssociated_CIM_Memory_CIM_ComputerSystemMemorys(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
+    }
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY, 
-					CIM_Memory.CIM_CLASS_NAME, 
-					"GroupComponent", //$NON-NLS-1$
-					"PartComponent", //$NON-NLS-1$
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
+    /**
+     * Get the property InitialLoadInfo by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_InitialLoadInfo(WBEMClient client, String namespace,
+            String[] newValue) throws WbemsmtException {
+        CIM_UnitaryComputerSystem fco = new CIM_UnitaryComputerSystem(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_INITIALLOADINFO.NAME);
+        if (property != null) {
+            property = setPropertyValue_InitialLoadInfo(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_INITIALLOADINFO.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property InitialLoadInfo
+     * <br>
+     * This object contains the data needed to find either the initial load device (its key) or the boot service to request the operating system to start up. In addition, the load parameters (ie, a pathname and parameters) may also be specified.
+     */
+
+    private static CIMProperty setPropertyValue_InitialLoadInfo(CIMProperty currentProperty,
+            String[] newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property LastLoadInfo
+     *     * <br>
+     * This object contains the data identifying either the initial load device (its key) or the boot service that requested the last operating system load. In addition, the load parameters (ie, a pathname and parameters) may also be specified.
+     *     */
+
+    public String get_LastLoadInfo() {
+        CIMProperty currentProperty = getProperty(PROPERTY_LASTLOADINFO.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_LASTLOADINFO.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property LastLoadInfo
+     * <br>
+     * This object contains the data identifying either the initial load device (its key) or the boot service that requested the last operating system load. In addition, the load parameters (ie, a pathname and parameters) may also be specified.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_LastLoadInfo(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_LASTLOADINFO.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_LastLoadInfo(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_LASTLOADINFO.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property LastLoadInfo by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_LastLoadInfo(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_UnitaryComputerSystem fco = new CIM_UnitaryComputerSystem(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_LASTLOADINFO.NAME);
+        if (property != null) {
+            property = setPropertyValue_LastLoadInfo(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_LASTLOADINFO.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property LastLoadInfo
+     * <br>
+     * This object contains the data identifying either the initial load device (its key) or the boot service that requested the last operating system load. In addition, the load parameters (ie, a pathname and parameters) may also be specified.
+     */
+
+    private static CIMProperty setPropertyValue_LastLoadInfo(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property PowerManagementSupported
+     *     * <br>
+     * When TRUE, indicates that the computer can be power managed. The use of this property has been deprecated. Instead, the existence of an associated PowerManagementCapabilities class (associated using the ElementCapabilites relationship) indicates that power management is supported.
+     *     */
+
+    public Boolean get_PowerManagementSupported() {
+        CIMProperty currentProperty = getProperty(PROPERTY_POWERMANAGEMENTSUPPORTED.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_POWERMANAGEMENTSUPPORTED.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (Boolean) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property PowerManagementSupported
+     * <br>
+     * When TRUE, indicates that the computer can be power managed. The use of this property has been deprecated. Instead, the existence of an associated PowerManagementCapabilities class (associated using the ElementCapabilites relationship) indicates that power management is supported.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_PowerManagementSupported(Boolean newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_POWERMANAGEMENTSUPPORTED.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_PowerManagementSupported(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_POWERMANAGEMENTSUPPORTED.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property PowerManagementSupported by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_PowerManagementSupported(WBEMClient client, String namespace,
+            Boolean newValue) throws WbemsmtException {
+        CIM_UnitaryComputerSystem fco = new CIM_UnitaryComputerSystem(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_POWERMANAGEMENTSUPPORTED.NAME);
+        if (property != null) {
+            property = setPropertyValue_PowerManagementSupported(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_POWERMANAGEMENTSUPPORTED.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property PowerManagementSupported
+     * <br>
+     * When TRUE, indicates that the computer can be power managed. The use of this property has been deprecated. Instead, the existence of an associated PowerManagementCapabilities class (associated using the ElementCapabilites relationship) indicates that power management is supported.
+     */
+
+    private static CIMProperty setPropertyValue_PowerManagementSupported(
+            CIMProperty currentProperty, Boolean newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property PowerState
+     *     * <br>
+     * Indicates the current power state of the ComputerSystem and its associated OperatingSystem. Regarding the Power Save states, these are defined as follows: Value 4 ("Power Save - Unknown") indicates that the System is known to be in a power save mode, but its exact status in this mode is unknown; 
+     * Value 2 ("Power Save - Low Power Mode") indicates that the System is in a power save state but still functioning, and may exhibit degraded performance; 
+     * Value 3 ("Power Save - Standby") describes that the System is not functioning but could be brought to full power 'quickly'; value 7 ("Power Save - Warning") indicates that the ComputerSystem is in a warning state, though also in a power save mode. 
+     * Values 8 and 9 describe the ACPI "Hibernate" and "Soft Off" states.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_PowerState() {
+        CIMProperty currentProperty = getProperty(PROPERTY_POWERSTATE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_POWERSTATE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property PowerState
+     * <br>
+     * Indicates the current power state of the ComputerSystem and its associated OperatingSystem. Regarding the Power Save states, these are defined as follows: Value 4 ("Power Save - Unknown") indicates that the System is known to be in a power save mode, but its exact status in this mode is unknown; 
+     * Value 2 ("Power Save - Low Power Mode") indicates that the System is in a power save state but still functioning, and may exhibit degraded performance; 
+     * Value 3 ("Power Save - Standby") describes that the System is not functioning but could be brought to full power 'quickly'; value 7 ("Power Save - Warning") indicates that the ComputerSystem is in a warning state, though also in a power save mode. 
+     * Values 8 and 9 describe the ACPI "Hibernate" and "Soft Off" states.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_PowerState(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_POWERSTATE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_PowerState(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_POWERSTATE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property PowerState by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_PowerState(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_UnitaryComputerSystem fco = new CIM_UnitaryComputerSystem(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_POWERSTATE.NAME);
+        if (property != null) {
+            property = setPropertyValue_PowerState(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_POWERSTATE.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property PowerState
+     * <br>
+     * Indicates the current power state of the ComputerSystem and its associated OperatingSystem. Regarding the Power Save states, these are defined as follows: Value 4 ("Power Save - Unknown") indicates that the System is known to be in a power save mode, but its exact status in this mode is unknown; 
+     * Value 2 ("Power Save - Low Power Mode") indicates that the System is in a power save state but still functioning, and may exhibit degraded performance; 
+     * Value 3 ("Power Save - Standby") describes that the System is not functioning but could be brought to full power 'quickly'; value 7 ("Power Save - Warning") indicates that the ComputerSystem is in a warning state, though also in a power save mode. 
+     * Values 8 and 9 describe the ACPI "Hibernate" and "Soft Off" states.
+     */
+
+    private static CIMProperty setPropertyValue_PowerState(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property WakeUpType
+     *     * <br>
+     * The event that caused the System to power up. This information is available in SMBIOS, in the Type 1 structure, the Wake Up Type attribute.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_WakeUpType() {
+        CIMProperty currentProperty = getProperty(PROPERTY_WAKEUPTYPE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_WAKEUPTYPE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property WakeUpType
+     * <br>
+     * The event that caused the System to power up. This information is available in SMBIOS, in the Type 1 structure, the Wake Up Type attribute.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_WakeUpType(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_WAKEUPTYPE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_WakeUpType(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_WAKEUPTYPE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property WakeUpType by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_WakeUpType(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_UnitaryComputerSystem fco = new CIM_UnitaryComputerSystem(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_WAKEUPTYPE.NAME);
+        if (property != null) {
+            property = setPropertyValue_WakeUpType(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_WAKEUPTYPE.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property WakeUpType
+     * <br>
+     * The event that caused the System to power up. This information is available in SMBIOS, in the Type 1 structure, the Wake Up Type attribute.
+     */
+
+    private static CIMProperty setPropertyValue_WakeUpType(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    /**
+     * Get the list with CIM_Memory objects associated by the association CIM_ComputerSystemMemory
+     * 
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_Memory_CIM_ComputerSystemMemorys(WBEMClient cimClient)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_Memory_CIM_ComputerSystemMemorys(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY, CIM_Memory.CIM_CLASS_NAME,
+                null, null, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_Memory objects associated by the association CIM_ComputerSystemMemory
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_Memory_CIM_ComputerSystemMemorys(WBEMClient cimClient,
+            String resultClass, String role, String resultRole) throws WbemsmtException {
+
+        return getAssociated_CIM_Memory_CIM_ComputerSystemMemorys(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY, resultClass, role, resultRole,
+                false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_Memory objects associated by the association CIM_ComputerSystemMemory
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param associationClass This string MUST either contain a valid CIM Association class name or be null. It filters the Objects returned to contain only Objects associated to the source Object via this CIM Association class or one of its subclasses.
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_Memory_CIM_ComputerSystemMemorys(WBEMClient cimClient,
+            String associationClass, String resultClass, String role, String resultRole,
+            boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList)
+            throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associators(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole, includeQualifiers, includeClassOrigin,
+                    propertyList);
+        }
+        catch (WBEMException e) {
+            throw new AssociatorException(e, new AssociatorUserObject(this.getCimObjectPath(),
+                    associationClass, resultClass, role, resultRole, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
                     Class clazz = CIM_UnitaryComputerSystemHelper.findClass(cimClient, cimInstance);
-                    
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Memory(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Memory(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Memory(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
 
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_Memory(cimInstance));
+                        continue;
+                    }
 
-	public ArrayList getAssociated_CIM_Memory_CIM_ComputerSystemMemory_Names(CIMClient cimClient, boolean deep) {
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_Memory(cimInstance));
+                        continue;
+                    }
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_Memory(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
 
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY, 
-					CIM_Memory.CIM_CLASS_NAME, 
-					"GroupComponent", //$NON-NLS-1$
-					"PartComponent"); //$NON-NLS-1$
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_Memory.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+        return result;
+    }
 
-	public ArrayList getAssociated_CIM_Processor_CIM_ComputerSystemProcessors(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_ComputerSystemMemory
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR, 
-					CIM_Processor.CIM_CLASS_NAME, 
-					"GroupComponent", //$NON-NLS-1$
-					"PartComponent", //$NON-NLS-1$
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
+    public java.util.List getAssociated_CIM_Memory_CIM_ComputerSystemMemoryNames(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_Memory_CIM_ComputerSystemMemoryNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY, CIM_Memory.CIM_CLASS_NAME,
+                null, null);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_ComputerSystemMemory
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_Memory_CIM_ComputerSystemMemoryNames(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_Memory_CIM_ComputerSystemMemoryNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY, resultClass, role, resultRole);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_ComputerSystemMemory
+     * @param cimClient the WBEMClient for the communication
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_Memory_CIM_ComputerSystemMemoryNames(
+            WBEMClient cimClient, boolean deep, String associationClass, String resultClass,
+            String role, String resultRole) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associatorNames(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole);
+
+        }
+        catch (WBEMException e) {
+            throw new AssociatorNamesException(e, new AssociatorNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY,
+                    CIM_Memory.CIM_CLASS_NAME, null, null));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_Memory.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_ComputerSystemMemory associations
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#references(CIMObjectPath, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociations_CIM_ComputerSystemMemory(WBEMClient cimClient,
+            boolean includeQualifiers, boolean includeClassOrigin, String role,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.references(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY, role, includeQualifiers,
+                    includeClassOrigin, propertyList);
+        }
+        catch (WBEMException e) {
+            throw new ReferencesException(e, new ReferencesUserObject(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY, role, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_ComputerSystemMemoryHelper.findClass(cimClient, cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_ComputerSystemMemory(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_ComputerSystemMemory(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_ComputerSystemMemory(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a list of CIMObjectPath items of the associations CIM_ComputerSystemMemory
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#referenceNames(CIMObjectPath, String, String)
+     **/
+
+    public java.util.List getAssociationNames_CIM_ComputerSystemMemory(WBEMClient cimClient,
+            String role, boolean deep) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.referenceNames(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY, role);
+        }
+        catch (WBEMException e) {
+            throw new ReferenceNamesException(e, new ReferenceNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMMEMORY, role));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_ComputerSystemMemory.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_Processor objects associated by the association CIM_ComputerSystemProcessor
+     * 
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_Processor_CIM_ComputerSystemProcessors(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_Processor_CIM_ComputerSystemProcessors(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR,
+                CIM_Processor.CIM_CLASS_NAME, null, null, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_Processor objects associated by the association CIM_ComputerSystemProcessor
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_Processor_CIM_ComputerSystemProcessors(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_Processor_CIM_ComputerSystemProcessors(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR, resultClass, role,
+                resultRole, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_Processor objects associated by the association CIM_ComputerSystemProcessor
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param associationClass This string MUST either contain a valid CIM Association class name or be null. It filters the Objects returned to contain only Objects associated to the source Object via this CIM Association class or one of its subclasses.
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_Processor_CIM_ComputerSystemProcessors(
+            WBEMClient cimClient, String associationClass, String resultClass, String role,
+            String resultRole, boolean includeQualifiers, boolean includeClassOrigin,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associators(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole, includeQualifiers, includeClassOrigin,
+                    propertyList);
+        }
+        catch (WBEMException e) {
+            throw new AssociatorException(e, new AssociatorUserObject(this.getCimObjectPath(),
+                    associationClass, resultClass, role, resultRole, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
                     Class clazz = CIM_UnitaryComputerSystemHelper.findClass(cimClient, cimInstance);
-                    
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Processor(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Processor(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_Processor(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
 
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_Processor(cimInstance));
+                        continue;
+                    }
 
-	public ArrayList getAssociated_CIM_Processor_CIM_ComputerSystemProcessor_Names(CIMClient cimClient, boolean deep) {
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_Processor(cimInstance));
+                        continue;
+                    }
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_Processor(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
 
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR, 
-					CIM_Processor.CIM_CLASS_NAME, 
-					"GroupComponent", //$NON-NLS-1$
-					"PartComponent"); //$NON-NLS-1$
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_Processor.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+        return result;
+    }
 
-	public ArrayList getAssociated_CIM_ComputerSystem_CIM_SystemPartitions(CIMClient cimClient,
-	boolean includeQualifiers, boolean includeClassOrigin, java.lang.String[] propertyList){
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_ComputerSystemProcessor
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		ArrayList resultArrayList = new ArrayList();
-		Enumeration enumeration = null;
-		
-		try {
-			enumeration = cimClient.associators(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION, 
-					CIM_ComputerSystem.CIM_CLASS_NAME, 
-					"PartComponent", //$NON-NLS-1$
-					"GroupComponent", //$NON-NLS-1$
-					includeQualifiers,
-					includeClassOrigin,
-					propertyList);
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-				if (obj instanceof CIMInstance) {
-					CIMInstance cimInstance = (CIMInstance)obj;
+    public java.util.List getAssociated_CIM_Processor_CIM_ComputerSystemProcessorNames(
+            WBEMClient cimClient) throws WbemsmtException {
+
+        return getAssociated_CIM_Processor_CIM_ComputerSystemProcessorNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR,
+                CIM_Processor.CIM_CLASS_NAME, null, null);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_ComputerSystemProcessor
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_Processor_CIM_ComputerSystemProcessorNames(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_Processor_CIM_ComputerSystemProcessorNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR, resultClass, role,
+                resultRole);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_ComputerSystemProcessor
+     * @param cimClient the WBEMClient for the communication
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_Processor_CIM_ComputerSystemProcessorNames(
+            WBEMClient cimClient, boolean deep, String associationClass, String resultClass,
+            String role, String resultRole) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associatorNames(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole);
+
+        }
+        catch (WBEMException e) {
+            throw new AssociatorNamesException(e, new AssociatorNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR,
+                    CIM_Processor.CIM_CLASS_NAME, null, null));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_Processor.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_ComputerSystemProcessor associations
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#references(CIMObjectPath, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociations_CIM_ComputerSystemProcessor(WBEMClient cimClient,
+            boolean includeQualifiers, boolean includeClassOrigin, String role,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.references(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR, role, includeQualifiers,
+                    includeClassOrigin, propertyList);
+        }
+        catch (WBEMException e) {
+            throw new ReferencesException(e, new ReferencesUserObject(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR, role, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_ComputerSystemProcessorHelper.findClass(cimClient,
+                            cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_ComputerSystemProcessor(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_ComputerSystemProcessor(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_ComputerSystemProcessor(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a list of CIMObjectPath items of the associations CIM_ComputerSystemProcessor
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#referenceNames(CIMObjectPath, String, String)
+     **/
+
+    public java.util.List getAssociationNames_CIM_ComputerSystemProcessor(WBEMClient cimClient,
+            String role, boolean deep) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.referenceNames(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR, role);
+        }
+        catch (WBEMException e) {
+            throw new ReferenceNamesException(e, new ReferenceNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_COMPUTERSYSTEMPROCESSOR,
+                    role));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_ComputerSystemProcessor.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_ComputerSystem objects associated by the association CIM_SystemPartition
+     * 
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ComputerSystem_CIM_SystemPartitions(WBEMClient cimClient)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_ComputerSystem_CIM_SystemPartitions(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION, CIM_ComputerSystem.CIM_CLASS_NAME,
+                null, null, false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_ComputerSystem objects associated by the association CIM_SystemPartition
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ComputerSystem_CIM_SystemPartitions(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
+
+        return getAssociated_CIM_ComputerSystem_CIM_SystemPartitions(cimClient,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION, resultClass, role, resultRole,
+                false, false, null);
+
+    }
+
+    /**
+     * Get the list with CIM_ComputerSystem objects associated by the association CIM_SystemPartition
+     * 
+     * @param cimClient the WBEMClient for the communication
+     * @param associationClass This string MUST either contain a valid CIM Association class name or be null. It filters the Objects returned to contain only Objects associated to the source Object via this CIM Association class or one of its subclasses.
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#associators(CIMObjectPath, String, String, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociated_CIM_ComputerSystem_CIM_SystemPartitions(
+            WBEMClient cimClient, String associationClass, String resultClass, String role,
+            String resultRole, boolean includeQualifiers, boolean includeClassOrigin,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associators(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole, includeQualifiers, includeClassOrigin,
+                    propertyList);
+        }
+        catch (WBEMException e) {
+            throw new AssociatorException(e, new AssociatorUserObject(this.getCimObjectPath(),
+                    associationClass, resultClass, role, resultRole, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
                     Class clazz = CIM_UnitaryComputerSystemHelper.findClass(cimClient, cimInstance);
-                    
-					if (clazz == null) {
-						System.err.println("The class " + cimInstance.getClassName() +" was not found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ComputerSystem(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-					
-					Class[] constParams = new Class[2];
-					constParams[0] = CIMObjectPath.class;
-					constParams[1] = CIMInstance.class;
-					Constructor cons = null;
-					try {
-						cons = clazz.getConstructor(constParams);
-						
-					} catch(NoSuchMethodException e) {
-						System.err.println("The required constructor of class " + cimInstance.getClassName() + " could not be found. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ComputerSystem(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
-				
-					try {
-						Object[] actargs = new Object[] {cimInstance.getObjectPath(), cimInstance};
-					
-						Object dataObj = cons.newInstance(actargs);
-					
-						resultArrayList.add(dataObj);
-					} catch (Exception e) {
-						System.err.println("The instance of class " + cimInstance.getClassName() + " could not be created successful. Constructing instance of the base class.");
-						resultArrayList.add(new CIM_ComputerSystem(cimInstance.getObjectPath(), cimInstance));
-						continue;
-					}
 
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_ComputerSystem(cimInstance));
+                        continue;
+                    }
 
-	public ArrayList getAssociated_CIM_ComputerSystem_CIM_SystemPartition_Names(CIMClient cimClient, boolean deep) {
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_ComputerSystem(cimInstance));
+                        continue;
+                    }
 
-		if (cimClient == null) {
-			throw new InvalidParameterException("The cimClient parameter does not contain a valid reference.");
-		}
-		
-		Enumeration enumeration = null;
-		ArrayList resultArrayList = new ArrayList();
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_ComputerSystem(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
 
-		try {		
-			enumeration = cimClient.associatorNames(
-					this.getCimObjectPath(),
-					CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION, 
-					CIM_ComputerSystem.CIM_CLASS_NAME, 
-					"PartComponent", //$NON-NLS-1$
-					"GroupComponent"); //$NON-NLS-1$
-		
-		
-			while (enumeration.hasMoreElements()) {
-				Object obj = enumeration.nextElement();
-			
-				if (obj instanceof CIMObjectPath) {
-					if (deep || ((CIMObjectPath)obj).getObjectName().equals(CIM_ComputerSystem.CIM_CLASS_NAME)) {
-						resultArrayList.add(obj);
-					}
-				}
-			}
-		} finally {
-			try {
-				if (enumeration != null) {
-					((CIMEnumeration)enumeration).close();
-				}
-			} catch(Exception e) {
-				throw new CIMException(CIMException.CIM_ERR_FAILED, "The socket of the result could not be closed properly.");
-			}
-		}
-			
-		return resultArrayList;
-	}
+        return result;
+    }
 
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute InitialLoadInfo
-	
-	public String[] get_InitialLoadInfo() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnitaryComputerSystem.CIM_PROPERTY_INITIALLOADINFO);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_INITIALLOADINFO + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_INITIALLOADINFO + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING_ARRAY) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		Vector returnedVector = (Vector)currentProperty.getValue().getValue();
-		
-		String[] resultArray = new String[returnedVector!=null?returnedVector.size():0];
-		for (int i = 0; i < resultArray.length; i++) {
-			resultArray[i] = (String)returnedVector.get(i);
-		}
-		
-		return resultArray;
-	}
-	    
-			
-	public void set_InitialLoadInfo(String[] newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnitaryComputerSystem.CIM_PROPERTY_INITIALLOADINFO);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_INITIALLOADINFO + " could not be found");
-    		
-		} else if (!CIM_UnitaryComputerSystemHelper.isValid_InitialLoadInfo(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_INITIALLOADINFO);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING_ARRAY) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_INITIALLOADINFO + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING_ARRAY) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING_ARRAY));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_SystemPartition
+     * @param cimClient the WBEMClient for the communication
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
 
-	// Attribute LastLoadInfo
-	
-	public String get_LastLoadInfo() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnitaryComputerSystem.CIM_PROPERTY_LASTLOADINFO);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_LASTLOADINFO + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_LASTLOADINFO + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_LastLoadInfo(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnitaryComputerSystem.CIM_PROPERTY_LASTLOADINFO);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_LASTLOADINFO + " could not be found");
-    		
-		} else if (!CIM_UnitaryComputerSystemHelper.isValid_LastLoadInfo(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_LASTLOADINFO);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_LASTLOADINFO + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public java.util.List getAssociated_CIM_ComputerSystem_CIM_SystemPartitionNames(
+            WBEMClient cimClient) throws WbemsmtException {
 
-	// Attribute PowerManagementSupported
-	
-	public Boolean get_PowerManagementSupported() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnitaryComputerSystem.CIM_PROPERTY_POWERMANAGEMENTSUPPORTED);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_POWERMANAGEMENTSUPPORTED + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_POWERMANAGEMENTSUPPORTED + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (Boolean)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_PowerManagementSupported(Boolean newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnitaryComputerSystem.CIM_PROPERTY_POWERMANAGEMENTSUPPORTED);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_POWERMANAGEMENTSUPPORTED + " could not be found");
-    		
-		} else if (!CIM_UnitaryComputerSystemHelper.isValid_PowerManagementSupported(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_POWERMANAGEMENTSUPPORTED);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.BOOLEAN) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_POWERMANAGEMENTSUPPORTED + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.BOOLEAN) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.BOOLEAN));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        return getAssociated_CIM_ComputerSystem_CIM_SystemPartitionNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION, CIM_ComputerSystem.CIM_CLASS_NAME,
+                null, null);
+    }
 
-	// Attribute PowerState
-	
-	public UnsignedInt16 get_PowerState() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnitaryComputerSystem.CIM_PROPERTY_POWERSTATE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_POWERSTATE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_POWERSTATE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_PowerState(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnitaryComputerSystem.CIM_PROPERTY_POWERSTATE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_POWERSTATE + " could not be found");
-    		
-		} else if (!CIM_UnitaryComputerSystemHelper.isValid_PowerState(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_POWERSTATE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_POWERSTATE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_SystemPartition
+     * @param cimClient the WBEMClient for the communication
+     * @param resultClass This string MUST either contain a valid CIM Class name or be null. It filters the Objects returned to contain only the Objects of this Class name or one of its subclasses. The resultClass should be CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION or a subclass 
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the source Object plays the specified role. (i.e. the Property name in the Association class that refers to the source Object matches this value) If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are examined.
+     * @param resultRole This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects associated to the source Object via an Association class in which the Object returned plays the specified role. (i.e. the Property name in the Association class that refers to the Object returned matches this value) If "Dependent" is specified, then only Associations in which the Object returned is the "Dependent" reference are examined. 
+     *
+     * uses CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION as associationClass<br>
+     * uses false for includeQualifiers and includeClassOrigin <br>
+     * uses null for resultClass, role, resultRole<br>
+     * <br>
+     
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
 
-	// Attribute WakeUpType
-	
-	public UnsignedInt16 get_WakeUpType() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnitaryComputerSystem.CIM_PROPERTY_WAKEUPTYPE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_WAKEUPTYPE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_WAKEUPTYPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_WakeUpType(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_UnitaryComputerSystem.CIM_PROPERTY_WAKEUPTYPE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_WAKEUPTYPE + " could not be found");
-    		
-		} else if (!CIM_UnitaryComputerSystemHelper.isValid_WakeUpType(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_WAKEUPTYPE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_UnitaryComputerSystem.CIM_PROPERTY_WAKEUPTYPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public java.util.List getAssociated_CIM_ComputerSystem_CIM_SystemPartitionNames(
+            WBEMClient cimClient, String resultClass, String role, String resultRole)
+            throws WbemsmtException {
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+        return getAssociated_CIM_ComputerSystem_CIM_SystemPartitionNames(cimClient, true,
+                CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION, resultClass, role, resultRole);
+    }
+
+    /**
+     * Get the list of CIMObjectPath items of the objects associated by the association CIM_SystemPartition
+     * @param cimClient the WBEMClient for the communication
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#associatorNames(CIMObjectPath, String, String, String, String)
+     **/
+
+    public java.util.List getAssociated_CIM_ComputerSystem_CIM_SystemPartitionNames(
+            WBEMClient cimClient, boolean deep, String associationClass, String resultClass,
+            String role, String resultRole) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.associatorNames(this.getCimObjectPath(), associationClass,
+                    resultClass, role, resultRole);
+
+        }
+        catch (WBEMException e) {
+            throw new AssociatorNamesException(e, new AssociatorNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION,
+                    CIM_ComputerSystem.CIM_CLASS_NAME, null, null));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+
+                Object obj = enumeration.next();
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_ComputerSystem.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list with CIM_SystemPartition associations
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param includeQualifiers If true, all Qualifiers for each Object (including Qualifiers on the Object and on any returned Properties) MUST be included in the Objects returned. If false, no Qualifiers are present in each Object returned.
+     * @param includeClassOrigin If true, the CLASSORIGIN attribute will be present on all appropriate elements in the Objects returned. If false, no CLASSORIGIN attributes are present in the Objects returned. CLASSORIGIN is attached to an element (properties, methods, references) to indicate the class in which it was first defined.
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param propertyList An array of property names used to filter what is contained in the Objects returned. Each CIMClass or CIMInstance returned only contains elements for the properties of the names specified. Duplicate and invalid property names are ignored and the request is otherwise processed normally. An empty array indicates that no properties should be included in the Objects returned. A null value indicates that all properties should be contained in the Objects returned. NOTE: Properties should not be specified in this parameter unless a non-null value is specified in the resultClass  parameter.
+     *
+     * @see javax.wbem.client.WBEMClient#references(CIMObjectPath, String, String, boolean, boolean, String[])
+     **/
+
+    public java.util.List getAssociations_CIM_SystemPartition(WBEMClient cimClient,
+            boolean includeQualifiers, boolean includeClassOrigin, String role,
+            java.lang.String[] propertyList) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.references(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION, role, includeQualifiers,
+                    includeClassOrigin, propertyList);
+        }
+        catch (WBEMException e) {
+            throw new ReferencesException(e, new ReferencesUserObject(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION, role, includeQualifiers,
+                    includeClassOrigin, propertyList));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+
+                if (obj instanceof CIMInstance) {
+                    CIMInstance cimInstance = (CIMInstance) obj;
+                    Class clazz = CIM_SystemPartitionHelper.findClass(cimClient, cimInstance);
+
+                    if (clazz == null) {
+                        System.err.println("The class " + cimInstance.getClassName()
+                                + " was not found. Constructing instance of the base class.");
+                        result.add(new CIM_SystemPartition(cimInstance));
+                        continue;
+                    }
+
+                    Class[] constParams = new Class[1];
+                    constParams[0] = CIMInstance.class;
+                    Constructor cons = null;
+                    try {
+                        cons = clazz.getConstructor(constParams);
+                    }
+                    catch (NoSuchMethodException e) {
+                        System.err.println("The required constructor of class "
+                                + cimInstance.getClassName()
+                                + " could not be found. Constructing instance of the base class.");
+                        result.add(new CIM_SystemPartition(cimInstance));
+                        continue;
+                    }
+
+                    try {
+                        Object[] actargs = new Object[] { cimInstance };
+                        Object dataObj = cons.newInstance(actargs);
+                        result.add(dataObj);
+                    }
+                    catch (Exception e) {
+                        System.err
+                                .println("The instance of class "
+                                        + cimInstance.getClassName()
+                                        + " could not be created successful. Constructing instance of the base class.");
+                        result.add(new CIM_SystemPartition(cimInstance));
+                        continue;
+                    }
+                }
+            }
+            CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a list of CIMObjectPath items of the associations CIM_SystemPartition
+     *
+     * @param cimClient the WBEMClient for the communication
+     * @param role This string MUST either contain a valid Property name or be null. It filters the Objects returned to contain only Objects referring to the source Object via a Property with the specified name. If "Antecedent" is specified, then only Associations in which the source Object is the "Antecedent" reference are returned.
+     * @param deep if true the subclasses returned also
+     *
+     * @see javax.wbem.client.WBEMClient#referenceNames(CIMObjectPath, String, String)
+     **/
+
+    public java.util.List getAssociationNames_CIM_SystemPartition(WBEMClient cimClient,
+            String role, boolean deep) throws WbemsmtException {
+
+        if (cimClient == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimClient parameter does not contain a valid reference.");
+        }
+
+        java.util.List result = new java.util.ArrayList();
+        CloseableIterator enumeration = null;
+
+        try {
+            enumeration = cimClient.referenceNames(this.getCimObjectPath(),
+                    CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION, role);
+        }
+        catch (WBEMException e) {
+            throw new ReferenceNamesException(e, new ReferenceNamesUserObject(this
+                    .getCimObjectPath(), CIM_ASSOCIATOR_CLASS_NAME_CIM_SYSTEMPARTITION, role));
+        }
+
+        try {
+            while (enumeration.hasNext()) {
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+                Object obj = enumeration.next();
+                CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+
+                if (obj instanceof CIMObjectPath) {
+                    if (deep
+                            || ((CIMObjectPath) obj).getObjectName().equals(
+                                    CIM_SystemPartition.CIM_CLASS_NAME)) {
+                        result.add(obj);
+                    }
+                }
+            }
+            CIM_UnitaryComputerSystemHelper.checkException(enumeration);
+        }
+        finally {
+            try {
+                if (enumeration != null) {
+                    enumeration.close();
+                }
+            }
+            catch (Exception e) {
+                throw new WbemsmtException(WbemsmtException.ERR_FAILED,
+                        "The socket of the result could not be closed properly.");
+            }
+        }
+        return result;
+    }
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_UnitaryComputerSystem.CIM_CLASS_NAME;
+    }
 
 }

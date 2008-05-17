@@ -1,530 +1,518 @@
 /** 
  * CIM_TapeDrive.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  Capabilities and managment of a TapeDrive, a subtype of MediaAccessDevice.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: Capabilities and managment of a TapeDrive, a subtype of MediaAccessDevice.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
 
-/**
- *  Capabilities and managment of a TapeDrive, a subtype of MediaAccessDevice.
- */
-public class CIM_TapeDrive extends CIM_MediaAccessDevice  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_TapeDrive"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_TapeDrive extends CIM_MediaAccessDevice {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.6.0";
-	
-	
-	/**
-	*	EOTWarningZoneSize indicates the size, in bytes, of the area designated as 'end of tape'. Access in this area generates an 'end of tape' warning.
-	*/
-	public final static String CIM_PROPERTY_EOTWARNINGZONESIZE = "EOTWarningZoneSize"; //$NON-NLS-1$
-	/**
-	*	Maximum partition count for the TapeDrive.
-	*/
-	public final static String CIM_PROPERTY_MAXPARTITIONCOUNT = "MaxPartitionCount"; //$NON-NLS-1$
-	/**
-	*	Time in milliseconds to move from the most physically distant point on the tape to the beginning.
-	*/
-	public final static String CIM_PROPERTY_MAXREWINDTIME = "MaxRewindTime"; //$NON-NLS-1$
-	/**
-	*	Padding indicates the number of bytes inserted between blocks on a tape Media.
-	*/
-	public final static String CIM_PROPERTY_PADDING = "Padding"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_TapeDrive";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_EOTWARNINGZONESIZE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_MAXPARTITIONCOUNT);
-		CIM_PropertyNameList.add(CIM_PROPERTY_MAXREWINDTIME);
-		CIM_PropertyNameList.add(CIM_PROPERTY_PADDING);
-				
-		for (int i = 0; i < CIM_MediaAccessDevice.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_MediaAccessDevice.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_EOTWARNINGZONESIZE)||
-				((String)CIM_MediaAccessDevice.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_MAXPARTITIONCOUNT)||
-				((String)CIM_MediaAccessDevice.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_MAXREWINDTIME)||
-				((String)CIM_MediaAccessDevice.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_PADDING)){
-				continue;
-			}
-			
-			CIM_TapeDrive.CIM_PropertyNameList.add(CIM_MediaAccessDevice.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_EOTWARNINGZONESIZE, new CIMValue(null, new CIMDataType(CIMDataType.UINT32))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_MAXPARTITIONCOUNT, new CIMValue(null, new CIMDataType(CIMDataType.UINT32))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_MAXREWINDTIME, new CIMValue(null, new CIMDataType(CIMDataType.UINT64))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_PADDING, new CIMValue(null, new CIMDataType(CIMDataType.UINT32))));
-				
-		for (int i = 0; i < CIM_MediaAccessDevice.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_MediaAccessDevice.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_EOTWARNINGZONESIZE)||
-				((CIMProperty)CIM_MediaAccessDevice.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_MAXPARTITIONCOUNT)||
-				((CIMProperty)CIM_MediaAccessDevice.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_MAXREWINDTIME)||
-				((CIMProperty)CIM_MediaAccessDevice.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_PADDING)){
-				continue;
-			}
-			
-			CIM_TapeDrive.CIM_PropertyList.add(CIM_MediaAccessDevice.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_MediaAccessDevice.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constants of property EOTWarningZoneSize
+     * EOTWarningZoneSize indicates the size, in bytes, of the area designated as 'end of tape'. Access in this area generates an 'end of tape' warning.
+     */
+    public static class PROPERTY_EOTWARNINGZONESIZE {
+        /**
+         * name of the property EOTWarningZoneSize
+         */
+        public final static String NAME = "EOTWarningZoneSize";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_TapeDrive() {
+    }
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * Constants of property MaxPartitionCount
+     * Maximum partition count for the TapeDrive.
+     */
+    public static class PROPERTY_MAXPARTITIONCOUNT {
+        /**
+         * name of the property MaxPartitionCount
+         */
+        public final static String NAME = "MaxPartitionCount";
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    }
 
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property MaxRewindTime
+     * Time in milliseconds to move from the most physically distant point on the tape to the beginning.
+     */
+    public static class PROPERTY_MAXREWINDTIME {
+        /**
+         * name of the property MaxRewindTime
+         */
+        public final static String NAME = "MaxRewindTime";
 
+    }
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_TapeDrive(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property Padding
+     * Padding indicates the number of bytes inserted between blocks on a tape Media.
+     */
+    public static class PROPERTY_PADDING {
+        /**
+         * name of the property Padding
+         */
+        public final static String NAME = "Padding";
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_TapeDrive(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+    }
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
-            }
-            CIM_TapeDrive.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_MediaAccessDevice.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   Capabilities and managment of a TapeDrive, a subtype of MediaAccessDevice.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_TapeDrive(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   Capabilities and managment of a TapeDrive, a subtype of MediaAccessDevice.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_TapeDrive(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_TapeDrive() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("EOTWarningZoneSize", new CIMProperty("EOTWarningZoneSize",
+                CIMDataType.UINT32_T, null));
+        propertiesToCheck.put("MaxPartitionCount", new CIMProperty("MaxPartitionCount",
+                CIMDataType.UINT32_T, null));
+        propertiesToCheck.put("MaxRewindTime", new CIMProperty("MaxRewindTime",
+                CIMDataType.UINT64_T, null));
+        propertiesToCheck.put("Padding", new CIMProperty("Padding", CIMDataType.UINT32_T, null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_TapeDrive.Java_Package_List.toArray(new String[CIM_TapeDrive.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property EOTWarningZoneSize
+     *     * <br>
+     * EOTWarningZoneSize indicates the size, in bytes, of the area designated as 'end of tape'. Access in this area generates an 'end of tape' warning.
+     *     */
+
+    public javax.cim.UnsignedInteger32 get_EOTWarningZoneSize() {
+        CIMProperty currentProperty = getProperty(PROPERTY_EOTWARNINGZONESIZE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_EOTWARNINGZONESIZE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger32) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property EOTWarningZoneSize
+     * <br>
+     * EOTWarningZoneSize indicates the size, in bytes, of the area designated as 'end of tape'. Access in this area generates an 'end of tape' warning.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_TapeDrive)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_TapeDrive)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_TapeDrive)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_TapeDrive)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_TapeDrive)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_TapeDrive)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_TapeDrive)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_TapeDrive)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_TapeDrive)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_TapeDrive)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_EOTWarningZoneSize(javax.cim.UnsignedInteger32 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_EOTWARNINGZONESIZE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_EOTWarningZoneSize(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_EOTWARNINGZONESIZE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute EOTWarningZoneSize
-	
-	public UnsignedInt32 get_EOTWarningZoneSize() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_TapeDrive.CIM_PROPERTY_EOTWARNINGZONESIZE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_TapeDrive.CIM_PROPERTY_EOTWARNINGZONESIZE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_TapeDrive.CIM_PROPERTY_EOTWARNINGZONESIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt32)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_EOTWarningZoneSize(UnsignedInt32 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_TapeDrive.CIM_PROPERTY_EOTWARNINGZONESIZE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_TapeDrive.CIM_PROPERTY_EOTWARNINGZONESIZE + " could not be found");
-    		
-		} else if (!CIM_TapeDriveHelper.isValid_EOTWarningZoneSize(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_TapeDrive.CIM_PROPERTY_EOTWARNINGZONESIZE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_TapeDrive.CIM_PROPERTY_EOTWARNINGZONESIZE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT32));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute MaxPartitionCount
-	
-	public UnsignedInt32 get_MaxPartitionCount() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_TapeDrive.CIM_PROPERTY_MAXPARTITIONCOUNT);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_TapeDrive.CIM_PROPERTY_MAXPARTITIONCOUNT + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_TapeDrive.CIM_PROPERTY_MAXPARTITIONCOUNT + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt32)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_MaxPartitionCount(UnsignedInt32 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_TapeDrive.CIM_PROPERTY_MAXPARTITIONCOUNT);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_TapeDrive.CIM_PROPERTY_MAXPARTITIONCOUNT + " could not be found");
-    		
-		} else if (!CIM_TapeDriveHelper.isValid_MaxPartitionCount(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_TapeDrive.CIM_PROPERTY_MAXPARTITIONCOUNT);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_TapeDrive.CIM_PROPERTY_MAXPARTITIONCOUNT + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT32));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property EOTWarningZoneSize by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	// Attribute MaxRewindTime
-	
-	public UnsignedInt64 get_MaxRewindTime() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_TapeDrive.CIM_PROPERTY_MAXREWINDTIME);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_TapeDrive.CIM_PROPERTY_MAXREWINDTIME + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_TapeDrive.CIM_PROPERTY_MAXREWINDTIME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt64)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_MaxRewindTime(UnsignedInt64 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_TapeDrive.CIM_PROPERTY_MAXREWINDTIME);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_TapeDrive.CIM_PROPERTY_MAXREWINDTIME + " could not be found");
-    		
-		} else if (!CIM_TapeDriveHelper.isValid_MaxRewindTime(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_TapeDrive.CIM_PROPERTY_MAXREWINDTIME);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT64) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_TapeDrive.CIM_PROPERTY_MAXREWINDTIME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT64) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT64));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public static CIMProperty create_EOTWarningZoneSize(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger32 newValue) throws WbemsmtException {
+        CIM_TapeDrive fco = new CIM_TapeDrive(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_EOTWARNINGZONESIZE.NAME);
+        if (property != null) {
+            property = setPropertyValue_EOTWarningZoneSize(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_EOTWARNINGZONESIZE.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	// Attribute Padding
-	
-	public UnsignedInt32 get_Padding() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_TapeDrive.CIM_PROPERTY_PADDING);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_TapeDrive.CIM_PROPERTY_PADDING + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_TapeDrive.CIM_PROPERTY_PADDING + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt32)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_Padding(UnsignedInt32 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_TapeDrive.CIM_PROPERTY_PADDING);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_TapeDrive.CIM_PROPERTY_PADDING + " could not be found");
-    		
-		} else if (!CIM_TapeDriveHelper.isValid_Padding(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_TapeDrive.CIM_PROPERTY_PADDING);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_TapeDrive.CIM_PROPERTY_PADDING + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT32));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Set the property EOTWarningZoneSize
+     * <br>
+     * EOTWarningZoneSize indicates the size, in bytes, of the area designated as 'end of tape'. Access in this area generates an 'end of tape' warning.
+     */
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+    private static CIMProperty setPropertyValue_EOTWarningZoneSize(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger32 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property MaxPartitionCount
+     *     * <br>
+     * Maximum partition count for the TapeDrive.
+     *     */
+
+    public javax.cim.UnsignedInteger32 get_MaxPartitionCount() {
+        CIMProperty currentProperty = getProperty(PROPERTY_MAXPARTITIONCOUNT.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_MAXPARTITIONCOUNT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger32) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property MaxPartitionCount
+     * <br>
+     * Maximum partition count for the TapeDrive.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_MaxPartitionCount(javax.cim.UnsignedInteger32 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_MAXPARTITIONCOUNT.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_MaxPartitionCount(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MAXPARTITIONCOUNT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property MaxPartitionCount by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_MaxPartitionCount(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger32 newValue) throws WbemsmtException {
+        CIM_TapeDrive fco = new CIM_TapeDrive(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_MAXPARTITIONCOUNT.NAME);
+        if (property != null) {
+            property = setPropertyValue_MaxPartitionCount(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MAXPARTITIONCOUNT.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property MaxPartitionCount
+     * <br>
+     * Maximum partition count for the TapeDrive.
+     */
+
+    private static CIMProperty setPropertyValue_MaxPartitionCount(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger32 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property MaxRewindTime
+     *     * <br>
+     * Time in milliseconds to move from the most physically distant point on the tape to the beginning.
+     *     */
+
+    public javax.cim.UnsignedInteger64 get_MaxRewindTime() {
+        CIMProperty currentProperty = getProperty(PROPERTY_MAXREWINDTIME.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_MAXREWINDTIME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger64) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property MaxRewindTime
+     * <br>
+     * Time in milliseconds to move from the most physically distant point on the tape to the beginning.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_MaxRewindTime(javax.cim.UnsignedInteger64 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_MAXREWINDTIME.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_MaxRewindTime(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MAXREWINDTIME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property MaxRewindTime by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_MaxRewindTime(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger64 newValue) throws WbemsmtException {
+        CIM_TapeDrive fco = new CIM_TapeDrive(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_MAXREWINDTIME.NAME);
+        if (property != null) {
+            property = setPropertyValue_MaxRewindTime(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_MAXREWINDTIME.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property MaxRewindTime
+     * <br>
+     * Time in milliseconds to move from the most physically distant point on the tape to the beginning.
+     */
+
+    private static CIMProperty setPropertyValue_MaxRewindTime(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger64 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property Padding
+     *     * <br>
+     * Padding indicates the number of bytes inserted between blocks on a tape Media.
+     *     */
+
+    public javax.cim.UnsignedInteger32 get_Padding() {
+        CIMProperty currentProperty = getProperty(PROPERTY_PADDING.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_PADDING.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger32) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property Padding
+     * <br>
+     * Padding indicates the number of bytes inserted between blocks on a tape Media.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_Padding(javax.cim.UnsignedInteger32 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_PADDING.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_Padding(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_PADDING.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property Padding by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_Padding(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger32 newValue) throws WbemsmtException {
+        CIM_TapeDrive fco = new CIM_TapeDrive(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_PADDING.NAME);
+        if (property != null) {
+            property = setPropertyValue_Padding(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_PADDING.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property Padding
+     * <br>
+     * Padding indicates the number of bytes inserted between blocks on a tape Media.
+     */
+
+    private static CIMProperty setPropertyValue_Padding(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger32 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_TapeDrive.CIM_CLASS_NAME;
+    }
 
 }

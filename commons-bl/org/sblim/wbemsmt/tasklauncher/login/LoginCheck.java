@@ -22,15 +22,16 @@
   */
 package org.sblim.wbemsmt.tasklauncher.login;
 
-import org.sblim.wbem.client.CIMClient;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import javax.wbem.client.WBEMClient;
+
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.CimomData;
 
 public interface LoginCheck
 {
     public boolean isLoggedIn();
-    public void reloadLoginSettings() throws WbemSmtException;
-    public CIMClient getCimClient();
+    public void reloadLoginSettings() throws WbemsmtException;
+    public WBEMClient getCimClient();
 	public void setCimomData(CimomData data);
 	public boolean isUseSlp();
 	public void setUseSlp(boolean useSlp);

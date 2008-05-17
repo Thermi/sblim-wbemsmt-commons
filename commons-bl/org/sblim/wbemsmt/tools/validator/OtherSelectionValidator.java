@@ -19,12 +19,13 @@
   */
 package org.sblim.wbemsmt.tools.validator;
 
-import org.sblim.wbem.cim.UnsignedInt16;
+import javax.cim.UnsignedInteger16;
+
 import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
-import org.sblim.wbemsmt.exception.ValidationException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 import org.sblim.wbemsmt.tools.input.LabeledStringArrayInputComponentIf;
 
@@ -53,11 +54,11 @@ public class OtherSelectionValidator extends Validator {
 	/**
 	 * @see org.sblim.wbemsmt.tools.validator.Validator#validate()
 	 */
-	public void validateElement(MessageList result) throws ValidationException {
+	public void validateElement(MessageList result) throws WbemsmtException {
 		
 		if (!component.isEmpty())
 		{
-			UnsignedInt16 idx = (UnsignedInt16) component.getConvertedControlValue();
+			UnsignedInteger16 idx = (UnsignedInteger16) component.getConvertedControlValue();
 			if (idx != null)
 			{
 				String valueSet =  values[idx.intValue()];

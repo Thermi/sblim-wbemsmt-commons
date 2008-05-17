@@ -20,8 +20,9 @@
 
 package org.sblim.wbemsmt.tools.converter.multiplevalue;
 
+import javax.cim.UnsignedInteger16;
+
 import org.apache.commons.lang.ClassUtils;
-import org.sblim.wbem.cim.UnsignedInt16;
 import org.sblim.wbemsmt.tools.converter.StringArrayConverter;
 
 public class UnsignedInt16StringArrayConverter extends MultipleValueConverter implements StringArrayConverter {
@@ -31,11 +32,11 @@ public class UnsignedInt16StringArrayConverter extends MultipleValueConverter im
 	}
 
 	protected Object getTypeWithInt(int ii) {
-		return new UnsignedInt16(ii);
+		return new UnsignedInteger16(ii);
 	}
 	
 	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInt16.class);
+		return ClassUtils.getShortClassName(UnsignedInteger16.class);
 	}	
 	
 }

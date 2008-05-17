@@ -19,6 +19,8 @@
   */
 package org.sblim.wbemsmt.bl.metric;
 
+import javax.wbem.WBEMException;
+
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricDefinitionIf;
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricValueIf;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
@@ -29,6 +31,7 @@ public interface MetricCalculator {
 	 * calculate the value
 	 * @param value
 	 * @return
+	 * @throws WBEMException 
 	 */
 	public String calculate(CIM_BaseMetricDefinitionIf definitionIf, CIM_BaseMetricValueIf value, WbemSmtResourceBundle bundle);
 	

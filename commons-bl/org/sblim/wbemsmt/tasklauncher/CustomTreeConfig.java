@@ -24,17 +24,14 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.sblim.wbem.client.CIMClient;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import javax.wbem.client.WBEMClient;
+
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.filter.EmbeddedFilter;
 import org.sblim.wbemsmt.lookup.Lookup;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.CimomData;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.TreeConfigData;
-import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CimclassDocument;
-import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CustomtreeconfigDocument;
-import org.sblim.wbemsmt.tasklauncher.customtreeconfig.EventListenerDocument;
-import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument;
-import org.sblim.wbemsmt.tasklauncher.customtreeconfig.Version;
+import org.sblim.wbemsmt.tasklauncher.customtreeconfig.*;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.ContextmenuDocument.Contextmenu;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.CustomtreeconfigDocument.Customtreeconfig;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
@@ -50,9 +47,9 @@ public class CustomTreeConfig
 	private boolean loaded = false;
 	private Contextmenu commonContextMenue;
 	private final CimomData cimomData;
-	private final CIMClient cimClient;
+	private final WBEMClient cimClient;
 
-    public CustomTreeConfig(TreeConfigData configData, CimomData cimomData, CIMClient cimClient)
+    public CustomTreeConfig(TreeConfigData configData, CimomData cimomData, WBEMClient cimClient)
     {
         this.treeConfigData = configData;
 		this.cimomData = cimomData;
@@ -202,21 +199,21 @@ public class CustomTreeConfig
 		this.loaded = loaded;
 	}
 
-	public boolean serverTaskExists(CIMClient cimClient) {
+	public boolean serverTaskExists(WBEMClient cimClient) {
 		String className = treeConfigData.getLookupClass();
 		if (className != null)
 		{
 			try {
 				Lookup lookup = (Lookup) Class.forName(className).newInstance();
-				return lookup.lookup(cimClient);
+				return lookup.lookup(cimClient,treeConfigData.getNamespace());
 			} catch (Exception e) {
-				logger.log(Level.SEVERE,"Cannot lokup with class " + className + " on server " + cimClient.getNameSpace().toString(),e);
+				logger.log(Level.SEVERE,"Cannot lokup with class " + className + " on server " + getCimomData().getInfo(),e);
 			}
 		}
 		return false;
 	}
 
-	private void checkVersion(URL url, Customtreeconfig treeconfig) throws WbemSmtException {
+	private void checkVersion(URL url, Customtreeconfig treeconfig) throws WbemsmtException {
 
 		boolean found = false;
 		
@@ -230,7 +227,7 @@ public class CustomTreeConfig
 		if (!found)
 		{
 			String msg = "Model-Version " + treeconfig.getVersion() + " of " + url + " is not supported.\nPlease upgrade to Version " + SUPPORTED_VERSIONS_TREE_CONFIG;
-			throw new WbemSmtException(msg);			
+			throw new WbemsmtException(WbemsmtException.ERR_FAILED, msg);			
 		}
 		
 	}
@@ -239,7 +236,7 @@ public class CustomTreeConfig
 		return commonContextMenue;
 	}
 
-	public CIMClient getCimClient() {
+	public WBEMClient getCimClient() {
 		return cimClient;
 	}
 

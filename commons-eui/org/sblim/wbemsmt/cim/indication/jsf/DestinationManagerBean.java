@@ -19,9 +19,20 @@
   */
 package org.sblim.wbemsmt.cim.indication.jsf;
 
+import java.util.Map;
+
 import org.sblim.wbemsmt.cim.indication.IndicationDestinationManager;
 
 public class DestinationManagerBean extends IndicationDestinationManager {
 	
+    public Map getPresets()
+    {
+        return presets;
+    }
+
+    public void setPresets(Map presets)
+    {
+        this.presets = presets;
+    }
 	
 }

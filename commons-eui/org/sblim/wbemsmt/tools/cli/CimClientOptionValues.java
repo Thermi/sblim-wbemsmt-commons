@@ -14,7 +14,7 @@
   *
   * Contributors: 
   * 
-  * Description: Options needed to create a CIMClient
+  * Description: Options needed to create a WBEMClient
   * 
   */
 package org.sblim.wbemsmt.tools.cli;

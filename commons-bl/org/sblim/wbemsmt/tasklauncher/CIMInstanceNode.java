@@ -21,14 +21,16 @@ package org.sblim.wbemsmt.tasklauncher;
 import java.io.Serializable;
 import java.util.logging.Level;
 
-import org.sblim.wbem.cim.CIMInstance;
-import org.sblim.wbem.client.CIMClient;
-import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
+import javax.cim.CIMInstance;
+import javax.wbem.client.WBEMClient;
+
+import org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFco;
 import org.sblim.wbemsmt.bl.tree.ICIMInstanceNode;
-import org.sblim.wbemsmt.exception.InstanceNamingException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.TreenodeDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.EventListenerDocument.EventListener;
 import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNaming;
+import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNamingFactory;
 
 /**
  * Simple TreeNode to represent an CIM instance.
@@ -40,9 +42,9 @@ public class CIMInstanceNode extends TaskLauncherTreeNode implements Serializabl
 {
 	static final long serialVersionUID = 1234l;
     private CIMInstance cimInstance;
-    private CIM_ObjectIf cimObject;
+    private AbstractWbemsmtFco cimObject;
     
-    public CIMInstanceNode(CIMClient cimClient, TreenodeDocument.Treenode xmlconfigNode, CIMInstance cimInstance)
+    public CIMInstanceNode(WBEMClient cimClient, TreenodeDocument.Treenode xmlconfigNode, CIMInstance cimInstance)
     {
         this(cimClient, xmlconfigNode, null,cimInstance);
     }
@@ -53,7 +55,7 @@ public class CIMInstanceNode extends TaskLauncherTreeNode implements Serializabl
      * @param name
      * @param cimInstance
      */
-    public CIMInstanceNode(CIMClient cimClient, TreenodeDocument.Treenode xmlconfigNode, String name, CIMInstance cimInstance)
+    public CIMInstanceNode(WBEMClient cimClient, TreenodeDocument.Treenode xmlconfigNode, String name, CIMInstance cimInstance)
     {
     	super(cimClient, xmlconfigNode, (name != null) ? name : cimInstance.getClassName());
     	this.cimInstance = cimInstance;
@@ -96,11 +98,11 @@ public class CIMInstanceNode extends TaskLauncherTreeNode implements Serializabl
 		return CIMInstanceNode.class.getName() + name + "; " + cimInstance.getObjectPath();
 	}
 
-	public CIM_ObjectIf getCimObject() {
+	public AbstractWbemsmtFco getCimObject() {
 		return cimObject;
 	}
 
-	public void setCimObject(CIM_ObjectIf cimObject) {
+	public void setCimObject(AbstractWbemsmtFco cimObject) {
 		this.cimObject = cimObject;
 	}
 	
@@ -140,7 +142,7 @@ public class CIMInstanceNode extends TaskLauncherTreeNode implements Serializabl
 				} else {
 					return cimInstanceNaming.getDisplayString(cimInstance,cimClient);
 				}
-			} catch (InstanceNamingException e) {
+			} catch (WbemsmtException e) {
 				logger.log(Level.SEVERE, "Cannot get Naming for TreeNode",e);
 			}    		
     	}

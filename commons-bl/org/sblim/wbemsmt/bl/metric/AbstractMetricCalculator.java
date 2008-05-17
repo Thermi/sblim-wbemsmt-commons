@@ -22,6 +22,8 @@ package org.sblim.wbemsmt.bl.metric;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.wbem.WBEMException;
+
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricDefinitionIf;
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricValueIf;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
@@ -49,5 +51,5 @@ public abstract class AbstractMetricCalculator implements MetricCalculator {
 	 * @param bundle
 	 * @return
 	 */
-	protected abstract String doCalculate(CIM_BaseMetricDefinitionIf definition, CIM_BaseMetricValueIf value, WbemSmtResourceBundle bundle);
+	protected abstract String doCalculate(CIM_BaseMetricDefinitionIf definition, CIM_BaseMetricValueIf value, WbemSmtResourceBundle bundle) throws WBEMException;
 }

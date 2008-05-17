@@ -30,11 +30,11 @@ import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.sblim.wbem.client.CIMClient;
+import org.apache.xmlbeans.impl.values.XmlValueOutOfRangeException;
 import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.MessageUtil;
-import org.sblim.wbemsmt.exception.ModelLoadException;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.ExceptionUtil;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.filter.EmbeddedFilter;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.CimomDocument;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TasklauncherconfigDocument;
@@ -43,7 +43,6 @@ import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.Version;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.CimomDocument.Cimom;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.ConfigurationDefinitionDocument.ConfigurationDefinition;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.ConfigurationValueDocument.ConfigurationValue;
-import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.FcoPackageDocument.FcoPackage;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.ResourceBundleDocument.ResourceBundle;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TasklauncherconfigDocument.Tasklauncherconfig;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TreeconfigDocument.Treeconfig;
@@ -58,7 +57,6 @@ import org.sblim.wbemsmt.tools.slp.SLPHostDefinition;
 import org.sblim.wbemsmt.tools.slp.SLPLoader;
 import org.sblim.wbemsmt.tools.slp.SLPUtil;
 
-// class to separate the config information from the xml layer...  this class could use a database aswell
 public class TaskLauncherConfig
 {
 	
@@ -86,9 +84,10 @@ public class TaskLauncherConfig
 	
 	public final static int DEFAULT_PORT = 5988;
 
-	public static final Enum VERSION_FOR_CREATE = Version.VERSION_2_5;
+	public static final Enum VERSION_FOR_CREATE = Version.VERSION_2_6;
 
-	private static final Enum[] SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS = new Enum[]{Version.VERSION_2_5};
+	private static final Enum[] SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS = new Enum[]{Version.VERSION_2_6};
+    private static final String SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS_STRING = ""+Version.VERSION_2_6;
 
 	public static final String HTTP = "http";
 	public static final int HTTP_PORT_DEFAULT = 5988;
@@ -121,9 +120,9 @@ public class TaskLauncherConfig
 	/**
 	 * @param configFilename set to null if default behaviour is wanted (configuration-File created by TASKLAUNCHER_CONFIG_XML and getConfigDirectory)
 	 * @param treeConfigs List with TreeConfigData-Objects. Can be used to filter all those tasks which are not in the List
-	 * @throws WbemSmtException
+	 * @throws WbemsmtException
 	 */
-    public TaskLauncherConfig(String configFilename, List treeConfigs, boolean useSlp, SLPLoader slpLoader) throws WbemSmtException
+    public TaskLauncherConfig(String configFilename, List treeConfigs, boolean useSlp, SLPLoader slpLoader) throws WbemsmtException
     {
     	this.configFilename = configFilename;
 		this.treeConfigs = treeConfigs;
@@ -139,7 +138,7 @@ public class TaskLauncherConfig
         this.treeConfigData = new Vector();
 	}
 
-    private void readConfig() throws WbemSmtException
+    private void readConfig() throws WbemsmtException
     {
         this.emptyCimomData();
         
@@ -156,7 +155,7 @@ public class TaskLauncherConfig
 			//if no cimoms were found
 //			if (tasklauncherConfigDoc.getTasklauncherconfig().getCimomArray().length == 0)
 //			{
-//	        	throw new WbemSmtException(bundle.getString("no.hosts.in.config.file", new Object[]{configFile.getAbsolutePath()}));
+//	        	throw new WbemsmtException(bundle.getString("no.hosts.in.config.file", new Object[]{configFile.getAbsolutePath()}));
 //			}
 			
 			if (useSlp)
@@ -166,28 +165,33 @@ public class TaskLauncherConfig
         }
         catch(Exception e)
         {
-        	logger.log(Level.SEVERE, "Error while loading config file.", e);
-        	throw new WbemSmtException(bundle.getString("cannot.load.config.file", new Object[]{configFile.getAbsolutePath()}),e);
+        	throw new WbemsmtException(WbemsmtException.ERR_FAILED,bundle.getString("cannot.load.config.file", new Object[]{configFile.getAbsolutePath(),e.getMessage()}),e);
         }
     }
 
-	private void checkVersion(File f, Tasklauncherconfig tasklauncherconfig) throws WbemSmtException {
+	private void checkVersion(File f, Tasklauncherconfig tasklauncherconfig) throws WbemsmtException {
 		
-		
-		boolean found = false;
-		
-		for (int i = 0; i < SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS.length; i++) {
-			Object version = SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS[i];
-			if (tasklauncherconfig.getVersion() != null && tasklauncherconfig.getVersion().equals(version))
-			{
-				found = true;
-			}
-		}
-		if (!found)
-		{
-			String msg = "Model-Version " + tasklauncherconfig.getVersion() + " of file " + f.getAbsolutePath() + " is not supported.\nPlease upgrade to Version " + SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS;
-			throw new WbemSmtException(msg);			
-		}
+	    String versionInConfig = tasklauncherconfig.getDomNode().getAttributes().getNamedItem("version").getNodeValue();
+		try {
+            boolean found = false;
+            
+            for (int i = 0; i < SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS.length; i++) {
+            	Object version = SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS[i];
+            	if (tasklauncherconfig.getVersion() != null && tasklauncherconfig.getVersion().equals(version))
+            	{
+            		found = true;
+            	}
+            }
+            if (!found)
+            {
+                String msg = "Model-Version " + versionInConfig + " of file " + f.getAbsolutePath() + " is not supported.\nPlease upgrade to Version " + SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS_STRING;
+            	throw new WbemsmtException(WbemsmtException.ERR_FAILED, msg);			
+            }
+        }
+        catch (XmlValueOutOfRangeException e) {
+            String msg = "Model-Version " + versionInConfig + " of file " + f.getAbsolutePath() + " is not supported.\nPlease upgrade to Version " + SUPPORTED_VERSION_TASKLAUNCHER_CONFIGS_STRING;
+            throw new WbemsmtException(WbemsmtException.ERR_FAILED, msg,e);           
+        }
 	}
 
 	private void readConfig(TasklauncherconfigDocument tasklauncherConfig) {
@@ -287,7 +291,7 @@ public class TaskLauncherConfig
         this.treeConfigData.add(new TreeConfigData(treeconfig));
     }
     
-    public Vector getTreeConfigDataByHostname(String cimomHostname)
+    public Vector getTreeConfigDataByHostname(String cimomHostname) throws WbemsmtException
     {
         for (Iterator iter = this.cimomData.iterator(); iter.hasNext();) {
 			CimomData cimomData = (CimomData) iter.next();
@@ -295,22 +299,29 @@ public class TaskLauncherConfig
 			//Try to resolve the hostname because 
 			//If the admin defined in the config-File the host on a per name basis and slp returns the IP-Address, and user wants to read configured tasks with
 			//SLP the ipAddress and the hostname is compared and the cimom is not found
+			InetAddress address1;
+			InetAddress address2;
 			try {
-				InetAddress address1 = InetAddress.getByName(cimomData.getHostname());
-				InetAddress address2 = InetAddress.getByName(cimomHostname);
-				
-				if (address1.getHostAddress().equals(address2.getHostAddress()))
-				{
-					return cimomData.getTreeConfigs();
-				}
-			} catch (UnknownHostException e) {
-				//Try at least to compare the hostnames
-				logger.log(Level.SEVERE,"Cannot lookup host " + cimomData.getHostname());
-				if (cimomData.getHostname().equals(cimomHostname))
-				{
-					return cimomData.getTreeConfigs();
-				}
-			}
+                address1 = InetAddress.getByName(cimomData.getHostname());
+                try {
+                    address2 = InetAddress.getByName(cimomHostname);
+                    if (address1.getHostAddress().equals(address2.getHostAddress()))
+                    {
+                        return cimomData.getTreeConfigs();
+                    }
+                } catch (UnknownHostException e) {
+                    WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages"});
+                    throw new WbemsmtException(WbemsmtException.ERR_NOT_CONNECTED, bundle.getString("unknown.host",new Object[]{cimomHostname}),e);
+                }
+            }
+            catch (UnknownHostException e1) {
+                //Try at least to compare the hostnames
+                logger.log(Level.SEVERE,"Cannot lookup host " + cimomData.getHostname());
+                if (cimomData.getHostname().equals(cimomHostname))
+                {
+                    return cimomData.getTreeConfigs();
+                }
+            }
 		}
         return new Vector();
     }
@@ -432,20 +443,6 @@ public class TaskLauncherConfig
 				throw new RuntimeException(RuntimeUtil.getInstance().getRuntime() + " is not supported");
 			}
 
-			FcoPackage[] packages = treeconfig.getFcoPackageArray();
-            for (int i = 0; i < packages.length; i++) {
-				FcoPackage pkg = packages[i];
-				if (RuntimeUtil.getInstance().isJSF())
-				{
-					ILocaleManager localeManager = (ILocaleManager) BeanNameConstants.LOCALE_MANAGER.getBoundValue(FacesContext.getCurrentInstance()); 
-					localeManager.addFcoPackage(name,pkg.getName());
-				}
-				else
-				{
-					throw new RuntimeException(RuntimeUtil.getInstance().getRuntime() + " is not supported");
-				}
-			}
-            
             ConfigurationDefinition[] definitions = treeconfig.getConfigurationDefinitionArray();
             for (int i = 0; i < definitions.length; i++) {
 				ConfigurationDefinition definition = definitions[i];
@@ -761,7 +758,7 @@ public class TaskLauncherConfig
 		return hasConfiguration;
 	}
 
-	public String getConfigFile() throws ModelLoadException {
+	public String getConfigFile() throws WbemsmtException {
 		
 		String filename = getUsedConfigFilename();
 		File f = new File(filename);
@@ -792,7 +789,7 @@ public class TaskLauncherConfig
 		return filename;
 	}
 
-	private void createTasklauncherConfig(File f) throws ModelLoadException {
+	private void createTasklauncherConfig(File f) throws WbemsmtException {
 		
 		TasklauncherconfigDocument document = TasklauncherconfigDocument.Factory.newInstance();
 		Tasklauncherconfig tasklauncherconfig = document.addNewTasklauncherconfig();
@@ -823,7 +820,7 @@ public class TaskLauncherConfig
 			}
 			document.save(f);
 		} catch (IOException e) {
-			throw new ModelLoadException("Error occured while loading config-data. Cannot save default config " + f,e);
+			throw new WbemsmtException(WbemsmtException.ERR_LOADING_MODEL,"Error occured while loading config-data. Cannot save default config " + f,e);
 		}
 	}
 
@@ -845,7 +842,7 @@ public class TaskLauncherConfig
 				checkVersion(taskXML, tasklauncherconfigToAdd);
 				configs.add(tasklauncherconfigToAdd.getTreeconfigArray(0));
 			} catch (Exception e) {
-				logger.log(Level.SEVERE,"Cannot load xml-Taskfile " + taskXML,e);
+				ExceptionUtil.handleException(e);
 			}
 		}
 		Treeconfig[] treeconfigs = (Treeconfig[]) configs.toArray(new Treeconfig[configs.size()]);
@@ -900,7 +897,7 @@ public class TaskLauncherConfig
 				throw new FileNotFoundException(tasksDir.getAbsolutePath());
 			} catch (FileNotFoundException e) {
 				logger.log(Level.SEVERE, "Cannot find taskdirectory", e);
-				MessageUtil.addMessage(ErrCodes.MSGDEF_TASKSLAUNCHER_D_NOT_FOUND, new String[]{"messages"}, new Object[]{getConfigDirectory() + TASKS_DIR});
+				MessageUtil.addMessage(ErrCodes.MSGDEF_TASKSLAUNCHER_D_NOT_FOUND, null, new String[]{"messages"}, new Object[]{getConfigDirectory() + TASKS_DIR});
 			}
 			return new File[]{};
 		}
@@ -919,7 +916,7 @@ public class TaskLauncherConfig
 			}
 			if (files.length == 0)
 			{
-				MessageUtil.addMessage(ErrCodes.MSGDEF_NO_TASKS_FOUND, new String[]{"messages"}, new Object[]{getConfigDirectory() + TASKS_DIR});
+				MessageUtil.addMessage(ErrCodes.MSGDEF_NO_TASKS_FOUND, null, new String[]{"messages"}, new Object[]{getConfigDirectory() + TASKS_DIR});
 			}
 			
 			return files;
@@ -942,13 +939,5 @@ public class TaskLauncherConfig
 		return tasklauncherConfigDoc;
 	}
 
-	public static CimomData getDefaultCimomData(CIMClient cimClient) {
-		return new CimomData(cimClient.getNameSpace().getHost(), 
-							 cimClient.getNameSpace().getPort(),
-							 cimClient.getNameSpace().getHostURL().getProtocol(),
-							 cimClient.getSessionProperties().getDefaultPrincipal());
-	}
-
-	
 	
 }

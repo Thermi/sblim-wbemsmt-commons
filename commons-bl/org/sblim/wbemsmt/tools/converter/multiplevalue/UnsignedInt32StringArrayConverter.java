@@ -20,18 +20,19 @@
 
 package org.sblim.wbemsmt.tools.converter.multiplevalue;
 
+import javax.cim.UnsignedInteger32;
+
 import org.apache.commons.lang.ClassUtils;
-import org.sblim.wbem.cim.UnsignedInt32;
 import org.sblim.wbemsmt.tools.converter.StringArrayConverter;
 
 public class UnsignedInt32StringArrayConverter extends MultipleValueConverter implements StringArrayConverter {
 
 
 	protected Object getTypeWithInt(int ii) {
-		return new UnsignedInt32(ii);
+		return new UnsignedInteger32(ii);
 	}
 	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInt32.class);
+		return ClassUtils.getShortClassName(UnsignedInteger32.class);
 	}	
 	
 }

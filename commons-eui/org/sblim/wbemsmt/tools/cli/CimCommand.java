@@ -24,20 +24,17 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.wbem.CloseableIterator;
+import javax.wbem.client.WBEMClient;
+
 import org.apache.commons.cli.*;
 import org.apache.commons.lang.ClassUtils;
-import org.sblim.wbem.cim.CIMNameSpace;
-import org.sblim.wbem.client.CIMClient;
-import org.sblim.wbem.client.PasswordCredential;
-import org.sblim.wbem.client.UserPrincipal;
-import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
-import org.sblim.wbemsmt.bl.adapter.DataContainer;
-import org.sblim.wbemsmt.bl.adapter.Message;
-import org.sblim.wbemsmt.bl.adapter.MessageList;
+import org.sblim.wbemsmt.bl.adapter.*;
+import org.sblim.wbemsmt.cim.CIMClientPool;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
-import org.sblim.wbemsmt.exception.LoginException;
-import org.sblim.wbemsmt.exception.ObjectUpdateException;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
+import org.sblim.wbemsmt.exception.impl.LoginException;
+import org.sblim.wbemsmt.exception.impl.userobject.LoginUserObject;
 import org.sblim.wbemsmt.session.WbemsmtSession;
 import org.sblim.wbemsmt.tools.converter.StringArrayConverter;
 import org.sblim.wbemsmt.tools.input.ActionComponent;
@@ -72,22 +69,22 @@ public abstract class CimCommand {
 	 * executes the command
 	 * to be implemented by the real commandlet
 	 * @param values The values needed to execute a CimCommand 
-	 * @throws WbemSmtException
+	 * @throws WbemsmtException
 	 */
-	public abstract void execute(CimCommandValues values) throws WbemSmtException;
+	public abstract void execute(CimCommandValues values) throws WbemsmtException;
 
-	public abstract Options getOptions() throws WbemSmtException;
-	public abstract Options getLocalOptions() throws WbemSmtException;
-	public abstract Options getGlobalWbemsmtCommonOptions() throws WbemSmtException;
-	public abstract Options getGlobalWbemsmtCommunicationOptions() throws WbemSmtException;
-	public abstract Options getGlobalTaskOptions() throws WbemSmtException;
+	public abstract Options getOptions() throws WbemsmtException;
+	public abstract Options getLocalOptions() throws WbemsmtException;
+	public abstract Options getGlobalWbemsmtCommonOptions() throws WbemsmtException;
+	public abstract Options getGlobalWbemsmtCommunicationOptions() throws WbemsmtException;
+	public abstract Options getGlobalTaskOptions() throws WbemsmtException;
 	/**
 	 * prepare the command
 	 * to be implemented by the real commandlet
 	 * @param args The argument from commandline (the first argument is the commandname and this argument has already been cut off) 
-	 * @throws WbemSmtException
+	 * @throws WbemsmtException
 	 */
-	public CimCommandValues prepare(String[] args) throws WbemSmtException
+	public CimCommandValues prepare(String[] args) throws WbemsmtException
 	{
 		
 		CimCommandValues values = new CimCommandValues();
@@ -181,9 +178,9 @@ public abstract class CimCommand {
 	 * @param cmd
 	 * @param ipc
 	 * @param definition
-	 * @throws WbemSmtException 
+	 * @throws WbemsmtException 
 	 */
-	protected void setMultiValue(WbemSmtResourceBundle bundle, CommandLine cmd, LabeledBaseInputComponentIf ipc, OptionDefinition definition) throws WbemSmtException {
+	protected void setMultiValue(WbemSmtResourceBundle bundle, CommandLine cmd, LabeledBaseInputComponentIf ipc, OptionDefinition definition) throws WbemsmtException {
 		String value = getOptionValue(cmd, definition);
 		
 		if (value != null && !NO_DEFAULT_VALUE.equals(value))
@@ -216,7 +213,7 @@ public abstract class CimCommand {
 						possibleValues = bundle.getString("no.values.for.selection");
 					}
 				}
-				throw new WbemSmtException(bundle.getString("cannot.set.value",new Object[]{ipc.getLabelText(),value,possibleValues}));
+				throw new WbemsmtException(WbemsmtException.ERR_FAILED,bundle.getString("cannot.set.value",new Object[]{ipc.getLabelText(),value,possibleValues}));
 			}
 			
 		}
@@ -248,9 +245,9 @@ public abstract class CimCommand {
 	 * was requested and the user had choosen to deny the action
 	 * 
 	 * So the calling commandline can abort the current action if the method returns false
-	 * @throws ObjectUpdateException
+	 * @throws WbemsmtException
 	 */
-	protected boolean pressButton(CommandLine cmd, AbstractBaseCimAdapter adapter, DataContainer dc, LabeledBaseInputComponentIf ipc, OptionDefinition definition) throws ObjectUpdateException {
+	protected boolean pressButton(CommandLine cmd, AbstractBaseCimAdapter adapter, DataContainer dc, LabeledBaseInputComponentIf ipc, OptionDefinition definition) throws WbemsmtException {
 
 		if (ipc instanceof ActionComponent)
 		{
@@ -266,7 +263,7 @@ public abstract class CimCommand {
 						return false;
 					}
 				} catch (IOException e) {
-					throw new ObjectUpdateException("Cannot get the Confirmation for Component " + ipc.getLabelText(), e);
+					throw new WbemsmtException(WbemsmtException.ERR_UPDATE_OBJECT,"Cannot get the Confirmation for Component " + ipc.getLabelText(), e);
 				}
 			}
 			
@@ -278,7 +275,7 @@ public abstract class CimCommand {
 			return true;
 		}
 		
-		throw new ObjectUpdateException("Component is no ActionComponent");
+		throw new WbemsmtException(WbemsmtException.ERR_UPDATE_OBJECT,"Component is no ActionComponent");
 		
 	}		
 	
@@ -404,10 +401,10 @@ public abstract class CimCommand {
 	 * @param user
 	 * @param password
 	 * @return
-	 * @throws LoginException 
+	 * @throws WbemsmtException 
 	 */
-	protected CIMClient getCimClient(PrintStream out, CommandLine cmd,CimClientOptionValues clientOptons
-			) throws LoginException {
+	protected WBEMClient getCimClient(PrintStream out, CommandLine cmd,CimClientOptionValues clientOptons
+			) throws WbemsmtException {
 
 		String server = CliUtil.getOption(cmd,clientOptons.getHost());
 		String strPort = CliUtil.getOption(cmd,clientOptons.getPort());
@@ -416,24 +413,24 @@ public abstract class CimCommand {
 		String userName = CliUtil.getOption(cmd,clientOptons.getUser());
 		String strPassword = CliUtil.getOption(cmd,clientOptons.getPassword());
 	
-		UserPrincipal userPrincipal      = new UserPrincipal(userName);
-		PasswordCredential passwordCredential = new PasswordCredential(strPassword.toCharArray());		
-		CIMNameSpace cimNameSpace       = new CIMNameSpace(url);
-					
-		out.println(bundle.getString("connectToServer", new Object[]{url,userName}));
+		namespace = CIMClientPool.cleanupNamespace(namespace);
 		
-		CIMClient cimClient = null;
 		try {
-			WbemsmtSession.getSession().createCIMClientPool(server,strPort,userName,strPassword);
+			out.println(bundle.getString("connectToServer", new Object[]{url,userName}));
+			
+			WBEMClient cimClient = null;
+			WbemsmtSession.getSession().createCIMClientPool("http",server,strPort,userName,strPassword);
 			cimClient = WbemsmtSession.getSession().getCIMClientPool(server).getCIMClient(namespace);
-			cimClient.enumerateClassNames();
+			
+			CloseableIterator it = cimClient.enumerateClasses(new javax.cim.CIMObjectPath("CIM_ManagedElement",namespace),false,false,false,false);
+			if (it.hasNext()) {
+				it.next();
+			}
+
 			return cimClient;
 		} catch (Exception e) {
-			if (cimClient == null)
-			{
-				cimClient =  new CIMClient(cimNameSpace, userPrincipal, passwordCredential);
-			}
-			throw new LoginException(e,cimClient);
+			WbemsmtException e1 = new LoginException(e, new LoginUserObject(userName + "@http://" + server + ":" + strPort + "/" + namespace));
+            throw e1;
 		}
 	}
 
@@ -520,17 +517,29 @@ public abstract class CimCommand {
 	{
 		if (messageList.size() > 0)
 		{
-			commandValues.getOut().println(caption.toLocalizedString(bundle,true));
+			PrintWriter out = commandValues.getOut();
+            out.println(caption.getMessageString());
 			for (Iterator iter = messageList.iterator(); iter.hasNext();) {
 				Message msg = (Message) iter.next();
 				if (msg.isError())
 				{
-					commandValues.getErr().println(msg.toLocalizedString(bundle,true));
+					out = commandValues.getErr();
 				}
 				else
 				{
-					commandValues.getOut().println(msg.toLocalizedString(bundle,true));
+				    out = commandValues.getOut();
 				}
+				out.println(msg.getMessageString());
+				
+				if (msg.getRequiredInput() == Message.INPUT_YES_NO)
+				{
+                    queryInput(out, msg, bundle.getString("yes"), bundle.getString("no"));
+				}
+				else if (msg.getRequiredInput() == Message.INPUT_OK_CANCEL)
+                {
+                    queryInput(out, msg, bundle.getString("ok"), bundle.getString("cancel"));
+                }
+				
 			}
 			if (Cli.testMode)
 			{
@@ -538,6 +547,28 @@ public abstract class CimCommand {
 			}
 		}
 	}
+
+    private void queryInput(PrintWriter out, Message msg, String positivAnswer, String negativeAnswer) {
+        String line = "";
+        while (!line.equalsIgnoreCase(positivAnswer) && !line.equalsIgnoreCase(negativeAnswer) )
+        {
+            out.println(positivAnswer + "/" + negativeAnswer);
+            BufferedReader reader = new BufferedReader(commandValues.getIn());
+            try {
+                line = reader.readLine();
+            }
+            catch (IOException e) {
+                //do nothing
+                break;
+            }
+        }
+        if (line.equalsIgnoreCase(positivAnswer) || line.equalsIgnoreCase(negativeAnswer))
+        {
+            int action = positivAnswer.equals(line) ? MessageInputEvent.YES : MessageInputEvent.NO; 
+            MessageInputEvent event = new MessageInputEvent(action);
+            msg.getMessageInputHandler().handleInput(event);
+        }
+    }
 
 	/**
 	 * traces the error Messages
@@ -637,12 +668,7 @@ public abstract class CimCommand {
 		}
 		else
 		{
-			//first search for the deepest WbemSmtException
-			WbemSmtException smtException = (WbemSmtException) ExceptionUtil.findDeepest(WbemSmtException.class, t);
-			
-			Message msg = ExceptionUtil.getEnduserExceptionText(t, locale, bundle, bundle, smtException, Level.FINE, "\n");
-			
-			commandValues.getErr().println(bundle.getString("error.while.execution") + "\n" + msg.getMessageString());
+			ExceptionUtil.handleException(t,commandValues.getErr());
 		}
 	}
 	

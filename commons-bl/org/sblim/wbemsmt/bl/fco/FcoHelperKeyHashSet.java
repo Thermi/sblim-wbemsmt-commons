@@ -21,6 +21,8 @@ package org.sblim.wbemsmt.bl.fco;
 
 import java.util.HashSet;
 
+import org.sblim.wbemsmt.bl.adapter.DataContainer;
+
 public class FcoHelperKeyHashSet extends HashSet {
 
 	/**

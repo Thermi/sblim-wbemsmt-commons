@@ -30,10 +30,18 @@ public interface LabeledBaseHeaderComponentIf {
 	public abstract void setLabelText(String labelText);
 	
 	/**
+	 * get the label text
+	 * @return the labelText
+	 */
+	public abstract String getLabelText();
+
+	/**
 	 * Gets the ComponentProperties of the InputField
 	 * If values are changed in the ComponentProperties the ComponentProperties 
 	 * calls all his registered ComponentPropertyChangListener 
 	 * @return
 	 */
 	public ComponentProperties getProperties();
+	
+	
 }

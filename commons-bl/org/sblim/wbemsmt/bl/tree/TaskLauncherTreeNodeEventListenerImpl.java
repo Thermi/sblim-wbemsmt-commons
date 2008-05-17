@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
@@ -41,7 +41,7 @@ public abstract class TaskLauncherTreeNodeEventListenerImpl implements TaskLaunc
         this.parameters = new Properties();
     }
 
-    public String processEvent(TaskLauncherTreeNodeEvent event) throws WbemSmtException
+    public String processEvent(TaskLauncherTreeNodeEvent event) throws WbemsmtException
     {
     	return "";
     }

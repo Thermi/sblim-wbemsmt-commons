@@ -24,19 +24,15 @@
 package org.sblim.wbemsmt.bl.adapter;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import javax.wbem.client.WBEMClient;
 
 import org.apache.commons.collections.MultiHashMap;
 import org.apache.commons.collections.MultiMap;
-import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.tools.resources.LocaleManager;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
@@ -65,7 +61,7 @@ public class CimAdapterFactory {
 	 * @param fc
 	 * @return
 	 */
-	public AbstractBaseCimAdapter getAdapter(Class adapterClass, FacesContext fc,CIMClient client)
+	public AbstractBaseCimAdapter getAdapter(Class adapterClass, FacesContext fc,WBEMClient client)
 	{
 		return getAdapter(adapterClass, fc,client,true);
 	}
@@ -79,7 +75,7 @@ public class CimAdapterFactory {
 	 * @param createNew
 	 * @return null if !createNew and the adapter was not found
 	 */
-	public AbstractBaseCimAdapter getAdapter(Class adapterClass, FacesContext fc,CIMClient client, boolean createNew)
+	public AbstractBaseCimAdapter getAdapter(Class adapterClass, FacesContext fc,WBEMClient client, boolean createNew)
 	{
 		try {
 			AbstractBaseCimAdapter result = null;
@@ -108,7 +104,7 @@ public class CimAdapterFactory {
 	 * @param createNew
 	 * @return null if the adapter was not found or the current Runtime mode is not supported - Currently supported is only JSF
 	 */
-	public AbstractBaseCimAdapter getAdapter(String taskname, CIMClient client)
+	public AbstractBaseCimAdapter getAdapter(String taskname, WBEMClient client)
 	{
 		if (RuntimeUtil.getInstance().isJSF())
 		{
@@ -126,7 +122,7 @@ public class CimAdapterFactory {
 	 * @param createNew
 	 * @return null if the adapter was not found
 	 */
-	public AbstractBaseCimAdapter getAdapter(String taskname, FacesContext fc,CIMClient client)
+	public AbstractBaseCimAdapter getAdapter(String taskname, FacesContext fc,WBEMClient client)
 	{
 		try {
 			AbstractBaseCimAdapter result = null;
@@ -146,7 +142,7 @@ public class CimAdapterFactory {
 	 * @param context
 	 * @param cimClient
 	 */
-	public void setAdapter(String taskName, FacesContext fc, CIMClient client, AbstractBaseCimAdapter adapter) {
+	public void setAdapter(String taskName, FacesContext fc, WBEMClient client, AbstractBaseCimAdapter adapter) {
 		try {
 			HttpSession session = (HttpSession) fc.getExternalContext().getSession(true);
 			String key = getKey(taskName,client);
@@ -165,7 +161,7 @@ public class CimAdapterFactory {
 	 * @param fc
 	 * @return
 	 */
-	public AbstractBaseCimAdapter getAdapter(Class adapterClass, CIMClient client)
+	public AbstractBaseCimAdapter getAdapter(Class adapterClass, WBEMClient client)
 	{
 		return getAdapter(adapterClass, client,true);
 	}
@@ -180,7 +176,7 @@ public class CimAdapterFactory {
 	 * @return
 	 */	
 
-	public AbstractBaseCimAdapter getAdapter(Class adapterClass, CIMClient client, boolean createNew) {
+	public AbstractBaseCimAdapter getAdapter(Class adapterClass, WBEMClient client, boolean createNew) {
 
 		if (RuntimeUtil.getInstance().isJSF())
 		{
@@ -257,8 +253,8 @@ public class CimAdapterFactory {
 	 * @param client
 	 * @return
 	 */
-	private String getKey(Class adapterClass, CIMClient client) {
-		return "adapter." + adapterClass.getName() + ".for.client." + client.getNameSpace().getHost();
+	private String getKey(Class adapterClass, WBEMClient client) {
+		return "adapter." + adapterClass.getName() + ".for.client." + client;
 	}
 
 	/**
@@ -267,11 +263,11 @@ public class CimAdapterFactory {
 	 * @param client
 	 * @return
 	 */
-	private String getKey(String taskname, CIMClient client) {
-		return "adapter.for.task." + taskname + ".for.client." + client.getNameSpace().getHost();
+	private String getKey(String taskname, WBEMClient client) {
+		return "adapter.for.task." + taskname + ".for.client." + client;
 	}
 
-	public void removeAdapter(AbstractBaseCimAdapter adapter, CIMClient client)
+	public void removeAdapter(AbstractBaseCimAdapter adapter, WBEMClient client)
 	{
 		if (RuntimeUtil.getInstance().isJSF())
 		{

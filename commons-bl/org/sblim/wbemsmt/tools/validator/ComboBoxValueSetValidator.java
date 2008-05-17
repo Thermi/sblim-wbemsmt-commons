@@ -19,12 +19,13 @@
   */
 package org.sblim.wbemsmt.tools.validator;
 
-import org.sblim.wbem.cim.UnsignedInt16;
+import javax.cim.UnsignedInteger16;
+
 import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
-import org.sblim.wbemsmt.exception.ValidationException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 
 public class ComboBoxValueSetValidator extends Validator {
@@ -43,7 +44,7 @@ public class ComboBoxValueSetValidator extends Validator {
 	/**
 	 * @see org.sblim.wbemsmt.tools.validator.Validator#validate()
 	 */
-	public void validateElement(MessageList result) throws ValidationException {
+	public void validateElement(MessageList result) throws WbemsmtException {
 		
 		if (component.isEmpty())
 		{
@@ -52,8 +53,8 @@ public class ComboBoxValueSetValidator extends Validator {
 		}
 		else
 		{
-			UnsignedInt16 controlValue = (UnsignedInt16) component.getConvertedControlValue();
-			UnsignedInt16 checkValue = new UnsignedInt16(defaultValue);
+			UnsignedInteger16 controlValue = (UnsignedInteger16) component.getConvertedControlValue();
+			UnsignedInteger16 checkValue = new UnsignedInteger16(defaultValue);
 			if (controlValue.equals(checkValue))
 			{
 				String msg = adapter.getBundle().getString(ErrCodes.MSG_OTHER_COMBO_ENTRY,".validator.otherComboBoxEntry",new Object[]{defaultContent});

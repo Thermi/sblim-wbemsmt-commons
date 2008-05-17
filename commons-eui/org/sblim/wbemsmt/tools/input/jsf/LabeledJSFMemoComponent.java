@@ -41,8 +41,7 @@ public class LabeledJSFMemoComponent extends LabeledJSFInputComponent {
 		
 		if (data != null)
 		{
-			String text = data.getText();
-			item = text.replaceAll("\\n", "<br>");
+			item = data.getText();
 		}
 		else
 		{

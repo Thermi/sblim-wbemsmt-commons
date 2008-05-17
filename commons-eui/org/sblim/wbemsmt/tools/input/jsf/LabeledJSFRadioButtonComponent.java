@@ -28,7 +28,6 @@ import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.tools.converter.Converter;
@@ -79,37 +78,6 @@ public class LabeledJSFRadioButtonComponent extends LabeledJSFInputComponent imp
 		}
 	}		
 	
-	public String getItemSelectedReadOnlyRadioButtonValue()
-	{
-		if (item != null)
-		{
-			if (item instanceof String) {
-				String idx = (String) item;
-				try {
-					if (idx.length() == 0)
-					{
-						return "-";
-					}
-					else
-					{
-						return  ((SelectItem)itemValues.get(Integer.parseInt(idx))).getLabel();
-					}
-				} catch (NumberFormatException e) {
-					logger.log(Level.SEVERE,"Cannot parse as int", e);
-				}
-				
-			} else if (item instanceof Number)
-			{
-				Number idx = (Number) item;
-				return  ((SelectItem)itemValues.get(idx.intValue())).getLabel();
-			} else
-			{
-				logger.log(Level.SEVERE,"Cannot parse as int: " + item);
-			}
-		}
-		return "-";
-	}
-	
 	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
 		super.installProperties(comp, prefix);
 		setComponentBindings1((LabeledJSFRadioButtonComponent) comp,prefix);
@@ -118,7 +86,13 @@ public class LabeledJSFRadioButtonComponent extends LabeledJSFInputComponent imp
 	private static void setComponentBindings1(LabeledJSFRadioButtonComponent component, String id) {
 		HtmlSelectOneRadio menu = ((HtmlSelectOneRadio)component.getComponent());
 		
-		//prevents the validator to be called
+		setComponentBindings(menu, id);
+		
+		component.createReadOnlyRadioButton(id, menu);	
+	}
+
+    public static void setComponentBindings(HtmlSelectOneRadio menu, String id) {
+        //prevents the validator to be called
 		menu.setRequired(false);
 		
 		menu.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
@@ -137,9 +111,7 @@ public class LabeledJSFRadioButtonComponent extends LabeledJSFInputComponent imp
 		}
 		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
 		menu.getChildren().add(items);
-		
-		component.createReadOnlyRadioButton(id, menu);	
-	}
+    }
 	
 	
 }

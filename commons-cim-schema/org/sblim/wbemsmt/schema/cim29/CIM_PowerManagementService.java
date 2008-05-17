@@ -1,388 +1,532 @@
 /** 
  * CIM_PowerManagementService.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  A class derived from Service that describes power management functionality,
- * hosted on a System. The fact that this service may be used to affect the
- * power state of a particular element is defined by the CIM_ServiceAvailable
- * ToElement association.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: A class derived from Service that describes power management functionality, hosted on a System. The fact that this service may be used to affect the power state of a particular element is defined by the CIM_ServiceAvailable ToElement association.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
-import java.util.Calendar;
-import org.sblim.wbem.client.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
+import org.sblim.wbemsmt.exception.impl.*;
+import org.sblim.wbemsmt.exception.impl.userobject.*;
 
+import javax.wbem.*;
 
-/**
- *  A class derived from Service that describes power management functionality,
- * hosted on a System. The fact that this service may be used to affect the
- * power state of a particular element is defined by the CIM_ServiceAvailable
- * ToElement association.
- */
-public class CIM_PowerManagementService extends CIM_Service  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_PowerManagementService"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_PowerManagementService extends CIM_Service {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.7.0";
-	
-	
-	
-	
-	/**
-	*	SetPowerState defines the desired power state of the managed element, and when the element should be put into that state. The SetPowerState method has three input parameters, no output parameters, and a result. 
-- PowerState indicates the desired power state. 
-- ManagedElement indicates the element whose state is set. This element SHOULD be associated to the service using the ServiceAvailableToElement relationship. 
-- Time indicates when the power state should be set, either as a regular date-time value or as an interval value (where the interval begins when the method invocation is received). 
-Note that when the PowerState parameter is equal to 5, "Power Cycle", the Time parameter indicates when the managed element should powered on again. Power off is immediate. 
-SetPowerState should return 0 if successful, 1 if the specified State and Time request is not supported for the element, and some other value if any other error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
-	*/
-	public final static String CIM_METHOD_SETPOWERSTATE = "SetPowerState";
-	
+    public final static String CIM_CLASS_NAME = "CIM_PowerManagementService";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-				
-		for (int i = 0; i < CIM_Service.CIM_PropertyNameList.size(); i++) {
-			
-			CIM_PowerManagementService.CIM_PropertyNameList.add(CIM_Service.CIM_PropertyNameList.elementAt(i));
-		}
-		
-				
-		for (int i = 0; i < CIM_Service.CIM_PropertyList.size(); i++) {
-			
-			CIM_PowerManagementService.CIM_PropertyList.add(CIM_Service.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_Service.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constant for method\'s name and parameters
+     * SetPowerState defines the desired power state of the managed element, and when the element should be put into that state. The SetPowerState method has three input parameters, no output parameters, and a result. 
+     * - PowerState indicates the desired power state. 
+     * - ManagedElement indicates the element whose state is set. This element SHOULD be associated to the service using the ServiceAvailableToElement relationship. 
+     * - Time indicates when the power state should be set, either as a regular date-time value or as an interval value (where the interval begins when the method invocation is received). 
+     * Note that when the PowerState parameter is equal to 5, "Power Cycle", the Time parameter indicates when the managed element should powered on again. Power off is immediate. 
+     * SetPowerState should return 0 if successful, 1 if the specified State and Time request is not supported for the element, and some other value if any other error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
+     */
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_PowerManagementService() {
+    public static class METHOD_SETPOWERSTATE {
+        /**
+         * Constant for method SetPowerState
+         */
+        public final static String NAME = "SetPowerState";
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+        /**
+         * constants for parameter PowerState
+         */
+        public static class PARAMETER_POWERSTATE {
+            /*
+             * Name of the parameter PowerState
+             */
+            public final static String NAME = "PowerState";
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+            /**
+             * constant for value map entry 1
+             */
 
-		setValidCimInstance(false);
-	}
+            public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Full_Power = new javax.cim.UnsignedInteger16(
+                    "1");
 
+            /**
+             * constant for value entry Full Power (corresponds to mapEntry 1 )
+             */
+            public final static String VALUE_ENTRY_Full_Power = "Full Power";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_PowerManagementService(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+            /**
+             * constant for value map entry 2
+             */
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_PowerManagementService(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+            public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Power_Save___Low_Power_Mode = new javax.cim.UnsignedInteger16(
+                    "2");
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
+            /**
+             * constant for value entry Power Save - Low Power Mode (corresponds to mapEntry 2 )
+             */
+            public final static String VALUE_ENTRY_Power_Save___Low_Power_Mode = "Power Save - Low Power Mode";
+
+            /**
+             * constant for value map entry 3
+             */
+
+            public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Power_Save___Standby = new javax.cim.UnsignedInteger16(
+                    "3");
+
+            /**
+             * constant for value entry Power Save - Standby (corresponds to mapEntry 3 )
+             */
+            public final static String VALUE_ENTRY_Power_Save___Standby = "Power Save - Standby";
+
+            /**
+             * constant for value map entry 4
+             */
+
+            public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Power_Save___Other = new javax.cim.UnsignedInteger16(
+                    "4");
+
+            /**
+             * constant for value entry Power Save - Other (corresponds to mapEntry 4 )
+             */
+            public final static String VALUE_ENTRY_Power_Save___Other = "Power Save - Other";
+
+            /**
+             * constant for value map entry 5
+             */
+
+            public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Power_Cycle = new javax.cim.UnsignedInteger16(
+                    "5");
+
+            /**
+             * constant for value entry Power Cycle (corresponds to mapEntry 5 )
+             */
+            public final static String VALUE_ENTRY_Power_Cycle = "Power Cycle";
+
+            /**
+             * constant for value map entry 6
+             */
+
+            public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Power_Off = new javax.cim.UnsignedInteger16(
+                    "6");
+
+            /**
+             * constant for value entry Power Off (corresponds to mapEntry 6 )
+             */
+            public final static String VALUE_ENTRY_Power_Off = "Power Off";
+
+            /**
+             * constant for value map entry 7
+             */
+
+            public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Hibernate = new javax.cim.UnsignedInteger16(
+                    "7");
+
+            /**
+             * constant for value entry Hibernate (corresponds to mapEntry 7 )
+             */
+            public final static String VALUE_ENTRY_Hibernate = "Hibernate";
+
+            /**
+             * constant for value map entry 8
+             */
+
+            public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Soft_Off = new javax.cim.UnsignedInteger16(
+                    "8");
+
+            /**
+             * constant for value entry Soft Off (corresponds to mapEntry 8 )
+             */
+            public final static String VALUE_ENTRY_Soft_Off = "Soft Off";
+
+            /**
+             * get the ValueMapEntry of the given value
+             * @param value the value to find the ValueMapEntry for
+             * @return the ValueMap entry or null if not found
+             */
+            //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@6fae6fae
+            public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+                if (VALUE_ENTRY_Full_Power.equals(value)) {
+                    return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Full_Power;
+                }
+
+                if (VALUE_ENTRY_Power_Save___Low_Power_Mode.equals(value)) {
+                    return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Power_Save___Low_Power_Mode;
+                }
+
+                if (VALUE_ENTRY_Power_Save___Standby.equals(value)) {
+                    return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Power_Save___Standby;
+                }
+
+                if (VALUE_ENTRY_Power_Save___Other.equals(value)) {
+                    return VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Power_Save___Other;
+                }
+
+                if (VALUE_ENTRY_Power_Cycle.equals(value)) {
+                    return VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Power_Cycle;
+                }
+
+                if (VALUE_ENTRY_Power_Off.equals(value)) {
+                    return VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Power_Off;
+                }
+
+                if (VALUE_ENTRY_Hibernate.equals(value)) {
+                    return VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Hibernate;
+                }
+
+                if (VALUE_ENTRY_Soft_Off.equals(value)) {
+                    return VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Soft_Off;
+                }
+                return null;
+
             }
-            CIM_PowerManagementService.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+
+            /**
+             * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+             * @param indexInPulldown the index within the pulldown element, the list etc
+             * @return the ValueMap entry from the displayed values
+             */
+            public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                    Number indexInPulldown) {
+                return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+            }
+
+            /**
+             * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+             *
+             * can be used to set the correct selection index for a pulldown field
+             *
+             * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+             * @param currentValue the currentValue to get the index for
+             */
+            public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+                String valueEntry = getValueEntry(currentValue);
+                if (valueEntry != null) {
+                    for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                        if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                            return i;
+                        }
+                    }
+                }
+                return -1;
+
+            }
+
+            /**
+             * get the ValueEntry of the given valueMapEntry
+             * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+             * @return the Value entry or null if not found
+             */
+
+            public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+                int iValue = value.intValue();
+
+                if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Full_Power.intValue()) {
+                    return VALUE_ENTRY_Full_Power;
+                }
+
+                if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Power_Save___Low_Power_Mode
+                        .intValue()) {
+                    return VALUE_ENTRY_Power_Save___Low_Power_Mode;
+                }
+
+                if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Power_Save___Standby.intValue()) {
+                    return VALUE_ENTRY_Power_Save___Standby;
+                }
+
+                if (iValue == VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Power_Save___Other.intValue()) {
+                    return VALUE_ENTRY_Power_Save___Other;
+                }
+
+                if (iValue == VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Power_Cycle.intValue()) {
+                    return VALUE_ENTRY_Power_Cycle;
+                }
+
+                if (iValue == VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Power_Off.intValue()) {
+                    return VALUE_ENTRY_Power_Off;
+                }
+
+                if (iValue == VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Hibernate.intValue()) {
+                    return VALUE_ENTRY_Hibernate;
+                }
+
+                if (iValue == VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Soft_Off.intValue()) {
+                    return VALUE_ENTRY_Soft_Off;
+                }
+                return null;
+
+            }
+
+            /**
+             * ValueMap entries
+             * Contains no entries that having an integer value range representation
+             * 
+             * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+             *
+             * @see \#VALUE_ENTRIES_FOR_DISPLAY
+             * 
+             * Value Map for the parameter PowerState of the method SetPowerState   
+             */
+            public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                    VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Full_Power,
+                    VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Power_Save___Low_Power_Mode,
+                    VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Power_Save___Standby,
+                    VALUE_MAP_ENTRY_4_FOR_VALUE_ENTRY_Power_Save___Other,
+                    VALUE_MAP_ENTRY_5_FOR_VALUE_ENTRY_Power_Cycle,
+                    VALUE_MAP_ENTRY_6_FOR_VALUE_ENTRY_Power_Off,
+                    VALUE_MAP_ENTRY_7_FOR_VALUE_ENTRY_Hibernate,
+                    VALUE_MAP_ENTRY_8_FOR_VALUE_ENTRY_Soft_Off };
+
+            /**
+             * Values
+             * Contains all values even those having an integer value range representation within the valueMap
+             * Value Map for the parameter PowerState of the method SetPowerState   
+             */
+            public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Full_Power,
+                    VALUE_ENTRY_Power_Save___Low_Power_Mode, VALUE_ENTRY_Power_Save___Standby,
+                    VALUE_ENTRY_Power_Save___Other, VALUE_ENTRY_Power_Cycle, VALUE_ENTRY_Power_Off,
+                    VALUE_ENTRY_Hibernate, VALUE_ENTRY_Soft_Off };
+
+            /**
+             * Values for displaying within pulldown elements, lists, radio buttons etc
+             * Contains no values that having an integer value range representation within the valueMap
+             * 
+             * Value Map for the parameter PowerState of the method SetPowerState   
+             */
+            public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Full_Power,
+                    VALUE_ENTRY_Power_Save___Low_Power_Mode, VALUE_ENTRY_Power_Save___Standby,
+                    VALUE_ENTRY_Power_Save___Other, VALUE_ENTRY_Power_Cycle, VALUE_ENTRY_Power_Off,
+                    VALUE_ENTRY_Hibernate, VALUE_ENTRY_Soft_Off };
+
+        }
+
+        /**
+         * constants for parameter ManagedElement
+         */
+        public static class PARAMETER_MANAGEDELEMENT {
+            /*
+             * Name of the parameter ManagedElement
+             */
+            public final static String NAME = "ManagedElement";
+
+        }
+
+        /**
+         * constants for parameter Time
+         */
+        public static class PARAMETER_TIME {
+            /*
+             * Name of the parameter Time
+             */
+            public final static String NAME = "Time";
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_PowerManagementService.Java_Package_List.toArray(new String[CIM_PowerManagementService.Java_Package_List.size()]);
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_Service.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   A class derived from Service that describes power management functionality, hosted on a System. The fact that this service may be used to affect the power state of a particular element is defined by the CIM_ServiceAvailable ToElement association.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_PowerManagementService(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   A class derived from Service that describes power management functionality, hosted on a System. The fact that this service may be used to affect the power state of a particular element is defined by the CIM_ServiceAvailable ToElement association.
+     *   @param cimInstance the instance that is used to create the Object
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_PowerManagementService)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_PowerManagementService)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_PowerManagementService)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_PowerManagementService)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_PowerManagementService)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_PowerManagementService)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_PowerManagementService)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_PowerManagementService)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_PowerManagementService)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_PowerManagementService)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public CIM_PowerManagementService(CIMInstance cimInstance) throws WbemsmtException {
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
-	public UnsignedInt32 invoke_setPowerState(CIMClient cimClient, UnsignedInt16 PowerState, CIM_ManagedElement ManagedElement, Calendar Time) {
-	  	Vector inParameter = new Vector();
-	  	Vector outParameter = new Vector();
-	  	
-	  	if (!isValidCimInstance()) {
-	  		throw new CIMException(CIMException.CIM_ERR_METHOD_NOT_AVAILABLE,"Used instance of class '" + 
-	  				CIM_PowerManagementService.CIM_CLASS_NAME + "' is not a valid CIMInstance.");
-	  	}
-	  	
-	  	CIMValue cimValue_PowerState = new CIMValue(PowerState, new CIMDataType(CIMDataType.UINT16));
-		CIMValue cimValue_ManagedElement = new CIMValue(ManagedElement.getCimObjectPath(), new CIMDataType(CIMDataType.REFERENCE));
-		CIMValue cimValue_Time = new CIMValue(Time, new CIMDataType(CIMDataType.DATETIME));
-		
-	  	inParameter.add(new CIMArgument("PowerState", cimValue_PowerState));
-		inParameter.add(new CIMArgument("ManagedElement", cimValue_ManagedElement));
-		inParameter.add(new CIMArgument("Time", cimValue_Time));
-		
-	  	
-	  	CIMValue returnValue = cimClient.invokeMethod(this.getCimObjectPath(), 
-				  									  CIM_METHOD_SETPOWERSTATE,
-													  inParameter,
-													  outParameter);
-		
-		if (returnValue == null || returnValue.isNull()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The returned CIMValue from remote method call '" + 
-					CIM_PowerManagementService.CIM_METHOD_SETPOWERSTATE + "' is null.");
-		}
-		if (returnValue.getValue() == null || returnValue.isNullValue()) {
-			throw new CIMException(CIMException.CIM_ERR_FAILED, "The return value from remote method call '" + 
-					CIM_PowerManagementService.CIM_METHOD_SETPOWERSTATE + "' is null.");
-		}
-		if (returnValue.getType().getType() != CIMDataType.UINT32) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The return value from remote method call " + CIM_PowerManagementService.CIM_METHOD_SETPOWERSTATE + 
-					" is not of expected type: " + CIMDataType.getPredefinedType(CIMDataType.UINT32) + ".");		
-		}
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
 
-		return (UnsignedInt32)returnValue.getValue(); 		  	
-	  }
+    /**
+     * Default constructor
+     */
+    protected CIM_PowerManagementService() {
+    }
 
-	
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
+        }
+    }
+
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    /**
+     * Invokes the Method SetPowerState
+     * <br>
+     * @param client the cimclient
+     * SetPowerState defines the desired power state of the managed element, and when the element should be put into that state. The SetPowerState method has three input parameters, no output parameters, and a result. 
+     * - PowerState indicates the desired power state. 
+     * - ManagedElement indicates the element whose state is set. This element SHOULD be associated to the service using the ServiceAvailableToElement relationship. 
+     * - Time indicates when the power state should be set, either as a regular date-time value or as an interval value (where the interval begins when the method invocation is received). 
+     * Note that when the PowerState parameter is equal to 5, "Power Cycle", the Time parameter indicates when the managed element should powered on again. Power off is immediate. 
+     * SetPowerState should return 0 if successful, 1 if the specified State and Time request is not supported for the element, and some other value if any other error occurred. In a subclass, the set of possible return codes could be specified, using a ValueMap qualifier on the method. The strings to which the ValueMap contents are 'translated' may also be specified in the subclass as a Values array qualifier.
+     *   @param PowerState The power state for ManagedElement.
+     *   @param ManagedElement ManagedElement indicates the element whose state is set.
+     *   @param Time Time indicates when the power state should be set, either as a regular date-time value or as an interval value (where the interval begins when the method invocation is received.
+     *
+     */
+
+    public SetPowerStateResult invoke_SetPowerState(WBEMClient cimClient,
+            javax.cim.UnsignedInteger16 PowerState, CIM_ManagedElement ManagedElement,
+            javax.cim.CIMDateTime Time) throws WbemsmtException {
+
+        CIMArgument[] inParameter = new CIMArgument[3];
+        CIMArgument[] outParameter = new CIMArgument[0];
+
+        inParameter[0] = new CIMArgument("PowerState", CIMDataType.UINT16_T, PowerState);
+        inParameter[1] = new CIMArgument("ManagedElement", new CIMDataType(
+                CIM_ManagedElement.CIM_CLASS_NAME), ManagedElement);
+        inParameter[2] = new CIMArgument("Time", CIMDataType.DATETIME_T, Time);
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        try {
+            Object oResult = cimClient.invokeMethod(this.getCimObjectPath(),
+                    METHOD_SETPOWERSTATE.NAME, inParameter, outParameter);
+            if (oResult != null) {
+
+                resultObject = (javax.cim.UnsignedInteger32) oResult;
+            }
+        }
+        catch (WBEMException e) {
+            throw new InvokeMethodException(e, new InvokeMethodUserObject(this.getCimObjectPath(),
+                    METHOD_SETPOWERSTATE.NAME, inParameter, outParameter));
+        }
+
+        SetPowerStateResult result = new SetPowerStateResult();
+        result.setResultObject(resultObject);
+
+        java.util.HashMap mapOutParameter = new java.util.HashMap();
+        for (int i = 0; i < outParameter.length; i++) {
+            CIMArgument argument = outParameter[i];
+            if (argument != null) {
+                mapOutParameter.put(argument.getName(), argument);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Result object for the method SetPowerState
+     */
+    public static class SetPowerStateResult {
+        /**
+         * The return value of the method
+         */
+
+        javax.cim.UnsignedInteger32 resultObject = null;
+
+        /**
+         * Default constructor
+         */
+        SetPowerStateResult() {
+        }
+
+        /**
+         * Set the return value
+         * @param rc
+         */
+        void setResultObject(javax.cim.UnsignedInteger32 resultObject) {
+            this.resultObject = resultObject;
+        }
+
+        /**
+         * Get the return value of the methid
+         * @return the return value
+         */
+        public javax.cim.UnsignedInteger32 getResultObject() {
+            return this.resultObject;
+        }
+
+    }
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_PowerManagementService.CIM_CLASS_NAME;
+    }
 
 }

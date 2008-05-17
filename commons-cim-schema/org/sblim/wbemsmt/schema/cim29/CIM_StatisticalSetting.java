@@ -1,487 +1,422 @@
 /** 
  * CIM_StatisticalSetting.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  CIM_StatisticalSetting is the class for setting the collection criteria of
- * statistical data and/or metrics applicable to one or more ManagedElements.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: CIM_StatisticalSetting is the class for setting the collection criteria of statistical data and/or metrics applicable to one or more ManagedElements.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
-import java.util.Calendar;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
 
-/**
- *  CIM_StatisticalSetting is the class for setting the collection criteria of
- * statistical data and/or metrics applicable to one or more ManagedElements.
- */
-public class CIM_StatisticalSetting extends CIM_SettingData  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_StatisticalSetting"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_StatisticalSetting extends CIM_SettingData {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.8.0";
-	
-	
-	/**
-	*	The time, relative to managed element where the statistic is to be collected, when the measurement is to end.
-	*/
-	public final static String CIM_PROPERTY_ENDSTATISTICTIME = "EndStatisticTime"; //$NON-NLS-1$
-	/**
-	*	Some statistics are sampled at consistent time intervals. This property when set indicates the desired minimum time that new statistics should be polled or calculated.
-	*/
-	public final static String CIM_PROPERTY_SAMPLEINTERVAL = "SampleInterval"; //$NON-NLS-1$
-	/**
-	*	The time, relative to managed element where the statistic is to be collected, when the first measurement is to be taken.
-	*/
-	public final static String CIM_PROPERTY_STARTSTATISTICTIME = "StartStatisticTime"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_StatisticalSetting";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_ENDSTATISTICTIME);
-		CIM_PropertyNameList.add(CIM_PROPERTY_SAMPLEINTERVAL);
-		CIM_PropertyNameList.add(CIM_PROPERTY_STARTSTATISTICTIME);
-				
-		for (int i = 0; i < CIM_SettingData.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_SettingData.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ENDSTATISTICTIME)||
-				((String)CIM_SettingData.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_SAMPLEINTERVAL)||
-				((String)CIM_SettingData.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_STARTSTATISTICTIME)){
-				continue;
-			}
-			
-			CIM_StatisticalSetting.CIM_PropertyNameList.add(CIM_SettingData.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ENDSTATISTICTIME, new CIMValue(null, new CIMDataType(CIMDataType.DATETIME))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_SAMPLEINTERVAL, new CIMValue(null, new CIMDataType(CIMDataType.DATETIME))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_STARTSTATISTICTIME, new CIMValue(null, new CIMDataType(CIMDataType.DATETIME))));
-				
-		for (int i = 0; i < CIM_SettingData.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_SettingData.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ENDSTATISTICTIME)||
-				((CIMProperty)CIM_SettingData.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_SAMPLEINTERVAL)||
-				((CIMProperty)CIM_SettingData.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_STARTSTATISTICTIME)){
-				continue;
-			}
-			
-			CIM_StatisticalSetting.CIM_PropertyList.add(CIM_SettingData.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_SettingData.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constants of property EndStatisticTime
+     * The time, relative to managed element where the statistic is to be collected, when the measurement is to end.
+     */
+    public static class PROPERTY_ENDSTATISTICTIME {
+        /**
+         * name of the property EndStatisticTime
+         */
+        public final static String NAME = "EndStatisticTime";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_StatisticalSetting() {
+    }
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * Constants of property SampleInterval
+     * Some statistics are sampled at consistent time intervals. This property when set indicates the desired minimum time that new statistics should be polled or calculated.
+     */
+    public static class PROPERTY_SAMPLEINTERVAL {
+        /**
+         * name of the property SampleInterval
+         */
+        public final static String NAME = "SampleInterval";
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    }
 
-		setValidCimInstance(false);
-	}
+    /**
+     * Constants of property StartStatisticTime
+     * The time, relative to managed element where the statistic is to be collected, when the first measurement is to be taken.
+     */
+    public static class PROPERTY_STARTSTATISTICTIME {
+        /**
+         * name of the property StartStatisticTime
+         */
+        public final static String NAME = "StartStatisticTime";
 
+    }
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_StatisticalSetting(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_SettingData.getPackages();
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_StatisticalSetting(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
-            }
-            CIM_StatisticalSetting.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   CIM_StatisticalSetting is the class for setting the collection criteria of statistical data and/or metrics applicable to one or more ManagedElements.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_StatisticalSetting(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   CIM_StatisticalSetting is the class for setting the collection criteria of statistical data and/or metrics applicable to one or more ManagedElements.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_StatisticalSetting(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_StatisticalSetting() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("EndStatisticTime", new CIMProperty("EndStatisticTime",
+                CIMDataType.DATETIME_T, null));
+        propertiesToCheck.put("SampleInterval", new CIMProperty("SampleInterval",
+                CIMDataType.DATETIME_T, null));
+        propertiesToCheck.put("StartStatisticTime", new CIMProperty("StartStatisticTime",
+                CIMDataType.DATETIME_T, null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_StatisticalSetting.Java_Package_List.toArray(new String[CIM_StatisticalSetting.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property EndStatisticTime
+     *     * <br>
+     * The time, relative to managed element where the statistic is to be collected, when the measurement is to end.
+     *     */
+
+    public javax.cim.CIMDateTime get_EndStatisticTime() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ENDSTATISTICTIME.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ENDSTATISTICTIME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.CIMDateTime) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property EndStatisticTime
+     * <br>
+     * The time, relative to managed element where the statistic is to be collected, when the measurement is to end.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_StatisticalSetting)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_StatisticalSetting)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_StatisticalSetting)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_StatisticalSetting)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_StatisticalSetting)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_StatisticalSetting)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_StatisticalSetting)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_StatisticalSetting)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_StatisticalSetting)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_StatisticalSetting)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_EndStatisticTime(javax.cim.CIMDateTime newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ENDSTATISTICTIME.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_EndStatisticTime(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ENDSTATISTICTIME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute EndStatisticTime
-	
-	public Calendar get_EndStatisticTime() {
+    }
 
-		CIMProperty property = this.cimInstance.getProperty(CIM_StatisticalSetting.CIM_PROPERTY_ENDSTATISTICTIME);
-        
-		if (property == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_StatisticalSetting.CIM_PROPERTY_ENDSTATISTICTIME + " could not be found");
-    		
-		} else if (property.getType() == null || property.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_StatisticalSetting.CIM_PROPERTY_ENDSTATISTICTIME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-        
-		if (property.getValue() == null) {
-			return null;
-		}
-        
-        CIMDateTime cimDateTime = (CIMDateTime)property.getValue().getValue();
-		return cimDateTime != null?cimDateTime.getCalendar():null;
-	}
-	
-	
-	public void set_EndStatisticTime(Calendar newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_StatisticalSetting.CIM_PROPERTY_ENDSTATISTICTIME);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_StatisticalSetting.CIM_PROPERTY_ENDSTATISTICTIME + " could not be found");
-    		
-		} else if (!CIM_StatisticalSettingHelper.isValid_EndStatisticTime(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_StatisticalSetting.CIM_PROPERTY_ENDSTATISTICTIME);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_StatisticalSetting.CIM_PROPERTY_ENDSTATISTICTIME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(new CIMSimpleDateTime(newValue), new CIMDataType(CIMDataType.DATETIME));
-		currentProperty.setValue(updatedValue);
-	}
-    
-	
+    /**
+     * Get the property EndStatisticTime by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	// Attribute SampleInterval
-	
-	public Calendar get_SampleInterval() {
+    public static CIMProperty create_EndStatisticTime(WBEMClient client, String namespace,
+            javax.cim.CIMDateTime newValue) throws WbemsmtException {
+        CIM_StatisticalSetting fco = new CIM_StatisticalSetting(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ENDSTATISTICTIME.NAME);
+        if (property != null) {
+            property = setPropertyValue_EndStatisticTime(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ENDSTATISTICTIME.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-		CIMProperty property = this.cimInstance.getProperty(CIM_StatisticalSetting.CIM_PROPERTY_SAMPLEINTERVAL);
-        
-		if (property == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_StatisticalSetting.CIM_PROPERTY_SAMPLEINTERVAL + " could not be found");
-    		
-		} else if (property.getType() == null || property.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_StatisticalSetting.CIM_PROPERTY_SAMPLEINTERVAL + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-        
-		if (property.getValue() == null) {
-			return null;
-		}
-        
-        CIMDateTime cimDateTime = (CIMDateTime)property.getValue().getValue();
-		return cimDateTime != null?cimDateTime.getCalendar():null;
-	}
-	
-	
-	public void set_SampleInterval(Calendar newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_StatisticalSetting.CIM_PROPERTY_SAMPLEINTERVAL);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_StatisticalSetting.CIM_PROPERTY_SAMPLEINTERVAL + " could not be found");
-    		
-		} else if (!CIM_StatisticalSettingHelper.isValid_SampleInterval(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_StatisticalSetting.CIM_PROPERTY_SAMPLEINTERVAL);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_StatisticalSetting.CIM_PROPERTY_SAMPLEINTERVAL + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(new CIMSimpleDateTime(newValue), new CIMDataType(CIMDataType.DATETIME));
-		currentProperty.setValue(updatedValue);
-	}
-    
-	
+    /**
+     * Set the property EndStatisticTime
+     * <br>
+     * The time, relative to managed element where the statistic is to be collected, when the measurement is to end.
+     */
 
-	// Attribute StartStatisticTime
-	
-	public Calendar get_StartStatisticTime() {
+    private static CIMProperty setPropertyValue_EndStatisticTime(CIMProperty currentProperty,
+            javax.cim.CIMDateTime newValue) {
+        Object setThis = null;
 
-		CIMProperty property = this.cimInstance.getProperty(CIM_StatisticalSetting.CIM_PROPERTY_STARTSTATISTICTIME);
-        
-		if (property == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_StatisticalSetting.CIM_PROPERTY_STARTSTATISTICTIME + " could not be found");
-    		
-		} else if (property.getType() == null || property.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_StatisticalSetting.CIM_PROPERTY_STARTSTATISTICTIME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-        
-		if (property.getValue() == null) {
-			return null;
-		}
-        
-        CIMDateTime cimDateTime = (CIMDateTime)property.getValue().getValue();
-		return cimDateTime != null?cimDateTime.getCalendar():null;
-	}
-	
-	
-	public void set_StartStatisticTime(Calendar newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_StatisticalSetting.CIM_PROPERTY_STARTSTATISTICTIME);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_StatisticalSetting.CIM_PROPERTY_STARTSTATISTICTIME + " could not be found");
-    		
-		} else if (!CIM_StatisticalSettingHelper.isValid_StartStatisticTime(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_StatisticalSetting.CIM_PROPERTY_STARTSTATISTICTIME);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.DATETIME) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_StatisticalSetting.CIM_PROPERTY_STARTSTATISTICTIME + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.DATETIME) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(new CIMSimpleDateTime(newValue), new CIMDataType(CIMDataType.DATETIME));
-		currentProperty.setValue(updatedValue);
-	}
-    
-	
+        setThis = newValue;
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property SampleInterval
+     *     * <br>
+     * Some statistics are sampled at consistent time intervals. This property when set indicates the desired minimum time that new statistics should be polled or calculated.
+     *     */
+
+    public javax.cim.CIMDateTime get_SampleInterval() {
+        CIMProperty currentProperty = getProperty(PROPERTY_SAMPLEINTERVAL.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_SAMPLEINTERVAL.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.CIMDateTime) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property SampleInterval
+     * <br>
+     * Some statistics are sampled at consistent time intervals. This property when set indicates the desired minimum time that new statistics should be polled or calculated.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_SampleInterval(javax.cim.CIMDateTime newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_SAMPLEINTERVAL.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_SampleInterval(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SAMPLEINTERVAL.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property SampleInterval by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_SampleInterval(WBEMClient client, String namespace,
+            javax.cim.CIMDateTime newValue) throws WbemsmtException {
+        CIM_StatisticalSetting fco = new CIM_StatisticalSetting(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_SAMPLEINTERVAL.NAME);
+        if (property != null) {
+            property = setPropertyValue_SampleInterval(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SAMPLEINTERVAL.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property SampleInterval
+     * <br>
+     * Some statistics are sampled at consistent time intervals. This property when set indicates the desired minimum time that new statistics should be polled or calculated.
+     */
+
+    private static CIMProperty setPropertyValue_SampleInterval(CIMProperty currentProperty,
+            javax.cim.CIMDateTime newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property StartStatisticTime
+     *     * <br>
+     * The time, relative to managed element where the statistic is to be collected, when the first measurement is to be taken.
+     *     */
+
+    public javax.cim.CIMDateTime get_StartStatisticTime() {
+        CIMProperty currentProperty = getProperty(PROPERTY_STARTSTATISTICTIME.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_STARTSTATISTICTIME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.CIMDateTime) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property StartStatisticTime
+     * <br>
+     * The time, relative to managed element where the statistic is to be collected, when the first measurement is to be taken.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_StartStatisticTime(javax.cim.CIMDateTime newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_STARTSTATISTICTIME.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_StartStatisticTime(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_STARTSTATISTICTIME.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property StartStatisticTime by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_StartStatisticTime(WBEMClient client, String namespace,
+            javax.cim.CIMDateTime newValue) throws WbemsmtException {
+        CIM_StatisticalSetting fco = new CIM_StatisticalSetting(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_STARTSTATISTICTIME.NAME);
+        if (property != null) {
+            property = setPropertyValue_StartStatisticTime(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_STARTSTATISTICTIME.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property StartStatisticTime
+     * <br>
+     * The time, relative to managed element where the statistic is to be collected, when the first measurement is to be taken.
+     */
+
+    private static CIMProperty setPropertyValue_StartStatisticTime(CIMProperty currentProperty,
+            javax.cim.CIMDateTime newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_StatisticalSetting.CIM_CLASS_NAME;
+    }
 
 }

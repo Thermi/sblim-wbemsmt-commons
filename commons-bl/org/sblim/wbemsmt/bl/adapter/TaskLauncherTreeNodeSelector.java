@@ -20,7 +20,7 @@
 package org.sblim.wbemsmt.bl.adapter;
 
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
-import org.sblim.wbemsmt.exception.ObjectNotFoundException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 
 public interface TaskLauncherTreeNodeSelector {
 	
@@ -29,8 +29,8 @@ public interface TaskLauncherTreeNodeSelector {
 	 * @param treeNode the clicked treeNode
 	 * @param adapter the adapter to keep in sync
 	 * @param editPanelId the id for exception messages
-	 * @throws ObjectNotFoundException
+	 * @throws WbemsmtException
 	 */
-	public void select(ITaskLauncherTreeNode treeNode, AbstractBaseCimAdapter adapter, String editPanelId) throws ObjectNotFoundException;
+	public void select(ITaskLauncherTreeNode treeNode, AbstractBaseCimAdapter adapter, String editPanelId) throws WbemsmtException;
 
 }

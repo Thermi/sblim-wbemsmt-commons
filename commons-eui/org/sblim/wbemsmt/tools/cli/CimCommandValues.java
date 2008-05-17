@@ -23,10 +23,11 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.util.Locale;
 
+import javax.wbem.client.WBEMClient;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.sblim.wbem.client.CIMClient;
 
 /**
  * @author Bauschert
@@ -34,7 +35,7 @@ import org.sblim.wbem.client.CIMClient;
  */
 public class CimCommandValues {
 	private boolean execute;
-	private CIMClient cimClient;
+	private WBEMClient cimClient;
 	private String[] args;
 	private CommandLine commandLine;
 	private Options options;
@@ -53,11 +54,11 @@ public class CimCommandValues {
 		this.execute = execute;
 	}
 
-	public CIMClient getCimClient() {
+	public WBEMClient getCimClient() {
 		return cimClient;
 	}
 
-	public void setCimClient(CIMClient cimClient) {
+	public void setCimClient(WBEMClient cimClient) {
 		this.cimClient = cimClient;
 	}
 

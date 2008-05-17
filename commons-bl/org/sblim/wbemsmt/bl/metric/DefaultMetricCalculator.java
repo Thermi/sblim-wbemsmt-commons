@@ -19,6 +19,8 @@
   */
 package org.sblim.wbemsmt.bl.metric;
 
+import javax.wbem.WBEMException;
+
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricDefinitionIf;
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricValueIf;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
@@ -29,7 +31,7 @@ public class DefaultMetricCalculator extends AbstractMetricCalculator {
 	 * @see org.sblim.wbemsmt.bl.metric.MetricCalculator#calculate(org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricValueIf, org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle)
 	 */
 	public String doCalculate(CIM_BaseMetricDefinitionIf definition, CIM_BaseMetricValueIf value,
-			WbemSmtResourceBundle bundle) {
+			WbemSmtResourceBundle bundle) throws WBEMException {
 		return value.get_MetricValue() + definition.get_Units();
 	}
 

@@ -38,5 +38,11 @@ public abstract class MultiLineBasePanel2 extends BasePanel {
 	{
 		return hasErrors;
 	}
-	
+    
+	/**
+     * MultinePanels are displaying already children and so there is no need to count and create children
+     * because currently children cannot have children
+     */
+    public void countAndCreateChildren()
+    {}	
 }

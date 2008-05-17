@@ -36,7 +36,7 @@ public class StringSwingTextFieldConverter implements Converter {
 	}
 
 	/**
-	 * Converts the content of the given Textfield as UnsignedInt32
+	 * Converts the content of the given Textfield as UnsignedInteger32
 	 */
 	public Object convertForModel(Object guiElement)
 	{

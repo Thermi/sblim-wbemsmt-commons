@@ -27,7 +27,7 @@ import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
@@ -39,9 +39,9 @@ public class TaskLauncherDelegaterTreeNode extends TaskLauncherTreeNode {
 	/**
 	 * @param cimClient
 	 * @param xmlconfigNode
-	 * @throws WbemSmtException 
+	 * @throws WbemsmtException 
 	 */
-	public TaskLauncherDelegaterTreeNode(List nodesToDelegate,String name) throws WbemSmtException {
+	public TaskLauncherDelegaterTreeNode(List nodesToDelegate,String name) throws WbemsmtException {
 		super(null,null,name);
 		this.nodesToDelegate = nodesToDelegate;
     	for (Iterator iter = nodesToDelegate.iterator(); iter.hasNext();) {
@@ -69,9 +69,9 @@ public class TaskLauncherDelegaterTreeNode extends TaskLauncherTreeNode {
     /**
      * Reads subnodes of the current node.
      * These subnodes are treenodes of the xml configuration.
-     * @throws WbemSmtException 
+     * @throws WbemsmtException 
      */
-    public void readSubnodes(boolean notifyEventListener) throws WbemSmtException
+    public void readSubnodes(boolean notifyEventListener) throws WbemsmtException
     {
     	for (Iterator iter = nodesToDelegate.iterator(); iter.hasNext();) {
 			ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) iter.next();

@@ -42,12 +42,56 @@ public class LabeledJSFPictureComponent extends LabeledJSFInputComponent {
 		PictureData data = (PictureData) getFieldData();
 		if (data != null)
 		{
-			item = MessageFormat.format("/servlet/WbemsmtImageLoader?path={0}", new Object[]{data.getPath()});
+		    if (data.getPath() != null)
+		    {
+		        item = MessageFormat.format("/servlet/WbemsmtImageLoader?path={0}", new Object[]{data.getPath()});
+		    }
+		    else if (data.getIcon() != null)
+		    {
+		        if (data.getIcon() == PictureData.ICON_INFO)
+		        {
+		            item = "/images/info.gif";
+		        }
+		        else if (data.getIcon() == PictureData.ICON_WARNING)
+                {
+                    item = "/images/warning.gif";
+                }
+		        else if (data.getIcon() == PictureData.ICON_ERROR)
+                {
+                    item = "/images/error.gif";
+                }
+		        else if (data.getIcon() == PictureData.ICON_FATAL)
+                {
+                    item = "/images/fatal.gif";
+                }
+                else if (data.getIcon() == PictureData.ICON_SUPPORTED)
+                {
+                    item = "/images/supported.gif";
+                }
+                else if (data.getIcon() == PictureData.ICON_NOT_SUPPORTED)
+                {
+                    item = "/images/notSupported.gif";
+                }
+                else if (data.getIcon() == PictureData.ICON_EMPTY)
+                {
+                    item = "/images/empty.png";
+                }
+		        else
+		        {
+	               logger.warning("Predefined Icon not recognized for  " + getItemLabelText());
+	               item = "/images/empty.png";
+		        }
+		    }
+		    else
+		    {
+	           logger.warning("No path and no icon set for  " + getItemLabelText());
+	           item = "/images/empty.png";
+		    }
 		}
 		else
 		{
 			logger.warning("No PictureData set for  " + getItemLabelText());
-			item = MessageFormat.format("/servlet/WbemsmtImageLoader?path={0}", new Object[]{"/images/empty.gif"});
+            item = "/images/empty.png";
 		}
 		return item;
 	}
@@ -66,7 +110,47 @@ public class LabeledJSFPictureComponent extends LabeledJSFInputComponent {
 		img.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 		img.setValueBinding("alt", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"PlainLabelText}"));
 		img.setValueBinding("title", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"PlainLabelText}"));
+        img.setValueBinding("onmouseover", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"OnMouseOver}"));
+        img.setValueBinding("onmouseout", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"OnMouseOut}"));
 	}	
 	
+	public String getItemOnMouseOver()
+	{
+	    PictureData data = (PictureData) getFieldData();
+	    if (data != null && data.getTooltip() != null)
+	    {
+	        return "showTooltip(event,'" + data.getTooltip().getText() + "')";
+	    }
+	    else
+	    {
+	        return "return true";
+	    }
+	}
+	
+	public String getItemPlainLabelText()
+	{
+	    PictureData data = (PictureData) getFieldData();
+        if (data == null || data.getTooltip() == null)
+        {
+            return super.getItemPlainLabelText();
+        }
+        else
+        {
+            return null;
+        }
+	}
+	
+    public String getItemOnMouseOut()
+    {
+        PictureData data = (PictureData) getFieldData();
+        if (data != null && data.getTooltip() != null)
+        {
+            return "hideTooltip(this.event)";
+        }
+        else
+        {
+            return "return true";
+        }
+    }
 	
 }

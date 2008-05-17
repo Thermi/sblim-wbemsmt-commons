@@ -19,6 +19,8 @@
   */
 package org.sblim.wbemsmt.bl.metric;
 
+import javax.wbem.WBEMException;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricDefinitionIf;
@@ -31,16 +33,26 @@ public class MillisecondMetricCalculator extends AbstractMetricCalculator {
 		return "Milliseconds";
 	}
 
-	public String doCalculate(CIM_BaseMetricDefinitionIf definition, CIM_BaseMetricValueIf value, WbemSmtResourceBundle bundle) {
+	public String doCalculate(CIM_BaseMetricDefinitionIf definition, CIM_BaseMetricValueIf value, WbemSmtResourceBundle bundle) throws WBEMException {
 		
 		long l = Long.parseLong(value.get_MetricValue());
-        String result = DurationFormatUtils.formatDuration(l, bundle.getString("duration.format"), true);
+        return calculateDurationString(l, bundle);
+	}
+
+	/**
+	 * 
+	 * @param l
+	 * @param bundle
+	 * @return
+	 */
+	public static String calculateDurationString(long l, WbemSmtResourceBundle bundle) {
+		String result = DurationFormatUtils.formatDuration(l, bundle.getString("duration.format"), true);
         String days = bundle.getString("duration.days");
         String day = bundle.getString("duration.day");
-        String hour = bundle.getString("duration.hour");;
-        String hours = bundle.getString("duration.hours");;
-        String minutes = bundle.getString("duration.minutes");;;
-        String minute = bundle.getString("duration.minute");;;
+        String hour = bundle.getString("duration.hour");
+        String hours = bundle.getString("duration.hours");
+        String minutes = bundle.getString("duration.minutes");
+        String minute = bundle.getString("duration.minute");
         
         result = " " + result;
 		String tmp = StringUtils.replaceOnce(result, " 0 " + days, "");

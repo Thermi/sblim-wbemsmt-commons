@@ -15,15 +15,15 @@
   * Contributors: 
   * 
   * Description: Tree representing a CIMOM in MultiHost-Mode
-  *              This kind of Treenode cannot hold a CIMClient reference because for logging in you will need a CIMNamespace. And the namespace is defined by the task itself
+  *              This kind of Treenode cannot hold a WBEMClient reference because for logging in you will need a CIMNamespace. And the namespace is defined by the task itself
   *              
-  *              So for retrieving a CIMClient within a specific task you can do the following:
+  *              So for retrieving a WBEMClient within a specific task you can do the following:
   *              <xmp>
   *						ITaskLauncherTreeNode node = cimomTreeNode.getNodeForTask(MetaclusterCimAdapter.METACLUSTER_TASKNAME);
   *						//continue only if the task was found
   *						if (node != null)
   *						{
-  *							CIMClient cimClient = node.getCimClient();
+  *							WBEMClient cimClient = node.getCimClient();
   *							//do something meaningful
   *						}
   *              </xmp>
@@ -32,18 +32,17 @@
   */
 package org.sblim.wbemsmt.tasklauncher;
 
-import java.net.UnknownHostException;
 import java.util.*;
-import java.util.logging.Level;
 
 import javax.faces.context.FacesContext;
+import javax.wbem.client.WBEMClient;
 
-import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
-import org.sblim.wbemsmt.exception.WbemSmtException;
+import org.sblim.wbemsmt.exception.ExceptionUtil;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.session.WbemsmtSession;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.CimomData;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.TreeConfigData;
@@ -95,7 +94,7 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 		this.cimomData = cimom;
 	}
 
-	public void readSubnodes(boolean notifyEventListener) throws WbemSmtException {
+	public void readSubnodes(boolean notifyEventListener) throws WbemsmtException {
 //    	for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
 //			ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) iter.next();
 //			Vector subnodes = node.getSubnodes();
@@ -122,13 +121,13 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 		
 	}
 
-	public void buildTree() throws WbemSmtException {
+	public void buildTree() throws WbemsmtException {
 		Vector vc = cimomData.getTreeConfigs();
 		TreeConfigData[] configs = (TreeConfigData[]) vc.toArray(new TreeConfigData[vc.size()]);
 		buildTree(configs);
 	}
 
-	public void buildTree(Treeconfig[] treeconfigs) throws WbemSmtException {
+	public void buildTree(Treeconfig[] treeconfigs) throws WbemsmtException {
 		
 		List list = new ArrayList();
 		for (int i = 0; i < treeconfigs.length; i++) {
@@ -140,7 +139,7 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 		buildTree(configs);
 	}
 
-	public void buildTree(TreeConfigData[] treeConfigDatas) throws WbemSmtException {
+	public void buildTree(TreeConfigData[] treeConfigDatas) throws WbemsmtException {
 		clearSubnodes();
 		for (int i=0; i < treeConfigDatas.length; i++) {
 			TreeConfigData treeConfigData = (TreeConfigData) treeConfigDatas[i];
@@ -152,19 +151,19 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 			try {
 				if (WbemsmtSession.getSession().getCIMClientPool(cimomData.getHostname()) == null)
 				{
-					WbemsmtSession.getSession().createCIMClientPool(cimomData.getHostname(),""+cimomData.getPort(),cimomData.getUser(),cimomData.getPassword());
+					WbemsmtSession.getSession().createCIMClientPool(cimomData.getProtocol(), cimomData.getHostname(),""+cimomData.getPort(),cimomData.getUser(),cimomData.getPassword());
 				}
-				CIMClient cimClient = WbemsmtSession.getSession().getCIMClientPool(cimomData.getHostname()).getCIMClient(treeConfigData.getNamespace());
+				WBEMClient cimClient = WbemsmtSession.getSession().getCIMClientPool(cimomData.getHostname()).getCIMClient(treeConfigData.getNamespace());
 				if (treeConfig.isLoaded())
 				{
 					if (treeConfig.serverTaskExists(cimClient))
 					{
 						readNodes = true;
-						JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_SUPPORTED,Message.INFO,bundle,"task.supported", new Object[]{treeConfigData.getName(),cimClient.getNameSpace().getHost(),cimClient.getNameSpace().getNameSpace()}));
+						JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_SUPPORTED,Message.INFO,bundle,"task.supported", new Object[]{treeConfigData.getName(),cimomData.getHostname(),treeConfigData.getNamespace()}));
 					}
 					else
 					{
-						JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_NOT_SUPPORTED_SERVER,Message.ERROR,bundle,"task.not.supported.on.server", new Object[]{treeConfigData.getName(),cimClient.getNameSpace().getHost(),cimClient.getNameSpace().getNameSpace()}));
+						JsfUtil.addMessage(Message.create(ErrCodes.MSG_TASK_NOT_SUPPORTED_SERVER,Message.ERROR,bundle,"task.not.supported.on.server", new Object[]{treeConfigData.getName(),cimomData.getHostname(),treeConfigData.getNamespace()}));
 					}
 				}
 				else
@@ -197,8 +196,8 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 					rootNode.setEnabled(false);
 					addSubnode(rootNode);
 				}
-			} catch (UnknownHostException e) {
-				logger.log(Level.SEVERE, "Cannot create a CIMClient for host " + cimomData.getHostname() + " Host was not found",e);
+			} catch (WbemsmtException e) {
+				ExceptionUtil.handleException(e);
 			}			
 		}
 		loggedIn = treeConfigDatas != null &&  treeConfigDatas.length > 0;
@@ -254,7 +253,7 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 		return commonContextMenues;
 	}
 
-	public void logout() throws WbemSmtException {
+	public void logout() throws WbemsmtException {
 		loggedIn = false;
 		clearSubnodes();
 		updateName();
@@ -315,27 +314,27 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 	}
 
 	/**
-	 * the method will return to CIMClient, since CIMOMTreeNode are not having a namespace and cannot create a cimclient
-	 * the namespace is defined by the tasks itselfs and therefore the first instance that is holding a CIMClient are the
+	 * the method will return to WBEMClient, since CIMOMTreeNode are not having a namespace and cannot create a cimclient
+	 * the namespace is defined by the tasks itselfs and therefore the first instance that is holding a WBEMClient are the
 	 * child nodes
 	 * 
 	 * @see #getNodeForTask(String)
 	 */
-	public CIMClient getCimClient() {
-		throw new IllegalArgumentException("Cannot get CIMClient from CimomTreeNode");
+	public WBEMClient getCimClient() {
+		throw new IllegalArgumentException("Cannot get WBEMClient from CimomTreeNode");
 	}
 
-	public void setCimClient(CIMClient cimClient) {
-		throw new IllegalArgumentException("Cannot set CIMClient on CimomTreeNode");
+	public void setCimClient(WBEMClient cimClient) {
+		throw new IllegalArgumentException("Cannot set WBEMClient on CimomTreeNode");
 	}
 
 	/**
 	 * Get the node of the specified task. The taskname should correspond to the name of the task in the tasklauncher-config.xml
 	 * @param taskname
 	 * @return the node or null if for the task no host was found
-	 * @throws WbemSmtException
+	 * @throws WbemsmtException
 	 */
-	public ITaskLauncherTreeNode getNodeForTask(String taskname) throws WbemSmtException {
+	public ITaskLauncherTreeNode getNodeForTask(String taskname) throws WbemsmtException {
     	for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
 			ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) iter.next();
 			if (   node.getCustomTreeConfig() != null 

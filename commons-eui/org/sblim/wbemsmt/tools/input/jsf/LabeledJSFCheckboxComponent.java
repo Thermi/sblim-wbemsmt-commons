@@ -39,12 +39,16 @@ public class LabeledJSFCheckboxComponent extends LabeledJSFInputComponent {
 
 	private static void setComponentBindings(LabeledJSFCheckboxComponent comp, String id) {
 		HtmlSelectBooleanCheckbox cbox = ((HtmlSelectBooleanCheckbox)comp.getComponent());
-		cbox.setStyleClass("checkBox");
-		cbox.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
-		cbox.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
+		setComponentBindings(cbox, id);
 		
 		comp.readOnlyLabel = comp.createReadOnlyCheckbox(id,cbox,comp.readOnlyLabel);
 	}
+
+    public static void setComponentBindings(HtmlSelectBooleanCheckbox cbox, String id) {
+        cbox.setStyleClass("checkBox");
+		cbox.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
+		cbox.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
+    }
 
 	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
 		super.installProperties(comp, prefix);

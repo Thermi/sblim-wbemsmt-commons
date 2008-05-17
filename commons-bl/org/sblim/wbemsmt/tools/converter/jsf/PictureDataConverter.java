@@ -22,6 +22,7 @@
 package org.sblim.wbemsmt.tools.converter.jsf;
 
 import org.apache.commons.lang.ClassUtils;
+import org.sblim.wbemsmt.bl.fielddata.MemoData;
 import org.sblim.wbemsmt.bl.fielddata.PictureData;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFPictureComponent;
@@ -32,7 +33,18 @@ public class PictureDataConverter implements Converter {
 	 * return the text to set (as String)
 	 */
 	public Object convertForGui(Object value) {
-		return value;
+	    
+	    MemoData tooltip = ((PictureData)value).getTooltip();
+	    
+	    if (tooltip != null) {
+	        String escapedHtmlText = MemoDataConverter.escapeHtmlTags(tooltip.getText());
+	        escapedHtmlText = escapedHtmlText.replaceAll("'","&quot;");
+            tooltip = new MemoData(escapedHtmlText,"<br>",tooltip.getLimit());
+	        ((PictureData)value).setTooltip(tooltip);
+        }
+	    
+
+	    return value;
 	}
 
 	/**

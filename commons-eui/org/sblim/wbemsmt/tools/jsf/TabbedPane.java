@@ -19,18 +19,10 @@
   */
 package org.sblim.wbemsmt.tools.jsf;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import javax.faces.application.Application;
-import javax.faces.component.html.HtmlCommandButton;
-import javax.faces.component.html.HtmlCommandLink;
-import javax.faces.component.html.HtmlOutputText;
-import javax.faces.component.html.HtmlPanelGrid;
-import javax.faces.component.html.HtmlPanelGroup;
+import javax.faces.component.html.*;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 

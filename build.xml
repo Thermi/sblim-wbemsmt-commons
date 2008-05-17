@@ -75,7 +75,7 @@
 
     </target>
 
-	<!-- ================================= 
+   	<!-- ================================= 
           target: compile
          ================================= -->
     <target name="compile" depends="launcher-config" description="--> Compile the sources of ${ant.project.name}">

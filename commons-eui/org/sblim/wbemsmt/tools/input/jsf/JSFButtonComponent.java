@@ -25,8 +25,7 @@ import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
-import org.sblim.wbemsmt.exception.ObjectUpdateException;
-import org.sblim.wbemsmt.exception.UpdateControlsException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.ActionComponent;
 import org.sblim.wbemsmt.tools.jsf.JsfUtil;
@@ -40,7 +39,7 @@ public class JSFButtonComponent extends LabeledJSFInputComponent implements Acti
 	}
 	
 	
-	private void setComponentBindings(HtmlCommandButton btn, String id) {
+	public static void setComponentBindings(HtmlCommandButton btn, String id) {
 		btn.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"LabelText}"));
 		btn.setValueBinding("onclick", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"JavaScriptConfirmStatement} " 
 				+ JsfUtil.STOP_ALL_AJAX_REQUESTS_TRUE  
@@ -53,10 +52,10 @@ public class JSFButtonComponent extends LabeledJSFInputComponent implements Acti
 	/**
 	 * ActionListenerCalled by JSF Framwork
 	 * @param event
-	 * @throws ObjectUpdateException 
-	 * @throws UpdateControlsException 
+	 * @throws WbemsmtException 
+	 * @throws WbemsmtException 
 	 */
-	public String itemAction() throws ObjectUpdateException, UpdateControlsException
+	public String itemAction() throws WbemsmtException
 	{
 		return handleAction();
 	}

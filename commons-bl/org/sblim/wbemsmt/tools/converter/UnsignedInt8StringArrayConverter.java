@@ -21,9 +21,10 @@
 
 package org.sblim.wbemsmt.tools.converter;
 
+import javax.cim.UnsignedInteger8;
+
 import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.StringUtils;
-import org.sblim.wbem.cim.UnsignedInt8;
 
 public class UnsignedInt8StringArrayConverter implements StringArrayConverter {
 
@@ -56,7 +57,7 @@ public class UnsignedInt8StringArrayConverter implements StringArrayConverter {
 			index = Integer.parseInt(s);
 		}
 		else if (value == null) {
-			index = 0;
+		    return null;
 		}
 		else
 		{
@@ -71,7 +72,7 @@ public class UnsignedInt8StringArrayConverter implements StringArrayConverter {
 	 */
 	public Object convertForModel(Object guiElement) {
 		
-		if (values == null)
+		if (values == null || guiElement == null)
 		{
 			return null;
 		}
@@ -81,7 +82,7 @@ public class UnsignedInt8StringArrayConverter implements StringArrayConverter {
 			String textInArray = values[i];
 			if (textInArray.equals(text))
 			{
-				return new UnsignedInt8((short)i);
+				return new UnsignedInteger8((short)i);
 			}
 		}
 		if ("".equals(guiElement.toString()))
@@ -111,7 +112,7 @@ public class UnsignedInt8StringArrayConverter implements StringArrayConverter {
 	}
 	
 	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInt8.class);
+		return ClassUtils.getShortClassName(UnsignedInteger8.class);
 	}	
 	
 }

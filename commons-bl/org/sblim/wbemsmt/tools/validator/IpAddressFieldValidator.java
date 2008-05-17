@@ -27,7 +27,7 @@ import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
-import org.sblim.wbemsmt.exception.ValidationException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 
 public class IpAddressFieldValidator extends Validator {
@@ -40,10 +40,10 @@ public class IpAddressFieldValidator extends Validator {
 	}
 
 	/**
-	 * @throws ValidationException 
+	 * @throws WbemsmtException 
 	 * @see org.sblim.wbemsmt.tools.validator.Validator#validate()
 	 */
-	public void validateElement(MessageList result) throws ValidationException {
+	public void validateElement(MessageList result) throws WbemsmtException {
 		
 		if  ( !component.isEmpty())
 		{
@@ -60,7 +60,7 @@ public class IpAddressFieldValidator extends Validator {
 					else
 					{
 						logger.severe("Cannot validate IpAdress - Raw Value for InputComponent is no String");
-						throw new ValidationException("Cannot validate IpAdress - Raw Value for InputComponent is no String");
+						throw new WbemsmtException(WbemsmtException.ERR_VALIDATION,"Cannot validate IpAdress - Raw Value for InputComponent is no String");
 					}
 					
 				}

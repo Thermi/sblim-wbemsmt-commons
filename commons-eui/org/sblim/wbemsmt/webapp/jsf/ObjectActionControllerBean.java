@@ -24,15 +24,12 @@ import java.util.logging.Logger;
 
 import javax.faces.component.UIParameter;
 import javax.faces.component.html.HtmlCommandLink;
-import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlPanelGrid;
-import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.Cookie;
+import javax.wbem.client.WBEMClient;
 
-import org.sblim.wbem.client.CIMClient;
 import org.sblim.wbemsmt.bl.Cleanup;
 import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.*;
@@ -42,7 +39,8 @@ import org.sblim.wbemsmt.bl.welcome.JsfWelcomeListener;
 import org.sblim.wbemsmt.bl.welcome.WelcomeData;
 import org.sblim.wbemsmt.bl.welcome.WelcomeDataComparator;
 import org.sblim.wbemsmt.bl.welcome.WelcomeListener;
-import org.sblim.wbemsmt.exception.*;
+import org.sblim.wbemsmt.exception.ExceptionUtil;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tasklauncher.CimomTreeNode;
 import org.sblim.wbemsmt.tasklauncher.event.jsf.JsfEditListener;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
@@ -120,17 +118,17 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 //		this.canDelete = canDelete;
 //	}
 	
-	public String delete() throws ModelLoadException, ObjectNotFoundException, ObjectDeletionException
+	public String delete() throws WbemsmtException
 	{
 		return "start";
 	}
 	
-	public String create() throws ObjectUpdateException, ValidationException, ModelLoadException
+	public String create() throws WbemsmtException
 	{
 		return "start";
 	}
 
-	public String edit() throws ModelLoadException, ObjectUpdateException, ValidationException
+	public String edit() throws WbemsmtException
 	{
         return "start";
 	}
@@ -142,7 +140,7 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 		this.treeSelector = treeSelector;
 	}
 
-	public CIMClient getCIMClient() {
+	public WBEMClient getWBEMClient() {
 		return treeSelector.getSelectedNode().getTaskLauncherTreeNode().getCimClient();
 	}
 
@@ -155,7 +153,7 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	}
 
 	public HtmlPanelGrid getCurrentEditor() {
-		return currentEditor;
+	    return currentEditor;
 	}
 
 	public void setCurrentEditor(HtmlPanelGrid editor) {
@@ -331,7 +329,7 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 					configs = new WelcomeData[]{};
 				}
 				
-			} catch (WbemSmtException e) {
+			} catch (WbemsmtException e) {
 				if (selectedTreeNode != null)
 				{
 					logger.log(Level.SEVERE,"Cannot create JsfWelcomeListener for Selected node " + selectedTreeNode.getInfo(),e);
@@ -392,34 +390,6 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 		return welcomeContainers;
 	}
 	
-	public HtmlPanelGrid getTest()
-	{
-		HtmlPanelGrid component = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
-
-		HtmlInputText text = (HtmlInputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputText.COMPONENT_TYPE);
-		text.setSize(30);
-		text.setValue("Test");
-		component.getChildren().add(text);
-		
-		ValueBinding binding = FacesContext.getCurrentInstance().getApplication().createValueBinding("#{objectActionController.test1}");
-		HtmlPanelGroup grid = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
-		grid.setValueBinding("binding", binding);
-		component.getChildren().add(grid);
-		return component;
-	}
-
-	public HtmlPanelGroup getTest1()
-	{
-		HtmlPanelGroup component = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
-		HtmlInputText text = (HtmlInputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlInputText.COMPONENT_TYPE);
-		text.setValue("Test1");
-		text.setSize(60);
-		component.getChildren().add(text);
-		return component;
-		
-		
-	}
-
 	/**
 	 *****************************************
 	 *****************************************
@@ -577,7 +547,7 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
             try {
                 treeSelector.getCurrentTreeBacker().updateTree();
             }
-            catch (WbemSmtException e) {
+            catch (WbemsmtException e) {
                 ExceptionUtil.handleException(e);
             }            
         }
@@ -589,7 +559,7 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
     public String getLastMessageInputResult() {
         return lastMessageInputResult;
     }
-    
+
     
 	
 	

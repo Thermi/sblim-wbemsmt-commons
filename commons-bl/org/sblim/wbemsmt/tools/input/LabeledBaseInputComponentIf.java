@@ -161,4 +161,9 @@ public interface LabeledBaseInputComponentIf {
 	 */
 	public void setSize(Size size);
 	
+	/**
+	 * Can be used to copy field content from on field to another 
+	 */
+	public void copyFrom(LabeledBaseInputComponentIf source);
+	
 }

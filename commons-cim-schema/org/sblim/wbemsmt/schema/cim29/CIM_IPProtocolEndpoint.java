@@ -1,746 +1,1416 @@
 /** 
  * CIM_IPProtocolEndpoint.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  A ProtocolEndpoint that is dedicated to running IP.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: A ProtocolEndpoint that is dedicated to running IP.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
 
-/**
- *  A ProtocolEndpoint that is dedicated to running IP.
- */
-public class CIM_IPProtocolEndpoint extends CIM_ProtocolEndpoint  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_IPProtocolEndpoint"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_IPProtocolEndpoint extends CIM_ProtocolEndpoint {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.8.0";
-	
-	
-	/**
-	*	The IP address that this ProtocolEndpoint represents, formatted according to the appropriate convention as defined in the AddressType property of this class (e.g., 171.79.6.40). This single property is deprecated to replace it by specific IPv4 and v6 addresses.
-	*/
-	public final static String CIM_PROPERTY_ADDRESS = "Address"; //$NON-NLS-1$
-	/**
-	*	An enumeration that describes the format of the Address property. It is deprecated since it is not needed, as the class contains both IPv4 and v6 addresses).
-	*/
-	public final static String CIM_PROPERTY_ADDRESSTYPE = "AddressType"; //$NON-NLS-1$
-	/**
-	*	This property explicitly defines support for different versions of the IP protocol, for this Endpoint. It is deprecated since the ProtocolIFType also provides this functionality by describing an endpoint as IPv4 only (value=4096), IPv6 only (value=4097), or IPv4/v6 (value=4098).
-	*/
-	public final static String CIM_PROPERTY_IPVERSIONSUPPORT = "IPVersionSupport"; //$NON-NLS-1$
-	/**
-	*	The IPv4 address that this ProtocolEndpoint represents.
-	*/
-	public final static String CIM_PROPERTY_IPV4ADDRESS = "IPv4Address"; //$NON-NLS-1$
-	/**
-	*	The IPv6 address that this ProtocolEndpoint represents.
-	*/
-	public final static String CIM_PROPERTY_IPV6ADDRESS = "IPv6Address"; //$NON-NLS-1$
-	/**
-	*	The prefix length for the IPv6 address of this Protocol Endpoint, if one is defined.
-	*/
-	public final static String CIM_PROPERTY_PREFIXLENGTH = "PrefixLength"; //$NON-NLS-1$
-	/**
-	*	ProtocolIFType's enumeration is limited to IP-related and reserved values for this subclass of ProtocolEndpoint.
-	*/
-	public final static String CIM_PROPERTY_PROTOCOLIFTYPE = "ProtocolIFType"; //$NON-NLS-1$
-	/**
-	*	The mask for the IPv4 address of this ProtocolEndpoint, if one is defined.
-	*/
-	public final static String CIM_PROPERTY_SUBNETMASK = "SubnetMask"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_IPProtocolEndpoint";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_ADDRESS);
-		CIM_PropertyNameList.add(CIM_PROPERTY_ADDRESSTYPE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_IPVERSIONSUPPORT);
-		CIM_PropertyNameList.add(CIM_PROPERTY_IPV4ADDRESS);
-		CIM_PropertyNameList.add(CIM_PROPERTY_IPV6ADDRESS);
-		CIM_PropertyNameList.add(CIM_PROPERTY_PREFIXLENGTH);
-		CIM_PropertyNameList.add(CIM_PROPERTY_PROTOCOLIFTYPE);
-		CIM_PropertyNameList.add(CIM_PROPERTY_SUBNETMASK);
-				
-		for (int i = 0; i < CIM_ProtocolEndpoint.CIM_PropertyNameList.size(); i++) {
-			if (((String)CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ADDRESS)||
-				((String)CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_ADDRESSTYPE)||
-				((String)CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_IPVERSIONSUPPORT)||
-				((String)CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_IPV4ADDRESS)||
-				((String)CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_IPV6ADDRESS)||
-				((String)CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_PREFIXLENGTH)||
-				((String)CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_PROTOCOLIFTYPE)||
-				((String)CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i)).equals(CIM_PROPERTY_SUBNETMASK)){
-				continue;
-			}
-			
-			CIM_IPProtocolEndpoint.CIM_PropertyNameList.add(CIM_ProtocolEndpoint.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ADDRESS, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_ADDRESSTYPE, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_IPVERSIONSUPPORT, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_IPV4ADDRESS, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_IPV6ADDRESS, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_PREFIXLENGTH, new CIMValue(null, new CIMDataType(CIMDataType.UINT8))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_PROTOCOLIFTYPE, new CIMValue(new UnsignedInt16("4096"), new CIMDataType(CIMDataType.UINT16))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_SUBNETMASK, new CIMValue(null, new CIMDataType(CIMDataType.STRING))));
-				
-		for (int i = 0; i < CIM_ProtocolEndpoint.CIM_PropertyList.size(); i++) {
-			if (((CIMProperty)CIM_ProtocolEndpoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ADDRESS)||
-				((CIMProperty)CIM_ProtocolEndpoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_ADDRESSTYPE)||
-				((CIMProperty)CIM_ProtocolEndpoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_IPVERSIONSUPPORT)||
-				((CIMProperty)CIM_ProtocolEndpoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_IPV4ADDRESS)||
-				((CIMProperty)CIM_ProtocolEndpoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_IPV6ADDRESS)||
-				((CIMProperty)CIM_ProtocolEndpoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_PREFIXLENGTH)||
-				((CIMProperty)CIM_ProtocolEndpoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_PROTOCOLIFTYPE)||
-				((CIMProperty)CIM_ProtocolEndpoint.CIM_PropertyList.get(i)).getName().equals(CIM_PROPERTY_SUBNETMASK)){
-				continue;
-			}
-			
-			CIM_IPProtocolEndpoint.CIM_PropertyList.add(CIM_ProtocolEndpoint.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim_2_14");
-				
-		String[] parentClassPackageList = CIM_ProtocolEndpoint.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	public final static String[] CIM_VALUEMAP_ADDRESSTYPE = {"Unknown","IPv4","IPv6"};
-	public final static String[] CIM_VALUEMAP_IPVERSIONSUPPORT = {"Unknown","IPv4 Only","IPv6 Only","Both IPv4 and IPv6"};
-	public final static String[] CIM_VALUEMAP_PROTOCOLIFTYPE = {"Other","IANA Reserved","IPv4","IPv6","IPv4/v6","DMTF Reserved","Vendor Reserved"};
-	
-	
-	public final static int ADDRESSTYPE_UNKNOWN = 0;
-	public final static int ADDRESSTYPE_IPV4 = 1;
-	public final static int ADDRESSTYPE_IPV6 = 2;
-	
-	public final static int IPVERSIONSUPPORT_UNKNOWN = 0;
-	public final static int IPVERSIONSUPPORT_IPV4ONLY = 1;
-	public final static int IPVERSIONSUPPORT_IPV6ONLY = 2;
-	public final static int IPVERSIONSUPPORT_BOTHIPV4ANDIPV6 = 3;
-	
-	public final static String PROTOCOLIFTYPE_OTHER = "1";
-	public final static String PROTOCOLIFTYPE_IANARESERVED = "225..4095";
-	public final static String PROTOCOLIFTYPE_IPV4 = "4096";
-	public final static String PROTOCOLIFTYPE_IPV6 = "4097";
-	public final static String PROTOCOLIFTYPE_IPV4_V6 = "4098";
-	public final static String PROTOCOLIFTYPE_DMTFRESERVED = "4301..32767";
-	public final static String PROTOCOLIFTYPE_VENDORRESERVED = "32768..";
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constants of property Address
+     * The IP address that this ProtocolEndpoint represents, formatted according to the appropriate convention as defined in the AddressType property of this class (e.g., 171.79.6.40). This single property is deprecated to replace it by specific IPv4 and v6 addresses.
+     */
+    public static class PROPERTY_ADDRESS {
+        /**
+         * name of the property Address
+         */
+        public final static String NAME = "Address";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_IPProtocolEndpoint() {
+    }
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * Constants of property AddressType
+     * An enumeration that describes the format of the Address property. It is deprecated since it is not needed, as the class contains both IPv4 and v6 addresses).
+     */
+    public static class PROPERTY_ADDRESSTYPE {
+        /**
+         * name of the property AddressType
+         */
+        public final static String NAME = "AddressType";
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+        /**
+         * constant for value map entry 0
+         */
 
-		setValidCimInstance(false);
-	}
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
 
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_IPProtocolEndpoint(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+        /**
+         * constant for value map entry 1
+         */
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_IPProtocolEndpoint(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_IPv4 = new javax.cim.UnsignedInteger16(
+                "1");
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
+        /**
+         * constant for value entry IPv4 (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_IPv4 = "IPv4";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_IPv6 = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry IPv6 (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_IPv6 = "IPv6";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@40404040
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
             }
-            CIM_IPProtocolEndpoint.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+
+            if (VALUE_ENTRY_IPv4.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_IPv4;
+            }
+
+            if (VALUE_ENTRY_IPv6.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_IPv6;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_IPv4.intValue()) {
+                return VALUE_ENTRY_IPv4;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_IPv6.intValue()) {
+                return VALUE_ENTRY_IPv6;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property AddressType   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown, VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_IPv4,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_IPv6 };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property AddressType   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown, VALUE_ENTRY_IPv4,
+                VALUE_ENTRY_IPv6 };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property AddressType   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_IPv4, VALUE_ENTRY_IPv6 };
+
+    }
+
+    /**
+     * Constants of property IPVersionSupport
+     * This property explicitly defines support for different versions of the IP protocol, for this Endpoint. It is deprecated since the ProtocolIFType also provides this functionality by describing an endpoint as IPv4 only (value=4096), IPv6 only (value=4097), or IPv4/v6 (value=4098).
+     */
+    public static class PROPERTY_IPVERSIONSUPPORT {
+        /**
+         * name of the property IPVersionSupport
+         */
+        public final static String NAME = "IPVersionSupport";
+
+        /**
+         * constant for value map entry 0
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
+
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_IPv4_Only = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry IPv4 Only (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_IPv4_Only = "IPv4 Only";
+
+        /**
+         * constant for value map entry 2
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_IPv6_Only = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry IPv6 Only (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_IPv6_Only = "IPv6 Only";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Both_IPv4_and_IPv6 = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Both IPv4 and IPv6 (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Both_IPv4_and_IPv6 = "Both IPv4 and IPv6";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@59025902
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
+            }
+
+            if (VALUE_ENTRY_IPv4_Only.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_IPv4_Only;
+            }
+
+            if (VALUE_ENTRY_IPv6_Only.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_IPv6_Only;
+            }
+
+            if (VALUE_ENTRY_Both_IPv4_and_IPv6.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Both_IPv4_and_IPv6;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_IPv4_Only.intValue()) {
+                return VALUE_ENTRY_IPv4_Only;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_IPv6_Only.intValue()) {
+                return VALUE_ENTRY_IPv6_Only;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Both_IPv4_and_IPv6.intValue()) {
+                return VALUE_ENTRY_Both_IPv4_and_IPv6;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property IPVersionSupport   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown,
+                VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_IPv4_Only,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_IPv6_Only,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Both_IPv4_and_IPv6 };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property IPVersionSupport   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown, VALUE_ENTRY_IPv4_Only,
+                VALUE_ENTRY_IPv6_Only, VALUE_ENTRY_Both_IPv4_and_IPv6 };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property IPVersionSupport   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_IPv4_Only, VALUE_ENTRY_IPv6_Only, VALUE_ENTRY_Both_IPv4_and_IPv6 };
+
+    }
+
+    /**
+     * Constants of property IPv4Address
+     * The IPv4 address that this ProtocolEndpoint represents.
+     */
+    public static class PROPERTY_IPV4ADDRESS {
+        /**
+         * name of the property IPv4Address
+         */
+        public final static String NAME = "IPv4Address";
+
+    }
+
+    /**
+     * Constants of property IPv6Address
+     * The IPv6 address that this ProtocolEndpoint represents.
+     */
+    public static class PROPERTY_IPV6ADDRESS {
+        /**
+         * name of the property IPv6Address
+         */
+        public final static String NAME = "IPv6Address";
+
+    }
+
+    /**
+     * Constants of property PrefixLength
+     * The prefix length for the IPv6 address of this Protocol Endpoint, if one is defined.
+     */
+    public static class PROPERTY_PREFIXLENGTH {
+        /**
+         * name of the property PrefixLength
+         */
+        public final static String NAME = "PrefixLength";
+
+    }
+
+    /**
+     * Constants of property ProtocolIFType
+     * ProtocolIFType's enumeration is limited to IP-related and reserved values for this subclass of ProtocolEndpoint.
+     */
+    public static class PROPERTY_PROTOCOLIFTYPE {
+        /**
+         * name of the property ProtocolIFType
+         */
+        public final static String NAME = "ProtocolIFType";
+
+        /**
+         * constant for value map entry 1
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
+
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
+
+        /**
+         * constant for value map entry 225..4095
+         */
+
+        /**
+         * constant for value entry IANA Reserved (corresponds to mapEntry 225..4095 )
+         */
+        public final static String VALUE_ENTRY_IANA_Reserved = "IANA Reserved";
+
+        /**
+         * constant for value map entry 4096
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4096_FOR_VALUE_ENTRY_IPv4 = new javax.cim.UnsignedInteger16(
+                "4096");
+
+        /**
+         * constant for value entry IPv4 (corresponds to mapEntry 4096 )
+         */
+        public final static String VALUE_ENTRY_IPv4 = "IPv4";
+
+        /**
+         * constant for value map entry 4097
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4097_FOR_VALUE_ENTRY_IPv6 = new javax.cim.UnsignedInteger16(
+                "4097");
+
+        /**
+         * constant for value entry IPv6 (corresponds to mapEntry 4097 )
+         */
+        public final static String VALUE_ENTRY_IPv6 = "IPv6";
+
+        /**
+         * constant for value map entry 4098
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_4098_FOR_VALUE_ENTRY_IPv4_v6 = new javax.cim.UnsignedInteger16(
+                "4098");
+
+        /**
+         * constant for value entry IPv4/v6 (corresponds to mapEntry 4098 )
+         */
+        public final static String VALUE_ENTRY_IPv4_v6 = "IPv4/v6";
+
+        /**
+         * constant for value map entry 4301..32767
+         */
+
+        /**
+         * constant for value entry DMTF Reserved (corresponds to mapEntry 4301..32767 )
+         */
+        public final static String VALUE_ENTRY_DMTF_Reserved = "DMTF Reserved";
+
+        /**
+         * constant for value map entry 32768..
+         */
+
+        /**
+         * constant for value entry Vendor Reserved (corresponds to mapEntry 32768.. )
+         */
+        public final static String VALUE_ENTRY_Vendor_Reserved = "Vendor Reserved";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@36663666
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_IPv4.equals(value)) {
+                return VALUE_MAP_ENTRY_4096_FOR_VALUE_ENTRY_IPv4;
+            }
+
+            if (VALUE_ENTRY_IPv6.equals(value)) {
+                return VALUE_MAP_ENTRY_4097_FOR_VALUE_ENTRY_IPv6;
+            }
+
+            if (VALUE_ENTRY_IPv4_v6.equals(value)) {
+                return VALUE_MAP_ENTRY_4098_FOR_VALUE_ENTRY_IPv4_v6;
+            }
+
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue >= 225 || iValue <= 4095) {
+                return VALUE_ENTRY_IANA_Reserved;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4096_FOR_VALUE_ENTRY_IPv4.intValue()) {
+                return VALUE_ENTRY_IPv4;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4097_FOR_VALUE_ENTRY_IPv6.intValue()) {
+                return VALUE_ENTRY_IPv6;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_4098_FOR_VALUE_ENTRY_IPv4_v6.intValue()) {
+                return VALUE_ENTRY_IPv4_v6;
+            }
+
+            if (iValue >= 4301 || iValue <= 32767) {
+                return VALUE_ENTRY_DMTF_Reserved;
+            }
+
+            if (iValue >= 32768) {
+                return VALUE_ENTRY_Vendor_Reserved;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property ProtocolIFType   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other, VALUE_MAP_ENTRY_4096_FOR_VALUE_ENTRY_IPv4,
+                VALUE_MAP_ENTRY_4097_FOR_VALUE_ENTRY_IPv6,
+                VALUE_MAP_ENTRY_4098_FOR_VALUE_ENTRY_IPv4_v6 };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property ProtocolIFType   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Other,
+                VALUE_ENTRY_IANA_Reserved, VALUE_ENTRY_IPv4, VALUE_ENTRY_IPv6, VALUE_ENTRY_IPv4_v6,
+                VALUE_ENTRY_DMTF_Reserved, VALUE_ENTRY_Vendor_Reserved };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property ProtocolIFType   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Other,
+                VALUE_ENTRY_IPv4, VALUE_ENTRY_IPv6, VALUE_ENTRY_IPv4_v6 };
+
+    }
+
+    /**
+     * Constants of property SubnetMask
+     * The mask for the IPv4 address of this ProtocolEndpoint, if one is defined.
+     */
+    public static class PROPERTY_SUBNETMASK {
+        /**
+         * name of the property SubnetMask
+         */
+        public final static String NAME = "SubnetMask";
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim_2_14");
+        String[] parentClassPackageList = CIM_ProtocolEndpoint.getPackages();
+
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   A ProtocolEndpoint that is dedicated to running IP.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_IPProtocolEndpoint(WBEMClient client, String namespace) throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   A ProtocolEndpoint that is dedicated to running IP.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_IPProtocolEndpoint(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_IPProtocolEndpoint() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("Address", new CIMProperty("Address", CIMDataType.STRING_T, null));
+        propertiesToCheck.put("AddressType", new CIMProperty("AddressType", CIMDataType.UINT16_T,
+                null));
+        propertiesToCheck.put("IPVersionSupport", new CIMProperty("IPVersionSupport",
+                CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("IPv4Address", new CIMProperty("IPv4Address", CIMDataType.STRING_T,
+                null));
+        propertiesToCheck.put("IPv6Address", new CIMProperty("IPv6Address", CIMDataType.STRING_T,
+                null));
+        propertiesToCheck.put("PrefixLength", new CIMProperty("PrefixLength", CIMDataType.UINT8_T,
+                null));
+        propertiesToCheck.put("ProtocolIFType", new CIMProperty("ProtocolIFType",
+                CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("SubnetMask", new CIMProperty("SubnetMask", CIMDataType.STRING_T,
+                null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_IPProtocolEndpoint.Java_Package_List.toArray(new String[CIM_IPProtocolEndpoint.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property Address
+     *     * <br>
+     * The IP address that this ProtocolEndpoint represents, formatted according to the appropriate convention as defined in the AddressType property of this class (e.g., 171.79.6.40). This single property is deprecated to replace it by specific IPv4 and v6 addresses.
+     *     */
+
+    public String get_Address() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ADDRESS.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ADDRESS.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property Address
+     * <br>
+     * The IP address that this ProtocolEndpoint represents, formatted according to the appropriate convention as defined in the AddressType property of this class (e.g., 171.79.6.40). This single property is deprecated to replace it by specific IPv4 and v6 addresses.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_IPProtocolEndpoint)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_IPProtocolEndpoint)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_IPProtocolEndpoint)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_IPProtocolEndpoint)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_IPProtocolEndpoint)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_IPProtocolEndpoint)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_IPProtocolEndpoint)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_IPProtocolEndpoint)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_IPProtocolEndpoint)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_IPProtocolEndpoint)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_Address(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ADDRESS.NAME);
+        if (currentProperty != null) {
+            setProperty(setPropertyValue_Address(currentProperty, newValue));
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ADDRESS.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute Address
-	
-	public String get_Address() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_IPProtocolEndpoint.CIM_PROPERTY_ADDRESS);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_ADDRESS + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_ADDRESS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_Address(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_IPProtocolEndpoint.CIM_PROPERTY_ADDRESS);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_ADDRESS + " could not be found");
-    		
-		} else if (!CIM_IPProtocolEndpointHelper.isValid_Address(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_ADDRESS);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_ADDRESS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute AddressType
-	
-	public UnsignedInt16 get_AddressType() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_IPProtocolEndpoint.CIM_PROPERTY_ADDRESSTYPE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_ADDRESSTYPE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_ADDRESSTYPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_AddressType(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_IPProtocolEndpoint.CIM_PROPERTY_ADDRESSTYPE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_ADDRESSTYPE + " could not be found");
-    		
-		} else if (!CIM_IPProtocolEndpointHelper.isValid_AddressType(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_ADDRESSTYPE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_ADDRESSTYPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property Address by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	// Attribute IPVersionSupport
-	
-	public UnsignedInt16 get_IPVersionSupport() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_IPProtocolEndpoint.CIM_PROPERTY_IPVERSIONSUPPORT);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_IPVERSIONSUPPORT + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_IPVERSIONSUPPORT + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_IPVersionSupport(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_IPProtocolEndpoint.CIM_PROPERTY_IPVERSIONSUPPORT);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_IPVERSIONSUPPORT + " could not be found");
-    		
-		} else if (!CIM_IPProtocolEndpointHelper.isValid_IPVersionSupport(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_IPVERSIONSUPPORT);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_IPVERSIONSUPPORT + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public static CIMProperty create_Address(WBEMClient client, String namespace, String newValue)
+            throws WbemsmtException {
+        CIM_IPProtocolEndpoint fco = new CIM_IPProtocolEndpoint(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ADDRESS.NAME);
+        if (property != null) {
+            property = setPropertyValue_Address(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ADDRESS.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	// Attribute IPv4Address
-	
-	public String get_IPv4Address() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_IPProtocolEndpoint.CIM_PROPERTY_IPV4ADDRESS);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_IPV4ADDRESS + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_IPV4ADDRESS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_IPv4Address(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_IPProtocolEndpoint.CIM_PROPERTY_IPV4ADDRESS);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_IPV4ADDRESS + " could not be found");
-    		
-		} else if (!CIM_IPProtocolEndpointHelper.isValid_IPv4Address(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_IPV4ADDRESS);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_IPV4ADDRESS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Set the property Address
+     * <br>
+     * The IP address that this ProtocolEndpoint represents, formatted according to the appropriate convention as defined in the AddressType property of this class (e.g., 171.79.6.40). This single property is deprecated to replace it by specific IPv4 and v6 addresses.
+     */
 
-	// Attribute IPv6Address
-	
-	public String get_IPv6Address() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_IPProtocolEndpoint.CIM_PROPERTY_IPV6ADDRESS);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_IPV6ADDRESS + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_IPV6ADDRESS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_IPv6Address(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_IPProtocolEndpoint.CIM_PROPERTY_IPV6ADDRESS);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_IPV6ADDRESS + " could not be found");
-    		
-		} else if (!CIM_IPProtocolEndpointHelper.isValid_IPv6Address(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_IPV6ADDRESS);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_IPV6ADDRESS + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    private static CIMProperty setPropertyValue_Address(CIMProperty currentProperty, String newValue) {
+        Object setThis = null;
 
-	// Attribute PrefixLength
-	
-	public UnsignedInt8 get_PrefixLength() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_IPProtocolEndpoint.CIM_PROPERTY_PREFIXLENGTH);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_PREFIXLENGTH + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT8) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_PREFIXLENGTH + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT8) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt8)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_PrefixLength(UnsignedInt8 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_IPProtocolEndpoint.CIM_PROPERTY_PREFIXLENGTH);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_PREFIXLENGTH + " could not be found");
-    		
-		} else if (!CIM_IPProtocolEndpointHelper.isValid_PrefixLength(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_PREFIXLENGTH);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT8) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_PREFIXLENGTH + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT8) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT8));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        setThis = newValue;
 
-	// Attribute ProtocolIFType
-	
-	public UnsignedInt16 get_ProtocolIFType() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_IPProtocolEndpoint.CIM_PROPERTY_PROTOCOLIFTYPE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_PROTOCOLIFTYPE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_PROTOCOLIFTYPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_ProtocolIFType(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_IPProtocolEndpoint.CIM_PROPERTY_PROTOCOLIFTYPE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_PROTOCOLIFTYPE + " could not be found");
-    		
-		} else if (!CIM_IPProtocolEndpointHelper.isValid_ProtocolIFType(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_PROTOCOLIFTYPE);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_PROTOCOLIFTYPE + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
 
-	// Attribute SubnetMask
-	
-	public String get_SubnetMask() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_IPProtocolEndpoint.CIM_PROPERTY_SUBNETMASK);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_SUBNETMASK + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_SUBNETMASK + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (String)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_SubnetMask(String newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_IPProtocolEndpoint.CIM_PROPERTY_SUBNETMASK);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_SUBNETMASK + " could not be found");
-    		
-		} else if (!CIM_IPProtocolEndpointHelper.isValid_SubnetMask(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_SUBNETMASK);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.STRING) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_IPProtocolEndpoint.CIM_PROPERTY_SUBNETMASK + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.STRING) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.STRING));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+        return newProperty;
+    }
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+    /**
+     * Get the property AddressType
+     *     * <br>
+     * An enumeration that describes the format of the Address property. It is deprecated since it is not needed, as the class contains both IPv4 and v6 addresses).
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_AddressType() {
+        CIMProperty currentProperty = getProperty(PROPERTY_ADDRESSTYPE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ADDRESSTYPE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property AddressType
+     * <br>
+     * An enumeration that describes the format of the Address property. It is deprecated since it is not needed, as the class contains both IPv4 and v6 addresses).
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_AddressType(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ADDRESSTYPE.NAME);
+        if (currentProperty != null) {
+            setProperty(setPropertyValue_AddressType(currentProperty, newValue));
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ADDRESSTYPE.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property AddressType by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_AddressType(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_IPProtocolEndpoint fco = new CIM_IPProtocolEndpoint(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ADDRESSTYPE.NAME);
+        if (property != null) {
+            property = setPropertyValue_AddressType(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ADDRESSTYPE.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property AddressType
+     * <br>
+     * An enumeration that describes the format of the Address property. It is deprecated since it is not needed, as the class contains both IPv4 and v6 addresses).
+     */
+
+    private static CIMProperty setPropertyValue_AddressType(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property IPVersionSupport
+     *     * <br>
+     * This property explicitly defines support for different versions of the IP protocol, for this Endpoint. It is deprecated since the ProtocolIFType also provides this functionality by describing an endpoint as IPv4 only (value=4096), IPv6 only (value=4097), or IPv4/v6 (value=4098).
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_IPVersionSupport() {
+        CIMProperty currentProperty = getProperty(PROPERTY_IPVERSIONSUPPORT.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_IPVERSIONSUPPORT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property IPVersionSupport
+     * <br>
+     * This property explicitly defines support for different versions of the IP protocol, for this Endpoint. It is deprecated since the ProtocolIFType also provides this functionality by describing an endpoint as IPv4 only (value=4096), IPv6 only (value=4097), or IPv4/v6 (value=4098).
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_IPVersionSupport(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_IPVERSIONSUPPORT.NAME);
+        if (currentProperty != null) {
+            setProperty(setPropertyValue_IPVersionSupport(currentProperty, newValue));
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_IPVERSIONSUPPORT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property IPVersionSupport by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_IPVersionSupport(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_IPProtocolEndpoint fco = new CIM_IPProtocolEndpoint(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_IPVERSIONSUPPORT.NAME);
+        if (property != null) {
+            property = setPropertyValue_IPVersionSupport(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_IPVERSIONSUPPORT.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property IPVersionSupport
+     * <br>
+     * This property explicitly defines support for different versions of the IP protocol, for this Endpoint. It is deprecated since the ProtocolIFType also provides this functionality by describing an endpoint as IPv4 only (value=4096), IPv6 only (value=4097), or IPv4/v6 (value=4098).
+     */
+
+    private static CIMProperty setPropertyValue_IPVersionSupport(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property IPv4Address
+     *     * <br>
+     * The IPv4 address that this ProtocolEndpoint represents.
+     *     */
+
+    public String get_IPv4Address() {
+        CIMProperty currentProperty = getProperty(PROPERTY_IPV4ADDRESS.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_IPV4ADDRESS.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property IPv4Address
+     * <br>
+     * The IPv4 address that this ProtocolEndpoint represents.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_IPv4Address(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_IPV4ADDRESS.NAME);
+        if (currentProperty != null) {
+            setProperty(setPropertyValue_IPv4Address(currentProperty, newValue));
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_IPV4ADDRESS.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property IPv4Address by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_IPv4Address(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_IPProtocolEndpoint fco = new CIM_IPProtocolEndpoint(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_IPV4ADDRESS.NAME);
+        if (property != null) {
+            property = setPropertyValue_IPv4Address(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_IPV4ADDRESS.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property IPv4Address
+     * <br>
+     * The IPv4 address that this ProtocolEndpoint represents.
+     */
+
+    private static CIMProperty setPropertyValue_IPv4Address(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property IPv6Address
+     *     * <br>
+     * The IPv6 address that this ProtocolEndpoint represents.
+     *     */
+
+    public String get_IPv6Address() {
+        CIMProperty currentProperty = getProperty(PROPERTY_IPV6ADDRESS.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_IPV6ADDRESS.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property IPv6Address
+     * <br>
+     * The IPv6 address that this ProtocolEndpoint represents.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_IPv6Address(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_IPV6ADDRESS.NAME);
+        if (currentProperty != null) {
+            setProperty(setPropertyValue_IPv6Address(currentProperty, newValue));
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_IPV6ADDRESS.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property IPv6Address by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_IPv6Address(WBEMClient client, String namespace,
+            String newValue) throws WbemsmtException {
+        CIM_IPProtocolEndpoint fco = new CIM_IPProtocolEndpoint(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_IPV6ADDRESS.NAME);
+        if (property != null) {
+            property = setPropertyValue_IPv6Address(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_IPV6ADDRESS.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property IPv6Address
+     * <br>
+     * The IPv6 address that this ProtocolEndpoint represents.
+     */
+
+    private static CIMProperty setPropertyValue_IPv6Address(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property PrefixLength
+     *     * <br>
+     * The prefix length for the IPv6 address of this Protocol Endpoint, if one is defined.
+     *     */
+
+    public javax.cim.UnsignedInteger8 get_PrefixLength() {
+        CIMProperty currentProperty = getProperty(PROPERTY_PREFIXLENGTH.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_PREFIXLENGTH.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger8) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property PrefixLength
+     * <br>
+     * The prefix length for the IPv6 address of this Protocol Endpoint, if one is defined.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_PrefixLength(javax.cim.UnsignedInteger8 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_PREFIXLENGTH.NAME);
+        if (currentProperty != null) {
+            setProperty(setPropertyValue_PrefixLength(currentProperty, newValue));
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_PREFIXLENGTH.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property PrefixLength by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_PrefixLength(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger8 newValue) throws WbemsmtException {
+        CIM_IPProtocolEndpoint fco = new CIM_IPProtocolEndpoint(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_PREFIXLENGTH.NAME);
+        if (property != null) {
+            property = setPropertyValue_PrefixLength(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_PREFIXLENGTH.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property PrefixLength
+     * <br>
+     * The prefix length for the IPv6 address of this Protocol Endpoint, if one is defined.
+     */
+
+    private static CIMProperty setPropertyValue_PrefixLength(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger8 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property ProtocolIFType
+     *     * <br>
+     * ProtocolIFType's enumeration is limited to IP-related and reserved values for this subclass of ProtocolEndpoint.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_ProtocolIFType() {
+        CIMProperty currentProperty = getProperty(PROPERTY_PROTOCOLIFTYPE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_PROTOCOLIFTYPE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property ProtocolIFType
+     * <br>
+     * ProtocolIFType's enumeration is limited to IP-related and reserved values for this subclass of ProtocolEndpoint.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_ProtocolIFType(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_PROTOCOLIFTYPE.NAME);
+        if (currentProperty != null) {
+            setProperty(setPropertyValue_ProtocolIFType(currentProperty, newValue));
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_PROTOCOLIFTYPE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property ProtocolIFType by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_ProtocolIFType(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_IPProtocolEndpoint fco = new CIM_IPProtocolEndpoint(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_PROTOCOLIFTYPE.NAME);
+        if (property != null) {
+            property = setPropertyValue_ProtocolIFType(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_PROTOCOLIFTYPE.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property ProtocolIFType
+     * <br>
+     * ProtocolIFType's enumeration is limited to IP-related and reserved values for this subclass of ProtocolEndpoint.
+     */
+
+    private static CIMProperty setPropertyValue_ProtocolIFType(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property SubnetMask
+     *     * <br>
+     * The mask for the IPv4 address of this ProtocolEndpoint, if one is defined.
+     *     */
+
+    public String get_SubnetMask() {
+        CIMProperty currentProperty = getProperty(PROPERTY_SUBNETMASK.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_SUBNETMASK.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return null;
+        }
+
+        return (String) currentProperty.getValue();
+
+    }
+
+    /**
+     * Set the property SubnetMask
+     * <br>
+     * The mask for the IPv4 address of this ProtocolEndpoint, if one is defined.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_SubnetMask(String newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_SUBNETMASK.NAME);
+        if (currentProperty != null) {
+            setProperty(setPropertyValue_SubnetMask(currentProperty, newValue));
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SUBNETMASK.NAME + " was not found in instance "
+                    + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property SubnetMask by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_SubnetMask(WBEMClient client, String namespace, String newValue)
+            throws WbemsmtException {
+        CIM_IPProtocolEndpoint fco = new CIM_IPProtocolEndpoint(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_SUBNETMASK.NAME);
+        if (property != null) {
+            property = setPropertyValue_SubnetMask(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_SUBNETMASK.NAME + " was not found in instance "
+                    + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property SubnetMask
+     * <br>
+     * The mask for the IPv4 address of this ProtocolEndpoint, if one is defined.
+     */
+
+    private static CIMProperty setPropertyValue_SubnetMask(CIMProperty currentProperty,
+            String newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_IPProtocolEndpoint.CIM_CLASS_NAME;
+    }
 
 }

@@ -25,27 +25,28 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.cim.UnsignedInteger64;
+
 import org.apache.commons.lang.ClassUtils;
-import org.sblim.wbem.cim.UnsignedInt64;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class UnsignedInt64StringConverter extends MultipleValueConverter implements Converter {
 
 	/**
-	 * Converts the selected Index of the param-given comboBox as UnsignedInt16-Object
+	 * Converts the selected Index of the param-given comboBox as UnsignedInteger16-Object
 	 */
 	public Object convertForModel(Object guiElement) {
 		List values = (List) guiElement;
 		List result = new ArrayList();
 		for (Iterator iter = values.iterator(); iter.hasNext();) {
 			String value = (String) iter.next();
-			result.add(new UnsignedInt64(Long.parseLong(value)));
+			result.add(new UnsignedInteger64(""+Long.parseLong(value)));
 		}
 		return result;
 	}
 
 	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInt64.class);
+		return ClassUtils.getShortClassName(UnsignedInteger64.class);
 	}	
 	
 }

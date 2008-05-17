@@ -23,6 +23,7 @@ import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.tools.converter.StringArrayConverter;
 import org.sblim.wbemsmt.tools.input.LabeledBaseHeaderComponentIf;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
+import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 import org.sblim.wbemsmt.tools.input.LabeledStringArrayInputComponentIf;
 
 public class LabeledTestStringArrayComponent extends LabeledBaseInputComponent implements LabeledStringArrayInputComponentIf,TestInputComponentIf, LabeledBaseHeaderComponentIf {
@@ -142,7 +143,5 @@ public class LabeledTestStringArrayComponent extends LabeledBaseInputComponent i
 
 	public void setShowAllInReadOnlyView(boolean showAllInReadOnlyView) {
 	}	
-	
-	
 	
 }

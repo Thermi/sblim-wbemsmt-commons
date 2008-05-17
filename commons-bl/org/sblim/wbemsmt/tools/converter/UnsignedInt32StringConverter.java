@@ -20,7 +20,8 @@
 
 package org.sblim.wbemsmt.tools.converter;
 
-import org.sblim.wbem.cim.UnsignedInt32;
+import javax.cim.UnsignedInteger32;
+
 
 public class UnsignedInt32StringConverter {
 
@@ -33,7 +34,7 @@ public class UnsignedInt32StringConverter {
 	 */
 	public Object convertForGui(Object value) {
 		try {
-			return "" + ((UnsignedInt32)value).longValue();
+			return "" + ((UnsignedInteger32)value).longValue();
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Cannot Convert Object " + value + " to a String");
 		}
@@ -53,7 +54,7 @@ public class UnsignedInt32StringConverter {
 			e.printStackTrace();
 			throw new IllegalArgumentException("Cannot Convert Object " + guiElement + " to a int");
 		}
-		return new UnsignedInt32(index);
+		return new UnsignedInteger32(index);
 	}
 
 	/**

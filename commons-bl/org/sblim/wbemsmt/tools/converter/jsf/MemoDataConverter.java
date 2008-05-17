@@ -32,8 +32,23 @@ public class MemoDataConverter implements Converter {
 	 * return the text to set (as String)
 	 */
 	public Object convertForGui(Object value) {
-		return value;
+	    MemoData data = (MemoData) value;
+	    String text = data.getText();
+	    //replace all brackets by &lt; and &gt;
+	    text = escapeHtmlTags(text);
+		return new MemoData(text,"<br>",data.getLimit());
+		
 	}
+
+    public static String escapeHtmlTags(String text) {
+        
+        text = text.replaceAll("<br>","\n");
+	    text = text.replaceAll("<","&lt;");
+	    text = text.replaceAll(">","&gt;");
+	    text = text.replaceAll("\\\\n", "<br>");
+        text = text.replaceAll("\\n", "<br>");
+        return text;
+    }
 
 	/**
 	 * Converts the content of the textfield to 

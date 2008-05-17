@@ -49,13 +49,13 @@ public class LabeledJSFComboBoxComponent extends LabeledJSFInputComponent implem
 	}
 
     public static void setComponentBindings(HtmlSelectOneMenu menu, String id) {
-		menu.setStyleClass("comboBox");
+        menu.setStyleClass("comboBox");
 		menu.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
 		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
 		UISelectItems items = (UISelectItems) FacesContext.getCurrentInstance().getApplication().createComponent(UISelectItems.COMPONENT_TYPE);
 		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Values}"));
 		menu.getChildren().add(items);
-	}
+    }
 	
 	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
 		super.installProperties(comp, prefix);

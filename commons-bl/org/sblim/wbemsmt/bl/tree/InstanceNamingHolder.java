@@ -20,6 +20,7 @@
 package org.sblim.wbemsmt.bl.tree;
 
 import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNaming;
+import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNamingFactory;
 
 /**
  * @author Bauschert

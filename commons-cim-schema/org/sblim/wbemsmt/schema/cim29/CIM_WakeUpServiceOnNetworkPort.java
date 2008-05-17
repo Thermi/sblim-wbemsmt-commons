@@ -1,421 +1,331 @@
 /** 
  * CIM_WakeUpServiceOnNetworkPort.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  WakeUpServiceOnNetworkPort defines where the WakeUpService is implemented.
- * Currently, the Service can either employ a Modem or a NetworkPort for wakeup.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: WakeUpServiceOnNetworkPort defines where the WakeUpService is implemented. Currently, the Service can either employ a Modem or a NetworkPort for wakeup.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
 
-/**
- *  WakeUpServiceOnNetworkPort defines where the WakeUpService is implemented.
- * Currently, the Service can either employ a Modem or a NetworkPort for wakeup.
- */
-public class CIM_WakeUpServiceOnNetworkPort extends CIM_DeviceServiceImplementation  {
-	
-	public final static String CIM_CLASS_NAME = "CIM_WakeUpServiceOnNetworkPort"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_WakeUpServiceOnNetworkPort extends CIM_DeviceServiceImplementation {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.7.0";
-	public final static String CIM_PROPERTY_CIM_NETWORKPORT = "Antecedent"; //$NON-NLS-1$
-	public final static String CIM_PROPERTY_CIM_WAKEUPSERVICE = "Dependent"; //$NON-NLS-1$
-	
-	
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_WakeUpServiceOnNetworkPort";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_CIM_NETWORKPORT);
-		CIM_PropertyNameList.add(CIM_PROPERTY_CIM_WAKEUPSERVICE);
-				
-		for (int i = 0; i < CIM_DeviceServiceImplementation.CIM_PropertyNameList.size(); i++) {
-			
-			CIM_WakeUpServiceOnNetworkPort.CIM_PropertyNameList.add(CIM_DeviceServiceImplementation.CIM_PropertyNameList.elementAt(i));
-		}
-		
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_NETWORKPORT, new CIMValue(null, new CIMDataType(CIM_NetworkPort.CIM_CLASS_NAME))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_WAKEUPSERVICE, new CIMValue(null, new CIMDataType(CIM_WakeUpService.CIM_CLASS_NAME))));
-				
-		for (int i = 0; i < CIM_DeviceServiceImplementation.CIM_PropertyList.size(); i++) {
-			
-			CIM_WakeUpServiceOnNetworkPort.CIM_PropertyList.add(CIM_DeviceServiceImplementation.CIM_PropertyList.elementAt(i));
-		}
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-				
-		String[] parentClassPackageList = CIM_DeviceServiceImplementation.getPackages();
-		
-		for (int i = 0; i < parentClassPackageList.length; i++) {
-			Java_Package_List.add(parentClassPackageList[i]);
-		}
-	};
-			
-	
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constants of property Antecedent
+     * 
+     */
+    public static class PROPERTY_ANTECEDENT_CIM_NETWORKPORT {
+        /**
+         * name of the property Antecedent
+         */
+        public final static String NAME = "Antecedent";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_WakeUpServiceOnNetworkPort() {
+    }
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+    /**
+     * Constants of property Dependent
+     * 
+     */
+    public static class PROPERTY_DEPENDENT_CIM_WAKEUPSERVICE {
+        /**
+         * name of the property Dependent
+         */
+        public final static String NAME = "Dependent";
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+    }
 
-		setValidCimInstance(false);
-	}
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+        String[] parentClassPackageList = CIM_DeviceServiceImplementation.getPackages();
 
+        for (int i = 0; i < parentClassPackageList.length; i++) {
+            addPackage(parentClassPackageList[i]);
+        }
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_WakeUpServiceOnNetworkPort(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+    };
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_WakeUpServiceOnNetworkPort(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
-            }
-            CIM_WakeUpServiceOnNetworkPort.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   WakeUpServiceOnNetworkPort defines where the WakeUpService is implemented. Currently, the Service can either employ a Modem or a NetworkPort for wakeup.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_WakeUpServiceOnNetworkPort(WBEMClient client, String namespace)
+            throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   WakeUpServiceOnNetworkPort defines where the WakeUpService is implemented. Currently, the Service can either employ a Modem or a NetworkPort for wakeup.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_WakeUpServiceOnNetworkPort(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_WakeUpServiceOnNetworkPort() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("Antecedent", new CIMProperty("Antecedent", new CIMDataType(
+                CIM_NetworkPort.CIM_CLASS_NAME), null));
+        propertiesToCheck.put("Dependent", new CIMProperty("Dependent", new CIMDataType(
+                CIM_WakeUpService.CIM_CLASS_NAME), null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_WakeUpServiceOnNetworkPort.Java_Package_List.toArray(new String[CIM_WakeUpServiceOnNetworkPort.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property Antecedent
+     * @param client the client used to get the JavaObject by the retrieved CIMObjectPath of this attribute    * <br>
+     * 
+     *     */
+
+    public CIM_NetworkPort get_Antecedent_CIM_NetworkPort(javax.wbem.client.WBEMClient client)
+            throws WbemsmtException {
+        CIMProperty currentProperty = getProperty(PROPERTY_ANTECEDENT_CIM_NETWORKPORT.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_ANTECEDENT_CIM_NETWORKPORT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return CIM_NetworkPortHelper
+                .getInstance(client, (CIMObjectPath) currentProperty.getValue());
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property Antecedent
+     * <br>
+     * 
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_WakeUpServiceOnNetworkPort)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_WakeUpServiceOnNetworkPort)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_WakeUpServiceOnNetworkPort)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_WakeUpServiceOnNetworkPort)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_WakeUpServiceOnNetworkPort)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_WakeUpServiceOnNetworkPort)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_WakeUpServiceOnNetworkPort)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_WakeUpServiceOnNetworkPort)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_WakeUpServiceOnNetworkPort)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_WakeUpServiceOnNetworkPort)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_Antecedent_CIM_NetworkPort(CIM_NetworkPort newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_ANTECEDENT_CIM_NETWORKPORT.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_Antecedent_CIM_NetworkPort(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ANTECEDENT_CIM_NETWORKPORT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute CIM_NetworkPort
-	
-	public CIMObjectPath get_CIM_NetworkPort() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_WakeUpServiceOnNetworkPort.CIM_PROPERTY_CIM_NETWORKPORT);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_WakeUpServiceOnNetworkPort.CIM_PROPERTY_CIM_NETWORKPORT + " could not be found");
-    		
-		} else if (currentProperty.getType() == null ) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_WakeUpServiceOnNetworkPort.CIM_PROPERTY_CIM_NETWORKPORT + " is not of expected type CIM_NetworkPort.");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (CIMObjectPath)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CIM_NetworkPort(CIM_NetworkPort newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_WakeUpServiceOnNetworkPort.CIM_PROPERTY_CIM_NETWORKPORT);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_WakeUpServiceOnNetworkPort.CIM_PROPERTY_CIM_NETWORKPORT + " could not be found");
-    		
-		} else if (!CIM_WakeUpServiceOnNetworkPortHelper.isValid_CIM_NetworkPort(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_WakeUpServiceOnNetworkPort.CIM_PROPERTY_CIM_NETWORKPORT);
-    		
-		} else if (currentProperty.getType() == null ) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_WakeUpServiceOnNetworkPort.CIM_PROPERTY_CIM_NETWORKPORT + " is not of expected type CIM_NetworkPort.");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue.getCimObjectPath(), new CIMDataType(CIM_NetworkPort.CIM_CLASS_NAME));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute CIM_WakeUpService
-	
-	public CIMObjectPath get_CIM_WakeUpService() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_WakeUpServiceOnNetworkPort.CIM_PROPERTY_CIM_WAKEUPSERVICE);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_WakeUpServiceOnNetworkPort.CIM_PROPERTY_CIM_WAKEUPSERVICE + " could not be found");
-    		
-		} else if (currentProperty.getType() == null ) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_WakeUpServiceOnNetworkPort.CIM_PROPERTY_CIM_WAKEUPSERVICE + " is not of expected type CIM_WakeUpService.");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (CIMObjectPath)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CIM_WakeUpService(CIM_WakeUpService newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_WakeUpServiceOnNetworkPort.CIM_PROPERTY_CIM_WAKEUPSERVICE);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_WakeUpServiceOnNetworkPort.CIM_PROPERTY_CIM_WAKEUPSERVICE + " could not be found");
-    		
-		} else if (!CIM_WakeUpServiceOnNetworkPortHelper.isValid_CIM_WakeUpService(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_WakeUpServiceOnNetworkPort.CIM_PROPERTY_CIM_WAKEUPSERVICE);
-    		
-		} else if (currentProperty.getType() == null ) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_WakeUpServiceOnNetworkPort.CIM_PROPERTY_CIM_WAKEUPSERVICE + " is not of expected type CIM_WakeUpService.");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue.getCimObjectPath(), new CIMDataType(CIM_WakeUpService.CIM_CLASS_NAME));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property Antecedent by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+    public static CIMProperty create_Antecedent_CIM_NetworkPort(WBEMClient client,
+            String namespace, CIM_NetworkPort newValue) throws WbemsmtException {
+        CIM_WakeUpServiceOnNetworkPort fco = new CIM_WakeUpServiceOnNetworkPort(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_ANTECEDENT_CIM_NETWORKPORT.NAME);
+        if (property != null) {
+            property = setPropertyValue_Antecedent_CIM_NetworkPort(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_ANTECEDENT_CIM_NETWORKPORT.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property Antecedent
+     * <br>
+     * 
+     */
+
+    private static CIMProperty setPropertyValue_Antecedent_CIM_NetworkPort(
+            CIMProperty currentProperty, CIM_NetworkPort newValue) {
+        Object setThis = null;
+
+        setThis = newValue != null ? newValue.getCimObjectPath() : null;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property Dependent
+     * @param client the client used to get the JavaObject by the retrieved CIMObjectPath of this attribute    * <br>
+     * 
+     *     */
+
+    public CIM_WakeUpService get_Dependent_CIM_WakeUpService(javax.wbem.client.WBEMClient client)
+            throws WbemsmtException {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEPENDENT_CIM_WAKEUPSERVICE.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_DEPENDENT_CIM_WAKEUPSERVICE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return CIM_WakeUpServiceHelper.getInstance(client, (CIMObjectPath) currentProperty
+                .getValue());
+
+    }
+
+    /**
+     * Set the property Dependent
+     * <br>
+     * 
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_Dependent_CIM_WakeUpService(CIM_WakeUpService newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEPENDENT_CIM_WAKEUPSERVICE.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_Dependent_CIM_WakeUpService(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEPENDENT_CIM_WAKEUPSERVICE.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property Dependent by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_Dependent_CIM_WakeUpService(WBEMClient client,
+            String namespace, CIM_WakeUpService newValue) throws WbemsmtException {
+        CIM_WakeUpServiceOnNetworkPort fco = new CIM_WakeUpServiceOnNetworkPort(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_DEPENDENT_CIM_WAKEUPSERVICE.NAME);
+        if (property != null) {
+            property = setPropertyValue_Dependent_CIM_WakeUpService(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEPENDENT_CIM_WAKEUPSERVICE.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property Dependent
+     * <br>
+     * 
+     */
+
+    private static CIMProperty setPropertyValue_Dependent_CIM_WakeUpService(
+            CIMProperty currentProperty, CIM_WakeUpService newValue) {
+        Object setThis = null;
+
+        setThis = newValue != null ? newValue.getCimObjectPath() : null;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_WakeUpServiceOnNetworkPort.CIM_CLASS_NAME;
+    }
 
 }

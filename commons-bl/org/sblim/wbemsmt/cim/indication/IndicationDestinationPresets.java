@@ -23,7 +23,7 @@ import java.net.InetAddress;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.sblim.wbemsmt.exception.IndicationPreparationException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 
 public class IndicationDestinationPresets {
 
@@ -34,12 +34,10 @@ public class IndicationDestinationPresets {
 	 * if url contains &lt;port&gt; a port within the given range is inserted 
 	 * if url contains &lt;hostname&gt; InetAddress.getLocalHost().getHostName() as Hostname 
 	 */
-	private String url;
-	private int portStart;
+	private String url;	private int portStart;
 	private int portEnd;
 
 	private Set portsInUse = new HashSet();
-	
 	
 	public String getUrl() {
 		return url;
@@ -59,25 +57,24 @@ public class IndicationDestinationPresets {
 	public void setPortEnd(int portEnd) {
 		this.portEnd = portEnd;
 	}
-	public IndicationDestination getIndicationDestination() throws IndicationPreparationException {
-		IndicationDestination result = new IndicationDestination();
-		result.setPresets(this);
-		
+	public IndicationDestination getIndicationDestination() throws WbemsmtException {
 		String url;
+        IndicationDestination result = new IndicationDestination();
+        result.setPresets(this);
 		try {
 			url = this.url;
 			int i = url.indexOf(HOSTNAME);
 			if (i > -1)
 			{
 				url = url.substring(0,i) + InetAddress.getLocalHost().getHostName() + url.substring(i+HOSTNAME.length());
+				result.setUsingNoIp(true);
 			}
 
 			i = url.indexOf(PORT);
 			if (i > -1)
 			{
-				String freePort = getFreePort();
-				result.setCalculatedPort(true);
-				result.setPort(Integer.parseInt(freePort));
+				int freePort = getFreePort();
+				result.setPort(new Integer(freePort));
 				url = url.substring(0,i) + freePort + url.substring(i+PORT.length());
 			}
 			
@@ -85,11 +82,16 @@ public class IndicationDestinationPresets {
 			
 			
 		} catch (Exception e) {
-			throw new IndicationPreparationException("Cannot calculate Url for url template " + this.url,e);
+			throw new WbemsmtException(WbemsmtException.ERR_FAILED, "Cannot calculate Url for url template " + this.url,e);
 		}
 		return result;
 	}
-	private String getFreePort() throws IndicationPreparationException {
+	
+	/**
+	 * @return
+	 * @throws WbemsmtException
+	 */
+	private int getFreePort() throws WbemsmtException {
 		
 		for (int i=portStart; i <= portEnd; i++ )
 		{
@@ -97,11 +99,11 @@ public class IndicationDestinationPresets {
 			if (!(portsInUse.contains(port)))
 			{
 				portsInUse.add(port);
-				return port;
+				return i;
 			}
 		}
 		
-		throw new IndicationPreparationException("No free ports for url with template " + url + " , start port " + portStart + " and end port " + portEnd);
+		throw new WbemsmtException(WbemsmtException.ERR_INDICATION_PREPARATION,"No free ports for start port " + portStart + " and end port " + portEnd);
 	}
 	
 	public void freePort(int port)

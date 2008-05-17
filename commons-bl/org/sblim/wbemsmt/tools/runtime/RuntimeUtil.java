@@ -99,4 +99,17 @@ public class RuntimeUtil {
 	public void setMode(String mode) {
 		this.mode = mode;
 	}
+
+	/**
+	 * return the plaform dependent linebreak
+	 * @return
+	 */
+    public static String getLineBreak() {
+        
+        if (getInstance().isJSF())
+        {
+            return "<br>";
+        }        
+        return "\n";
+    }
 }

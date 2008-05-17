@@ -24,8 +24,10 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import org.sblim.wbem.cim.CIMInstance;
-import org.sblim.wbem.client.CIMClient;
+import javax.cim.CIMInstance;
+import javax.wbem.client.WBEMClient;
+
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tasklauncher.CIMClassNode;
 
 public abstract class WbemsmtInitialObjectLoader
@@ -53,7 +55,7 @@ public abstract class WbemsmtInitialObjectLoader
 		initialObjects.add(instance);
 	}
 	
-	public abstract void load(CIMClassNode cimClassNode);
+	public abstract void load(CIMClassNode cimClassNode) throws WbemsmtException;
 	
 	/**
 	 * returns the list with the Objects for the Initial use while building the tree
@@ -65,10 +67,10 @@ public abstract class WbemsmtInitialObjectLoader
 	}
 
 	/**
-	 * Returns the changed CIMClient.
+	 * Returns the changed WBEMClient.
 	 * For example: If the Implementation starts in the InterOp namespace and navigates trough an association to an other 
 	 * namespace the WbemsmtInitialObjectLoader can replace the namespace
 	 * @return
 	 */
-	public abstract CIMClient getChangedCimClient();
+	public abstract WBEMClient getChangedCimClient();
 }

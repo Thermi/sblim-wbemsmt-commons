@@ -21,9 +21,10 @@
 
 package org.sblim.wbemsmt.tools.converter.test;
 
+import javax.cim.UnsignedInteger32;
+
 import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.StringUtils;
-import org.sblim.wbem.cim.UnsignedInt32;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class UnsignedInt32StringConverter implements Converter {
@@ -32,12 +33,12 @@ public class UnsignedInt32StringConverter implements Converter {
 	 * return the SelectedIndex(UnsignedInt16) To Set (as a LongObject)
 	 */
 	public Object convertForGui(Object value) {
-		UnsignedInt32 iValue = (UnsignedInt32)value;
+		UnsignedInteger32 iValue = (UnsignedInteger32)value;
 		return iValue != null ? ""+iValue.longValue() : null;
 	}
 
 	/**
-	 * Converts the selected Index of the param-given String as UnsignedInt32-Object
+	 * Converts the selected Index of the param-given String as UnsignedInteger32-Object
 	 */
 	public Object convertForModel(Object guiElement) {
 		String value = (String) guiElement;
@@ -47,7 +48,7 @@ public class UnsignedInt32StringConverter implements Converter {
 		}
 		else
 		{
-			return new UnsignedInt32(Long.parseLong(value));
+			return new UnsignedInteger32(Long.parseLong(value));
 		}
 	}
 
@@ -68,7 +69,7 @@ public class UnsignedInt32StringConverter implements Converter {
 	}
 	
 	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInt32.class);
+		return ClassUtils.getShortClassName(UnsignedInteger32.class);
 	}	
 
 }

@@ -1,465 +1,604 @@
 /** 
  * CIM_ProductProductDependency.java
  *
- * © Copyright IBM Corp. 2005
+ * 
+ * © Copyright IBM Corp. 2006,2007
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TER	MS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
  * You can obtain a current copy of the Common Public License from
  * http://www.opensource.org/licenses/cpl1.0.php
  *
- * @author:	ECCG 0.9.7 generated 
- * 			(author should be changed, e.g. First and Last Name <xxx@cc.ibm.com>)
+ * @author: org.sblim.wbemsmt.dcg.generator.fco.jsr48.FcoGenerator
+ * @template: org/sblim/wbemsmt/dcg/templates/fco/jsr48/fco.vm
  *
  * Contributors:
- *
- *
- * Description:  CIM_ProductProductDependency is an association between two Products, indicating
- * that one must be installed, or must be absent, for the other to function.
- * This is conceptually equivalent to the ServiceServiceDependency association.
+ *    michael.bauschert@de.ibm.com 
  * 
+ * Description: CIM_ProductProductDependency is an association between two Products, indicating that one must be installed, or must be absent, for the other to function. This is conceptually equivalent to the ServiceServiceDependency association.
+ * 
+ * generated Class
  */
 
 package org.sblim.wbemsmt.schema.cim29;
 
-import java.security.InvalidParameterException;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-import org.sblim.wbem.cim.*;
+import javax.cim.*;
+import javax.wbem.client.*;
 
+import org.sblim.wbemsmt.exception.*;
 
-/**
- *  CIM_ProductProductDependency is an association between two Products, indicating
- * that one must be installed, or must be absent, for the other to function.
- * This is conceptually equivalent to the ServiceServiceDependency association.
- */
-public class CIM_ProductProductDependency  {
-	
-	protected CIMInstance cimInstance			= new CIMInstance();
-	protected CIMInstance original_cimInstance	= null;
-	protected CIMObjectPath cimObjectPath		= null; 
-	
-	public final static String CIM_CLASS_NAME = "CIM_ProductProductDependency"; //$NON-NLS-1$
-	public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
+public class CIM_ProductProductDependency extends org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFco {
 
-	private boolean validCimInstance = false;
-	
-	public final static String CIM_CLASS_VERSION = "2.6.0";
-	public final static String CIM_PROPERTY_CIM_PRODUCT_1 = "RequiredProduct"; //$NON-NLS-1$
-	public final static String CIM_PROPERTY_CIM_PRODUCT_2 = "DependentProduct"; //$NON-NLS-1$
-	
-	
-	/**
-	*	The nature of the Product dependency. This property describes that the associated Product must be installed (value=2) or must be absent (value=3) in order for the Product to function.
-	*/
-	public final static String CIM_PROPERTY_TYPEOFDEPENDENCY = "TypeOfDependency"; //$NON-NLS-1$
-	
-	
-	
+    public final static String CIM_CLASS_NAME = "CIM_ProductProductDependency";
+    public final static String CIM_CLASS_DISPLAYNAME = CIM_CLASS_NAME;
 
-	public static Vector CIM_PropertyNameList	= new Vector();
-	public static Vector CIM_PropertyList 		= new Vector();
-	private static Set Java_Package_List 		= new HashSet();
-	
-	static {
-		CIM_PropertyNameList.add(CIM_PROPERTY_TYPEOFDEPENDENCY);
-		CIM_PropertyNameList.add(CIM_PROPERTY_CIM_PRODUCT_1);
-		CIM_PropertyNameList.add(CIM_PROPERTY_CIM_PRODUCT_2);
-		
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_TYPEOFDEPENDENCY, new CIMValue(null, new CIMDataType(CIMDataType.UINT16))));
-		
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_PRODUCT_1, new CIMValue(null, new CIMDataType(CIM_Product.CIM_CLASS_NAME))));
-		CIM_PropertyList.add(new CIMProperty(CIM_PROPERTY_CIM_PRODUCT_2, new CIMValue(null, new CIMDataType(CIM_Product.CIM_CLASS_NAME))));
-		
-		addPackage("org.sblim.wbemsmt.schema.cim29");
-		};
-			
-	public final static String[] CIM_VALUEMAP_TYPEOFDEPENDENCY = {"Unknown","Other","Product Must Be Installed","Product Must Not Be Installed"};
-	
-	
-	public final static int TYPEOFDEPENDENCY_UNKNOWN = 0;
-	public final static int TYPEOFDEPENDENCY_OTHER = 1;
-	public final static int TYPEOFDEPENDENCY_PRODUCTMUSTBEINSTALLED = 2;
-	public final static int TYPEOFDEPENDENCY_PRODUCTMUSTNOTBEINSTALLED = 3;
-	
-	
-	
-	//**********************************************************************
-	// Constructors 	
-	//**********************************************************************
+    /**
+     * Constants of property TypeOfDependency
+     * The nature of the Product dependency. This property describes that the associated Product must be installed (value=2) or must be absent (value=3) in order for the Product to function.
+     */
+    public static class PROPERTY_TYPEOFDEPENDENCY {
+        /**
+         * name of the property TypeOfDependency
+         */
+        public final static String NAME = "TypeOfDependency";
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_ProductProductDependency() {
+        /**
+         * constant for value map entry 0
+         */
 
-		this.cimInstance	= new CIMInstance();
-		
-		for (int i = 0; i < CIM_PropertyList.size(); i++) {
-			this.cimInstance.addProperty((CIMProperty)((CIMProperty)CIM_PropertyList.get(i)).clone());
-		}
-		
-		this.cimObjectPath 	= new CIMObjectPath(CIM_CLASS_NAME);
-		this.cimInstance.setObjectPath(this.cimObjectPath);
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown = new javax.cim.UnsignedInteger16(
+                "0");
 
-		this.original_cimInstance	= (CIMInstance)this.cimInstance.clone();
+        /**
+         * constant for value entry Unknown (corresponds to mapEntry 0 )
+         */
+        public final static String VALUE_ENTRY_Unknown = "Unknown";
 
-		setValidCimInstance(false);
-	}
+        /**
+         * constant for value map entry 1
+         */
 
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other = new javax.cim.UnsignedInteger16(
+                "1");
 
-	/**
-	*	Class constructor
-	*/	
-	public CIM_ProductProductDependency(Vector keyProperties){ 
-		this();
-		
-		if (keyProperties == null) {
-			throw new InvalidParameterException("The keyProperties parameter does not contain a valid reference.");
-		
-		}
-		
-		Iterator iter = keyProperties.iterator();
-		while (iter.hasNext()) {
-			Object property = iter.next();
-			
-			if (property instanceof CIMProperty) {
-				CIMProperty keyProperty = (CIMProperty)property;
-				this.cimObjectPath.addKey(keyProperty);
-				
-				if (this.cimInstance.getProperty(keyProperty.getName()) != null) {
-					this.cimInstance.removeProperty(keyProperty.getName());
-				}
-				this.cimInstance.addProperty(keyProperty);
-				
-			} else {
-				throw new InvalidParameterException("The keyProperties parameter should only contain objects of class CIMProperty.");
-				
-			}
-		}
-		
-		setValidCimInstance(false);
-	}
+        /**
+         * constant for value entry Other (corresponds to mapEntry 1 )
+         */
+        public final static String VALUE_ENTRY_Other = "Other";
 
-	
-	/**
-	*	Class constructor
-	*/	
-	public CIM_ProductProductDependency(CIMObjectPath cimObjectPath, CIMInstance cimInstance){ 
-		
-		if (cimInstance == null) {
-			throw new InvalidParameterException("The cimInstance parameter does not contain a valid reference.");
-		
-		} else if (cimObjectPath == null){
-			throw new InvalidParameterException("The cimObjectPath parameter does not contain a valid reference.");		
-		
-		} else if (!cimObjectPath.getObjectName().equals(cimInstance.getClassName())) {
-			throw new InvalidParameterException("The class name of the instance and the ObjectPath are not the same.");
-		}
-		
-		setCimInstance(cimInstance);
-		this.original_cimInstance = (CIMInstance)cimInstance.clone();
-		this.cimObjectPath        = cimObjectPath;
-		setValidCimInstance(true);
-	}
+        /**
+         * constant for value map entry 2
+         */
 
-	
-	/**
-	*	The method returns the display name of the class
-	*/	
-	public String getClassDisplayName(){
-		return CIM_CLASS_DISPLAYNAME;
-	}
-	
-	public static void addPackage(String packagename) {
-        if (packagename != null) {
-            if (!packagename.endsWith(".")) {
-                packagename = packagename + ".";
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Product_Must_Be_Installed = new javax.cim.UnsignedInteger16(
+                "2");
+
+        /**
+         * constant for value entry Product Must Be Installed (corresponds to mapEntry 2 )
+         */
+        public final static String VALUE_ENTRY_Product_Must_Be_Installed = "Product Must Be Installed";
+
+        /**
+         * constant for value map entry 3
+         */
+
+        public final static javax.cim.UnsignedInteger16 VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Product_Must_Not_Be_Installed = new javax.cim.UnsignedInteger16(
+                "3");
+
+        /**
+         * constant for value entry Product Must Not Be Installed (corresponds to mapEntry 3 )
+         */
+        public final static String VALUE_ENTRY_Product_Must_Not_Be_Installed = "Product Must Not Be Installed";
+
+        /**
+         * get the ValueMapEntry of the given value
+         * @param value the value to find the ValueMapEntry for
+         * @return the ValueMap entry or null if not found
+         */
+        //org.sblim.wbemsmt.dcg.generator.DCGContextUtil$Wrapper@ab00ab0
+        public static javax.cim.UnsignedInteger16 getValueMapEntry(String value) {
+
+            if (VALUE_ENTRY_Unknown.equals(value)) {
+                return VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown;
             }
-            CIM_ProductProductDependency.Java_Package_List.add(packagename);
-            
-        } else {
-            throw new NullPointerException();
+
+            if (VALUE_ENTRY_Other.equals(value)) {
+                return VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other;
+            }
+
+            if (VALUE_ENTRY_Product_Must_Be_Installed.equals(value)) {
+                return VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Product_Must_Be_Installed;
+            }
+
+            if (VALUE_ENTRY_Product_Must_Not_Be_Installed.equals(value)) {
+                return VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Product_Must_Not_Be_Installed;
+            }
+            return null;
+
+        }
+
+        /**
+         * uses the element within array VALUE_ENTRIES_FOR_DISPLAY at index indexInPulldown to get the ValueMapEntry
+         * @param indexInPulldown the index within the pulldown element, the list etc
+         * @return the ValueMap entry from the displayed values
+         */
+        public static javax.cim.UnsignedInteger16 getValueMapEntryFromDisplayedValue(
+                Number indexInPulldown) {
+            return getValueMapEntry(VALUE_ENTRIES_FOR_DISPLAY[indexInPulldown.intValue()]);
+        }
+
+        /**
+         * gets the value for the given valueMap entry (currentValue) and gives back the index of this value within the VALUE_ENTRIES_FOR_DISPLAY array
+         *
+         * can be used to set the correct selection index for a pulldown field
+         *
+         * @return -1 if for the currentValue no value within VALUE_ENTRIES_FOR_DISPLAY was found
+         * @param currentValue the currentValue to get the index for
+         */
+        public static int getIndexForDisplay(javax.cim.UnsignedInteger16 currentValue) {
+            String valueEntry = getValueEntry(currentValue);
+            if (valueEntry != null) {
+                for (int i = 0; i < VALUE_ENTRIES_FOR_DISPLAY.length; i++) {
+                    if (VALUE_ENTRIES_FOR_DISPLAY[i].equals(valueEntry)) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+
+        }
+
+        /**
+         * get the ValueEntry of the given valueMapEntry
+         * @param valueMapEntry the entry within the valueMap to find the ValueEntry for
+         * @return the Value entry or null if not found
+         */
+
+        public static String getValueEntry(javax.cim.UnsignedInteger16 value) {
+            int iValue = value.intValue();
+
+            if (iValue == VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown.intValue()) {
+                return VALUE_ENTRY_Unknown;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other.intValue()) {
+                return VALUE_ENTRY_Other;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Product_Must_Be_Installed.intValue()) {
+                return VALUE_ENTRY_Product_Must_Be_Installed;
+            }
+
+            if (iValue == VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Product_Must_Not_Be_Installed
+                    .intValue()) {
+                return VALUE_ENTRY_Product_Must_Not_Be_Installed;
+            }
+            return null;
+
+        }
+
+        /**
+         * ValueMap entries
+         * Contains no entries that having an integer value range representation
+         * 
+         * The couterpart for the value entries is returned by VALUE_ENTRIES_FOR_DISPLAY
+         *
+         * @see \#VALUE_ENTRIES_FOR_DISPLAY
+         * 
+         * Value Map for the property TypeOfDependency   
+         */
+        public final static javax.cim.UnsignedInteger16[] VALUE_MAP_ENTRIES = {
+                VALUE_MAP_ENTRY_0_FOR_VALUE_ENTRY_Unknown, VALUE_MAP_ENTRY_1_FOR_VALUE_ENTRY_Other,
+                VALUE_MAP_ENTRY_2_FOR_VALUE_ENTRY_Product_Must_Be_Installed,
+                VALUE_MAP_ENTRY_3_FOR_VALUE_ENTRY_Product_Must_Not_Be_Installed };
+
+        /**
+         * Values
+         * Contains all values even those having an integer value range representation within the valueMap
+         * Value Map for the property TypeOfDependency   
+         */
+        public final static String[] VALUE_ENTRIES = { VALUE_ENTRY_Unknown, VALUE_ENTRY_Other,
+                VALUE_ENTRY_Product_Must_Be_Installed, VALUE_ENTRY_Product_Must_Not_Be_Installed };
+
+        /**
+         * Values for displaying within pulldown elements, lists, radio buttons etc
+         * Contains no values that having an integer value range representation within the valueMap
+         * 
+         * Value Map for the property TypeOfDependency   
+         */
+        public final static String[] VALUE_ENTRIES_FOR_DISPLAY = { VALUE_ENTRY_Unknown,
+                VALUE_ENTRY_Other, VALUE_ENTRY_Product_Must_Be_Installed,
+                VALUE_ENTRY_Product_Must_Not_Be_Installed };
+
+    }
+
+    /**
+     * Constants of property RequiredProduct
+     * 
+     */
+    public static class PROPERTY_REQUIREDPRODUCT_CIM_PRODUCT {
+        /**
+         * name of the property RequiredProduct
+         */
+        public final static String NAME = "RequiredProduct";
+
+    }
+
+    /**
+     * Constants of property DependentProduct
+     * 
+     */
+    public static class PROPERTY_DEPENDENTPRODUCT_CIM_PRODUCT {
+        /**
+         * name of the property DependentProduct
+         */
+        public final static String NAME = "DependentProduct";
+
+    }
+
+    static {
+        addPackage("org.sblim.wbemsmt.schema.cim29");
+
+    };
+
+    //**********************************************************************
+    // Constructors     
+    //**********************************************************************
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   CIM_ProductProductDependency is an association between two Products, indicating that one must be installed, or must be absent, for the other to function. This is conceptually equivalent to the ServiceServiceDependency association.
+     *   @param client the CIM Client
+     *   @param namespace the target namespace
+     */
+
+    public CIM_ProductProductDependency(WBEMClient client, String namespace)
+            throws WbemsmtException {
+        CIMClass cls = getClass(client, namespace);
+        setFromServer(false);
+        init(cls.newInstance(), true);
+    }
+
+    /**
+     *   Class constructor
+     * 
+     *       *   <br>
+     *   CIM_ProductProductDependency is an association between two Products, indicating that one must be installed, or must be absent, for the other to function. This is conceptually equivalent to the ServiceServiceDependency association.
+     *   @param cimInstance the instance that is used to create the Object
+     */
+
+    public CIM_ProductProductDependency(CIMInstance cimInstance) throws WbemsmtException {
+
+        if (cimInstance == null) {
+            throw new WbemsmtException(WbemsmtException.ERR_INVALID_PARAMETER,
+                    "The cimInstance parameter does not contain a valid reference.");
+        }
+        setFromServer(true);
+        init(cimInstance, false);
+    }
+
+    /**
+     * Default constructor
+     */
+    protected CIM_ProductProductDependency() {
+    }
+
+    /**
+     * initializes the FCO
+     *
+     *   @param cimInstance the instance that is used to create the Object
+     *   @param overwrite currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient. This flags decides if to overwrite thos properties
+     */
+    protected void init(CIMInstance cimInstance, boolean overwrite) throws WbemsmtException {
+        propertiesToCheck.put("TypeOfDependency", new CIMProperty("TypeOfDependency",
+                CIMDataType.UINT16_T, null));
+        propertiesToCheck.put("RequiredProduct", new CIMProperty("RequiredProduct",
+                new CIMDataType(CIM_Product.CIM_CLASS_NAME), null));
+        propertiesToCheck.put("DependentProduct", new CIMProperty("DependentProduct",
+                new CIMDataType(CIM_Product.CIM_CLASS_NAME), null));
+
+        super.init(cimInstance, overwrite);
+
+        //currently the dataType of embeddedObject/Instance properties is not set correct by the cimClient
+        //we overwrite the dataType by setting null for every embeddedObject/Instance property
+        if (overwrite) {
+
         }
     }
 
-    public static String[] getPackages() {
-        return (String[]) CIM_ProductProductDependency.Java_Package_List.toArray(new String[CIM_ProductProductDependency.Java_Package_List.size()]);
+    //**********************************************************************
+    // Properties get/set     
+    //**********************************************************************
+
+    /**
+     * Get the property TypeOfDependency
+     *     * <br>
+     * The nature of the Product dependency. This property describes that the associated Product must be installed (value=2) or must be absent (value=3) in order for the Product to function.
+     *     */
+
+    public javax.cim.UnsignedInteger16 get_TypeOfDependency() {
+        CIMProperty currentProperty = getProperty(PROPERTY_TYPEOFDEPENDENCY.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_TYPEOFDEPENDENCY.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return (javax.cim.UnsignedInteger16) currentProperty.getValue();
+
     }
-	
-	//**********************************************************************
-	// Instance methods
-	//**********************************************************************
 
-	/**
-	*	no description
-	*/	
-	public boolean isDataValid(Vector invalidProperties) {
-		boolean result = true;
-		
-		if (invalidProperties == null) {
-			invalidProperties = new Vector();
-		} else {
-			invalidProperties.removeAllElements();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return Returns the validCimInstance.
-	 */
-	public boolean isValidCimInstance() {
-		return this.validCimInstance;
-	}
-	
-	/**
-	 * @param validCimInstance The validCimInstance to set.
-	 */
-	private void setValidCimInstance(boolean isValidCimInstance) {
+    /**
+     * Set the property TypeOfDependency
+     * <br>
+     * The nature of the Product dependency. This property describes that the associated Product must be installed (value=2) or must be absent (value=3) in order for the Product to function.
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
 
-		this.validCimInstance = isValidCimInstance;
-	}
-	
-	
-	/**
-	*	The method returns this CIM instance
-	*/
-	public CIMInstance getCimInstance() {
-		
-		return this.cimInstance;
-	}
-	
-	
-	/**
-	*	The method sets this CIM instance
-	*/
-	public void setCimInstance(CIMInstance cimInstance) {
-		
-		this.cimInstance = cimInstance;
-	}
-	
-		
-	/**
-	*	The method returns this CIM object path
-	*/
-	public CIMObjectPath getCimObjectPath() {
-		return this.cimObjectPath;
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance has been modified
-	*/
-	public boolean isModified() {
-	    
-	    if (!this.original_cimInstance.equals(this.cimInstance)) 
-	        return true;
-	    
-	    return false;
-	}
-	
-	
-	/**
-	*	The method resets the values of the cimInstance
-	*/	
-	public void resetValues() {
-	    this.cimInstance = (CIMInstance)this.original_cimInstance.clone();
-	}
-	
-	
-	/**
-	*	The method checks if the cimInstance equals an other cimInstance
-	*/	
-	public boolean equals(Object object) {
-	    
-	    if (!(object instanceof CIM_ProductProductDependency)) {
-	        return false;
-	    }
-	    
-	    if (this.cimInstance == null && ((CIM_ProductProductDependency)object).cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && ((CIM_ProductProductDependency)object).cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.cimInstance != null && !this.cimInstance.equals(((CIM_ProductProductDependency)object).cimInstance)) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance == null && ((CIM_ProductProductDependency)object).original_cimInstance != null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && ((CIM_ProductProductDependency)object).original_cimInstance == null) {
-	    	return false;
-	    	
-	    } else if (this.original_cimInstance != null && !this.original_cimInstance.equals(((CIM_ProductProductDependency)object).original_cimInstance)) {
-	        return false;
-	        
-	    } else if (this.cimObjectPath == null && ((CIM_ProductProductDependency)object).cimObjectPath != null) {
-	    	return false;
-	    	
-	    } else if (this.cimObjectPath != null && ((CIM_ProductProductDependency)object).cimObjectPath == null) {
-	    	return false;
-		    	
-	    } else if (this.cimObjectPath != null && !this.cimObjectPath.equals(((CIM_ProductProductDependency)object).cimObjectPath)) {
-	        return false;
-	        
-	    } 
-	    
-	    return true;
-	}
-	
-	/**
-	*	The method return this method as a string
-	*/	
-	public String toString() {
-		return this.cimInstance.toString();
-	}
+    public boolean set_TypeOfDependency(javax.cim.UnsignedInteger16 newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_TYPEOFDEPENDENCY.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_TypeOfDependency(currentProperty, newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_TYPEOFDEPENDENCY.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
 
-	//*****************************************************
-	// Associators methods
-	//*****************************************************
-	
-	
-	
-	//*****************************************************
-	// Attribute methods
-	//*****************************************************
-	
-	// Attribute TypeOfDependency
-	
-	public UnsignedInt16 get_TypeOfDependency() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ProductProductDependency.CIM_PROPERTY_TYPEOFDEPENDENCY);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ProductProductDependency.CIM_PROPERTY_TYPEOFDEPENDENCY + " could not be found");
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ProductProductDependency.CIM_PROPERTY_TYPEOFDEPENDENCY + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (UnsignedInt16)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_TypeOfDependency(UnsignedInt16 newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ProductProductDependency.CIM_PROPERTY_TYPEOFDEPENDENCY);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ProductProductDependency.CIM_PROPERTY_TYPEOFDEPENDENCY + " could not be found");
-    		
-		} else if (!CIM_ProductProductDependencyHelper.isValid_TypeOfDependency(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ProductProductDependency.CIM_PROPERTY_TYPEOFDEPENDENCY);
-    		
-		} else if (currentProperty.getType() == null || currentProperty.getType().getType() != CIMDataType.UINT16) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ProductProductDependency.CIM_PROPERTY_TYPEOFDEPENDENCY + " is not of expected type " + CIMDataType.getPredefinedType(CIMDataType.UINT16) + ".");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue, new CIMDataType(CIMDataType.UINT16));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    }
 
-	// Attribute CIM_Product_1
-	
-	public CIMObjectPath get_CIM_Product_1() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ProductProductDependency.CIM_PROPERTY_CIM_PRODUCT_1);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ProductProductDependency.CIM_PROPERTY_CIM_PRODUCT_1 + " could not be found");
-    		
-		} else if (currentProperty.getType() == null ) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ProductProductDependency.CIM_PROPERTY_CIM_PRODUCT_1 + " is not of expected type CIM_Product.");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (CIMObjectPath)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CIM_Product_1(CIM_Product newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ProductProductDependency.CIM_PROPERTY_CIM_PRODUCT_1);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ProductProductDependency.CIM_PROPERTY_CIM_PRODUCT_1 + " could not be found");
-    		
-		} else if (!CIM_ProductProductDependencyHelper.isValid_CIM_Product_1(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ProductProductDependency.CIM_PROPERTY_CIM_PRODUCT_1);
-    		
-		} else if (currentProperty.getType() == null ) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ProductProductDependency.CIM_PROPERTY_CIM_PRODUCT_1 + " is not of expected type CIM_Product.");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue.getCimObjectPath(), new CIMDataType(CIM_Product.CIM_CLASS_NAME));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    /**
+     * Get the property TypeOfDependency by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
 
-	// Attribute CIM_Product_2
-	
-	public CIMObjectPath get_CIM_Product_2() {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ProductProductDependency.CIM_PROPERTY_CIM_PRODUCT_2);
-        
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ProductProductDependency.CIM_PROPERTY_CIM_PRODUCT_2 + " could not be found");
-    		
-		} else if (currentProperty.getType() == null ) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ProductProductDependency.CIM_PROPERTY_CIM_PRODUCT_2 + " is not of expected type CIM_Product.");
-		}
-        
-		if (currentProperty.getValue() == null) {
-			return null;
-		}
-        
-		return (CIMObjectPath)currentProperty.getValue().getValue();
-	}
-	    
-			
-	public void set_CIM_Product_2(CIM_Product newValue) {
-		
-		CIMProperty currentProperty = this.cimInstance.getProperty(CIM_ProductProductDependency.CIM_PROPERTY_CIM_PRODUCT_2);
-    	
-		if (currentProperty == null) {
-			throw new CIMException(CIMException.CIM_ERR_NO_SUCH_PROPERTY, "The property " + CIM_ProductProductDependency.CIM_PROPERTY_CIM_PRODUCT_2 + " could not be found");
-    		
-		} else if (!CIM_ProductProductDependencyHelper.isValid_CIM_Product_2(newValue)) {
-			throw new InvalidParameterException("The value " + newValue + " is not valid for property " + CIM_ProductProductDependency.CIM_PROPERTY_CIM_PRODUCT_2);
-    		
-		} else if (currentProperty.getType() == null ) {
-			throw new CIMException(CIMException.CIM_ERR_TYPE_MISMATCH, "The property " + CIM_ProductProductDependency.CIM_PROPERTY_CIM_PRODUCT_2 + " is not of expected type CIM_Product.");
-		}
-    	
-		CIMValue updatedValue = new CIMValue(newValue.getCimObjectPath(), new CIMDataType(CIM_Product.CIM_CLASS_NAME));
-		currentProperty.setValue(updatedValue);
-	}	
-	    
-	
+    public static CIMProperty create_TypeOfDependency(WBEMClient client, String namespace,
+            javax.cim.UnsignedInteger16 newValue) throws WbemsmtException {
+        CIM_ProductProductDependency fco = new CIM_ProductProductDependency(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_TYPEOFDEPENDENCY.NAME);
+        if (property != null) {
+            property = setPropertyValue_TypeOfDependency(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_TYPEOFDEPENDENCY.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
 
-	
-	
-	//*****************************************************
-	// Invoke methods
-	//*****************************************************
-	
-	
+    /**
+     * Set the property TypeOfDependency
+     * <br>
+     * The nature of the Product dependency. This property describes that the associated Product must be installed (value=2) or must be absent (value=3) in order for the Product to function.
+     */
+
+    private static CIMProperty setPropertyValue_TypeOfDependency(CIMProperty currentProperty,
+            javax.cim.UnsignedInteger16 newValue) {
+        Object setThis = null;
+
+        setThis = newValue;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property RequiredProduct
+     * @param client the client used to get the JavaObject by the retrieved CIMObjectPath of this attribute    * <br>
+     * 
+     *     */
+
+    public CIM_Product get_RequiredProduct_CIM_Product(javax.wbem.client.WBEMClient client)
+            throws WbemsmtException {
+        CIMProperty currentProperty = getProperty(PROPERTY_REQUIREDPRODUCT_CIM_PRODUCT.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_REQUIREDPRODUCT_CIM_PRODUCT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return CIM_ProductHelper.getInstance(client, (CIMObjectPath) currentProperty.getValue());
+
+    }
+
+    /**
+     * Set the property RequiredProduct
+     * <br>
+     * 
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_RequiredProduct_CIM_Product(CIM_Product newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_REQUIREDPRODUCT_CIM_PRODUCT.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_RequiredProduct_CIM_Product(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_REQUIREDPRODUCT_CIM_PRODUCT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property RequiredProduct by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_RequiredProduct_CIM_Product(WBEMClient client,
+            String namespace, CIM_Product newValue) throws WbemsmtException {
+        CIM_ProductProductDependency fco = new CIM_ProductProductDependency(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_REQUIREDPRODUCT_CIM_PRODUCT.NAME);
+        if (property != null) {
+            property = setPropertyValue_RequiredProduct_CIM_Product(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_REQUIREDPRODUCT_CIM_PRODUCT.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property RequiredProduct
+     * <br>
+     * 
+     */
+
+    private static CIMProperty setPropertyValue_RequiredProduct_CIM_Product(
+            CIMProperty currentProperty, CIM_Product newValue) {
+        Object setThis = null;
+
+        setThis = newValue != null ? newValue.getCimObjectPath() : null;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    /**
+     * Get the property DependentProduct
+     * @param client the client used to get the JavaObject by the retrieved CIMObjectPath of this attribute    * <br>
+     * 
+     *     */
+
+    public CIM_Product get_DependentProduct_CIM_Product(javax.wbem.client.WBEMClient client)
+            throws WbemsmtException {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEPENDENTPRODUCT_CIM_PRODUCT.NAME);
+
+        if (currentProperty == null || currentProperty.getValue() == null) {
+            logger.warning("Property " + PROPERTY_DEPENDENTPRODUCT_CIM_PRODUCT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return null;
+        }
+
+        return CIM_ProductHelper.getInstance(client, (CIMObjectPath) currentProperty.getValue());
+
+    }
+
+    /**
+     * Set the property DependentProduct
+     * <br>
+     * 
+     *
+     * @return true if the property was found, false if the property was not found and the value was not set
+     */
+
+    public boolean set_DependentProduct_CIM_Product(CIM_Product newValue) {
+        CIMProperty currentProperty = getProperty(PROPERTY_DEPENDENTPRODUCT_CIM_PRODUCT.NAME);
+        if (currentProperty != null) {
+            currentProperty = setPropertyValue_DependentProduct_CIM_Product(currentProperty,
+                    newValue);
+            this.instance = this.instance.deriveInstance(new CIMProperty[] { currentProperty });
+            return true;
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEPENDENTPRODUCT_CIM_PRODUCT.NAME
+                    + " was not found in instance " + getCimObjectPath());
+            return false;
+        }
+
+    }
+
+    /**
+     * Get the property DependentProduct by getting the class from the server<br>
+     * and retrieving the property from it
+     * After that the value is set to this property and the property is returned
+     * @return null if the property cannot be found in the instance from the server
+     * @throws WbemsmtException 
+     */
+
+    public static CIMProperty create_DependentProduct_CIM_Product(WBEMClient client,
+            String namespace, CIM_Product newValue) throws WbemsmtException {
+        CIM_ProductProductDependency fco = new CIM_ProductProductDependency(client, namespace);
+        CIMProperty property = fco.getProperty(PROPERTY_DEPENDENTPRODUCT_CIM_PRODUCT.NAME);
+        if (property != null) {
+            property = setPropertyValue_DependentProduct_CIM_Product(property, newValue);
+        }
+        else {
+            logger.warning("Property " + PROPERTY_DEPENDENTPRODUCT_CIM_PRODUCT.NAME
+                    + " was not found in instance " + fco.getCimObjectPath());
+        }
+        return property;
+    }
+
+    /**
+     * Set the property DependentProduct
+     * <br>
+     * 
+     */
+
+    private static CIMProperty setPropertyValue_DependentProduct_CIM_Product(
+            CIMProperty currentProperty, CIM_Product newValue) {
+        Object setThis = null;
+
+        setThis = newValue != null ? newValue.getCimObjectPath() : null;
+
+        CIMProperty newProperty = new CIMProperty(currentProperty.getName(), currentProperty
+                .getDataType(), setThis, currentProperty.isKey(), currentProperty.isPropagated(),
+                currentProperty.getOriginClass());
+
+        return newProperty;
+    }
+
+    //**********************************************************************
+    // Associators methods     
+    //**********************************************************************
+
+    //**********************************************************************
+    // Extrinsic Method invocations     
+    //**********************************************************************                         
+
+    //**********************************************************************
+    // utility methods     
+    //**********************************************************************                         
+
+    /**
+     * returns true if the objects are the same
+     * 
+     * @return
+     * @see org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFco\#equals(Object)
+     */
+    public boolean equals(Object object) {
+        if (!(object instanceof CIM_ProductProductDependency)) {
+            return false;
+        }
+
+        return super.equals(object);
+    }
+
+    /**
+     * return the name of the CIMClass
+     * @return
+     */
+    public String getObjectName() {
+        return CIM_ProductProductDependency.CIM_CLASS_NAME;
+    }
 
 }

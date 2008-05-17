@@ -19,24 +19,27 @@
   */
 package org.sblim.wbemsmt.cim.indication;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
-import org.sblim.wbemsmt.exception.IndicationPreparationException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
 public class IndicationDestinationManager
 {
-	Map presets = new HashMap();
+    protected Map presets = new HashMap();
 
-	public Map getPresets() {
-		return presets;
+	public IndicationDestinationManager()
+	{
 	}
 
-	public void setPresets(Map presets) {
-		this.presets = presets;
+	
+	public void addPreset(String key, IndicationDestinationPresets presets) {
+		this.presets.put("Key", presets);
 	}
 	
 	public static IndicationDestinationManager getCurrent()
@@ -59,16 +62,16 @@ public class IndicationDestinationManager
 	 * 
 	 * @param template
 	 * @return
-	 * @throws IndicationPreparationException 
+	 * @throws WbemsmtException 
 	 * @see IndicationDestinationPresets#url
 	 */
-	public IndicationDestination getIndicationDestination(String presetName) throws IndicationPreparationException
+	public IndicationDestination getIndicationDestination(String presetName) throws WbemsmtException
 	{
-		IndicationDestinationPresets preset = (IndicationDestinationPresets) presets.get("*");
+	    IndicationDestinationPresets preset = (IndicationDestinationPresets) presets.get(presetName);
 		
-		if (presets.containsKey(presetName))
+		if (preset == null)
 		{
-			preset = (IndicationDestinationPresets) presets.get(presetName);
+		    throw new WbemsmtException(WbemsmtException.ERR_INDICATION_PREPARATION,"IndicationDestinaionPreset " + presetName + " was not found." );
 		}
 		
 		return preset.getIndicationDestination();
@@ -76,7 +79,7 @@ public class IndicationDestinationManager
 	
 	public void recycleIndicationDestination(IndicationDestination indicationDestination)
 	{
-		if (indicationDestination.isCalculatedPort())
+		if (indicationDestination.getPort() != null)
 		{
 			Iterator it = presets.values().iterator();
 			while (it.hasNext())
@@ -84,7 +87,7 @@ public class IndicationDestinationManager
 				IndicationDestinationPresets preset = (IndicationDestinationPresets) it.next();
 				if (preset == indicationDestination.getPresets())
 				{
-					preset.freePort(indicationDestination.getPort());
+					preset.freePort(indicationDestination.getPort().intValue());
 				}
 			}
 		}

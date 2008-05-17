@@ -55,7 +55,7 @@ public class MessageUtil {
 	{
 		addMessageImpl(msgNumber, level, bundles, key, objects);
 	}
-	
+
 	public static void addMessage(MessageNumber msgNumber, String level, String[] bundles, String key) {
 		addMessage(msgNumber, level, bundles, key,null);
 	}
@@ -119,18 +119,18 @@ public class MessageUtil {
         }
         else if (RuntimeUtil.getInstance().isCommandline())
         {
-            Message msg = Message.create(messageDefinition,handler, bundle, objects);
-			printMessageOnConsole(bundle, msg);
-		}
-	}
-
+            Message msg = Message.create(messageDefinition, handler, bundle, objects);
+            printMessageOnConsole(bundle, msg);
+        }
+    }
+    
     private static void addAsynchronousMessageImpl(MessageDefinition messageDefinition, MessageInputHandler handler, WbemSmtResourceBundle bundle, Object[] objects, AsynchronousMessageHandler msgHandler) {
         if (RuntimeUtil.getInstance().isJSF())
-	{
+        {
             msgHandler.addAsynchronousMessage(Message.create(messageDefinition, handler, bundle, objects),null);
-	}
+        }
         else if (RuntimeUtil.getInstance().isCommandline())
-	{
+        {
             Message msg = Message.create(messageDefinition, handler, bundle, objects);
             msgHandler.addAsynchronousMessage(msg,new Object[]{cliOut,cliErr,bundle});
         }
@@ -138,19 +138,19 @@ public class MessageUtil {
     
     private static void addMessageImpl(MessageNumber msgNumber, String level, String[] bundles,
             String key, Object[] objects) {
-		if (RuntimeUtil.getInstance().isJSF())
-		{
+        if (RuntimeUtil.getInstance().isJSF())
+        {
             ILocaleManager localeManager = (ILocaleManager) BeanNameConstants.LOCALE_MANAGER.getBoundValue(FacesContext.getCurrentInstance());
             WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(bundles,localeManager.getCurrentLocale());
             FacesContext.getCurrentInstance().addMessage(null, new WbemsmtFacesMessage(Message.create(msgNumber, level, bundle, key,objects)));
-		}
-		else if (RuntimeUtil.getInstance().isCommandline())
-		{
+        }
+        else if (RuntimeUtil.getInstance().isCommandline())
+        {
             WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(bundles);
             Message msg = Message.create(msgNumber, level, bundle, key,objects);
-			printMessageOnConsole(bundle, msg);
-		}
-	}
+            printMessageOnConsole(bundle, msg);
+        }
+    }    
 
     private static void printMessageOnConsole(WbemSmtResourceBundle bundle, Message msg) {
         if (msg.isError())

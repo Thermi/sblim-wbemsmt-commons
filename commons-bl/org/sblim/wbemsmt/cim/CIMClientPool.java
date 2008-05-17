@@ -1,5 +1,5 @@
  /** 
-  * CIMClientPool.java
+  * WBEMClientPool.java
   *
   * © Copyright IBM Corp. 2005
   *
@@ -14,45 +14,53 @@
   *
   * Contributors: 
   * 
-  * Description: Pool for CIMClients
+  * Description: Pool for WBEMClients
   *              For every host a pool is created in every session
   * 
   */
 package org.sblim.wbemsmt.cim;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.Field;
+import java.util.*;
+import java.util.logging.Logger;
 
+import javax.cim.CIMObjectPath;
 import javax.security.auth.Subject;
+import javax.wbem.CloseableIterator;
+import javax.wbem.WBEMException;
+import javax.wbem.client.WBEMClient;
+import javax.wbem.client.WBEMClientFactory;
 
-import org.sblim.wbem.cim.CIMException;
-import org.sblim.wbem.cim.CIMNameSpace;
-import org.sblim.wbem.cim.CIMObjectPath;
-import org.sblim.wbem.client.CIMClient;
-import org.sblim.wbem.client.PasswordCredential;
-import org.sblim.wbem.client.UserPrincipal;
-import org.sblim.wbemsmt.exception.LoginException;
+import org.apache.commons.lang.StringUtils;
+import org.sblim.wbemsmt.exception.WbemsmtException;
+import org.sblim.wbemsmt.exception.impl.LoginException;
+import org.sblim.wbemsmt.exception.impl.userobject.LoginUserObject;
 
 public class CIMClientPool {
-	String username;
+	public static final String NOT_FOUND = "NOT_FOUND";
+    String username;
 	char[] password;
 	String hostname;
 	String port;
+	String protocol;
 
 	Map clientsByNamespace = new HashMap(); 
-	Map jsr48ClientsByNamespace = new HashMap(); 
+	Map namespaceByClient = new HashMap();
+    private String hostnameFromCimom;
 	
-	public CIMClientPool(String hostname, String port, String username, char[] password) {
+	private static Set POOLS =new HashSet();
+	
+	static Logger logger = Logger.getLogger(CIMClientPool.class.getName());
+	
+	public CIMClientPool(String protocol,String hostname, String port, String username, char[] password) {
 		super();
+		this.protocol = protocol;
 		this.hostname = hostname;
-		this.port = port;
+		this.port = port.trim();
 		this.username = username;
 		this.password = password;
+		
+		POOLS.add(this);
 	}
 	
 	
@@ -64,9 +72,10 @@ public class CIMClientPool {
 	 * @param namespace
 	 * @return
 	 */
-	public CIMClient getCIMClient(String namespace)  throws LoginException {
+	public WBEMClient getCIMClient(String namespace)  throws WbemsmtException {
 	
-		CIMClient client = (CIMClient) clientsByNamespace.get(namespace);
+		namespace = cleanupNamespace(namespace);
+		WBEMClient client = (WBEMClient) clientsByNamespace.get(namespace);
 		if (client == null)
 		{
 			client = getNewCIMClient(namespace);
@@ -77,129 +86,172 @@ public class CIMClientPool {
 	}
 
 	/**
-	 * Creates a new CIMClient. Not uses the cached version
+	 * Creates a new WBEMClient. Not uses the cached version
 	 * @param namespace
 	 * @return
-	 * @throws LoginException
+	 * @throws WbemsmtException
 	 */
 
-	public CIMClient getNewCIMClient(String namespace) throws LoginException {
-		CIMClient client;
-		String url = "HTTP://" + hostname + ":" + port.trim();
-		client = new CIMClient(new CIMNameSpace(url,namespace), new UserPrincipal(username.trim()), new PasswordCredential(password));
-		//check if the client can access the server
+	public WBEMClient getNewCIMClient(String namespace) throws WbemsmtException {
+		namespace = cleanupNamespace(namespace);
+		
+        String loginUrl = username + "@" + protocol + "://" + hostname + ":" + port + "/" + namespace;
 		try {
-			client.enumerateClasses();
-		} catch (CIMException e) {
-			throw new LoginException(e,client);
-		}
-		clientsByNamespace.put(namespace, client);
-		return client;
-	}
-	
-	/**
-	 * get the jsr48 cimclient for the given namespace
-	 * 
-	 * if for the namespace no cimClient exists a new one is created
-	 * 
-	 * @param namespace
-	 * @return the javax.wbem.client.WBEMClient (as object because we wanted no dependency to the jsr48 interfaces)   
-	 */
-	public Object getJsr48CIMClient(String namespace)  throws LoginException {
-	
-		
-		Object result = jsr48ClientsByNamespace.get(namespace);
-		if (result == null)
-		{
+			final WBEMClientWrapper client = new WBEMClientWrapper(WBEMClientFactory.getClient("CIM-XML"));
+			final javax.cim.CIMObjectPath path = new javax.cim.CIMObjectPath(protocol,hostname, port, null, null, null);
+			final Subject subject = new Subject();
+			subject.getPrincipals().add(new javax.wbem.client.UserPrincipal(username));
+			subject.getPrivateCredentials().add(new javax.wbem.client.PasswordCredential(new String(password)));
+			client.initialize(path, subject, new Locale[] { Locale.US });
+			
 			try {
-				result = getNewJsr48CIMClient(namespace);
-				jsr48ClientsByNamespace.put(namespace, result);
-			} catch (Exception e) {
-				throw new LoginException("Cannot create JSR48 client",e,null);
+                Class cls = Class.forName("org.sblim.cimclient.WBEMConfigurationProperties");
+                Field f = cls.getDeclaredField("HTTP_USE_CHUNKING");
+                Object value = f.get(null);
+                client.setProperty(""+value, "false");
+                logger.info("Chunking set to false");
+            }
+            catch (Exception e) {
+                logger.warning("Cannot set chunking to false " + e.getMessage());
+            }
+
+			client.getClass(new CIMObjectPath("CIM_ManagedElement",namespace), false, true, false, null);
+			
+			if (hostnameFromCimom == null)
+			{
+			    getHostnameFromCimom(client);
 			}
+			
+			clientsByNamespace.put(namespace,client);
+			namespaceByClient.put(client,namespace);
+
+			logger.info("created client for " + loginUrl) ;
+			
+			client.setHostname(hostnameFromCimom == null || hostnameFromCimom == NOT_FOUND ? hostname : hostnameFromCimom);
+			client.setPort(port);
+			client.setProtocol(protocol);
+			client.setUser(username);
+			
+			return client;
+		} catch (Exception e) {
+            LoginException e1 = new LoginException("Cannot login",e, new LoginUserObject(loginUrl));
+			throw e1;
 		}
 		
-		return result;
+		
 	}
 
-
 	/**
-	 * Creates a new JSR48CIMClient. Not uses the cached version 
-	 * @param namespace
-	 * @return
-	 * @throws Exception
+	 * If the hostname was found within a CIM repsonse getHostnameFromCimom == NOT_FOUND 
+	 * @param client
+	 * @see NOT_FOUND
 	 */
-	public Object getNewJsr48CIMClient(String namespace) throws Exception {
-		Object result;
-		URL pWbemUrl = new URL("HTTP://" + hostname + ":" + port.trim());
-		//result = new CIMClient(new CIMNameSpace(url,namespace), new UserPrincipal(username.trim()), new PasswordCredential(password));
+	
+    private void getHostnameFromCimom(final WBEMClient client) {
+        try {
+            CloseableIterator instances = client.enumerateInstanceNames(new CIMObjectPath("CIM_RegisteredProfile","root/pg_interop"));
+            while (instances.hasNext())
+            {
+                CIMObjectPath path = (CIMObjectPath) instances.next();
+                if (StringUtils.isNotEmpty(path.getHost()))
+                {
+                    hostnameFromCimom = path.getHost();
+                    logger.info("Found cimserver's hostname: " + hostnameFromCimom);
+                    return;
+                }
+                CloseableIterator associators = client.associatorNames(path, null, null, null, null);
+                while (associators.hasNext())
+                {
+                    CIMObjectPath path2 = (CIMObjectPath)associators.next();
+                    if (StringUtils.isNotEmpty(path2.getHost()))
+                    {
+                        hostnameFromCimom = path2.getHost();
+                        logger.info("Found cimserver's hostname: " + hostnameFromCimom);
+                        return;
+                    }
+                }
+            }
+        }
+        catch (WBEMException e) {
+            logger.warning("Cannot get hostname from cimom " + e.getMessage());
+            hostnameFromCimom = NOT_FOUND;
+        }
+    }
 
-		Class factory = Class.forName("javax.wbem.client.WBEMClientFactory");
-		Class path = Class.forName("javax.cim.CIMObjectPath");
-		
-		
-		Class property = Class.forName("javax.cim.CIMProperty");
-		property = Array.newInstance(property, 0).getClass();
-		Class userprincipal = Class.forName("javax.wbem.client.UserPrincipal");
-		Class passwordCredential = Class.forName("javax.wbem.client.PasswordCredential");
-		Class clsClient = Class.forName("javax.wbem.client.WBEMClient");
-		
-		Object userPrincipalObject = userprincipal.getConstructor(new Class[]{String.class}).newInstance(new Object[]{username});
-		Object passwordCredentialObject = passwordCredential.getConstructor(new Class[]{String.class}).newInstance(new Object[]{String.valueOf(password)});
-		
-		Method m = factory.getMethod("getClient", new Class[]{String.class});
-		
-		result = m.invoke(factory, new Object[]{"CIM-XML"});
-		
-		Object pathObject = path.getConstructor(new Class[]{String.class, String.class, String.class, String.class,String.class, property})
-			.newInstance(new Object[]{pWbemUrl.getProtocol(),pWbemUrl.getHost(), String.valueOf(pWbemUrl.getPort()), null, null, null});
-		
-		final Subject subject = new Subject();
-		
-		Set principals = subject.getPrincipals();
-		principals.add(userPrincipalObject);
-		
-		Set privateCredentials = subject.getPrivateCredentials();
-		privateCredentials.add(passwordCredentialObject);
-		
-		clsClient.getMethod("initialize", new Class[]{path,subject.getClass(),Locale[].class}).invoke(result, new Object[]{pathObject, subject, new Locale[] { Locale.US }});
 
-		pathObject = path.getConstructor(new Class[]{String.class, String.class}).newInstance(new Object[]{"CIM_ManagedElement",namespace});
-		
-		result.getClass().getMethod("enumerateClassNames", new Class[]{path,boolean.class}).invoke(result, new Object[]{pathObject,Boolean.TRUE});
-		return result;
-	}	
-
-	/**
-	 * return a new cimClient if the namespace of the cimclient and the namespace if the objectPath are not the same
-	 * @param cimClient
-	 * @param cimObjectPath
-	 * @return a cimclient for the namespace of the cimObjectPath
-	 */
-
-	public CIMClient getCIMClient(CIMClient cimClient, CIMObjectPath cimObjectPath) throws LoginException {
-		
-		String ns1 = cimClient.getNameSpace().getNameSpace();
-		String ns2 = cimObjectPath.getNameSpace();
-		
-		if (ns1.equals(ns2))
-		{
-			return cimClient;
-		}
-		else
-		{
-			return getCIMClient(ns2);
-		}
+	public String getNamespace(WBEMClient client)
+	{
+		return (String) namespaceByClient.get(client);
 	}
 	
-	/**
-	 * return a jsr48 cimClient for the namespace within the objectPath
-	 * @param cimObjectPath carrying the namespace
-	 * @return the javax.wbem.client.WBEMClient (as object because we wanted no dependency to the jsr48 interfaces)
-	 */
+	public static String cleanupNamespace(String namespace) {
+		if (namespace.startsWith("/"))
+		{
+			namespace = namespace.substring(1);
+		}
+		return namespace;
+	}
 
-	public Object getJsr48CIMClient(CIMObjectPath cimObjectPath) throws LoginException {
-		String ns = cimObjectPath.getNameSpace();
-		return getJsr48CIMClient(ns);
-	}	
+
+	public boolean containsCIMClient(WBEMClient client) {
+		return namespaceByClient.containsKey(client);
+	}
+	
+	public void cleanUp()
+	{
+		namespaceByClient.clear();
+		clientsByNamespace.clear();
+		
+		POOLS.remove(this);
+	}
+
+
+	public String getUsername() {
+		return username;
+	}
+
+
+	public char[] getPassword() {
+		return password;
+	}
+
+
+	public String getHostname() {
+		return hostname;
+	}
+	
+    public String getHostnameFromCimom() {
+        return hostnameFromCimom;
+    }
+
+    /**
+	 * Searches all initialized client pools to find the pool which is responsible for this client
+	 * @param client
+	 * @return null if for the CIMClient no pool was found
+	 */
+	public static CIMClientPool getCIMClientPool(WBEMClient client)
+	{
+	    for (Iterator iterator = POOLS.iterator(); iterator.hasNext();) {
+            CIMClientPool pool = (CIMClientPool) iterator.next();
+            if (pool.containsCIMClient(client))
+            {
+                return pool;
+            }
+        }
+	    
+	    return null;
+	}
+
+
+	public String getPort() {
+		return port;
+	}
+
+
+	public String getProtocol() {
+		return protocol;
+	}
+	
+	
+	
 }

@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
+import org.sblim.wbemsmt.bl.adapter.DataContainerUtil;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public abstract class LabeledBaseInputComponent implements LabeledBaseInputComponentIf, ComponentPropertyChangListener {
@@ -252,6 +253,11 @@ public abstract class LabeledBaseInputComponent implements LabeledBaseInputCompo
 		this.size = size;
 	}
 	
+    public void copyFrom(LabeledBaseInputComponentIf source)
+    {
+        DataContainerUtil.copyValues(source,this);
+    }
+    
 	
 
 	

@@ -85,5 +85,5 @@ public class WbemsmtFacesMessage extends FacesMessage {
         return message.getRequiredInput() == Message.INPUT_YES_NO;
     }
     
-
+    
 }

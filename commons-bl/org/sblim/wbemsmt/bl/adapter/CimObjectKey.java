@@ -15,6 +15,9 @@
  * Contributors: 
  * 
  * Description: A key to select a object within a AdapterClass
+ *
+ * CAUTION: because not every CIMInstance/ObjectPath has a hostname/port set, the hostname and port is removed during while the ObjectPath
+ * 
  * 
  * @see AbstractBaseCimAdapter
  * 
@@ -24,24 +27,26 @@ package org.sblim.wbemsmt.bl.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sblim.wbem.cim.CIMObjectPath;
-import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
+import javax.cim.CIMObjectPath;
+
+import org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFco;
 import org.sblim.wbemsmt.bl.tree.ICIMInstanceNode;
 
 public class CimObjectKey  {
 
 	private CIMObjectPath objectPath;
+    private Object artificalKey;
 	private CimObjectKey nextKey;
-	private CIM_ObjectIf cimObject;
+	private AbstractWbemsmtFco cimObject;
 
 	/**
 	 * Create a new Key with the object path of the given managedElement
 	 * @param managedElement
 	 */
-	public CimObjectKey(CIM_ObjectIf cimObject)
+	public CimObjectKey(AbstractWbemsmtFco cimObject)
 	{
 		this.cimObject = cimObject;
-		this.objectPath = cimObject.getCimObjectPath();
+		setObjectPath(cimObject.getCimObjectPath());
 	}
 
 	/**
@@ -50,17 +55,30 @@ public class CimObjectKey  {
 	 */
 	public CimObjectKey(CIMObjectPath objectPath)
 	{
-		this.objectPath = objectPath;
+		setObjectPath(objectPath);
 	}
 	
-	/**
+	public CimObjectKey(Object artificalKey) {
+        super();
+        this.artificalKey = artificalKey;
+    }
+
+    public Object getArtificalKey() {
+        return artificalKey;
+    }
+
+    public void setArtificalKey(Object artificalKey) {
+        this.artificalKey = artificalKey;
+    }
+
+    /**
 	 * Create a new Key with the object path of the instance node
 	 * @param node
 	 */
 	public CimObjectKey(ICIMInstanceNode node)
 	{
 		this.cimObject = node.getCimObject();
-		this.objectPath = node.getCimInstance().getObjectPath();
+		setObjectPath(node.getCimInstance().getObjectPath());
 	}
 
 	/**
@@ -68,7 +86,8 @@ public class CimObjectKey  {
 	 * @return
 	 */
 	public String getInfo() {
-		String s = objectPath.toString();
+	    
+		String s = objectPath != null ? objectPath.toString() : artificalKey != null ? artificalKey.toString() : "--no key--";
 		if (nextKey != null)
 		{
 			s = s + "\n" + nextKey.getInfo();
@@ -88,7 +107,7 @@ public class CimObjectKey  {
 	 * return the Object
 	 * @return can be null
 	 */
-	public CIM_ObjectIf getCimObject() {
+	public AbstractWbemsmtFco getCimObject() {
 		return cimObject;
 	}
 
@@ -98,7 +117,8 @@ public class CimObjectKey  {
 	 * @return
 	 */
 	public CimObjectKey setObjectPath(CIMObjectPath objectPath) {
-		this.objectPath = objectPath;
+	    //we are cloning the objectPath but removing the host and the port
+		this.objectPath = new CIMObjectPath(objectPath.getScheme(), null,null,objectPath.getNamespace(),objectPath.getObjectName(),objectPath.getKeys());
 		return this;
 	}
 	

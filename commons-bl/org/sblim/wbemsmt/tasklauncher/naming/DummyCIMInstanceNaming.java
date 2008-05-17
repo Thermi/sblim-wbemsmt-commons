@@ -19,9 +19,10 @@
   */
 package org.sblim.wbemsmt.tasklauncher.naming;
 
-import org.sblim.wbem.cim.CIMInstance;
-import org.sblim.wbem.client.CIMClient;
-import org.sblim.wbemsmt.bl.fco.CIM_ObjectIf;
+import javax.cim.CIMInstance;
+import javax.wbem.client.WBEMClient;
+
+import org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFco;
 
 public class DummyCIMInstanceNaming extends CIMInstanceNaming {
 
@@ -34,13 +35,13 @@ public class DummyCIMInstanceNaming extends CIMInstanceNaming {
 
 	/**
 	 * accept all CIMInstances
-	 * @see org.sblim.wbemsmt.tasklauncher.filter.CIMInstanceFilter#accept(org.sblim.wbem.cim.CIMInstance, CIMClient)
+	 * @see org.sblim.wbemsmt.tasklauncher.filter.CIMInstanceFilter#accept(org.sblim.wbem.cim.CIMInstance, WBEMClient)
 	 */
-	public String getDisplayString(CIMInstance cimInstance, CIMClient cimClient) {
-		return (String) cimInstance.getProperty("Name").getValue().getValue();
+	public String getDisplayString(CIMInstance cimInstance, WBEMClient cimClient) {
+		return cimInstance.getProperty("Name").getValue().toString();
 	}
 
-	public String getDisplayString(CIM_ObjectIf cimObject, CIMClient cimClient) {
+	public String getDisplayString(AbstractWbemsmtFco cimObject, WBEMClient cimClient) {
 		return getDisplayString(cimObject.getCimInstance(), cimClient);
 	}
 	

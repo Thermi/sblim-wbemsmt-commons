@@ -15,7 +15,7 @@
  * Contributors: 
  *              
  *
- * Description: Base class for labeled Input Components in Swing Context
+ * Description: Base class for labeled Input Components in Jsf Context
  * 
  */
 
@@ -24,7 +24,9 @@ package org.sblim.wbemsmt.tools.input.jsf;
 import java.util.*;
 import java.util.logging.Level;
 
+import javax.cim.UnsignedInteger16;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIComponentBase;
 import javax.faces.component.html.*;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -32,8 +34,10 @@ import javax.faces.model.SelectItem;
 import org.apache.commons.lang.StringUtils;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
+import org.sblim.wbemsmt.bl.adapter.DataContainerUtil;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.bl.fielddata.FieldData;
+import org.sblim.wbemsmt.bl.fielddata.GenericFieldData;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.ITreeSelector;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
@@ -49,6 +53,9 @@ import org.sblim.wbemsmt.util.StringTokenizer;
 import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
 import org.sblim.wbemsmt.webapp.jsf.style.StyleBean;
 
+/**
+ * Base class for labeled Input Components in Jsf Context
+ */
 public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent implements LabeledBaseHeaderComponentIf
 {
 	protected List itemValues = new ArrayList();
@@ -83,12 +90,21 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	 */
 	private String suffix;
 
+	/**
+	 * 
+	 * @param parent
+	 * @param labelText
+	 * @param pId The prefix for creating the dataBinding ends with Item so a Binding "#{" + id +"}" will access the method getItem of the Input Component
+	 * @param component
+	 * @param converter
+	 * @param readOnly
+	 */
 	public LabeledJSFInputComponent(DataContainer parent, String labelText, String pId, UIComponent component, Converter converter,boolean readOnly)
 	{
 		super(parent,labelText, converter);
 		
-		this.isMultiline = parent instanceof MultiLineBasePanel2; 
 		
+		this.isMultiline = parent instanceof MultiLineBasePanel2; 
 		this.id = asJsfId(pId);
 		this.component = component;
 		this.component.setId(id);
@@ -134,7 +150,21 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		
 	}
 
-	private void setComponentBindings(UIComponent comp, String binding) {
+	/**
+	 * Can be used by subclasses do initialization directly after the super constructor was invoked. Is called during invocation of the super constructor
+     *
+	 * @param parent
+	 * @param labelText
+	 * @param id2
+	 * @param component2
+	 * @param converter
+	 * @param readOnly
+	 */
+	protected void init(DataContainer parent, String labelText, String id2, UIComponent component2,
+            Converter converter, boolean readOnly) {
+    }
+
+    private void setComponentBindings(UIComponent comp, String binding) {
 		comp.setValueBinding("disabled", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + binding +"Disabled}"));
 		comp.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + binding +"Rendered}"));
 		comp.setValueBinding("style", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + binding +"Style}"));
@@ -253,6 +283,11 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		{
 			Object obj = getConvertedControlValue();
 			
+			if (obj instanceof GenericFieldData)
+			{
+			    obj = ((GenericFieldData)obj).getData();
+			}
+			
 			if (obj instanceof List) {
 				List values = (List) obj;
 				StringBuffer sb = new StringBuffer();
@@ -331,7 +366,45 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		{
 			return converter.convertForModel(item);
 		}		
-		else if (component instanceof HtmlGraphicImage
+        else if (this instanceof LabeledJSFGenericComponent)
+        {
+            LabeledJSFGenericComponent c = (LabeledJSFGenericComponent)this;
+            UIComponentBase currentItem = c.getCurrentItem();
+            if (currentItem instanceof HtmlInputText)
+            {
+                return GenericFieldData.createTextField((String)c.getDummyConverter().convertForModel(item));
+            }
+            if (currentItem instanceof HtmlOutputText)
+            {
+                return GenericFieldData.createLabelField((String)c.getDummyConverter().convertForModel(item));
+            }
+            else if (currentItem instanceof HtmlSelectBooleanCheckbox)
+            {
+                return GenericFieldData.createCheckBoxField((Boolean)c.getDummyConverter().convertForModel(item));
+            }
+            else if (currentItem instanceof HtmlSelectOneMenu )
+            {
+                return GenericFieldData.createComboBoxField((UnsignedInteger16)c.getListConverter().convertForModel(item));
+            }
+            else if (currentItem instanceof HtmlInputSecret)
+            {
+                return GenericFieldData.createPasswordField((String)c.getDummyConverter().convertForModel(item));
+            }
+            else if (currentItem instanceof HtmlSelectOneRadio )
+            {
+                return GenericFieldData.createRadioButtonField((UnsignedInteger16)c.getListConverter().convertForModel(item));
+            }
+            else if (currentItem instanceof HtmlCommandButton )
+            {
+                return GenericFieldData.createButtonField((String)c.getDummyConverter().convertForModel(item));
+            }
+            else if (currentItem == null)
+            {
+                return null;
+            }
+            throw new IllegalArgumentException("Controls wth Type " + currentItem.getClass().getName() + " are not supported.");
+        }  
+        else if (component instanceof HtmlGraphicImage
 				 || component instanceof HtmlCommandLink
 				 || this instanceof LabeledJSFMemoComponent
 				)
@@ -456,6 +529,32 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 			Object object  = converter.convertForGui(controlValue);
 			item = object;
 		}	
+        else if (this instanceof LabeledJSFGenericComponent)
+        {
+            LabeledJSFGenericComponent c = (LabeledJSFGenericComponent)this;
+            UIComponentBase currentItem = c.getCurrentItem();
+            if (currentItem instanceof HtmlInputText) {
+                item =  c.getDummyConverter().convertForGui(controlValue);
+            }
+            else if (currentItem instanceof HtmlOutputText) {
+                item =  c.getDummyConverter().convertForGui(controlValue);
+            }
+            else if (currentItem instanceof HtmlSelectBooleanCheckbox) {
+                item =  c.getDummyConverter().convertForGui(controlValue);
+            }
+            else if (currentItem instanceof HtmlSelectOneMenu) {
+                item =  c.getListConverter().convertForGui(controlValue);
+            }
+            else if (currentItem instanceof HtmlInputSecret) {
+                item =  c.getDummyConverter().convertForGui(controlValue);
+            }
+            else if (currentItem instanceof HtmlSelectOneRadio) {
+                item =  c.getListConverter().convertForGui(controlValue);
+            }
+            else if (currentItem instanceof HtmlCommandButton) {
+                item =  c.getDummyConverter().convertForGui(controlValue);
+            }
+        }   
 		else if (component instanceof HtmlGraphicImage
 				 || component instanceof HtmlCommandLink
 				 || this instanceof LabeledJSFMemoComponent
@@ -992,8 +1091,34 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		this.showAllInReadOnlyView = showAllInReadOnlyView;
 	}
 
-
-	
-	
+    public String getItemSelectedReadOnlyRadioButtonValue() {
+    	if (item != null)
+    	{
+    		if (item instanceof String) {
+    			String idx = (String) item;
+    			try {
+    				if (idx.length() == 0)
+    				{
+    					return "-";
+    				}
+    				else
+    				{
+    					return  ((SelectItem)itemValues.get(Integer.parseInt(idx))).getLabel();
+    				}
+    			} catch (NumberFormatException e) {
+    				logger.log(Level.SEVERE,"Cannot parse as int", e);
+    			}
+    			
+    		} else if (item instanceof Number)
+    		{
+    			Number idx = (Number) item;
+    			return  ((SelectItem)itemValues.get(idx.intValue())).getLabel();
+    		} else
+    		{
+    			logger.log(Level.SEVERE,"Cannot parse as int: " + item);
+    		}
+    	}
+    	return "-";
+    }
 }
 

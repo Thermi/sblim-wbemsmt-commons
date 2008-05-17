@@ -20,7 +20,7 @@
 package org.sblim.wbemsmt.bl.profiles;
 
 import org.apache.commons.lang.StringUtils;
-import org.sblim.wbemsmt.exception.ModelLoadException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.util.StringTokenizer;
 
 public class ProfileVersion {
@@ -37,15 +37,25 @@ public class ProfileVersion {
 
 	/**
 	 * Creates a objects the given information in the String
-	 * expects a string of the format <major>.<minor>.<patch>
+	 * expects a string of the format <major>.<minor>.<patch> - if one if the element contains an alpha character (e.g. 1.0.0a) the character is removed
 	 * @param stringWithMajorMinorPatch
-	 * @throws ModelLoadException thrown if the Strings is not matching the required format
+	 * @throws WbemsmtException thrown if the Strings is not matching the required format
 	 */
-	public ProfileVersion(String stringWithMajorMinorPatch) throws ModelLoadException {
+	public ProfileVersion(String stringWithMajorMinorPatch) throws WbemsmtException {
 		int count = StringUtils.countMatches(stringWithMajorMinorPatch, ".");
+		if (count == 0)
+		{
+		    stringWithMajorMinorPatch = stringWithMajorMinorPatch + ".0.0";
+		}
+        if (count == 1)
+        {
+            stringWithMajorMinorPatch = stringWithMajorMinorPatch + ".0";
+        }
+        count = StringUtils.countMatches(stringWithMajorMinorPatch, ".");
 		if (count == 2)
 		{
  			try {
+ 			    stringWithMajorMinorPatch = stringWithMajorMinorPatch.replaceAll("[a-zA-Z]", "");
 				String[] strings = new StringTokenizer(stringWithMajorMinorPatch,".").asArray(true, false);
 				this.major = Integer.parseInt(strings[0]);
 				this.minor = Integer.parseInt(strings[1]);
@@ -55,7 +65,7 @@ public class ProfileVersion {
 				e.printStackTrace();
 			}
 		}
-		throw new ModelLoadException("Expected a string with the format <major>.<minor>.<patch> - Received: " + stringWithMajorMinorPatch);
+		throw new WbemsmtException(WbemsmtException.ERR_LOADING_MODEL,"Expected a string with the format <major>.<minor>.<patch> - Received: " + stringWithMajorMinorPatch);
 	}
 
 	public int getMajor() {

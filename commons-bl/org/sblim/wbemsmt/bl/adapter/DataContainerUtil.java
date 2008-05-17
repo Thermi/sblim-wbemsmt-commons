@@ -19,13 +19,18 @@
   */
 package org.sblim.wbemsmt.bl.adapter;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.bl.ErrCodes;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 
 
@@ -33,12 +38,72 @@ public class DataContainerUtil {
 
 	private static Logger logger = Logger.getLogger(DataContainerUtil.class.getName());	
 
-	public static DataContainer copyValues(DataContainer source, DataContainer target) {
+	public static DataContainer copyValues(DataContainer source, DataContainer target) throws WbemsmtException {
 		target.copyFrom(source);
 		return target;
 	}
+	
+    public static void copyValues(LabeledBaseInputComponentIf source,
+            LabeledBaseInputComponentIf target) {
+        
+        if (source.getClass() == target.getClass())
+        {
+            List classes = new ArrayList();
+            classes.add(source.getClass());
+            classes.addAll(ClassUtils.getAllInterfaces(source.getClass()));
+            classes.addAll(ClassUtils.getAllSuperclasses(source.getClass()));
+            
+            for (Iterator iterator = classes.iterator(); iterator.hasNext();) {
+                Class cls = (Class) iterator.next();
+                if (!cls.getName().equals("java.lang.Object"))
+                {
+                    Field[] declaredFields = cls.getDeclaredFields();
+                    for (int i = 0; i < declaredFields.length; i++) {
+                        Field field = declaredFields[i];
+                        if (isCopyEnabled(field))
+                        {
+                            try {
+                                field.set(target, field.get(source));
+                            }
+                            catch (Exception e) {
+                                e.printStackTrace();
+                            }                                
+                        }
+                    }
+                }
+            }
+            
+        }
+        
+        
+    }
+    
+    /**
+     * Checks if the field should be copied
+     * @param field
+     * @return true if it's okay to copy the field
+     */
 
-	public static boolean validateEnteredValues(DataContainer container) {
+	private static boolean isCopyEnabled(Field field) {
+
+	    String name = field.getName().toLowerCase();
+	    String typename = field.getType().getName();
+	    int modifiers = field.getModifiers();
+        if (typename.indexOf("javax.faces") == -1
+            && !name.equals("id")
+            && !name.equals("converter")
+            && !name.equals("parent")
+            && !Modifier.isStatic(modifiers)
+            && !Modifier.isFinal(modifiers)
+        )
+        {
+            field.setAccessible(true);
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean validateEnteredValues(DataContainer container) {
 		
 		MessageList list = MessageList.init(container);
 		
@@ -243,6 +308,6 @@ public class DataContainerUtil {
 			field.getProperties().setVisible(visible);
 		}
 	}
-	
-	
+
+
 }

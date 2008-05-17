@@ -27,12 +27,7 @@ import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.BaseDataContainer;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.bl.adapter.MessageList;
-import org.sblim.wbemsmt.exception.InitWizardException;
-import org.sblim.wbemsmt.exception.ObjectCreationException;
-import org.sblim.wbemsmt.exception.ObjectSaveException;
-import org.sblim.wbemsmt.exception.ObjectUpdateException;
-import org.sblim.wbemsmt.exception.UpdateControlsException;
-import org.sblim.wbemsmt.exception.ValidationException;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.tools.wizard.WizardBase;
 import org.sblim.wbemsmt.tools.wizard.adapter.IPageWizardAdapter;
@@ -58,7 +53,7 @@ public abstract class CliWizardBase implements WizardBase {
 	protected void initialize() {
 	}
 
-	public void initWizard(IWizardContainer container, IPageWizardAdapter adapter) throws Exception {
+	public void initWizard(IWizardContainer container, IPageWizardAdapter adapter) throws WbemsmtException {
 		this.container = container;
 		this.adapter = adapter;
 		container.setWizardRunType(IWizardContainer.RUN_TYPE_CMD);
@@ -66,7 +61,7 @@ public abstract class CliWizardBase implements WizardBase {
 		String actualPagename = container.getNextWizardPageName();
 		if (container.getPages().get(actualPagename) == null || actualPagename.equals("")) {
 			//System.out.println("found no panel to display");
-			throw new InitWizardException("found no panel to display");
+			throw new WbemsmtException(WbemsmtException.ERR_INIT_WIZARD,"found no panel to display");
 		}
 
 		currentPanel = (BaseDataContainer)container.getPages().get(actualPagename);
@@ -82,7 +77,7 @@ public abstract class CliWizardBase implements WizardBase {
 	 	container.setCurrentPageName(actualPagename);
 	}
 
-	public MessageList next(ContainerUpdater containerUpdater) throws ValidationException, ObjectUpdateException, UpdateControlsException
+	public MessageList next(ContainerUpdater containerUpdater) throws WbemsmtException
 	{
         String actualPanelName = (String) container.getUsedPages().peek();
         currentPanel = (BaseDataContainer)container.getPages().get(actualPanelName);
@@ -105,11 +100,11 @@ public abstract class CliWizardBase implements WizardBase {
         return list;
 	}
 	
-	public void back() throws ValidationException, UpdateControlsException
+	public void back() throws WbemsmtException
 	{
 	}
 	
-	public MessageList finish() throws ValidationException, ObjectUpdateException, UpdateControlsException, ObjectSaveException, ObjectCreationException
+	public MessageList finish() throws WbemsmtException
 	{
         String actualPanelName = (String) container.getUsedPages().peek();
 		logger.info("finish - currentPageName: "+actualPanelName);
@@ -118,7 +113,7 @@ public abstract class CliWizardBase implements WizardBase {
         return MessageList.init(currentPanel);
 	}	
 	
-	public void cancel() throws ValidationException, ObjectUpdateException, UpdateControlsException, ObjectSaveException
+	public void cancel() throws WbemsmtException
 	{
         container.getUsedPages().clear();
 	}	
