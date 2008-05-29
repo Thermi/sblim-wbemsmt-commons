@@ -101,7 +101,7 @@ public class UnsignedInt8StringArrayConverter implements StringArrayConverter {
 		{
 			return true;
 		}
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; values != null && i < values.length; i++) {
 			String textInArray = values[i];
 			if (textInArray.equals(text))
 			{
