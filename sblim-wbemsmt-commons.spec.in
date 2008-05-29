@@ -128,6 +128,7 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 %changelog
 
 * Thu May 29 2008 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.5-CVS
+    o 1977444 wbemsmt-commons: add traces for userDataConfiguration
     o 1977442 wbemsmt-commons: util methods for DataContainerUtil
 	o 1977441 wbemsmt-commons: NPE in ArrayConverters.canConvert
     o 1977440 wbemsmt-commons: addConfigurationValue for BaseAdapter

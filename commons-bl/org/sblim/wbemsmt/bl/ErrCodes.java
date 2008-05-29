@@ -131,6 +131,9 @@ public class ErrCodes
 	public static final MessageNumber MSG_CANNOT_LOAD_SLP = new MessageNumber(COMPONENT,SUBSYS_LIO,1);
 	public static final MessageNumber MSG_CANNOT_SAVE = new MessageNumber(COMPONENT,SUBSYS_LIO,2);
     public static final MessageDefinition MSGDEF_NEW_MESSAGES = new MessageDefinition(new MessageNumber(ErrCodes.COMPONENT,SUBSYS_LIO,3),Message.INFO,"newMessages");
+    public static final MessageDefinition MSGDEF_USERSESSION_INIT = new MessageDefinition(new MessageNumber(ErrCodes.COMPONENT,SUBSYS_LIO,4),Message.INFO,"usersession.init");
+    public static final MessageDefinition MSGDEF_USERSESSION_SAVE = new MessageDefinition(new MessageNumber(ErrCodes.COMPONENT,SUBSYS_LIO,5),Message.INFO,"usersession.save");
+    public static final MessageDefinition MSGDEF_USERSESSION_DELETE = new MessageDefinition(new MessageNumber(ErrCodes.COMPONENT,SUBSYS_LIO,6),Message.INFO,"usersession.delete");
 	
 	/**
 	 * WTR - Wbemsmt Tree
