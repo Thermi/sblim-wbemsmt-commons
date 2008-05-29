@@ -1619,6 +1619,23 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
             return defaultValue;
         }
     }	
+    
+    
+    /**
+     * Used to add userdefined configuration value
+     * @param key
+     * @param value
+     */
+    public void addConfigurationValue(String key, String value)
+    {
+        if (this.configurationValues  == null)
+        {
+            this.configurationValues = new HashMap();
+        }
+        ConfigurationValueData data = new ConfigurationValueData(key,value);
+        this.configurationValues.put(data.getName(), data);
+    }
+    
 
     public String getNamespace() {
         return namespace;

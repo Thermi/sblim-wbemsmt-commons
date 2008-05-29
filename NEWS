@@ -1,5 +1,6 @@
 Changes on top of 0.5.5-CVS
 ==============================================================================
+- 1977440 wbemsmt-commons: addConfigurationValue for BaseAdapter
 - 1977427 wbemsmt-commons-cli: use httpProtocolType
 
 Changes in 0.5.5-1

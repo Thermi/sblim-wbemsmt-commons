@@ -128,6 +128,7 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 %changelog
 
 * Sat May 29 2008 Sam Kannan <skanan@us.ibm.com> 0.5.5-CVS
+    o 1977440 wbemsmt-commons: addConfigurationValue for BaseAdapter
     o 1977427 wbemsmt-commons-cli: use httpProtocolType
 
 * Sat May 17 2008 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.5-1
