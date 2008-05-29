@@ -1,7 +1,7 @@
 /**
  *  TaskLauncherTreeNodeEventListenerImpl.java
  *
- * © Copyright IBM Corp. 2005
+ * Â© Copyright IBM Corp. 2005
  *
  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
@@ -22,8 +22,17 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
+import javax.wbem.client.WBEMClient;
 
+import org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFco;
 import org.sblim.wbemsmt.exception.WbemsmtException;
+import org.sblim.wbemsmt.tasklauncher.CIMInstanceNode;
+import org.sblim.wbemsmt.tasklauncher.SimpleTextTreeNode;
+import org.sblim.wbemsmt.tasklauncher.TaskLauncherContextMenu;
+import org.sblim.wbemsmt.tasklauncher.customtreeconfig.ContextmenuDocument;
+import org.sblim.wbemsmt.tasklauncher.customtreeconfig.ContextmenuDocument.Contextmenu;
+import org.sblim.wbemsmt.tasklauncher.customtreeconfig.EventListenerDocument.EventListener;
+import org.sblim.wbemsmt.tasklauncher.customtreeconfig.MenuitemDocument.Menuitem;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
@@ -88,6 +97,34 @@ public abstract class TaskLauncherTreeNodeEventListenerImpl implements TaskLaunc
 			throw new IllegalArgumentException("Runtime " + RuntimeUtil.getInstance().getRuntime() +  " is not supported");
 		}
 		parent.addSubnode(child);
+	}
+
+
+	public SimpleTextTreeNode getTextNode(String nodeName) {
+		SimpleTextTreeNode node = new SimpleTextTreeNode(nodeName);				
+		return node;
+	}
+
+	public CIMInstanceNode getInstanceNode(WBEMClient cimClient, String nodeName, AbstractWbemsmtFco fco) {
+
+		CIMInstanceNode ciNode = new CIMInstanceNode(cimClient, null, nodeName, fco.getCimInstance());	
+		ciNode.setCimObject(fco);
+		
+		return ciNode;
+	}
+
+	public Contextmenu getContextMenu(CIMInstanceNode ciNode, String[] resourceBundleNames) {
+		Contextmenu contextmenu = ContextmenuDocument.Factory.newInstance().addNewContextmenu();
+		ciNode.setContextMenu( new TaskLauncherContextMenu(contextmenu, resourceBundleNames) );
+		return contextmenu;
+	}
+
+	public Menuitem getContextMenuItem(Contextmenu contextmenu, String menuItemName, String listenerClassName) {
+		Menuitem menuitem = contextmenu.addNewMenuitem();
+		menuitem.setDescription(menuItemName);
+		EventListener listener = menuitem.addNewEventListener();
+		listener.setClassname(listenerClassName);
+		return menuitem;
 	}
     
 }

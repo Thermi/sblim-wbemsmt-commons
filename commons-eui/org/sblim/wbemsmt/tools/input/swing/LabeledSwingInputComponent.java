@@ -32,13 +32,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
-import org.sblim.wbemsmt.bl.adapter.DataContainerUtil;
 import org.sblim.wbemsmt.tools.converter.ComboBoxIndexConverter;
 import org.sblim.wbemsmt.tools.converter.ComboBoxValueConverter;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.LabeledBaseHeaderComponentIf;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
-import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 
 public class LabeledSwingInputComponent extends LabeledBaseInputComponent implements LabeledBaseHeaderComponentIf
 {

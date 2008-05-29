@@ -403,15 +403,23 @@ public abstract class CimCommand {
 	 * @return
 	 * @throws WbemsmtException 
 	 */
-	protected WBEMClient getCimClient(PrintStream out, CommandLine cmd,CimClientOptionValues clientOptons
-			) throws WbemsmtException {
+	protected WBEMClient getCimClient(PrintStream out, CommandLine cmd, CimClientOptionValues clientOptions) throws WbemsmtException {
 
-		String server = CliUtil.getOption(cmd,clientOptons.getHost());
-		String strPort = CliUtil.getOption(cmd,clientOptons.getPort());
-		String namespace = CliUtil.getOption(cmd,clientOptons.getNamespace());
-		String url = "HTTP://" + server + ":" + strPort + namespace;
-		String userName = CliUtil.getOption(cmd,clientOptons.getUser());
-		String strPassword = CliUtil.getOption(cmd,clientOptons.getPassword());
+		String protocol;
+		if (clientOptions.getProtocol() != null) {
+			protocol = CliUtil.getOption(cmd, clientOptions.getProtocol());	
+		} else {
+			protocol = "http";
+		}
+			
+		
+		
+		String server = CliUtil.getOption(cmd,clientOptions.getHost());
+		String strPort = CliUtil.getOption(cmd,clientOptions.getPort());
+		String namespace = CliUtil.getOption(cmd,clientOptions.getNamespace());
+		String url = protocol + "://" + server + ":" + strPort + namespace;
+		String userName = CliUtil.getOption(cmd,clientOptions.getUser());
+		String strPassword = CliUtil.getOption(cmd,clientOptions.getPassword());
 	
 		namespace = CIMClientPool.cleanupNamespace(namespace);
 		
@@ -419,7 +427,7 @@ public abstract class CimCommand {
 			out.println(bundle.getString("connectToServer", new Object[]{url,userName}));
 			
 			WBEMClient cimClient = null;
-			WbemsmtSession.getSession().createCIMClientPool("http",server,strPort,userName,strPassword);
+			WbemsmtSession.getSession().createCIMClientPool(protocol,server,strPort,userName,strPassword);
 			cimClient = WbemsmtSession.getSession().getCIMClientPool(server).getCIMClient(namespace);
 			
 			CloseableIterator it = cimClient.enumerateClasses(new javax.cim.CIMObjectPath("CIM_ManagedElement",namespace),false,false,false,false);
@@ -429,7 +437,7 @@ public abstract class CimCommand {
 
 			return cimClient;
 		} catch (Exception e) {
-			WbemsmtException e1 = new LoginException(e, new LoginUserObject(userName + "@http://" + server + ":" + strPort + "/" + namespace));
+			WbemsmtException e1 = new LoginException(e, new LoginUserObject(userName + "@" + protocol +"://" + server + ":" + strPort + "/" + namespace));
             throw e1;
 		}
 	}

@@ -33,8 +33,23 @@ public class CimClientOptionValues {
 	private  OptionDefinition password;
 	private  OptionDefinition publicKeyFile;
 	private  OptionDefinition privateKeyFile;
+	private  OptionDefinition protocol;
 
+	/*
+	 * @Deprecated
+	 */
 	public CimClientOptionValues(OptionDefinition host, OptionDefinition port, OptionDefinition namespace, OptionDefinition user, OptionDefinition password, OptionDefinition publicKeyFile, OptionDefinition privateKeyFile) {
+		this.host = host;
+		this.port = port;
+		this.namespace = namespace;
+		this.user = user;
+		this.password = password;
+		this.publicKeyFile = publicKeyFile;
+		this.privateKeyFile = privateKeyFile;
+	}
+
+	public CimClientOptionValues(OptionDefinition protocol, OptionDefinition host, OptionDefinition port, OptionDefinition namespace, OptionDefinition user, OptionDefinition password, OptionDefinition publicKeyFile, OptionDefinition privateKeyFile) {
+		this.protocol = protocol;
 		this.host = host;
 		this.port = port;
 		this.namespace = namespace;
@@ -99,7 +114,14 @@ public class CimClientOptionValues {
 	public void setUser(OptionDefinition user) {
 		this.user = user;
 	}
-	
+
+	public OptionDefinition getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(OptionDefinition protocol) {
+		this.protocol = protocol;
+	}
 	
 
 }

@@ -1,10 +1,10 @@
-Changes on top of 0.5.5-1
+Changes on top of 0.5.5-CVS
 ==============================================================================
-- 1965980 wbemsmt-commons: migrate to jsr48
-
+- 1977427 wbemsmt-commons-cli: use httpProtocolType
 
 Changes in 0.5.5-1
 ==============================================================================
+- 1965980 wbemsmt-commons: migrate to jsr48
 - Maintenance release
 
 Changes in 0.5.4-1

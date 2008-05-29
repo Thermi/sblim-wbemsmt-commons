@@ -24,7 +24,6 @@ import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.LabeledBaseHeaderComponentIf;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
-import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 
 public class LabeledTestInputComponent extends LabeledBaseInputComponent implements TestInputComponentIf, LabeledBaseHeaderComponentIf {
 
