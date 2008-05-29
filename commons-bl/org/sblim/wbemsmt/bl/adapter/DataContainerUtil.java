@@ -309,5 +309,25 @@ public class DataContainerUtil {
 		}
 	}
 
+	/**
+	 * checks if the field is set, is having a boolean and is true
+	 * @param booleanField
+	 * @return true if the field is set, is having a boolean and is true
+	 */
+    public static boolean isTrue(LabeledBaseInputComponentIf booleanField) {
+        
+        Object value = booleanField.getConvertedControlValue();
+        return value != null && value instanceof Boolean && ((Boolean)value).booleanValue();
+    }
+
+    /**
+     * checks if the field is set
+     * @param field
+     * @return true if the field is set
+     */
+    public static boolean isSet(LabeledBaseInputComponentIf field) {
+        Object value = field.getConvertedControlValue();
+        return value != null;
+    }
 
 }

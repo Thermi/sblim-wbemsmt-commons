@@ -1,5 +1,6 @@
 Changes on top of 0.5.5-CVS
 ==============================================================================
+- 1977442 wbemsmt-commons: util methods for DataContainerUtil
 - 1977441 wbemsmt-commons: NPE in ArrayConverters.canConvert
 - 1977440 wbemsmt-commons: addConfigurationValue for BaseAdapter
 - 1977427 wbemsmt-commons-cli: use httpProtocolType
