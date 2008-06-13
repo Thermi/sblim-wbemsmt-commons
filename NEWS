@@ -1,5 +1,6 @@
 Changes on top of 0.5.5-CVS
 ==============================================================================
+- 1990530 wbemsmt-commons : remove java1.4-incompatbile codechanges
 - 1977444 wbemsmt-commons: add traces for userDataConfiguration
 - 1977442 wbemsmt-commons: util methods for DataContainerUtil
 - 1977441 wbemsmt-commons: NPE in ArrayConverters.canConvert

@@ -343,7 +343,7 @@ public class GenericFieldData  implements FieldData {
     public static GenericFieldData create(CIMProperty property, CIMClass cls, CIMClassProperty clsProperty, WbemSmtResourceBundle bundle, String valueToSet) {
         if (property.getDataType() == CIMDataType.BOOLEAN_T)
         {
-            return createCheckBoxField(Boolean.parseBoolean(valueToSet));
+            return createCheckBoxField(Boolean.getBoolean(valueToSet));
         }
         else if (property.getDataType() == CIMDataType.UINT8_T 
             || property.getDataType() == CIMDataType.UINT16_T 

@@ -279,7 +279,7 @@ public class FcoUtil {
             //2. check the <= conditions ( valueMapEntries with ..<number> ) 
             for (int i = 0; i < valueMap.length && !found; i++) {
                 String valueMapEntry = valueMap[i];
-                String valueBefore = i > 0 ? valueMap[i-1].replace(".", "") : null; 
+                String valueBefore = i > 0 ? valueMap[i-1].replace('.', (char)0) : null; 
                 if (valueMapEntry.length() > 2 
                         && valueMapEntry.startsWith("..") 
                         && Integer.parseInt(valueMapEntry.substring(2)) >= idx
@@ -293,7 +293,7 @@ public class FcoUtil {
             //3. check the >= conditions ( valueMapEntries with <number>.. ) 
             for (int i = valueMap.length -1; i >= 0 && !found; i--) {
                 String valueMapEntry = valueMap[i];
-                String valueAfter = i < valueMap.length -1 ? valueMap[i+1].replace(".", "") : null; 
+                String valueAfter = i < valueMap.length -1 ? valueMap[i+1].replace('.', (char)0) : null; 
                 if (valueMapEntry.length() > 2 
                         && valueMapEntry.endsWith("..") 
                         && Integer.parseInt(valueMapEntry.substring(0,valueMapEntry.length()-2)) <= idx

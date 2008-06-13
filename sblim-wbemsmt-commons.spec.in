@@ -127,6 +127,9 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 ###############################################################################
 %changelog
 
+* Fri Jun 13 2008 Prashanth Karnam <prkarnam@in.ibm.com> 0.5.5-CVS	
+	o 1990530 wbemsmt-commons : remove java1.4-incompatbile codechanges
+	
 * Thu May 29 2008 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.5-CVS
     o 1977444 wbemsmt-commons: add traces for userDataConfiguration
     o 1977442 wbemsmt-commons: util methods for DataContainerUtil
