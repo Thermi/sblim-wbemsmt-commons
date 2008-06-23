@@ -21,8 +21,16 @@ package org.sblim.wbemsmt.bl.tree;
 
 import org.sblim.wbemsmt.exception.WbemsmtException;
 
+/**
+ * Interface for all TreeBackers
+ */
 public interface ITreeBacker {
 
+    /**
+     * update a tree
+     * @return the outcome for further navigation
+     * @throws WbemsmtException if the update failed
+     */
 	public String updateTree()  throws WbemsmtException;
 
 }

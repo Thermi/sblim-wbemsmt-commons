@@ -24,7 +24,6 @@ package org.sblim.wbemsmt.tools.converter.swing;
 import javax.cim.UnsignedInteger16;
 import javax.swing.JLabel;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class UnsignedInt16SwingLabelConverter implements Converter {
@@ -60,8 +59,8 @@ public class UnsignedInt16SwingLabelConverter implements Converter {
 		return false;
 	}
 	
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInteger16.class);
+	public Class getTypeForModel() {
+		return UnsignedInteger16.class;
 	}	
 
 }

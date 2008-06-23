@@ -24,7 +24,7 @@
   */
 package org.sblim.wbemsmt.exception.impl;
 
-import org.sblim.wbemsmt.bl.adapter.Message;
+import org.sblim.wbemsmt.bl.messages.Message;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
 public interface UserObjectExceptionIf {

@@ -20,7 +20,7 @@
 package org.sblim.wbemsmt.tools.validator;
 
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
-import org.sblim.wbemsmt.bl.adapter.MessageList;
+import org.sblim.wbemsmt.bl.messages.MessageList;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 

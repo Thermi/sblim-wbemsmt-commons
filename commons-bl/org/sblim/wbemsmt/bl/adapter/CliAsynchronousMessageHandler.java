@@ -14,37 +14,45 @@
   *
   * Contributors: 
   * 
-  * Description: handle for asynchronous messages within the command line interface
+  * Description: handler for asynchronous messages within the command line interface
   * 
   */
 package org.sblim.wbemsmt.bl.adapter;
 
 import java.io.PrintWriter;
 
+import org.sblim.wbemsmt.bl.messages.Message;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
+/**
+ * handler for asynchronous messages within the command line interface
+ */
 public class CliAsynchronousMessageHandler implements AsynchronousMessageHandler {
 
-    /* (non-Javadoc)
-     * @see org.sblim.wbemsmt.bl.adapter.AsynchronousMessageHandler#addAsynchronousMessage(org.sblim.wbemsmt.bl.adapter.Message, java.lang.Object)
+    /**
+     * Add the asynchronous message
+     * @param message the message to add
+     * @param context the context where to add the message<br>
+     * for cli: Object[]{PrintWriter out, PrinterWriter err, WbemSmtResourceBundle bundle}
+     * @see org.sblim.wbemsmt.bl.adapter.AsynchronousMessageHandler#addAsynchronousMessage(org.sblim.wbemsmt.bl.messages.Message, java.lang.Object)
      */
-    public void addAsynchronousMessage(Message msg, Object context) {
+    public void addAsynchronousMessage(Message message, Object context) {
         
         PrintWriter cliOut = (PrintWriter) ((Object[])context)[0];
         PrintWriter cliErr = (PrintWriter) ((Object[])context)[1];
         WbemSmtResourceBundle bundle = (WbemSmtResourceBundle) ((Object[])context)[2];
         
-        if (msg.isError())
+        if (message.isError())
         {
-            cliErr.println(bundle.getString("error.while.execution") + "\n" + msg.getMessageString());
+            cliErr.println(bundle.getString("error.while.execution") + "\n" + message.getMessageString());
         }
-        else if (msg.isError())
+        else if (message.isError())
         {
-            cliErr.println(bundle.getString("warning.while.execution") + "\n" + msg.getMessageString());
+            cliErr.println(bundle.getString("warning.while.execution") + "\n" + message.getMessageString());
         }
         else
         {
-            cliOut.println(bundle.getString("error.while.execution") + "\n" + msg.getMessageString());
+            cliOut.println(bundle.getString("error.while.execution") + "\n" + message.getMessageString());
         }
     }
 

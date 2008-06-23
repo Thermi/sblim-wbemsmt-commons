@@ -19,12 +19,20 @@
   */
 package org.sblim.wbemsmt.bl.adapter;
 
+import org.sblim.wbemsmt.bl.messages.Message;
+
+
+/**
+ * Class to handle Asynchronous messages
+ * @see MessageHandlerBean
+ * @see CliAsynchronousMessageHandler
+ */
 public interface AsynchronousMessageHandler {
 
     /**
      * Add the asynchronous message
-     * @param message
-     * @param context<br>
+     * @param message the message to add
+     * @param context the context where to add the message<br>
      * for JSF: null<br>
      * for cli: Object[]{PrintWriter out, PrinterWriter err, WbemSmtResourceBundle bundle}
      */

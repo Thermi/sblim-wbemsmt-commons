@@ -23,7 +23,6 @@ package org.sblim.wbemsmt.tools.converter.test;
 
 import javax.cim.UnsignedInteger64;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class UnsignedInt64StringConverter implements Converter {
@@ -68,8 +67,8 @@ public class UnsignedInt64StringConverter implements Converter {
 		return false;
 	}
 
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInteger64.class);
+	public Class getTypeForModel() {
+		return UnsignedInteger64.class;
 	}	
 
 }

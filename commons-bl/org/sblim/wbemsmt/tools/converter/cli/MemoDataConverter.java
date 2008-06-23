@@ -21,7 +21,6 @@
 
 package org.sblim.wbemsmt.tools.converter.cli;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.bl.fielddata.MemoData;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
@@ -49,7 +48,7 @@ public class MemoDataConverter implements Converter {
 		return guiElement instanceof String;
 	}
 
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(MemoData.class);
+	public Class getTypeForModel() {
+		return MemoData.class;
 	}	
 }

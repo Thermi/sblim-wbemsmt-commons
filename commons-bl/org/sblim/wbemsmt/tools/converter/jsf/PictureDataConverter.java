@@ -21,7 +21,6 @@
 
 package org.sblim.wbemsmt.tools.converter.jsf;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.bl.fielddata.MemoData;
 import org.sblim.wbemsmt.bl.fielddata.PictureData;
 import org.sblim.wbemsmt.tools.converter.Converter;
@@ -62,7 +61,7 @@ public class PictureDataConverter implements Converter {
 		return true;
 	}
 
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(PictureData.class);
+	public Class getTypeForModel() {
+		return PictureData.class;
 	}	
 }

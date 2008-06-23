@@ -25,9 +25,9 @@ import java.util.logging.Logger;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlOptions;
-import org.sblim.wbemsmt.bl.ErrCodes;
-import org.sblim.wbemsmt.bl.adapter.Message;
-import org.sblim.wbemsmt.bl.adapter.MessageList;
+import org.sblim.wbemsmt.bl.messages.ErrCodes;
+import org.sblim.wbemsmt.bl.messages.Message;
+import org.sblim.wbemsmt.bl.messages.MessageList;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tasklauncher.userdataconfig.UserdataDocument;
 import org.sblim.wbemsmt.tasklauncher.userdataconfig.Version;

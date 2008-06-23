@@ -29,20 +29,23 @@ import java.util.logging.Logger;
 import javax.cim.*;
 
 import org.apache.commons.lang.StringUtils;
-import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFGenericComponent;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
 /**
   * Description: field to set values for a generic component which can display a textfield, a checkbox etc<br>
   * Example<br>
   * <xmp> 
-  *    container.get_VirtualProcessID().setValues(new String[]{"zero","one","two","three"});
-  *    container.get_VirtualProcessID().setControlValue(GenericFieldData.createComboBoxField(2));
+  *    container.
+  *       get_VirtualProcessID().
+  *           setControlValue(GenericFieldData.createComboBoxField(2,new String[]{"zero","one","two","three"}));
   * </xmp>
   * <br>uses a combo box for the field VirtualProcessID
  */
-public class GenericFieldData  implements FieldData {
+public final class GenericFieldData  implements FieldData {
 
+    /**
+     * the logger
+     */
     static Logger logger = Logger.getLogger(GenericFieldData.class.getName());
     
     /**
@@ -168,6 +171,7 @@ public class GenericFieldData  implements FieldData {
     /**
      * Create a data object for a combo box
      * @param idx the content of the combo box
+     * @param values values of the combo box
      * @return the new field data object. can be used for setControlValue of a Generic Component
      * @see LabeledJSFGenericComponent#setControlValue(Object)
      */
@@ -182,6 +186,7 @@ public class GenericFieldData  implements FieldData {
     /**
      * Create a data object for a combo box
      * @param idx the content of the combo box
+     * @param values values of the combo box
      * @return the new field data object. can be used for setControlValue of a Generic Component
      * @see LabeledJSFGenericComponent#setControlValue(Object)
      */
@@ -241,10 +246,11 @@ public class GenericFieldData  implements FieldData {
     
     /**
      * Create a GenericFieldData by checking the type of the property
-     * @param property
+     * @param property the CIMProperty which is the base for the new GenericFieldData
      * @param cls cam be null
      * @param clsProperty can be null
-     * @return the fieldData - if the dataType is not supported a FieldDasta for a Label is returned
+     * @param bundle the resource bundle - used to translate the common message if type is not supported (label used: 'type.not.supported') 
+     * @return the fieldData - if the dataType is not supported a FieldDasta for a Label is returned 
      */
     public static GenericFieldData create(CIMProperty property, CIMClass cls, CIMClassProperty clsProperty, WbemSmtResourceBundle bundle) {
         if (property.getDataType() == CIMDataType.BOOLEAN_T)
@@ -334,16 +340,19 @@ public class GenericFieldData  implements FieldData {
     }
 
     /**
-     * Create a GenericFieldData by checking the type of the property
-     * @param property
+     * Create a GenericFieldData by checking the type of the property and sets the value
+     * @param property the property
      * @param cls cam be null
      * @param clsProperty can be null
+     * @param bundle the resource bundle - used to translate the common message if type is not supported (label used: 'type.not.supported')
+     * @param valueToSet the value to be set
+     *  
      * @return the fieldData - if the dataType is not supported a FieldDasta for a Label is returned
      */
     public static GenericFieldData create(CIMProperty property, CIMClass cls, CIMClassProperty clsProperty, WbemSmtResourceBundle bundle, String valueToSet) {
         if (property.getDataType() == CIMDataType.BOOLEAN_T)
         {
-            return createCheckBoxField(Boolean.getBoolean(valueToSet));
+            return createCheckBoxField(valueToSet != null && "true".equalsIgnoreCase(valueToSet));
         }
         else if (property.getDataType() == CIMDataType.UINT8_T 
             || property.getDataType() == CIMDataType.UINT16_T 
@@ -401,8 +410,8 @@ public class GenericFieldData  implements FieldData {
 
     /**
      * Remove the value map entries with ".." marking a less than, larger than or else ranges
-     * @param values
-     * @param valueMap
+     * @param values the values entry of a value map
+     * @param valueMap  the valueMap entry of a value map
      * @return the arrays: idx 0 the modified values, idx 1 the modified valueMap - or null if values or valueMap was null
      */
     private static String[][] removeRanges(String[] values, String[] valueMap) {
@@ -435,13 +444,14 @@ public class GenericFieldData  implements FieldData {
     }
 
     /**
-     * Create a GenericFieldData by checking the type of the property
-     * @param property
+     * set the properties value from the the GenericField data
+     * @param property the property to set the value
      * @param cls cam be null
      * @param clsProperty can be null
+     * @param data the data object carrying the value
      * @return the fieldData - if the dataType is not supported a FieldDasta for a Label is returned
      */
-    public static CIMProperty setPropertyValue(CIMProperty property, CIMClass cls, CIMClassProperty clsProperty, GenericFieldData data, WbemSmtResourceBundle bundle) {
+    public static CIMProperty setPropertyValue(CIMProperty property, CIMClass cls, CIMClassProperty clsProperty, GenericFieldData data) {
 
         logger.info("Setting value of Property " + property.getName() + (cls != null ? "in class " + cls.getName() : ""));
         
@@ -534,7 +544,7 @@ public class GenericFieldData  implements FieldData {
      * Copies the property into a new property and uses the value as new value
      * @param p the property to copy
      * @param value the new value
-     * @return
+     * @return the modified Property
      */
     
     private static CIMProperty setValue(CIMProperty p, Object value) {
@@ -542,6 +552,14 @@ public class GenericFieldData  implements FieldData {
         return result;
     }
 
+    
+    /**
+     * get the index of the current selected value
+     * @param data the data object carrying the index value
+     * @param idxValues the possible values
+     * @return the index or null if there was no index found or the index is greater than idxValues.length
+     */
+    
     private static UnsignedInteger16 getIdxFromComboBoxField(GenericFieldData data, String[] idxValues) {
         
         UnsignedInteger16 selectedIdx = (UnsignedInteger16) data.getData();
@@ -621,7 +639,7 @@ public class GenericFieldData  implements FieldData {
 
     /**
      * Set the data field
-     * @param data
+     * @param data the Data objext
      */
     public void setData(Object data) {
         this.data = data;
@@ -629,7 +647,7 @@ public class GenericFieldData  implements FieldData {
 
     /**
      * Only used for ComoboxBoxes (and in future for ListBoxes etc) to set the possible Values
-     * @param values
+     * @param values the values displayes in the combo box
      */
     private void setValues(String[] values) {
         this.values = values;

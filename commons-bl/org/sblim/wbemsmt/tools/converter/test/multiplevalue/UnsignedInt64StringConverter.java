@@ -27,7 +27,6 @@ import java.util.List;
 
 import javax.cim.UnsignedInteger64;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class UnsignedInt64StringConverter extends MultipleValueConverter implements Converter {
@@ -45,8 +44,8 @@ public class UnsignedInt64StringConverter extends MultipleValueConverter impleme
 		return result;
 	}
 
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInteger64.class);
+	public Class getTypeForModel() {
+		return UnsignedInteger64.class;
 	}	
 	
 }

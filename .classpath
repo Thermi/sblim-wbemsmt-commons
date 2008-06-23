@@ -13,7 +13,11 @@
 	<classpathentry exported="true" kind="var" path="JAR_REPO/sblim/sblim-wbemsmt-commons-launcher-config/current/sblim-wbemsmt-commons-launcher-config.jar"/>
 	<classpathentry exported="true" kind="var" path="JAR_REPO/myfaces/myfaces-api/current/myfaces-api.jar"/>
 	<classpathentry exported="true" kind="var" path="JAR_REPO/javax/servlet/servlet-api/current/servlet-api.jar"/>
-	<classpathentry exported="true" kind="var" path="JAR_REPO/sblim/sblim-cim-client/2.0.4/sblim-cim-client-2.0.4.jar" sourcepath="/WORKSPACE/jsr48-client/src"/>
+	<classpathentry exported="true" kind="var" path="JAR_REPO/sblim/sblim-cim-client/2.0.4/sblim-cim-client-2.0.4.jar" sourcepath="/WORKSPACE/jsr48-client/src">
+		<attributes>
+			<attribute name="javadoc_location" value="http://sblim.sourceforge.net/cim-client2-doc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="var" path="JAR_REPO/myfaces/myfaces-impl/current/myfaces-impl.jar"/>
 	<classpathentry kind="var" path="JAR_REPO/jsp-api/jsp-api/current/jsp-api.jar"/>
 	<classpathentry kind="output" path="bin"/>

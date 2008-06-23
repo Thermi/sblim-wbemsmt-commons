@@ -20,8 +20,12 @@
 package org.sblim.wbemsmt.bl.fielddata;
 
 /**
- * @author Bauschert
- *
+ * Interface for all non-trivial and non-atomic data objects for a field<br>
+ * like for example for Pictures,Links,MemoFields or GenericFields
+ * @see MemoData
+ * @see PictureData
+ * @see LinkData
+ * @see GenericFieldData
  */
 public interface FieldData {
 

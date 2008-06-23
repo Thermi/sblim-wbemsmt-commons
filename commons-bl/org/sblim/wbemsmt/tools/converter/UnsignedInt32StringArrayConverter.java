@@ -22,7 +22,6 @@ package org.sblim.wbemsmt.tools.converter;
 
 import javax.cim.UnsignedInteger32;
 
-import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.StringUtils;
 
 public class UnsignedInt32StringArrayConverter implements StringArrayConverter {
@@ -109,8 +108,8 @@ public class UnsignedInt32StringArrayConverter implements StringArrayConverter {
 		return false;
 	}
 	
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInteger32.class);
+	public Class getTypeForModel() {
+		return UnsignedInteger32.class;
 	}	
 	
 }

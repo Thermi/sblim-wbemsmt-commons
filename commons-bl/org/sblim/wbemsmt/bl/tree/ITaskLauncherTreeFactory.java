@@ -14,7 +14,7 @@
   *
   * Contributors: 
   * 
-  * Description: Interface of a ITaskLauncherTreeFactory
+  * Description: Interface of a TaskLauncherTreeFactory
   * 
   */
 
@@ -23,10 +23,14 @@ package org.sblim.wbemsmt.bl.tree;
 import java.util.List;
 
 
+/**
+ * Interface of a TaskLauncherTreeFactory
+ */
 public interface ITaskLauncherTreeFactory {
 
 	/**
 	 * Returns the rootnode of the Tree
+	 * @return {@link List} with {@link ITaskLauncherTreeNode} objects
 	 */
 	public abstract List getRootNodes();
 

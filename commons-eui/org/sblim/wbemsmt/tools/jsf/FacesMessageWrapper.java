@@ -21,7 +21,7 @@ package org.sblim.wbemsmt.tools.jsf;
 
 import javax.faces.application.FacesMessage;
 
-import org.sblim.wbemsmt.bl.adapter.Message;
+import org.sblim.wbemsmt.bl.messages.Message;
 
 /**
  * @author Bauschert

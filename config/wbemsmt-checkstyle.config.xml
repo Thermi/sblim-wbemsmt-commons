@@ -25,15 +25,19 @@ Checkstyle configuration for wbemsmt projects
         <module name="JavadocStyle">
             <property name="checkFirstSentence" value="false"/>
         </module>
-        <module name="ConstantName"/>
+        <module name="ConstantName">
+            <property name="severity" value="ignore"/>
+        </module>
         <module name="LocalFinalVariableName"/>
         <module name="LocalVariableName"/>
-        <module name="MemberName"/>
-        <module name="MethodName"/>
+        <module name="MemberName">
+            <property name="severity" value="ignore"/>
+        </module>
         <module name="PackageName"/>
         <module name="ParameterName"/>
-        <module name="StaticVariableName"/>
-        <module name="TypeName"/>
+        <module name="TypeName">
+            <property name="format" value="^[A-Z][_a-zA-Z0-9]*$"/>
+        </module>
         <module name="AvoidStarImport">
             <property name="severity" value="ignore"/>
         </module>
@@ -64,9 +68,6 @@ Checkstyle configuration for wbemsmt projects
         <module name="NoWhitespaceBefore">
             <property name="severity" value="ignore"/>
         </module>
-        <module name="OperatorWrap">
-            <property name="severity" value="ignore"/>
-        </module>
         <module name="ParenPad">
             <property name="severity" value="ignore"/>
         </module>
@@ -83,16 +84,11 @@ Checkstyle configuration for wbemsmt projects
             <property name="severity" value="ignore"/>
         </module>
         <module name="ModifierOrder"/>
-        <module name="RedundantModifier"/>
+        <module name="RedundantModifier">
+            <property name="severity" value="ignore"/>
+        </module>
         <module name="AvoidNestedBlocks"/>
-        <module name="EmptyBlock"/>
-        <module name="LeftCurly">
-            <property name="severity" value="ignore"/>
-        </module>
-        <module name="NeedBraces">
-            <property name="severity" value="ignore"/>
-        </module>
-        <module name="RightCurly">
+        <module name="EmptyBlock">
             <property name="severity" value="ignore"/>
         </module>
         <module name="AvoidInlineConditionals">
@@ -120,7 +116,9 @@ Checkstyle configuration for wbemsmt projects
         <module name="SimplifyBooleanReturn">
             <property name="severity" value="ignore"/>
         </module>
-        <module name="DesignForExtension"/>
+        <module name="DesignForExtension">
+            <property name="severity" value="ignore"/>
+        </module>
         <module name="FinalClass"/>
         <module name="HideUtilityClassConstructor"/>
         <module name="InterfaceIsType">
@@ -147,8 +145,13 @@ Checkstyle configuration for wbemsmt projects
         <module name="JavadocVariable">
             <property name="scope" value="package"/>
         </module>
+        <module name="MethodName">
+            <property name="format" value="^[a-z][_a-zA-Z0-9]*$"/>
+        </module>
     </module>
     <module name="PackageHtml"/>
-    <module name="NewlineAtEndOfFile"/>
+    <module name="NewlineAtEndOfFile">
+        <property name="severity" value="ignore"/>
+    </module>
     <module name="Translation"/>
 </module>

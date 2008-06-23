@@ -24,7 +24,7 @@ package org.sblim.wbemsmt.tools.input;
 
 public interface LabeledStringArrayInputComponentIf extends LabeledBaseInputComponentIf {
 
-	public void setValues(String values[]);
+	public void setValues(String[] values);
 	public String[] getValues();
 	
 	/**

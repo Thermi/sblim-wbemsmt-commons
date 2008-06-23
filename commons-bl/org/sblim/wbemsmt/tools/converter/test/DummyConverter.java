@@ -48,8 +48,8 @@ public class DummyConverter implements Converter {
 		return true;
 	}
 	
-	public String getTypeForModel() {
-		return "*all Types*";
+	public Class getTypeForModel() {
+		return Object.class;
 	}
 
 

@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.BaseDataContainer;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
-import org.sblim.wbemsmt.bl.adapter.MessageList;
+import org.sblim.wbemsmt.bl.messages.MessageList;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.tools.wizard.WizardBase;

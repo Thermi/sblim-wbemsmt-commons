@@ -24,14 +24,22 @@ import javax.cim.CIMProperty;
 
 import org.sblim.wbemsmt.schema.cim29.CIM_ManagedElement;
 
-public class CIMPropertyBuilder {
+/**
+ * Helper class for creating CIMProperties
+ */
+public final class CIMPropertyBuilder {
 
+    /**
+     * utility class with private constructor only
+     */
+    private CIMPropertyBuilder(){}
+    
 	/**
 	 * Create a CIMProperty with name, value and type.
-	 * @param name
-	 * @param value 
-	 * @param type
-	 * @return
+	 * @param name name of the property
+	 * @param value  the value
+	 * @param type the type see type integers in {@link CIMDataType}
+	 * @return the Property
 	 * @see CIMDataType#CIMDataType(int)
 	 */
 	public static CIMProperty create(String name, Object value, int type)
@@ -40,23 +48,23 @@ public class CIMPropertyBuilder {
 	}
 
 	/**
-	 * Create a new CIMProperty with the objectPath of CIM_Object as value, the objectName of CIM_Object as CIMDataType 
+	 * Create a new CIMProperty with the objectPath of AbstractWbemsmtFco as value, the objectName of AbstractWbemsmtFco as CIMDataType 
 	 * (can be use used for creating attributes representing associated classes)
-	 * @param name
-	 * @param object
-	 * @return
+     * @param name name of the property
+     * @param object fco 
+     * @return the Property
 	 */
 	public static CIMProperty create(String name, AbstractWbemsmtFco object) {
 		return new CIMProperty(name, new CIMDataType(object.getCimObjectPath().getObjectName()),object.getCimObjectPath());
 	}
 
-	/**
-	 * Create a new CIMProperty with the objectPath of CIM_ManagedElement as value, the objectName of CIM_ManagedElement as CIMDataType
-	 * (can be use used for creating attributes representing associated classes) 
-	 * @param name
-	 * @param object
-	 * @return
-	 */
+    /**
+     * Create a new CIMProperty with the objectPath of object as value, the objectName of CIM_Object as CIMDataType 
+     * (can be use used for creating attributes representing associated classes)
+     * @param name name of the property
+     * @param object fco 
+     * @return the Property
+     */
 	public static CIMProperty create(String name, CIM_ManagedElement object) {
 		return new CIMProperty(name, new CIMDataType(object.getCimObjectPath().getObjectName()),object.getCimObjectPath());
 	}

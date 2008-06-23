@@ -27,7 +27,7 @@ import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.sblim.wbemsmt.bl.Cleanup;
+import org.sblim.wbemsmt.bl.cleanup.Cleanup;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.LocaleManager;

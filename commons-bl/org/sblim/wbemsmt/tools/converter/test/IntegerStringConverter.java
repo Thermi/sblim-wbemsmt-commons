@@ -21,7 +21,6 @@
 
 package org.sblim.wbemsmt.tools.converter.test;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class IntegerStringConverter implements Converter {
@@ -66,8 +65,8 @@ public class IntegerStringConverter implements Converter {
 		return false;
 	}
 	
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(Integer.class);
+	public Class getTypeForModel() {
+		return Integer.class;
 	}
 	
 

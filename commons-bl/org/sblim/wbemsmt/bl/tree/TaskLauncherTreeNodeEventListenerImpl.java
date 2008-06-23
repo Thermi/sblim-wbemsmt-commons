@@ -26,8 +26,6 @@ import javax.wbem.client.WBEMClient;
 
 import org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFco;
 import org.sblim.wbemsmt.exception.WbemsmtException;
-import org.sblim.wbemsmt.tasklauncher.CIMInstanceNode;
-import org.sblim.wbemsmt.tasklauncher.SimpleTextTreeNode;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherContextMenu;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.ContextmenuDocument;
 import org.sblim.wbemsmt.tasklauncher.customtreeconfig.ContextmenuDocument.Contextmenu;

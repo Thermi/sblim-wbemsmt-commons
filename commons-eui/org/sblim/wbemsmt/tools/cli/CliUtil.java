@@ -1,5 +1,5 @@
- /** 
-  * CommandletUtil.java
+ /**
+  * CliUtil.java
   *
   * © Copyright IBM Corp. 2005
   *
@@ -18,8 +18,8 @@
   * 
   * The syntax of the alias-file is the following
   * 
-  * <CommandName>.<ShortOption>=<NewOnCharacterShortOption>
-  * <CommandName>.<LongOption>=<NewLongOption>
+  * &lt;CommandName&gt;.&lt;ShortOption&gt;=&lt;NewOnCharacterShortOption&gt;
+  * &lt;CommandName&gt;.&lt;LongOption&gt;=&lt;NewLongOption&gt;
   *  
   * 
   */
@@ -38,7 +38,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
-public class CliUtil {
+public final class CliUtil {
 
 	private static CliUtil instance = null;
 	private Properties props = new Properties();
@@ -80,7 +80,7 @@ public class CliUtil {
 	
 	/**
 	 * Gets the instance of the commandletUtil
-	 * @return
+	 * @return the instance
 	 */
 	public static synchronized CliUtil getInstance() {
 		if (instance == null)
@@ -92,21 +92,21 @@ public class CliUtil {
 
 	/**
 	 * Checks if for the defined definition an entry is found in the alias file
-	 * @param commandlet
-	 * @param definition
+	 * @param command the command
+	 * @param definition the definition
 	 */
-	public void checkAliases(CimCommand commandlet, OptionDefinition definition) {
+	public void checkAliases(CimCommand command, OptionDefinition definition) {
 		
 		try {
 			String longKey = definition.getLongKey();
 			if (longKey != null)
 			{
-				String strLongKey = props.getProperty(commandlet.getCommandName() + "." + longKey,""+longKey).trim();
+				String strLongKey = props.getProperty(command.getCommandName() + "." + longKey,""+longKey).trim();
 				definition.setLongKey( strLongKey );
 				
 				if (longKey != null && longKey.length() > 0)
 				{
-					longKey = props.getProperty(commandlet.getCommandName() + "." + longKey,""+longKey).trim();
+					longKey = props.getProperty(command.getCommandName() + "." + longKey,""+longKey).trim();
 					definition.setLongKey(longKey);
 				}
 			}
@@ -114,12 +114,12 @@ public class CliUtil {
 			String shortKey = definition.getShortKey();
 			if (shortKey != null)
 			{
-				String strShortKey = props.getProperty(commandlet.getCommandName() + "." + shortKey,""+shortKey).trim();
+				String strShortKey = props.getProperty(command.getCommandName() + "." + shortKey,""+shortKey).trim();
 				definition.setShortKey( strShortKey );
 				
 				if (shortKey != null && shortKey.length() > 0)
 				{
-					shortKey = props.getProperty(commandlet.getCommandName() + "." + shortKey,""+shortKey).trim();
+					shortKey = props.getProperty(command.getCommandName() + "." + shortKey,""+shortKey).trim();
 					definition.setShortKey(shortKey);
 				}
 			}
@@ -132,6 +132,13 @@ public class CliUtil {
 		
 	}
 
+	/**
+	 * Create an option
+	 * @param bundle the ResourceBundle 
+	 * @param definition the option definitin
+	 * @return the option
+	 * 
+ 	 */
 	public static Option createOption(WbemSmtResourceBundle bundle, OptionDefinition definition) {
 
 		boolean required = definition.isRequired();
@@ -216,9 +223,9 @@ public class CliUtil {
 	
 	/**
 	 * returns true if the option is set - the default value is not taken into account
-	 * @param cmd
-	 * @param definition
-	 * @return
+	 * @param cmd the parese commandline
+	 * @param definition the option ot check
+	 * @return true if the option is set
 	 */
 	public static boolean hasOption(CommandLine cmd, OptionDefinition definition)
 	{
@@ -227,9 +234,9 @@ public class CliUtil {
 	
 	/**
 	 * Gets the option if the option is not set the defaultValue is returned
-	 * @param cmd
-	 * @param definition
-	 * @return
+	 * @param cmd the parsed commandline
+	 * @param definition the option to retrieve
+	 * @return the option's value
 	 */
 	public static String getOption(CommandLine cmd, OptionDefinition definition)
 	{
@@ -248,9 +255,9 @@ public class CliUtil {
 	/**
 	 * Takes the parsed commandline from the commandvalues and gets the option
 	 * defined by the the definition argument
-	 * @param commandValues
-	 * @param definition
-	 * @return
+	 * @param commandValues object containing the cimCommand
+	 * @param definition the option
+	 * @return the option value
 	 */
 	public static String getOption(CimCommandValues commandValues,
 			OptionDefinition definition) {
@@ -258,7 +265,8 @@ public class CliUtil {
 	}
 	
 	/**
-	 * @return
+	 * get the name of the class which is the current command
+	 * @return the classname of the current command
 	 */
 	public static String getExecutingClassName() {
 		StackTraceElement[] stackTrace;

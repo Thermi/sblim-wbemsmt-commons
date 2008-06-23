@@ -46,8 +46,8 @@ public class BooleanStringConverter implements Converter {
 			return true;
 	}
 
-	public String getTypeForModel() {
-		return "Boolean";
+	public Class getTypeForModel() {
+		return Boolean.class;
 	}
 
 }

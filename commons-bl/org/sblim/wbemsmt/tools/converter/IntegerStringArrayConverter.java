@@ -20,7 +20,6 @@
 
 package org.sblim.wbemsmt.tools.converter;
 
-import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.StringUtils;
 
 public class IntegerStringArrayConverter implements StringArrayConverter {
@@ -106,8 +105,8 @@ public class IntegerStringArrayConverter implements StringArrayConverter {
 		return false;
 	}
 	
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(Integer.class);
+	public Class getTypeForModel() {
+		return Integer.class;
 	}	
 	
 }

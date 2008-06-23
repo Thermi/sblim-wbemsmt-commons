@@ -23,7 +23,6 @@ package org.sblim.wbemsmt.tools.converter.jsf;
 
 import javax.faces.component.html.HtmlInputText;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class StringHtmlInputFieldConverter implements Converter {
@@ -50,7 +49,7 @@ public class StringHtmlInputFieldConverter implements Converter {
 		return true;
 	}
 
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(String.class);
+	public Class getTypeForModel() {
+		return String.class;
 	}	
 }

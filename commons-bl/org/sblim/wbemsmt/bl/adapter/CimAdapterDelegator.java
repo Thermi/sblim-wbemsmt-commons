@@ -19,6 +19,9 @@
   */
 package org.sblim.wbemsmt.bl.adapter;
 
+/**
+ * Interface for accessing the delegators
+ */
 public interface CimAdapterDelegator
 {
 	/**

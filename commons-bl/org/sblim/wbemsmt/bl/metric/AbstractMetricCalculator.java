@@ -22,16 +22,27 @@ package org.sblim.wbemsmt.bl.metric;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.wbem.WBEMException;
-
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricDefinitionIf;
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricValueIf;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
 public abstract class AbstractMetricCalculator implements MetricCalculator {
 
+    /**
+     * logger for all metric calculators
+     */
 	static Logger logger = Logger.getLogger(AbstractMetricCalculator.class.getName());
 	
+	/**
+	 * calculate the metrics, call the abstract method {@link #doCalculate(CIM_BaseMetricDefinitionIf, CIM_BaseMetricValueIf, WbemSmtResourceBundle)}<br>
+	 * if there was an exception during {@link #doCalculate(CIM_BaseMetricDefinitionIf, CIM_BaseMetricValueIf, WbemSmtResourceBundle)} <br>
+	 * the translated label for 'no.metric.available' is returned as result.
+     * @param definition the definition of the metric
+     * @param value the value of the metric
+     * @param bundle the bundle for translating labels. For a list of labels see the doCalculate of the subclasses 
+	 * @return the calculated value or the translated label for 'no.metric.available'
+	 */
 	public synchronized String calculate(CIM_BaseMetricDefinitionIf definition, CIM_BaseMetricValueIf value, WbemSmtResourceBundle bundle) {
 		try
 		{
@@ -47,9 +58,11 @@ public abstract class AbstractMetricCalculator implements MetricCalculator {
 
 	/**
 	 * execute the calculation
-	 * @param value
-	 * @param bundle
-	 * @return
+     * @param definition the definition of the metric
+     * @param value the value of the metric
+     * @param bundle the bundle for translating labels. For a list of labels see the doCalculate of the subclasses 
+     * @return the calculated value
+     * @throws WbemsmtException if the metric calculation failed
 	 */
-	protected abstract String doCalculate(CIM_BaseMetricDefinitionIf definition, CIM_BaseMetricValueIf value, WbemSmtResourceBundle bundle) throws WBEMException;
+	protected abstract String doCalculate(CIM_BaseMetricDefinitionIf definition, CIM_BaseMetricValueIf value, WbemSmtResourceBundle bundle) throws WbemsmtException;
 }

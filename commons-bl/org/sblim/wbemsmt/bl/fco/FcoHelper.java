@@ -34,23 +34,25 @@ import javax.cim.*;
 import javax.wbem.WBEMException;
 import javax.wbem.client.WBEMClient;
 
-import org.apache.commons.collections.MultiHashMap;
-import org.apache.commons.collections.MultiMap;
-import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.bl.metric.MillisecondMetricCalculator;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.exception.impl.GetInstanceException;
-import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
-public class FcoHelper implements FcoHelperIf
+/**
+ *  Helper class to handle actions on FCOs
+ */
+public class FcoHelper
 {
-	
+	/**
+	 * flag to indicate if the caller should ne notified about changes
+	 */
 	protected boolean notifyChanges = true;
 	
-	static MultiMap listeners = new MultiHashMap();
-	
+	/**
+	 * prefix for the wbemsmt cim classes
+	 */
 	public static final String PREFIX_LINUX = "Linux_";
 
 	/**
@@ -61,12 +63,24 @@ public class FcoHelper implements FcoHelperIf
 	 */ 
 	private static final DateFormat DATETIME_ABSOLUTE = new SimpleDateFormat("yyyyMMddHHmmss.SSS");
 
+	/**
+	 * the logger
+	 */
 	static Logger logger = Logger.getLogger(FcoHelper.class.getName());
 	
+	/**
+	 * create a new helper
+	 */
 	public FcoHelper() {
 		super();
 	}
 
+	/**
+	 * delete all objects in the collection
+	 * @param c = the list with objects
+	 * @param cimClient the connection
+	 * @throws WbemsmtException if a delete failed - all pending deletes are not executed
+	 */
 	public  void delete(Collection c, WBEMClient cimClient) throws WbemsmtException
 	{
 		for (Iterator it = c.iterator(); it.hasNext();) {
@@ -81,8 +95,8 @@ public class FcoHelper implements FcoHelperIf
 	/**
 	 * deletes the object
 	 * @param fco the firstClassObject or a Collection with first class objects
-	 * @param cimClient
-	 * @throws WbemsmtException
+	 * @param cimClient the connection 
+	 * @throws WbemsmtException if a delete failed
 	 */
 	public  void delete(AbstractWbemsmtFco fco, WBEMClient cimClient) throws WbemsmtException 
 	{
@@ -95,9 +109,10 @@ public class FcoHelper implements FcoHelperIf
 
 	/**
 	 * deletes the object
-	 * @param fco the firstClassObject or a Collection with first class objects
-	 * @param cimClient
-	 * @throws WbemsmtException
+	 * @param objectToDelete the FCO to delete
+	 * @param cimClient the connection
+	 * @param testIfObjectRemovedAfterDeletion do a getInstance after the delete and see if the object was deleted
+	 * @throws WbemsmtException if the object cannot be deleted or (if testIfObjectRemovedAfterDeletion is true) the object was still there after the delete
 	 */
 	public  void delete(AbstractWbemsmtFco objectToDelete, WBEMClient cimClient, boolean testIfObjectRemovedAfterDeletion) throws WbemsmtException 
 	{
@@ -110,18 +125,10 @@ public class FcoHelper implements FcoHelperIf
 		
 		try {
 			helperClass = Class.forName(helperName,true,objectToDelete.getClass().getClassLoader());
-			FcoHelperProcessItemEvent event = fireEvent(FcoHelperProcessItemEvent.TYPE_BEFORE_DELETE,objectToDelete);
-			if (!event.isDoProcessing())
-			{
-				logger.log(Level.WARNING,"Processing stopped by EventListener");
-				return;
-			}			
 			Method method = helperClass.getMethod("deleteInstance", new Class[]{WBEMClient.class,objectToDelete.getClass()});
 			logger.fine("Calling " + helperName + "." + method.getName()  + " with fco " + objectToDelete.toString()+ " on " + namespace);
 			method.invoke(null,new Object[]{cimClient,objectToDelete});
 			logger.info("Deleted " + objectToDelete.getCimObjectPath() + " on " + namespace);
-			
-			fireEvent(FcoHelperProcessItemEvent.TYPE_AFTER_DELETE,objectToDelete);
 			
 		} catch (ClassNotFoundException e) {
 			logger.log(Level.SEVERE,"Cannot find Helper class " + helperName + " for deleting object",e);
@@ -179,25 +186,30 @@ public class FcoHelper implements FcoHelperIf
 				throw new WbemsmtException(WbemsmtException.ERR_DELETE_OBJECT,"Verification if the deletion was done was not possible",objectToDelete,e);
 			}
 			throw new WbemsmtException(WbemsmtException.ERR_DELETE_OBJECT,"After deleting the object " + objectToDelete.getCimObjectPath() + " on " + namespace + " the object was still found.");			
-		}		
+		}
 	}
 
 	/**
-	 * Creates a new FCO with the given keyProperties and deletes it
-	 * @param fcoClass
-	 * @param keyPropertiesArray
-	 * @param cimClient
-	 */
+     * deletes the object
+     * @param fcoClass the FCO to delete
+     * @param namespace the target namespace
+     * @param cimClient the connection
+     * @param keyPropertiesArray array with key properties - used to find the correct object
+     * @throws WbemsmtException if the object cannot be deleted
+     */
 	public  void delete(Class fcoClass, String namespace, CIMProperty[] keyPropertiesArray, WBEMClient cimClient) throws WbemsmtException  {
 		delete(fcoClass,namespace,keyPropertiesArray,cimClient, true);
 	}	
 
-	/**
-	 * load a FCO with the given keyProperties and deletes it
-	 * @param fcoClass
-	 * @param keyPropertiesArray
-	 * @param cimClient
-	 */
+    /**
+     * deletes the object
+     * @param fcoClass the FCO to delete
+     * @param namespace the target namespace
+     * @param cimClient the connection
+     * @param keyPropertiesArray array with key properties - used to find the correct object
+     * @param testIfObjectRemovedAfterDeletion do a getInstance after the delete and see if the object was deleted
+     * @throws WbemsmtException if the object cannot be deleted or (if testIfObjectRemovedAfterDeletion is true) the object was still there after the delete
+     */
 	public  void delete(Class fcoClass, String namespace, CIMProperty[] keyPropertiesArray, WBEMClient cimClient, boolean testIfObjectRemovedAfterDeletion) throws WbemsmtException  {
 		
 		
@@ -232,14 +244,6 @@ public class FcoHelper implements FcoHelperIf
 				throw new WbemsmtException(WbemsmtException.ERR_DELETE_OBJECT,e);
 			}
 
-			FcoHelperProcessItemEvent event = fireEvent(FcoHelperProcessItemEvent.TYPE_BEFORE_DELETE,cimObject);
-			if (!event.isDoProcessing())
-			{
-				logger.log(Level.WARNING,"Processing stopped by EventListener");
-				return;
-			}
-
-			
 			Method deleteMethod = helperClass.getMethod("deleteInstance", new Class[]{WBEMClient.class,fcoClass});
 			deleteMethod.setAccessible(true);
 			logger.fine("Calling " + helperName + "." + deleteMethod.getName()  + " with fco " + fcoClass.toString()+ " on " + namespace);
@@ -297,20 +301,24 @@ public class FcoHelper implements FcoHelperIf
 		    logger.log(Level.SEVERE,"Cannot execute deleteInstance-Method on constructor of class " + fcoClass.getName() + " for getting instance",e);
 			throw new WbemsmtException(WbemsmtException.ERR_DELETE_OBJECT,"Internal error",e);
 		}
-		fireEvent(FcoHelperProcessItemEvent.TYPE_AFTER_DELETE,cimObject);
 		
 	}
 
+	/**
+	 * checks if the exception is a WBEMException.CIM_ERR_NOT_FOUND
+	 * @param e the exception to check
+	 * @return true if the exception contans the correct id
+	 */
 	private boolean isNotFoundException(Exception e) {
 		return e instanceof WBEMException && ((WBEMException)e).getID() == WBEMException.CIM_ERR_NOT_FOUND;
 	}
 
 	/**
 	 * creates objects
-	 * @param o the firstClassObject or a Collection with first class objects
-	 * @param cimClient
-	 * @return 
-	 * @throws WbemsmtException
+	 * @param c a Collection with {@link AbstractWbemsmtFco} instances
+	 * @param cimClient the connection
+	 * @return a Collection with the created {@link AbstractWbemsmtFco} instances 
+	 * @throws WbemsmtException if a create failed - after the first create failed the further execution is stopped
 	 */
 
 	public  Collection create(Collection c, WBEMClient cimClient) throws WbemsmtException 
@@ -337,10 +345,10 @@ public class FcoHelper implements FcoHelperIf
 	
 	/**
 	 * creates objects
-	 * @param fco the firstClassObject or a Collection with first class objects
-	 * @param cimClient
+	 * @param cimObject the firstClassObject
+	 * @param cimClient the connection
 	 * @return the created object or input-fco if no object was created
-	 * @throws WbemsmtException
+	 * @throws WbemsmtException if the create failed
 	 */
 
 	public  AbstractWbemsmtFco create(AbstractWbemsmtFco cimObject, WBEMClient cimClient) throws WbemsmtException 
@@ -356,12 +364,6 @@ public class FcoHelper implements FcoHelperIf
 		String namespace = cimObject.getCimObjectPath().getNamespace();
 		
 		try {
-			FcoHelperProcessItemEvent event = fireEvent(FcoHelperProcessItemEvent.TYPE_BEFORE_CREATE,cimObject);
-			if (!event.isDoProcessing())
-			{
-				logger.log(Level.WARNING,"Processing stopped by EventListener");
-				return (AbstractWbemsmtFco) fco;
-			}
 
 			helperClass = Class.forName(helperName,true,fco.getClass().getClassLoader());
 			Method method = helperClass.getMethod("createInstance", new Class[]{WBEMClient.class,fco.getClass(),boolean.class});
@@ -408,33 +410,14 @@ public class FcoHelper implements FcoHelperIf
 		    throw new WbemsmtException(WbemsmtException.ERR_CREATE_OBJECT,"Internal error");
 		}
 		
-		fireEvent(FcoHelperProcessItemEvent.TYPE_AFTER_CREATE,newInstance);
 		return newInstance;
 	
 	}
 
-	private  FcoHelperProcessItemEvent fireEvent(int type, AbstractWbemsmtFco cimObject) {
-		
-		FcoHelperProcessItemEvent event = new FcoHelperProcessItemEvent(cimObject,type);
-		
-		String className = cimObject.getClass().getName();
-		
-		List listeners = (List) FcoHelper.listeners.get(className);
-		if (listeners != null)
-		{
-			for (Iterator iter = listeners.iterator(); iter.hasNext() ;) {
-				FcoHelperListener listener = (FcoHelperListener) iter.next();
-				logger.info("Calling " + listener.getClass().getName() + " with Event " + event.toString());
-				listener.processItem(event);
-			}
-		}
-		
-		return event;
-	}
 
 	/**
 	 * checks if a field is having a value. The method do the check only if the correspondig method exists. The Method must be a getter Method with no Arguments
-	 * @param fco
+	 * @param cimObject the fco containing the fields
 	 * @param getterMethodName Name of the Method having no Arguments. Like every simple getter of a java bean
 	 * @throws WbemsmtException thrown if the value return by this Method is null
 	 * @return The Object returned by the Method or null if the method not exists
@@ -473,6 +456,15 @@ public class FcoHelper implements FcoHelperIf
 		return object;
 	}
 
+    /**
+     * creates a object
+     * @param fcoClass the FCO to create
+     * @param namespace the target namespace
+     * @param cimClient the connection
+     * @param keyProperties vectore with {@link CIMProperty} objects
+     * @throws WbemsmtException if the object cannot be deleted or (if testIfObjectRemovedAfterDeletion is true) the object was still there after the delete
+     * @return the created Fco
+     */
 	public  AbstractWbemsmtFco create(Class fcoClass, WBEMClient cimClient, String namespace, Vector keyProperties) throws WbemsmtException {
 			
 		String helperName = fcoClass.getName() + "Helper";
@@ -520,8 +512,8 @@ public class FcoHelper implements FcoHelperIf
 
 	/**
 	 * Gets the Collection with CIMProperty-Objects as String
-	 * @param cimProperties
-	 * @return
+	 * @param cimProperties the properties
+	 * @return a string - every properties is separated by an empty line
 	 */
 	private  String toString(Collection cimProperties) {
 		StringBuffer sb = new StringBuffer();
@@ -535,9 +527,9 @@ public class FcoHelper implements FcoHelperIf
 
 	/**
 	 * saves objects
-	 * @param o the firstClassObject or a Collection with first class objects
-	 * @param cimClient
-	 * @throws WbemsmtException
+	 * @param c the Collection with {@link AbstractWbemsmtFco} instances
+	 * @param cimClient the connection
+	 * @throws WbemsmtException if a save failed. All other saves are not executed
 	 */
 
 	public  void save(Collection c, WBEMClient cimClient) throws WbemsmtException 
@@ -558,9 +550,9 @@ public class FcoHelper implements FcoHelperIf
 	
 	/**
 	 * saves the object, if it was modified
-	 * @param fco the firstClassObject or a Collection with first class objects
-	 * @param cimClient
-	 * @throws WbemsmtException
+	 * @param cimObject the fco
+	 * @param cimClient the connection
+	 * @throws WbemsmtException if the save failed
 	 * @return the modified instance - or the not modified instance if an event listener stopped the processing
 	 */
 
@@ -575,13 +567,6 @@ public class FcoHelper implements FcoHelperIf
 			return cimObject;
 		}
 		
-		FcoHelperProcessItemEvent event = fireEvent(FcoHelperProcessItemEvent.TYPE_BEFORE_UPDATE,cimObject);
-		if (!event.isDoProcessing())
-		{
-			logger.log(Level.WARNING,"Processing stopped by EventListener");
-			return cimObject;
-		}					
-		
 		String helperName = cimObject.getClass().getName() + "Helper";
 		try {
 			Class helperClass = Class.forName(helperName,true,cimObject.getClass().getClassLoader());
@@ -590,8 +575,6 @@ public class FcoHelper implements FcoHelperIf
 			cimObject = (AbstractWbemsmtFco) method.invoke(null,new Object[]{cimClient,cimObject,new Boolean(notifyChanges)});
 			logger.info("Saved " + cimObject.getCimObjectPath() + " on " + namespace);
 	
-			fireEvent(FcoHelperProcessItemEvent.TYPE_AFTER_UPDATE,cimObject);			
-			
 			return cimObject;
 			
 		} catch (ClassNotFoundException e) {
@@ -615,138 +598,12 @@ public class FcoHelper implements FcoHelperIf
 		    throw new WbemsmtException(WbemsmtException.ERR_SAVE_OBJECT,"Internal error");
 		}
 	}
-	
-	/**
-	 * Searches in the dataContainer for all Methods starting with get_, gets the InputComponent
-	 * from the dataContainer and sets the value on the  fco.
-	 * Uses setAccessible(true) to invoke the methods because methods from a inner class defined by a interface cannot be accessed
-	 * see fior that http://bugs.sun.com/bugdatabase/view_bug.do;:YfiG?bug_id=4071593 
-	 * of the fco
-	 * @param fco
-	 * @param dataContainer
-	 * @param keyFields
-	 * @throws WbemsmtException 
-	 */
-	public  void updateFcoContent(Object fco, DataContainer dataContainer, FcoHelperKeyHashSet keyFields) throws WbemsmtException {
-		
-		logger.fine("Updating FCO " + fco.getClass().getName());
-		
-		Object valueToSet = null;
-		String setterMethodName = null;
-		
-		try {
-			Method[] methods = dataContainer.getClass().getMethods();
-			for (int i = 0; i < methods.length; i++) {
-				Method method = methods[i];
-				String getterName = method.getName();
-				if (getterName.startsWith("get_") 
-						&& !getterName.startsWith("get_" + FcoConstants.USR_DEFINED_TOKEN)
-						&& !getterName.startsWith("get_" + FcoConstants.INVOKE_TOKEN)
-					)
-				{
-					if (! keyFields.contains(getterName.toLowerCase()))
-					{
-						logger.fine("Getter: " + getterName);
-						method.setAccessible(true);
-						valueToSet = method.invoke(dataContainer,new Object[]{});
-						//call getConvertedControlValue
-						valueToSet = valueToSet.getClass().getMethod("getConvertedControlValue",new Class[]{}).invoke(valueToSet,new Object[]{});
-						Method[] setterMethods = fco.getClass().getMethods();
-						setterMethodName = "s" + getterName.substring(1);
-						boolean found = false;
-						for (int j = 0; j < setterMethods.length && ! found; j++) {
-							Method setterMethod = setterMethods[j];
-							if (setterMethod.getName().equals(setterMethodName))
-							{
-								method.setAccessible(true);
-								logger.fine("Setter: " + setterMethod.getName());
-								logger.fine("Value: " + valueToSet);
-								setterMethod.invoke(fco,new Object[]{valueToSet});
-								found=true;
-							}
-						}
-						if (!found)
-						{
-							logger.log(Level.SEVERE,"Method with name " + setterMethodName + " was not found on fco " + fco.getClass().getName());
-						    throw new WbemsmtException(WbemsmtException.ERR_UPDATE_OBJECT,"Internal error");
-						}
-					}
-					else
-					{
-						logger.fine("Ignoring " + getterName + " - Key-Attribute.");
-					}
-				}
-			}
-		}
-		catch (Exception e)
-		{
-			logger.log(Level.SEVERE,"Cannot update data model."
-					+ " Method: " + fco.getClass().getName() + "." + setterMethodName
-					+ " value " + valueToSet,e);
-		    throw new WbemsmtException(WbemsmtException.ERR_UPDATE_OBJECT,"Internal error");
-		}
-	}
-	
-	/**
-	 * Searches in the dataContainer for all Methods starting with get_, gets the InputComponent
-	 * from the dataContainer and sets the value on the  fco. 
-	 * of the fco
-	 * Uses setAccessible(true) to invoke the methods because methods from a inner class defined by a interface cannot be accessed
-	 * see fior that http://bugs.sun.com/bugdatabase/view_bug.do;:YfiG?bug_id=4071593 
-	 * @param fco
-	 * @param dataContainer
-	 * @throws WbemsmtException 
-	 */
-	public  void updateControlContent(Object fco, DataContainer dataContainer) throws WbemsmtException {
-		
-		try {
-			Method[] methods = dataContainer.getClass().getMethods();
-			for (int i = 0; i < methods.length; i++) {
-				Method method = methods[i];
-				String getterName = method.getName();
-				if (getterName.startsWith("get_") 
-						&& !getterName.startsWith("get_" + FcoConstants.USR_DEFINED_TOKEN)
-						&& !getterName.startsWith("get_" + FcoConstants.INVOKE_TOKEN)
-				)
-				{
-					//get the value from the fco
-					Method getter=null;
-					try {
-						getter = fco.getClass().getMethod(getterName,new Class[]{});
-					} catch (NoSuchMethodException e) {
-						logger.log(Level.SEVERE,"Getter method " + getterName + " was not found in fco class " + fco.getClass().getName(),e);
-					    throw new WbemsmtException(WbemsmtException.ERR_UPDATE_CONTROLS,"Internal error");
-					}
-					getter.setAccessible(true);
-					Object valueToSet = getter.invoke(fco,new Object[]{});
-					
-					//call setControlValue
-					method.setAccessible(true);
-					Object inputComponent = method.invoke(dataContainer,new Object[]{});
-					if (!(inputComponent instanceof LabeledBaseInputComponent))
-					{
-						logger.log(Level.SEVERE,"Object return by Method " + getterName + " is not from type LabeledBaseInputComponent");
-					    throw new WbemsmtException(WbemsmtException.ERR_UPDATE_CONTROLS,"Internal error");
-					}
-					
-					Method setterMethod=null;
-					setterMethod = inputComponent.getClass().getMethod("setControlValue",new Class[]{Object.class});
-					setterMethod.setAccessible(true);
-					setterMethod.invoke(inputComponent,new Object[]{valueToSet});
-				}
-			}
-		}
-		catch (Exception e)
-		{
-			logger.log(Level.SEVERE,"Cannot update controls",e);
-		    throw new WbemsmtException(WbemsmtException.ERR_UPDATE_CONTROLS,"Internal error");
-		}
-	}
 
 	/**
-	 * Searches for the String value in the valueMap
-	 * @param valueMap
-	 * @param value
+	 * Searches for the String value in the valueMap<br>
+	 * Comparison is using equals and not equalsIgnoreCase
+	 * @param valueMap the values of the value map
+	 * @param value the string value to search
 	 * @return -1 if not found the index within the valueMap if found
 	 */
 	public  int getIndex(String[] valueMap, String value) {
@@ -761,56 +618,12 @@ public class FcoHelper implements FcoHelperIf
 		return -1;
 	}
 
-	public  void copyValues(AbstractWbemsmtFco source, AbstractWbemsmtFco target, Class managedElementClass) throws WbemsmtException {
-		
-		if (!source.getClass().equals(target.getClass()))
-		{
-			logger.log(Level.SEVERE,"Elements are not from same Type. Source is: " + source.getClass().getName() + " and target is " + target.getClass().getName());
-		    throw new WbemsmtException(WbemsmtException.ERR_UPDATING_MODEL,"Internal error");
-		}
-		
-		target.setCimInstance(source.getCimInstance());
-		
-		try {
-			
-			int changeCount = 0;
-			
-			Field[] fields =managedElementClass.getDeclaredFields();
-			for (int i = 0; i < fields.length; i++) {
-				Field field = fields[i];
-				System.err.println("Field " + field.getName() + " Type " + field.getType());
-				if (field.getType().equals(CIMObjectPath.class))
-				{
-					field.setAccessible(true);
-					field.set(target,source.getCimObjectPath());
-					changeCount++;
-				}
-				else if (field.getType().equals(CIMInstance.class))
-				{
-					field.setAccessible(true);
-					field.set(target,source.getCimInstance());
-					changeCount++;
-				}
-			}
-			
-			if (changeCount != 3)
-			{
-				logger.log(Level.SEVERE,"Expected 3 changes but registered " + changeCount); 
-			    throw new WbemsmtException(WbemsmtException.ERR_UPDATING_MODEL,"Internal error");
-			}
-			
-		} catch (Exception e) {
-			logger.log(Level.SEVERE,"Cannot set ObjectPath",e);
-		    throw new WbemsmtException(WbemsmtException.ERR_UPDATING_MODEL,"Internal error");
-		}
-	}
-
 	/**
-	 * Reloads a fco from the servr
-	 * @param fcoToReload
-	 * @param cc
-	 * @return
-	 * @throws WbemsmtException 
+	 * Reloads a fco from the server by invoking a get instance
+	 * @param cimObject fco to Reload
+	 * @param cimClient the connection
+	 * @return the reloaded object
+	 * @throws WbemsmtException  if the reload failed
 	 */
 	public  AbstractWbemsmtFco reload(AbstractWbemsmtFco cimObject, WBEMClient cimClient) throws WbemsmtException {
 		
@@ -828,11 +641,12 @@ public class FcoHelper implements FcoHelperIf
 	}
 
 	/**
-	 * Reloads a fco from the servr
-	 * @param fcoToReload
-	 * @param cc
-	 * @return
-	 * @throws WbemsmtException 
+	 * Reloads a fco from the server by invoking a get instance on the helper classs
+	 * @param helperClass the helper class to reload the object
+	 * @param path the object path
+	 * @param cimClient the connection
+	 * @return the reloaded fco
+	 * @throws WbemsmtException if the reload failed
 	 */
 	public  AbstractWbemsmtFco reload(Class helperClass, CIMObjectPath path, WBEMClient cimClient) throws WbemsmtException {
 		try {
@@ -864,10 +678,12 @@ public class FcoHelper implements FcoHelperIf
 	
 	/**
 	 * gets an instance
-	 * @param fcoToReload
-	 * @param cc
-	 * @return
-	 * @throws WbemsmtException 
+	 * @param helperClass the fco help
+	 * @param namespace target namespace
+	 * @param keys vector of {@link CIMProperty} objects
+	 * @param cimClient the connection
+	 * @return the instance
+	 * @throws WbemsmtException if the getInstance failed 
 	 */
 	public  AbstractWbemsmtFco getInstance(Class helperClass, String namespace, Vector keys, WBEMClient cimClient) throws WbemsmtException {
 		try {
@@ -908,10 +724,30 @@ public class FcoHelper implements FcoHelperIf
 	}
 	
 	
+    /**
+     * find a object path instance, by enumerating instance names of a class in a certain namesprace and filtering the correct one
+     * @param fcoClass the name of the CIM object
+     * @param namespace the target namespace
+     * @param keyFieldName name of the key properties
+     * @param keyFieldValue value of the key properties
+     * @param cimClient the connection
+     * @return the object path
+     * @throws WbemsmtException if getting the path failed
+     */
 	public  CIMObjectPath getPath(Class fcoClass, String namespace, String keyFieldName, Object keyFieldValue, WBEMClient cimClient) throws WbemsmtException {
 		return getPath(fcoClass,namespace,new String[]{keyFieldName},new Object[]{keyFieldValue}, cimClient);
 	}
 	
+	/**
+	 * find a object path instance, by enumerating instance names of a class in a certain namesprace and filtering the correct one
+	 * @param fcoClass the name of the CIM object
+	 * @param namespace the target namespace
+	 * @param keyFieldNames names of the key properties
+	 * @param keyFieldValues values of the key properties
+	 * @param cimClient the connection
+	 * @return the object path
+	 * @throws WbemsmtException if getting the path failed
+	 */
 	public  CIMObjectPath getPath(Class fcoClass, String namespace, String[] keyFieldNames, Object[] keyFieldValues, WBEMClient cimClient) throws WbemsmtException {
 
 		String helperName = fcoClass.getName() + "Helper";
@@ -929,9 +765,27 @@ public class FcoHelper implements FcoHelperIf
 		    throw new WbemsmtException(WbemsmtException.ERR_OBJECT_NOT_FOUND,"Internal error");
 		}
 	}
+	
+	/**
+	 * get an object path from the list with the defined keys
+	 * @param objectPathList list with {@link CIMObjectPath} instances
+     * @param keyFieldName name of the key properties
+     * @param keyFieldValue value of the key properties
+	 * @return the path
+	 * @throws WbemsmtException if getting the path failed
+	 */
 	public  CIMObjectPath getPath(List objectPathList, String keyFieldName, String keyFieldValue) throws WbemsmtException {
 		return getPath(objectPathList, new String[]{keyFieldName}, new String[]{keyFieldValue});
 	}
+	
+    /**
+     * get an object path from the list with the defined keys
+     * @param objectPathList list with {@link CIMObjectPath} instances
+     * @param keyFieldNames names of the key properties
+     * @param keyFieldValues values of the key properties
+     * @return the path
+     * @throws WbemsmtException if getting the path failed
+     */
 	public  CIMObjectPath getPath(List objectPathList, String[] keyFieldNames, Object[] keyFieldValues) throws WbemsmtException {
 
 		try {
@@ -963,23 +817,12 @@ public class FcoHelper implements FcoHelperIf
 	    throw new WbemsmtException(WbemsmtException.ERR_OBJECT_NOT_FOUND,"Internal error");
 	}
 
-
-	public  void addFcoHelperListener(Class fcoClass, FcoHelperListener listener)
-	{
-		listeners.put(fcoClass.getName(),listener);
-	}
-
-	public  void removeFcoHelperListener(Class fcoClass, FcoHelperListener listener)
-	{
-		listeners.remove(fcoClass.getName(),listener);
-	}
-
 	/**
 	 * Get the date converted as String. First conversion of
-	 * @param dateTime
-	 * @param dateFormat
-	 * @return null if dateTime == null
-	 * @throws WbemsmtException 
+	 * @param dateTime the date object
+	 * @param dateFormat  a simple date format to format the string
+	 * @return null if dateTime == null or the formatted date
+	 * @throws WbemsmtException if the formatting failed
 	 */
 	public static String getDate(CIMDateTimeAbsolute dateTime, SimpleDateFormat dateFormat) throws WbemsmtException {
 		
@@ -1032,10 +875,10 @@ public class FcoHelper implements FcoHelperIf
 	
 	/**
 	 * Get the date converted as String. First conversion of
-	 * @param dateTime
-	 * @param dateFormat
-	 * @return
-	 * @throws WbemsmtException 
+	 * @param dateTime the date object
+	 * @param bundle ResourceBundle to translate time/data related labels. For a list of the labels see {@link MillisecondMetricCalculator#calculateDurationString(long, WbemSmtResourceBundle)}
+	 * @return the converted date value
+	 * @throws WbemsmtException if the conversion failed
 	 */
 	public static String getDate(CIMDateTimeInterval dateTime, WbemSmtResourceBundle bundle) throws WbemsmtException {
 		
@@ -1057,6 +900,14 @@ public class FcoHelper implements FcoHelperIf
 		return MillisecondMetricCalculator.calculateDurationString(interval, bundle);
 	}	
 
+	/**
+	 * get a integer value out of a given dateTime String<br>
+	 * starts at offset and takes the amount of characters defined by length 
+	 * @param dateTimeString the string
+	 * @param offset the start
+	 * @param length the length
+	 * @return the value as int
+	 */
 	private static int getValueOfDateTimeIntervalString(String dateTimeString,
 			int offset, int length) {
 		String string = dateTimeString.substring(offset, offset+length);
@@ -1065,6 +916,10 @@ public class FcoHelper implements FcoHelperIf
 		return Integer.parseInt(string);
 	}
 
+	/**
+	 * flag to indicate if the caller should ne notified about changes
+	 * @param notifyChanges true means notification is on
+	 */
 	public void setNotifyChanges(boolean notifyChanges) {
 		this.notifyChanges = notifyChanges;
 		

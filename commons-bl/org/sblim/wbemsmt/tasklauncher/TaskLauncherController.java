@@ -25,9 +25,11 @@ import java.util.logging.Logger;
 
 import javax.wbem.client.WBEMClient;
 
-import org.sblim.wbemsmt.bl.Cleanup;
-import org.sblim.wbemsmt.bl.ErrCodes;
-import org.sblim.wbemsmt.bl.adapter.Message;
+import org.sblim.wbemsmt.bl.cleanup.Cleanup;
+import org.sblim.wbemsmt.bl.messages.ErrCodes;
+import org.sblim.wbemsmt.bl.messages.Message;
+import org.sblim.wbemsmt.bl.tree.CustomTreeConfig;
+import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeFactory;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.session.WbemsmtSession;

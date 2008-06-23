@@ -27,7 +27,6 @@ import java.util.List;
 
 import javax.cim.UnsignedInteger32;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class UnsignedInt32StringConverter extends MultipleValueConverter implements Converter {
@@ -44,8 +43,8 @@ public class UnsignedInt32StringConverter extends MultipleValueConverter impleme
 		}
 		return result;
 	}
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInteger32.class);
+	public Class getTypeForModel() {
+		return UnsignedInteger32.class;
 	}	
 
 }

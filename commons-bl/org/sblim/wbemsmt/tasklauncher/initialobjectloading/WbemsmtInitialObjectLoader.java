@@ -27,8 +27,8 @@ import java.util.logging.Logger;
 import javax.cim.CIMInstance;
 import javax.wbem.client.WBEMClient;
 
+import org.sblim.wbemsmt.bl.tree.CIMClassNode;
 import org.sblim.wbemsmt.exception.WbemsmtException;
-import org.sblim.wbemsmt.tasklauncher.CIMClassNode;
 
 public abstract class WbemsmtInitialObjectLoader
 {

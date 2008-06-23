@@ -23,7 +23,6 @@ package org.sblim.wbemsmt.tools.converter.test;
 
 import javax.cim.UnsignedInteger32;
 
-import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.StringUtils;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
@@ -68,8 +67,8 @@ public class UnsignedInt32StringConverter implements Converter {
 		return false;
 	}
 	
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInteger32.class);
+	public Class getTypeForModel() {
+		return UnsignedInteger32.class;
 	}	
 
 }

@@ -21,8 +21,12 @@ package org.sblim.wbemsmt.bl.adapter;
 
 import java.io.PrintWriter;
 
+import org.sblim.wbemsmt.bl.messages.MessageList;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 
+/**
+ * The Baseclass for DataContainer implementations for the CommandLine
+ */
 public abstract class BaseDataContainer implements DataContainer {
 
 	/**
@@ -42,6 +46,7 @@ public abstract class BaseDataContainer implements DataContainer {
 	private AbstractBaseCimAdapter adapter;
 	
 	/**
+	 * @param key the next key (at the next deeper level of the hierarchy)
 	 * @see DataContainer#setKey(CimObjectKey)
 	 */
 
@@ -51,6 +56,8 @@ public abstract class BaseDataContainer implements DataContainer {
 	}
 
 	/**
+	 * get the key
+	 * @return the key
 	 * @see DataContainer#getKey()
 	 */
 
@@ -59,6 +66,8 @@ public abstract class BaseDataContainer implements DataContainer {
 	}
 
 	/**
+	 * get the adapter which is responsible for this DataContainer
+	 * @return the adapter
 	 * @see DataContainer#getAdapter()
 	 */
 	public AbstractBaseCimAdapter getAdapter() {
@@ -66,6 +75,8 @@ public abstract class BaseDataContainer implements DataContainer {
 	}
 
 	/**
+	 * set the adapter
+	 * @param adapter the adapter the adapter which is responsible for this object
 	 * @see DataContainer#setAdapter(AbstractBaseCimAdapter)
 	 */
 	public void setAdapter(AbstractBaseCimAdapter adapter) {
@@ -75,8 +86,11 @@ public abstract class BaseDataContainer implements DataContainer {
 	/**
 	 * returns true if the listOption defines that the Key of the Object should be traced
 	 * currently thats true for all valid listOptions
-	 * @param listOption
-	 * @return
+	 * @param listOption the listOption
+	 * @return true if the key is traced
+     * @see #LIST_OPTION_KEY
+     * @see #LIST_OPTION_INSTANCE
+     * @see #LIST_OPTION_INSTANCE_WITH_CHILDS
 	 */
 	public boolean showKey(String listOption)
 	{
@@ -86,8 +100,8 @@ public abstract class BaseDataContainer implements DataContainer {
 	/**
 	 * return true if the given ListOption is one if the defined<br>
 	 * Valid are the listoptions defined in this class
-	 * @param listOption
-	 * @return
+	 * @param listOption the listoption to check
+	 * @return true of the listoption is valid
 	 * 
 	 * 
 	 * @see #LIST_OPTION_KEY
@@ -102,8 +116,11 @@ public abstract class BaseDataContainer implements DataContainer {
 
 	/**
 	 * returns true if the listOption defines that the InstanceData of the Object should be traced
-	 * @param listOption
-	 * @return
+	 * @param listOption the list option
+	 * @return true if the listOption defines that the InstanceData of the Object should be traced
+     * @see #LIST_OPTION_KEY
+     * @see #LIST_OPTION_INSTANCE
+     * @see #LIST_OPTION_INSTANCE_WITH_CHILDS
 	 */
 	public boolean showInstance(String listOption)
 	{
@@ -112,8 +129,11 @@ public abstract class BaseDataContainer implements DataContainer {
 	
 	/**
 	 * returns true if the listOption defines that the instance data of the Object including its child should be traced
-	 * @param listOption
-	 * @return
+	 * @param listOption the option
+	 * @return true if the listOption defines that the instance data of the Object including its child should be traced
+     * @see #LIST_OPTION_KEY
+     * @see #LIST_OPTION_INSTANCE
+     * @see #LIST_OPTION_INSTANCE_WITH_CHILDS
 	 */
 	public boolean showChilds(String listOption)
 	{
@@ -121,8 +141,10 @@ public abstract class BaseDataContainer implements DataContainer {
 	}
 
 	/**
-	 * Trace to the PrintWriter, The listOprions used is LIST_OPTION_INSTANCE_WITH_CHILDS and showTitle is true
-	 * @param out
+	 * Trace to the PrintWriter<br>
+	 * The listOprions used is LIST_OPTION_INSTANCE_WITH_CHILDS
+	 * <br>showTitle is true
+	 * @param out the output writer
 	 */
 	public void trace(PrintWriter out)
 	{
@@ -130,8 +152,13 @@ public abstract class BaseDataContainer implements DataContainer {
 	}
 
 	/**
-	 * Trace to the PrintWriter, showTitle is true
-	 * @param out
+	 * Trace to the PrintWriter
+     * <br>showTitle is true
+     * @param out the output writer
+     * @param listOption the list option
+     * @see #LIST_OPTION_KEY
+     * @see #LIST_OPTION_INSTANCE
+     * @see #LIST_OPTION_INSTANCE_WITH_CHILDS
 	 */
 
 	public void trace(PrintWriter out, String listOption)
@@ -139,10 +166,15 @@ public abstract class BaseDataContainer implements DataContainer {
 		trace(out,listOption,true);
 	}
 	
-	/**
-	 * Trace to the PrintWriter, showTitle is true
-	 * @param out
-	 */
+    /**
+     * Trace children to the PrintWriter
+     * <br>showTitle is true
+     * @param out the output writer
+     * @param listOption the list option
+     * @see #LIST_OPTION_KEY
+     * @see #LIST_OPTION_INSTANCE
+     * @see #LIST_OPTION_INSTANCE_WITH_CHILDS
+     */
 
 	public void traceChilds(PrintWriter out, String listOption)
 	{
@@ -176,6 +208,7 @@ public abstract class BaseDataContainer implements DataContainer {
 	private MessageList messageList;
 
 	/**
+	 * @param messageList the messages
 	 * @see DataContainer#setMessagesList(MessageList)
 	 */
 	public void setMessagesList(MessageList messageList) {
@@ -183,6 +216,8 @@ public abstract class BaseDataContainer implements DataContainer {
 	}
 	
 	/**
+	 * get the messages
+	 * @return the messages
 	 * @see DataContainer#getMessagesList()
 	 */
 
@@ -191,9 +226,9 @@ public abstract class BaseDataContainer implements DataContainer {
 	}
 	
     /**
-     * can be implemented to count and create the children objects
+     * can be implemented to count and create the children objects<br>
      * TODO enable cli subclasses to create and count children
-     * @throws InitContainerExceptio
+     * @throws WbemsmtException if the count or the create failed
      */
     public void countAndCreateChildren() throws WbemsmtException
     {}

@@ -23,14 +23,14 @@ import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNaming;
 import org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNamingFactory;
 
 /**
- * @author Bauschert
+ * Interface for holding InstanceNaming instances
  *
  */
 public interface InstanceNamingHolder {
 
 	/**
 	 * returns the Instance responsible for naming a cimInstance
-	 * @return
+	 * @return the Instance responsible for naming a cimInstance
 	 * 
 	 * @see org.sblim.wbemsmt.tasklauncher.naming.CIMInstanceNamingFactory
 	 */
@@ -39,7 +39,7 @@ public interface InstanceNamingHolder {
 	
 	/**
 	 * set the Instance responsible for naming a cimInstance
-	 * @param cimInstanceNaming
+	 * @param cimInstanceNaming the instance
 	 * @see CIMInstanceNamingFactory
 	 *
 	 */

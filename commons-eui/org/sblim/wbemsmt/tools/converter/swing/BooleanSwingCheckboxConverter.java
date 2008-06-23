@@ -23,7 +23,6 @@ package org.sblim.wbemsmt.tools.converter.swing;
 
 import javax.swing.JCheckBox;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class BooleanSwingCheckboxConverter implements Converter {
@@ -48,7 +47,7 @@ public class BooleanSwingCheckboxConverter implements Converter {
 		return true;
 	}
 
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(Boolean.class);
+	public Class getTypeForModel() {
+		return Boolean.class;
 	}	
 }

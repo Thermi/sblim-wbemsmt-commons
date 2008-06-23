@@ -21,7 +21,6 @@
 
 package org.sblim.wbemsmt.tools.converter.cli;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class NotSupportedConverter implements Converter {
@@ -47,7 +46,7 @@ public class NotSupportedConverter implements Converter {
 		return true;
 	}
 
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(String.class);
+	public Class getTypeForModel() {
+		return String.class;
 	}	
 }

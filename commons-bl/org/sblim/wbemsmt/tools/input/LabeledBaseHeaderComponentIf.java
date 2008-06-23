@@ -20,12 +20,15 @@
 
 package org.sblim.wbemsmt.tools.input;
 
+/**
+ * Interface for all HeaderComponents
+ */
 
 public interface LabeledBaseHeaderComponentIf {
 
 	/**
-	 * sets the label text
-	 * @param labelText
+	 * sets the label text for the header
+	 * @param labelText translated text for the header
 	 */
 	public abstract void setLabelText(String labelText);
 	
@@ -39,7 +42,7 @@ public interface LabeledBaseHeaderComponentIf {
 	 * Gets the ComponentProperties of the InputField
 	 * If values are changed in the ComponentProperties the ComponentProperties 
 	 * calls all his registered ComponentPropertyChangListener 
-	 * @return
+	 * @return the Properties
 	 */
 	public ComponentProperties getProperties();
 	

@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 
 import org.sblim.slp.*;
 
-/**
+/** 
  * Sample simplified SLP client that provides methods to find wbem services and
  * others.
  */

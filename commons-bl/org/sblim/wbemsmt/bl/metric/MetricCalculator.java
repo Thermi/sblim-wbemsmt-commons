@@ -19,27 +19,31 @@
   */
 package org.sblim.wbemsmt.bl.metric;
 
-import javax.wbem.WBEMException;
-
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricDefinitionIf;
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricValueIf;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
+/**
+ * interface of all MetricCalculators
+ */
 public interface MetricCalculator {
 	
 	/**
 	 * calculate the value
-	 * @param value
-	 * @return
-	 * @throws WBEMException 
+	 * @param definitionIf the definition 
+	 * @param value the value
+	 * @param bundle the resource bundle - the subclasses should document which keys are used
+	 * @return the calculated value
 	 */
 	public String calculate(CIM_BaseMetricDefinitionIf definitionIf, CIM_BaseMetricValueIf value, WbemSmtResourceBundle bundle);
 	
 	
-	/**
-	 * Get the unit the calculator is responsible for
-	 * @return
-	 */
+    /**
+     * Get the unit the calculator is responsible for<br>
+     * Should match the units of CIM_BaseMetricDefinition. The Unit '*' is used for every other unit
+     * @return the unit
+     */ 
+
 	public String getUnit();
 
 }

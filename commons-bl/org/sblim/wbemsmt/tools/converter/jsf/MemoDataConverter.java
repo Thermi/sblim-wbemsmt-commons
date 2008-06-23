@@ -21,7 +21,6 @@
 
 package org.sblim.wbemsmt.tools.converter.jsf;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.bl.fielddata.MemoData;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFMemoComponent;
@@ -65,7 +64,7 @@ public class MemoDataConverter implements Converter {
 		return true;
 	}
 
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(MemoData.class);
+	public Class getTypeForModel() {
+		return MemoData.class;
 	}	
 }

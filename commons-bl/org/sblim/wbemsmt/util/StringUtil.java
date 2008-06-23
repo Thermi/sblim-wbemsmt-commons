@@ -160,25 +160,25 @@ public class StringUtil
 	 * 
 	 * @param text the text to insert lineBreak
 	 * @param max the maximum length per line
-	 * @param maxWordLengthBeforCutoff the maximum length of a word befor the word is cuttoff - can be null. In that the case the next whitespace is used. If there is no whitespace the string is not truncated and is read to the end
+	 * @param maxWordLengthBeforeCutoff the maximum length of a word befor the word is cuttoff - can be null. In that the case the next whitespace is used. If there is no whitespace the string is not truncated and is read to the end
 	 * @param cutOffCharacters the character that are append if a word is cut off
-	 * @return
+	 * @return the lines
 	 */
     public static String insertLineBreak(String text, int max, int maxWordLengthBeforeCutoff, String cutOffCharacters) {
         return insertLineBreak(text, null, max, maxWordLengthBeforeCutoff, cutOffCharacters);
     }
 
     /**
-     * Insert a linebreak making sure that the text per line is not longer than the value defined by max
-     * 
-     * The maximum length of a line is: max + maxWordLengthBeforeCutoff + cutOffCharacters.length()
-     * 
+     * Insert a linebreak making sure that the text per line is not longer than the value defined by max<br>
+     * <br>
+     * The maximum length of a line is: max + maxWordLengthBeforeCutoff + cutOffCharacters.length()<br>
+     * <br>
      * @param text the text to insert lineBreak
      * @param linebreak string for a linebreak. Example: \n or &lt;br&gt; . If not sure which one to use: use the method without linebreak. If null RuntimeUtil.getLineBreak() is used to fiond the presentation layer dependent one
      * @param max the maximum length per line
-     * @param maxWordLengthBeforCutoff the maximum length of a word befor the word is cuttoff - can be null. In that the case the next whitespace is used. If there is no whitespace the string is not truncated and is read to the end
+     * @param maxWordLengthBeforeCutoff the maximum length of a word befor the word is cuttoff - can be null. In that the case the next whitespace is used. If there is no whitespace the string is not truncated and is read to the end
      * @param cutOffCharacters the character that are append if a word is cut off
-     * @return
+     * @return the lines
      */
     public static String insertLineBreak(String text, String linebreak, int max, int maxWordLengthBeforeCutoff, String cutOffCharacters) {
         if (linebreak == null)

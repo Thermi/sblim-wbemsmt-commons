@@ -37,6 +37,11 @@ public interface TaskLauncherTreeNodeEventListener extends EventListener
     
     public Properties getParameters();
     
+    /**
+     * check if this event listener is a custom listener<br>
+     * only custom listeners are used to get the outcome for furhter navigation 
+     * @return
+     */
     public boolean isCustomListener();
     
     public Priority getPriority();

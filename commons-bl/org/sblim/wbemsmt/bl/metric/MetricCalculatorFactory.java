@@ -13,26 +13,38 @@
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
   * Contributors: 
-  * 
-  * Description: Factory class for Metric calculators
-  * 
   */
 package org.sblim.wbemsmt.bl.metric;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.wbem.WBEMException;
-
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricDefinitionIf;
 
-public class MetricCalculatorFactory {
+/**
+ * Description: Factory class for Metric calculators<br>
+ * Pattern: Singleton
+ */
+public final class MetricCalculatorFactory {
 
 	
 	private static MetricCalculatorFactory instance = null;
+	/**
+	 * key: calculator.getUnit()<br>
+	 * value: calculator<br>
+	 * @see MetricCalculator
+	 */
 	private Map calculatorByUnit = new HashMap();
+	
+	/**
+	 * the default calculator
+	 */
 	private DefaultMetricCalculator defaultCalculator; 
 	
+	/**
+	 * private constructor<br>
+	 * use getInstance() to retrieve a valid instance
+	 */
 	private MetricCalculatorFactory()
 	{
 		defaultCalculator = new DefaultMetricCalculator();
@@ -44,10 +56,17 @@ public class MetricCalculatorFactory {
 		addMetricCalculator(new SharesMetricCalculator());
 	}
 
+	/**
+	 * add a metric calculator
+	 * @param calculator the calculator to add to calculatorByUnit by using calculator.getUnit()
+	 */
 	private void addMetricCalculator(MetricCalculator calculator) {
 		calculatorByUnit.put(calculator.getUnit(), calculator);
 	}
 	
+	/**
+	 * @return the calculator instance
+	 */
 	public static MetricCalculatorFactory getInstance()
 	{
 		if (instance == null)
@@ -61,9 +80,8 @@ public class MetricCalculatorFactory {
 	/**
 	 * return a Calculator for the unit of the fiven definition
 	 * 
-	 * @param definitionIf
+	 * @param definitionIf the metric definition
 	 * @return If there is no calculator for this definition's unit the default calculator is returned
-	 * @throws WBEMException 
 	 */
 	public MetricCalculator getCalculatorByUnit(CIM_BaseMetricDefinitionIf definitionIf) {
 		

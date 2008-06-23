@@ -19,7 +19,16 @@
   */
 package org.sblim.wbemsmt.bl.fco;
 
-public class FcoConstants {
+/**
+ * Constans for container-prefixes relating to fco-fields
+ */
+public final class FcoConstants {
+    
+    /**
+     * constant class is only having private constructor
+     */
+    private FcoConstants(){}
+    
 	/**
 	 * This Token is used within a container implementation for variables representing a field
 	 * that is userdefined (have no FCO-Relation)

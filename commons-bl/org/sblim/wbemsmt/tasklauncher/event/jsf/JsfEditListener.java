@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 
 import org.sblim.wbemsmt.bl.adapter.DataContainerUtil;
-import org.sblim.wbemsmt.bl.adapter.MessageList;
+import org.sblim.wbemsmt.bl.messages.MessageList;
 import org.sblim.wbemsmt.tasklauncher.event.EditListener;
 import org.sblim.wbemsmt.tasklauncher.event.TaskLauncherContextMenuEventListenerImpl;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;

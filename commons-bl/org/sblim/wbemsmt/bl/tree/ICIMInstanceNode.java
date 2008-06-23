@@ -24,12 +24,27 @@ import javax.cim.CIMInstance;
 
 import org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFco;
 
+/**
+ * Interface of a CIMInstance Node
+ */
 public interface ICIMInstanceNode extends ITaskLauncherTreeNode, InstanceNamingHolder {
 
+    /**
+     * get {@link CIMInstance}
+     * @return the cim instance
+     */
 	public abstract CIMInstance getCimInstance();
 
+	/**
+	 * return the FCO
+	 * @return the fco
+	 */
 	public AbstractWbemsmtFco getCimObject();
 
+	/**
+	 * set the cim object (for example for later use in the adaoter class)
+	 * @param cimObject the cim object
+	 */
 	public void setCimObject(AbstractWbemsmtFco cimObject);
 	
 }

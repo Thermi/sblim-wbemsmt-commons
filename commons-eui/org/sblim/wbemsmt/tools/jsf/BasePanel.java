@@ -32,7 +32,7 @@ import javax.faces.context.FacesContext;
 import org.sblim.wbemsmt.ajax.panel.AjaxPanelGroup;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.CimObjectKey;
-import org.sblim.wbemsmt.bl.adapter.MessageList;
+import org.sblim.wbemsmt.bl.messages.MessageList;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.converter.test.DummyConverter;

@@ -22,7 +22,6 @@ package org.sblim.wbemsmt.bl.wrapper;
 import java.util.*;
 import java.util.logging.Logger;
 
-import org.sblim.wbemsmt.bl.WbemsmtBusinessObject;
 import org.sblim.wbemsmt.bl.adapter.CimObjectKey;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.util.StringComparator;

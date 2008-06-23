@@ -1,1 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Michael Bauschert (private) --><tas:tasklauncherconfig version="VERSION_2_5" xmlns:tas="http://sblim.org/wbemsmt/tasklauncher/tasklauncherconfig">	<tas:cimom hostname="racoon.boeblingen.de.ibm.com" port="5988" user="pegasus">		<tas:treeconfigReference name="METACLUSTER" namespace="/root/PG_InterOp"/>	</tas:cimom>	<tas:cimom hostname="giraffe.boeblingen.de.ibm.com" port="5988" user="pegasus">		<tas:treeconfigReference name="METACLUSTER" namespace="/root/PG_InterOp"/>	</tas:cimom>	<tas:cimom hostname="srv1" port="5988" user="pegasus">		<tas:treeconfigReference name="DNS" namespace="/root/cimv2"/>	</tas:cimom>	<tas:cimom hostname="srv2" port="5988" user="pegasus">		<tas:treeconfigReference name="DNS" namespace="/root/cimv2"/>	</tas:cimom>	<tas:cimom hostname="srv3" port="5988" user="pegasus">		<tas:treeconfigReference name="DNS" namespace="/root/cimv2"/>	</tas:cimom>	<tas:cimom hostname="srv4" port="5988" user="pegasus">		<tas:treeconfigReference name="METACLUSTER" namespace="/root/pg_interop"/>	</tas:cimom>	<tas:treeconfig name="METACLUSTER" slpServicename="IBM:Managed Container"/>	<tas:treeconfig name="DNS" slpServicename="other:dns"/>	<tas:treeconfig name="SAMBA" slpServicename="other:samba"/></tas:tasklauncherconfig>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Michael Bauschert (private) -->
+<tas:tasklauncherconfig version="VERSION_2_5" xmlns:tas="http://sblim.org/wbemsmt/tasklauncher/tasklauncherconfig">
+	<tas:cimom hostname="racoon.boeblingen.de.ibm.com" port="5988" user="pegasus">
+		<tas:treeconfigReference name="VM" namespace="/root/PG_InterOp"/>
+	</tas:cimom>
+	<tas:cimom hostname="giraffe.boeblingen.de.ibm.com" port="5988" user="pegasus">
+		<tas:treeconfigReference name="VM" namespace="/root/PG_InterOp"/>
+	</tas:cimom>
+	<tas:cimom hostname="srv1" port="5988" user="pegasus">
+		<tas:treeconfigReference name="DNS" namespace="/root/cimv2"/>
+	</tas:cimom>
+	<tas:cimom hostname="srv2" port="5988" user="pegasus">
+		<tas:treeconfigReference name="DNS" namespace="/root/cimv2"/>
+	</tas:cimom>
+	<tas:cimom hostname="srv3" port="5988" user="pegasus">
+		<tas:treeconfigReference name="DNS" namespace="/root/cimv2"/>
+	</tas:cimom>
+	<tas:cimom hostname="srv4" port="5988" user="pegasus">
+		<tas:treeconfigReference name="VM" namespace="/root/interop"/>
+	</tas:cimom>
+	<tas:treeconfig name="VM" slpServicename="IBM:Managed Container"/>
+	<tas:treeconfig name="DNS" slpServicename="other:dns"/>
+	<tas:treeconfig name="SAMBA" slpServicename="other:samba"/>
+</tas:tasklauncherconfig>

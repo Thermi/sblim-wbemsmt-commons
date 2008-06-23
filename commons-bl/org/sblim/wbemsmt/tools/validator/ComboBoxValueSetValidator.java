@@ -21,10 +21,10 @@ package org.sblim.wbemsmt.tools.validator;
 
 import javax.cim.UnsignedInteger16;
 
-import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
-import org.sblim.wbemsmt.bl.adapter.Message;
-import org.sblim.wbemsmt.bl.adapter.MessageList;
+import org.sblim.wbemsmt.bl.messages.ErrCodes;
+import org.sblim.wbemsmt.bl.messages.Message;
+import org.sblim.wbemsmt.bl.messages.MessageList;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 

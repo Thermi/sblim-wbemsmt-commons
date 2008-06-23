@@ -19,25 +19,32 @@
   */
 package org.sblim.wbemsmt.bl.metric;
 
-import javax.wbem.WBEMException;
-
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricDefinitionIf;
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricValueIf;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
 public class DefaultMetricCalculator extends AbstractMetricCalculator {
 
-	/* (non-Javadoc)
-	 * @see org.sblim.wbemsmt.bl.metric.MetricCalculator#calculate(org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricValueIf, org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle)
-	 */
+    /**
+     * execute the calculation
+     * @param definition the definition of the metric
+     * @param value the value
+     * @param bundle the bundle for translating labels. For a list of labels see the doCalculate of the subclasses 
+     * @return the value + the unit from the definition object
+     * @throws WbemsmtException if the metric calculation failed
+     * @see CIM_BaseMetricDefinitionIf#get_Units()
+     */
 	public String doCalculate(CIM_BaseMetricDefinitionIf definition, CIM_BaseMetricValueIf value,
-			WbemSmtResourceBundle bundle) throws WBEMException {
+			WbemSmtResourceBundle bundle) throws WbemsmtException {
 		return value.get_MetricValue() + definition.get_Units();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.sblim.wbemsmt.bl.metric.MetricCalculator#getUnit()
-	 */
+    /**
+     * Get the unit the calculator is responsible for
+     * @return "*" - all undefined
+     */ 
+
 	public String getUnit() {
 		return "*";
 	}

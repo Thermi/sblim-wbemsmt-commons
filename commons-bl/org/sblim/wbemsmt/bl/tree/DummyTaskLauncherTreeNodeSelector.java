@@ -1,5 +1,5 @@
  /** 
-  * CurrentTreeNodeRetriever.java
+  * DummyTaskLauncherTreeNodeSelector.java
   *
   * © Copyright IBM Corp. 2005
   *
@@ -14,18 +14,31 @@
   *
   * Contributors: 
   * 
-  * Description: does no selection
+  * Description: DummySelector which is doing nothing
   * 
   */
 package org.sblim.wbemsmt.bl.tree;
 
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
-import org.sblim.wbemsmt.bl.adapter.TaskLauncherTreeNodeSelector;
+import org.sblim.wbemsmt.bl.adapter.CimObjectKey;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 
+/**
+ * DummySelector which is doing nothing
+ */
 public class DummyTaskLauncherTreeNodeSelector implements TaskLauncherTreeNodeSelector {
 
-	public void select(ITaskLauncherTreeNode treeNode, AbstractBaseCimAdapter adapter, String editPanelId) throws WbemsmtException {
+    /**
+     * Do nothing
+     * @param treeNode the Tree node select (current treeNode)
+     * @param adapter the adapter which is responsible for this task
+     * @param editPanelId the id of the current edit panel
+     * @see AbstractBaseCimAdapter#select(ITaskLauncherTreeNode)
+     * @see AbstractBaseCimAdapter#getKeyByTreeNode(ITaskLauncherTreeNode)
+     * @see AbstractBaseCimAdapter#select(CimObjectKey)
+     * @throws WbemsmtException (never thrown by this subclass)
+     */
+    public void select(ITaskLauncherTreeNode treeNode, AbstractBaseCimAdapter adapter, String editPanelId) throws WbemsmtException {
 		//do nothing
 	}
 

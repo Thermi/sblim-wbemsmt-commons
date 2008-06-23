@@ -19,31 +19,54 @@
   */
 package org.sblim.wbemsmt.bl.metric;
 
-import javax.wbem.WBEMException;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricDefinitionIf;
 import org.sblim.wbemsmt.bl.fco.metric.CIM_BaseMetricValueIf;
+import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
+/**
+ * calculator for millisecond metric values
+ */
 public class MillisecondMetricCalculator extends AbstractMetricCalculator {
 
+    /**
+     *  @return "Milliseconds" as unit
+     */
 	public String getUnit() {
 		return "Milliseconds";
 	}
 
-	public String doCalculate(CIM_BaseMetricDefinitionIf definition, CIM_BaseMetricValueIf value, WbemSmtResourceBundle bundle) throws WBEMException {
+	/**
+	 * calculate the value
+	 * @param definition the definition of the metric
+	 * @param value the value of the metric
+	 * @param bundle the bundle for translating time/date labels. For a list of labels see {@link #calculateDurationString(long, WbemSmtResourceBundle)}
+	 * @return the milliseconds as string. Example: '2 days 4 hours 3 minutes 5.0 seconds' 
+	 * @throws WbemsmtException if the calculation failed
+	 */
+	public String doCalculate(CIM_BaseMetricDefinitionIf definition, CIM_BaseMetricValueIf value, WbemSmtResourceBundle bundle) throws WbemsmtException {
 		
 		long l = Long.parseLong(value.get_MetricValue());
         return calculateDurationString(l, bundle);
 	}
 
 	/**
-	 * 
-	 * @param l
-	 * @param bundle
-	 * @return
+	 * calculate the string for a duration value
+	 * @param l the duration
+	 * @param bundle - resourcebundle for translating the labels<br>
+	 * used labels:
+	 * <ul>
+	 * <li>duration.format - something like <b>d' days 'H' hours 'm' minutes 's.S' seconds'</b> which works for {@link DurationFormatUtils#formatDuration(long, String, boolean)}</li>
+	 * <li>duration.days</li>
+     * <li>duration.day</li>
+     * <li>duration.hour</li>
+     * <li>duration.hours</li>
+     * <li>duration.minutes</li>
+     * <li>duration.minute</li>
+	 * </ul>
+	 * @return the calculated string
 	 */
 	public static String calculateDurationString(long l, WbemSmtResourceBundle bundle) {
 		String result = DurationFormatUtils.formatDuration(l, bundle.getString("duration.format"), true);

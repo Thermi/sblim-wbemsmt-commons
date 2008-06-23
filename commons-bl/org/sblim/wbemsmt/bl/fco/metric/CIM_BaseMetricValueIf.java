@@ -25,7 +25,7 @@ public interface CIM_BaseMetricValueIf {
 
 	/**
 	 * get the value of the Metric
-	 * @return
+	 * @return the metric value
 	 */
 	String get_MetricValue();
 

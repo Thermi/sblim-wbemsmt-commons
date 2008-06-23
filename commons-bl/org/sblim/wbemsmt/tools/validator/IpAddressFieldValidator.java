@@ -23,10 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
-import org.sblim.wbemsmt.bl.adapter.Message;
-import org.sblim.wbemsmt.bl.adapter.MessageList;
+import org.sblim.wbemsmt.bl.messages.ErrCodes;
+import org.sblim.wbemsmt.bl.messages.Message;
+import org.sblim.wbemsmt.bl.messages.MessageList;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 
@@ -119,8 +119,8 @@ public class IpAddressFieldValidator extends Validator {
 				int nr = Integer.parseInt(strNr);
 				if (nr > 255)
 				{
-					String msg = adapter.getBundle().getString(ErrCodes.MSG_IP_LARGER_256,"validator.ipLargerThan255",new Object[]{strNr,value,component.getLabelText()});
-					result.addMessage(new Message(ErrCodes.MSG_IP_LARGER_256,Message.ERROR,msg,component));
+					String msg = adapter.getBundle().getString(ErrCodes.MSG_IP_LARGER_255,"validator.ipLargerThan255",new Object[]{strNr,value,component.getLabelText()});
+					result.addMessage(new Message(ErrCodes.MSG_IP_LARGER_255,Message.ERROR,msg,component));
 				}
 				if (nr < 0)
 				{

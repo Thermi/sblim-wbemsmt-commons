@@ -27,7 +27,6 @@ import java.util.List;
 
 import javax.cim.UnsignedInteger16;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class UnsignedInt16StringConverter extends MultipleValueConverter implements Converter {
@@ -45,8 +44,8 @@ public class UnsignedInt16StringConverter extends MultipleValueConverter impleme
 		return result;
 	}
 
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInteger16.class);
+	public Class getTypeForModel() {
+		return UnsignedInteger16.class;
 	}	
 	
 }

@@ -22,7 +22,6 @@ package org.sblim.wbemsmt.tools.converter.multiplevalue;
 
 import javax.cim.UnsignedInteger64;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.tools.converter.StringArrayConverter;
 
 /**
@@ -36,8 +35,8 @@ public class UnsignedInt64StringArrayConverter extends MultipleValueConverter im
 		return new UnsignedInteger64(""+ii);
 	}
 	
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInteger64.class);
+	public Class getTypeForModel() {
+		return UnsignedInteger64.class;
 	}	
 	
 	

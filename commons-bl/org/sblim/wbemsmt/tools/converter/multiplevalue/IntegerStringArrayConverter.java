@@ -20,7 +20,6 @@
 
 package org.sblim.wbemsmt.tools.converter.multiplevalue;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.tools.converter.StringArrayConverter;
 
 public class IntegerStringArrayConverter extends MultipleValueConverter implements StringArrayConverter {
@@ -33,8 +32,8 @@ public class IntegerStringArrayConverter extends MultipleValueConverter implemen
 		return new Integer(ii);
 	}
 	
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(Integer.class);
+	public Class getTypeForModel() {
+		return Integer.class;
 	}	
 	
 }

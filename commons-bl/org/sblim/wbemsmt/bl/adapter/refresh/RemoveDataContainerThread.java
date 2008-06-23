@@ -14,7 +14,8 @@
   *
   * Contributors: 
   * 
-  * Description: Removes the DataContainers from the refreshList if they are too old
+  * Description: Removes the DataContainers from the refreshList if they are too old<br>
+  * This is needed for the case that a client is having containers that are perdiodically updated and the client gets killed without logging off
   * 
   */
 package org.sblim.wbemsmt.bl.adapter.refresh;
@@ -30,6 +31,10 @@ import java.util.logging.Logger;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 
+/**
+ * Removes the DataContainers from the refreshList if they are too old<br>
+ * This is needed for the case that a client is having containers that are perdiodically updated and the client gets killed without logging off
+ */
 public class RemoveDataContainerThread extends Thread {
 
 	
@@ -38,20 +43,33 @@ public class RemoveDataContainerThread extends Thread {
 	private AbstractBaseCimAdapter adapter;
 	private boolean stop;
 
+	/**
+	 * create a new thread
+	 * @param adapter the adapter holding the list of dataContainers
+	 */
 	public RemoveDataContainerThread(AbstractBaseCimAdapter adapter) {
 		this.adapter = adapter;
 	}
 
+	/**
+	 * stops the thread
+	 */
 	public void cleanup() {
 		stop = true;
 	}
 	
+	/**
+	 * executes the thread<br>
+	 * evaluates the lastAccessTime of a DataContainer and the RefreshTimeout. If the sum of that two values is smaller than current time
+	 * the datacontainer is removed
+	 */
 	public void run()
 	{
 
 		while(!stop)
 		{
-			synchronized (adapter.refreshMedium) {
+		    Object o = adapter.getRefreshMedium();
+			synchronized (o) {
 				List toRemove = new ArrayList();
 				long timeout = adapter.getDefaultRefreshTimeout();
 				
@@ -77,7 +95,7 @@ public class RemoveDataContainerThread extends Thread {
 			}
 			
 			try {
-				Thread.sleep(5000l);
+				Thread.sleep(5000L);
 			} catch (InterruptedException e) {
 				logger.log(Level.SEVERE,"Thread interupted",e);
 			}

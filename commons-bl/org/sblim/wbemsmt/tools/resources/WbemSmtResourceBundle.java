@@ -26,7 +26,7 @@ package org.sblim.wbemsmt.tools.resources;
 import java.text.MessageFormat;
 import java.util.*;
 
-import org.sblim.wbemsmt.bl.MessageNumber;
+import org.sblim.wbemsmt.bl.messages.MessageNumber;
 
 /**
  * This class is used to load resourceBundleFiles from different locations using the method add to add new ResourceBundles

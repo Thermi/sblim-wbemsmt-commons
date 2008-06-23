@@ -21,13 +21,19 @@
 package org.sblim.wbemsmt.bl.tree;
 
 import org.sblim.wbemsmt.tasklauncher.ITaskLauncherUiTreeNode;
-import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeFactory;
 
-
+/**
+ * Interface for TreeSelector
+ */
 public interface ITreeSelector {
 
+    /**
+     * get the current outcome for further navigation
+     * @return the current outcome for further navigation
+     */
 	public abstract String getCurrentOutcome();
 
+	
 	public abstract void setCurrentOutcome(String currentOutcome);
 
 	public void setSelectedTaskLauncherTreeNode(ITaskLauncherTreeNode node);

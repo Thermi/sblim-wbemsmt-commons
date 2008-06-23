@@ -36,14 +36,16 @@ import org.apache.commons.collections.MultiHashMap;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.StringUtils;
-import org.sblim.wbemsmt.bl.Cleanup;
 import org.sblim.wbemsmt.bl.adapter.refresh.RemoveDataContainerThread;
+import org.sblim.wbemsmt.bl.cleanup.Cleanup;
 import org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFcoHelper;
-import org.sblim.wbemsmt.bl.fco.FcoHelperIf;
+import org.sblim.wbemsmt.bl.fco.FcoHelper;
+import org.sblim.wbemsmt.bl.messages.MessageList;
+import org.sblim.wbemsmt.bl.tree.CustomTreeConfig;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
+import org.sblim.wbemsmt.cim.CIMClientPool;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.session.WbemsmtSession;
-import org.sblim.wbemsmt.tasklauncher.CustomTreeConfig;
 import org.sblim.wbemsmt.tasklauncher.TaskLauncherConfig.ConfigurationValueData;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
@@ -54,26 +56,63 @@ import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 import org.sblim.wbemsmt.tools.validator.Validator;
 import org.sblim.wbemsmt.tools.wizard.WizardBase;
+import org.sblim.wbemsmt.webapp.jsf.LocaleManagerBean;
 
+/**
+ * Baseclass for all WebmSmt-CIM-Adapters
+ */
 public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,LocaleChangeListener,Cleanup {
 
+    /**
+     * used if the adaper is currently in edit mode
+     */
 	public static final int ACTIVE_EDIT = 0;
+    /**
+     * used if the adaper is currently in wizard mode
+     */
 	public static final int ACTIVE_WIZARD = 1;
 	
 	/**
 	 * The Object to synchronize Refresh-Threads on
 	 */
-	public Object refreshMedium = "";
+	private Object refreshMedium = "";
 	
+	/**
+	 * the logger
+	 */
 	static Logger logger = Logger.getLogger(AbstractBaseCimAdapter.class.getName());	
 	
+	/**
+	 * the connection to the server
+	 * @see #getCimClient()
+	 */
 	protected WBEMClient cimClient;
+	
+	/**
+	 * installed validators
+	 * @see #installValidators(DataContainer)
+	 * @see #addValidator(DataContainer, Validator)
+	 * @see Validator
+	 */
 	private MultiHashMap validators = new MultiHashMap();
+	
+	
+	/**
+	 * the object which represents the current selection state
+	 */
 	private SelectionHierarchy selectionHierarchy;
 
+	/**
+	 * the list of the dependent adapeters
+	 * @see #addDependentAdapterForReload(AbstractBaseCimAdapter)
+	 */
 	private List reloadDependentAdapters = new ArrayList();
 	
-	private FcoHelperIf fcoHelper = null;
+	/**
+	 * the fco Helper instance
+	 * @see #getFcoHelper() 
+	 */
+	private FcoHelper fcoHelper = null;
 	
 	/**
 	 * Defines the currently active Module
@@ -81,13 +120,27 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * @see AbstractBaseCimAdapter#ACTIVE_WIZARD
 	 */
 	private int activeModule = -1;
+	
+	/**
+	 * flag that indicates if data for the adapter was loaded
+	 */
 	protected boolean loaded = false;
 	/**
 	 * Allow a particular action to mark that there should be a reload of the complete task at the end of the action
 	 */
 	protected boolean markedForReload = false;
 
+	/**
+	 * the component which triggered the updateModel
+	 * @see #getUpdateTrigger()
+	 */
 	protected LabeledBaseInputComponentIf updateTrigger;
+	
+	/**
+	 * the key which was used for the last selection<br>
+	 * is kept to increase performace during a request for more than one dataContainer using the same objectKeys
+	 * 
+	 */
 	protected CimObjectKey lastSelectedKey;
 	
 	/**
@@ -96,24 +149,68 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * to select the next possible treeNNode
 	 */
 	protected CIMObjectPath pathOfTreeNode;
-	protected ITaskLauncherTreeNode rootNode = null; 
+	
+	/**
+	 * the root node of a task
+	 */
+	protected ITaskLauncherTreeNode rootNode = null;
+	
+	/**
+	 * the task-specific resource Bundle
+	 */
 	protected WbemSmtResourceBundle bundle;
 
+	/**
+	 * instance to the localeManager
+	 * @see LocaleManagerBean
+	 */
 	private ILocaleManager localeManager;
+	
+	/**
+	 * the items to be refreshed perdiodically
+	 * @see #periodicalRefresh(DataContainer)
+     * @see #periodicalRefreshEnabled(DataContainer)
+	 */
 	private Set refreshItems = new HashSet();
 	/**
 	 * Stores the time at which a DataContainer was last accessed
 	 */
 	private Map accessTimes = new HashedMap();
 	
-	
+	/**
+	 * Thread that removes old dataContainers
+	 */
 	private RemoveDataContainerThread removeDataContainerThread;
+	
+	/**
+	 * the configuraiton of the task
+	 */
 	protected CustomTreeConfig customTreeConfig;
+	
+	/**
+	 * the userdefined config values
+	 * @see #addConfigurationValue(String, String)
+	 * @see #getConfigurationValue(String)
+	 * @see #getConfigurationValue(String, String)
+	 * @see #getConfigurationValues()
+	 * @see #setConfigurationValues(Map)
+	 */
 	private Map configurationValues;
-    protected String namespace;
+    
+	/**
+	 * the current namespace of the server connection
+	 */
+	protected String namespace;
+	
+	/**
+	 * the handler for adding asynchronous messages
+	 */
     private AsynchronousMessageHandler asynchronousMessageHandler;
 	
-	public AbstractBaseCimAdapter()
+    /**
+     * default constructor
+     */
+	protected AbstractBaseCimAdapter()
 	{
 		if (!RuntimeUtil.getInstance().isCommandline())
 		{
@@ -122,12 +219,13 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		}
 	}
 
-	public AbstractBaseCimAdapter(Locale locale)
-	{
-		this();
-	}
-
-	public void init(WbemSmtResourceBundle resourceBundle, SelectionHierarchy selectionHierarchy, FcoHelperIf fcoHelperIf) {
+	/**
+	 * initialized the adapter instance
+	 * @param resourceBundle the resource bundle
+	 * @param selectionHierarchy the selection hierarchy
+	 * @param fcoHelperIf the fco help for cim object related actions
+	 */
+	public void init(WbemSmtResourceBundle resourceBundle, SelectionHierarchy selectionHierarchy, FcoHelper fcoHelperIf) {
 		this.bundle = resourceBundle;
 		this.selectionHierarchy = selectionHierarchy;
 		this.fcoHelper = fcoHelperIf;
@@ -146,21 +244,25 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 	/**
 	 * execute a reload, discards all changes in the local model an loads the data from the cim server
-	 * @throws WbemsmtException
+	 * @param cimClient the server connection
+	 * @throws WbemsmtException if the reload failed
 	 */
 	protected abstract void reLoad(WBEMClient cimClient) throws WbemsmtException;
 	
 	/**
 	 * execute a reload, discards all changes in the local model an loads the data from the cim server
 	 * reset all flags and calls the task-implementation's
-	 * @param cimClient
-	 * @throws WbemsmtException
+     * @param cimClient the server connection
+	 * @throws WbemsmtException if the reload failed
 	 */
 	public void reload(WBEMClient cimClient)  throws WbemsmtException {
 		resetFlags();		
 		reLoad(cimClient);
 	}
 
+	/**
+	 * reset the loaded and markedForReload - flags
+	 */
 	private void resetFlags() {
 		loaded = false;
 		markedForReload = false;
@@ -172,8 +274,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * Implementors should only load this elements which are not still loaded
 	 * 
 	 * The cimClient should be stored in the object for later actions
-	 * 
-	 * @throws WbemsmtException
+     * @param cimClient the server connection
+	 * @throws WbemsmtException if the load failed
 	 */
 	public abstract void load(WBEMClient cimClient) throws WbemsmtException;
 	
@@ -182,22 +284,24 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * Implementors should only load this elements who are needed for startup, all other elements can be lazy-loaded
 	 * 
 	 * The cimClient should be stored in the object for later actions
-	 * 
+     * @param cimClient the server connection
+     * @throws WbemsmtException if the load failed
 	 * @throws WbemsmtException
 	 */
 	public abstract void loadInitial(WBEMClient cimClient) throws WbemsmtException;
 
 	/**
 	 * ReLoads with the help from Treenodes
-	 * @param rootNode
+	 * @param rootNode the root Node of the task
+     * @throws WbemsmtException if the load failed
 	 */
 	protected abstract void reLoad(ITaskLauncherTreeNode rootNode) throws WbemsmtException;
 
 	/**
 	 * execute a reload, discards all changes in the local model an loads the data from the cim server
 	 * reset all flags and calls the task-implementation's
-	 * @param rootNode
-	 * @throws WbemsmtException
+     * @param rootNode the root Node of the task
+     * @throws WbemsmtException if the load failed
 	 */
 	public void reload(ITaskLauncherTreeNode rootNode)  throws WbemsmtException {
 		resetFlags();		
@@ -207,23 +311,33 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	/**
 	 * Loads with the help from Treenodes
 	 * The treeFactory should be stored in the object for later actions
-	 * @param rootNode
+     * @param rootNode the root Node of the task
+     * @throws WbemsmtException if the load failed
 	 */
 	public abstract void load(ITaskLauncherTreeNode rootNode) throws WbemsmtException;
 
 	/**
-	 * Returns the object with the given tree Node
+	 * Returns the object with the given tree Node<br>
+	 * the returned key should also reflect the hierarchy<br>
+	 * @param treeNode the selected treenode 
 	 * 
 	 * @return The method can return null. If the method returns null no select-Method is called
-	 * @throws WbemsmtException
+     * @throws WbemsmtException if getting the key failed
 	 */
 	public abstract CimObjectKey getKeyByTreeNode(ITaskLauncherTreeNode treeNode) throws WbemsmtException;
 
+	/**
+	 * get names of the resourceBundles<br>
+	 * if the bundle is in the root of the source folders subclasses can return sth like "messages","messages&lt;Task&%gt;" - without properties and any slashes.<br>
+	 * the array should include also the common resource bundle "messages"
+	 * @return the names of the resource bundles
+	 */
 	public abstract String[] getResourceBundleNames();
 	
 	/**
-	 * Selects the current object by the given node
-	 * @param treeNode
+	 * Selects the current object by the given node<br>
+	 * calls get {@link #getKeyByTreeNode(ITaskLauncherTreeNode)} and if the result != null {@link #select(CimObjectKey)} is called
+	 * @param treeNode the selected tree node
 	 * @return the Key that was uses for selection or null if there was no key found to select
  	 * @throws WbemsmtException if the key was found but the selection was not possible
 	 */
@@ -246,12 +360,20 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	}
 	
 	/**
-	 * Selects the object with the given data
-	 * The implementor can decide if he wants to select the parent also if a child from a other parent is given.
+	 * Selects the object with the given data<br>
+	 * The implementor can decide if he wants to select the parent also if a child from a other parent is given.<br>
+	 * <br>
+	 * implementors should also update the state of the selction hierarchy<br>
+	 * Is used by the CommandLine classes to initialize certain parts of the adapter<br>
+	 * <br>
+	 * executes for each level of the hierarchy the following method<br>
+	 * select_&lt;level&gt;_&lt;object name of the key&gt;<br>
+	 * if the select method with the object name was not found the method tries to use the parent (base class) of the object<br>
+	 * @see #findSelectMethod(String, Class)
 	 * 
-	 * Is used by the CommandLine classes to initialize certain parts of the adapter
+	 * @param keyToSelect the key to select the object - the key reflects the hierarchy of the selected objects
 	 * 
-	 * @throws WbemsmtException
+	 * @throws WbemsmtException if the select failed (for example if the select method was not found,
 	 */
 	public void select(CimObjectKey keyToSelect) throws WbemsmtException
 	{
@@ -310,8 +432,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * Init container is called after the container
 	 * Here the implementor can add things that are existant from start on and independent on 
 	 * which fco will be displayed (for example the values of pulldown elements)
-	 * @param dataContainer
-	 * @throws WbemsmtException
+	 * @param dataContainer the DataContainer which is initialized
+	 * @throws WbemsmtException the exception if the init failed
 	 */
 	public void initContainer(DataContainer dataContainer) throws WbemsmtException {
 		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
@@ -351,8 +473,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 	/**
 	 * updates the GUI-Elements with the values from the model
-	 * @param dataContainer
-	 * @throws WbemsmtException
+	 * @param dataContainer the data container carrying the fields
+	 * @throws WbemsmtException if the action failed
 	 */
 	public void updateControls(DataContainer dataContainer) throws WbemsmtException
 	{
@@ -391,14 +513,17 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	}
 	
 	/**
-	 * updates the List of Gui-Elements with the values from the Model
-	 * a UpdateControlsException should be thrown:
-	 *   - if the size datContainer-List is not equal the size of the modelElements-List
-	 *   - if the type of a element in the dataContainer list doesn't fit to the type of the modelElemets List. 
-	 *     e.g. if a user wants to update a resourceRecord-ContainerItem with a zone-ModelElement   
-	 * @param dataContainer
-	 * @param modelElements
-	 * @throws WbemsmtException
+	 * updates the List of Gui-Elements with the values from the Model <br>
+	 * 
+	 * a {@link WbemsmtException} should be thrown:<br>
+	 *   - if the size datContainer-List is not equal the size of the modelElements-List<br>
+	 *   - if the type of a element in the dataContainer list doesn't fit to the type of the modelElemets List.<br> 
+	 *     e.g. if a user wants to update a resourceRecord-ContainerItem with a zone-ModelElement<br>
+	 * <br>
+	 * calls a method updateControls(&lt;childDataContainer&gt;,&lt;model Element&gt;)<br>
+	 * @param containerList list with dataContainers
+	 * @param modelElements list with model Elements
+     * @throws WbemsmtException if the action failed
 	 */
 	public void updateControls(List containerList, List modelElements) throws WbemsmtException
 	{
@@ -449,12 +574,12 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	
 	/**
 	 * Try to find the method on the delegatee
-	 * @param delegateeClass
+	 * @param delegateeClass the class containing the method
 	 * @param methodName the name of the method
 	 * @param containerClass the container class (first parameter of the method)
 	 * @param fcoClass the fco class (first parameter of the method) - if a method signature with the fcoClass was not found the method tries to use the baseclass 
 	 * @return the method - never null (in this case the NoSuchMethodException is thrown)
-	 * @throws NoSuchMethodException
+	 * @throws NoSuchMethodException if the method was not found
 	 */
 	private Method findMethod(Class delegateeClass, String methodName, Class containerClass,
             Class fcoClass) throws NoSuchMethodException {
@@ -482,8 +607,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
     }
 
     /**
-     * Try to find the select method , with the name select_<number>_CIMClass
-     * @param selectMethodPrefix the prefix of the select method ==> select_<number>_
+     * Try to find the select method , with the name select_&lt;number&gt;_CIMClass
+     * @param selectMethodPrefix the prefix of the select method ==> select_&lt;number&gt;_
      * @param fcoClass the fco class last part of the method name - if a method signature with the fcoClass was not found the method tries to use the baseclass 
      * @return the method - never null (in this case the NoSuchMethodException is thrown)
      * @throws NoSuchMethodException
@@ -513,8 +638,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
     }
     
     /**
-     * Try to find the select method , with the name select_<number>_CIMClass
-     * @param selectMethodPrefix the prefix of the select method ==> select_<number>_
+     * Try to find the select method , with the name select_&lt;number&gt;_CIMClass
+     * @param selectMethodPrefix the prefix of the select method ==> select_&lt;number&gt;_
      * @param cimClass the fco class last part of the method name - if a method signature with the fcoClass was not found the method tries to use the baseclass 
      * @return the method - never null (in this case the NoSuchMethodException is thrown)
      * @throws NoSuchMethodException
@@ -573,8 +698,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * 
 	 * Calls the saveImpl-Methods on the derived class
 	 * 
-	 * @param dataContainer
-	 * @throws WbemsmtException
+	 * @param dataContainer the container to save
+	 * @throws WbemsmtException if the save failed
 	 */
 	public void save(DataContainer dataContainer) throws WbemsmtException
 	{
@@ -625,13 +750,14 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	
 	/**
 	 * saves the List ModelElements
-	 * a UpdateControlsException should be thrown:
+	 * a {@link WbemsmtException} should be thrown:
 	 *   - if the size datContainer-List is not equal the size of the modelElements-List
 	 *   - if the type of a element in the dataContainer list doesn't fit to the type of the modelElemets List. 
 	 *     e.g. if a user wants to update a resourceRecord-ContainerItem with a zone-ModelElement   
-	 * @param dataContainer
-	 * @param modelElements
-	 * @throws WbemsmtException
+     * @param containerList list with dataContainers
+     * @param modelElements list with model Elements
+     * @throws WbemsmtException if the action failed
+     * @return list with messages - if the message contains an error the following save actions are aborted
 	 */
 	public MessageList save(List containerList, List modelElements) throws WbemsmtException
 	{
@@ -705,8 +831,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * 
 	 * Calls the saveImpl-Methods on the derived class
 	 * 
-	 * @param dataContainer
-	 * @throws WbemsmtException
+	 * @param dataContainer the container to revert
+	 * @throws WbemsmtException if the revert failed
 	 */
 	public void revert(DataContainer dataContainer) throws WbemsmtException
 	{
@@ -763,13 +889,14 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	
 	/**
 	 * saves the List ModelElements
-	 * a UpdateControlsException should be thrown:
+	 * a {@link WbemsmtException} should be thrown:
 	 *   - if the size datContainer-List is not equal the size of the modelElements-List
 	 *   - if the type of a element in the dataContainer list doesn't fit to the type of the modelElemets List. 
 	 *     e.g. if a user wants to update a resourceRecord-ContainerItem with a zone-ModelElement   
-	 * @param dataContainer
-	 * @param modelElements
-	 * @throws WbemsmtException
+     * @param containerList list with dataContainers
+     * @param modelElements list with model Elements
+     * @throws WbemsmtException if the action failed
+     * @return list with messages
 	 */
 	public MessageList revert(List containerList, List modelElements) throws WbemsmtException
 	{
@@ -843,8 +970,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * 
 	 * The implementor have to decide if he wants to save the childs too
 	 * 
-	 * @param dataContainer
-	 * @throws WbemsmtException
+	 * @param dataContainer the container which was used to update the model
+	 * @throws WbemsmtException if the update model failed
 	 */
 	public void updateModel(DataContainer dataContainer) throws WbemsmtException
 	{
@@ -856,11 +983,11 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * The implementor have to decide if he wants to save the childs too
 	 * 
 	 * To check if the Correspondig field was the trigger use within the update-Method:
-	 * boolean buttonPressed = dataContainer.get_<Fieldname>() == updateTrigger;
+	 * boolean buttonPressed = dataContainer.get_&lt;Fieldname&gt;() == updateTrigger;
 	 * 
-	 * @param dataContainer
+	 * @param dataContainer the container containing the triggered component
 	 * @param updateTrigger The input component who triggered the update
-	 * @throws WbemsmtException
+	 * @throws WbemsmtException if the update model failed
 	 */
 	public void updateModel(DataContainer dataContainer, LabeledBaseInputComponentIf updateTrigger) throws WbemsmtException
 	{
@@ -907,14 +1034,14 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	
 	/**
 	 * updates the modelElements
-	 * a ObjectUpdateException should be thrown:
+	 * a {@link WbemsmtException} should be thrown:
 	 *   - if the size datContainer-List is not equal the size of the modelElements-List
 	 *   - if the type of a element in the dataContainer list doesn't fit to the type of the modelElemets List. 
 	 *     e.g. if a user wants to update a resourceRecord-ContainerItem with a zone-ModelElement   
-	 * @param dataContainer
-	 * @param modelElements
-	 * @throws WbemsmtException
-	 */
+     * @param containerList list with dataContainers
+     * @param modelElements list with model Elements
+     * @throws WbemsmtException if the action failed
+     */
 	public void updateModel(List containerList, List modelElements) throws WbemsmtException
 	{
 		if (modelElements.size() != containerList.size())
@@ -963,9 +1090,10 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	}
 
 	/**
-	 * Deletes the selected Object of the given type
+	 * Deletes the selected Object of the given type<br>
+	 * takes the peek of the selection hierarchy and uses the classname of the peek object to find the delete method: delete(&lt;Class of peek object&gt;) 
 	 * @param dataContainerClass
-	 * @throws WbemsmtException
+	 * @throws WbemsmtException if teh delete failed
 	 */
 	public void delete() throws WbemsmtException
 	{
@@ -1011,8 +1139,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	
 	/**
 	 * creates the object that belongs to the given container
-	 * @param dataContainer
-	 * @throws WbemsmtException
+	 * @param dataContainer the last page of a wizard
+	 * @throws WbemsmtException if the create failes
 	 */
 	public void create(DataContainer dataContainer) throws WbemsmtException
 	{
@@ -1053,9 +1181,11 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	}
 
 	/**
-	 * install the validators for the given container
-	 * @param dataContainer
-	 * @throws WbemsmtException 
+	 * install the validators for the given container<br>
+	 * calls the installValidatorsImpl(&lt;dataContainer&gt;) on the install validators delegatee
+	 * @param dataContainer the container to add the validators
+	 * @throws WbemsmtException if intstalling the validators failed
+	 * @see #addValidator(DataContainer, Validator)
 	 */
 	private void installValidators(DataContainer dataContainer) throws WbemsmtException
 	{
@@ -1092,9 +1222,10 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	}
 	
 	/**
-	 * Adds the validator to the given container
-	 * @param dataContainer
-	 * @param validator
+	 * Adds the validator to the given container<br>
+	 * can be used inside the InstallValidatorsDelegatee to add a validator to a container
+	 * @param dataContainer the container to add the validator
+	 * @param validator the validator to add
 	 */
 	public void addValidator(DataContainer dataContainer, Validator validator)
 	{
@@ -1103,9 +1234,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	
 	/**
 	 * validates the dataContainer
-	 * @param dataContainer
-	 * @return
-	 * @throws WbemsmtException
+	 * @param dataContainer the container with the values
+	 * @throws WbemsmtException if the validation failed
 	 */
 	public void validateValues(DataContainer dataContainer) throws WbemsmtException {
 		
@@ -1124,10 +1254,12 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	}	
 	
 	/**
-	 * Count a class that should be the fco of datacontainer linked as list within a parent container
-	 * @param classToCount
-	 * @return
-	 * @throws WbemsmtException
+	 * Count a class that should be the fco of datacontainer linked as list within a parent container<br>
+	 * @param classToCount the children class to count
+	 * @return the amount of children
+	 * @throws WbemsmtException if the action failes
+     * @deprecated {@link #count(String, Class, DataContainer)} should be used
+     * 
 	 */
 	public int count(Class classToCount) throws WbemsmtException
 	{
@@ -1149,8 +1281,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
      * <br>
      * @param classToCount the child to be counted
      * @param parentContainer the parentContainer
-     * @return
-     * @throws WbemsmtException
+     * @return the amount of children
+     * @throws WbemsmtException if the count failed or no count method was found in the delegatee
      * @deprecated count(String role, Class classToCount, DataContainer parentContainer) should be used
      */
     public int count(Class classToCount, DataContainer parentContainer) throws WbemsmtException
@@ -1226,8 +1358,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
      * @param classToCount the child to be counted
      * @param parentContainer the parentContainer
      * @param role the role of the children
-     * @return
-     * @throws WbemsmtException
+     * @return the amount of childen
+     * @throws WbemsmtException if the count failed or if no count method was found
      */
     public int count(String role, Class classToCount, DataContainer parentContainer) throws WbemsmtException
     {
@@ -1289,7 +1421,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
         
     /**
 	 * Get the CimClient of this adapter
-	 * @return
+	 * @return the cimClient
 	 */
 	public WBEMClient getCimClient() {
 		return cimClient;
@@ -1297,8 +1429,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 	/**
 	 * set the CimClient of this Adapter
-	 * @param cimClient
-	 * @throws WbemsmtException 
+	 * @param cimClient the client
+	 * @throws WbemsmtException if the namespace cannot be retrieved from the cim client
+	 * @see CIMClientPool#getNamespace(WBEMClient)
 	 */
 	public void setCimClient(WBEMClient cimClient) throws WbemsmtException {
 		this.cimClient = cimClient;
@@ -1307,7 +1440,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 	/**
 	 * return true if the adapter was loaded
-	 * @return
+	 * @return true if the adapter was loaded
 	 */
 	public boolean isLoaded() {
 		return loaded;
@@ -1315,7 +1448,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 	/**
 	 * set the Adapter as loaded
-	 * @param loaded
+	 * @param loaded use true if the adapter was loaded 
 	 */
 	public void setLoaded(boolean loaded) {
 		this.loaded = loaded;
@@ -1323,7 +1456,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 	/**
 	 * Get the resource Bundle of the adapter
-	 * @return
+	 * @return the resource Bundle of the adapter
 	 */
 	public WbemSmtResourceBundle getBundle() {
 		return bundle;
@@ -1331,7 +1464,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 	/**
 	 * set the resource bundle of the task belonging to this adapter
-	 * @param bundle
+	 * @param bundle the resource bundle of the task belonging to this adapter 
 	 */
 	public void setBundle(WbemSmtResourceBundle bundle) {
 		this.bundle = bundle;
@@ -1339,7 +1472,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 	/**
 	 * Get the Component which was used as trigger for a updateModel action. This is normally done by a button
-	 * @return
+	 * @return the Component which was used as trigger for a updateModel action. This is normally done by a button
 	 */
 	public LabeledBaseInputComponentIf getUpdateTrigger() {
 		return updateTrigger;
@@ -1355,9 +1488,10 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 	/**
 	 * init the wizard with the given Container
-	 * @param base 
-	 * @param dataContainer
-	 * @throws WbemsmtException 
+	 * @param base the wizard itself
+	 * @param dataContainer the first panel of the wizard
+	 * @param currentPageName the pagename of this panel
+	 * @throws WbemsmtException if the init failed or the initWizardImpl method was not found
 	 */
 	public void initWizard(WizardBase base, DataContainer dataContainer, String currentPageName) throws WbemsmtException {
 		
@@ -1402,7 +1536,10 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		
 	}
 
-	
+	/**
+	 * add listener to be notified when the locale changes
+	 * @param listener listener instance
+	 */
 	public void addLocaleChangeListener(LocaleChangeListener listener)
 	{
 		//no all having a locale change manager
@@ -1412,6 +1549,11 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		}
 	}
 	
+	/**
+	 * set the Manager class which switches and holds the locale<br>
+	 * set during the initialization of the adapter
+	 * @param localeManager the manager instance
+	 */
 	public void setLocaleManager(ILocaleManager localeManager) {
 		this.localeManager = localeManager;
 		if (bundle == null || !bundle.getLocale().equals(localeManager.getCurrentLocale()))
@@ -1421,22 +1563,35 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		addLocaleChangeListener(this);
 	}
 
+	/**
+	 * called if the locale changes<br>
+	 * reloads the resource bundle
+	 * @param newLocale the locale which is now used
+	 * 
+	 */
 	public void localeChanged(Locale newLocale)
 	{
 		bundle = ResourceBundleManager.getResourceBundle(getResourceBundleNames(),newLocale);			
 	}
 	
+	/**
+	 * 
+	 * @return true if the adapter is marked to be reloaded
+	 */
 	public boolean isMarkedForReload() {
 		return markedForReload;
 	}
 
+	/**
+	 * marks the adapter to be reloaded
+	 */
 	public void setMarkedForReload() {
 		this.markedForReload = true;
 	}
 	
 	/**
 	 * reloads the Tree. Is only executed if marked for reload
-	 * @throws WbemsmtException
+	 * @throws WbemsmtException if the reload failed
 	 * @see AbstractBaseCimAdapter#markedForReload
 	 */
 	public void reload() throws WbemsmtException
@@ -1458,6 +1613,10 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		
 	}
 	
+	/**
+	 * cleans up the adapter
+	 * @see Cleanup
+	 */
 	public void cleanup()
 	{
 		CimAdapterFactory.getInstance().removeAdapter(this);
@@ -1470,18 +1629,40 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		}
 	}
 
+	/**
+	 * get the path of the treenode which is set by the business logic for future selection
+	 * @return the path
+	 */
 	public CIMObjectPath getPathOfTreeNode() {
 		return pathOfTreeNode;
 	}
 
+	/**
+	 * set the path of the treenode for future selection<br>
+	 * set by the business logic
+	 * @param pathOfCreatedNode the path
+	 */
 	public void setPathOfTreeNode(CIMObjectPath pathOfCreatedNode) {
 		this.pathOfTreeNode = pathOfCreatedNode;
 	}
+	
+	/**
+	 * return if the adapter is used in edit or wizard mode
+	 * @return the mode
+	 * @see #ACTIVE_EDIT
+	 * @see #ACTIVE_WIZARD
+	 */
 
 	public int getActiveModule() {
 		return activeModule;
 	}
 
+	/**
+	 * set the currently active module
+	 * @param activeModule the currently active module
+     * @see #ACTIVE_EDIT
+     * @see #ACTIVE_WIZARD
+	 */
 	public void setActiveModule(int activeModule) {
 		this.activeModule = activeModule;
 	}
@@ -1489,7 +1670,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	/**
 	 * Manages the periodical refresh for the given DataContainer
 	 * Calls updateControls
-	 * @param panel
+	 * @param dataContainer the container to periodically refresh
 	 */
 	public void periodicalRefresh(DataContainer dataContainer) {
 		synchronized (refreshMedium) {
@@ -1498,9 +1679,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	}
 
 	/**
-	 * Manages the periodical refresh for the given DataContainer
-	 * Calls updateControls
-	 * @param panel
+	 * Checks if the refresh for this container is enabled
+	 * @param dataContainer the container to check
+	 * @return true if the periodical refresh for that container is enabled
 	 */
 	public boolean periodicalRefreshEnabled(DataContainer dataContainer) {
 		synchronized (refreshMedium) {
@@ -1508,13 +1689,26 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		}
 	}
 
+	/**
+	 * get all the containers that are refreshed periodically
+	 * @return set with {@link DataContainer} instances
+	 */
 	public Set getRefreshItems() {
 		return refreshItems;
 	}
-
+	
+	/**
+	 * return the object wich syncs the refresh actions
+	 * @return the object wich syncs the refresh actions
+	 */
+	public Object getRefreshMedium()
+	{
+	    return refreshMedium;
+	}
+	
 	/**
 	 * Updates the last access timestamp for the given datacontainer
-	 * @param dc
+	 * @param dc the container to update the access time
 	 */
 	public void updateAccesTime(DataContainer dc) {
 		synchronized (refreshMedium) {
@@ -1524,7 +1718,11 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	
 	/**
 	 * Gets the Map with the time value a container was access last time
-	 * @return
+	 * @return a Map with all containers and their last time thei are accessed.<br>
+	 * Key: instance of {@link DataContainer}<br>
+	 * Value: instance of {@link Long} - the timestamp
+	 * 
+	 * @see System#currentTimeMillis()
 	 */
 	public Map getAccessTimes() {
 		return accessTimes;
@@ -1532,31 +1730,37 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 
 	
 	/**
-	 * Returns the refresh interval 
-	 * @return
+	 * Returns the default refresh interval (10 seconds) as milliseconds 
+	 * @return the default interval
 	 */
 	public long getDefaultRefreshIntervalInMillis()
 	{
-		return 10000l;
+		return 10000L;
 	}
 	
 	/**
-	 * Define the period in millis after which a DataContainer is removed from the RefreshList 
-	 * @return
+	 * Define the period in millis after which a DataContainer is removed from the RefreshList<br>
+	 * Default:100 seconds
+	 * @return the default period
 	 */
 	public long getDefaultRefreshTimeout()
 	{
-		return 100000l;
+		return 100000L;
 	}
 
 	/**
 	 * returns the helper class for supporting fco actions 
-	 * @return
+	 * @return the helper class for supporting fco actions
 	 */
-	public FcoHelperIf getFcoHelper() {
+	public FcoHelper getFcoHelper() {
 		return fcoHelper;
 	}
 
+	
+	/**
+	 * add an adapter which is depending on this adapter
+	 * @param adapter the dependent adapter
+	 */
 	
 	public void addDependentAdapterForReload(AbstractBaseCimAdapter adapter) {
 		
@@ -1569,22 +1773,40 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		
 	}
 
+	/**
+	 * set the configuration for the task
+	 * <br>
+	 * see wbemsmt-commons/commons-bl/config/customTreeConfig.xsd for the structure of the {@link CustomTreeConfig}
+	 * @param customTreeConfig the configuration for the task
+	 */
 	public void setCustomTreeConfig(CustomTreeConfig customTreeConfig) {
 		this.customTreeConfig = customTreeConfig;
 		setConfigurationValues(customTreeConfig.getTreeConfigData().getConfigurationMap());		
 	}
 
+	/**
+	 * get the configruation for the task represented by this adapter
+	 * <br>
+     * see wbemsmt-commons/commons-bl/config/customTreeConfig.xsd for the structure of the {@link CustomTreeConfig}
+
+	 * @return the configruation for the task represented by this adapter
+	 */
 	public CustomTreeConfig getCustomTreeConfig() {
 		return customTreeConfig;
 	}
 
+	/**
+	 * get a map with all configuration values
+	 * @return key: name of configuration entry, value: value of the configuration entry type: {@link ConfigurationValueData}
+	 * @see #addConfigurationValue(String, String)
+	 */
 	public Map getConfigurationValues() {
 		return configurationValues;
 	}
 
 	/**
 	 * expects a map with the name of the configurationValue as key and the ConfigurationValueData objects as value 
-	 * @param configurationValues
+	 * @param configurationValues the map  
 	 * @see ConfigurationValueData
 	 */
 	public void setConfigurationValues(Map configurationValues) {
@@ -1593,7 +1815,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	
 	/**
 	 * get the configured value
-	 * @param key
+	 * @param key tne name of the config value
 	 * @return the value or null if for the given key no value was found
 	 */
 	public String getConfigurationValue(String key)
@@ -1603,8 +1825,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	
     /**
      * get the configured value
-     * @param key
-     * @param defaultValue
+     * @param key name of the entry
+     * @param defaultValue default for the case entry was not found or the entry's value was null
      * @return the value or default value if for the given key no value was found
      */
     public String getConfigurationValue(String key, String defaultValue)
@@ -1623,8 +1845,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
     
     /**
      * Used to add userdefined configuration value
-     * @param key
-     * @param value
+     * @param key the key of the configuration
+     * @param value the value of the configuration entry
      */
     public void addConfigurationValue(String key, String value)
     {
@@ -1637,13 +1859,17 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
     }
     
 
+    /**
+     * get the currently used namespace
+     * @return the currently used namespace
+     */
     public String getNamespace() {
         return namespace;
     }
 
     /**
      * Get the presentationlayer specific component which is responsible for adding asynchronous messages
-     * @return
+     * @return the handler instance
      */
     public AsynchronousMessageHandler getAsynchronousMessageHandler() {
         return asynchronousMessageHandler;
@@ -1660,9 +1886,11 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
     }
 
     /**
-     * get a new CIM Client instance
-     * @return
-     * @throws WbemsmtException
+     * get a new CIM Client instance<br>
+     * can be used by the preloading threads to get their own cim client instance
+     * @return a new cim client instance
+     * @throws WbemsmtException if no CimClient can be retrieved
+     * @see CIMClientPool#getNewCIMClient(String)
      */
     public WBEMClient getNewCimClient() throws WbemsmtException {
         return WbemsmtSession.getSession().getCIMClientPool(getCimClient()).getNewCIMClient(getNamespace());

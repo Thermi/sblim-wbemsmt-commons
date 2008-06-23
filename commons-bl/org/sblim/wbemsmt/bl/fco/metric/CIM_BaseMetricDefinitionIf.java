@@ -20,11 +20,14 @@
 package org.sblim.wbemsmt.bl.fco.metric;
 
 
+/**
+ * Interface for CIM_BaseMetricDefinitions
+ */
 public interface CIM_BaseMetricDefinitionIf {
 
 	/**
 	 * get the units of the metric
-	 * @return
+	 * @return the units
 	 */
 	String get_Units();
 

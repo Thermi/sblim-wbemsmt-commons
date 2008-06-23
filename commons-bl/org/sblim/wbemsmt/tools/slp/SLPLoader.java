@@ -33,20 +33,20 @@ public abstract class SLPLoader {
 	protected static Logger logger = Logger.getLogger(SLPLoader.class.getName());
 	
 	/**
-	 * Find for a serviceName the Hosts that are registered for that service
-	 * The registeredProfile is the value of the attribuite RegisteredProfilesSupported return by SLP:
-	 * 
-	 * 
-	 * RegisteredProfilesSupported defines the Profiles that 
-	 * a WBEM Server has support for. Each entry in this
-	 * attribute MUST be in the form of 
-	 * 
-	 * Organization:Profile Name{:Subprofile Name} 
-	 * 
-	 * The Organization MUST be the CIM_RegisteredProfile.RegisteredOrganization property value.
-	 * The Profile Name MUST be the CIM_RegisteredProfile.RegisteredName property value. 
-	 * The subprofile Name MUST be the CIM_RegisteredProfile.RegisteredName property value when it is used as a Dependent in the CIM_SubProfileRequiresProfile association for the specified Profile Name (used as the antecedent).
-	 * 
+	 * Find for a serviceName the Hosts that are registered for that service<br>
+	 * The registeredProfile is the value of the attribuite RegisteredProfilesSupported return by SLP:<br>
+	 * <br>
+	 * <br>
+	 * RegisteredProfilesSupported defines the Profiles that<br> 
+	 * a WBEM Server has support for. Each entry in this<br>
+	 * attribute MUST be in the form of <br>
+	 * <br>
+	 * Organization:Profile Name{:Subprofile Name}<br> 
+	 * <br>
+	 * The Organization MUST be the CIM_RegisteredProfile.RegisteredOrganization property value.<br>
+	 * The Profile Name MUST be the CIM_RegisteredProfile.RegisteredName property value. <br>
+	 * The subprofile Name MUST be the CIM_RegisteredProfile.RegisteredName property value when it is used as a Dependent in the CIM_SubProfileRequiresProfile association for the specified Profile Name (used as the antecedent).<br>
+	 * <br>
 	 * @param registeredProfile
 	 * @return
 	 */
@@ -58,6 +58,10 @@ public abstract class SLPLoader {
 	 */
 	public abstract SLPHostDefinition[] findHosts();
 
+	/**
+	 * check if retrieving the host list is possible
+	 * @return true if retrieving the host list is possible
+	 */
 	public abstract boolean getCanFindHosts();
 
 	public abstract void init();

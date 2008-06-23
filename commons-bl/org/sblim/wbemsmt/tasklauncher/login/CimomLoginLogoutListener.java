@@ -26,11 +26,11 @@ import java.util.logging.Level;
 
 import javax.faces.context.FacesContext;
 
+import org.sblim.wbemsmt.bl.tree.CimomTreeNode;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;
+import org.sblim.wbemsmt.bl.tree.TreeSelector;
 import org.sblim.wbemsmt.exception.WbemsmtException;
-import org.sblim.wbemsmt.tasklauncher.CimomTreeNode;
-import org.sblim.wbemsmt.tasklauncher.TreeSelector;
 import org.sblim.wbemsmt.tasklauncher.event.TaskLauncherContextMenuEventListenerImpl;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.jsf.WbemsmtCookieUtil;
@@ -46,7 +46,7 @@ public class CimomLoginLogoutListener extends TaskLauncherContextMenuEventListen
 
 	public String processEvent(TaskLauncherTreeNodeEvent event) {
 		
-		if (event.type == TaskLauncherTreeNodeEvent.TYPE_CLICKED)
+		if (event.getType() == TaskLauncherTreeNodeEvent.TYPE_CLICKED)
 		{
 
 			if (RuntimeUtil.getInstance().isJSF())
@@ -83,7 +83,7 @@ public class CimomLoginLogoutListener extends TaskLauncherContextMenuEventListen
 								node.setEmptyPassword(loginData != null ? loginData.isUseEmptyPassword(): false);
 								node.setUseSlp(loginData != null ? loginData.isUseSlp(): false);
 
-								//If the user runs in multiHost mode we don't render the slp checkbox
+								//If the user runs in multiHost and slp is not configured mode we don't render the slp checkbox
 								node.setSlpRendered(!login.isUseSlp());
 								node.setUseSlp(login.isUseSlp());
 								

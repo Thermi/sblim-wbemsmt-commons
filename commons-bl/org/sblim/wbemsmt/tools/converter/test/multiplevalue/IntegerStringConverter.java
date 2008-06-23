@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class IntegerStringConverter extends MultipleValueConverter implements Converter {
@@ -43,8 +42,8 @@ public class IntegerStringConverter extends MultipleValueConverter implements Co
 		return result;
 	}
 
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(Integer.class);
+	public Class getTypeForModel() {
+		return Integer.class;
 	}	
 	
 }

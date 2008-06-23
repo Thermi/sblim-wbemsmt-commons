@@ -22,7 +22,6 @@ package org.sblim.wbemsmt.tools.converter;
 
 import javax.cim.UnsignedInteger64;
 
-import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -116,8 +115,8 @@ public class UnsignedInt64StringArrayConverter implements StringArrayConverter {
 		return false;
 	}
 	
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInteger64.class);
+	public Class getTypeForModel() {
+		return UnsignedInteger64.class;
 	}	
 	
 }

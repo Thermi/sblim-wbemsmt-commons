@@ -21,7 +21,6 @@
 
 package org.sblim.wbemsmt.tools.converter.jsf;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.bl.fielddata.LinkData;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.jsf.LabeledJSFLinkComponent;
@@ -50,7 +49,7 @@ public class LinkDataConverter implements Converter {
 		return true;
 	}
 
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(LinkData.class);
+	public Class getTypeForModel() {
+		return LinkData.class;
 	}	
 }

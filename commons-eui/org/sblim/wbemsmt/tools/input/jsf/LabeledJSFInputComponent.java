@@ -21,52 +21,31 @@
 
 package org.sblim.wbemsmt.tools.input.jsf;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 
 import javax.cim.UnsignedInteger16;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
-import javax.faces.component.html.HtmlCommandButton;
-import javax.faces.component.html.HtmlCommandLink;
-import javax.faces.component.html.HtmlGraphicImage;
-import javax.faces.component.html.HtmlInputSecret;
-import javax.faces.component.html.HtmlInputText;
-import javax.faces.component.html.HtmlOutputLabel;
-import javax.faces.component.html.HtmlOutputText;
-import javax.faces.component.html.HtmlPanelGroup;
-import javax.faces.component.html.HtmlSelectBooleanCheckbox;
-import javax.faces.component.html.HtmlSelectManyListbox;
-import javax.faces.component.html.HtmlSelectManyMenu;
-import javax.faces.component.html.HtmlSelectOneListbox;
-import javax.faces.component.html.HtmlSelectOneMenu;
-import javax.faces.component.html.HtmlSelectOneRadio;
+import javax.faces.component.html.*;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.apache.commons.lang.StringUtils;
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
-import org.sblim.wbemsmt.bl.adapter.MessageList;
 import org.sblim.wbemsmt.bl.fielddata.FieldData;
 import org.sblim.wbemsmt.bl.fielddata.GenericFieldData;
+import org.sblim.wbemsmt.bl.messages.MessageList;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.ITreeSelector;
-import org.sblim.wbemsmt.tasklauncher.TaskLauncherTreeNode;
+import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNode;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
 import org.sblim.wbemsmt.tools.converter.Converter;
 import org.sblim.wbemsmt.tools.input.LabeledBaseHeaderComponentIf;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
-import org.sblim.wbemsmt.tools.jsf.EditBean;
-import org.sblim.wbemsmt.tools.jsf.JavascriptUtil;
-import org.sblim.wbemsmt.tools.jsf.JsfBase;
-import org.sblim.wbemsmt.tools.jsf.JsfUtil;
-import org.sblim.wbemsmt.tools.jsf.MultiLineBasePanel2;
+import org.sblim.wbemsmt.tools.jsf.*;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 import org.sblim.wbemsmt.util.StringTokenizer;
@@ -78,16 +57,60 @@ import org.sblim.wbemsmt.webapp.jsf.style.StyleBean;
  */
 public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent implements LabeledBaseHeaderComponentIf
 {
+    /**
+     * list with items (Strings) displayed in a Combobox, a List etc
+     * @see #setValues(String[])
+     */
 	protected List itemValues = new ArrayList();
-	UIComponent componentPanel = null;
 	
+	/**
+	 * the panel carrying the input component {@link #getComponent()}
+	 */
+	UIComponent componentPanel = null;
+
+	/**
+	 * the label of the field
+	 */
 	private HtmlOutputText label;
+	
+	/**
+	 * the panel around the label
+	 */
 	private HtmlPanelGroup labelPanel;
+	
+	/**
+	 * the input component
+	 */
 	protected UIComponent component;
+	
+	/**
+	 * the id used in jsf context
+	 */
 	protected String id;
+	
+	/**
+	 * stylesheet information
+	 * key: the name of the stylsheet property (example: font-family)
+	 * value: the value of that property
+	 */
 	private Map styles = null;
+	
+	/**
+	 * the style property to be used by a JSF runtime
+	 * @see #getItemStyle()
+	 */
 	private String itemStyle = null;
+	
+	/**
+	 * indicates if a component is disabled
+	 * @see #getItemDisabled()
+	 * 
+	 */
 	private boolean disabled = false;
+	
+	/**
+	 * The FieldData object for memo fields, pictures etc
+	 */
 	private FieldData fieldData = null;
 	
 	private boolean rendered = true;
@@ -99,6 +122,10 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	private String itemFieldIndicatorAltText;
 	private boolean fieldIndicatorRendered;
 	private boolean required;
+	
+	/**
+	 * the orientation of the input component (if displayed in a table)
+	 */
 	protected int orientation;
 	private boolean hasErrors;
 	private boolean isMultiline;

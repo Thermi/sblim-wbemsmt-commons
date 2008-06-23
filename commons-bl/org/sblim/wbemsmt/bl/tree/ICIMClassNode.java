@@ -1,5 +1,5 @@
  /** 
-  * ICIMInstanceNode.java
+  * ICIMClassNode.java
   *
   * © Copyright IBM Corp. 2005
   *
@@ -14,15 +14,21 @@
   *
   * Contributors: 
   * 
-  * Description: Interface of a CIMInstance Node
+  * Description: Interface of a CIMClassNode
   * 
   */
 
 package org.sblim.wbemsmt.bl.tree;
 
 
+/**
+ * Interface of a CIMClassNode
+ */
 public interface ICIMClassNode extends ITaskLauncherTreeNode, InstanceNamingHolder {
 
+    /**
+     * @return key which is used for naming this node
+     */
 	public String getInstanceNamingKey();
 	
 }

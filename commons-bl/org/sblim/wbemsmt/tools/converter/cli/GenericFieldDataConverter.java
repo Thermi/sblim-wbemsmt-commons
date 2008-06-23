@@ -23,7 +23,6 @@ package org.sblim.wbemsmt.tools.converter.cli;
 
 import javax.cim.UnsignedInteger16;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.bl.fielddata.GenericFieldData;
 import org.sblim.wbemsmt.tools.converter.StringArrayConverter;
 import org.sblim.wbemsmt.util.StringUtil;
@@ -160,8 +159,8 @@ public class GenericFieldDataConverter implements StringArrayConverter {
         return false;
 	}
 
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(GenericFieldData.class);
+	public Class getTypeForModel() {
+		return GenericFieldData.class;
 	}
 
     public void setGenericFieldData(GenericFieldData value) {

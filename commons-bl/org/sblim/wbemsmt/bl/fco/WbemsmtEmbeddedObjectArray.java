@@ -14,7 +14,7 @@
   *
   * Contributors: 
   * 
-  * Description: represents a Wbemsmt embeddedObject
+  * Description: represents a Wbemsmt embeddedObject array
   * 
   */
 package org.sblim.wbemsmt.bl.fco;
@@ -22,21 +22,36 @@ package org.sblim.wbemsmt.bl.fco;
 import javax.cim.CIMClass;
 import javax.cim.CIMInstance;
 
+/**
+ * represents a CIM EmbeddedObject array
+ */
 public class WbemsmtEmbeddedObjectArray {
 	
 	private final Object object;
 
-	public WbemsmtEmbeddedObjectArray(CIMInstance[] instance)
+	/**
+	 * create a new array
+	 * @param instances the cim instances
+	 */
+	public WbemsmtEmbeddedObjectArray(CIMInstance[] instances)
 	{
-		this.object = instance;
+		this.object = instances;
 	}
 
-	public WbemsmtEmbeddedObjectArray(CIMClass[] cls)
+    /**
+     * create a new array
+     * @param classes the cim classes
+     */
+	public WbemsmtEmbeddedObjectArray(CIMClass[] classes)
 	{
-		this.object = cls;
+		this.object = classes;
 	}
 
-	public Object getValue() {
+    /**
+     * get the value 
+     * @return the value can be {@link CIMInstance}[] or a {@link CIMClass}[]
+     */
+     public Object getValue() {
 		return object;
 	}
 	

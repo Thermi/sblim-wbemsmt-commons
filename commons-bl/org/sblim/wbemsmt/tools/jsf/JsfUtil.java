@@ -37,8 +37,8 @@ import javax.faces.event.ActionListener;
 
 import org.apache.myfaces.custom.tree2.HtmlTree;
 import org.apache.myfaces.custom.tree2.TreeNode;
-import org.sblim.wbemsmt.bl.ErrCodes;
-import org.sblim.wbemsmt.bl.adapter.Message;
+import org.sblim.wbemsmt.bl.messages.ErrCodes;
+import org.sblim.wbemsmt.bl.messages.Message;
 import org.sblim.wbemsmt.exception.ExceptionUtil;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.beans.BeanNameConstants;
@@ -46,27 +46,41 @@ import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;
 import org.sblim.wbemsmt.tools.resources.WbemSmtResourceBundle;
 
-public class JsfUtil {
+public final class JsfUtil {
 
-	private static final String IDENT_STRING = "   ";
+    /**
+     * string for indention
+     */
+	private static final String INDENTION_STRING = "   ";
 	/**
 	 * Javascript command to stop all ajax requests
 	 */
 	public static final String STOP_ALL_AJAX_REQUESTS_TRUE = "stopAllAjaxRequests=true;";
 	
 	/**
-	 * 
+	 * default constructor 
 	 */
 	private JsfUtil() {
 		super();
 	}
 	
+	/**
+	 * trace the component and it's children with indenting of the children
+	 * @param component the component
+	 * @param out writer for the output
+	 */
 	public static void traceComponentTree(UIComponent component, PrintWriter out)
 	{
 		traceComponentTree(component,out,"");
 	}
 
-	private static void traceComponentTree(UIComponent component, PrintWriter out, String identString)
+    /**
+     * trace the component and it's children with indenting of the children
+     * @param component the component
+     * @param out writer for the output
+     * @param indentionString String for identation
+     */
+	private static void traceComponentTree(UIComponent component, PrintWriter out, String indentionString)
 	{
 		String name = component.getClass().getName();
 		if (name.indexOf(".") > -1)
@@ -76,75 +90,98 @@ public class JsfUtil {
 		
 		if (component instanceof UICommand) {
 			UICommand cmd = (UICommand) component;
-			out.println(identString + name + " ID " + component.getId() + "Value " + cmd.getValue()  + " Hashcode " + component.hashCode()+ " " + component.toString());
+			out.println(indentionString + name + " ID " + component.getId() + "Value " + cmd.getValue()  + " Hashcode " + component.hashCode()+ " " + component.toString());
 			ActionListener[] actionListeners = cmd.getActionListeners();
 			for (int i = 0; i < actionListeners.length; i++) {
 				ActionListener listener = actionListeners[i];
-				out.println(identString + "actionlistener " + listener.getClass().getName());
+				out.println(indentionString + "actionlistener " + listener.getClass().getName());
 			}
 			if (cmd.getAction() != null)
 			{
-				out.println(identString + "action " + cmd.getAction().getExpressionString());
+				out.println(indentionString + "action " + cmd.getAction().getExpressionString());
 			}
 			if (cmd.getActionListener() != null)
 			{
-				out.println(identString + "actionlistener " + cmd.getActionListener().getExpressionString());
+				out.println(indentionString + "actionlistener " + cmd.getActionListener().getExpressionString());
 			}
 		}
 		else if (component instanceof UIOutput) {
 			UIOutput cmd = (UIOutput) component;
-			out.println(identString + name + " ID " + component.getId() + "Value " + cmd.getValue()  + " Hashcode " + component.hashCode()+ " " + component.toString());
+			out.println(indentionString + name + " ID " + component.getId() + "Value " + cmd.getValue()  + " Hashcode " + component.hashCode()+ " " + component.toString());
 
-			traceBinding(out, identString, cmd, "value");
-			out.println(identString + "value " + cmd.getValue());
+			traceBinding(out, indentionString, cmd, "value");
+			out.println(indentionString + "value " + cmd.getValue());
 		}
 		else
 		{
-			out.println(identString + name + " ID " + component.getId() + " Hashcode " + component.hashCode()+ " " + component.toString());
+			out.println(indentionString + name + " ID " + component.getId() + " Hashcode " + component.hashCode()+ " " + component.toString());
 		}
 		
 		if (component instanceof HtmlTree) {
 			HtmlTree tree = (HtmlTree) component;
 			TreeNode node = tree.getDataModel().getNodeById("0");
-			traceComponentTree(node,out,identString + JsfUtil.IDENT_STRING);
+			traceComponentTree(node,out,indentionString + JsfUtil.INDENTION_STRING);
 		}
 		
 		List children = component.getChildren();
 		for (Iterator iter = children.iterator(); iter.hasNext();) {
 			UIComponent child = (UIComponent) iter.next();
-			traceComponentTree(child,out, identString + JsfUtil.IDENT_STRING);
+			traceComponentTree(child,out, indentionString + JsfUtil.INDENTION_STRING);
 		}
 		
 	}
 
-	private static ValueBinding traceBinding(PrintWriter out, String identString, UIOutput ui, String bindingForField) {
+	/**
+	 * get the binding bindingForField out of the component ui and tarce it to out by using indention as prefix
+	 * @param out the writer
+	 * @param indention the sting for the indention
+	 * @param ui the component
+	 * @param bindingForField name of the value binding to be traced
+	 * @return the value binding
+	 */
+	private static ValueBinding traceBinding(PrintWriter out, String indention, UIOutput ui, String bindingForField) {
 		ValueBinding binding = null;
 		if (ui.getValueBinding(bindingForField) != null)
 		{
 			binding = ui.getValueBinding(bindingForField);
 			String expressionString = binding.getExpressionString();
-			out.println(identString + "value-binding " + expressionString);
+			out.println(indention + "value-binding " + expressionString);
 		}
 		
 		return binding;
 	}
 
-	private static void traceComponentTree(TreeNode node, PrintWriter out, String identString) {
+	/**
+	 * Trace a node with all it's children to the writer out by using the indentionString as prefix. Each level below is using JsfUtil.INDENTION_STRING as additional indention
+	 * @param node the node to be traced
+	 * @param out the writer
+	 * @param indentionString the indentionString used as prefix
+	 */
+	private static void traceComponentTree(TreeNode node, PrintWriter out, String indentionString) {
 		
-		out.println(identString + "node " + node.getDescription());
+		out.println(indentionString + "node " + node.getDescription());
 		
 		List children = node.getChildren();
 		for (Iterator iter = children.iterator(); iter.hasNext();) {
 			TreeNode child = (TreeNode) iter.next();
-			traceComponentTree(child,out,identString + JsfUtil.IDENT_STRING);
+			traceComponentTree(child,out,indentionString + JsfUtil.INDENTION_STRING);
 		}
 		
 	}
 
+	/**
+	 * handle the exception or other Throwables for the JSF layer
+	 * @param t the Throwable
+	 */
 	public static void handleException(Throwable t)
 	{
 		handleExceptionEnduser(t);
 	}
+	
+	/**	
+	 * handle the exception or other Throwables for the JSF layer so that the enduser is happy (and not get bombed with too much details)
+	 * @param t the Throwable
+	 */
 	public static void handleExceptionEnduser(Throwable t) {
 
 		FacesContext fc = FacesContext.getCurrentInstance();
@@ -166,8 +203,8 @@ public class JsfUtil {
 	
 	/**
 	 * create a Label with the given text
-	 * @param text
-	 * @return
+	 * @param text the content of the label
+	 * @return the label
 	 */
 	public static HtmlOutputText createText(String text) {
 		HtmlOutputText comp = (HtmlOutputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
@@ -178,8 +215,9 @@ public class JsfUtil {
 	
 	/**
 	 * create a Label with the given text, and style
-	 * @param text
-	 * @return
+     * @param text the content of the label
+     * @param style the style of the label
+	 * @return the label
 	 */
 	public static HtmlOutputText createText(String text, String style) {
 		HtmlOutputText comp = createText(text);
@@ -188,9 +226,9 @@ public class JsfUtil {
 	}
 
 	/**
-	 * create a Grid with the given text
-	 * @param text
-	 * @return
+	 * create a Grid with the given columns
+	 * @param cols amount of columns
+	 * @return the table
 	 */
 	public static HtmlPanelGrid createPanelGrid(int cols) {
 		HtmlPanelGrid comp = (HtmlPanelGrid) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGrid.COMPONENT_TYPE);
@@ -198,20 +236,27 @@ public class JsfUtil {
 		return comp;
 	}
 	/**
-	 * create a Grid with the given text
-	 * @param text
-	 * @return
+	 * create a panelGroup
+	 * @return the panelGroup
 	 */
 	public static HtmlPanelGroup createPanelGroup() {
 		HtmlPanelGroup comp = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 		return comp;
 	}
 
+	/**
+	 * add a message to the messageHandler instance 
+	 * @param message the message to be added
+	 */
 	public static void addMessage(Message message)
 	{
 		JsfBase.addMessage(message);
 	}
 
+	/**
+	 * check if the FacesContext contains errors
+	 * @return true if the FacesContext contains errors
+	 */
 	public static boolean havingErrors() {
 		Iterator messages = FacesContext.getCurrentInstance().getMessages();
 		while (messages.hasNext()) {
@@ -234,7 +279,7 @@ public class JsfUtil {
 	
 	/**
 	 * externalized this statement into this method because the handling via JSF EL is too complex
-	 * @return
+	 * @return the javascript call to get a confirmation from the user to revert the current edit action
 	 */
 	public static String getRevertEditActionJavaScriptConfirmStatement()
 	{

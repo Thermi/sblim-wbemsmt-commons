@@ -19,6 +19,9 @@
   */
 package org.sblim.wbemsmt.bl.adapter;
 
+/**
+ * Marker Interface for Delegatees installing validators
+ */
 public interface InstallValidatorsDelegatee {
 
 }

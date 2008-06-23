@@ -26,10 +26,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
-import org.sblim.wbemsmt.bl.Cleanup;
-import org.sblim.wbemsmt.bl.ErrCodes;
 import org.sblim.wbemsmt.bl.adapter.AsynchronousMessageHandler;
-import org.sblim.wbemsmt.bl.adapter.Message;
+import org.sblim.wbemsmt.bl.cleanup.Cleanup;
+import org.sblim.wbemsmt.bl.messages.ErrCodes;
+import org.sblim.wbemsmt.bl.messages.Message;
 import org.sblim.wbemsmt.tools.jsf.WbemsmtFacesMessage;
 import org.sblim.wbemsmt.tools.jsf.WbesmtFacesSeverity;
 import org.sblim.wbemsmt.tools.resources.ResourceBundleManager;

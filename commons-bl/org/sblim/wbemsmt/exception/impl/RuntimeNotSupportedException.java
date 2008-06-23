@@ -19,8 +19,8 @@
   */
 package org.sblim.wbemsmt.exception.impl;
 
-import org.sblim.wbemsmt.bl.ErrCodes;
-import org.sblim.wbemsmt.bl.adapter.Message;
+import org.sblim.wbemsmt.bl.messages.ErrCodes;
+import org.sblim.wbemsmt.bl.messages.Message;
 import org.sblim.wbemsmt.exception.ErrorCodeForUserException;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.exception.impl.userobject.RuntimeNotSupportedUserObject;

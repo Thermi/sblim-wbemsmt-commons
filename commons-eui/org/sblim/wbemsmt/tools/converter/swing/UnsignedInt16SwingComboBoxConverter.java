@@ -24,7 +24,6 @@ package org.sblim.wbemsmt.tools.converter.swing;
 import javax.cim.UnsignedInteger16;
 import javax.swing.JComboBox;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.tools.converter.ComboBoxIndexConverter;
 import org.sblim.wbemsmt.tools.converter.StringArrayConverter;
 
@@ -63,8 +62,8 @@ public class UnsignedInt16SwingComboBoxConverter implements ComboBoxIndexConvert
 		return values;
 	}
 
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInteger16.class);
+	public Class getTypeForModel() {
+		return UnsignedInteger16.class;
 	}	
 	
 }

@@ -36,16 +36,36 @@ import org.apache.commons.collections.MultiMap;
 import org.sblim.wbemsmt.tools.resources.LocaleManager;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
-public class CimAdapterFactory {
+/**
+  * Description: Singleton Class who is creating and caching adapters on a per-session basis<br>
+  * <br>
+  * If the Method with the FacesContext is used the adapters are stored in the HttpSession<br> 
+  * If the Method with Object is used the Adapters are stored in a MultiHashMap bound to this factory class<br>
+  * @see #getAdapter(Class, FacesContext, WBEMClient)
+  * @see #getAdapter(Class, Object, Locale, boolean)
+  */
+public final class CimAdapterFactory {
 
 	private static CimAdapterFactory _instance;
+	
+	/**
+	 * Stores all the adapters in a context which is having no own Session object. For example the commandline 
+	 */
 	private MultiMap adaptersByObject = new MultiHashMap();
 
 	private static Logger logger = Logger.getLogger(CimAdapterFactory.class.getName());
 	
+
+	/**
+	 * default constructor
+	 */
 	private CimAdapterFactory() {
 	}
 
+	/**
+	 * get the instance
+	 * @return the CimAdapterFactory instance
+	 */
 	public static synchronized CimAdapterFactory getInstance() {
 		if (_instance == null) {
 			_instance = new CimAdapterFactory();
@@ -56,25 +76,28 @@ public class CimAdapterFactory {
 	/**
 	 * Retrieve the adapter belonging to the given adapter class and the bound to the HttpSession
 	 * which is the the Session of the current FacesContext
-	 * 
-	 * @param adapterClass
-	 * @param fc
-	 * @return
+	 * <br>
+	 * createNew is set to true by default
+	 * @param adapterClass the class of the Adapter
+	 * @param fc the Faces context
+	 * @param client the cim client
+	 * @return the adapter instance
 	 */
 	public AbstractBaseCimAdapter getAdapter(Class adapterClass, FacesContext fc,WBEMClient client)
 	{
 		return getAdapter(adapterClass, fc,client,true);
 	}
 
-	/**
-	 * Retrieve the adapter belonging to the given adapter class and the bound to the HttpSession
-	 * which is the the Session of the current FacesContext
-	 * @param adapterClass
-	 * @param fc
-	 * @param client
-	 * @param createNew
-	 * @return null if !createNew and the adapter was not found
-	 */
+    /**
+     * Retrieve the adapter belonging to the given adapter class and the bound to the HttpSession
+     * which is the the Session of the current FacesContext
+     * <br>
+     * @param createNew create new one if no instance was found
+     * @param adapterClass the class of the Adapter
+     * @param fc the Faces context
+     * @param client the cim client
+     * @return the adapter instance
+     */
 	public AbstractBaseCimAdapter getAdapter(Class adapterClass, FacesContext fc,WBEMClient client, boolean createNew)
 	{
 		try {
@@ -97,12 +120,12 @@ public class CimAdapterFactory {
 	}
 
 	/**
-	 * get the adapter with the given taskname within the current session bound to the FacesContext
-	 * @param taskname
-	 * @param fc
-	 * @param client
-	 * @param createNew
+	 * get the adapter with the given taskname within the current session bound to the FacesContext.
+	 * Uses FacesContext.getCurrentInstance() to retrieve the current instance.
+	 * @param taskname name of the task - used to build the key to lookup the adapter
+	 * @param client the CIMClient - used to build the key to lookup the adapter
 	 * @return null if the adapter was not found or the current Runtime mode is not supported - Currently supported is only JSF
+     * @see #getKey(String, WBEMClient)
 	 */
 	public AbstractBaseCimAdapter getAdapter(String taskname, WBEMClient client)
 	{
@@ -116,11 +139,11 @@ public class CimAdapterFactory {
 	
 	/**
 	 * get the adapter with the given taskname within the current session bound to the FacesContext
-	 * @param taskname
-	 * @param fc
-	 * @param client
-	 * @param createNew
+     * @param taskname name of the task - used to build the key to lookup the adapter
+     * @param client the CIMClient - used to build the key to lookup the adapter
+     * @param fc the Faces context
 	 * @return null if the adapter was not found
+	 * @see #getKey(String, WBEMClient)
 	 */
 	public AbstractBaseCimAdapter getAdapter(String taskname, FacesContext fc,WBEMClient client)
 	{
@@ -138,9 +161,11 @@ public class CimAdapterFactory {
 		
 	/**
 	 * Set the adapter for the given taskname and the client
-	 * @param taskName
-	 * @param context
-	 * @param cimClient
+	 * @param taskName name of the task - used to build the key to lookup the adapter
+	 * @param fc the FacesContext
+	 * @param client the client - used to build the key to lookup the adapter
+	 * @param adapter the adapter to cache
+     * @see #getKey(String, WBEMClient)
 	 */
 	public void setAdapter(String taskName, FacesContext fc, WBEMClient client, AbstractBaseCimAdapter adapter) {
 		try {
@@ -155,11 +180,12 @@ public class CimAdapterFactory {
 
 	/**
 	 * Retrieve the adapter belonging to the given adapter class and the bound to the HttpSession
-	 * which is the the Session of the current FacesContext
+	 * which is the the Session of the current FacesContext<br>
+	 * if no adapter exists a new obe is created
 	 * 
-	 * @param adapterClass
-	 * @param fc
-	 * @return
+	 * @param adapterClass the class of the adapter
+	 * @param client the cim client
+	 * @return the instance of the adapter class
 	 */
 	public AbstractBaseCimAdapter getAdapter(Class adapterClass, WBEMClient client)
 	{
@@ -168,12 +194,14 @@ public class CimAdapterFactory {
 	
 	/**
 	 * Retrieve the adapter belonging to the given adapter class and the bound to the HttpSession
-	 * which is the the Session of the current FacesContext
+	 * which is the the Session of the current FacesContext.<br>
+	 * Combination of adapterClass and client is used for creating the key
+	 * @see #getKey(Class, WBEMClient)
 	 * 
-	 * @param adapterClass
-	 * @param fc
+	 * @param adapterClass class of the adapter
+	 * @param client the server connection
 	 * @param createNew Create a new One if no adapter was found
-	 * @return
+	 * @return the adapter instance
 	 */	
 
 	public AbstractBaseCimAdapter getAdapter(Class adapterClass, WBEMClient client, boolean createNew) {
@@ -186,36 +214,44 @@ public class CimAdapterFactory {
 	}
 
 	
-	/**
-	 * Retrieve the adapter belonging to the given adapter class and the bound to the session
-	 * the given Oject belongs to
-	 * @param adapterClass
-	 * @param object
-	 * @return
-	 */
+    /**
+     * Retrieve the adapter belonging to the given adapter class<br>
+     * the object is used as key<br>
+     * if the adapter doesn't exist a new one is created<br>
+     * Switches the Locale to Locale.getDefault
+     * @param adapterClass class of the adapter
+     * @param object  the key
+     * @return the adapter instance
+     */ 
 	public AbstractBaseCimAdapter getAdapter(Class adapterClass, Object object)
 	{
 		return getAdapter(adapterClass,object,Locale.getDefault());
 	}	
-	/**
-	 * Retrieve the adapter belonging to the given adapter class and the bound to the session
-	 * the given Oject belongs to
-	 * @param adapterClass
-	 * @param object
-	 * @return
-	 */
+    /**
+     * Retrieve the adapter belonging to the given adapter class<br>
+     * the object is used as key<br>
+     * if the adapter doesn't exist a new one is created<br>
+     * 
+     * @param adapterClass class of the adapter
+     * @param object  the key
+     * @param locale the locale to be used for the container
+     * @return the adapter instance
+     */ 
 	public AbstractBaseCimAdapter getAdapter(Class adapterClass, Object object, Locale locale)
 	{
 		return getAdapter(adapterClass, object,locale,true);
 	}
 
-	/**
-	 * Retrieve the adapter belonging to the given adapter class and the bound to the session
-	 * the given Oject belongs to
-	 * @param adapterClass
-	 * @param object
-	 * @return
-	 */
+    /**
+     * Retrieve the adapter belonging to the given adapter class<br>
+     * the object is used as key<br>
+     * 
+     * @param adapterClass class of the adapter
+     * @param object  the key
+     * @param locale the locale to be used for the container
+     * @param createNew set to true if to create a new one if the adapter doesn't exist
+     * @return the adapter instance
+     */ 
 	public AbstractBaseCimAdapter getAdapter(Class adapterClass, Object object, Locale locale, boolean createNew)
 	{
 		try {
@@ -249,24 +285,29 @@ public class CimAdapterFactory {
 	
 	/**
 	 * Get the key for the adapterclass and cimclient for storing the adapter in the cache
-	 * @param adapterClass
-	 * @param client
-	 * @return
+	 * @param adapterClass the class - adapterClass.getName() is used as part of the key
+	 * @param client the client -  toString() is used as part of the key
+	 * @return the key
 	 */
 	private String getKey(Class adapterClass, WBEMClient client) {
 		return "adapter." + adapterClass.getName() + ".for.client." + client;
 	}
 
-	/**
-	 * Get the key for the taskname and cimclient for storing the adapter in the cache
-	 * @param adapterClass
-	 * @param client
-	 * @return
-	 */
+    /**
+     * Get the key for the taskname and cimclient for storing the adapter in the cache
+     * @param taskname used as part of the string
+     * @param client the client -  toString() is used as part of the key
+     * @return the key
+     */
 	private String getKey(String taskname, WBEMClient client) {
 		return "adapter.for.task." + taskname + ".for.client." + client;
 	}
 
+	/**
+	 * remove the adapter
+	 * @param adapter adapter to remove
+	 * @param client the client of the adapter
+	 */
 	public void removeAdapter(AbstractBaseCimAdapter adapter, WBEMClient client)
 	{
 		if (RuntimeUtil.getInstance().isJSF())
@@ -278,6 +319,12 @@ public class CimAdapterFactory {
 		removeAdapter(adapter);
 	}
 	
+	/**
+	 * remove the adapter from the object-based store
+	 * @param adapter adapter to remove
+	 * @see #adaptersByObject
+	 * @see Cleanup
+	 */
 	public void removeAdapter(AbstractBaseCimAdapter adapter) {
 		
 		List keys = new ArrayList();

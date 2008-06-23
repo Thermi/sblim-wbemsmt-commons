@@ -19,6 +19,9 @@
   */
 package org.sblim.wbemsmt.tools.slp;
 
+/**
+ * A Host loaded via SLP
+ */
 public class SLPHostDefinition {
 
 	private final String hostname;

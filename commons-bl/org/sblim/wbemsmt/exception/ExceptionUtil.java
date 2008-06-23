@@ -28,9 +28,9 @@ import java.util.logging.Logger;
 import javax.cim.CIMInstance;
 import javax.wbem.WBEMException;
 
-import org.sblim.wbemsmt.bl.ErrCodes;
-import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFco;
+import org.sblim.wbemsmt.bl.messages.ErrCodes;
+import org.sblim.wbemsmt.bl.messages.Message;
 import org.sblim.wbemsmt.exception.impl.UserObjectExceptionIf;
 import org.sblim.wbemsmt.tools.cli.CimCommand;
 import org.sblim.wbemsmt.tools.cli.CliLocaleManager;

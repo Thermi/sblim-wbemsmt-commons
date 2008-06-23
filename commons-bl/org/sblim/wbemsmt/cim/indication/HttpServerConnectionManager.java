@@ -14,7 +14,8 @@
   *
   * Contributors: 
   * 
-  * Description: Manager for the CIM HttpServerConnections
+  * Description: Manager for the CIM HttpServerConnections<br>
+  * Pattern: Singleton
   * 
   */
 package org.sblim.wbemsmt.cim.indication;
@@ -27,19 +28,38 @@ import javax.wbem.listener.IndicationListener;
 import javax.wbem.listener.WBEMListener;
 import javax.wbem.listener.WBEMListenerFactory;
 
-public class HttpServerConnectionManager
+public final class HttpServerConnectionManager
 {
+    /**
+     * static instance of the single
+     */
 	private static HttpServerConnectionManager instance = null;
+	/**
+	 * logger instance
+	 */
 	protected static Logger logger = Logger.getLogger(HttpServerConnectionManager.class.getName());	
-	private final static String protocol = "CIM-XML";
+	/**
+	 * the used protocol
+	 */
+	private static final String protocol = "CIM-XML";
 	
+	/**
+	 * Listener instance
+	 */
 	private WBEMListener wbemListener;
 	
+	/**
+	 * internal constructor
+	 */
 	private HttpServerConnectionManager()
 	{
 		 wbemListener = WBEMListenerFactory.getListener(protocol);
 	}
 	
+	/**
+	 * get the instance of the ConnectionManager
+	 * @return the manager
+	 */
 	public static HttpServerConnectionManager getInstance()
 	{
 		if (instance == null)
@@ -51,9 +71,8 @@ public class HttpServerConnectionManager
 	
 	/**
 	 * Add a listener for the port - if there is no connection for that port a new one is created
-	 * @param listener
-	 * @param port
-	 * @param transport http or https
+	 * @param listener the listener
+	 * @param destination the destination 
 	 * @throws IOException if the Connection cannot be created
 	 */
 	public void addListener(IndicationListener listener, IndicationDestination destination) throws IOException
@@ -73,7 +92,11 @@ public class HttpServerConnectionManager
 	    
 		logger.info("Added listener " + listener + " to port with transport " + transport);
 	}
-	
+
+	/**
+	 * remove the listener from the given port
+	 * @param port the port
+	 */
 	public void removeListener(int port)
 	{
 		wbemListener.removeListener(port);

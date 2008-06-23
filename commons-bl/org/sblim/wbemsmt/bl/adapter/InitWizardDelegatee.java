@@ -19,6 +19,9 @@
   */
 package org.sblim.wbemsmt.bl.adapter;
 
+/**
+ *  Marker Interface for Delegatee Handling init Wizard Action
+ */
 public interface InitWizardDelegatee {
 
 }

@@ -33,15 +33,26 @@ import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TasklauncherconfigDocum
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TreeconfigDocument.Treeconfig;
 import org.sblim.wbemsmt.tasklauncher.tasklauncherconfig.TreeconfigReferenceDocument.TreeconfigReference;
 
-public class SLPUtil {
+/**
+ * Helper class to handle action on the SlpLoader instances
+ */
+public final class SLPUtil {
 
 	private static Logger logger = Logger.getLogger(SLPUtil.class.getName());
 	
 	/**
+	 * priavte constructor
+	 */
+	private SLPUtil()
+	{
+	    
+	}
+	
+	/**
 	 * Reads all data with the slp loader for the services defined in the given treeConfig. The treeConfig is added to the returned Document
-	 * @param slpLoader
-	 * @param tasklauncherconfig
-	 * @return
+	 * @param slpLoader instance to retrieve slp data
+	 * @param treeconfigArray the TreeConfiguration
+	 * @return the TasklauncherConfigDocument
 	 */
 	
 	public static TasklauncherconfigDocument readFromSlp(SLPLoader slpLoader, Treeconfig[] treeconfigArray) {
@@ -66,6 +77,13 @@ public class SLPUtil {
 		return result;
 	}
 	
+	/**
+	 * add the slp hostDefintions to the cimoms/tasksin the tasklauncherConfig
+	 * @param launcherConfig the tasklauncher config
+	 * @param treeconfigArray the tasks
+	 * @param hostDefinitions the slp found hosts
+	 * @param serviceConfig The tree confgiguration
+	 */
 	private static void addHostDefinitions(Tasklauncherconfig launcherConfig, Treeconfig[] treeconfigArray, SLPHostDefinition[] hostDefinitions, Treeconfig serviceConfig) {
 
 		for (int i = 0; i < hostDefinitions.length; i++) {
@@ -111,9 +129,9 @@ public class SLPUtil {
 
 	/**
 	 * Add the Cimom by the information of the SLPHostDefinition
-	 * @param launcherConfig
-	 * @param hostDefinition
-	 * @return
+	 * @param launcherConfig the configuration
+	 * @param hostDefinition the host from slp
+	 * @return the cimom
 	 */
 	private static Cimom addCimom(Tasklauncherconfig launcherConfig, SLPHostDefinition hostDefinition) {
 		Cimom foundCimom;
@@ -127,10 +145,10 @@ public class SLPUtil {
 
 	/**
 	 * checks if the task is supported ont the host
-	 * @param slpLoader
-	 * @param host
-	 * @param slpServicename
-	 * @return
+	 * @param slpLoader the loader instance
+	 * @param host the hostname
+	 * @param slpServicename the service name used in slp
+	 * @return true if the task is supported
 	 */
 	public static boolean getTaskIsSupported(SLPLoader slpLoader, String host, String slpServicename) {
 		
@@ -139,11 +157,11 @@ public class SLPUtil {
 
 	/**
 	 * Return the SLPHostDefinition if the Task is Supported
-	 * @param slpLoader
-	 * @param host
-	 * @param slpServicename
+	 * @param slpLoader the loader instance
+	 * @param host hostname
+	 * @param slpServicename the name of the service in slp
 	 * @see #getTaskIsSupported(SLPLoader, String, String)
-	 * @return
+	 * @return the HostDefinition if the task is supported
 	 */
 	
 	public static SLPHostDefinition getHostForSupportedTask(SLPLoader slpLoader, String host, String slpServicename) {
@@ -184,11 +202,11 @@ public class SLPUtil {
 	
 	/**
 	 * Return the TreeConfig of the supported Tasks
-	 * @param slpLoader
-	 * @param host
-	 * @param slpServicename
+	 * @param slpLoader the loader instance
+	 * @param host the hostname
+	 * @param configs the configured tasks
 	 * @see #getTaskIsSupported(SLPLoader, String, String)
-	 * @return
+	 * @return the treeConfigurations
 	 */
 	
 	public static Treeconfig[] getSupportedTasksForHost(SLPLoader slpLoader, String host, Treeconfig[] configs) {
@@ -212,8 +230,8 @@ public class SLPUtil {
 
 	/**
 	 * Give back the list with all Hosts found via SLP
-	 * @param slpLoader
-	 * @return
+	 * @param slpLoader the loader instance
+	 * @return the list with all Hosts found via SLP
 	 */
 	public static SLPHostDefinition[] getHosts(SLPLoader slpLoader) {
 		SLPHostDefinition[] allHostDefinitions = slpLoader.findHosts();

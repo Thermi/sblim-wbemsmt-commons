@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import org.sblim.wbemsmt.bl.adapter.MessageUtil;
+import org.sblim.wbemsmt.bl.messages.MessageUtil;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 

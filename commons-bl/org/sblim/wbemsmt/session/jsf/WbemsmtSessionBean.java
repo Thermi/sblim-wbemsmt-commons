@@ -19,7 +19,7 @@
   */
 package org.sblim.wbemsmt.session.jsf;
 
-import org.sblim.wbemsmt.bl.Cleanup;
+import org.sblim.wbemsmt.bl.cleanup.Cleanup;
 import org.sblim.wbemsmt.session.WbemsmtSession;
 import org.sblim.wbemsmt.session.WebSession;
 

@@ -29,20 +29,43 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.lang.ClassUtils;
-import org.sblim.wbemsmt.bl.ErrCodes;
+import org.sblim.wbemsmt.bl.messages.ErrCodes;
+import org.sblim.wbemsmt.bl.messages.Message;
+import org.sblim.wbemsmt.bl.messages.MessageList;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf;
 
 
-public class DataContainerUtil {
+/**
+ * UtilClass for DataContainers
+ */
+public final class DataContainerUtil {
 
 	private static Logger logger = Logger.getLogger(DataContainerUtil.class.getName());	
 
+	/**
+	 * private constructor because it's a util class
+	 */
+	private DataContainerUtil(){}
+	
+	/**
+	 * copy the content (field and children) from one DataContainer to the other
+	 * @param source the source
+	 * @param target the target
+	 * @return the target container
+	 * @throws WbemsmtException if the copy failed
+	 * @see DataContainer#copyFrom(DataContainer)
+	 */
 	public static DataContainer copyValues(DataContainer source, DataContainer target) throws WbemsmtException {
 		target.copyFrom(source);
 		return target;
 	}
 	
+	/**
+	 * copy attributes of a {@link LabeledBaseInputComponentIf}
+	 * @param source the source
+	 * @param target the target
+	 */
     public static void copyValues(LabeledBaseInputComponentIf source,
             LabeledBaseInputComponentIf target) {
         
@@ -80,7 +103,7 @@ public class DataContainerUtil {
     
     /**
      * Checks if the field should be copied
-     * @param field
+     * @param field the field
      * @return true if it's okay to copy the field
      */
 
@@ -103,6 +126,12 @@ public class DataContainerUtil {
         return false;
     }
 
+	/**
+	 * checks if the fields can be converted<br>
+	 * doesn't check the children
+	 * @param container the container with the fields
+	 * @return true if conversion was possible for all fields
+	 */
     public static boolean validateEnteredValues(DataContainer container) {
 		
 		MessageList list = MessageList.init(container);
@@ -126,7 +155,7 @@ public class DataContainerUtil {
 							list.addMessage(new Message(ErrCodes.MSG_CONVERSION_ERROR,Message.ERROR, msg));
 						}
 						
-						String msg = container.getAdapter().getBundle().getString(ErrCodes.MSG_CANNOT_CONVERT, "cannot.convert",new Object[]{field.getLabelText(),field.getConverter().getTypeForModel()});
+						String msg = container.getAdapter().getBundle().getString(ErrCodes.MSG_CANNOT_CONVERT, "cannot.convert",new Object[]{field.getLabelText(),ClassUtils.getShortClassName(field.getConverter().getTypeForModel())});
 						list.addMessage(new Message(ErrCodes.MSG_CANNOT_CONVERT,Message.ERROR, msg, field));
 						errors++;
 					}
@@ -156,6 +185,12 @@ public class DataContainerUtil {
 		return false;
 	}
 
+	/**
+	 * check if the container is having required fields<br>
+	 * also checks the {@link DataContainer} children
+	 * @param container the container to check
+	 * @return true if the container is having required fields
+	 */
 	public static boolean havingRequiredFields(DataContainer container) {
 		List fields = container.getFields();
 		for (Iterator iterator = fields.iterator(); iterator.hasNext();) {
@@ -172,7 +207,8 @@ public class DataContainerUtil {
 
 	
 	/**
-	 * Check if some fields are required
+	 * Check if some fields having errors<br>
+     * also checks the {@link DataContainer} children
 	 * @param containers List with DataContainers
 	 * @return true if a field within the containers or their childs is required
 	 */
@@ -188,6 +224,12 @@ public class DataContainerUtil {
 		return false;
 	}
 
+    /**
+     * check if the container is having fields with errors<br>
+     * also checks the {@link DataContainer} children
+     * @param container the container to check
+     * @return true if the container is having fields errors
+     */	
 	public static boolean havingErrorFields(DataContainer container) {
 		List fields = container.getFields();
 		for (Iterator iterator = fields.iterator(); iterator.hasNext();) {
@@ -202,6 +244,13 @@ public class DataContainerUtil {
 		return result;
 	}	
 	
+	
+    /**
+     * check if the container is modified<br>
+     * also checks the {@link DataContainer} children
+     * @param container the container to check
+     * @return true if the container is modified
+     */ 	
 	public static boolean isModified(DataContainer container)
 	{
 		List fields = container.getFields();
@@ -225,7 +274,11 @@ public class DataContainerUtil {
 		return false;
 	}
 	
-	public static boolean resetModifiedFlag(DataContainer container)
+	/**
+	 * reset the modified flag of all fields and all children {@link DataContainer}
+	 * @param container the container to reset the modified flag
+	 */
+	public static void resetModifiedFlag(DataContainer container)
 	{
 		List fields = container.getFields();
 		for (Iterator iter = fields.iterator(); iter.hasNext();) {
@@ -239,13 +292,15 @@ public class DataContainerUtil {
 			DataContainer child = (DataContainer) iter.next();
 			resetModifiedFlag(child);
 		}
-		return false;
 	}
 
 	
     /**
-     * return all messages of all containers in that editBean
-     * @return
+     * return all messages of all containers<br>
+     * doesn't include the children of the containers
+     * @param containers List with {@link DataContainer} objects
+     * 
+     * @return MessagesList with messages of all containers
      */
 	public static MessageList getContainerMessages(List containers) {
 		MessageList list = new MessageList();
@@ -258,7 +313,7 @@ public class DataContainerUtil {
 
     /**
      * clear all messages of all containers in that editBean
-     * @return
+     * @param containers List with {@link DataContainer} objects
      */
 	public static void clearContainerMessages(List containers) {
 		for (Iterator iter = containers.iterator(); iter.hasNext();) {
@@ -269,8 +324,8 @@ public class DataContainerUtil {
 
 	/**
 	 * Gets the interface class of a dataContainer
-	 * @param dataContainer
-	 * @return
+	 * @param dataContainer the dataContainer to find the Interface class
+	 * @return the Interface class of a datacontainer
 	 */
 	public static Class getDataContainerInterface(DataContainer dataContainer) {
 		Class[] interfaces = dataContainer.getClass().getInterfaces();
@@ -298,8 +353,8 @@ public class DataContainerUtil {
 
 	/**
 	 * sets the visibility of the fields of the given Container
-	 * @param container
-	 * @param visible
+	 * @param container the container with the fields to change the visibility on
+	 * @param visible true=show,false=hide
 	 */
 	public static void setVisibilityOfFields(DataContainer container, boolean visible) {
 		List fields = container.getFields();
@@ -311,7 +366,7 @@ public class DataContainerUtil {
 
 	/**
 	 * checks if the field is set, is having a boolean and is true
-	 * @param booleanField
+	 * @param booleanField the field
 	 * @return true if the field is set, is having a boolean and is true
 	 */
     public static boolean isTrue(LabeledBaseInputComponentIf booleanField) {
@@ -322,7 +377,7 @@ public class DataContainerUtil {
 
     /**
      * checks if the field is set
-     * @param field
+     * @param field the field
      * @return true if the field is set
      */
     public static boolean isSet(LabeledBaseInputComponentIf field) {

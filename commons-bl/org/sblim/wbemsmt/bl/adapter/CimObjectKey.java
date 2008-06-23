@@ -29,9 +29,16 @@ import java.util.List;
 
 import javax.cim.CIMObjectPath;
 
+import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFco;
 import org.sblim.wbemsmt.bl.tree.ICIMInstanceNode;
 
+/**
+ * A key to select a object within a AdapterClass
+ * <br>
+ * Can consist of a CIMObjectPath or an artificial key<br>
+ * can contain a chiuld element to build hierarchical keys
+ */
 public class CimObjectKey  {
 
 	private CIMObjectPath objectPath;
@@ -40,8 +47,8 @@ public class CimObjectKey  {
 	private AbstractWbemsmtFco cimObject;
 
 	/**
-	 * Create a new Key with the object path of the given managedElement
-	 * @param managedElement
+	 * Create a new Key with the object path of the given cimObject
+	 * @param cimObject the object cotaining the path
 	 */
 	public CimObjectKey(AbstractWbemsmtFco cimObject)
 	{
@@ -51,29 +58,41 @@ public class CimObjectKey  {
 
 	/**
 	 * Create a new Key with the object path
-	 * @param objectPath
+	 * @param objectPath the path for the key
 	 */
 	public CimObjectKey(CIMObjectPath objectPath)
 	{
 		setObjectPath(objectPath);
 	}
 	
+	/**
+	 * create a CIMObjectKey with an artifical key
+	 * @param artificalKey the artifical key
+	 */
 	public CimObjectKey(Object artificalKey) {
         super();
         this.artificalKey = artificalKey;
     }
 
+	/**
+	 * returns the artficial key
+	 * @return the artficial key
+	 */
     public Object getArtificalKey() {
         return artificalKey;
     }
 
+    /**
+     * set the artficial key
+     * @param artificalKey the key
+     */
     public void setArtificalKey(Object artificalKey) {
         this.artificalKey = artificalKey;
     }
 
     /**
 	 * Create a new Key with the object path of the instance node
-	 * @param node
+	 * @param node the node carrying the ciminstance
 	 */
 	public CimObjectKey(ICIMInstanceNode node)
 	{
@@ -82,12 +101,16 @@ public class CimObjectKey  {
 	}
 
 	/**
-	 * Get the objectPath-Values of the keys as string
-	 * @return
+	 * Get the objectPath and artficialKey-Values of the keys as string
+	 * @return the
 	 */
 	public String getInfo() {
 	    
 		String s = objectPath != null ? objectPath.toString() : artificalKey != null ? artificalKey.toString() : "--no key--";
+        if (artificalKey != null)
+        {
+            s = s + "\n" + artificalKey;
+        }
 		if (nextKey != null)
 		{
 			s = s + "\n" + nextKey.getInfo();
@@ -97,7 +120,7 @@ public class CimObjectKey  {
 
 	/**
 	 * get the Object path of the string
-	 * @return
+	 * @return the object path
 	 */
 	public CIMObjectPath getObjectPath() {
 		return objectPath;
@@ -113,8 +136,8 @@ public class CimObjectKey  {
 
 	/**
 	 * set the path 
-	 * @param objectPath
-	 * @return
+	 * @param objectPath the object path
+	 * @return the object key
 	 */
 	public CimObjectKey setObjectPath(CIMObjectPath objectPath) {
 	    //we are cloning the objectPath but removing the host and the port
@@ -124,7 +147,7 @@ public class CimObjectKey  {
 	
 	/**
 	 * get the child-key 
-	 * @return
+	 * @return the child-key - can be null
 	 */
 	public CimObjectKey getNextKey() {
 		return nextKey;
@@ -132,8 +155,8 @@ public class CimObjectKey  {
 	
 	/**
 	 * set the child key
-	 * @param key
-	 * @return
+	 * @param key the child
+	 * @return this key
 	 */
 	public CimObjectKey setNextKey(CimObjectKey key) {
 		this.nextKey =key;
@@ -143,7 +166,7 @@ public class CimObjectKey  {
 	
 	/**
 	 * get a list of this key element and all keys below
-	 * @return
+	 * @return a list with {@link CimObjectKey} instances
 	 */
 	public List getKeyList()
 	{
@@ -153,8 +176,9 @@ public class CimObjectKey  {
 	}
 	
 	/**
-	 * helper method to add keys to a list
-	 * @param result
+	 * helper method to add keys to a list<br>
+	 * adds this key and all children to the list
+	 * @param result the list with {@link CimObjectKey} elements
 	 */
 	private void addKeyToList(List result) {
 		result.add(this);
@@ -167,17 +191,13 @@ public class CimObjectKey  {
 	/**
 	 * Checks if the Object key is a key of the given class.
 	 * This is done bei checking the name of classToCheck against the objectName of the ObjectPath of this key
-	 * @param classToCheck
-	 * @return
+	 * @param fcoToCheck class of the FCO
+	 * @return true if the objectPath of the contains the same cim class name than the fcoToCheck 
 	 */
-	public boolean isForType(Class classToCheck) {
+	public boolean isForType(Class fcoToCheck) {
 		boolean result = false;
 		
-		String className = classToCheck.getName();
-		if (className.indexOf(".") > -1)
-		{
-			className = className.substring(className.lastIndexOf(".")+1);
-		}
+		String className = ClassUtils.getShortClassName(fcoToCheck);
 		result = objectPath.getObjectName().equals(className);
 		return result;
 	}
@@ -211,6 +231,7 @@ public class CimObjectKey  {
 	}
 	
 	/**
+	 * @param o the object to compar
 	 * @return true if the hashcode of this key and the given Object is the same
 	 */
 	public boolean equals(Object o)

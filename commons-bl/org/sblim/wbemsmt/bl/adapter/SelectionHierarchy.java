@@ -24,13 +24,24 @@ package org.sblim.wbemsmt.bl.adapter;
 
 import java.util.Stack;
 
+import org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFco;
+
+/**
+  * Description: Class for selecting Objects within an adapter class the
+  * subclasses can use the push Method to add new Object and to validate if the Object can be added
+  * 
+  * Wrapper class for java.util.Stack
+  */
 public class SelectionHierarchy {
 
+    /**
+     * the internal used stack
+     */
 	Stack stack = new Stack();
 
 	/**
 	 * return the number of elements currently selected
-	 * @return
+	 * @return the number of elements currently selected
 	 */
 	public int size() {
 		return stack.size();
@@ -46,32 +57,38 @@ public class SelectionHierarchy {
 	}
 
 	/**
-	 * Gets the deepest Element of this selectionHierarchy and DOES removes it
+	 * Gets the element at the top of this selectionHierarchy and DOES removes it
+	 * @return the element at at the top 
+	 * @see Stack#pop()
 	 */
 	public Object pop() {
 		return stack.pop();
 	}
 
 	/**
-	 * Gets the deepest Element of this selectionHierarchy and DOESN'T remove it
+	 * Gets the element at the top of this selectionHierarchy and DOESN'T remove it
+     * @return the element at at the top 
+     * @see Stack#peek()
 	 */
 	public Object peek() {
 		return stack.peek();
 	}
 	
 	/**
-	 * add a new Element at the end of the selectionHierarchy
-	 * @param o
+	 * add a new Element at the top of the selectionHierarchy
+	 * @param fco the object to add
+	 * @
+	 * 
 	 */
-	protected void push(Object o)
+	protected void push(AbstractWbemsmtFco fco)
 	{
-		stack.push(o);
+		stack.push(fco);
 	}
 	
 	/**
 	 * Get the Object at Position i
-	 * @param i
-	 * @return
+	 * @param i the position (from 0 to {@link #size()} -1
+	 * @return the object
 	 */
 	public Object get(int i)
 	{

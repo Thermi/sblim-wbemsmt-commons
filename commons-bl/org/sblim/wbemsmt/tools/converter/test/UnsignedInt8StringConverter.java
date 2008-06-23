@@ -24,7 +24,6 @@ package org.sblim.wbemsmt.tools.converter.test;
 import javax.cim.UnsignedInteger16;
 import javax.cim.UnsignedInteger8;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class UnsignedInt8StringConverter implements Converter {
@@ -68,7 +67,7 @@ public class UnsignedInt8StringConverter implements Converter {
 		return false;
 	}
 
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInteger16.class);
+	public Class getTypeForModel() {
+		return UnsignedInteger16.class;
 	}	
 }

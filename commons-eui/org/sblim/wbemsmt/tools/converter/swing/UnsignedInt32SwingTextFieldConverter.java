@@ -24,7 +24,6 @@ package org.sblim.wbemsmt.tools.converter.swing;
 import javax.cim.UnsignedInteger32;
 import javax.swing.JTextField;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class UnsignedInt32SwingTextFieldConverter implements Converter {
@@ -60,8 +59,8 @@ public class UnsignedInt32SwingTextFieldConverter implements Converter {
 		return false;
 	}
 	
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInteger32.class);
+	public Class getTypeForModel() {
+		return UnsignedInteger32.class;
 	}	
 
 }

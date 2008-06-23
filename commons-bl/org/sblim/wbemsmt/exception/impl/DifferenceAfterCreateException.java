@@ -25,9 +25,9 @@ import java.util.List;
 import javax.cim.CIMInstance;
 import javax.cim.CIMProperty;
 
-import org.sblim.wbemsmt.bl.ErrCodes;
-import org.sblim.wbemsmt.bl.adapter.Message;
 import org.sblim.wbemsmt.bl.fco.AbstractWbemsmtFco;
+import org.sblim.wbemsmt.bl.messages.ErrCodes;
+import org.sblim.wbemsmt.bl.messages.Message;
 import org.sblim.wbemsmt.exception.ErrorCodeForUserException;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.exception.impl.userobject.DifferenceAfterCreateUserObject;

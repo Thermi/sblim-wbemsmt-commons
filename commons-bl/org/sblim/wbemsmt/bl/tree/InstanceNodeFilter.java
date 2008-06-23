@@ -19,7 +19,15 @@
   */
 package org.sblim.wbemsmt.bl.tree;
 
+/**
+ * lass to filter Innstance nodes
+ */
 public interface InstanceNodeFilter {
+    /**
+     * method to define which instance node should be accepted
+     * @param node the node to check
+     * @return true if the node is okay and should be accepted by the caller
+     */
     public boolean accept(ICIMInstanceNode node);
     
 }

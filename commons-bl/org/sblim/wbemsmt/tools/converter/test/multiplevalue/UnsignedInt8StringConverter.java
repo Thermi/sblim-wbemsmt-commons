@@ -27,7 +27,6 @@ import java.util.List;
 
 import javax.cim.UnsignedInteger8;
 
-import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.tools.converter.Converter;
 
 public class UnsignedInt8StringConverter extends MultipleValueConverter implements Converter {
@@ -45,8 +44,8 @@ public class UnsignedInt8StringConverter extends MultipleValueConverter implemen
 		return result;
 	}
 
-	public String getTypeForModel() {
-		return ClassUtils.getShortClassName(UnsignedInteger8.class);
+	public Class getTypeForModel() {
+		return UnsignedInteger8.class;
 	}	
 
 }

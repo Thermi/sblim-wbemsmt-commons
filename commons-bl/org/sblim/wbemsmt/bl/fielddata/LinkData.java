@@ -22,8 +22,7 @@ package org.sblim.wbemsmt.bl.fielddata;
 import org.sblim.wbemsmt.tasklauncher.event.TaskLauncherContextMenuEventListener;
 
 /**
- * @author Bauschert
- *
+ * DataObject for Links
  */
 public class LinkData implements FieldData {
 	
@@ -31,6 +30,11 @@ public class LinkData implements FieldData {
 	private String linkText;
 
 
+	/**
+	 * create a new link
+	 * @param listener the listener (should be the presentation layer independent version)
+	 * @param linkText the translated text of the link
+	 */
 	
 	public LinkData(TaskLauncherContextMenuEventListener listener, String linkText) {
 		super();
@@ -39,19 +43,34 @@ public class LinkData implements FieldData {
 	}
 
 
+	/**
+	 * @return the listener
+	 */
 
 	public TaskLauncherContextMenuEventListener getListener() {
 		return listener;
 	}
 
+	/**
+	 * set the listener
+	 * @param listener the listener
+	 */
 	public void setListener(TaskLauncherContextMenuEventListener listener) {
 		this.listener = listener;
 	}
 
+	/**
+	 * get the translated link text
+	 * @return the text
+	 */
 	public String getLinkText() {
 		return linkText;
 	}
 
+	/**
+	 * set the translated link text
+	 * @param linkText the text
+	 */
 	public void setLinkText(String linkText) {
 		this.linkText = linkText;
 	}

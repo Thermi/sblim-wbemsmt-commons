@@ -27,9 +27,9 @@ import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
 
-import org.sblim.wbemsmt.bl.ErrCodes;
-import org.sblim.wbemsmt.bl.adapter.Message;
-import org.sblim.wbemsmt.bl.adapter.MessageUtil;
+import org.sblim.wbemsmt.bl.messages.ErrCodes;
+import org.sblim.wbemsmt.bl.messages.Message;
+import org.sblim.wbemsmt.bl.messages.MessageUtil;
 import org.sblim.wbemsmt.bl.tree.ITaskLauncherTreeNode;
 import org.sblim.wbemsmt.bl.tree.ITreeSelector;
 import org.sblim.wbemsmt.bl.tree.TaskLauncherTreeNodeEvent;

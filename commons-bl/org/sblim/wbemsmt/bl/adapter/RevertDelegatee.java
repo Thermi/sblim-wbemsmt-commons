@@ -19,6 +19,9 @@
   */
 package org.sblim.wbemsmt.bl.adapter;
 
+/**
+ * Marker Interface for Delegatee Handling revert Action
+ */
 public interface RevertDelegatee {
 
 }
