@@ -223,8 +223,8 @@ public abstract class AbstractWbemsmtFcoHelper {
             String cimClassName = (packageList[i]) + className;
             try {
                 clazz = Class.forName(cimClassName);
-            }
-            catch (ClassNotFoundException e) {
+            }catch (ClassNotFoundException e) {
+            }catch (Throwable e) { // Added to resolve issue with JVM v6            	
             }
         }
         return clazz;
