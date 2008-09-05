@@ -151,7 +151,7 @@ public class ResourceBundleManager
 	public static synchronized WbemSmtResourceBundle getResourceBundle(String[] array,Locale locale, boolean forceLoading)
 	{
 		ClassLoader loader = null;
-		return getResourceBundle(array,locale,loader, false);
+		return getResourceBundle(array,locale,loader, forceLoading);
 	}	
 	/**
 	 * loads all the given ResourceBundle in the given order. New read resorceBundles are added to existing ones.
