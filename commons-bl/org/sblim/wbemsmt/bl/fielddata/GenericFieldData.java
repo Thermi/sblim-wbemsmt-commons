@@ -291,7 +291,12 @@ public final class GenericFieldData  implements FieldData {
                 int idx = 0;
                 if (value != null)
                 {
-                    idx = ((Number)value).intValue();
+                	for(int i = 0; i<valueMap.length; i++){
+                		if (Integer.parseInt(valueMap[i]) == ((Number)value).intValue()){
+                			idx = i;
+                			break;
+                		}
+                	}
                 }
                 if (values != null)
                 {
