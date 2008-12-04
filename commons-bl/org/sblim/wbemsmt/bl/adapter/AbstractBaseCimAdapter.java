@@ -427,7 +427,11 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		lastSelectedKey = keyToSelect;
 	}
 	
-
+	public void setLastKeySelect(CimObjectKey key){
+		this.lastSelectedKey = key;
+	}
+	
+	
     /**
 	 * Init container is called after the container
 	 * Here the implementor can add things that are existant from start on and independent on 
@@ -1164,6 +1168,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			logger.log(Level.SEVERE, "Cannot create Object with Method " + methodName + "(" + interfaceClass.getName().toString() + "). Method not exists");
 			throw new WbemsmtException(WbemsmtException.ERR_CREATE_OBJECT,"Internal error");
 		} catch (InvocationTargetException e) {
+			e.printStackTrace();
 			Throwable t = e.getTargetException();
 			logger.log(Level.SEVERE, "Cannot create Object with Method " + methodName,t);
 			if (t instanceof WbemsmtException) {
