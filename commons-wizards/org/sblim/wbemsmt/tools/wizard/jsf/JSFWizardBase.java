@@ -132,6 +132,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 		container.getPages().put(actualPanelName, currentPanel);
 		
 		baseCimAdapter.initWizard(this,(DataContainer) currentPanel,actualPanelName);
+		currentPanel.countAndCreateChildren();
 		baseCimAdapter.updateControls((DataContainer) currentPanel);
 		
 		MessageList list = MessageList.init(((DataContainer) currentPanel));
