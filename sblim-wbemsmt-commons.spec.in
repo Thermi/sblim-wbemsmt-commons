@@ -127,6 +127,9 @@ mv target/package/help/* $RPM_BUILD_ROOT%{_localstatedir}/lib/sblim-wbemsmt/help
 ###############################################################################
 %changelog
 
+* Wed Jun 17 2009 Jeremy Bongio <jbongio@us.ibm.com> 0.5.6-1
+  - Maintenance release
+
 * Mon Jun 23 2008 Michael Bauschert <michael.bauschert@de.ibm.com> 0.5.5-CVS	
 	o 1992943 wbemsmt-client: code cleanup
 	o 1990530 wbemsmt-commons : remove java1.4-incompatbile codechanges
