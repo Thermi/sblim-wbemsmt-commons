@@ -1,14 +1,14 @@
 /** 
   *LabeledJSFRadioButtonComponent.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -40,7 +40,7 @@ public class LabeledJSFRadioButtonComponent extends LabeledJSFInputComponent imp
 
 	public LabeledJSFRadioButtonComponent(DataContainer parent, String labelText, String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id , FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectOneRadio.COMPONENT_TYPE), converter,readOnly);
-		setComponentBindings1(this, id);
+		setComponentExpressions1(this, id);
 	}
 	
 	/**
@@ -52,7 +52,7 @@ public class LabeledJSFRadioButtonComponent extends LabeledJSFInputComponent imp
 	protected void createReadOnlyRadioButton(String id, HtmlSelectOneRadio writeableComponent) {
 		
 		//overwrite the rendered State of the component
-		writeableComponent.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && !" + id +"Disabled}"));
+		writeableComponent.setValueExpression("rendered", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id +"Rendered" + " && !" + id +"Disabled}", Object.class));
 		
 
 		//add the table to ComponentPanel.If the ComponentPanel not exists - create one and add the writableComponent first 
@@ -69,8 +69,8 @@ public class LabeledJSFRadioButtonComponent extends LabeledJSFInputComponent imp
 		{
 			readOnlyLabel = (HtmlOutputLabel)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputLabel.COMPONENT_TYPE);			
 		}
-		readOnlyLabel.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"SelectedReadOnlyRadioButtonValue}"));
-		readOnlyLabel.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && " + id +"Disabled}"));
+		readOnlyLabel.setValueExpression("value", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id +"SelectedReadOnlyRadioButtonValue}", Object.class));
+		readOnlyLabel.setValueExpression("rendered", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id +"Rendered" + " && " + id +"Disabled}", Object.class));
 		
 		if (newLabel)
 		{
@@ -80,36 +80,36 @@ public class LabeledJSFRadioButtonComponent extends LabeledJSFInputComponent imp
 	
 	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
 		super.installProperties(comp, prefix);
-		setComponentBindings1((LabeledJSFRadioButtonComponent) comp,prefix);
+		setComponentExpressions1((LabeledJSFRadioButtonComponent) comp,prefix);
 	}
 
-	private static void setComponentBindings1(LabeledJSFRadioButtonComponent component, String id) {
+	private static void setComponentExpressions1(LabeledJSFRadioButtonComponent component, String id) {
 		HtmlSelectOneRadio menu = ((HtmlSelectOneRadio)component.getComponent());
 		
-		setComponentBindings(menu, id);
+		setComponentExpressions(menu, id);
 		
 		component.createReadOnlyRadioButton(id, menu);	
 	}
 
-    public static void setComponentBindings(HtmlSelectOneRadio menu, String id) {
+    public static void setComponentExpressions(HtmlSelectOneRadio menu, String id) {
         //prevents the validator to be called
 		menu.setRequired(false);
 		
 		menu.setOnchange(JavascriptUtil.getInputFieldValueChangedCall());
 		
-		String binding = "#{" + id +"}";
+		String expression = "#{" + id +"}";
 		if (logger.isLoggable(Level.FINE)) {
-			logger.fine("Create binding for Element " + id + " : " + binding);
+			logger.fine("Create expression for Element " + id + " : " + expression);
 		}
-		menu.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
+		menu.setValueExpression("value", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), expression, Object.class));
 		
 		UISelectItems items = (UISelectItems) FacesContext.getCurrentInstance().getApplication().createComponent(UISelectItems.COMPONENT_TYPE);
 		
-		binding = "#{" + id +"Values}";
+		expression = "#{" + id +"Values}";
 		if (logger.isLoggable(Level.FINE)) {
-			logger.fine("Create binding for Element " + id + " : " + binding);
+			logger.fine("Create expression for Element " + id + " : " + expression);
 		}
-		items.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
+		items.setValueExpression("value", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), expression, Object.class));
 		menu.getChildren().add(items);
     }
 	

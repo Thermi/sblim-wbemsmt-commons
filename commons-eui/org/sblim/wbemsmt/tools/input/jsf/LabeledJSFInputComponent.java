@@ -1,14 +1,14 @@
 /** 
  * LabeledJSFInputComponent.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author:	Michael Bauschert <Michael.Bauschert@de.ibm.com>
  *
@@ -61,7 +61,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
      * list with items (Strings) displayed in a Combobox, a List etc
      * @see #setValues(String[])
      */
-	protected List itemValues = new ArrayList();
+	protected List<SelectItem> itemValues = new ArrayList<SelectItem>();
 	
 	/**
 	 * the panel carrying the input component {@link #getComponent()}
@@ -93,7 +93,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	 * key: the name of the stylsheet property (example: font-family)
 	 * value: the value of that property
 	 */
-	private Map styles = null;
+	private Map<String, String> styles = null;
 	
 	/**
 	 * the style property to be used by a JSF runtime
@@ -141,7 +141,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	 * 
 	 * @param parent
 	 * @param labelText
-	 * @param pId The prefix for creating the dataBinding ends with Item so a Binding "#{" + id +"}" will access the method getItem of the Input Component
+	 * @param pId The prefix for creating the dataExpression ends with Item so a Expression "#{" + id +"}" will access the method getItem of the Input Component
 	 * @param component
 	 * @param converter
 	 * @param readOnly
@@ -156,26 +156,26 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		this.component = component;
 		this.component.setId(id);
 		
-		setComponentBindings(this.component,pId);
+		setComponentExpressions(this.component,pId);
 		
 
 		componentPanel = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
-		componentPanel.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"Rendered}"));
+		componentPanel.setValueExpression("rendered", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + pId +"Rendered}", Object.class));
 		componentPanel.getChildren().add(component);
 		
 		this.labelPanel = (HtmlPanelGroup) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 		this.labelPanel.setStyle("white-space: nowrap; vertical-align:bottom; padding-top:3px;");
-		this.labelPanel.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"LabelRendered}"));
+		this.labelPanel.setValueExpression("rendered", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + pId +"LabelRendered}", Object.class));
 
 		this.label = (HtmlOutputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
-		label.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"LabelRendered}"));
+		label.setValueExpression("rendered", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + pId +"LabelRendered}", Object.class));
 		label.setEscape(false);
 		
 		
 		suffix = component instanceof HtmlSelectBooleanCheckbox ? "" : ": ";
 		if (!(component instanceof HtmlCommandButton))
 		{
-			label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"LabelText}"));
+			label.setValueExpression("value", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + pId +"LabelText}", Object.class));
 		}
 		else
 		{
@@ -185,10 +185,10 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		setItemDisabled(readOnly);
 		
 		this.fieldIndicator = (HtmlGraphicImage) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlGraphicImage.COMPONENT_TYPE);
-		this.fieldIndicator.setValueBinding("alt", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"FieldIndicatorAltText}"));
-		this.fieldIndicator.setValueBinding("title", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"FieldIndicatorAltText}"));
-		this.fieldIndicator.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"FieldIndicator}"));
-		this.fieldIndicator.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + pId +"FieldIndicatorRendered}"));
+		this.fieldIndicator.setValueExpression("alt", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + pId +"FieldIndicatorAltText}", Object.class));
+		this.fieldIndicator.setValueExpression("title", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + pId +"FieldIndicatorAltText}", Object.class));
+		this.fieldIndicator.setValueExpression("value", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + pId +"FieldIndicator}", Object.class));
+		this.fieldIndicator.setValueExpression("rendered", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + pId +"FieldIndicatorRendered}", Object.class));
 
 		labelPanel.getChildren().add(fieldIndicator);
 		labelPanel.getChildren().add(label);
@@ -211,10 +211,10 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
             Converter converter, boolean readOnly) {
     }
 
-    private void setComponentBindings(UIComponent comp, String binding) {
-		comp.setValueBinding("disabled", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + binding +"Disabled}"));
-		comp.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + binding +"Rendered}"));
-		comp.setValueBinding("style", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + binding +"Style}"));
+    private void setComponentExpressions(UIComponent comp, String expression) {
+		comp.setValueExpression("disabled", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + expression +"Disabled}", Object.class));
+		comp.setValueExpression("rendered", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + expression +"Rendered}", Object.class));
+		comp.setValueExpression("style", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + expression +"Style}", Object.class));
 	}
 
 	public HtmlPanelGroup getLabelPanel() {
@@ -336,9 +336,9 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 			}
 			
 			if (obj instanceof List) {
-				List values = (List) obj;
+				List<Number> values = (List<Number>) obj;
 				StringBuffer sb = new StringBuffer();
-				for (Iterator iter = values.iterator(); iter.hasNext();) {
+				for (Iterator<Number> iter = values.iterator(); iter.hasNext();) {
 					Number n = (Number) iter.next();
 					if (n != null && n.intValue() > 0 && n.intValue() <  getValues().length)
 					{
@@ -431,7 +431,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
             }
             else if (currentItem instanceof HtmlSelectOneMenu )
             {
-                return GenericFieldData.createComboBoxField((UnsignedInteger16)c.getListConverter().convertForModel(item));
+                return GenericFieldData.createComboBoxField((UnsignedInteger16)c.getListConverter().convertForModel((String)item));
             }
             else if (currentItem instanceof HtmlInputSecret)
             {
@@ -439,7 +439,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
             }
             else if (currentItem instanceof HtmlSelectOneRadio )
             {
-                return GenericFieldData.createRadioButtonField((UnsignedInteger16)c.getListConverter().convertForModel(item));
+                return GenericFieldData.createRadioButtonField((UnsignedInteger16)c.getListConverter().convertForModel((String)item));
             }
             else if (currentItem instanceof HtmlCommandButton )
             {
@@ -565,11 +565,11 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		}		
 		else if (component instanceof HtmlSelectManyListbox)
 		{
-			itemList = (List) converter.convertForGui(controlValue);
+			itemList = (List<Object>) converter.convertForGui(controlValue);
 		}		
 		else if (component instanceof HtmlSelectManyMenu)
 		{
-			itemList = (List) converter.convertForGui(controlValue);
+			itemList = (List<Object>) converter.convertForGui(controlValue);
 		}		
 		else if (component instanceof HtmlCommandButton)
 		{
@@ -621,7 +621,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		item = object;
 	}
 
-	public void addEntries(List list, String[] entries) {
+	public void addEntries(List<SelectItem> list, String[] entries) {
 		
 		this.entries = entries;
 		
@@ -701,14 +701,14 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		
 		if (styles == null)
 		{
-			styles = new HashMap();
+			styles = new HashMap<String, String>();
 		}
 		styles.put(key,value);
 		StringBuffer sb = new StringBuffer();
 		
-		Iterator iterator = styles.entrySet().iterator();
+		Iterator<Map.Entry<String, String>> iterator = styles.entrySet().iterator();
 		while (iterator.hasNext()) {
-			Map.Entry entry = (Map.Entry) iterator.next();
+			Map.Entry<String, String> entry = iterator.next();
 			if(sb.length() > 0)
 			{
 				sb.append(";");
@@ -718,7 +718,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		return sb.toString();
 	}
 	
-	public List getItemValues()
+	public List<SelectItem> getItemValues()
 	{
 		return itemValues;
 	}
@@ -972,7 +972,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	protected HtmlOutputText createLabelForMultipleValues(String id, UIComponent writeableComponent,HtmlOutputText label1) {
 
 		//overwrite the rendered State of the component
-		writeableComponent.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && !" + id +"Disabled}"));
+		writeableComponent.setValueExpression("rendered", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id +"Rendered" + " && !" + id +"Disabled}", Object.class));
 
 		
 		//we create a table which is used if the List is readOnly
@@ -980,9 +980,9 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 		if (newLabel)
 		{
 			label1 = (HtmlOutputText)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
-			label1.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && " + id +"Disabled}"));
+			label1.setValueExpression("rendered", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id +"Rendered" + " && " + id +"Disabled}", Object.class));
 		}
-		label1.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id + "MultipleValues}"));
+		label1.setValueExpression("value", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id + "MultipleValues}", Object.class));
 
 		
 
@@ -1008,8 +1008,7 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	protected HtmlOutputLabel createReadOnlyCheckbox(String id, HtmlSelectBooleanCheckbox writeableComponent, HtmlOutputLabel label) {
 		
 		//overwrite the rendered State of the component
-		writeableComponent.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && !" + id +"Disabled}"));
-		
+		writeableComponent.setValueExpression("rendered", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id +"Rendered" + " && !" + id +"Disabled}", Object.class));
 		//Add the label to the col
 		boolean isNew = label == null;
 		if (isNew)
@@ -1036,8 +1035,8 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 				getLabelPanel().getChildren().add(label);
 		}
 		
-		label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"SelectedReadOnlyCheckboxValue}"));
-		label.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"Rendered" + " && " + id +"Disabled}"));
+		label.setValueExpression("value", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id +"SelectedReadOnlyCheckboxValue}", Object.class));
+		label.setValueExpression("rendered", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id +"Rendered" + " && " + id +"Disabled}", Object.class));
 
 		return label;
 		
@@ -1117,8 +1116,8 @@ public abstract class LabeledJSFInputComponent extends LabeledBaseInputComponent
 	}
 
 	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
-		//comp.getComponent().setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + prefix +"}"));
-		setComponentBindings(comp.getComponent(), prefix);
+		//comp.getComponent().setValueExpression("value", FacesContext.getCurrentInstance().getApplication().createValueExpression("#{" + prefix +"}"));
+		setComponentExpressions(comp.getComponent(), prefix);
 	}
 
 	/**

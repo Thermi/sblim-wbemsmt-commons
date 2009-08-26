@@ -1,14 +1,14 @@
 /** 
  * CimObjectKey.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
  *
@@ -168,9 +168,9 @@ public class CimObjectKey  {
 	 * get a list of this key element and all keys below
 	 * @return a list with {@link CimObjectKey} instances
 	 */
-	public List getKeyList()
+	public List<CimObjectKey> getKeyList()
 	{
-		List result = new ArrayList();
+		List<CimObjectKey> result = new ArrayList<CimObjectKey>();
 		addKeyToList(result);
 		return result;
 	}
@@ -180,7 +180,7 @@ public class CimObjectKey  {
 	 * adds this key and all children to the list
 	 * @param result the list with {@link CimObjectKey} elements
 	 */
-	private void addKeyToList(List result) {
+	private void addKeyToList(List<CimObjectKey> result) {
 		result.add(this);
 		if (nextKey != null)
 		{
@@ -190,11 +190,11 @@ public class CimObjectKey  {
 	
 	/**
 	 * Checks if the Object key is a key of the given class.
-	 * This is done bei checking the name of classToCheck against the objectName of the ObjectPath of this key
+	 * This is done by checking the name of classToCheck against the objectName of the ObjectPath of this key
 	 * @param fcoToCheck class of the FCO
 	 * @return true if the objectPath of the contains the same cim class name than the fcoToCheck 
 	 */
-	public boolean isForType(Class fcoToCheck) {
+	public boolean isForType(Class<?> fcoToCheck) {
 		boolean result = false;
 		
 		String className = ClassUtils.getShortClassName(fcoToCheck);
@@ -208,11 +208,11 @@ public class CimObjectKey  {
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();
-		List list = getKeyList();
+		List<CimObjectKey> list = getKeyList();
 		
 		for (int i=0; i < list.size(); i++)
 		{
-			CimObjectKey key = (CimObjectKey) list.get(i);
+			CimObjectKey key = list.get(i);
 			if (i>0)
 			{
 				sb.append("\n");

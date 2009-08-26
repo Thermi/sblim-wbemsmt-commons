@@ -1,14 +1,14 @@
  /** 
   * WbemsmtBusinessObject.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -89,7 +89,7 @@ public abstract class WbemsmtBusinessObject {
      * @throws WbemsmtException if there was no child or is not of the type defined by  mustReturnThis
      */
     
-	protected Object getFirstChild(Class mustReturnThis, List list, boolean silent) throws WbemsmtException {
+	protected Object getFirstChild(Class<?> mustReturnThis, List<? extends Object> list, boolean silent) throws WbemsmtException {
 		return getFirstChild(mustReturnThis, list, silent, false, baseCimAdapter.getCimClient(), baseCimAdapter.getNamespace());
 	}
 
@@ -103,7 +103,7 @@ public abstract class WbemsmtBusinessObject {
      * @throws WbemsmtException if there was no child or is not of the type defined by  mustReturnThis
      */
 
-	protected Object getFirstChild(Class mustReturnThis, List list, boolean silent,boolean createIfNotExists) throws WbemsmtException {
+	protected Object getFirstChild(Class<?> mustReturnThis, List<? extends Object> list, boolean silent,boolean createIfNotExists) throws WbemsmtException {
 		return getFirstChild(mustReturnThis, list, silent, createIfNotExists, baseCimAdapter.getCimClient(), baseCimAdapter.getNamespace());
 	}
 
@@ -119,7 +119,7 @@ public abstract class WbemsmtBusinessObject {
      * @throws WbemsmtException if there was no child or is not of the type defined by  mustReturnThis
      */
 
-	protected static Object getFirstChild(Class mustReturnThis, List list, boolean silent, boolean createIfNotExists, WBEMClient client, String namespace) throws WbemsmtException {
+	protected static Object getFirstChild(Class<?> mustReturnThis, List<? extends Object> list, boolean silent, boolean createIfNotExists, WBEMClient client, String namespace) throws WbemsmtException {
 		if (!silent && list.size() != 1)
 		{
 			logger.severe("Cannot get Element of Type " + mustReturnThis.getName() + " beause not exact one element was found in List. Found: " + list.size());
@@ -168,7 +168,7 @@ public abstract class WbemsmtBusinessObject {
 				String helper = mustReturnThis.getName() + "Helper";
 				Object fco = null;
 				try {
-					Class clsHelper = Class.forName(helper);
+					Class<?> clsHelper = Class.forName(helper);
 					Method method = clsHelper.getMethod("getInstance",new Class[]{WBEMClient.class,CIMObjectPath.class});
 					fco = method.invoke(null,new Object[]{client,path});
 					return fco;

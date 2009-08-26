@@ -1,14 +1,14 @@
 /**
  *  ObjectActionControllerBean.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * Author:    Michael.Bauschert@de.ibm.com
  *
@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.component.UIParameter;
+import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.context.FacesContext;
@@ -67,10 +68,10 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	
 	private JSFWizardBase currentWizard;
 	private HtmlPanelGrid currentEditor;
-	private Map editBeans = new HashMap();
+	private Map<String, EditBean> editBeans = new HashMap<String, EditBean>();
 	private Boolean editBeansModified = null;
 	private boolean wizardActive = false;
-	private Map adapter = new HashMap();
+	private Map<String, AbstractBaseCimAdapter> adapter = new HashMap<String, AbstractBaseCimAdapter>();
 	public String selectedTabId = "undefined";
 	public TabbedPane tabbedPane;
 	public int selectedTabIndex;
@@ -82,9 +83,9 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	public final String KEY_VERSION = "wbemsmt-version";
 	public ITaskLauncherTreeNode selectedNode;
 
-	private List welcomeContainers = new ArrayList();
+	private List<DataContainer> welcomeContainers = new ArrayList<DataContainer>();
 
-	private Map updateInterval = new HashMap();
+	private Map<String, String> updateInterval = new HashMap<String, String>();
 	
 	/**
 	 * store all the inactive CimomTreeNodes to do a login
@@ -93,7 +94,7 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	 * 
 	 * @see CimomTreeNode
 	 */
-	private List cimomTreeNodesForLogin;
+	private List<CimomTreeNode> cimomTreeNodesForLogin;
 
 	private int updateIntervalCookieMaxAge = WbemsmtCookieUtil.DEFAULT_MAX_AGE;
 
@@ -181,7 +182,7 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 		editBeans.put(key,editBean);
 	}
 	
-	public Map getEditBeans()
+	public Map<String, EditBean> getEditBeans()
 	{
 		return editBeans;
 	}
@@ -237,11 +238,11 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 		return FacesContext.getCurrentInstance().getExternalContext().getInitParameter(KEY_VERSION);
 	}
 
-	public Map getAdapter() {
+	public Map<String, AbstractBaseCimAdapter> getAdapter() {
 		return adapter;
 	}
 
-	public void setAdapter(Map adapter) {
+	public void setAdapter(Map<String, AbstractBaseCimAdapter> adapter) {
 		this.adapter = adapter;
 	}
 	
@@ -267,11 +268,11 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 
 		if (editBeansModified == null)
 		{
-			Iterator iterator = editBeans.values().iterator();
+			Iterator<EditBean> iterator = editBeans.values().iterator();
 			while (iterator.hasNext() && editBeansModified == null) {
 				EditBean editBean = (EditBean) iterator.next();
-				List containers = editBean.getContainers();
-				for (Iterator iter = containers.iterator(); iter.hasNext()  && editBeansModified == null ;) {
+				List<DataContainer> containers = editBean.getContainers();
+				for (Iterator<DataContainer> iter = containers.iterator(); iter.hasNext()  && editBeansModified == null ;) {
 					DataContainer container = (DataContainer) iter.next();
 					if (container.isModified())
 					{
@@ -390,7 +391,7 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	 * return a list with all containers of the welcome page
 	 * @return
 	 */
-	public List getWelcomeContainers() {
+	public List<DataContainer> getWelcomeContainers() {
 		return welcomeContainers;
 	}
 	
@@ -402,7 +403,7 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	 *****************************************
 	 */
 	
-	public Map getUpdateInterval() {
+	public Map<String, String> getUpdateInterval() {
 		return updateInterval ;
 	}
 	
@@ -471,7 +472,7 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 	
 	private void loadUpdateIntervalFromCookies() {
 		
-		Iterator iter = WbemsmtCookieUtil.getCookiesWithPrefix(WbemsmtCookieUtil.COOKIE_PREFIX_UPDATE_INTERVAL);
+		Iterator<Cookie> iter = WbemsmtCookieUtil.getCookiesWithPrefix(WbemsmtCookieUtil.COOKIE_PREFIX_UPDATE_INTERVAL);
 		while (iter.hasNext()) {
 			Cookie cookie = (Cookie) iter.next();
 			//remove the prefix for the key
@@ -498,11 +499,11 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
 		this.updateIntervalCookieMaxAge = updateIntervalCookieMaxAge;
 	}
 
-	public List getCimomTreeNodesForLogin() {
+	public List<CimomTreeNode> getCimomTreeNodesForLogin() {
 		return cimomTreeNodesForLogin;
 	}
 
-	public void setCimomTreeNodesForLogin(List cimomTreeNodesForLogin) {
+	public void setCimomTreeNodesForLogin(List<CimomTreeNode> cimomTreeNodesForLogin) {
 		this.cimomTreeNodesForLogin = cimomTreeNodesForLogin;
 	}
 
@@ -539,7 +540,7 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
     }
     
     private void callHandler(ActionEvent event, int action) {
-        List children = event.getComponent().getChildren();
+        List<UIComponent> children = event.getComponent().getChildren();
         UIParameter parameter = (UIParameter) children.get(0);
         
         MessageInputHandler handler =  (MessageInputHandler) parameter.getValue();
@@ -564,7 +565,10 @@ public class ObjectActionControllerBean implements IWizardController, Cleanup {
         return lastMessageInputResult;
     }
 
-    
+    public void setWelcomePanel(HtmlPanelGrid grid){	
+    }
+	
 	
 	
 }
+

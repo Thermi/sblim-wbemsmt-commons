@@ -1,14 +1,14 @@
  /** 
   * JsfUtil.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -32,7 +32,7 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlPanelGrid;
 import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
+import javax.el.ValueExpression;
 import javax.faces.event.ActionListener;
 
 import org.apache.myfaces.custom.tree2.HtmlTree;
@@ -96,20 +96,20 @@ public final class JsfUtil {
 				ActionListener listener = actionListeners[i];
 				out.println(indentionString + "actionlistener " + listener.getClass().getName());
 			}
-			if (cmd.getAction() != null)
+			if (cmd.getActionExpression() != null)
 			{
-				out.println(indentionString + "action " + cmd.getAction().getExpressionString());
+				out.println(indentionString + "action " + cmd.getActionExpression().getExpressionString());
 			}
-			if (cmd.getActionListener() != null)
+			if (cmd.getActionListeners() != null)
 			{
-				out.println(indentionString + "actionlistener " + cmd.getActionListener().getExpressionString());
+				out.println(indentionString + "actionlistener " + cmd.getActionListeners()[0].toString());
 			}
 		}
 		else if (component instanceof UIOutput) {
 			UIOutput cmd = (UIOutput) component;
 			out.println(indentionString + name + " ID " + component.getId() + "Value " + cmd.getValue()  + " Hashcode " + component.hashCode()+ " " + component.toString());
 
-			traceBinding(out, indentionString, cmd, "value");
+			traceExpression(out, indentionString, cmd, "value");
 			out.println(indentionString + "value " + cmd.getValue());
 		}
 		else
@@ -123,8 +123,8 @@ public final class JsfUtil {
 			traceComponentTree(node,out,indentionString + JsfUtil.INDENTION_STRING);
 		}
 		
-		List children = component.getChildren();
-		for (Iterator iter = children.iterator(); iter.hasNext();) {
+		List<UIComponent> children = component.getChildren();
+		for (Iterator<UIComponent> iter = children.iterator(); iter.hasNext();) {
 			UIComponent child = (UIComponent) iter.next();
 			traceComponentTree(child,out, indentionString + JsfUtil.INDENTION_STRING);
 		}
@@ -139,11 +139,11 @@ public final class JsfUtil {
 	 * @param bindingForField name of the value binding to be traced
 	 * @return the value binding
 	 */
-	private static ValueBinding traceBinding(PrintWriter out, String indention, UIOutput ui, String bindingForField) {
-		ValueBinding binding = null;
-		if (ui.getValueBinding(bindingForField) != null)
+	private static ValueExpression traceExpression(PrintWriter out, String indention, UIOutput ui, String expressionForField) {
+		ValueExpression binding = null;
+		if (ui.getValueExpression(expressionForField) != null)
 		{
-			binding = ui.getValueBinding(bindingForField);
+			binding = ui.getValueExpression(expressionForField);
 			String expressionString = binding.getExpressionString();
 			out.println(indention + "value-binding " + expressionString);
 		}
@@ -161,8 +161,8 @@ public final class JsfUtil {
 		
 		out.println(indentionString + "node " + node.getDescription());
 		
-		List children = node.getChildren();
-		for (Iterator iter = children.iterator(); iter.hasNext();) {
+		List<TreeNode> children = node.getChildren();
+		for (Iterator<TreeNode> iter = children.iterator(); iter.hasNext();) {
 			TreeNode child = (TreeNode) iter.next();
 			traceComponentTree(child,out,indentionString + JsfUtil.INDENTION_STRING);
 		}
@@ -185,7 +185,7 @@ public final class JsfUtil {
 	public static void handleExceptionEnduser(Throwable t) {
 
 		FacesContext fc = FacesContext.getCurrentInstance();
-		ILocaleManager localeManager = (ILocaleManager) BeanNameConstants.LOCALE_MANAGER.asValueBinding(fc).getValue(fc);
+		ILocaleManager localeManager = (ILocaleManager) BeanNameConstants.LOCALE_MANAGER.asValueExpression(fc).getValue(fc.getELContext());
 		Locale currentLocale = localeManager.getCurrentLocale();
 		WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages"},currentLocale);
 		
@@ -258,7 +258,7 @@ public final class JsfUtil {
 	 * @return true if the FacesContext contains errors
 	 */
 	public static boolean havingErrors() {
-		Iterator messages = FacesContext.getCurrentInstance().getMessages();
+		Iterator<FacesMessage> messages = FacesContext.getCurrentInstance().getMessages();
 		while (messages.hasNext()) {
 			FacesMessage msg = (FacesMessage) messages.next();
 			if (msg.getSeverity().equals(FacesMessage.SEVERITY_ERROR) || msg.getSeverity().equals(FacesMessage.SEVERITY_FATAL))

@@ -1,14 +1,14 @@
  /** 
   * AbstractBaseCimAdapter.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -23,7 +23,14 @@ package org.sblim.wbemsmt.bl.adapter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,8 +39,7 @@ import javax.cim.CIMObjectPath;
 import javax.faces.context.FacesContext;
 import javax.wbem.client.WBEMClient;
 
-import org.apache.commons.collections.MultiHashMap;
-import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.collections.map.MultiValueMap;
 import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.StringUtils;
 import org.sblim.wbemsmt.bl.adapter.refresh.RemoveDataContainerThread;
@@ -94,8 +100,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * @see #addValidator(DataContainer, Validator)
 	 * @see Validator
 	 */
-	private MultiHashMap validators = new MultiHashMap();
-	
+	//private Map<DataContainer, List<Validator>> validators = new HashMap<DataContainer, List<Validator>>();
+	private MultiValueMap validators = new MultiValueMap();
+
 	
 	/**
 	 * the object which represents the current selection state
@@ -106,7 +113,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * the list of the dependent adapeters
 	 * @see #addDependentAdapterForReload(AbstractBaseCimAdapter)
 	 */
-	private List reloadDependentAdapters = new ArrayList();
+	private List<AbstractBaseCimAdapter> reloadDependentAdapters = new ArrayList<AbstractBaseCimAdapter>();
 	
 	/**
 	 * the fco Helper instance
@@ -171,11 +178,11 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * @see #periodicalRefresh(DataContainer)
      * @see #periodicalRefreshEnabled(DataContainer)
 	 */
-	private Set refreshItems = new HashSet();
+	private Set<DataContainer> refreshItems = new HashSet<DataContainer>();
 	/**
 	 * Stores the time at which a DataContainer was last accessed
 	 */
-	private Map accessTimes = new HashedMap();
+	private Map<DataContainer, Long> accessTimes = new HashMap<DataContainer, Long>();
 	
 	/**
 	 * Thread that removes old dataContainers
@@ -195,7 +202,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * @see #getConfigurationValues()
 	 * @see #setConfigurationValues(Map)
 	 */
-	private Map configurationValues;
+	private Map<String, ConfigurationValueData> configurationValues;
     
 	/**
 	 * the current namespace of the server connection
@@ -387,16 +394,16 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	    logger.info("Selecting:\n " + keyToSelect.toString());		
 
 		selectionHierarchy.clear();
-		List keys = keyToSelect.getKeyList();
+		List<CimObjectKey> keys = keyToSelect.getKeyList();
 		for (int i=0; i < keys.size(); i++)
 		{
-			CimObjectKey key = (CimObjectKey)keys.get(i);
+			CimObjectKey key = keys.get(i);
 			String methodPrefix = "select_" + i + "_";
 			String name;
 			Method method = null;
 			if (key.getCimObject() != null)
 			{
-				Class cls = key.getCimObject().getClass();
+				Class<?> cls = key.getCimObject().getClass();
                 name = ClassUtils.getShortClassName(cls);
                 method = findSelectMethod(methodPrefix, cls);
 			}
@@ -440,7 +447,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * @throws WbemsmtException the exception if the init failed
 	 */
 	public void initContainer(DataContainer dataContainer) throws WbemsmtException {
-		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
+		Class<?> interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		
 		logger.fine("InitContainer: " + dataContainer + " with interface " + interfaceName);		
@@ -482,7 +489,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 */
 	public void updateControls(DataContainer dataContainer) throws WbemsmtException
 	{
-		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
+		Class<?> interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		logger.fine("UpdatingControls: " + interfaceName);		
 
@@ -529,7 +536,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * @param modelElements list with model Elements
      * @throws WbemsmtException if the action failed
 	 */
-	public void updateControls(List containerList, List modelElements) throws WbemsmtException
+	public void updateControls(List<? extends DataContainer> containerList, List<?> modelElements) throws WbemsmtException
 	{
 		if (modelElements.size() != containerList.size())
 		{
@@ -541,9 +548,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			Object modelElement = modelElements.get(i);
 			DataContainer containerElement = (DataContainer)containerList.get(i);
 
-			Class modelClass = modelElement.getClass();
+			Class<?> modelClass = modelElement.getClass();
 			
-			Class containerClass = DataContainerUtil.getDataContainerInterface(containerElement);
+			Class<?> containerClass = DataContainerUtil.getDataContainerInterface(containerElement);
 			logger.fine("updating Controls: " + containerClass.getName().toString());		
 
 			String methodName = "updateControlsImpl";
@@ -585,12 +592,12 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * @return the method - never null (in this case the NoSuchMethodException is thrown)
 	 * @throws NoSuchMethodException if the method was not found
 	 */
-	private Method findMethod(Class delegateeClass, String methodName, Class containerClass,
-            Class fcoClass) throws NoSuchMethodException {
+	private Method findMethod(Class<?> delegateeClass, String methodName, Class<?> containerClass,
+            Class<?> fcoClass) throws NoSuchMethodException {
 
 	    Method result = null;
 	    String signature = null;
-	    Class cls = fcoClass; 
+	    Class<?> cls = fcoClass; 
 	    
 	    while (cls != null && result == null)
 	    {
@@ -617,11 +624,11 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
      * @return the method - never null (in this case the NoSuchMethodException is thrown)
      * @throws NoSuchMethodException
      */
-    private Method findSelectMethod(String selectMethodPrefix, Class fcoClass)  {
+    private Method findSelectMethod(String selectMethodPrefix, Class<?> fcoClass)  {
 
         Method result = null;
         String methodName = null;
-        Class cls = fcoClass; 
+        Class<?> cls = fcoClass; 
         
         while (cls != null && result == null)
         {
@@ -713,7 +720,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			return;
 		}
 
-		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
+		Class<?> interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		logger.fine("Creating: " + interfaceName);		
 
@@ -763,7 +770,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
      * @throws WbemsmtException if the action failed
      * @return list with messages - if the message contains an error the following save actions are aborted
 	 */
-	public MessageList save(List containerList, List modelElements) throws WbemsmtException
+	public MessageList save(List<? extends DataContainer> containerList, List<?> modelElements) throws WbemsmtException
 	{
 		
 		if (modelElements.size() != containerList.size())
@@ -783,8 +790,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 				return containerElement.getMessagesList();
 			}
 			
-			Class modelClass = modelElement.getClass();
-			Class containerClass = DataContainerUtil.getDataContainerInterface(containerElement);
+			Class<?> modelClass = modelElement.getClass();
+			Class<?> containerClass = DataContainerUtil.getDataContainerInterface(containerElement);
 			logger.fine("updating Controls: " + containerClass.getName().toString());		
 
 			String methodName = "saveImpl";
@@ -851,7 +858,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			return;
 		}
 
-		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
+		Class<?> interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		logger.fine("Reverting: " + interfaceName);		
 
@@ -902,7 +909,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
      * @throws WbemsmtException if the action failed
      * @return list with messages
 	 */
-	public MessageList revert(List containerList, List modelElements) throws WbemsmtException
+	public MessageList revert(List<? extends DataContainer> containerList, List<?> modelElements) throws WbemsmtException
 	{
 		
 		if (modelElements.size() != containerList.size())
@@ -922,8 +929,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 				return containerElement.getMessagesList();
 			}
 			
-			Class modelClass = modelElement.getClass();
-			Class containerClass = DataContainerUtil.getDataContainerInterface(containerElement);
+			Class<?> modelClass = modelElement.getClass();
+			Class<?> containerClass = DataContainerUtil.getDataContainerInterface(containerElement);
 			logger.fine("updating Controls: " + containerClass.getName().toString());		
 
 			String methodName = "revertImpl";
@@ -1004,7 +1011,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		}
 		
 		this.updateTrigger = updateTrigger;
-		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
+		Class<?> interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		logger.fine("UpdateModel: " + interfaceName);		
 
@@ -1046,7 +1053,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
      * @param modelElements list with model Elements
      * @throws WbemsmtException if the action failed
      */
-	public void updateModel(List containerList, List modelElements) throws WbemsmtException
+	public void updateModel(List<DataContainer> containerList, List<?> modelElements) throws WbemsmtException
 	{
 		if (modelElements.size() != containerList.size())
 		{
@@ -1058,9 +1065,9 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			Object modelElement = modelElements.get(i);
 			DataContainer containerElement = (DataContainer)containerList.get(i);
 
-			Class modelClass = modelElement.getClass();
+			Class<?> modelClass = modelElement.getClass();
 			
-			Class containerClass = DataContainerUtil.getDataContainerInterface(containerElement);
+			Class<?> containerClass = DataContainerUtil.getDataContainerInterface(containerElement);
 			logger.fine("updating : " + containerClass.getName().toString());		
 
 			String methodName = "updateModelImpl";
@@ -1102,7 +1109,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	public void delete() throws WbemsmtException
 	{
 		Object obj = selectionHierarchy.peek();
-		Class objectClass = obj.getClass();
+		Class<?> objectClass = obj.getClass();
 
 		logger.fine("Deleting: " + objectClass.getName());		
 
@@ -1152,7 +1159,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		//This variable can be set by the business logic which is creating a new object
 		pathOfTreeNode = null;
 		
-		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
+		Class<?> interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		logger.fine("Creating: " + interfaceName);		
 
@@ -1194,7 +1201,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 */
 	private void installValidators(DataContainer dataContainer) throws WbemsmtException
 	{
-		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
+		Class<?> interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		logger.fine("InstallValidators: " + interfaceName);		
 
@@ -1235,6 +1242,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	public void addValidator(DataContainer dataContainer, Validator validator)
 	{
 		validators.put(dataContainer,validator);
+		//validators.get(dataContainer).add(validator);
 	}
 	
 	/**
@@ -1250,7 +1258,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		}
 		
 		MessageList result = new MessageList();
-		List validatorList = (List) validators.get(dataContainer);
+		List<Validator> validatorList = (List<Validator>) validators.get(dataContainer);
 		for (int i = 0; validatorList != null && i < validatorList.size(); i++) {
 			Validator validator = (Validator) validatorList.get(i);
 			result.addAll(validator.validate());
@@ -1266,7 +1274,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
      * @deprecated {@link #count(String, Class, DataContainer)} should be used
      * 
 	 */
-	public int count(Class classToCount) throws WbemsmtException
+	public int count(Class<?> classToCount) throws WbemsmtException
 	{
 		return count(classToCount, null); 		
 	}
@@ -1290,13 +1298,13 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
      * @throws WbemsmtException if the count failed or no count method was found in the delegatee
      * @deprecated count(String role, Class classToCount, DataContainer parentContainer) should be used
      */
-    public int count(Class classToCount, DataContainer parentContainer) throws WbemsmtException
+    public int count(Class<?> classToCount, DataContainer parentContainer) throws WbemsmtException
     {
         String child = ClassUtils.getShortClassName(classToCount);
         
         if (parentContainer != null)
         {
-            Class interfaceClass = DataContainerUtil.getDataContainerInterface(parentContainer);
+            Class<?> interfaceClass = DataContainerUtil.getDataContainerInterface(parentContainer);
             logger.fine("Counting " + child + " with parent " + interfaceClass.getName());       
             String methodName = "countImpl_" + child;
             logger.fine("Using method " + methodName + "( DataContainer " + interfaceClass.getName() + ")");      
@@ -1366,7 +1374,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
      * @return the amount of childen
      * @throws WbemsmtException if the count failed or if no count method was found
      */
-    public int count(String role, Class classToCount, DataContainer parentContainer) throws WbemsmtException
+    public int count(String role, Class<?> classToCount, DataContainer parentContainer) throws WbemsmtException
     {
         String child = ClassUtils.getShortClassName(classToCount);
         
@@ -1374,7 +1382,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
         
         if (parentContainer != null)
         {
-            Class interfaceClass = DataContainerUtil.getDataContainerInterface(parentContainer);
+            Class<?> interfaceClass = DataContainerUtil.getDataContainerInterface(parentContainer);
             logger.fine("Counting " + child + " with parent " + interfaceClass.getName() + " and with role " + role);       
             String methodName = "countImpl_" + role;
             logger.fine("Using method " + methodName + "(Class childClass, DataContainer " + interfaceClass.getName() + ")");      
@@ -1502,10 +1510,10 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 		
 		activeModule = ACTIVE_WIZARD;
 		
-		Class interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
+		Class<?> interfaceClass = DataContainerUtil.getDataContainerInterface(dataContainer);
 		String interfaceName = interfaceClass.getName();
 		
-		Class wizardContainerClass = base.getWizardContainer().getClass();
+		Class<?> wizardContainerClass = base.getWizardContainer().getClass();
 		String wizardContainerClassName = wizardContainerClass.getName();
 		
 		logger.fine("initWizard: " + interfaceName + " container = " + wizardContainerClassName);		
@@ -1610,8 +1618,8 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 			markedForReload = false;
 		}
 		
-		for (Iterator iter = reloadDependentAdapters.iterator(); iter.hasNext();) {
-			AbstractBaseCimAdapter adapter = (AbstractBaseCimAdapter) iter.next();
+		for (Iterator<AbstractBaseCimAdapter> iter = reloadDependentAdapters.iterator(); iter.hasNext();) {
+			AbstractBaseCimAdapter adapter = iter.next();
 			adapter.reload();
 		}
 		reloadDependentAdapters.clear();
@@ -1698,7 +1706,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * get all the containers that are refreshed periodically
 	 * @return set with {@link DataContainer} instances
 	 */
-	public Set getRefreshItems() {
+	public Set<DataContainer> getRefreshItems() {
 		return refreshItems;
 	}
 	
@@ -1729,7 +1737,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * 
 	 * @see System#currentTimeMillis()
 	 */
-	public Map getAccessTimes() {
+	public Map<DataContainer, Long> getAccessTimes() {
 		return accessTimes;
 	}
 
@@ -1786,6 +1794,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 */
 	public void setCustomTreeConfig(CustomTreeConfig customTreeConfig) {
 		this.customTreeConfig = customTreeConfig;
+		//Map<String, ConfigurationValueData>
 		setConfigurationValues(customTreeConfig.getTreeConfigData().getConfigurationMap());		
 	}
 
@@ -1805,7 +1814,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * @return key: name of configuration entry, value: value of the configuration entry type: {@link ConfigurationValueData}
 	 * @see #addConfigurationValue(String, String)
 	 */
-	public Map getConfigurationValues() {
+	public Map<String, ConfigurationValueData> getConfigurationValues() {
 		return configurationValues;
 	}
 
@@ -1814,7 +1823,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
 	 * @param configurationValues the map  
 	 * @see ConfigurationValueData
 	 */
-	public void setConfigurationValues(Map configurationValues) {
+	public void setConfigurationValues(Map<String, ConfigurationValueData> configurationValues) {
 		this.configurationValues = configurationValues;
 	}
 	
@@ -1838,7 +1847,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
     {
         if (configurationValues != null && configurationValues.get(key) != null)
         {
-            ConfigurationValueData value = (ConfigurationValueData) configurationValues.get(key);
+            ConfigurationValueData value = configurationValues.get(key);
             return value.getValue() != null ? value.getValue() : defaultValue;
         }
         else
@@ -1857,7 +1866,7 @@ public abstract class AbstractBaseCimAdapter implements CimAdapterDelegator,Loca
     {
         if (this.configurationValues  == null)
         {
-            this.configurationValues = new HashMap();
+            this.configurationValues = new HashMap<String, ConfigurationValueData>();
         }
         ConfigurationValueData data = new ConfigurationValueData(key,value);
         this.configurationValues.put(data.getName(), data);

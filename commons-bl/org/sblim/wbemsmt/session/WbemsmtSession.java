@@ -1,14 +1,14 @@
  /** 
   * WbemsmtSession.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -43,7 +43,7 @@ public class WbemsmtSession {
 	
 	private static final String KEYSUFFIX_CLIENT_POOL = "-clientPool";
 	private static WbemsmtSession session;
-	private Map sessionData = new HashMap();
+	private Map<String, Object> sessionData = new HashMap<String, Object>();
 	
 	static Logger logger = Logger.getLogger(WbemsmtSession.class.getName());
 	
@@ -66,16 +66,16 @@ public class WbemsmtSession {
 	 * @return
 	 * @see java.util.Map#entrySet()
 	 */
-	public Set entrySet()
+	public Set<Map.Entry<String, Object>> entrySet()
 	{
 		return sessionData.entrySet();
 	}
 
 	public void clear()
 	{
-		Set entries = entrySet();
-		for (Iterator iterator = entries.iterator(); iterator.hasNext();) {
-			Map.Entry entry = (Map.Entry) iterator.next();
+		Set<Map.Entry<String, Object>> entries = entrySet();
+		for (Iterator<Map.Entry<String, Object>> iterator = entries.iterator(); iterator.hasNext();) {
+			Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
 			if (((String)entry.getKey()).endsWith(KEYSUFFIX_CLIENT_POOL))
 			{
 				CIMClientPool pool = (CIMClientPool) entry.getValue();
@@ -95,7 +95,7 @@ public class WbemsmtSession {
 	 * Returns a iterator of Map.Entry Objects
 	 * @return
 	 */
-	public Iterator getEntries()
+	public Iterator<Map.Entry<String, Object>> getEntries()
 	{
 		return sessionData.entrySet().iterator();
 	}
@@ -131,9 +131,9 @@ public class WbemsmtSession {
 	 * @param prefix
 	 */
 	public void removeAttributesWithPrefix(String prefix) {
-		List toBeRemoved = new ArrayList();
+		List<String> toBeRemoved = new ArrayList<String>();
 		
-		for (Iterator iter = sessionData.keySet().iterator(); iter.hasNext();) {
+		for (Iterator<String> iter = sessionData.keySet().iterator(); iter.hasNext();) {
 			String key = (String) iter.next();
 			if (key.startsWith(prefix))
 			{
@@ -141,7 +141,7 @@ public class WbemsmtSession {
 			}
 		}
 
-		for (Iterator iter = toBeRemoved.iterator(); iter.hasNext();) {
+		for (Iterator<String> iter = toBeRemoved.iterator(); iter.hasNext();) {
 			String key = (String) iter.next();
 			removeAttribute(key);
 		}
@@ -201,9 +201,9 @@ public class WbemsmtSession {
 	 * @return
 	 */
 	public CIMClientPool getCIMClientPool(WBEMClient client) {
-		Set entries = entrySet();
-		for (Iterator iterator = entries.iterator(); iterator.hasNext();) {
-			Map.Entry entry = (Map.Entry) iterator.next();
+		Set<Map.Entry<String, Object>> entries = entrySet();
+		for (Iterator<Map.Entry<String, Object>> iterator = entries.iterator(); iterator.hasNext();) {
+			Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iterator.next();
 			if (((String)entry.getKey()).endsWith(KEYSUFFIX_CLIENT_POOL))
 			{
 				CIMClientPool pool = (CIMClientPool) entry.getValue();

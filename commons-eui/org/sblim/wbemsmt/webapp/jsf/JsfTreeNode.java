@@ -1,14 +1,14 @@
 /**
  *  JsfTreeNode.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Marius Kreis <mail@nulldevice.org>
  *
@@ -58,7 +58,7 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
                    type,
                    id;
     
-    private ArrayList children;
+    private ArrayList<JsfTreeNode> children;
     
     private JsfTreeNode parent;
     private ITaskLauncherTreeNode taskLauncherTreeNode;
@@ -73,7 +73,7 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
 
     public JsfTreeNode()
     {
-        this.children = new ArrayList();
+        this.children = new ArrayList<JsfTreeNode>();
     }
 
     public JsfTreeNode(String type, String description, boolean leaf)
@@ -96,7 +96,8 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
 //        localeChanged(manager.getCurrentLocale());
     }
     
-    public void readSubnodes() throws WbemsmtException
+    // clone() always returns an Object and _must_ be caste to a specific class
+	public void readSubnodes() throws WbemsmtException
     {
     	description = taskLauncherTreeNode.getName(); 
         ILocaleManager manager = (ILocaleManager) BeanNameConstants.LOCALE_MANAGER.getBoundValue(FacesContext.getCurrentInstance());
@@ -106,14 +107,14 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
     	
     	
         // clone the data we use to avoid concurrent modify exceptions
-        Vector subnodes = (Vector) taskLauncherTreeNode.getSubnodes().clone();
-        Iterator iter = subnodes.iterator();
+        Vector<TaskLauncherTreeNode> subnodes = (Vector<TaskLauncherTreeNode>) taskLauncherTreeNode.getSubnodes().clone();
+        Iterator<TaskLauncherTreeNode> iter = subnodes.iterator();
         
         this.children.clear();
         logger.log(Level.FINER, "Size before adding Childs to " + this.description + " " + this.children.size() + " Adding " + subnodes.size() + " childs");
         while(iter != null && iter.hasNext())
         {
-            TaskLauncherTreeNode node = (TaskLauncherTreeNode) iter.next();
+            TaskLauncherTreeNode node = iter.next();
             logger.log(Level.FINER, "Adding JsfTreeNode " + node.getName() + " childs before adding " + this.children.size());
             
             JsfTreeNode jsfNode = new JsfTreeNode(FACET_TREENODE, node.getName(), false, node);
@@ -306,7 +307,7 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
     /* (non-Javadoc)
 	 * @see org.sblim.wbemsmt.tasklauncher.jsf.ITaskLauncherUiTreeNode#getChildren()
 	 */
-    public List getChildren()
+    public List<JsfTreeNode> getChildren()
     {
         return children;
     }
@@ -314,7 +315,7 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
     /* (non-Javadoc)
 	 * @see org.sblim.wbemsmt.tasklauncher.jsf.ITaskLauncherUiTreeNode#setChildren(java.util.ArrayList)
 	 */
-    public void setChildren(ArrayList children)
+    public void setChildren(ArrayList<JsfTreeNode> children)
     {
         this.children = children;
     }
@@ -359,12 +360,13 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
     	return (menu != null) && menu.getMenuItems().size() > 0;
     }
     
-    public Object clone()
+    // clone() will only return an Object, which must then be caste.
+	public Object clone()
     {
         try
         {
             JsfTreeNode cloned = (JsfTreeNode) super.clone();
-            cloned.setChildren((ArrayList) this.children.clone());
+            cloned.setChildren((ArrayList<JsfTreeNode>) this.children.clone());
             cloned.setTaskLauncherTreeNode((TaskLauncherTreeNode) this.taskLauncherTreeNode.clone());
             return cloned;
         }
@@ -448,7 +450,7 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
 
 	public String[] getPath(HtmlTree tree) {
 
-		List parents = new ArrayList();
+		List<ITaskLauncherUiTreeNode> parents = new ArrayList<ITaskLauncherUiTreeNode>();
 		ITaskLauncherUiTreeNode parent = getParent();
 		ITaskLauncherUiTreeNode child = null;
 		
@@ -479,7 +481,7 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
 		
 	}
 
-	public static int getChildIndex(List childrenList, ITaskLauncherUiTreeNode child) {
+	public static int getChildIndex(List<JsfTreeNode> childrenList, ITaskLauncherUiTreeNode child) {
 		
 		for (int i=0; i < childrenList.size();i++)
 		{
@@ -507,7 +509,7 @@ public class JsfTreeNode extends TaskLauncherUiTreeNode
 		}
 		else
 		{
-			for (Iterator iter = children.iterator(); iter.hasNext();) {
+			for (Iterator<JsfTreeNode> iter = children.iterator(); iter.hasNext();) {
 				JsfTreeNode jsfTreeNode = (JsfTreeNode) iter.next();
 				JsfTreeNode node = jsfTreeNode.find(taskLauncherTreeNode);
 				if (node != null)

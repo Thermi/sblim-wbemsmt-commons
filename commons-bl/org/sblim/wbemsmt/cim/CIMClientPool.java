@@ -1,14 +1,14 @@
  /** 
   * WBEMClientPool.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -44,11 +44,11 @@ public class CIMClientPool {
 	String port;
 	String protocol;
 
-	Map clientsByNamespace = new HashMap(); 
-	Map namespaceByClient = new HashMap();
+	Map<String, WBEMClient> clientsByNamespace = new HashMap<String, WBEMClient>(); 
+	Map<WBEMClient, String> namespaceByClient = new HashMap<WBEMClient, String>();
     private String hostnameFromCimom;
 	
-	private static Set POOLS =new HashSet();
+	private static Set<CIMClientPool> POOLS =new HashSet<CIMClientPool>();
 	
 	static Logger logger = Logger.getLogger(CIMClientPool.class.getName());
 	
@@ -105,7 +105,7 @@ public class CIMClientPool {
 			client.initialize(path, subject, new Locale[] { Locale.US });
 			
 			try {
-                Class cls = Class.forName("org.sblim.cimclient.WBEMConfigurationProperties");
+                Class<?> cls = Class.forName("org.sblim.cimclient.WBEMConfigurationProperties");
                 Field f = cls.getDeclaredField("HTTP_USE_CHUNKING");
                 Object value = f.get(null);
                 client.setProperty(""+value, "false");
@@ -231,7 +231,7 @@ public class CIMClientPool {
 	 */
 	public static CIMClientPool getCIMClientPool(WBEMClient client)
 	{
-	    for (Iterator iterator = POOLS.iterator(); iterator.hasNext();) {
+	    for (Iterator<CIMClientPool> iterator = POOLS.iterator(); iterator.hasNext();) {
             CIMClientPool pool = (CIMClientPool) iterator.next();
             if (pool.containsCIMClient(client))
             {

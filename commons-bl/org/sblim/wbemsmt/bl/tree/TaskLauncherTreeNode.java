@@ -1,14 +1,14 @@
 /**
  *  TaskLauncherTreeNode.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Marius Kreis <mail@nulldevice.org>
  *
@@ -85,7 +85,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * value: the matching {@link CIMDataType}. Example: {@link CIMDataType#BOOLEAN_T}
      * 
      */
-    protected static Map CIM_DATA_TYPES_BY_ENUM = new HashMap(); 
+    protected static Map<Cimdatatype.Enum, CIMDataType> CIM_DATA_TYPES_BY_ENUM = new HashMap<Cimdatatype.Enum, CIMDataType>(); 
     
     /**
      * default text for no descriptions
@@ -105,7 +105,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     /**
      * the children
      */
-    protected Vector subnodes;
+    protected Vector<ITaskLauncherTreeNode> subnodes;
     
     /**
      * name of the node
@@ -130,7 +130,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     /**
      * all event listener
      */
-    protected Set eventListener;
+    protected Set<TaskLauncherTreeNodeEventListener> eventListener;
     
     /**
      * the context menue for this node
@@ -141,7 +141,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 
 	private CustomTreeConfig customTreeConfig;
 
-    private Map values;
+    private Map<String, Object> values;
 
 	//private TreeConfigData treeConfigData;
 
@@ -184,8 +184,8 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
         this.cimClient = cimClient;
         this.xmlconfigNode = xmlconfigNode;
         this.name = name;
-        this.subnodes = new Vector();
-        this.eventListener = new HashSet();
+        this.subnodes = new Vector<ITaskLauncherTreeNode>();
+        this.eventListener = new HashSet<TaskLauncherTreeNodeEventListener>();
     }
     
 	/**
@@ -242,7 +242,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * @return all subnodes of the current node.
      * @throws WbemsmtException if reading the subnodes failed
      */
-    public Vector getSubnodes() throws WbemsmtException
+    public Vector<ITaskLauncherTreeNode> getSubnodes() throws WbemsmtException
     {
     	return getSubnodes(true);
     }
@@ -253,7 +253,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * @return the subnodes
      * @throws WbemsmtException  if reading the subnodes failed
      */
-    public Vector getSubnodes(boolean notifyEventListeners) throws WbemsmtException
+    public Vector<ITaskLauncherTreeNode> getSubnodes(boolean notifyEventListeners) throws WbemsmtException
     {
         if(!this.subnodesRead)
         {
@@ -403,12 +403,12 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
         node.setDescription(this.getName());
         if(this.hasEventListener())
         {
-        	for (Iterator iter = this.eventListener.iterator(); iter.hasNext();) {
-				TaskLauncherTreeNodeEventListener eventListener = (TaskLauncherTreeNodeEventListener) iter.next();
+        	for (Iterator<TaskLauncherTreeNodeEventListener> iter = this.eventListener.iterator(); iter.hasNext();) {
+				TaskLauncherTreeNodeEventListener eventListener = iter.next();
                 EventListenerDocument.EventListener eventNode = node.addNewEventListener();
                 eventNode.setClassname(eventListener.getClass().getName());
                 Properties parameters = eventListener.getParameters();
-                for (Iterator iterator = parameters.keySet().iterator(); iterator
+                for (Iterator<Object> iterator = parameters.keySet().iterator(); iterator
 						.hasNext();) {
 					Object key = (Object) iterator.next();
                     ParamDocument.Param parameter = eventNode.insertNewParam(0);
@@ -467,7 +467,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * set the children
      * @param subnodes the children
      */
-    public void setSubnodes(Vector subnodes)
+    public void setSubnodes(Vector<ITaskLauncherTreeNode> subnodes)
     {
         this.subnodes = subnodes;
     }
@@ -498,7 +498,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      */
     public boolean hasEventListenerWithLongrunningActions()
     {
-    	for (Iterator iter = eventListener.iterator(); iter.hasNext();) {
+    	for (Iterator<TaskLauncherTreeNodeEventListener> iter = eventListener.iterator(); iter.hasNext();) {
 			TaskLauncherTreeNodeEventListener listener = (TaskLauncherTreeNodeEventListener) iter.next();
 			if (listener instanceof DeleteListener || listener instanceof EditListener)
 			{
@@ -515,7 +515,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      */
     public boolean hasCustomEventListener()
     {
-    	for (Iterator iter = eventListener.iterator(); iter.hasNext();) {
+    	for (Iterator<TaskLauncherTreeNodeEventListener> iter = eventListener.iterator(); iter.hasNext();) {
 			TaskLauncherTreeNodeEventListener listener = (TaskLauncherTreeNodeEventListener) iter.next();
 			if (listener.isCustomListener())
 				return true;
@@ -535,8 +535,8 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     	
     	int listenersWithReturnValue = 0;
     	
-    	Object[] listeners = eventListener.toArray();
-    	
+    	TaskLauncherTreeNodeEventListener[] listeners = eventListener.toArray(new TaskLauncherTreeNodeEventListener[0]);
+
     	if (listeners.length > 0)
     	{
     		Arrays.sort(listeners, new TaskLauncherTreeNodeEventListenerComparator());
@@ -545,25 +545,31 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			if (logger.isLoggable(level))
     		{
     			StringBuffer sb = new StringBuffer("Execution Order: \n");
+
     			for (int i = 0; i < listeners.length; i++) {
     				TaskLauncherTreeNodeEventListener listener = (TaskLauncherTreeNodeEventListener) listeners[i];
+//                        if (listener.getClass() != null && listener.getPriority() != null) {
+//				if (listener != null) {
 					sb.append("   ")
 					  .append(listener.getClass().getName())
 					  .append(" Priority: ")
 					  .append(listener.getPriority().toString())
 					  .append("\n");
+					//			}
 				}
     			logger.log(level,sb.toString());
     		}
     		
     		for (int i = 0; i < listeners.length; i++) {
     			TaskLauncherTreeNodeEventListener listener = (TaskLauncherTreeNodeEventListener) listeners[i];
+				if (listener != null) {
     			String tmpResult = listener.processEvent(event);
     			if (tmpResult != null && listener.isCustomListener())
     			{
     				result = tmpResult;
     				listenersWithReturnValue++;
     			}			
+				}
     		}
     		
     	}
@@ -585,7 +591,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      */
     protected int countCustomEventListeners() {
 		int count = 0;
-		for (Iterator iter = eventListener.iterator(); iter.hasNext();) {
+		for (Iterator<TaskLauncherTreeNodeEventListener> iter = eventListener.iterator(); iter.hasNext();) {
 			TaskLauncherTreeNodeEventListener listener = (TaskLauncherTreeNodeEventListener) iter.next();
 			if (listener.isCustomListener())
 			{
@@ -608,7 +614,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * Adds a Vector of {@link TaskLauncherTreeNodeEventListener}s to the node.
      * @param eventListener the event listeners
      */
-    public void addEventListener(Set eventListener)
+    public void addEventListener(Set<TaskLauncherTreeNodeEventListener> eventListener)
     {
     	this.eventListener.addAll(eventListener);
     }
@@ -617,7 +623,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * Replaces the {@link TaskLauncherTreeNodeEventListener}s of the node with the Vector.
      * @param eventListener the event listeners
      */
-    public void setEventListener(Set eventListener)
+    public void setEventListener(Set<TaskLauncherTreeNodeEventListener> eventListener)
     {
     	this.eventListener = eventListener;
     }
@@ -633,7 +639,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     {
         try
         {
-            Class listenerClass = Class.forName(eventListenerClass);
+            Class<?> listenerClass = Class.forName(eventListenerClass);
             TaskLauncherTreeNodeEventListener listener = (TaskLauncherTreeNodeEventListener) listenerClass.newInstance();
             if(parameters != null) listener.setParameters(parameters);
             this.eventListener.add(listener);
@@ -999,16 +1005,19 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     /**
      * clone the node
      * @return the copy of the node
+     * @TODO Set<TaskLauncherTreeNodeEventListener> cannot be cloned. Original programmers caste it to HashSet to allow cloning. Is this safe?
      */
-    public Object clone()
+    @SuppressWarnings("unchecked")
+	public Object clone()
     {
         try
         {
             TaskLauncherTreeNode cloned = (TaskLauncherTreeNode) super.clone();
-            cloned.setSubnodes((Vector) this.subnodes.clone());
+            cloned.setSubnodes((Vector<ITaskLauncherTreeNode>) this.subnodes.clone());
             cloned.setContextMenu((TaskLauncherContextMenu) (contextMenu != null ? contextMenu.clone() : null));
             if(this.hasXMLData()) cloned.setXmlconfigNode((TreenodeDocument.Treenode) this.xmlconfigNode.copy());
-            cloned.setEventListener((Set) ((HashSet) this.eventListener).clone());
+            cloned.setEventListener((Set<TaskLauncherTreeNodeEventListener>) ((HashSet) this.eventListener).clone());
+
             
             return cloned;
         }
@@ -1154,7 +1163,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			return clsNode;
 		}
 
-		for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
+		for (Iterator<ITaskLauncherTreeNode> iter = getSubnodes().iterator(); iter.hasNext();) {
 			ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) iter.next();
 			if (node instanceof CIMClassNode) {
 				clsNode = (CIMClassNode) node;
@@ -1165,7 +1174,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			}
 		}
 		//if not found go down the next Level of the tree
-		for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
+		for (Iterator<ITaskLauncherTreeNode> iter = getSubnodes().iterator(); iter.hasNext();) {
 			TaskLauncherTreeNode node = (TaskLauncherTreeNode) iter.next();
 			node = node.findClassNodeImpl(cimClassName,label);
 			if (node != null)
@@ -1184,8 +1193,8 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * @throws WbemsmtException  if getting the instance nodes failed
      * TODO add optional support for inheritence by checking the baseclasses of instances if they match with the cimClassName 
      */
-	public List findInstanceNodes(String cimClassName) throws WbemsmtException {
-		List result = new ArrayList();
+	public List<ICIMInstanceNode> findInstanceNodes(String cimClassName) throws WbemsmtException {
+		List<ICIMInstanceNode> result = new ArrayList<ICIMInstanceNode>();
 		findInstanceNodes(cimClassName,result);
 		return result;
 	}
@@ -1197,7 +1206,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * @throws WbemsmtException
      * TODO add optional support for inheritence by checking the baseclasses of instances if they match with the cimClassName 
      */
-	void findInstanceNodes(String cimClassName, List result) throws WbemsmtException {
+	void findInstanceNodes(String cimClassName, List<ICIMInstanceNode> result) throws WbemsmtException {
 		if (this instanceof CIMInstanceNode) {
 			CIMInstanceNode clsNode = (CIMInstanceNode) this;
 			if (clsNode.getCimInstance().getClassName().equals(cimClassName))
@@ -1206,7 +1215,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			}
 		}
 		
-		Vector subnodes2 = getSubnodes();
+		Vector<ITaskLauncherTreeNode> subnodes2 = getSubnodes();
 		for (int i=0; i < subnodes2.size(); i++)
 		{
 			TaskLauncherTreeNode node = (TaskLauncherTreeNode) subnodes2.get(i);
@@ -1222,8 +1231,8 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * TODO add optional support for inheritence by checking the baseclasses of instances if they match with the instanceClass 
      */
 
-	public List findInstanceNodes(Class instanceClass) throws WbemsmtException {
-		List result = new ArrayList();
+	public List<ICIMInstanceNode> findInstanceNodes(Class<?> instanceClass) throws WbemsmtException {
+		List<ICIMInstanceNode> result = new ArrayList<ICIMInstanceNode>();
 		findInstanceNodes(instanceClass,result);
 		return result;
 	}
@@ -1234,8 +1243,8 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * @return list of {@link ICIMInstanceNode} objects
      * @throws WbemsmtException if getting the subnodes failed
      */
-	public List findInstanceNodes(InstanceNodeFilter instanceNodeFilter) throws WbemsmtException {
-        List result = new ArrayList();
+	public List<ICIMInstanceNode> findInstanceNodes(InstanceNodeFilter instanceNodeFilter) throws WbemsmtException {
+        List<ICIMInstanceNode> result = new ArrayList<ICIMInstanceNode>();
         findInstanceNodes(instanceNodeFilter,result);
         return result;
     }
@@ -1247,7 +1256,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * @throws WbemsmtException
      * TODO add optional support for inheritence by checking the baseclasses of instances if they match with the instanceClass 
      */
-    private void findInstanceNodes(Class instanceClass, List result) throws WbemsmtException {
+    private void findInstanceNodes(Class<?> instanceClass, List<ICIMInstanceNode> result) throws WbemsmtException {
 
 		if (this instanceof CIMInstanceNode) {
 			CIMInstanceNode clsNode = (CIMInstanceNode) this;
@@ -1256,7 +1265,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 				result.add(clsNode);
 			}
 		}
-		Vector subnodes2 = getSubnodes();
+		Vector<ITaskLauncherTreeNode> subnodes2 = getSubnodes();
 		for (int i=0; i < subnodes2.size(); i++)
 		{
 			TaskLauncherTreeNode node = (TaskLauncherTreeNode) subnodes2.get(i);
@@ -1270,7 +1279,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * @param result result list of {@link ICIMInstanceNode} objects
      * @throws WbemsmtException if getting the subnodes failed
      */
-    private void findInstanceNodes(InstanceNodeFilter instanceNodeFilter, List result) throws WbemsmtException {
+    private void findInstanceNodes(InstanceNodeFilter instanceNodeFilter, List<ICIMInstanceNode> result) throws WbemsmtException {
 
         if (this instanceof CIMInstanceNode) {
             CIMInstanceNode clsNode = (CIMInstanceNode) this;
@@ -1279,7 +1288,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
                 result.add(clsNode);
             }
         }
-        Vector subnodes2 = getSubnodes();
+        Vector<ITaskLauncherTreeNode> subnodes2 = getSubnodes();
         for (int i=0; i < subnodes2.size(); i++)
         {
             TaskLauncherTreeNode node = (TaskLauncherTreeNode) subnodes2.get(i);
@@ -1294,8 +1303,8 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * @throws WbemsmtException if getting the classnodes failed
      */
 
-    public List findClassNodes(String cimClassName) throws WbemsmtException {
-		List result = new ArrayList();
+    public List<ICIMClassNode> findClassNodes(String cimClassName) throws WbemsmtException {
+		List<ICIMClassNode> result = new ArrayList<ICIMClassNode>();
 		findClassNodes(cimClassName,result);
 		return result;
 	}
@@ -1307,7 +1316,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * @throws WbemsmtException if getting the classnodes failed
      */
 
-    void findClassNodes(String cimClassName, List result) throws WbemsmtException {
+    void findClassNodes(String cimClassName, List<ICIMClassNode> result) throws WbemsmtException {
 		if (this instanceof CIMClassNode) {
 			CIMClassNode clsNode = (CIMClassNode) this;
 			if (clsNode.getCIMClass().getName().equals(cimClassName))
@@ -1315,7 +1324,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 				result.add(clsNode);
 			}
 		}
-		Vector subnodes2 = getSubnodes();
+		Vector<ITaskLauncherTreeNode> subnodes2 = getSubnodes();
 		for (int i=0; i < subnodes2.size(); i++)
 		{
 			TaskLauncherTreeNode node = (TaskLauncherTreeNode) subnodes2.get(i);
@@ -1339,7 +1348,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 			}
 		}
 
-		Vector subnodes2 = getSubnodes();
+		Vector<ITaskLauncherTreeNode> subnodes2 = getSubnodes();
 		for (int i=0; i < subnodes2.size(); i++)
 		{
 			TaskLauncherTreeNode node = (TaskLauncherTreeNode) subnodes2.get(i);
@@ -1457,7 +1466,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * get the eventlisteners
      * @return set with {@link TaskLauncherTreeNodeEventListener} objects
      */
-	public Set getEventListener() {
+	public Set<TaskLauncherTreeNodeEventListener> getEventListener() {
 		return eventListener;
 	}
 
@@ -1483,8 +1492,8 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * @return list with {@link ITaskLauncherTreeNode} objects
      * @throws WbemsmtException if getting the subnodes failed
      */
-	public List findNodesByName(String name) throws WbemsmtException {
-		List result = new ArrayList();
+	public List<ITaskLauncherTreeNode> findNodesByName(String name) throws WbemsmtException {
+		List<ITaskLauncherTreeNode> result = new ArrayList<ITaskLauncherTreeNode> ();
 		findNodesByName(name, result);
 		return result;
 	}
@@ -1495,14 +1504,14 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
      * @param result  result list with {@link ITaskLauncherTreeNode} objects
      * @throws WbemsmtException if getting the subnodes failed
      */
-	private void findNodesByName(String name,List result) throws WbemsmtException {
+	private void findNodesByName(String name,List<ITaskLauncherTreeNode> result) throws WbemsmtException {
 
 		if (name.equalsIgnoreCase(getName()))
 		{
 			result.add(this);
 		}
 
-		Vector subnodes2 = getSubnodes();
+		Vector<ITaskLauncherTreeNode>  subnodes2 = getSubnodes();
 		for (int i=0; i < subnodes2.size(); i++)
 		{
 			TaskLauncherTreeNode node = (TaskLauncherTreeNode) subnodes2.get(i);
@@ -1525,7 +1534,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
 	 * @param silent if !silent a exception is thrown if the iterator carries one
 	 * @throws WbemsmtException thrown if not silent and the {@link CloseableIterator} carries an exception
 	 */
-	protected void checkException(Iterator iterator, boolean silent) throws WbemsmtException {
+	protected void checkException(Iterator<?> iterator, boolean silent) throws WbemsmtException {
 	}
 	
 	/**
@@ -1565,7 +1574,7 @@ public class TaskLauncherTreeNode implements Cloneable, ITaskLauncherTreeNode
     {
         if (values == null)
         {
-            values = new HashMap();
+            values = new HashMap<String, Object>();
         }
         values.put(key,value);
     }

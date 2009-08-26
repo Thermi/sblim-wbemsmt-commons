@@ -1,14 +1,14 @@
  /** 
   * Commands.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -38,7 +38,7 @@ public class Commands {
 	 * Key is the commandName
 	 * Value is the command class
 	 */
-	private Map commands = new HashMap();
+	private Map<String, Class<? extends CimCommand>> commands = new HashMap<String, Class<? extends CimCommand>>();
 	
 	/**
 	 * Get a command by it's name
@@ -48,10 +48,10 @@ public class Commands {
 	 */
 	public CimCommand getCimCommandByName(String name, Locale locale) throws WbemsmtException {
 		try {
-			Class cls = (Class) commands.get(name);
+			Class<CimCommand> cls = (Class<CimCommand>) commands.get(name);
 			if (cls != null)
 			{
-				Constructor constructor = cls.getConstructor(new Class[]{Locale.class});
+				Constructor<CimCommand> constructor = cls.getConstructor(new Class[]{Locale.class});
 				Object object = constructor.newInstance(new Object[]{locale});
 				if (object instanceof CimCommand) {
 					CimCommand cimCmd = (CimCommand) object;
@@ -65,8 +65,8 @@ public class Commands {
 			}
 			else
 			{
-				logger.severe("Cannot find Command with name " + name + " defined in Class " + cls.getName());
-				throw new WbemsmtException(WbemsmtException.ERR_COMMAND_NOT_FOUND,"Cannot find Command with name " + name + " defined in Class " + cls.getName());
+				logger.severe("Cannot find Command with name " + name);
+				throw new WbemsmtException(WbemsmtException.ERR_COMMAND_NOT_FOUND,"Cannot find Command with name " + name);
 			}
 		} catch (Exception e) {
 			logger.log(Level.SEVERE,"Cannot create CimCommand for Command " + name,e);
@@ -78,7 +78,7 @@ public class Commands {
 	 * Called by derived class to set the defined commands
 	 * @param commandlets
 	 */
-	protected void addCommand(String command, Class commandClass) {
+	protected void addCommand(String command, Class<? extends CimCommand> commandClass) {
 		this.commands.put(command,commandClass);
 	}
 
@@ -89,11 +89,11 @@ public class Commands {
 	 */
 	public CimCommand[] getCimCommandArray(Locale locale)
 	{
-		List result = new ArrayList();
+		List<CimCommand> result = new ArrayList<CimCommand>();
 		
-		Set set = commands.keySet();
-		for (Iterator iter = set.iterator(); iter.hasNext();) {
-			String name = (String) iter.next();
+		Set<String> set = commands.keySet();
+		for (Iterator<String> iter = set.iterator(); iter.hasNext();) {
+			String name = iter.next();
 			try {
 				CimCommand cimCmd = getCimCommandByName(name,locale);
 				result.add(cimCmd);
@@ -115,9 +115,9 @@ public class Commands {
 	public String getCommandNames() {
 		StringBuffer sb = new StringBuffer();
 		
-		Set set = commands.keySet();
-		for (Iterator iter = set.iterator(); iter.hasNext();) {
-			String name = (String) iter.next();
+		Set<String> set = commands.keySet();
+		for (Iterator<String> iter = set.iterator(); iter.hasNext();) {
+			String name = iter.next();
 			if (sb.length() > 0)
 			{
 				sb.append(", ");

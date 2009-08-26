@@ -1,14 +1,14 @@
 /**
  * SLPClient.java
  *
- * © Copyright IBM Corp. 2005, 2006
+ * © Copyright IBM Corp.  2009,2005, 2006
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE 
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE 
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE 
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Roberto Pineiro, IBM, roberto.pineiro@us.ibm.com  
  * @author: Chung-hao Tan, IBM ,chungtan@us.ibm.com
@@ -38,7 +38,7 @@ public class SLPClient {
 	
 	public static final String DEFAULT_SCOPE = "default";
 
-	public static final Vector SCOPE = new Vector(Arrays.asList(new String[] { DEFAULT_SCOPE }));
+	public static final Vector<String> SCOPE = new Vector<String>(Arrays.asList(new String[] { DEFAULT_SCOPE }));
 
 	public static final String SERVICE_WBEM = "service:wbem";
 
@@ -46,13 +46,13 @@ public class SLPClient {
 
 	public static final String SERVICE_WBEM_HTTPS = "service:wbem:https";
 
-	private Vector directoryAgentAdresses;
+	private Vector<InetAddress> directoryAgentAdresses;
 
 	/**
 	 * Ctor.
 	 */
 	public SLPClient() {
-		directoryAgentAdresses = new Vector();
+		directoryAgentAdresses = new Vector<InetAddress>();
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class SLPClient {
 	 * 
 	 * @return List of WBEM services
 	 */
-	public List findWbemServices() {
+	public List<ServiceURL> findWbemServices() {
 		return findService(SERVICE_WBEM);
 	}
 
@@ -71,7 +71,7 @@ public class SLPClient {
 	 *            The service type
 	 * @return List of services
 	 */
-	public List findService(String pServiceType) {
+	public List<ServiceURL> findService(String pServiceType) {
 		return findService(pServiceType, SCOPE);
 	}
 
@@ -84,15 +84,15 @@ public class SLPClient {
 	 *            The scope
 	 * @return List of services (ServiceURL objects)
 	 */
-	public List findService(String pServiceType, Vector pScopeList) {
+	public List<ServiceURL> findService(String pServiceType, Vector<String> pScopeList) {
 
-		List result = new ArrayList();
+		List<ServiceURL> result = new ArrayList<ServiceURL>();
 		final Locator locator;
 
 		try {
 			locator = ServiceLocationManager.getLocator(Locale.US);
 			ServiceType servicetype = new ServiceType(pServiceType);
-			Enumeration enumeration;
+			ServiceLocationEnumeration enumeration;
 			if (directoryAgentAdresses != null && directoryAgentAdresses.size() > 0)
 			{
 				enumeration = locator.findServices(servicetype, pScopeList, "",directoryAgentAdresses);
@@ -124,16 +124,16 @@ public class SLPClient {
 	 *            all attributes
 	 * @return List of attributes (ServiceLocationAttribute-Objects)
 	 */
-	public List findAttributes(String pUrl, Vector pScopes, Vector pAttributeIds) {
+	public List<ServiceLocationAttribute> findAttributes(String pUrl, Vector<String> pScopes, Vector<String> pAttributeIds) {
 
-		List result = new ArrayList();
+		List<ServiceLocationAttribute> result = new ArrayList<ServiceLocationAttribute>();
 		final Locator locator;
 
 		try {
 			locator = ServiceLocationManager.getLocator(Locale.US);
 
 			ServiceURL servicetype = new ServiceURL(pUrl, -1);
-			Enumeration enumeration;
+			ServiceLocationEnumeration enumeration;
 			if (directoryAgentAdresses != null && directoryAgentAdresses.size() > 0)
 			{
 				enumeration = locator.findAttributes(servicetype, pScopes, pAttributeIds,directoryAgentAdresses);
@@ -191,18 +191,18 @@ public class SLPClient {
 	public static void main(String[] args) {
 
 		SLPClient client = new SLPClient();
-		List wbemservices = client.findWbemServices();
+		List<ServiceURL> wbemservices = client.findWbemServices();
 		
 		System.out.println("findWbemServices " + wbemservices.size());
 
-		Iterator serviceIterator = wbemservices.iterator();
+		Iterator<ServiceURL> serviceIterator = wbemservices.iterator();
 		while (serviceIterator.hasNext()) {
 			String url = serviceIterator.next().toString();
 			System.out.println(url);
-			List attributes = client.findAttributes(url, SCOPE, new Vector());
+			List<ServiceLocationAttribute> attributes = client.findAttributes(url, SCOPE, new Vector<String>());
 			System.out.println("\nAttributes:\n");
 
-			Iterator attributeIterator = attributes.iterator();
+			Iterator<ServiceLocationAttribute> attributeIterator = attributes.iterator();
 			while (attributeIterator.hasNext()) {
 				System.out.println(attributeIterator.next());
 			}
@@ -217,12 +217,12 @@ public class SLPClient {
 	 * @param attributes
 	 * @return
 	 */
-	public List findAttributes(ServiceURL url, Vector scope2, Vector attributes) {
+	public List<ServiceLocationAttribute> findAttributes(ServiceURL url, Vector<String> scope2, Vector<String> attributes) {
 		return findAttributes(url.toString(),scope2,attributes);
 		
 	}
 
-	public List getDirectoryAgentAdresses() {
+	public List<InetAddress> getDirectoryAgentAdresses() {
 		return directoryAgentAdresses;
 	}
 
@@ -231,25 +231,25 @@ public class SLPClient {
 	 * @param directoryAgentAdresses (Element should be of type InetAddress or of type String so that InetAddress.getByName(String) can be invoked.
 	 * All other types are ignored 
 	 */
-	public void setDirectoryAgentAdresses(List directoryAgentAdresses) {
-		this.directoryAgentAdresses = new Vector();
+	public void setDirectoryAgentAdresses(List<String> directoryAgentAdresses) {
+		this.directoryAgentAdresses = new Vector<InetAddress>();
 
-		for (Iterator iter = directoryAgentAdresses.iterator(); iter.hasNext();) {
-			Object element = (Object) iter.next();
+		for (Iterator<String> iter = directoryAgentAdresses.iterator(); iter.hasNext();) {
+			String element = (String) iter.next();
 			logger.log(Level.INFO,"Adding as DirectoryAgent: " + element.toString());
-			if (element instanceof InetAddress) {
-				this.directoryAgentAdresses.add(element);
-			}
-			else if (element instanceof String) {
+		//	if (element instanceof InetAddress) {
+		//		this.directoryAgentAdresses.add((InetAddress)element);
+		//	}
+		//	else if (element instanceof String) {
 				try {
 					this.directoryAgentAdresses.add(InetAddress.getByName(element.toString()));
 				} catch (Exception e) {
 					logger.log(Level.SEVERE,"Cannot resolve host " + element.toString(),e);
 				}
-			}
-			else {
-				logger.log(Level.SEVERE,"Cannot create InetAdress with object from type " + element.getClass().getName());
-			}
+		//	}
+		//	else {
+		//		logger.log(Level.SEVERE,"Cannot create InetAdress with object from type " + element.getClass().getName());
+		//	}
 		}
 		
 		

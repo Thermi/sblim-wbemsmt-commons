@@ -1,14 +1,14 @@
  /** 
   * CimomTreeNode.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -70,7 +70,7 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 	
 	private SLPLoader slpLoader = null;
 
-	private Map commonContextMenues = new HashMap();
+	private Map<String, TaskLauncherContextMenu> commonContextMenues = new HashMap<String, TaskLauncherContextMenu>();
 
 	/**
 	 * create a new host tree node
@@ -146,7 +146,7 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 	 * @see CimomData#getTreeConfigs()
 	 */
 	public void buildTree() throws WbemsmtException {
-		Vector vc = cimomData.getTreeConfigs();
+		Vector<TreeConfigData> vc = cimomData.getTreeConfigs();
 		TreeConfigData[] configs = (TreeConfigData[]) vc.toArray(new TreeConfigData[vc.size()]);
 		buildTree(configs);
 	}
@@ -158,7 +158,7 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 	 */
 	public void buildTree(Treeconfig[] treeconfigs) throws WbemsmtException {
 		
-		List list = new ArrayList();
+		List<TreeConfigData> list = new ArrayList<TreeConfigData>();
 		for (int i = 0; i < treeconfigs.length; i++) {
 			Treeconfig treeconfig = treeconfigs[i];
 			list.add(new TreeConfigData(treeconfig));
@@ -217,8 +217,8 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 						commonContextMenues.put(treeConfig.getTreeConfigData().getName(),contextMenu);
 					}
 					//forget the root node and just add the childs
-					Vector subnodes = rootNode.getSubnodes();
-					for (Iterator iterator = subnodes.iterator(); iterator.hasNext();) {
+					Vector<ITaskLauncherTreeNode> subnodes = rootNode.getSubnodes();
+					for (Iterator<ITaskLauncherTreeNode> iterator = subnodes.iterator(); iterator.hasNext();) {
 						TaskLauncherTreeNode childNode = (TaskLauncherTreeNode) iterator.next();
 						addSubnode(childNode);
 					}
@@ -302,7 +302,7 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 	 * get the context menues for this host node
 	 * @return the context menues for this host node
 	 */
-	public Map getCommonContextMenues() {
+	public Map<String, TaskLauncherContextMenu> getCommonContextMenues() {
 		return commonContextMenues;
 	}
 	
@@ -431,7 +431,7 @@ public class CimomTreeNode extends TaskLauncherTreeNode {
 	 * @throws WbemsmtException if getting the subnodes failed
 	 */
 	public ITaskLauncherTreeNode getNodeForTask(String taskname) throws WbemsmtException {
-    	for (Iterator iter = getSubnodes().iterator(); iter.hasNext();) {
+    	for (Iterator<ITaskLauncherTreeNode> iter = getSubnodes().iterator(); iter.hasNext();) {
 			ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) iter.next();
 			if (   node.getCustomTreeConfig() != null 
 				&& node.getCustomTreeConfig().getTreeConfigData() != null 

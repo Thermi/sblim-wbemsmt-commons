@@ -1,14 +1,14 @@
 /** 
   * LabeledJSFCheckboxComponent.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -41,22 +41,27 @@ public class LabeledJSFCheckboxActionComponent extends LabeledJSFInputComponent 
 	
 	public LabeledJSFCheckboxActionComponent(DataContainer parent, String labelText,String id, Converter converter, boolean readOnly) {
 		super(parent, labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlSelectBooleanCheckbox.COMPONENT_TYPE), converter,readOnly);
-		setComponentBindings(this, id);
+		setComponentExpressions(this, id);
 	}
 
-	private static void setComponentBindings(LabeledJSFCheckboxActionComponent actionComponent, String id) {
+	private static void setComponentExpressions(LabeledJSFCheckboxActionComponent actionComponent, String id) {
 		HtmlSelectBooleanCheckbox cbox = ((HtmlSelectBooleanCheckbox)actionComponent.getComponent());
-		cbox.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
-		cbox.setValueBinding("onclick", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"JavaScriptConfirmStatement} " +
+		cbox.setValueExpression("value", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id +"}", Object.class));
+		cbox.setValueExpression("onclick", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(),"#{" + id +"JavaScriptConfirmStatement} " +
 				JsfUtil.STOP_ALL_AJAX_REQUESTS_TRUE + 
-				" #{" + id +"JavaScriptWaitStatement}"));
+				" #{" + id +"JavaScriptWaitStatement}",
+				Object.class));
 		cbox.setStyleClass("checkBox");
 		String linkId = "LabeledJSFCheckboxActionComponent" + idCount++;
 		
 		HtmlCommandButton btn = (HtmlCommandButton)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
 		btn.setValue(linkId);
 		btn.setStyleClass("invisibleButton");
-		btn.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + id + "Action" + "}",new Class[]{}));
+		btn.setActionExpression(FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createMethodExpression(
+					FacesContext.getCurrentInstance().getELContext(),
+					"#{" + id + "Action" + "}",
+					Object.class,
+					new Class[]{}));
 		
 		cbox.setOnclick("" +
 				"for (i=0; i < document.forms.length; i++) {" +
@@ -104,6 +109,6 @@ public class LabeledJSFCheckboxActionComponent extends LabeledJSFInputComponent 
 	
 	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
 		super.installProperties(comp, prefix);
-		setComponentBindings((LabeledJSFCheckboxActionComponent) comp,prefix);
+		setComponentExpressions((LabeledJSFCheckboxActionComponent) comp,prefix);
 	}	
 }

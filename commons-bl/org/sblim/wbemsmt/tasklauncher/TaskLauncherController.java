@@ -1,14 +1,14 @@
 /**
  *  TaskLauncherController.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Marius Kreis <mail@nulldevice.org>
  *
@@ -52,14 +52,14 @@ public class TaskLauncherController implements Cleanup
     private static ConsoleHandler handler;
     
     
-    private HashMap treeFactories;
+    private HashMap<String, TaskLauncherTreeFactory> treeFactories;
     private TaskLauncherConfig taskLauncherConfig;
     private String runtimeMode;
 	private String configFilename = null;
 	private SLPLoader slpLoader;
 	private boolean useSlp;
 	private WbemSmtResourceBundle bundle;
-	private List cimomDatas = new ArrayList();
+	private List<CimomData> cimomDatas = new ArrayList<CimomData>();
     
     public TaskLauncherController() throws WbemsmtException
     {
@@ -96,7 +96,7 @@ public class TaskLauncherController implements Cleanup
 	 * @param treeConfigs List with TreeConfigData-Objects. Can be used to filter all those tasks which are not in the List
 	 * @throws WbemsmtException
 	 */
-	public void init(String hostname, String port, String protocol, String username, String password, boolean useSlpForTasks, List treeConfigs) throws WbemsmtException
+	public void init(String hostname, String port, String protocol, String username, String password, boolean useSlpForTasks, List<TaskLauncherConfig.TreeConfigData> treeConfigs) throws WbemsmtException
     {
 		try {
 			cimomDatas.add(new TaskLauncherConfig.CimomData(hostname,Integer.parseInt(port),protocol,username,password));
@@ -106,7 +106,7 @@ public class TaskLauncherController implements Cleanup
 			throw new WbemsmtException(WbemsmtException.ERR_LOADING_MODEL,e);
 		}
     }
-	public HashMap getTreeFactories() throws WbemsmtException
+	public HashMap<String, TaskLauncherTreeFactory> getTreeFactories() throws WbemsmtException
     {
 		if (this.treeFactories == null)
 		{
@@ -120,7 +120,7 @@ public class TaskLauncherController implements Cleanup
         return (TaskLauncherTreeFactory) getTreeFactories().get(cimomName);
     }
     
-    public Set getTreeFactoryNames() throws WbemsmtException
+    public Set<String> getTreeFactoryNames() throws WbemsmtException
     {
         return this.getTreeFactories().keySet();
     }
@@ -129,22 +129,22 @@ public class TaskLauncherController implements Cleanup
     {
     	if (treeFactories == null)
     	{
-    		treeFactories = new HashMap();
+    		treeFactories = new HashMap<String, TaskLauncherTreeFactory>();
     	}
     	treeFactories.clear();
     	
     	boolean exceptionDuringConnect = false;
     	
-    	for (Iterator it = cimomDatas.iterator(); it.hasNext();) {
-    		CimomData data = (CimomData) it.next();
+    	for (Iterator<CimomData> it = cimomDatas.iterator(); it.hasNext();) {
+    		CimomData data = it.next();
 			if(data != null && this.taskLauncherConfig != null)
 			{
 				String cimomName = data.getHostname() ;
-				Vector treeconfigsByHostname = taskLauncherConfig.getTreeConfigDataByHostname(cimomName);
+				Vector<TaskLauncherConfig.TreeConfigData> treeconfigsByHostname = taskLauncherConfig.getTreeConfigDataByHostname(cimomName);
 				
-				List treeConfigs = new ArrayList();
-				for (Iterator iter = treeconfigsByHostname.iterator(); iter.hasNext();) {
-					TaskLauncherConfig.TreeConfigData configData = (TaskLauncherConfig.TreeConfigData) iter.next();
+				List<CustomTreeConfig> treeConfigs = new ArrayList<CustomTreeConfig>();
+				for (Iterator<TaskLauncherConfig.TreeConfigData> iter = treeconfigsByHostname.iterator(); iter.hasNext();) {
+					TaskLauncherConfig.TreeConfigData configData = iter.next();
 					
 					try {
 						if (WbemsmtSession.getSession().getCIMClientPool(cimomName) == null)
@@ -172,7 +172,7 @@ public class TaskLauncherController implements Cleanup
 							JsfUtil.addMessage(Message.create(ErrCodes.MSG_HOST_NOT_FOUND,Message.INFO,bundle,"host.not.found", new Object[]{cimomName}));
 						}
 					}
-					for (Iterator iter = taskLauncherConfig.getTreeConfigData().iterator(); iter.hasNext();) {
+					for (Iterator<TaskLauncherConfig.TreeConfigData> iter = taskLauncherConfig.getTreeConfigData().iterator(); iter.hasNext();) {
 						TaskLauncherConfig.TreeConfigData configData = (TaskLauncherConfig.TreeConfigData) iter.next();
 						try {
 							if (WbemsmtSession.getSession().getCIMClientPool(cimomName) == null)
@@ -192,7 +192,7 @@ public class TaskLauncherController implements Cleanup
 		}
     }
 
-	private void addTreeConfig(WBEMClient cimClient, TaskLauncherConfig.TreeConfigData configData, CimomData cimomData, List treeConfigs) {
+	private void addTreeConfig(WBEMClient cimClient, TaskLauncherConfig.TreeConfigData configData, CimomData cimomData, List<CustomTreeConfig> treeConfigs) {
 		
 		String host = cimomData.getHostname();
 		String namespace = configData.getNamespace();
@@ -244,13 +244,13 @@ public class TaskLauncherController implements Cleanup
     {
     	if (treeFactories == null)
     	{
-    		treeFactories = new HashMap();
+    		treeFactories = new HashMap<String, TaskLauncherTreeFactory>();
     	}
     	treeFactories.clear();
-    	Vector cimomData;
+    	Vector<CimomData> cimomData;
     	if (useSlp)
     	{
-    		cimomData = new Vector();
+    		cimomData = new Vector<CimomData>();
     		SLPHostDefinition[] hostDefinition = SLPUtil.getHosts(slpLoader);
     		for (int i = 0; i < hostDefinition.length; i++) {
 				SLPHostDefinition definition = hostDefinition[i];
@@ -279,7 +279,7 @@ public class TaskLauncherController implements Cleanup
 	 * @param treeConfigs List with TreeConfigData-Objects. Can be used to filter all those tasks which are not in the List
 	 * @throws WbemsmtException
 	 */
-	private void loadConfig(String configFilename, List treeConfigs) throws WbemsmtException {
+	private void loadConfig(String configFilename, List<TaskLauncherConfig.TreeConfigData> treeConfigs) throws WbemsmtException {
 		this.taskLauncherConfig = new TaskLauncherConfig(configFilename, treeConfigs,useSlp,slpLoader);
 
 		//Overwrite the namespace of the WBEMClients if Slp was used and SLP lookup returned other namespace

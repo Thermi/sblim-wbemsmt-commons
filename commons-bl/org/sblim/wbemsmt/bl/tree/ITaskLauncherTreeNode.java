@@ -1,14 +1,14 @@
  /** 
   * ITaskLauncherTreeNode.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -42,7 +42,7 @@ public interface ITaskLauncherTreeNode {
 	 * @return vector with {@link ITaskLauncherTreeNode} instances
 	 * @throws WbemsmtException if reading the subnodes failed
 	 */
-	public abstract Vector getSubnodes() throws WbemsmtException;
+	public abstract Vector<ITaskLauncherTreeNode> getSubnodes() throws WbemsmtException;
 
 	/**
 	 * Returns wether the current node has subnodes.
@@ -125,7 +125,7 @@ public interface ITaskLauncherTreeNode {
 	 * @return List with {@link ICIMInstanceNode} objects
 	 * @throws WbemsmtException if getting the instance nodes failed
 	 */
-	public abstract List findInstanceNodes(String cimClassName) throws WbemsmtException;
+	public abstract List<ICIMInstanceNode> findInstanceNodes(String cimClassName) throws WbemsmtException;
 
     /**
      * find all instances that are representing this class
@@ -133,7 +133,7 @@ public interface ITaskLauncherTreeNode {
      * @return List with {@link ICIMInstanceNode} objects
      * @throws WbemsmtException if getting the instance nodes failed
      */
-	public abstract List findInstanceNodes(Class instanceClass) throws WbemsmtException;
+	public abstract List<ICIMInstanceNode> findInstanceNodes(Class<?> instanceClass) throws WbemsmtException;
 
 	/**
 	 * find class nodes that are matching with the given name
@@ -141,7 +141,7 @@ public interface ITaskLauncherTreeNode {
 	 * @return List with {@link ICIMClassNode} objects
 	 * @throws WbemsmtException  if getting the classnodes failed
 	 */
-	public abstract List findClassNodes(String cimClassName) throws WbemsmtException;
+	public abstract List<ICIMClassNode> findClassNodes(String cimClassName) throws WbemsmtException;
 
     /**
      * Reads subnodes of the current {@link CIMClass} which can be textnodes of the xml configuration ({@link TaskLauncherTreeNode}),
@@ -206,7 +206,7 @@ public interface ITaskLauncherTreeNode {
 	 * get the eventlisteners
 	 * @return set with {@link TaskLauncherTreeNodeEventListener} objects
 	 */
-	public abstract Set getEventListener();
+	public abstract Set<TaskLauncherTreeNodeEventListener> getEventListener();
 	
 	
 	/**
@@ -302,7 +302,7 @@ public interface ITaskLauncherTreeNode {
 	 * @return list with {@link ITaskLauncherTreeNode} objects
 	 * @throws WbemsmtException if getting the subnodes failed
 	 */
-	public abstract List findNodesByName(String name) throws WbemsmtException;
+	public abstract List<ITaskLauncherTreeNode> findNodesByName(String name) throws WbemsmtException;
 
 	/**
 	 * set the tree configuration of this node
@@ -322,7 +322,7 @@ public interface ITaskLauncherTreeNode {
 	 * @return list of {@link ICIMInstanceNode} objects
 	 * @throws WbemsmtException if getting the subnodes failed
 	 */
-    public abstract List findInstanceNodes(InstanceNodeFilter instanceNodeFilter) throws WbemsmtException;
+    public abstract List<ICIMInstanceNode> findInstanceNodes(InstanceNodeFilter instanceNodeFilter) throws WbemsmtException;
 
     /**
      * get the userdefined value
@@ -336,6 +336,6 @@ public interface ITaskLauncherTreeNode {
      * @param key the key to find the value later
      * @param value the value
      */
-    public void setValue(String key, Object value);
+    //public void setValue(String key, Object value);
 
 }

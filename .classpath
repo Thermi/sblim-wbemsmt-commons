@@ -1,24 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="commons-eui"/>
-	<classpathentry kind="src" path="commons-cim-schema"/>
 	<classpathentry excluding="conf/|doc/|logging/" kind="src" path="commons-bl"/>
 	<classpathentry kind="src" path="commons-wizards"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="var" path="JAR_REPO/myfaces/tomahawk/current/tomahawk.jar"/>
-	<classpathentry exported="true" kind="var" path="JAR_REPO/commons-cli/commons-cli/current/commons-cli.jar"/>
-	<classpathentry exported="true" kind="var" path="JAR_REPO/xmlbeans/xbean/current/xbean.jar"/>
-	<classpathentry exported="true" kind="var" path="JAR_REPO/commons-collections/commons-collections/3.1/commons-collections-3.1.jar"/>
-	<classpathentry exported="true" kind="var" path="JAR_REPO/commons-lang/commons-lang/current/commons-lang.jar"/>
-	<classpathentry exported="true" kind="var" path="JAR_REPO/sblim/sblim-wbemsmt-commons-launcher-config/current/sblim-wbemsmt-commons-launcher-config.jar"/>
-	<classpathentry exported="true" kind="var" path="JAR_REPO/myfaces/myfaces-api/current/myfaces-api.jar"/>
-	<classpathentry exported="true" kind="var" path="JAR_REPO/javax/servlet/servlet-api/current/servlet-api.jar"/>
-	<classpathentry exported="true" kind="var" path="JAR_REPO/sblim/sblim-cim-client/2.0.4/sblim-cim-client-2.0.4.jar" sourcepath="/WORKSPACE/jsr48-client/src">
+	<classpathentry exported="true" kind="var" path="JAR_REPO/myfaces/tomahawk/current/tomahawk.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="http://sblim.sourceforge.net/cim-client2-doc/"/>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="var" path="JAR_REPO/myfaces/myfaces-impl/current/myfaces-impl.jar"/>
-	<classpathentry kind="var" path="JAR_REPO/jsp-api/jsp-api/current/jsp-api.jar"/>
+	<classpathentry exported="true" kind="var" path="JAR_REPO/commons-cli/commons-cli/current/commons-cli.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="var" path="JAR_REPO/xmlbeans/xbean/current/xbean.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="var" path="JAR_REPO/commons-collections/commons-collections/current/commons-collections.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="var" path="JAR_REPO/commons-lang/commons-lang/current/commons-lang.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="var" path="JAR_REPO/sblim/sblim-wbemsmt-commons-launcher-config/current/sblim-wbemsmt-commons-launcher-config.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="var" path="JAR_REPO/myfaces/myfaces-api/current/myfaces-api.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="var" path="JAR_REPO/javax/servlet/servlet-api/current/servlet-api.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="var" path="JAR_REPO/myfaces/myfaces-impl/current/myfaces-impl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="var" path="JAR_REPO/jsp-api/jsp-api/current/jsp-api.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="JAR_REPO"/>
+	<classpathentry kind="lib" path="/wbemsmt-jar-repository/sblim/sblim-cim-client/2.1.0/sblim-cim-client2-2.1.0-bin/sblim-cim-client2-2.1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

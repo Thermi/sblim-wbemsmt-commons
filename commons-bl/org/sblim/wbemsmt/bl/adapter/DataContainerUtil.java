@@ -1,14 +1,14 @@
  /** 
   * DataContainerUtil.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Arrays;
 
 import org.apache.commons.lang.ClassUtils;
 import org.sblim.wbemsmt.bl.messages.ErrCodes;
@@ -71,13 +72,27 @@ public final class DataContainerUtil {
         
         if (source.getClass() == target.getClass())
         {
-            List classes = new ArrayList();
+            List<Class<?>> classes = new ArrayList<Class<?>>();
             classes.add(source.getClass());
-            classes.addAll(ClassUtils.getAllInterfaces(source.getClass()));
-            classes.addAll(ClassUtils.getAllSuperclasses(source.getClass()));
             
-            for (Iterator iterator = classes.iterator(); iterator.hasNext();) {
-                Class cls = (Class) iterator.next();
+           Class<?>[] classList =  source.getClass().getInterfaces();
+           for(int i = 0; i < classList.length; i++)
+        	   classes.add(classList[i]);
+           
+           
+           // classes.addAll(Arrays.asList(source.getClass().getInterfaces()));
+            
+            Class<?> temp = source.getClass().getSuperclass();
+            while(temp != null) {
+            	classes.add(temp);
+            	temp = temp.getSuperclass();
+            }
+           
+        //    classes.addAll(ClassUtils.getAllInterfaces(source.getClass()));
+        //    classes.addAll(ClassUtils.getAllSuperclasses(source.getClass()));
+            
+            for (Iterator<Class<?>> iterator = classes.iterator(); iterator.hasNext();) {
+                Class<?> cls = iterator.next();
                 if (!cls.getName().equals("java.lang.Object"))
                 {
                     Field[] declaredFields = cls.getDeclaredFields();
@@ -146,7 +161,7 @@ public final class DataContainerUtil {
 				&& LabeledBaseInputComponentIf.class.isAssignableFrom(method.getReturnType()))
 			{
 				try {
-					LabeledBaseInputComponentIf field = (LabeledBaseInputComponentIf) method.invoke(container, null);
+					LabeledBaseInputComponentIf field = (LabeledBaseInputComponentIf) method.invoke(container, (Object[]) null);
 					if (!field.getConverter().canConvert(field.getValue()))
 					{
 						if (errors == 0)
@@ -173,8 +188,8 @@ public final class DataContainerUtil {
 	 * @param containers List with DataContainers
 	 * @return true if a field within the containers or their childs is required
 	 */
-	public static boolean havingRequiredFields(List containers) {
-		for (Iterator iter = containers.iterator(); iter.hasNext();) {
+	public static boolean havingRequiredFields(List<DataContainer> containers) {
+		for (Iterator<DataContainer> iter = containers.iterator(); iter.hasNext();) {
 			DataContainer container = (DataContainer) iter.next();
 			boolean result = havingRequiredFields(container);
 			if (result)
@@ -192,15 +207,15 @@ public final class DataContainerUtil {
 	 * @return true if the container is having required fields
 	 */
 	public static boolean havingRequiredFields(DataContainer container) {
-		List fields = container.getFields();
-		for (Iterator iterator = fields.iterator(); iterator.hasNext();) {
+		List<LabeledBaseInputComponentIf> fields = container.getFields();
+		for (Iterator<LabeledBaseInputComponentIf> iterator = fields.iterator(); iterator.hasNext();) {
 			LabeledBaseInputComponentIf field = (LabeledBaseInputComponentIf) iterator.next();
 			if (field.isRequired() && !field.hasErrors())
 			{
 				return true;
 			}
 		}
-		List childContainers = container.getChildContainers();
+		List<DataContainer> childContainers = container.getChildContainers();
 		boolean result = havingRequiredFields(childContainers);
 		return result;
 	}	
@@ -212,8 +227,8 @@ public final class DataContainerUtil {
 	 * @param containers List with DataContainers
 	 * @return true if a field within the containers or their childs is required
 	 */
-	public static boolean havingErrorFields(List containers) {
-		for (Iterator iter = containers.iterator(); iter.hasNext();) {
+	public static boolean havingErrorFields(List<DataContainer> containers) {
+		for (Iterator<DataContainer> iter = containers.iterator(); iter.hasNext();) {
 			DataContainer container = (DataContainer) iter.next();
 			boolean result = havingErrorFields(container);
 			if (result)
@@ -231,15 +246,15 @@ public final class DataContainerUtil {
      * @return true if the container is having fields errors
      */	
 	public static boolean havingErrorFields(DataContainer container) {
-		List fields = container.getFields();
-		for (Iterator iterator = fields.iterator(); iterator.hasNext();) {
+		List<LabeledBaseInputComponentIf>  fields = container.getFields();
+		for (Iterator<LabeledBaseInputComponentIf> iterator = fields.iterator(); iterator.hasNext();) {
 			LabeledBaseInputComponentIf field = (LabeledBaseInputComponentIf) iterator.next();
 			if (field.hasErrors())
 			{
 				return true;
 			}
 		}
-		List childContainers = container.getChildContainers();
+		List<DataContainer> childContainers = container.getChildContainers();
 		boolean result = havingErrorFields(childContainers);
 		return result;
 	}	
@@ -253,9 +268,9 @@ public final class DataContainerUtil {
      */ 	
 	public static boolean isModified(DataContainer container)
 	{
-		List fields = container.getFields();
-		for (Iterator iter = fields.iterator(); iter.hasNext();) {
-			LabeledBaseInputComponentIf field = (LabeledBaseInputComponentIf) iter.next();
+		List<LabeledBaseInputComponentIf> fields = container.getFields();
+		for (Iterator<LabeledBaseInputComponentIf> iter = fields.iterator(); iter.hasNext();) {
+			LabeledBaseInputComponentIf field = iter.next();
 			if (field.isModified())
 			{
 				return true;
@@ -263,9 +278,9 @@ public final class DataContainerUtil {
 		}
 
 		
-		List childContainers = container.getChildContainers();
-		for (Iterator iter = childContainers.iterator(); iter.hasNext();) {
-			DataContainer child = (DataContainer) iter.next();
+		List<DataContainer> childContainers = container.getChildContainers();
+		for (Iterator<DataContainer> iter = childContainers.iterator(); iter.hasNext();) {
+			DataContainer child = iter.next();
 			if (child.isModified())
 			{
 				return true;
@@ -280,16 +295,16 @@ public final class DataContainerUtil {
 	 */
 	public static void resetModifiedFlag(DataContainer container)
 	{
-		List fields = container.getFields();
-		for (Iterator iter = fields.iterator(); iter.hasNext();) {
-			LabeledBaseInputComponentIf field = (LabeledBaseInputComponentIf) iter.next();
+		List<LabeledBaseInputComponentIf> fields = container.getFields();
+		for (Iterator<LabeledBaseInputComponentIf> iter = fields.iterator(); iter.hasNext();) {
+			LabeledBaseInputComponentIf field = iter.next();
 			field.setModified(false);
 		}
 
 		
-		List childContainers = container.getChildContainers();
-		for (Iterator iter = childContainers.iterator(); iter.hasNext();) {
-			DataContainer child = (DataContainer) iter.next();
+		List<DataContainer> childContainers = container.getChildContainers();
+		for (Iterator<DataContainer> iter = childContainers.iterator(); iter.hasNext();) {
+			DataContainer child = iter.next();
 			resetModifiedFlag(child);
 		}
 	}
@@ -302,10 +317,10 @@ public final class DataContainerUtil {
      * 
      * @return MessagesList with messages of all containers
      */
-	public static MessageList getContainerMessages(List containers) {
+	public static MessageList getContainerMessages(List<DataContainer> containers) {
 		MessageList list = new MessageList();
-		for (Iterator iter = containers.iterator(); iter.hasNext();) {
-			DataContainer container = (DataContainer) iter.next();
+		for (Iterator<DataContainer> iter = containers.iterator(); iter.hasNext();) {
+			DataContainer container = iter.next();
 			list.addAll(container.getMessagesList());
 		}
 		return list;
@@ -315,9 +330,9 @@ public final class DataContainerUtil {
      * clear all messages of all containers in that editBean
      * @param containers List with {@link DataContainer} objects
      */
-	public static void clearContainerMessages(List containers) {
-		for (Iterator iter = containers.iterator(); iter.hasNext();) {
-			DataContainer container = (DataContainer) iter.next();
+	public static void clearContainerMessages(List<DataContainer> containers) {
+		for (Iterator<DataContainer> iter = containers.iterator(); iter.hasNext();) {
+			DataContainer container = iter.next();
 			MessageList.init(container).clear();
 		}
 	}
@@ -327,9 +342,9 @@ public final class DataContainerUtil {
 	 * @param dataContainer the dataContainer to find the Interface class
 	 * @return the Interface class of a datacontainer
 	 */
-	public static Class getDataContainerInterface(DataContainer dataContainer) {
-		Class[] interfaces = dataContainer.getClass().getInterfaces();
-		Class interfaceClass = null;
+	public static Class<?> getDataContainerInterface(DataContainer dataContainer) {
+		Class<?>[] interfaces = dataContainer.getClass().getInterfaces();
+		Class<?> interfaceClass = null;
 		
 		boolean found = false;
 		
@@ -357,9 +372,9 @@ public final class DataContainerUtil {
 	 * @param visible true=show,false=hide
 	 */
 	public static void setVisibilityOfFields(DataContainer container, boolean visible) {
-		List fields = container.getFields();
-		for (Iterator iter = fields.iterator(); iter.hasNext();) {
-			LabeledBaseInputComponentIf field = (LabeledBaseInputComponentIf) iter.next();
+		List<LabeledBaseInputComponentIf> fields = container.getFields();
+		for (Iterator<LabeledBaseInputComponentIf> iter = fields.iterator(); iter.hasNext();) {
+			LabeledBaseInputComponentIf field = iter.next();
 			field.getProperties().setVisible(visible);
 		}
 	}

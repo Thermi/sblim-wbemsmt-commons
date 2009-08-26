@@ -1,14 +1,14 @@
  /** 
   * RemoveDataContainerThread.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,13 +69,13 @@ public class RemoveDataContainerThread extends Thread {
 		{
 		    Object o = adapter.getRefreshMedium();
 			synchronized (o) {
-				List toRemove = new ArrayList();
+				List<DataContainer> toRemove = new ArrayList<DataContainer>();
 				long timeout = adapter.getDefaultRefreshTimeout();
 				
-				Iterator iterator = adapter.getAccessTimes().entrySet().iterator();
+				Iterator<Map.Entry<DataContainer, Long>> iterator = adapter.getAccessTimes().entrySet().iterator();
 				while (iterator.hasNext())
 				{
-					Map.Entry entry = (Entry) iterator.next();
+					Map.Entry<DataContainer, Long> entry = (Map.Entry<DataContainer, Long>) iterator.next();
 					long lastAccessed = ((Long) entry.getValue()).longValue();
 					
 					if (lastAccessed + timeout  < System.currentTimeMillis())
@@ -86,7 +85,7 @@ public class RemoveDataContainerThread extends Thread {
 				}
 				
 				//Remove the Containers
-				for (Iterator iter = toRemove.iterator(); iter.hasNext();) {
+				for (Iterator<DataContainer> iter = toRemove.iterator(); iter.hasNext();) {
 					DataContainer next = (DataContainer) iter.next();
 					logger.info("Remove Container " + next + " from refresh List");
 					adapter.getAccessTimes().remove(next);

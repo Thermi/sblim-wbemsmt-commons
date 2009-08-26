@@ -1,14 +1,14 @@
  /** 
   * WizardContainerBase.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author:	Bert Lange <LangeB@de.ibm.com>
   *
@@ -26,15 +26,16 @@ import java.util.HashMap;
 import java.util.Stack;
 
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
+import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.tools.wizard.WizardStepList;
 
 public abstract class AbstractWizardContainerBase {
 
-	protected Stack usedPages = new Stack();
+	protected Stack<String> usedPages = new Stack<String>();
 	protected String currentPageName = "";
 	protected String summaryText = "";
 	protected String wizardRunType = null; 	
-	protected HashMap hmPages = null;
+	protected HashMap<String, DataContainer> hmPages = null;
 	protected String[] summary = null;
 	protected boolean noPages = false;
 	private boolean backButtonFlag = true;
@@ -151,13 +152,13 @@ public abstract class AbstractWizardContainerBase {
 	/**
 	 * @return Returns the usedPages.
 	 */
-	public Stack getUsedPages() {
+	public Stack<String> getUsedPages() {
 		return usedPages;
 	}
 	/**
 	 * @param usedPages The usedPages to set.
 	 */
-	public void setUsedPages(Stack usedPages) {
+	public void setUsedPages(Stack<String> usedPages) {
 		this.usedPages = usedPages;
 	}
 	/**
@@ -175,13 +176,13 @@ public abstract class AbstractWizardContainerBase {
 	/**
 	 * @return Returns the hmPages.
 	 */
-	public HashMap getPages() {
+	public HashMap<String, DataContainer> getPages() {
 		return hmPages;
 	}
 	/**
 	 * @param hmPages The hmPages to set.
 	 */
-	public void setPages(HashMap hmPages) {
+	public void setPages(HashMap<String, DataContainer> hmPages) {
 		this.hmPages = hmPages;
 	}
 	/**

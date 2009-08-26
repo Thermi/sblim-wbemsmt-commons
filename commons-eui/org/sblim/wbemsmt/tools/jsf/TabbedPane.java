@@ -1,14 +1,14 @@
  /** 
   * TabbedPane.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -25,6 +25,7 @@ import javax.faces.application.Application;
 import javax.faces.component.html.*;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.MethodExpressionActionListener;
 
 import org.apache.myfaces.custom.panelstack.HtmlPanelStack;
 import org.apache.myfaces.custom.tabbedpane.HtmlPanelTab;
@@ -39,11 +40,11 @@ import org.sblim.wbemsmt.webapp.jsf.ObjectActionControllerBean;
 
 public class TabbedPane
 {
-	List bundleKeys = new ArrayList();
-	List tabPanels = new ArrayList();
-	List ids = new ArrayList();
+	List<String> bundleKeys = new ArrayList<String>();
+	List<HtmlPanelGrid> tabPanels = new ArrayList<HtmlPanelGrid>();
+	List<String> ids = new ArrayList<String>();
 	private HtmlPanelGrid panel;
-	private Map idsByTabName = new HashMap();
+	private Map<String, String> idsByTabName = new HashMap<String, String>();
 	private WbemSmtResourceBundle bundle;
 	//private HtmlForm form;
 	
@@ -96,7 +97,7 @@ public class TabbedPane
 //		tabbedPane.setInactiveSubStyleClass("inactiveSubTab");
 //		tabbedPane.setTabContentStyleClass("tabContentStyle");
 		tabbedPane.addTabChangeListener(new TabbedPaneChangeListener());
-		tabbedPane.setValueBinding("selectedIndex",app.createValueBinding("#{objectActionController.selectedTabIndex}"));
+		tabbedPane.setValueExpression("selectedIndex",app.getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{objectActionController.selectedTabIndex}", Object.class));
 		panel.getChildren().add(tabbedPane);
 
         
@@ -120,17 +121,17 @@ public class TabbedPane
 		
 		HtmlCommandButton btnOK = (HtmlCommandButton) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
 		btnOK.setStyleClass("submitButton");
-		btnOK.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.ok}"));
-		String binding = "#{" + BeanNameConstants.OBJECT_ACTION_CONTROLLER.getName() + ".currentEditListener.save" + "}";
-		btnOK.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,null));
+		btnOK.setValueExpression("value",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{messages.ok}", Object.class));
+		String expression = "#{" + BeanNameConstants.OBJECT_ACTION_CONTROLLER.getName() + ".currentEditListener.save" + "}";
+		btnOK.setActionExpression(FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createMethodExpression(FacesContext.getCurrentInstance().getELContext(), expression, Object.class, new Class[]{}));
 		btnOK.setOnclick(JavascriptUtil.getShowWaitCall(bundle.getString("saving.data")));
 		btnOK.setId("editok");
 		
 		HtmlCommandButton btnRevert = (HtmlCommandButton) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
 		btnRevert.setStyleClass("submitButton");
-		btnRevert.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.revert}"));
-		binding = "#{" + BeanNameConstants.OBJECT_ACTION_CONTROLLER.getName() + ".currentEditListener.revert" + "}";
-		btnRevert.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,null));
+		btnRevert.setValueExpression("value",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{messages.revert}", Object.class));
+		expression = "#{" + BeanNameConstants.OBJECT_ACTION_CONTROLLER.getName() + ".currentEditListener.revert" + "}";
+		btnRevert.setActionExpression(FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createMethodExpression(FacesContext.getCurrentInstance().getELContext(), expression, Object.class, new Class[]{}));
 		btnRevert.setOnclick(JsfUtil.getRevertEditActionJavaScriptConfirmStatement() + JavascriptUtil.getShowWaitCall(bundle.getString("undo.data")));
 		btnRevert.setId("editrevert");
 
@@ -163,8 +164,8 @@ public class TabbedPane
 		HtmlPanelTab tab  = (HtmlPanelTab) app.createComponent(HtmlPanelTab.COMPONENT_TYPE);
 		tab.setId("Tab_" + LabeledJSFInputComponent.asJsfId(id));
 		
-		String binding = "#{" + BeanNameConstants.OBJECT_ACTION_CONTROLLER.getName() + ".tabbedPane.bundle['" + bundleKey + "']}";
-		tab.setValueBinding("label",FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
+		String expression = "#{" + BeanNameConstants.OBJECT_ACTION_CONTROLLER.getName() + ".tabbedPane.bundle['" + bundleKey + "']}";
+		tab.setValueExpression("label",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), expression, Object.class));
 
 		tabbedPane.getChildren().add(tab);
 		HtmlPanelGrid content = (HtmlPanelGrid)tabPanels.get(i);
@@ -188,7 +189,7 @@ public class TabbedPane
 		panel = createTable(1,"noBorder", "noBorder","100%",0,0);
 		HtmlPanelStack stack = (HtmlPanelStack) app.createComponent(HtmlPanelStack.COMPONENT_TYPE);
 		stack.setId("stack");
-		stack.setValueBinding("selectedPanel",app.createValueBinding("#{objectActionController.selectedTabId}"));
+		stack.setValueExpression("selectedPanel",app.getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{objectActionController.selectedTabId}", Object.class));
 		panel.getChildren().add(stack);
 
 		String[] tabNames = (String[]) this.bundleKeys.toArray(new String[this.bundleKeys.size()]);
@@ -232,7 +233,7 @@ public class TabbedPane
 			{
 				tab =  createTable(1,"tabNotActive", "tabNotActive","100%",10,0);
 				HtmlCommandLink link = (HtmlCommandLink) app.createComponent(HtmlCommandLink.COMPONENT_TYPE);
-				link.setActionListener(app.createMethodBinding("#{objectActionController.setTab}",new Class[]{ActionEvent.class}));
+				link.addActionListener(new MethodExpressionActionListener(app.getExpressionFactory().createMethodExpression(FacesContext.getCurrentInstance().getELContext(), "#{objectActionController.setTab}",Object.class,new Class[]{ActionEvent.class})));
 				link.setStyle("font-weight:normal");
 				link.setValue(name);
 				tab.getChildren().add(link);

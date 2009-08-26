@@ -1,14 +1,14 @@
 /** 
  * EditBean.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
  *
@@ -60,8 +60,8 @@ public abstract class EditBean extends JsfBase{
 		super(bundle);
 	}
 	
-	protected List containers = new ArrayList();
-	protected List ajaxPanels = new ArrayList();
+	protected List<DataContainer> containers = new ArrayList<DataContainer>();
+	protected List<EditBean> ajaxPanels = new ArrayList<EditBean>();
 	
 	public static final String PAGE_START = "start";
 	public static final String PAGE_EDIT = "edit";
@@ -87,11 +87,11 @@ public abstract class EditBean extends JsfBase{
 		return EditBean.PAGE_EDIT;
 	}
 	
-	public static MessageList revert(List containers, WbemSmtResourceBundle bundle, boolean doUpdateControls, boolean silent) throws WbemsmtException {
+	public static MessageList revert(List<DataContainer> containers, WbemSmtResourceBundle bundle, boolean doUpdateControls, boolean silent) throws WbemsmtException {
 
 		DataContainerUtil.clearContainerMessages(containers);
 		
-		for (Iterator iter = containers.iterator(); iter.hasNext();) {
+		for (Iterator<DataContainer> iter = containers.iterator(); iter.hasNext();) {
 			DataContainer dataContainer = (DataContainer) iter.next();
 			dataContainer.getAdapter().revert(dataContainer);
 			if (MessageList.init(dataContainer).hasErrors())
@@ -102,7 +102,7 @@ public abstract class EditBean extends JsfBase{
 
 		if (doUpdateControls)
 		{
-			for (Iterator iter = containers.iterator(); iter.hasNext();) {
+			for (Iterator<DataContainer> iter = containers.iterator(); iter.hasNext();) {
 				DataContainer dataContainer = (DataContainer) iter.next();
 				dataContainer.getAdapter().updateControls(dataContainer);
                 if (MessageList.init(dataContainer).hasErrors())
@@ -124,27 +124,27 @@ public abstract class EditBean extends JsfBase{
 	public abstract String save() throws WbemsmtException;
 	public abstract void edit(ITaskLauncherTreeNode treeNode) throws WbemsmtException;
 	public abstract HtmlPanelGrid getPanel();
-	public List getContainers() {
+	public List<DataContainer> getContainers() {
 		return containers;
 	}
 	
 	
 	
-	public void setContainers(List containers) {
+	public void setContainers(List<DataContainer> containers) {
 		this.containers = containers;
 	}
 	public void addOKRevert(UIComponentBase parent, String methodBindingPrefix) {
 		btnOK = (HtmlCommandButton) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
-		btnOK.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.ok}"));
+		btnOK.setValueExpression("value",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{messages.ok}", Object.class));
 		String binding = "#{" + methodBindingPrefix + "save" + "}";
-		btnOK.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,null));
+		btnOK.setActionExpression(FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createMethodExpression(FacesContext.getCurrentInstance().getELContext(), binding,Object.class, new Class[]{}));
 		btnOK.setOnclick(JavascriptUtil.getShowWaitCall(bundle.getString("saving.data")));
 		btnOK.setId("editok");
 		
 		btnRevert = (HtmlCommandButton) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
-		btnRevert.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.revert}"));
+		btnRevert.setValueExpression("value",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{messages.revert}", Object.class));
 		binding = "#{" + methodBindingPrefix + "revert" + "}";
-		btnRevert.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding(binding,null));
+		btnRevert.setActionExpression(FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createMethodExpression(FacesContext.getCurrentInstance().getELContext(), binding,Object.class, new Class[]{}));
 		btnRevert.setOnclick(JsfUtil.getRevertEditActionJavaScriptConfirmStatement() +  JavascriptUtil.getShowWaitCall(bundle.getString("undo.data")));
 		btnRevert.setId("editrevert");
 
@@ -224,15 +224,15 @@ public abstract class EditBean extends JsfBase{
     * @param editBeans
     * @see org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter#markedForReload
     */
-   public static void reloadAdapters(List editBeans) {
+   public static void reloadAdapters(List<EditBean> editBeans) {
 
 		try {
 			AbstractBaseCimAdapter adapterForReload = null;
 
 			for (int i = 0; i < editBeans.size() && adapterForReload == null; i++) {
 				EditBean bean = (EditBean) editBeans.get(i);
-				List containers = bean.getContainers();
-				for (Iterator iter = containers.iterator(); iter.hasNext();) {
+				List<DataContainer> containers = bean.getContainers();
+				for (Iterator<DataContainer> iter = containers.iterator(); iter.hasNext();) {
 					DataContainer container = (DataContainer) iter.next();
 					if (container.getAdapter().isMarkedForReload()) {
 						adapterForReload = container.getAdapter();

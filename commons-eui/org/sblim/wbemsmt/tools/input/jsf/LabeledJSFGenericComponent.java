@@ -1,14 +1,14 @@
 /** 
   *LabeledJSFGenericComponent.java
   *
-  * © Copyright IBM Corp. 2008
+  * © Copyright IBM Corp.  2009,2008
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -154,8 +154,8 @@ public class LabeledJSFGenericComponent extends LabeledJSFInputComponent impleme
     private static void setComponentBindings1(LabeledJSFGenericComponent component, String id) {
         //((HtmlPanelGroup)component.getComponent()).setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
         
-        ((HtmlPanelGroup)component.getComponent()).setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
-        ((HtmlPanelGroup)component.getComponent()).setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id + "Rendered}"));
+        ((HtmlPanelGroup)component.getComponent()).setValueExpression("value", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id +"}", Object.class));
+        ((HtmlPanelGroup)component.getComponent()).setValueExpression("rendered", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id + "Rendered}", Object.class));
         
         setComponentBindings("Text",id,component.getComponentText());
         setComponentBindings("Checkbox",id,component.getComponentCheckbox());
@@ -167,15 +167,15 @@ public class LabeledJSFGenericComponent extends LabeledJSFInputComponent impleme
         
         createReadOnly(id, component);
         
-        LabeledJSFInputFieldComponent.setComponentBindings(component.getComponentText(),id);
-        LabeledJSFLabelComponent.setComponentBindings(component.getComponentLabel(), id);
-        LabeledJSFCheckboxComponent.setComponentBindings(component.getComponentCheckbox(),id);
-        LabeledJSFComboBoxComponent.setComponentBindings(component.getComponentCombobox(),id);
-        LabeledJSFPasswordFieldComponent.setComponentBindings(component.getComponentPassword(),id);
-        LabeledJSFRadioButtonComponent.setComponentBindings(component.getComponentRadiobutton(),id);
-        JSFButtonComponent.setComponentBindings(component.getComponentButton(),id);
+        LabeledJSFInputFieldComponent.setComponentExpressions(component.getComponentText(),id);
+        LabeledJSFLabelComponent.setComponentExpressions(component.getComponentLabel(), id);
+        LabeledJSFCheckboxComponent.setComponentExpressions(component.getComponentCheckbox(),id);
+        LabeledJSFComboBoxComponent.setComponentExpressions(component.getComponentCombobox(),id);
+        LabeledJSFPasswordFieldComponent.setComponentExpressions(component.getComponentPassword(),id);
+        LabeledJSFRadioButtonComponent.setComponentExpressions(component.getComponentRadiobutton(),id);
+        JSFButtonComponent.setComponentExpressions(component.getComponentButton(),id);
         //overwrite the value binding from the button class
-        component.getComponentButton().setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id + "}"));
+        component.getComponentButton().setValueExpression("value", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id + "}", Object.class));
  
         
     }
@@ -191,7 +191,7 @@ public class LabeledJSFGenericComponent extends LabeledJSFInputComponent impleme
     private static void setComponentBindings(String type, String id, UIComponentBase control) {
         
         //expects a method called getItem<type>Rendered
-        control.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id + type + "Rendered" + " && !" + id +"Disabled}"));
+        control.setValueExpression("rendered", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id + type + "Rendered" + " && !" + id +"Disabled}", Object.class));
     }
 
     /**
@@ -496,8 +496,8 @@ public class LabeledJSFGenericComponent extends LabeledJSFInputComponent impleme
         }
         
         label = genericComponent.getReadOnly();
-        label.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"ReadOnlyText}"));
-        label.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id + "Disabled}"));
+        label.setValueExpression("value", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id +"ReadOnlyText}", Object.class));
+        label.setValueExpression("rendered", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id + "Disabled}", Object.class));
         
     }
 

@@ -1,14 +1,14 @@
  /** 
   * JSFWizardBase.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author:	Michael Bauschert
   *
@@ -68,7 +68,7 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 		
 	protected static Logger logger = Logger.getLogger("org.sblim.wbemsmt.tools.wizard.jsf");
 	
-	private HashMap pages = new HashMap();
+	private HashMap<String, IWizardBasePanel> pages = new HashMap<String, IWizardBasePanel>();
 	private String keyForTitle;
 	private String title;
 	
@@ -148,9 +148,9 @@ public abstract class JSFWizardBase extends JsfBase implements WizardBase{
 	 	pages.put(actualPanelName,currentPanel);
 	}
 
-	public void next(ActionEvent event)
-	{
-	}
+//	public void next(ActionEvent event)
+//	{
+//	}
 
 	/**
 	 * select the page and remove all other pages on the stack with pages

@@ -1,14 +1,14 @@
 /**
  *  TaskLauncherTreeFactory.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Marius Kreis <mail@nulldevice.org>
  *
@@ -19,7 +19,6 @@
 package org.sblim.wbemsmt.bl.tree;
 
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,18 +42,18 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 {
     private static final Logger logger = Logger.getLogger(TaskLauncherTreeFactory.class.getName());
     
-    private List rootNodes = new ArrayList();
+    private List<TaskLauncherTreeNode> rootNodes = new ArrayList<TaskLauncherTreeNode>();
 
-    private List commonContextMenues = new ArrayList();
+    private List<TaskLauncherContextMenu> commonContextMenues = new ArrayList<TaskLauncherContextMenu>();
 
-	private List cimomNodes = new ArrayList();
+	private List<CimomTreeNode> cimomNodes = new ArrayList<CimomTreeNode>();
     
-    public TaskLauncherTreeFactory(List customTreeConfigs) throws WbemsmtException
+    public TaskLauncherTreeFactory(List<CustomTreeConfig> customTreeConfigs) throws WbemsmtException
     { 
     	if (customTreeConfigs != null)
     	{
-        	for (Iterator iter = customTreeConfigs.iterator(); iter.hasNext();) {
-    			CustomTreeConfig customTreeConfig = (CustomTreeConfig) iter.next();
+        	for (Iterator<CustomTreeConfig> iter = customTreeConfigs.iterator(); iter.hasNext();) {
+    			CustomTreeConfig customTreeConfig = iter.next();
     			if (customTreeConfig.isLoaded() && customTreeConfig.serverTaskExists(customTreeConfig.getCimClient()))
     			{
         			TaskLauncherTreeNode nodeFromXML = TaskLauncherTreeNode.createNodeFromXML(customTreeConfig.getCimClient(), customTreeConfig.getRootnode(),customTreeConfig);
@@ -87,7 +86,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
     
     public TaskLauncherTreeFactory(WBEMClient cimClient) throws WbemsmtException
     {
-        this(new ArrayList());
+        this(new ArrayList<CustomTreeConfig>());
     }
 
     public TaskLauncherTreeFactory(CimomData[] cimoms) throws WbemsmtException {
@@ -99,7 +98,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 	}
 
 	private void addCimomNode(CimomData cimom) throws WbemsmtException {
-		TaskLauncherDelegaterTreeNode rootNode = new TaskLauncherDelegaterTreeNode(new ArrayList(),"root");
+		TaskLauncherDelegaterTreeNode rootNode = new TaskLauncherDelegaterTreeNode(new ArrayList<ITaskLauncherTreeNode>(),"root");
 		CimomTreeNode cimomNode = new CimomTreeNode(cimom);
 		cimomNodes.add(cimomNode);
 		rootNode.addSubnode(cimomNode);
@@ -109,7 +108,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 	/* (non-Javadoc)
 	 * @see org.sblim.wbem.webapp.ITaskLauncherTreeFactory#getRootNode()
 	 */ 
-    public List getRootNodes()
+    public List<TaskLauncherTreeNode> getRootNodes()
     {
     	return rootNodes;
     }
@@ -121,11 +120,11 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
      */
 	public void updateMultiHost(CimomData[] cimomDataArray) throws WbemsmtException {
 		
-		Set oldCimoms = new HashSet(); 
-		Set newCimoms = new HashSet();
+		Set<String> oldCimoms = new HashSet<String>(); 
+		Set<String> newCimoms = new HashSet<String>();
 		
-		for (Iterator iter = rootNodes.iterator(); iter.hasNext();) {
-			TaskLauncherTreeNode rootNode = (TaskLauncherTreeNode) iter.next();
+		for (Iterator<TaskLauncherTreeNode> iter = rootNodes.iterator(); iter.hasNext();) {
+			TaskLauncherTreeNode rootNode = iter.next();
 			CimomTreeNode cimomNode = (CimomTreeNode)rootNode.getSubnodes().get(0);
 			oldCimoms.add(cimomNode.getCimomData().getHostname().toLowerCase());
 		}
@@ -136,8 +135,8 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		}
 		
 		//first remove the oldOnes that doesn't exist anymore
-		for (Iterator iter = oldCimoms.iterator(); iter.hasNext();) {
-			String oldHost = (String) iter.next();
+		for (Iterator<String> iter = oldCimoms.iterator(); iter.hasNext();) {
+			String oldHost = iter.next();
 			if (!newCimoms.contains(oldHost))
 			{
 				for (int i=0; i < rootNodes.size(); i++)
@@ -156,8 +155,8 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		}
 		
 		//add the new found hosts
-		for (Iterator iter = newCimoms.iterator(); iter.hasNext();) {
-			String newHost = (String) iter.next();
+		for (Iterator<String> iter = newCimoms.iterator(); iter.hasNext();) {
+			String newHost = iter.next();
 			if (!oldCimoms.contains(newHost))
 			{
 				for (int i = 0; i < cimomDataArray.length; i++) {
@@ -194,22 +193,22 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		
 		if (ourCimom != null)
 		{
-			Set oldItems = new HashSet(); 
-			Set newItems = new HashSet();
+			Set<String> oldItems = new HashSet<String>(); 
+			Set<String> newItems = new HashSet<String>();
 			
-			for (Iterator iter = rootNodes.iterator(); iter.hasNext();) {
+			for (Iterator<TaskLauncherTreeNode> iter = rootNodes.iterator(); iter.hasNext();) {
 				TaskLauncherTreeNode rootNode = (TaskLauncherTreeNode) iter.next();
 				oldItems.add(rootNode.getCustomTreeConfig().getFilename());
 			}
 			
-			Vector treeConfigs = ourCimom.getTreeConfigs();
-			for (Iterator iter = treeConfigs.iterator(); iter.hasNext();) {
+			Vector<TreeConfigData> treeConfigs = ourCimom.getTreeConfigs();
+			for (Iterator<TreeConfigData> iter = treeConfigs.iterator(); iter.hasNext();) {
 				TreeConfigData treeConfigData = (TreeConfigData) iter.next();
 				newItems.add(treeConfigData.getFilename());
 			}
 			
 			//first remove the oldOnes that doesn't exist anymore
-			for (Iterator iter = oldItems.iterator(); iter.hasNext();) {
+			for (Iterator<String> iter = oldItems.iterator(); iter.hasNext();) {
 				String oldItem = (String) iter.next();
 				if (!newItems.contains(oldItem))
 				{
@@ -227,11 +226,11 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 			}
 			
 			//add the new found Tasks
-			for (Iterator iter = newItems.iterator(); iter.hasNext();) {
+			for (Iterator<String> iter = newItems.iterator(); iter.hasNext();) {
 				String newItem = (String) iter.next();
 				if (!oldItems.contains(newItem))
 				{
-					for (Iterator iterator = treeConfigs.iterator(); iterator.hasNext();) {
+					for (Iterator<TreeConfigData> iterator = treeConfigs.iterator(); iterator.hasNext();) {
 						TreeConfigData treeConfigData = (TreeConfigData) iterator.next();
 						
 						if (treeConfigData.getFilename().equalsIgnoreCase(newItem))
@@ -252,11 +251,14 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		}
 	}
 	
-	private void sortCimomNodes(List nodes) {
+	// Really there's a CimomData specific method being called to compare the objects
+	// But it appears that sometimes there is a non-CimomData object that has CimomData nodes as children.
+	// In these cases the child of each object is compared.
+	private void sortCimomNodes(List<? extends TaskLauncherTreeNode> nodes) {
 
-		Collections.sort(nodes, new Comparator()
+		Collections.sort(nodes, new Comparator<TaskLauncherTreeNode>()
 				{
-			public int compare(Object o1, Object o2) {
+			public int compare(TaskLauncherTreeNode o1, TaskLauncherTreeNode o2) {
 				try {
 					
 					if (o1 instanceof CimomTreeNode && o2 instanceof CimomTreeNode)
@@ -283,12 +285,12 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 
 	private void sortTaskNodes() {
 
-		Collections.sort(rootNodes, new Comparator()
+		Collections.sort(rootNodes, new Comparator<TaskLauncherTreeNode>()
 		{
-			public int compare(Object o1, Object o2) {
+			public int compare(TaskLauncherTreeNode o1, TaskLauncherTreeNode o2) {
 				try {
-					ITaskLauncherTreeNode treeNode1 = (ITaskLauncherTreeNode)((TaskLauncherTreeNode)o1).getSubnodes().get(0);
-					ITaskLauncherTreeNode treeNode2 = (ITaskLauncherTreeNode)((TaskLauncherTreeNode)o2).getSubnodes().get(0);
+					ITaskLauncherTreeNode treeNode1 = (ITaskLauncherTreeNode)o1.getSubnodes().get(0);
+					ITaskLauncherTreeNode treeNode2 = (ITaskLauncherTreeNode)o2.getSubnodes().get(0);
 					return treeNode1.getName().compareTo(treeNode2.getName());
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -299,22 +301,22 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		
 	}
 
-	public List getCommonContextMenues() {
+	public List<TaskLauncherContextMenu> getCommonContextMenues() {
 	
-		List result = new ArrayList();
+		List<TaskLauncherContextMenu> result = new ArrayList<TaskLauncherContextMenu>();
 		if (RuntimeUtil.getInstance().isSingleMode() || RuntimeUtil.getInstance().isEmbeddedMode())
 		{
 			result.addAll(commonContextMenues);
 		}
 		else
 		{
-			Set addedCommonContextMenues = new HashSet();
+			Set<String> addedCommonContextMenues = new HashSet<String>();
 			
-			for (Iterator iter = cimomNodes.iterator(); iter.hasNext();) {
+			for (Iterator<CimomTreeNode> iter = cimomNodes.iterator(); iter.hasNext();) {
 				CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
-				Map ctxMenues = cimomTreeNode.getCommonContextMenues();
-				for (Iterator iterator = ctxMenues.entrySet().iterator(); iterator.hasNext();) {
-					Map.Entry entry = (Entry) iterator.next();
+				Map<String, TaskLauncherContextMenu> ctxMenues = cimomTreeNode.getCommonContextMenues();
+				for (Iterator<Map.Entry<String, TaskLauncherContextMenu>> iterator = ctxMenues.entrySet().iterator(); iterator.hasNext();) {
+					Map.Entry<String, TaskLauncherContextMenu> entry =  iterator.next();
 					if (!addedCommonContextMenues.contains(entry.getKey()))
 					{
 						result.add(entry.getValue());
@@ -331,8 +333,8 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		if (RuntimeUtil.getInstance().isJSF() )
 		{
 			ILocaleManager manager = (ILocaleManager) BeanNameConstants.LOCALE_MANAGER.getBoundValue(FacesContext.getCurrentInstance());
-			for (Iterator iter = result.iterator(); iter.hasNext();) {
-				TaskLauncherContextMenu menu = (TaskLauncherContextMenu) iter.next();
+			for (Iterator<TaskLauncherContextMenu> iter = result.iterator(); iter.hasNext();) {
+				TaskLauncherContextMenu menu = iter.next();
 				if (menu != null && menu.getItemCount() > 0 && menu.getItem(0).getDescription() == null)
 				{
 					menu.initI18n(manager);
@@ -351,7 +353,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 	public int getActiveCimomNodeCount()
 	{
 		int count = 0;
-		for (Iterator iter = cimomNodes.iterator(); iter.hasNext();) {
+		for (Iterator<CimomTreeNode> iter = cimomNodes.iterator(); iter.hasNext();) {
 			CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
 			if (cimomTreeNode.isLoggedIn())
 			{
@@ -369,7 +371,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 	public int getInactiveCimomNodeCount()
 	{
 		int count = 0;
-		for (Iterator iter = cimomNodes.iterator(); iter.hasNext();) {
+		for (Iterator<CimomTreeNode> iter = cimomNodes.iterator(); iter.hasNext();) {
 			CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
 			if (!cimomTreeNode.isLoggedIn())
 			{
@@ -389,12 +391,12 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		ITaskLauncherTreeNode result = null;
 		if (getActiveCimomNodeCount() > 0)
 		{
-			List nodes = getActiveCimomNodes();
+			List<CimomTreeNode> nodes = getActiveCimomNodes();
 			sortCimomNodes(nodes);
 
 			result = new SimpleTextTreeNode("activeCimoms");
-			for (Iterator iter = nodes.iterator(); iter.hasNext();) {
-				CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
+			for (Iterator<CimomTreeNode> iter = nodes.iterator(); iter.hasNext();) {
+				CimomTreeNode cimomTreeNode = iter.next();
 				result.addSubnode(cimomTreeNode);
 			}
 			
@@ -413,12 +415,12 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 		ITaskLauncherTreeNode result = null;
 		if (getInactiveCimomNodeCount() > 0)
 		{
-			List nodes = getInactiveCimomNodes();
+			List<CimomTreeNode> nodes = getInactiveCimomNodes();
 			sortCimomNodes(nodes);
 			
 			result = new SimpleTextTreeNode("inactiveCimoms");
-			for (Iterator iter = nodes.iterator(); iter.hasNext();) {
-				CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
+			for (Iterator<CimomTreeNode> iter = nodes.iterator(); iter.hasNext();) {
+				CimomTreeNode cimomTreeNode = iter.next();
 				result.addSubnode(cimomTreeNode);
 			}
 		}
@@ -452,11 +454,11 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 	 * If the application is not running in multimode the return value is null
 	 * @return
 	 */
-	private List getActiveCimomNodes() {
+	private List<CimomTreeNode>  getActiveCimomNodes() {
 
-		List result = new ArrayList();
+		List<CimomTreeNode> result = new ArrayList<CimomTreeNode>();
 		
-		for (Iterator iter = cimomNodes.iterator(); iter.hasNext();) {
+		for (Iterator<CimomTreeNode> iter = cimomNodes.iterator(); iter.hasNext();) {
 			CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
 			if (cimomTreeNode.isLoggedIn())
 			{
@@ -471,11 +473,11 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 	 * If the application is not running in multimode the return value is null
 	 * @return
 	 */
-	private List getInactiveCimomNodes() {
+	private List<CimomTreeNode>  getInactiveCimomNodes() {
 
-		List result = new ArrayList();
+		List<CimomTreeNode> result = new ArrayList<CimomTreeNode> ();
 		
-		for (Iterator iter = cimomNodes.iterator(); iter.hasNext();) {
+		for (Iterator<CimomTreeNode>  iter = cimomNodes.iterator(); iter.hasNext();) {
 			CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
 			if (!cimomTreeNode.isLoggedIn())
 			{
@@ -492,7 +494,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 	 */
 	
 	public WelcomeData[] getWelcomeData() {
-		Map map = new HashMap();
+		Map<String, WelcomeData> map = new HashMap<String, WelcomeData>();
 		
 		for (int i=0; i < rootNodes.size(); i++)
 		{
@@ -503,12 +505,12 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 			}
 		}		
 
-		List activeCimoms = getActiveCimomNodes();
-		for (Iterator iter = activeCimoms.iterator(); iter.hasNext();) {
+		List<CimomTreeNode> activeCimoms = getActiveCimomNodes();
+		for (Iterator<CimomTreeNode> iter = activeCimoms.iterator(); iter.hasNext();) {
 			CimomTreeNode cimomTreeNode = (CimomTreeNode) iter.next();
 			try {
-				List vector = cimomTreeNode.getSubnodes();
-				for (Iterator iterator = vector.iterator(); iterator.hasNext();) {
+				List<ITaskLauncherTreeNode> vector = cimomTreeNode.getSubnodes();
+				for (Iterator<ITaskLauncherTreeNode> iterator = vector.iterator(); iterator.hasNext();) {
 					TaskLauncherTreeNode node = (TaskLauncherTreeNode) iterator.next();
 					
 					//add only if the adapter for the task was initialized
@@ -521,7 +523,7 @@ public class TaskLauncherTreeFactory implements ITaskLauncherTreeFactory
 				logger.log(Level.SEVERE, "Cannot get nodes of cimomTreeNode " + cimomTreeNode.getInfo(),e);
 			}
 		}
-		Collection values = map.values();
+		Collection<WelcomeData> values = map.values();
 		return (WelcomeData[]) values.toArray(new WelcomeData[values.size()]);
 	}
 	

@@ -1,14 +1,14 @@
 /** 
  * BeanNameConstants.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
  *
@@ -24,7 +24,7 @@ import java.text.MessageFormat;
 
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
+import javax.el.ValueExpression;
 
 import org.sblim.wbemsmt.bl.help.HelpManager;
 import org.sblim.wbemsmt.cim.indication.jsf.DestinationManagerBean;
@@ -125,13 +125,13 @@ public final class BeanNameConstants {
 		
 		/**
 		 * @param fc FacesContext
-		 * @return the the bean as ValueBinding 
+		 * @return the the bean as ValueExpression
 		 */
-		public ValueBinding asValueBinding(FacesContext fc)
+		public ValueExpression asValueExpression(FacesContext fc)
 		{
 			Application application = fc.getApplication();
-			ValueBinding valueBinding = application.createValueBinding("#{" + name + "}");
-			return valueBinding;
+			ValueExpression valueExpression = application.getExpressionFactory().createValueExpression(fc.getELContext(), "#{" + name + "}", Object.class);
+			return valueExpression;
 		}
 
 		/**
@@ -141,22 +141,22 @@ public final class BeanNameConstants {
 		public Object getBoundValue(FacesContext fc)
 		{
 			Application application = fc.getApplication();
-			ValueBinding valueBinding = application.createValueBinding("#{" + name + "}");
-			return valueBinding.getValue(fc);
+			ValueExpression valueExpression = application.getExpressionFactory().createValueExpression(fc.getELContext(), "#{" + name + "}", Object.class);
+			return valueExpression.getValue(fc.getELContext());
 		}
 
 		/**
-		 * Inserts the BeanName in the given string and creates a value binding
+		 * Inserts the BeanName in the given string and creates a value expression
 		 * @param fc FacesContext instance
 		 * @param pattern for a MessageFormat-formatted String. At Index 0 the BeanName is inserted
-		 * @return ValueBinding which uses the BeanName in the given pattern string
+		 * @return ValueExpression which uses the BeanName in the given pattern string
 		 * 
 		 * @see MessageFormat
 		 */
-		public ValueBinding asValueBinding(FacesContext fc, String pattern) {
+		public ValueExpression asValueExpression(FacesContext fc, String pattern) {
 			Application application = fc.getApplication();
-			String binding = MessageFormat.format(pattern, new Object[]{name});
-			ValueBinding valueBinding = application.createValueBinding(binding);
+			String expression = MessageFormat.format(pattern, new Object[]{name});
+			ValueExpression valueBinding = application.getExpressionFactory().createValueExpression(fc.getELContext(), expression, Object.class);
 			return valueBinding;
 		}
 	

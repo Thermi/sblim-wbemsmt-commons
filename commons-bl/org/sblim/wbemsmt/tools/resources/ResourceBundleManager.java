@@ -1,14 +1,14 @@
  /** 
   * ResourceBundleManager.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -32,8 +32,8 @@ import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 public class ResourceBundleManager
 {
 	private static final String MISSING_TRANSLATIONS_TXT = "missingTranslations.txt";
-	private static Map instances = new HashMap();
-	private static List keys = new ArrayList();
+	private static Map<String, WbemSmtResourceBundle> instances = new HashMap<String, WbemSmtResourceBundle>();
+	private static List<String> keys = new ArrayList<String>();
 	
 	private static Logger logger = Logger.getLogger(ResourceBundleManager.class.getName());
 
@@ -297,7 +297,7 @@ public class ResourceBundleManager
 		String bundle = currentInstance.getApplication().getMessageBundle();
 
 		try {
-			Class cls = Class.forName("org.sblim.wbemsmt.webapp.jsf.WbemsmtWebAppBean");
+			Class<?> cls = Class.forName("org.sblim.wbemsmt.webapp.jsf.WbemsmtWebAppBean");
 			logger.fine("Using classloader of Class " + cls.getName());
 			return getResourceBundle(new String[]{bundle},locale,cls.getClassLoader());
 		} catch (ClassNotFoundException e) {

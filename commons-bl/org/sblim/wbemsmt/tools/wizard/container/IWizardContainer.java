@@ -1,14 +1,14 @@
  /** 
   * IWizardContainer.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author:	Bert Lange <LangeB@de.ibm.com>
   *
@@ -26,6 +26,7 @@ import java.util.Stack;
 import java.util.Vector;
 
 import org.sblim.wbemsmt.bl.adapter.AbstractBaseCimAdapter;
+import org.sblim.wbemsmt.bl.adapter.DataContainer;
 import org.sblim.wbemsmt.exception.WbemsmtException;
 import org.sblim.wbemsmt.tools.wizard.WizardStepList;
 
@@ -49,12 +50,13 @@ public interface IWizardContainer {
 	public String getNextWizardPageName();
 	/*
 	 * Returns the all page objects configured in wizard container class
+	 * <String, IWizardBasePanel>
 	 */
-	public HashMap getPages();
+	public HashMap<String, DataContainer> getPages();
 	/*
 	 * Get the stack object holding the pages the wizard previously run through
 	 */
-	public Stack getUsedPages();
+	public Stack<String> getUsedPages();
 	/*
 	 * Do initialization stuff for wizard container
 	 */
@@ -78,7 +80,7 @@ public interface IWizardContainer {
 	 * The 'result' vector can be filled with specific error messages, error IDs or own exception objects
 	 * for further processing
 	 */
-	public boolean isValid(String propertyName, Object value, Vector result);
+	public boolean isValid(String propertyName, Object value, Vector<Object> result);
 	/*
 	 * Do actions if wizard flow complete and preWizardFinish method (successfully) executed
 	 */

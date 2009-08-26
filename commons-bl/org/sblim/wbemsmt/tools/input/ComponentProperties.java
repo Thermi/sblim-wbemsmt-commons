@@ -1,14 +1,14 @@
 /** 
   * ComponentProperties.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -33,7 +33,7 @@ import org.sblim.wbemsmt.tools.input.LabeledBaseInputComponent.Size;
  *
  * @see org.sblim.wbemsmt.tools.input.LabeledBaseInputComponentIf#getProperties()
  */
-public class ComponentProperties extends Hashtable
+public class ComponentProperties extends Hashtable<String, Object>
 {
 	public static String COLOR_GREEN = "green";
 	public static String COLOR_RED = "red";
@@ -53,7 +53,7 @@ public class ComponentProperties extends Hashtable
 	private static final String KEY_COLOR = "color";
 	private static final String KEY_VISIBLE = "visibility";
 	private static final String KEY_SIZE = "size";
-	Set listeners = new HashSet();
+	Set<ComponentPropertyChangListener> listeners = new HashSet<ComponentPropertyChangListener>();
 	
 	public String getBgColor() {
 		return (String) (get(KEY_BG_COLOR) == null ? COLOR_WHITE : get(KEY_BG_COLOR));
@@ -111,7 +111,7 @@ public class ComponentProperties extends Hashtable
 		try {
 			Method m = ComponentPropertyChangListener.class.getMethod(key + "Changed", new Class[]{newValue.getClass()});
 			
-			for (Iterator iter = listeners.iterator(); iter.hasNext();) {
+			for (Iterator<ComponentPropertyChangListener> iter = listeners.iterator(); iter.hasNext();) {
 				ComponentPropertyChangListener listener = (ComponentPropertyChangListener) iter.next();
 				m.setAccessible(true);
 				m.invoke(listener,new Object[]{newValue});

@@ -1,14 +1,14 @@
  /** 
   * LocaleManager.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -20,7 +20,6 @@
 package org.sblim.wbemsmt.tools.resources;
 
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import javax.faces.context.FacesContext;
@@ -44,7 +43,7 @@ public class LocaleManager implements ILocaleManager {
 	{
 	    if (fc != null)
 	    {
-	        ILocaleManager localeManager = (ILocaleManager) BeanNameConstants.LOCALE_MANAGER.asValueBinding(fc).getValue(fc);
+	        ILocaleManager localeManager = (ILocaleManager) BeanNameConstants.LOCALE_MANAGER.asValueExpression(fc).getValue(fc.getELContext());
 	        return localeManager;
 	    }
 	    else
@@ -56,8 +55,8 @@ public class LocaleManager implements ILocaleManager {
 
     protected Locale currentLocale;
     protected static final Logger logger = Logger.getLogger(LocaleManagerBean.class.getName());
-    private Map resourceBundleByAppName = new HashMap();
-    Set listeners = new HashSet();
+    private Map<String, WbemSmtResourceBundle> resourceBundleByAppName = new HashMap<String, WbemSmtResourceBundle>();
+    Set<LocaleChangeListener> listeners = new HashSet<LocaleChangeListener>();
     //private Map appNameByPackageName = new HashMap();
 
     public LocaleManager() {
@@ -82,7 +81,7 @@ public class LocaleManager implements ILocaleManager {
 
 
     protected void sendEvent(Locale newLocale) {
-        for (Iterator iter = listeners.iterator(); iter.hasNext();) {
+        for (Iterator<LocaleChangeListener> iter = listeners.iterator(); iter.hasNext();) {
             LocaleChangeListener listener = (LocaleChangeListener) iter.next();
             listener.localeChanged(newLocale);
         }
@@ -101,7 +100,7 @@ public class LocaleManager implements ILocaleManager {
         }
     }    
 
-    public Map getBundle() {
+    public Map<String, WbemSmtResourceBundle> getBundle() {
         return resourceBundleByAppName;
     }
 
@@ -111,10 +110,10 @@ public class LocaleManager implements ILocaleManager {
      */
     public void reloadBundles() {
     
-        List keys = new ArrayList();
-        List bundleNames = new ArrayList();
-        for (Iterator iter = resourceBundleByAppName.entrySet().iterator(); iter.hasNext();) {
-            Map.Entry entry = (Entry) iter.next();
+        List<String> keys = new ArrayList<String>();
+        List<String[]> bundleNames = new ArrayList<String[]>();
+        for (Iterator<Map.Entry<String, WbemSmtResourceBundle>> iter = resourceBundleByAppName.entrySet().iterator(); iter.hasNext();) {
+            Map.Entry<String, WbemSmtResourceBundle> entry = (Map.Entry<String, WbemSmtResourceBundle>) iter.next();
             String app = (String) entry.getKey();
             WbemSmtResourceBundle bundle = (WbemSmtResourceBundle) entry.getValue();
             keys.add(app);

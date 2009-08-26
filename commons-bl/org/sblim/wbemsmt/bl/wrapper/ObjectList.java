@@ -1,14 +1,14 @@
  /** 
   * SambaObjectList.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -31,11 +31,11 @@ public abstract class ObjectList {
 	/**
 	 * stores the users by CimObjectKey
 	 */
-	private Map objectsByCimObjectKey = new HashMap();
+	private Map<Object, Object> objectsByCimObjectKey = new HashMap<Object, Object>();
 	/**
 	 * stores the users by a given name
 	 */
-	private Map objectsByName = new HashMap();
+	private Map<String, Object> objectsByName = new HashMap<String, Object>();
 	/**
 	 * lazy loaded Array with all user names
 	 */
@@ -43,11 +43,11 @@ public abstract class ObjectList {
 	/**
 	 * lazy loaded list with user objects
 	 */
-	private List list = new ArrayList();
+	private List<Object> list = new ArrayList<Object>();
 	/**
 	 * lazy loaded list with user fcos
 	 */
-	private List fcos = new ArrayList();
+	private List<Object> fcos = new ArrayList<Object>();
 	
     protected static Logger logger = Logger.getLogger(ObjectList.class.getName());
 	
@@ -88,7 +88,7 @@ public abstract class ObjectList {
 	 * returns a interator of the list
 	 * @return
 	 */
-	public Iterator iterator() {
+	public Iterator<Object> iterator() {
 		return objectsByCimObjectKey.values().iterator();
 	}
 
@@ -107,7 +107,7 @@ public abstract class ObjectList {
 	 * @return
 	 * @throws WbemsmtException 
 	 */
-	public List getFCOs() throws WbemsmtException {
+	public List<Object> getFCOs() throws WbemsmtException {
 		if (fcos.size() == 0) reloadListValues();
 		return fcos;
 	}
@@ -117,7 +117,7 @@ public abstract class ObjectList {
 	 * @return
 	 * @throws WbemsmtException 
 	 */
-	public List getList() throws WbemsmtException {
+	public List<Object> getList() throws WbemsmtException {
 		if (list.size() == 0) reloadListValues();
 		return list;
 	}
@@ -127,7 +127,7 @@ public abstract class ObjectList {
 	 * @return
 	 * @throws WbemsmtException 
 	 */
-	protected Map getObjectsByName() throws WbemsmtException {
+	protected Map<String, Object> getObjectsByName() throws WbemsmtException {
 		if (objectsByName.size() == 0) reloadListValues();
 		return objectsByName;
 	}
@@ -139,9 +139,9 @@ public abstract class ObjectList {
 	 */
 	public void reloadListValues() throws WbemsmtException {
 		
-		List names = new ArrayList();
+		List<String> names = new ArrayList<String>();
 		objectsByName.clear();
-		for (Iterator iter = objectsByCimObjectKey.values().iterator(); iter.hasNext();) {
+		for (Iterator<Object> iter = objectsByCimObjectKey.values().iterator(); iter.hasNext();) {
 			Object o = iter.next();
 			String key = getKey(o).toString();
 			names.add(key);

@@ -1,14 +1,14 @@
  /** 
   * CimCommandlet.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -60,7 +60,7 @@ public abstract class CimCommand {
 	private static final String NO_CONFIRMATIONS = "NO_CONFIRMATIONS";
 	
 	private int errorCount = 0;
-	public Map optionsByKey = new HashMap();
+	public Map<OptionDefinition, Option> optionsByKey = new HashMap<OptionDefinition, Option>();
 	protected final String commandName;
 	protected WbemSmtResourceBundle bundle;
 	protected static Logger logger = Logger.getLogger(CimCommand.class.getName());
@@ -463,7 +463,7 @@ public abstract class CimCommand {
 		commandValues.getErr().println(bundle.getString(bundlekeyForCaption));
 		if (messageList != null)
 		{
-	        for (Iterator iter = messageList.iterator(); iter.hasNext();) {
+	        for (Iterator<Message> iter = messageList.iterator(); iter.hasNext();) {
 	        	Message msg = (Message) iter.next();
 	        	commandValues.getErr().println(msg.toLocalizedString(bundle,true));
 	        }
@@ -481,7 +481,7 @@ public abstract class CimCommand {
 	 */
 	public void traceErrors(MessageList messageList)
 	{
-	    for (Iterator iter = messageList.iterator(); iter.hasNext();) {
+	    for (Iterator<Message> iter = messageList.iterator(); iter.hasNext();) {
         	Message msg = (Message) iter.next();
         	if (msg.isError() || msg.isWarning())
         	{
@@ -508,7 +508,7 @@ public abstract class CimCommand {
 		if (messageList.size() > 0)
 		{
 			commandValues.getOut().println(bundle.getString(bundlekeyForCaption));
-			for (Iterator iter = messageList.iterator(); iter.hasNext();) {
+			for (Iterator<Message> iter = messageList.iterator(); iter.hasNext();) {
 				Message msg = (Message) iter.next();
 				commandValues.getOut().println(msg.toLocalizedString(bundle,true));
 			}
@@ -530,7 +530,7 @@ public abstract class CimCommand {
 		{
 			PrintWriter out = commandValues.getOut();
             out.println(caption.getMessageString());
-			for (Iterator iter = messageList.iterator(); iter.hasNext();) {
+			for (Iterator<Message> iter = messageList.iterator(); iter.hasNext();) {
 				Message msg = (Message) iter.next();
 				if (msg.isError())
 				{
@@ -588,7 +588,7 @@ public abstract class CimCommand {
 	 */
 	public void traceMessages(MessageList messageList)
 	{
-        for (Iterator iter = messageList.iterator(); iter.hasNext();) {
+        for (Iterator<Message> iter = messageList.iterator(); iter.hasNext();) {
         	Message msg = (Message) iter.next();
         	commandValues.getOut().println(msg.toLocalizedString(bundle,true));
         }
@@ -627,7 +627,7 @@ public abstract class CimCommand {
 				WbemSmtResourceBundle bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages"},locale);
 				try {
 					char [] password = PasswordField.getPassword(values.getIn(), bundle.getString("enter.password.for.cimom",new Object[]{loginInfo}));
-					List argList = new ArrayList();
+					List<String> argList = new ArrayList<String>();
 					argList.addAll(Arrays.asList(args));
 					argList.add("--" + loginOptionValues.getPassword().getLongKey());
 

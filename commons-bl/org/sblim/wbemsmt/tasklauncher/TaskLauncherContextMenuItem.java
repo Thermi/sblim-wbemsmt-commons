@@ -1,14 +1,14 @@
 /**
  *  TaskLauncherContextMenuItem.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Marius Kreis <mail@nulldevice.org>
  *
@@ -106,7 +106,7 @@ public class TaskLauncherContextMenuItem implements Cloneable, LocaleChangeListe
     	logger.log(Level.FINE, "Adding Event Listener " + eventListenerClass + " to ContextMenuItem");
         try
         {
-            Class listenerClass = Class.forName(eventListenerClass);
+            Class<?> listenerClass = Class.forName(eventListenerClass);
             TaskLauncherContextMenuEventListener listener = (TaskLauncherContextMenuEventListener) listenerClass.newInstance();
             if(parameters != null) listener.setParameters(parameters);
             this.eventListener = listener;
@@ -148,7 +148,7 @@ public class TaskLauncherContextMenuItem implements Cloneable, LocaleChangeListe
     	}
     	
     	try {
-			ITreeSelector treeSelectorBean = (ITreeSelector)BeanNameConstants.TREE_SELECTOR.asValueBinding(FacesContext.getCurrentInstance()).getValue(FacesContext.getCurrentInstance());
+			ITreeSelector treeSelectorBean = (ITreeSelector)BeanNameConstants.TREE_SELECTOR.asValueExpression(FacesContext.getCurrentInstance()).getValue(FacesContext.getCurrentInstance().getELContext());
 			ITaskLauncherTreeNode nodeOfAction = getParent().getNode();
 			
 			 

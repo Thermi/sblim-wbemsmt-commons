@@ -1,14 +1,14 @@
 /**
  * AjaxPanelGroup.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Michael.Bauschert@de.ibm.com
  *
@@ -25,7 +25,7 @@ import java.util.List;
 
 import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
+import javax.el.ValueExpression;
 
 public class AjaxPanelGroup extends HtmlPanelGroup
 {
@@ -58,6 +58,7 @@ public class AjaxPanelGroup extends HtmlPanelGroup
         this.periodicalUpdate = periodicalUpdate;
     }
 
+    // @TODO The state Object used here is a List with a String and an Object that represents the State. This needs fixing.
 	public void restoreState(FacesContext context, Object state)
 	{
 
@@ -68,6 +69,7 @@ public class AjaxPanelGroup extends HtmlPanelGroup
 
     }
 
+    // @TODO The state Object used here is a List with a String and an Object that represents the State. This needs fixing.
 	public Object saveState(FacesContext context)
 	{
 		List values = new ArrayList();
@@ -78,8 +80,8 @@ public class AjaxPanelGroup extends HtmlPanelGroup
 	
     private Object getValue(Object value, String keyForBinding) {
         if (value != null) return value;
-        ValueBinding vb = getValueBinding(keyForBinding);
-        return (vb != null) ? vb.getValue(getFacesContext()) : null;
+        ValueExpression ve = getValueExpression(keyForBinding);
+        return (ve != null) ? ve.getValue(getFacesContext().getELContext()) : null;
 	}
 	
 }

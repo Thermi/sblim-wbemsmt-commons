@@ -1,14 +1,14 @@
  /** 
   * WbemsmtCookieUtil.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -63,15 +63,16 @@ public class WbemsmtCookieUtil {
 	 */
 	public static int DEFAULT_MAX_AGE = 60*60*24*30*12*65;
 
-	public static Iterator getCookiesWithPrefix(String prefix) {
+	public static Iterator<Cookie> getCookiesWithPrefix(String prefix) {
 
-		Map map = FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap();
-		Set set = map.entrySet();
+		// This Object actually is a Cookie, but ExternalContext doesn't type correctly it appears.
+		Map<String, Object> map =FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap();
+		Set<Map.Entry<String, Object>> set = map.entrySet();
 		
-		List result = new ArrayList();
+		List<Cookie> result = new ArrayList<Cookie>();
 		
-		for (Iterator iter = set.iterator(); iter.hasNext();) {
-			Map.Entry entry = (Map.Entry) iter.next();
+		for (Iterator<Map.Entry<String, Object>> iter = set.iterator(); iter.hasNext();) {
+			Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iter.next();
 			String key = (String) entry.getKey();
 			Cookie cookie = (Cookie) entry.getValue();
 			
@@ -85,11 +86,12 @@ public class WbemsmtCookieUtil {
 	
 	public static Cookie getCookie(String name) {
 
-		Map map = FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap();
-		Set set = map.entrySet();
+		// This Object actually is a Cookie, but ExternalContext doesn't type correctly it appears.
+		Map<String, Object> map = FacesContext.getCurrentInstance().getExternalContext().getRequestCookieMap();
+		Set<Map.Entry<String, Object>> set = map.entrySet();
 		
-		for (Iterator iter = set.iterator(); iter.hasNext();) {
-			Map.Entry entry = (Map.Entry) iter.next();
+		for (Iterator<Map.Entry<String, Object>> iter = set.iterator(); iter.hasNext();) {
+			Map.Entry<String, Object> entry = (Map.Entry<String, Object>) iter.next();
 			String key = (String) entry.getKey();
 			Cookie cookie = (Cookie) entry.getValue();
 			

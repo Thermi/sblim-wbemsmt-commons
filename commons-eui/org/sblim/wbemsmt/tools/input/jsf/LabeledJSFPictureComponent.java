@@ -1,14 +1,14 @@
 /** 
   *LabeledJSFPictureComponent.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -34,7 +34,7 @@ public class LabeledJSFPictureComponent extends LabeledJSFInputComponent {
 
 	public LabeledJSFPictureComponent(DataContainer parent, String labelText,String id, Converter converter,boolean readOnly) {
 		super(parent, labelText, id, FacesContext.getCurrentInstance().getApplication().createComponent(HtmlGraphicImage.COMPONENT_TYPE), converter,readOnly);
-		setComponentBindings1(this, id);
+		setComponentExpressions1(this, id);
 	}
 
 	public Object getItem() {
@@ -102,16 +102,16 @@ public class LabeledJSFPictureComponent extends LabeledJSFInputComponent {
 	
 	public void installProperties(LabeledJSFInputComponent comp, String prefix) {
 		super.installProperties(comp, prefix);
-		setComponentBindings1((LabeledJSFPictureComponent) comp,prefix);
+		setComponentExpressions1((LabeledJSFPictureComponent) comp,prefix);
 	}
 
-	private void setComponentBindings1(LabeledJSFPictureComponent component, String id) {
+	private void setComponentExpressions1(LabeledJSFPictureComponent component, String id) {
 		HtmlGraphicImage img = ((HtmlGraphicImage)component.getComponent());
-		img.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"}"));
-		img.setValueBinding("alt", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"PlainLabelText}"));
-		img.setValueBinding("title", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"PlainLabelText}"));
-        img.setValueBinding("onmouseover", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"OnMouseOver}"));
-        img.setValueBinding("onmouseout", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + id +"OnMouseOut}"));
+		img.setValueExpression("value", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id +"}", Object.class));
+		img.setValueExpression("alt", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id +"PlainLabelText}", Object.class));
+		img.setValueExpression("title", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id +"PlainLabelText}", Object.class));
+        img.setValueExpression("onmouseover", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id +"OnMouseOver}", Object.class));
+        img.setValueExpression("onmouseout", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + id +"OnMouseOut}", Object.class));
 	}	
 	
 	public String getItemOnMouseOver()

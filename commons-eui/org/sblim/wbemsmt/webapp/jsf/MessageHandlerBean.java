@@ -1,14 +1,14 @@
 /** 
  * MessageHandlerBean.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
  *
@@ -39,11 +39,11 @@ public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup, As
     
     static Logger logger = Logger.getLogger(MessageHandlerBean.class.getName());
 
-    private List successMessages = new ArrayList();
-    private List infoMessages = new ArrayList();
-    private List warningMessages = new ArrayList();
-    private List errorMessages = new ArrayList();
-    private Set messageSummaries = new HashSet();
+    private List<FacesMessage> successMessages = new ArrayList<FacesMessage>();
+    private List<FacesMessage> infoMessages = new ArrayList<FacesMessage>();
+    private List<FacesMessage> warningMessages = new ArrayList<FacesMessage>();
+    private List<FacesMessage> errorMessages = new ArrayList<FacesMessage>();
+    private Set<String> messageSummaries = new HashSet<String>();
 
     private boolean infos, errors,warnings,success = false;
     
@@ -51,8 +51,8 @@ public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup, As
     
     private StyleBean style;
 
-    private List directlyAddedMessages = new ArrayList();
-    private List asynchronousMessages = new ArrayList();
+    private List<FacesMessage> directlyAddedMessages = new ArrayList<FacesMessage>();
+    private List<Message> asynchronousMessages = new ArrayList<Message>();
     private Message newMessages = null; 
     
     
@@ -60,28 +60,28 @@ public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup, As
         super();
     }
     
-    public List getErrorMessages() {
+    public List<FacesMessage> getErrorMessages() {
         return errorMessages;
     }
-    public void setErrorMessages(List errorMessages) {
+    public void setErrorMessages(List<FacesMessage> errorMessages) {
         this.errorMessages = errorMessages;
     }
-    public List getInfoMessages() {
+    public List<FacesMessage> getInfoMessages() {
         return infoMessages;
     }
-    public void setInfoMessages(List infoMessages) {
+    public void setInfoMessages(List<FacesMessage> infoMessages) {
         this.infoMessages = infoMessages;
     }
-    public List getSuccessMessages() {
+    public List<FacesMessage> getSuccessMessages() {
         return successMessages;
     }
-    public void setSuccessMessages(List successMessages) {
+    public void setSuccessMessages(List<FacesMessage> successMessages) {
         this.successMessages = successMessages;
     }
-    public List getWarningMessages() {
+    public List<FacesMessage> getWarningMessages() {
         return warningMessages;
     }
-    public void setWarningMessages(List warningMessages) {
+    public void setWarningMessages(List<FacesMessage> warningMessages) {
         this.warningMessages = warningMessages;
     }
     
@@ -118,7 +118,7 @@ public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup, As
         return "";
     }
     
-    private void addMessages(Iterator iterator) {
+    private void addMessages(Iterator<FacesMessage> iterator) {
         while (iterator.hasNext()) {
             FacesMessage msg = (FacesMessage) iterator.next();
             
@@ -219,7 +219,7 @@ public class MessageHandlerBean extends WbemsmtWebAppBean implements Cleanup, As
     
     public void showAsynchronousMessages(ActionEvent event)
     {
-        for (Iterator iterator = asynchronousMessages.iterator(); iterator.hasNext();) {
+        for (Iterator<Message> iterator = asynchronousMessages.iterator(); iterator.hasNext();) {
             Message message = (Message) iterator.next();
             directlyAddedMessages.add(new WbemsmtFacesMessage(message));
         }

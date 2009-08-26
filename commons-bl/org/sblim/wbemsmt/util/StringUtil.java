@@ -1,14 +1,14 @@
  /** 
   * StringUtil.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -77,9 +77,9 @@ public class StringUtil
 	}
 
 	
-	public static List asList(String[] values)
+	public static List<String> asList(String[] values)
 	{
-		List result = new ArrayList();
+		List<String> result = new ArrayList<String>();
 		for (int i = 0; i < values.length; i++) {
 			String value = values[i];
 			result.add(value);
@@ -185,7 +185,7 @@ public class StringUtil
         {
             linebreak = RuntimeUtil.getLineBreak();
         }
-        List lines = splitLines(text,max,maxWordLengthBeforeCutoff,cutOffCharacters);
+        List<String> lines = splitLines(text,max,maxWordLengthBeforeCutoff,cutOffCharacters);
         String result = StringUtils.join(lines.iterator(), linebreak);
         return result;
     }
@@ -198,9 +198,9 @@ public class StringUtil
      * @param cutOffCharacters the character that are append if a word is cut off - can be null. In that the case the next whitespace is used. If there is no whitespace the string is not truncated and is read to the end
      * @return
      */
-    public static List splitLines(String text, int max,int maxWordLengthBeforeCutoff, String cutOffCharacters) {
+    public static List<String> splitLines(String text, int max,int maxWordLengthBeforeCutoff, String cutOffCharacters) {
         
-        List lines = new ArrayList();
+        List<String> lines = new ArrayList<String>();
         
         while (text != null && text.length() > max)
         {

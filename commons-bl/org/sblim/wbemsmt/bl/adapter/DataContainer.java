@@ -1,14 +1,14 @@
  /** 
   * DataContainer.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -66,7 +66,7 @@ public interface DataContainer
 	
 	/**
 	 * set the adapter belonging to a datacontainer
-	 * @param adapter the adaoter
+	 * @param adapter the adapter
 	 */
 	public void setAdapter(AbstractBaseCimAdapter adapter);
 
@@ -74,13 +74,13 @@ public interface DataContainer
 	 * Return a list of all Fields. A Field is a {@link LabeledBaseInputComponentIf}
 	 * @return a list of {@link LabeledBaseInputComponentIf}
 	 */
-	public List getFields();
+	public List<LabeledBaseInputComponentIf> getFields();
 
 	/**
 	 * Return a list of all associated childContainers. A childContainer is a DataContainer
 	 * @return the {@link DataContainer} children
 	 */
-	public List getChildContainers();
+	public List<DataContainer> getChildContainers();
 
 	/**
 	 * copy the content (field and children) from one DataContainer to the target (this container instance)

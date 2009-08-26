@@ -1,14 +1,14 @@
  /** 
   * AbstractWbemsmtFcoHelper.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -69,7 +69,7 @@ public abstract class AbstractWbemsmtFcoHelper {
      * key: result of {@link #getKey(WBEMClient, String, String)}
      * value: {@link CIMClass}
      */
-    private static Map classes = new HashMap();    
+    private static Map<String, CIMClass> classes = new HashMap<String, CIMClass>();    
     
     //**********************************************************************
     // deleteInstance     
@@ -169,10 +169,10 @@ public abstract class AbstractWbemsmtFcoHelper {
      * @throws WbemsmtException if getting the CIMClass object to find the base class failed
      */
 
-    public static Class findClass(WBEMClient client, CIMInstance cimInstance, String[] packageList) throws WbemsmtException {
+    public static Class<?> findClass(WBEMClient client, CIMInstance cimInstance, String[] packageList) throws WbemsmtException {
 
         String className = cimInstance.getClassName();
-        Class clazz = findClassInPackages(className, packageList);
+        Class<?> clazz = findClassInPackages(className, packageList);
 
         if (clazz == null) {
             //try going up the class hierarchy and try to construct the next possible class
@@ -217,8 +217,8 @@ public abstract class AbstractWbemsmtFcoHelper {
      * @param packageList list with all fco packages
      * @return the Class or null if no combination between className and one of the Packages was possible
      */
-    private static Class findClassInPackages(String className, String[] packageList) {
-        Class clazz = null;
+    private static Class<?> findClassInPackages(String className, String[] packageList) {
+        Class<?> clazz = null;
         for (int i = 0; clazz == null && i < packageList.length; i++) {
             String cimClassName = (packageList[i]) + className;
             try {
@@ -297,7 +297,7 @@ public abstract class AbstractWbemsmtFcoHelper {
      */
     protected static void checkDifferencesAfterCreate(AbstractWbemsmtFco oldInstance, AbstractWbemsmtFco newInstance) throws WbemsmtException
     {
-        List result = checkDifferences(oldInstance, newInstance);
+        List<CIMProperty[]> result = checkDifferences(oldInstance, newInstance);
         if (result.size() > 0)
         {
             throw new DifferenceAfterCreateException("Differences found after creating new object",new DifferenceAfterCreateUserObject(oldInstance.getCimInstance(),result));
@@ -314,7 +314,7 @@ public abstract class AbstractWbemsmtFcoHelper {
      */
     protected static void checkDifferencesAfterModify(AbstractWbemsmtFco oldInstance, AbstractWbemsmtFco newInstance) throws WbemsmtException
     {
-        List result = checkDifferences(oldInstance, newInstance);
+        List<CIMProperty[]> result = checkDifferences(oldInstance, newInstance);
         if (result.size() > 0)
         {
             throw new DifferenceAfterModifyException("Differences found after modifying object",new DifferenceAfterModifyUserObject(newInstance.getCimInstance(),result));
@@ -324,15 +324,15 @@ public abstract class AbstractWbemsmtFcoHelper {
     
     /**
      * check the differences between two instances<br>
-     * <br>currently no check is implemented<br>
+     * <br>currently no check is implemented<br> 
      * @param oldInstance one part of the comparison
      * @param newInstance other part of the comparison
      * @return List with differences - a {@link List#size()} > 0 indicates differences (since this implementation is incomplete the list is always empty at the moment)
      * @throws WbemsmtException if the check failed
      */
-    protected static List checkDifferences(AbstractWbemsmtFco oldInstance, AbstractWbemsmtFco newInstance) throws WbemsmtException
+    protected static List<CIMProperty[]> checkDifferences(AbstractWbemsmtFco oldInstance, AbstractWbemsmtFco newInstance) throws WbemsmtException
     {
-        return new ArrayList();
+        return new ArrayList<CIMProperty[]>();
     }
 	
 }

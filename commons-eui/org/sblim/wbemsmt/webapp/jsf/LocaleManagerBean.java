@@ -1,14 +1,14 @@
  /** 
   * LocaleManagerBean.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -22,7 +22,7 @@ package org.sblim.wbemsmt.webapp.jsf;
 import java.util.Locale;
 
 import javax.faces.context.FacesContext;
-import javax.faces.el.ValueBinding;
+import javax.el.ValueExpression;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -50,18 +50,20 @@ public class LocaleManagerBean extends LocaleManager implements ILocaleManager, 
 		logger.info("Locale is " + currentLocale);
 	}
 	
-	public ValueBinding getBinding(String appName, String key)
+	public ValueExpression getExpression(String appName, String key)
 	{
 		key = key.replaceAll("\\.", "_");
-		String binding = "#{" + BeanNameConstants.LOCALE_MANAGER.getName() + ".bundle['"+ appName +"']." + key + "}";
-		return FacesContext.getCurrentInstance().getApplication().createValueBinding(binding);
+		String expression = "#{" + BeanNameConstants.LOCALE_MANAGER.getName() + ".bundle['"+ appName +"']." + key + "}";
+		FacesContext context = FacesContext.getCurrentInstance();
+		return context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), expression, Object.class);
 	}
 
-	public ValueBinding getBinding(String key)
+	public ValueExpression getExpression(String key)
 	{
 		key = key.replaceAll("\\.", "_");
-		String binding = "#{" + BeanNameConstants.LOCALE_MANAGER.getName() + ".bundle['common']." + key + "}";
-		return FacesContext.getCurrentInstance().getApplication().createValueBinding(binding);
+		String expression = "#{" + BeanNameConstants.LOCALE_MANAGER.getName() + ".bundle['common']." + key + "}";
+		FacesContext context = FacesContext.getCurrentInstance();
+		return context.getApplication().getExpressionFactory().createValueExpression(context.getELContext(), expression, Object.class);
 	}
 	
     public void setCurrentLocale(Locale newLocale) {

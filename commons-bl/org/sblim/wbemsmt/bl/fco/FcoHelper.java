@@ -1,14 +1,14 @@
  /** 
   * FcoHelper.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -81,9 +81,9 @@ public class FcoHelper
 	 * @param cimClient the connection
 	 * @throws WbemsmtException if a delete failed - all pending deletes are not executed
 	 */
-	public  void delete(Collection c, WBEMClient cimClient) throws WbemsmtException
+	public  void delete(List<? extends Object> c, WBEMClient cimClient) throws WbemsmtException
 	{
-		for (Iterator it = c.iterator(); it.hasNext();) {
+		for (Iterator<? extends Object> it = c.iterator(); it.hasNext();) {
 			Object obj = (Object) it.next();
 			if (obj instanceof AbstractWbemsmtFco) {
 				AbstractWbemsmtFco fco = (AbstractWbemsmtFco) obj;
@@ -116,10 +116,8 @@ public class FcoHelper
 	 */
 	public  void delete(AbstractWbemsmtFco objectToDelete, WBEMClient cimClient, boolean testIfObjectRemovedAfterDeletion) throws WbemsmtException 
 	{
-		
-		
 		String helperName = objectToDelete.getClass().getName() + "Helper";
-		Class helperClass = null;
+		Class<?> helperClass = null;
 
 		String namespace = objectToDelete.getCimObjectPath().getNamespace();
 		
@@ -197,7 +195,7 @@ public class FcoHelper
      * @param keyPropertiesArray array with key properties - used to find the correct object
      * @throws WbemsmtException if the object cannot be deleted
      */
-	public  void delete(Class fcoClass, String namespace, CIMProperty[] keyPropertiesArray, WBEMClient cimClient) throws WbemsmtException  {
+	public  void delete(Class<?> fcoClass, String namespace, CIMProperty[] keyPropertiesArray, WBEMClient cimClient) throws WbemsmtException  {
 		delete(fcoClass,namespace,keyPropertiesArray,cimClient, true);
 	}	
 
@@ -210,7 +208,7 @@ public class FcoHelper
      * @param testIfObjectRemovedAfterDeletion do a getInstance after the delete and see if the object was deleted
      * @throws WbemsmtException if the object cannot be deleted or (if testIfObjectRemovedAfterDeletion is true) the object was still there after the delete
      */
-	public  void delete(Class fcoClass, String namespace, CIMProperty[] keyPropertiesArray, WBEMClient cimClient, boolean testIfObjectRemovedAfterDeletion) throws WbemsmtException  {
+	public  void delete(Class<?> fcoClass, String namespace, CIMProperty[] keyPropertiesArray, WBEMClient cimClient, boolean testIfObjectRemovedAfterDeletion) throws WbemsmtException  {
 		
 		
 		String helperName = fcoClass.getName() + "Helper";
@@ -223,11 +221,11 @@ public class FcoHelper
 			
 			CIMObjectPath path = new CIMObjectPath(className, namespace,keyPropertiesArray );
 
-			Class helperClass = Class.forName(helperName,true,fcoClass.getClassLoader());
+			Class<?> helperClass = Class.forName(helperName,true,fcoClass.getClassLoader());
 			
 			//get the instance - if the instance was not found -> ready & return
 			
-			Constructor constructor = fcoClass.getConstructor(new Class[]{WBEMClient.class, String.class});
+			Constructor<?> constructor = fcoClass.getConstructor(new Class[]{WBEMClient.class, String.class});
 			cimObject = (AbstractWbemsmtFco) constructor.newInstance(new Object[]{cimClient,namespace});
 			cimObject.setCimInstance(cimObject.getCimInstance().deriveInstance(keyPropertiesArray));
 			
@@ -321,10 +319,10 @@ public class FcoHelper
 	 * @throws WbemsmtException if a create failed - after the first create failed the further execution is stopped
 	 */
 
-	public  Collection create(Collection c, WBEMClient cimClient) throws WbemsmtException 
+	public  Collection<AbstractWbemsmtFco> create(Collection<Object> c, WBEMClient cimClient) throws WbemsmtException 
 	{
-		List result = new ArrayList();
-		for (Iterator it = c.iterator(); it.hasNext();) {
+		List<AbstractWbemsmtFco> result = new ArrayList<AbstractWbemsmtFco>();
+		for (Iterator<Object> it = c.iterator(); it.hasNext();) {
 			Object o1 = (Object) it.next();
 			if (o1 instanceof AbstractWbemsmtFco) {
 				AbstractWbemsmtFco managedElement = (AbstractWbemsmtFco) o1;
@@ -359,7 +357,7 @@ public class FcoHelper
 		
 		String helperName = fco.getClass().getName() + "Helper";
 		AbstractWbemsmtFco newInstance = null;
-		Class helperClass = null;
+		Class<?> helperClass = null;
 		
 		String namespace = cimObject.getCimObjectPath().getNamespace();
 		
@@ -465,14 +463,14 @@ public class FcoHelper
      * @throws WbemsmtException if the object cannot be deleted or (if testIfObjectRemovedAfterDeletion is true) the object was still there after the delete
      * @return the created Fco
      */
-	public  AbstractWbemsmtFco create(Class fcoClass, WBEMClient cimClient, String namespace, Vector keyProperties) throws WbemsmtException {
+	public  AbstractWbemsmtFco create(Class<?> fcoClass, WBEMClient cimClient, String namespace, Vector<CIMProperty> keyProperties) throws WbemsmtException {
 			
 		String helperName = fcoClass.getName() + "Helper";
 		AbstractWbemsmtFco o = null;
 		
 		try
 		{
-			Constructor constructor = fcoClass.getConstructor(new Class[]{WBEMClient.class,String.class});
+			Constructor<?> constructor = fcoClass.getConstructor(new Class[]{WBEMClient.class,String.class});
 			constructor.setAccessible(true);
 			o = (AbstractWbemsmtFco) constructor.newInstance(new Object[]{cimClient,namespace});
 			
@@ -515,10 +513,10 @@ public class FcoHelper
 	 * @param cimProperties the properties
 	 * @return a string - every properties is separated by an empty line
 	 */
-	private  String toString(Collection cimProperties) {
+	private  String toString(Collection<CIMProperty> cimProperties) {
 		StringBuffer sb = new StringBuffer();
 		
-		for (Iterator iter = cimProperties.iterator(); iter.hasNext();) {
+		for (Iterator<CIMProperty> iter = cimProperties.iterator(); iter.hasNext();) {
 			CIMProperty property = (CIMProperty) iter.next();
 			sb.append(property.toString()).append("\n\n");
 		}
@@ -532,9 +530,9 @@ public class FcoHelper
 	 * @throws WbemsmtException if a save failed. All other saves are not executed
 	 */
 
-	public  void save(Collection c, WBEMClient cimClient) throws WbemsmtException 
+	public  void save(Collection<Object> c, WBEMClient cimClient) throws WbemsmtException 
 	{
-		for (Iterator it = c.iterator(); it.hasNext();) {
+		for (Iterator<Object> it = c.iterator(); it.hasNext();) {
 			Object o1 = (Object) it.next();
 			if (o1 instanceof AbstractWbemsmtFco) {
 				AbstractWbemsmtFco managedElement = (AbstractWbemsmtFco) o1;
@@ -569,7 +567,7 @@ public class FcoHelper
 		
 		String helperName = cimObject.getClass().getName() + "Helper";
 		try {
-			Class helperClass = Class.forName(helperName,true,cimObject.getClass().getClassLoader());
+			Class<?> helperClass = Class.forName(helperName,true,cimObject.getClass().getClassLoader());
 			Method method = helperClass.getMethod("modifyInstance", new Class[]{WBEMClient.class,cimObject.getClass(),boolean.class});
 			logger.fine("Calling " + helperName + "." + method.getName()  + " with fco " + cimObject.toString()+ " on " + namespace);
 			cimObject = (AbstractWbemsmtFco) method.invoke(null,new Object[]{cimClient,cimObject,new Boolean(notifyChanges)});
@@ -629,7 +627,7 @@ public class FcoHelper
 		
 		String helperName = cimObject.getClass().getName() + "Helper";
 		try {
-			Class helperClass = Class.forName(helperName,true,cimObject.getClass().getClassLoader());
+			Class<?> helperClass = Class.forName(helperName,true,cimObject.getClass().getClassLoader());
 			CIMObjectPath path = cimObject.getCimObjectPath();
 			return reload(helperClass,path,cimClient);
 		} catch (WbemsmtException e) {
@@ -648,7 +646,7 @@ public class FcoHelper
 	 * @return the reloaded fco
 	 * @throws WbemsmtException if the reload failed
 	 */
-	public  AbstractWbemsmtFco reload(Class helperClass, CIMObjectPath path, WBEMClient cimClient) throws WbemsmtException {
+	public  AbstractWbemsmtFco reload(Class<?> helperClass, CIMObjectPath path, WBEMClient cimClient) throws WbemsmtException {
 		try {
 			Method getInstanceMethod = helperClass.getMethod("getInstance", new Class[]{WBEMClient.class,CIMObjectPath.class});
 			getInstanceMethod.setAccessible(true);
@@ -685,10 +683,10 @@ public class FcoHelper
 	 * @return the instance
 	 * @throws WbemsmtException if the getInstance failed 
 	 */
-	public  AbstractWbemsmtFco getInstance(Class helperClass, String namespace, Vector keys, WBEMClient cimClient) throws WbemsmtException {
+	public  AbstractWbemsmtFco getInstance(Class<?> helperClass, String namespace, Vector<CIMProperty> keys, WBEMClient cimClient) throws WbemsmtException {
 		try {
 			
-			Class fcoClass = Class.forName(helperClass.getName().substring(0,helperClass.getName().length() - "Helper".length()));
+			Class<?> fcoClass = Class.forName(helperClass.getName().substring(0,helperClass.getName().length() - "Helper".length()));
 			Field f = fcoClass.getDeclaredField("CIM_CLASS_NAME");
 			String className = (String) f.get(fcoClass);
 			  
@@ -734,7 +732,7 @@ public class FcoHelper
      * @return the object path
      * @throws WbemsmtException if getting the path failed
      */
-	public  CIMObjectPath getPath(Class fcoClass, String namespace, String keyFieldName, Object keyFieldValue, WBEMClient cimClient) throws WbemsmtException {
+	public  CIMObjectPath getPath(Class<?> fcoClass, String namespace, String keyFieldName, Object keyFieldValue, WBEMClient cimClient) throws WbemsmtException {
 		return getPath(fcoClass,namespace,new String[]{keyFieldName},new Object[]{keyFieldValue}, cimClient);
 	}
 	
@@ -748,15 +746,15 @@ public class FcoHelper
 	 * @return the object path
 	 * @throws WbemsmtException if getting the path failed
 	 */
-	public  CIMObjectPath getPath(Class fcoClass, String namespace, String[] keyFieldNames, Object[] keyFieldValues, WBEMClient cimClient) throws WbemsmtException {
+	public  CIMObjectPath getPath(Class<?> fcoClass, String namespace, String[] keyFieldNames, Object[] keyFieldValues, WBEMClient cimClient) throws WbemsmtException {
 
 		String helperName = fcoClass.getName() + "Helper";
 		try {
-			Class helperClass = Class.forName(helperName,true,fcoClass.getClassLoader());
+			Class<?> helperClass = Class.forName(helperName,true,fcoClass.getClassLoader());
 			Method enumMethod = helperClass.getMethod("enumerateInstanceNames", new Class[]{WBEMClient.class,String.class,boolean.class});
 			enumMethod.setAccessible(true);
 
-			ArrayList list = (ArrayList) enumMethod.invoke(null, new Object[]{cimClient,namespace,Boolean.TRUE});
+			ArrayList<CIMObjectPath> list = (ArrayList<CIMObjectPath>) enumMethod.invoke(null, new Object[]{cimClient,namespace,Boolean.TRUE});
 			
 			return getPath(list,keyFieldNames,keyFieldValues);
 			
@@ -774,7 +772,7 @@ public class FcoHelper
 	 * @return the path
 	 * @throws WbemsmtException if getting the path failed
 	 */
-	public  CIMObjectPath getPath(List objectPathList, String keyFieldName, String keyFieldValue) throws WbemsmtException {
+	public  CIMObjectPath getPath(List<CIMObjectPath> objectPathList, String keyFieldName, String keyFieldValue) throws WbemsmtException {
 		return getPath(objectPathList, new String[]{keyFieldName}, new String[]{keyFieldValue});
 	}
 	
@@ -786,10 +784,10 @@ public class FcoHelper
      * @return the path
      * @throws WbemsmtException if getting the path failed
      */
-	public  CIMObjectPath getPath(List objectPathList, String[] keyFieldNames, Object[] keyFieldValues) throws WbemsmtException {
+	public  CIMObjectPath getPath(List<CIMObjectPath> objectPathList, String[] keyFieldNames, Object[] keyFieldValues) throws WbemsmtException {
 
 		try {
-			for (Iterator iter = objectPathList.iterator(); iter.hasNext();) {
+			for (Iterator<CIMObjectPath> iter = objectPathList.iterator(); iter.hasNext();) {
 				Object o = iter.next();
 				CIMObjectPath path = (CIMObjectPath) o;
 				int matchCount = 0;

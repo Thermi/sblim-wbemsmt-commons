@@ -8,14 +8,14 @@ import org.apache.commons.cli.Options;
  /** 
  * WbemsmtOptions.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
  *
@@ -49,27 +49,28 @@ public class WbemsmtHelpFormatter extends HelpFormatter {
 		// this list will be then used to sort options ascending
 		int max = 0;
 		StringBuffer optBuf;
-		List prefixList = new ArrayList();
+		List<StringBuffer> prefixList = new ArrayList<StringBuffer>();
 		Option option;
 		
 		//List optList = options.helpOptions();
 		
 		//Using getOptions() instead of helpOptions() - getOptions() method returns all Options
-		Collection optCollection = options.getOptions();
-		List optList = Arrays.asList(optCollection.toArray());
+		Collection<Option> optCollection = (Collection<Option>) options.getOptions();
+		List<Option> optList = Arrays.asList(optCollection.toArray(new Option[0]));
 		Collections.sort(optList, new StringBufferComparator());
-		for (Iterator i = optList.iterator(); i.hasNext();) {
-			option = (Option) i.next();
+		
+		for (Iterator<Option> i = optList.iterator(); i.hasNext();) {
+			option = i.next();
 			optBuf = new StringBuffer(8);
 
 			if (option.getOpt().equals(" ")) {
-				optBuf.append(lpad).append("   " + defaultLongOptPrefix)
+				optBuf.append(lpad).append("   " + getLongOptPrefix())
 						.append(option.getLongOpt());
 			} else {
-				optBuf.append(lpad).append(defaultOptPrefix).append(
+				optBuf.append(lpad).append(getOptPrefix()).append(
 						option.getOpt());
 				if (option.hasLongOpt()) {
-					optBuf.append(',').append(defaultLongOptPrefix).append(
+					optBuf.append(',').append(getLongOptPrefix()).append(
 							option.getLongOpt());
 				}
 
@@ -87,7 +88,7 @@ public class WbemsmtHelpFormatter extends HelpFormatter {
 			max = optBuf.length() > max ? optBuf.length() : max;
 		}
 		int x = 0;
-		for (Iterator i = optList.iterator(); i.hasNext();) {
+		for (Iterator<Option> i = optList.iterator(); i.hasNext();) {
 			option = (Option) i.next();
 			optBuf = new StringBuffer(prefixList.get(x++).toString());
 
@@ -100,7 +101,7 @@ public class WbemsmtHelpFormatter extends HelpFormatter {
 			renderWrappedText(sb, width, nextLineTabStop, optBuf.append(
 					option.getDescription()).toString());
 			if (i.hasNext()) {
-				sb.append(defaultNewLine);
+				sb.append(getNewLine());
 			}
 		}
 
@@ -110,9 +111,9 @@ public class WbemsmtHelpFormatter extends HelpFormatter {
 	   // ----------------------------------------------------------- Inner classes
 
 	    private static class StringBufferComparator
-	    implements Comparator
+	    implements Comparator<Option>
 	    {
-	        public int compare( Object o1, Object o2 )
+	        public int compare( Option o1, Option o2 )
 	        {
 	            String str1 = stripPrefix(o1.toString());
 	            String str2 = stripPrefix(o2.toString());

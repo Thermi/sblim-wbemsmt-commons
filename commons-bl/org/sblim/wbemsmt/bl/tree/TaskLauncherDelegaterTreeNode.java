@@ -1,14 +1,14 @@
  /** 
   * TaskLauncherDelegaterTreeNode.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -22,6 +22,7 @@ package org.sblim.wbemsmt.bl.tree;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+import java.util.Arrays;
 
 import javax.faces.context.FacesContext;
 
@@ -34,20 +35,23 @@ import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
 public class TaskLauncherDelegaterTreeNode extends TaskLauncherTreeNode {
 
-	private final List nodesToDelegate;
+	private final List<ITaskLauncherTreeNode> nodesToDelegate;
 
 	/**
 	 * @param cimClient
 	 * @param xmlconfigNode
 	 * @throws WbemsmtException 
 	 */
-	public TaskLauncherDelegaterTreeNode(List nodesToDelegate,String name) throws WbemsmtException {
+	public TaskLauncherDelegaterTreeNode(List<? extends ITaskLauncherTreeNode> nodesToDelegate,String name) throws WbemsmtException {
 		super(null,null,name);
-		this.nodesToDelegate = nodesToDelegate;
-    	for (Iterator iter = nodesToDelegate.iterator(); iter.hasNext();) {
-			ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) iter.next();
-			Vector subnodes = node.getSubnodes();
-			for (Iterator iterator = subnodes.iterator(); iterator.hasNext();) {
+		ITaskLauncherTreeNode[] x = nodesToDelegate.toArray(new ITaskLauncherTreeNode[]{});
+		this.nodesToDelegate = Arrays.asList(x);
+		
+		//this.nodesToDelegate.add(nodesToDelegate.get(0));
+    	for (Iterator<ITaskLauncherTreeNode> iter = this.nodesToDelegate.iterator(); iter.hasNext();) {
+			ITaskLauncherTreeNode node = iter.next();
+			Vector<ITaskLauncherTreeNode> subnodes = node.getSubnodes();
+			for (Iterator<ITaskLauncherTreeNode> iterator = subnodes.iterator(); iterator.hasNext();) {
 				ITaskLauncherTreeNode childNode = (ITaskLauncherTreeNode) iterator.next();
 				addSubnode(childNode);
 			}
@@ -73,10 +77,10 @@ public class TaskLauncherDelegaterTreeNode extends TaskLauncherTreeNode {
      */
     public void readSubnodes(boolean notifyEventListener) throws WbemsmtException
     {
-    	for (Iterator iter = nodesToDelegate.iterator(); iter.hasNext();) {
+    	for (Iterator<ITaskLauncherTreeNode> iter = nodesToDelegate.iterator(); iter.hasNext();) {
 			ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) iter.next();
-			Vector subnodes = node.getSubnodes();
-			for (Iterator iterator = subnodes.iterator(); iterator.hasNext();) {
+			Vector<ITaskLauncherTreeNode> subnodes = node.getSubnodes();
+			for (Iterator<ITaskLauncherTreeNode> iterator = subnodes.iterator(); iterator.hasNext();) {
 				try {
 					ITaskLauncherTreeNode childNode = (ITaskLauncherTreeNode) iterator.next();
 					childNode.readSubnodes(false);
@@ -96,10 +100,10 @@ public class TaskLauncherDelegaterTreeNode extends TaskLauncherTreeNode {
     	
     	if(notifyEventListener)
         {
-        	for (Iterator iter = nodesToDelegate.iterator(); iter.hasNext();) {
+        	for (Iterator<ITaskLauncherTreeNode> iter = nodesToDelegate.iterator(); iter.hasNext();) {
     			ITaskLauncherTreeNode node = (ITaskLauncherTreeNode) iter.next();
-    			Vector subnodes = node.getSubnodes();
-    			for (Iterator iterator = subnodes.iterator(); iterator.hasNext();) {
+    			Vector<ITaskLauncherTreeNode>  subnodes = node.getSubnodes();
+    			for (Iterator<ITaskLauncherTreeNode>  iterator = subnodes.iterator(); iterator.hasNext();) {
     				ITaskLauncherTreeNode childNode = (ITaskLauncherTreeNode) iterator.next();
     	        	if (RuntimeUtil.getInstance().isJSF())
     	        	{

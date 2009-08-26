@@ -1,14 +1,14 @@
  /** 
   * MessageList.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -20,10 +20,15 @@
 
 package org.sblim.wbemsmt.bl.messages;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
-import org.apache.commons.collections.MultiHashMap;
-import org.apache.commons.collections.MultiMap;
+import org.apache.commons.collections.iterators.IteratorChain;
+import org.apache.commons.collections.map.MultiValueMap;
 import org.sblim.wbemsmt.bl.adapter.DataContainer;
 
 /**
@@ -36,13 +41,14 @@ public class MessageList {
      * key: String representing the type of the messages ({@link Message#SUCCESS},{@link Message#INFO},{@link Message#WARNING},{@link Message#ERROR})
      * value: {@link List} of {@link Message} objects
      */
-	private MultiMap list = new MultiHashMap();
-	
+	//private Map<String, List<Message>> list
+	private MultiValueMap list = new MultiValueMap();
+
 	/**
 	 * set to store all message texts to check if the new message already exists
 	 * @see #addMessage(Message)
 	 */
-	private Set messages = new HashSet();
+	private Set<String> messages = new HashSet<String>();
 	
 	/**
 	 * creates an empty message list
@@ -57,7 +63,7 @@ public class MessageList {
 	 */
 	public boolean hasErrors()
 	{
-		List errorList = (List) list.get(Message.ERROR);
+		List<Message> errorList = (List<Message>)list.get(Message.ERROR);
 		return errorList != null && errorList.size() > 0;
 	}
 	/**
@@ -66,7 +72,7 @@ public class MessageList {
 	 */
 	public boolean hasWarning()
 	{
-		List warningList = (List) list.get(Message.WARNING);
+		List<Message> warningList = (List<Message>)list.get(Message.WARNING);
 		return warningList != null && warningList.size() > 0;
 	}
 	/**
@@ -76,7 +82,7 @@ public class MessageList {
 
 	public boolean hasInfo()
 	{
-		List infoList = (List) list.get(Message.INFO);
+		List<Message> infoList = (List<Message>)list.get(Message.INFO);
 		return infoList != null && infoList.size() > 0;
 	}
 
@@ -87,7 +93,7 @@ public class MessageList {
 
 	public boolean hasSuccess()
 	{
-		List infoList = (List) list.get(Message.SUCCESS);
+		List<Message> infoList = (List<Message>)list.get(Message.SUCCESS);
 		return infoList != null && infoList.size() > 0;
 	}
 
@@ -121,10 +127,10 @@ public class MessageList {
 	 * @return array of {@link Message} objects
 	 */
 	private Message[] getList(String type) {
-		Collection collection = (List)list.get(type);
+		Collection<Message> collection = (Collection<Message>)list.get(type);
 		if (collection != null)
 		{
-			return (Message[]) collection.toArray(new Message[collection.size()]);
+			return collection.toArray(new Message[collection.size()]);
 		}
 		else
 		{
@@ -164,14 +170,17 @@ public class MessageList {
 	public String getMessages(String separator)
 	{
 		StringBuffer sb = new StringBuffer();
-		Collection values = list.values();
-		for (Iterator iter = values.iterator(); iter.hasNext();) {
-			Message msg = (Message) iter.next();
-			if (sb.length() > 0)
-			{
-				sb.append(separator);
+		Set<String> keys = list.keySet();
+		for(Iterator<String> key = keys.iterator(); key.hasNext();) {
+			Collection<Message> values = (Collection<Message>)list.get(key);
+			for (Iterator<Message> iter = values.iterator(); iter.hasNext();) {
+				Message msg = iter.next();
+				if (sb.length() > 0)
+				{
+					sb.append(separator);
+				}
+				sb.append(msg.toString());
 			}
-			sb.append(msg.toString());
 		}
 		return sb.toString();
 	}
@@ -203,19 +212,19 @@ public class MessageList {
 	{
 		if (listToAdd != null)
 		{
-			for (Iterator iter = listToAdd.iterator(); iter.hasNext();) {
-				Message msg = (Message) iter.next();
+			for (Iterator<Message> iter = listToAdd.iterator(); iter.hasNext();) {
+				Message msg = iter.next();
 				addMessage(msg);
 			}
-		}
+		}	
 	}
 
 	/**
 	 * Get an iterator over all messages in this list
 	 * @return the iterator
 	 */
-	public Iterator iterator() {
-		return list.values().iterator();
+	public Iterator<Message> iterator() {
+		return (Iterator<Message>)list.values().iterator();
 	}
 
 	/**

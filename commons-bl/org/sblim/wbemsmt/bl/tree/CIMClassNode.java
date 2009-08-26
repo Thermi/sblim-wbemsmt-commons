@@ -1,14 +1,14 @@
 /**
  *  CIMClassNode.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Marius Kreis <mail@nulldevice.org>
  *
@@ -69,12 +69,12 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
     private CIMClass cimClass;
     private boolean instancesBuilt = false;
     private int maxDepth = DEPTH_INFINITE;
-    private Vector instances;
+    private Vector<CIMInstanceNode> instances;
     
     /**
      * vector of {@link ITaskLauncherTreeNode} objects
      */
-    protected Vector instanceSubnodes;
+    protected Vector<TaskLauncherTreeNode> instanceSubnodes;
     private String associationSourceReferenceName;
     private String associationTargetClassName;
     private String associationTargetReferenceName;
@@ -110,9 +110,9 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
     {
         super(cimClient, xmlconfigNode, name);
         this.cimClass = cimClass;
-        this.instances = new Vector();
-        this.eventListener = new HashSet();
-        this.instanceSubnodes = new Vector();
+        this.instances = new Vector<CIMInstanceNode>();
+        this.eventListener = new HashSet<TaskLauncherTreeNodeEventListener>();
+        this.instanceSubnodes = new Vector<TaskLauncherTreeNode>();
     }
     
     /**
@@ -259,7 +259,7 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
      *
      * @return Vector Instances of the {@link CIMInstanceNode}
      */
-    public Vector getInstanceNodes()
+    public Vector<CIMInstanceNode> getInstanceNodes()
     {
         logger.log(Level.FINE, "Getting instances of CIMClass " + this.getName());
         if(!this.instancesBuilt)
@@ -583,10 +583,10 @@ public class CIMClassNode extends TaskLauncherTreeNode implements ICIMClassNode
         {
         	cimclass.unsetInstanceSubnodes();
         	InstanceSubnodesDocument.InstanceSubnodes instanceSubnodes = cimclass.addNewInstanceSubnodes();
-        	Iterator iter = this.instanceSubnodes.iterator();
+        	Iterator<TaskLauncherTreeNode> iter = this.instanceSubnodes.iterator();
         	while(iter.hasNext())
         	{
-        		TaskLauncherTreeNode subnode = (TaskLauncherTreeNode) iter.next();
+        		TaskLauncherTreeNode subnode = iter.next();
         		TreenodeDocument.Treenode instanceSubnode = instanceSubnodes.addNewTreenode();
         		instanceSubnode = subnode.generateXML(instanceSubnode);
         	}

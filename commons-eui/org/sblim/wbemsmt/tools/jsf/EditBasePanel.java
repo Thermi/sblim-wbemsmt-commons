@@ -1,14 +1,14 @@
 /** 
  * EditBasePanel.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
  *
@@ -67,7 +67,6 @@ public abstract class EditBasePanel extends BasePanel implements DataContainer {
 
 	}
 	
-
 	public HtmlPanelGrid getPanelForCustomLayout()
 	{
 		return panelGrid;
@@ -88,8 +87,8 @@ public abstract class EditBasePanel extends BasePanel implements DataContainer {
 		String key = "updateControls." + this.toString();
 		String ajaxKey = AjaxPanelPhaseListener.AJAX_PARAMETER;
 		FacesContext fc = FacesContext.getCurrentInstance();
-		Map requestParameterMap = fc.getExternalContext().getRequestParameterMap();
-		Map requestMap = fc.getExternalContext().getRequestMap();
+		Map<String, String> requestParameterMap = fc.getExternalContext().getRequestParameterMap();
+		Map<String, Object> requestMap = fc.getExternalContext().getRequestMap();
 		
 		synchronized (fc) {
 			if ( requestParameterMap.containsKey(ajaxKey) && 

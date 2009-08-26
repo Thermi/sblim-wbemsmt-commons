@@ -1,14 +1,14 @@
  /** 
   * BasePanel.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -22,6 +22,8 @@ package org.sblim.wbemsmt.tools.jsf;
 import java.util.Locale;
 import java.util.logging.Logger;
 
+import javax.cim.UnsignedInteger16;
+import javax.cim.UnsignedInteger32;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.html.HtmlGraphicImage;
 import javax.faces.component.html.HtmlOutputText;
@@ -55,7 +57,7 @@ public abstract class BasePanel  {
 	protected Converter int16HtmlInputConverter = new UnsignedInt16StringConverter();
 	protected WbemSmtResourceBundle bundle;
 	protected AbstractBaseCimAdapter adapter;	private String keyForTitle = null;
-	protected String bindingPrefix;
+	protected String expressionPrefix;
 	private String footerTextKey;
 	private String footerText;
 	protected AjaxPanelGroup ajaxPanelGroup;
@@ -65,14 +67,14 @@ public abstract class BasePanel  {
 	
     protected static final Logger logger = Logger.getLogger("org.sblim.wbemsmt.tools.jsf");
 	
-	public BasePanel(AbstractBaseCimAdapter adapter, String bindingPrefix)
+	public BasePanel(AbstractBaseCimAdapter adapter, String expressionPrefix)
 	{
-		this(adapter,bindingPrefix,null);
+		this(adapter,expressionPrefix,null);
 	}
 	
-	public BasePanel(AbstractBaseCimAdapter adapter, String bindingPrefix, String keyForTitle) {
+	public BasePanel(AbstractBaseCimAdapter adapter, String expressionPrefix, String keyForTitle) {
 		this.adapter = adapter;
-		this.bindingPrefix = bindingPrefix;
+		this.expressionPrefix = expressionPrefix;
 		ILocaleManager localeManager = LocaleManager.getCurrent(FacesContext.getCurrentInstance());
 		bundle = adapter.getBundle();
 		if (keyForTitle != null)
@@ -146,7 +148,7 @@ public abstract class BasePanel  {
 		HtmlPanelGroup group = (HtmlPanelGroup)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 
 		HtmlOutputText text = (HtmlOutputText)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
-		text.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + bindingPrefix + "titleText"  + "}&nbsp;&nbsp;"));
+		text.setValueExpression("value",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + expressionPrefix + "titleText"  + "}&nbsp;&nbsp;", Object.class));
 		text.setStyleClass("tableHeader");
 		text.setEscape(false);
 		panelGrid.setHeaderClass("tableHeader");
@@ -173,17 +175,17 @@ public abstract class BasePanel  {
 //			
 //			HtmlOutputText label = (HtmlOutputText)fc.getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
 //			label.setStyleClass("fieldLabel");
-//			label.setValueBinding("value", fc.getApplication().createValueBinding("#{messages.updateInterval}<br><br>"));
+//			label.setValueExpression("value", fc.getApplication().createValueExpression("#{messages.updateInterval}<br><br>"));
 //			label.setEscape(false);
 //
 //			HtmlInputText txt = (HtmlInputText)fc.getApplication().createComponent(HtmlInputText.COMPONENT_TYPE);
 //			txt.setSize(10);
 //			txt.setId(settingsKey + SUFFIX_INPUT);
-//			txt.setValueBinding("value", BeanNameConstants.OBJECT_ACTION_CONTROLLER.asValueBinding(FacesContext.getCurrentInstance(), "#'{'{0}.updateInterval[''" + updateIntervalKey + "'']'}'"));
+//			txt.setValueExpression("value", BeanNameConstants.OBJECT_ACTION_CONTROLLER.asValueExpression(FacesContext.getCurrentInstance(), "#'{'{0}.updateInterval[''" + updateIntervalKey + "'']'}'"));
 //			
 //			HtmlCommandButton btn = (HtmlCommandButton)fc.getApplication().createComponent(HtmlCommandButton.COMPONENT_TYPE);
-//			btn.setValueBinding("value", fc.getApplication().createValueBinding("#{messages.ok}"));
-//			btn.setAction(FacesContext.getCurrentInstance().getApplication().createMethodBinding("#{" + BeanNameConstants.OBJECT_ACTION_CONTROLLER.getName() + ".setInterval" + "}",new Class[]{}));
+//			btn.setValueExpression("value", fc.getApplication().createValueExpression("#{messages.ok}"));
+//			btn.setAction(FacesContext.getCurrentInstance().getApplication().createMethodExpression("#{" + BeanNameConstants.OBJECT_ACTION_CONTROLLER.getName() + ".setInterval" + "}",new Class[]{}));
 //
 //			group2.getChildren().add(label);
 //			group2.getChildren().add(txt);
@@ -193,10 +195,10 @@ public abstract class BasePanel  {
 			HtmlPanelGroup group1 = (HtmlPanelGroup)fc.getApplication().createComponent(HtmlPanelGroup.COMPONENT_TYPE);
 			
 			HtmlGraphicImage image = (HtmlGraphicImage)fc.getApplication().createComponent(HtmlGraphicImage.COMPONENT_TYPE);
-			image.setValueBinding("onclick",fc.getApplication().createValueBinding("toggleToolbox(this,'#{objectActionController.updateInterval['"+ updateIntervalKey +"']}','"+updateIntervalKey+"')"));
-			image.setValueBinding("value",fc.getApplication().createValueBinding("#{style.resourceDir}/images/settings.gif"));
-			image.setValueBinding("title",fc.getApplication().createValueBinding("#{messages.configure_update_interval}"));
-			image.setValueBinding("alt",fc.getApplication().createValueBinding("#{messages.configure_update_interval}"));
+			image.setValueExpression("onclick",fc.getApplication().getExpressionFactory().createValueExpression(fc.getELContext(), "toggleToolbox(this,'#{objectActionController.updateInterval['"+ updateIntervalKey +"']}','"+updateIntervalKey+"')", Object.class));
+			image.setValueExpression("value",fc.getApplication().getExpressionFactory().createValueExpression(fc.getELContext(), "#{style.resourceDir}/images/settings.gif", Object.class));
+			image.setValueExpression("title",fc.getApplication().getExpressionFactory().createValueExpression(fc.getELContext(), "#{messages.configure_update_interval}", Object.class));
+			image.setValueExpression("alt",fc.getApplication().getExpressionFactory().createValueExpression(fc.getELContext(), "#{messages.configure_update_interval}", Object.class));
 			image.setStyle("vertical-align:middle");
 			group1.getChildren().add(image);
 
@@ -221,7 +223,7 @@ public abstract class BasePanel  {
 		setTitle(panelGrid,null);
 	}
 	
-	protected void createTitleValueBindingForMultiline(HtmlPanelGrid panelGrid, String bindingForTitle, String keyForTitle) {
+	protected void createTitleValueExpressionForMultiline(HtmlPanelGrid panelGrid, String expressionForTitle, String keyForTitle) {
 		
 		this.keyForTitle = keyForTitle;
 		this.title = bundle.getString(keyForTitle);
@@ -232,7 +234,7 @@ public abstract class BasePanel  {
 			
 
 			HtmlOutputText text = (HtmlOutputText)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
-			text.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding(bindingForTitle));
+			text.setValueExpression("value",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), expressionForTitle, Object.class));
 			text.setStyleClass("tableHeader");
 			panelGrid.setHeaderClass("tableHeader");
 			
@@ -248,12 +250,12 @@ public abstract class BasePanel  {
 	//set the title
 	protected void setFooter(HtmlPanelGrid panelGrid, String key) {
 
-		setFooter(panelGrid,key,"#{" + bindingPrefix + "footerText"  + "}");
+		setFooter(panelGrid,key,"#{" + expressionPrefix + "footerText"  + "}");
 		
 	}
 	
 	//set the title
-	protected void setFooter(HtmlPanelGrid panelGrid, String key, String binding) {
+	protected void setFooter(HtmlPanelGrid panelGrid, String key, String expression) {
 		
 		
 		
@@ -276,18 +278,18 @@ public abstract class BasePanel  {
 			if (bundle.keyExists(key))
 			{
 				footerText = bundle.getString(key);
-				String altBinding = "#{messages.info}";
+				String altExpression = "#{messages.info}";
 
 				HtmlGraphicImage img = (HtmlGraphicImage)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlGraphicImage.COMPONENT_TYPE);
 				img.setStyle("border:0px");
 				img.setUrl(style.getResourceDir()+"/images/info.gif");
-				img.setValueBinding("alt",FacesContext.getCurrentInstance().getApplication().createValueBinding(altBinding));
-				img.setValueBinding("title",FacesContext.getCurrentInstance().getApplication().createValueBinding(altBinding));
+				img.setValueExpression("alt",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), altExpression, Object.class));
+				img.setValueExpression("title",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), altExpression, Object.class));
 				
 				table.getChildren().add(img);
 				
 				HtmlOutputText text = (HtmlOutputText)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
-				text.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
+				text.setValueExpression("value",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), expression, Object.class));
 				text.setStyleClass("tableFooter");
 				table.getChildren().add(text);
 			}
@@ -303,30 +305,30 @@ public abstract class BasePanel  {
 		
 	}
 
-	public static void addErrorIconLegend(StyleBean style, HtmlPanelGrid table,String visibleBinding) {
-		String binding = "#{messages.fieldError}";
+	public static void addErrorIconLegend(StyleBean style, HtmlPanelGrid table,String visibleExpression) {
+		String expression = "#{messages.fieldError}";
 		String image = "/images/fieldIndicatorError.png";
-		addLegend(style, table, binding, image,visibleBinding);
+		addLegend(style, table, expression, image,visibleExpression);
 	}
 
-	public  static void addRequiredIconLegend(StyleBean style, HtmlPanelGrid table, String visibleBinding) {
-		String binding = "#{messages.fieldRequired}";
+	public  static void addRequiredIconLegend(StyleBean style, HtmlPanelGrid table, String visibleExpression) {
+		String expression = "#{messages.fieldRequired}";
 		String image = "/images/fieldIndicatorRequired.png";
-		addLegend(style, table, binding, image,visibleBinding);
+		addLegend(style, table, expression, image,visibleExpression);
 	}
 
-	private static void addLegend(StyleBean style, HtmlPanelGrid table, String binding, String image, String visibleBinding) {
+	private static void addLegend(StyleBean style, HtmlPanelGrid table, String expression, String image, String visibleExpression) {
 		HtmlGraphicImage img = (HtmlGraphicImage)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlGraphicImage.COMPONENT_TYPE);
 		img.setStyle("border:0px");
-		img.setValueBinding("alt",FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
-		img.setValueBinding("title",FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
-		img.setValueBinding("rendered",FacesContext.getCurrentInstance().getApplication().createValueBinding(visibleBinding));
+		img.setValueExpression("alt",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), expression, Object.class));
+		img.setValueExpression("title",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), expression, Object.class));
+		img.setValueExpression("rendered",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), visibleExpression, Object.class));
 		img.setUrl(style.getResourceDir()+image);
 		table.getChildren().add(img);
 		
 		HtmlOutputText text = (HtmlOutputText)FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
-		text.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding(binding));
-		text.setValueBinding("rendered",FacesContext.getCurrentInstance().getApplication().createValueBinding(visibleBinding));
+		text.setValueExpression("value",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), expression, Object.class));
+		text.setValueExpression("rendered",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), visibleExpression, Object.class));
 		text.setStyleClass("tableFooter");
 		table.getChildren().add(text);
 	}

@@ -1,14 +1,14 @@
  /** 
   * DifferenceAfterCreateException.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -173,7 +173,7 @@ public class DifferenceAfterCreateException extends WbemsmtException implements 
          });
     }
 
-    public static String getAsString(WbemSmtResourceBundle bundle, List listWithDifferences) {
+    public static String getAsString(WbemSmtResourceBundle bundle, List<CIMProperty[]> listWithDifferences) {
         StringBuffer sb = new StringBuffer();
         
         String oldText = bundle.getString("local.property");
@@ -182,7 +182,7 @@ public class DifferenceAfterCreateException extends WbemsmtException implements 
         String noValue = bundle.getString("no.value");
         String noType = bundle.getString("no.type");
         
-        for (Iterator iterator = listWithDifferences.iterator(); iterator.hasNext();) {
+        for (Iterator<CIMProperty[]> iterator = listWithDifferences.iterator(); iterator.hasNext();) {
             CIMProperty[] properties = (CIMProperty[]) iterator.next();
             CIMProperty oldProperty = properties[0];
             CIMProperty newProperty = properties[1];

@@ -1,14 +1,14 @@
 /**
  *  TreeSelector.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Marius Kreis <mail@nulldevice.org>
  *
@@ -29,7 +29,7 @@ import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
 public abstract class TreeSelector
 {
-    protected HashMap factories;
+    protected HashMap<String, TaskLauncherTreeFactory> factories;
     protected String currentTreeName;
     protected TaskLauncherController taskLauncherController;
     protected ITaskLauncherTreeNode selectedTasklauncherTreeNode; 
@@ -37,10 +37,10 @@ public abstract class TreeSelector
     
     public TreeSelector()
     {
-        this.factories = new HashMap();
+        this.factories = new HashMap<String, TaskLauncherTreeFactory>();
     }
     
-    public void setFactories(HashMap factories)
+    public void setFactories(HashMap<String, TaskLauncherTreeFactory> factories)
     {
         this.factories = factories;
     }
@@ -80,7 +80,7 @@ public abstract class TreeSelector
     
 	public void reloadConfig(String runtimeMode) throws WbemsmtException {
 		taskLauncherController.getTaskLauncherConfig().reload(runtimeMode);
-		Vector cimomData = taskLauncherController.getTaskLauncherConfig().getCimomData();
+		Vector<CimomData> cimomData = taskLauncherController.getTaskLauncherConfig().getCimomData();
 		if (RuntimeUtil.MODE_SINGLE.equals(runtimeMode))
 		{
 			getCurrentTreeFactory().updateSingleHost((CimomData[]) cimomData.toArray(new CimomData[cimomData.size()]));

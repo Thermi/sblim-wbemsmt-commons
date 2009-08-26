@@ -1,14 +1,14 @@
  /** 
   * CimAdapterFactory.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -31,8 +31,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import javax.wbem.client.WBEMClient;
 
-import org.apache.commons.collections.MultiHashMap;
-import org.apache.commons.collections.MultiMap;
 import org.sblim.wbemsmt.tools.resources.LocaleManager;
 import org.sblim.wbemsmt.tools.runtime.RuntimeUtil;
 
@@ -51,7 +49,8 @@ public final class CimAdapterFactory {
 	/**
 	 * Stores all the adapters in a context which is having no own Session object. For example the commandline 
 	 */
-	private MultiMap adaptersByObject = new MultiHashMap();
+
+	private Map<Object, List<AbstractBaseCimAdapter>> adaptersByObject = new HashMap<Object, List<AbstractBaseCimAdapter>>();
 
 	private static Logger logger = Logger.getLogger(CimAdapterFactory.class.getName());
 	
@@ -83,7 +82,7 @@ public final class CimAdapterFactory {
 	 * @param client the cim client
 	 * @return the adapter instance
 	 */
-	public AbstractBaseCimAdapter getAdapter(Class adapterClass, FacesContext fc,WBEMClient client)
+	public AbstractBaseCimAdapter getAdapter(Class<?> adapterClass, FacesContext fc,WBEMClient client)
 	{
 		return getAdapter(adapterClass, fc,client,true);
 	}
@@ -98,7 +97,7 @@ public final class CimAdapterFactory {
      * @param client the cim client
      * @return the adapter instance
      */
-	public AbstractBaseCimAdapter getAdapter(Class adapterClass, FacesContext fc,WBEMClient client, boolean createNew)
+	public AbstractBaseCimAdapter getAdapter(Class<?> adapterClass, FacesContext fc,WBEMClient client, boolean createNew)
 	{
 		try {
 			AbstractBaseCimAdapter result = null;
@@ -108,7 +107,7 @@ public final class CimAdapterFactory {
 			result = (AbstractBaseCimAdapter) session.getAttribute(key);
 			if (result == null && createNew)
 			{
-				Constructor constructor = adapterClass.getConstructor(new Class[]{Locale.class});
+				Constructor<?> constructor = adapterClass.getConstructor(new Class[]{Locale.class});
 				result = (AbstractBaseCimAdapter) constructor.newInstance(new Object[]{LocaleManager.getCurrent(fc).getCurrentLocale()});
 				session.setAttribute(key,result);
 			}
@@ -187,7 +186,7 @@ public final class CimAdapterFactory {
 	 * @param client the cim client
 	 * @return the instance of the adapter class
 	 */
-	public AbstractBaseCimAdapter getAdapter(Class adapterClass, WBEMClient client)
+	public AbstractBaseCimAdapter getAdapter(Class<?> adapterClass, WBEMClient client)
 	{
 		return getAdapter(adapterClass, client,true);
 	}
@@ -204,7 +203,7 @@ public final class CimAdapterFactory {
 	 * @return the adapter instance
 	 */	
 
-	public AbstractBaseCimAdapter getAdapter(Class adapterClass, WBEMClient client, boolean createNew) {
+	public AbstractBaseCimAdapter getAdapter(Class<?> adapterClass, WBEMClient client, boolean createNew) {
 
 		if (RuntimeUtil.getInstance().isJSF())
 		{
@@ -223,7 +222,7 @@ public final class CimAdapterFactory {
      * @param object  the key
      * @return the adapter instance
      */ 
-	public AbstractBaseCimAdapter getAdapter(Class adapterClass, Object object)
+	public AbstractBaseCimAdapter getAdapter(Class<?> adapterClass, Object object)
 	{
 		return getAdapter(adapterClass,object,Locale.getDefault());
 	}	
@@ -237,7 +236,7 @@ public final class CimAdapterFactory {
      * @param locale the locale to be used for the container
      * @return the adapter instance
      */ 
-	public AbstractBaseCimAdapter getAdapter(Class adapterClass, Object object, Locale locale)
+	public AbstractBaseCimAdapter getAdapter(Class<?> adapterClass, Object object, Locale locale)
 	{
 		return getAdapter(adapterClass, object,locale,true);
 	}
@@ -252,10 +251,10 @@ public final class CimAdapterFactory {
      * @param createNew set to true if to create a new one if the adapter doesn't exist
      * @return the adapter instance
      */ 
-	public AbstractBaseCimAdapter getAdapter(Class adapterClass, Object object, Locale locale, boolean createNew)
+	public AbstractBaseCimAdapter getAdapter(Class<?> adapterClass, Object object, Locale locale, boolean createNew)
 	{
 		try {
-			List adapters = (List) adaptersByObject.get(object);
+			List<AbstractBaseCimAdapter> adapters = (List<AbstractBaseCimAdapter>) adaptersByObject.get(object);
 			
 			for (int i=0; adapters != null && i < adapters.size(); i++)
 			{
@@ -271,9 +270,9 @@ public final class CimAdapterFactory {
 			}
 			if (createNew)
 			{
-				Constructor constructor = adapterClass.getConstructor(new Class[]{Locale.class});
+				Constructor<?> constructor = adapterClass.getConstructor(new Class[]{Locale.class});
 				AbstractBaseCimAdapter  result = (AbstractBaseCimAdapter) constructor.newInstance(new Object[]{locale});
-				adaptersByObject.put(object,result);
+				adaptersByObject.get(object).add(result);
 				return result;
 			}
 			return null;
@@ -289,7 +288,7 @@ public final class CimAdapterFactory {
 	 * @param client the client -  toString() is used as part of the key
 	 * @return the key
 	 */
-	private String getKey(Class adapterClass, WBEMClient client) {
+	private String getKey(Class<?> adapterClass, WBEMClient client) {
 		return "adapter." + adapterClass.getName() + ".for.client." + client;
 	}
 
@@ -327,16 +326,16 @@ public final class CimAdapterFactory {
 	 */
 	public void removeAdapter(AbstractBaseCimAdapter adapter) {
 		
-		List keys = new ArrayList();
-		Set set = adaptersByObject.keySet();
-		for (Iterator iter = set.iterator(); iter.hasNext();) {
+		List<Object> keys = new ArrayList<Object>();
+		Set<Object> set = adaptersByObject.keySet();
+		for (Iterator<Object> iter = set.iterator(); iter.hasNext();) {
 			Object key = (Object) iter.next();
 			keys.add(key);
 		}
 		
-		for (Iterator iter = keys.iterator(); iter.hasNext();) {
+		for (Iterator<Object> iter = keys.iterator(); iter.hasNext();) {
 			Object key = (Object) iter.next();
-			Object removed = adaptersByObject.remove(key, adapter);
+			Object removed = adaptersByObject.get(key).remove(adapter);
 			if (removed != null)
 			{
 				logger.info("Adapter " + adapter.getClass().getName() + " was removed from cache ");

@@ -1,14 +1,14 @@
  /** 
   * WebSessionManger.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -42,11 +42,11 @@ public class WebSessionManger {
 		else 
 		{
 			try {
-				Class portletSessionClass = Class.forName("javax.portlet.PortletSession");
+				Class<?> portletSessionClass = Class.forName("javax.portlet.PortletSession");
 				if (portletSessionClass.isAssignableFrom(session.getClass()))
 				{
-						Class wrapper = Class.forName("org.sblim.wbemsmt.session.PortletSessionWrapper");
-						Constructor constructor = wrapper.getConstructor(new Class[]{portletSessionClass});
+						Class<?> wrapper = Class.forName("org.sblim.wbemsmt.session.PortletSessionWrapper");
+						Constructor<?> constructor = wrapper.getConstructor(new Class[]{portletSessionClass});
 						WebSession wrappedPortletSession = (WebSession) constructor.newInstance(new Object[]{session});
 						return wrappedPortletSession;
 				}

@@ -1,14 +1,14 @@
  /** 
   * SblimSLPClientSLPLoader.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -18,7 +18,11 @@
   */
 package org.sblim.wbemsmt.tools.slp;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
 import java.util.logging.Level;
 
 import org.sblim.slp.ServiceLocationAttribute;
@@ -31,7 +35,7 @@ public class SblimSLPClientSLPLoader extends SLPLoader {
 
 	private SLPLoadThread loadThread = null;
 
-	public static final Vector ATTRIBUTES = new Vector(Arrays.asList(new String[] { SblimSLPClientSLPLoader.ATTRIBUTE_REGISTERED_PROFILES_SUPPORTED, ATTRIBUTE_NAMESPACE }));
+	public static final Vector<String> ATTRIBUTES = new Vector<String>(Arrays.asList(new String[] { SblimSLPClientSLPLoader.ATTRIBUTE_REGISTERED_PROFILES_SUPPORTED, ATTRIBUTE_NAMESPACE }));
 
 	/**
 	 * 
@@ -49,7 +53,7 @@ public class SblimSLPClientSLPLoader extends SLPLoader {
 			serviceName = null;
 		}
 		
-		List addresses = new ArrayList();
+		List<String> addresses = new ArrayList<String>();
 		for (int i = 1; args.length > 1 && i < args.length; i++) {
 			addresses.add(args[i]);
 			logger.fine("DA Address: " + args[i]);
@@ -125,22 +129,22 @@ public class SblimSLPClientSLPLoader extends SLPLoader {
 		}
 		
 		
-		List result = new ArrayList();
+		List<SLPHostDefinition> result = new ArrayList<SLPHostDefinition>();
 
 		synchronized (loadThread.serviceWrappers) {
-			List list = loadThread.serviceWrappers;
+			List<ServiceWrapper> list = loadThread.serviceWrappers;
 
 			logger.fine("Processing ServiceWrappers " + loadThread.serviceWrappers.size());
 
-			for (Iterator iterWrappers = list.iterator(); iterWrappers.hasNext();) {
+			for (Iterator<ServiceWrapper> iterWrappers = list.iterator(); iterWrappers.hasNext();) {
 				ServiceWrapper wrapper = (ServiceWrapper) iterWrappers.next();
 				ServiceURL url = wrapper.serviceUrl;
 				logger.fine("Processing ServiceWrapper for " + url.toString());
 
 				ServiceLocationAttribute attributeNamespace = wrapper.namespaceAttribute;
-				Vector namespaceValues = attributeNamespace.getValues();
-				List namespaces = new ArrayList();
-				for (Iterator iter = namespaceValues.iterator(); iter.hasNext();) {
+				Vector<Object> namespaceValues = (Vector<Object>) attributeNamespace.getValues();
+				List<Object> namespaces = new ArrayList<Object>();
+				for (Iterator<Object> iter = namespaceValues.iterator(); iter.hasNext();) {
 					namespaces.add((String) iter.next());
 				}
 				
@@ -159,8 +163,8 @@ public class SblimSLPClientSLPLoader extends SLPLoader {
 				{
 					ServiceLocationAttribute attributeRegisteredProfiles = wrapper.registeredProfileAttribute;
 					logger.fine(attributeRegisteredProfiles.toString());
-					Vector values = attributeRegisteredProfiles.getValues();
-					for (Iterator iteratorValues = values.iterator(); iteratorValues.hasNext();) {
+					Vector<Object> values = (Vector<Object>) attributeRegisteredProfiles.getValues();
+					for (Iterator<Object> iteratorValues = values.iterator(); iteratorValues.hasNext();) {
 						String value = iteratorValues.next().toString();
 						if (value.equalsIgnoreCase(registeredProfile))
 						{
@@ -185,7 +189,7 @@ public class SblimSLPClientSLPLoader extends SLPLoader {
 					}
 					
 					//Add a host definition for every namespace
-					for (Iterator iter = namespaces.iterator(); iter.hasNext();) {
+					for (Iterator<Object> iter = namespaces.iterator(); iter.hasNext();) {
 						String namespace = (String) iter.next();
 						SLPHostDefinition hostDefinition = new SLPHostDefinition(url.getHost(),port,protocol,namespace);
 						result.add(hostDefinition);	
@@ -228,11 +232,11 @@ public class SblimSLPClientSLPLoader extends SLPLoader {
 	{
 		Boolean loaded = null;
 		SLPClient client;
-		List serviceWrappers = new ArrayList();
+		List<ServiceWrapper> serviceWrappers = new ArrayList<ServiceWrapper>();
 		private long sleepInterval;
 		private boolean run;
 		
-		SLPLoadThread(long sleepInterval, List directoryAgentAdresses)
+		SLPLoadThread(long sleepInterval, List<String> directoryAgentAdresses)
 		{
 			super("SLPLoadThread");
 			this.sleepInterval = sleepInterval;
@@ -253,22 +257,22 @@ public class SblimSLPClientSLPLoader extends SLPLoader {
 			{
 				
 				try {
-					List list = client.findWbemServices();
+					List<ServiceURL> list = client.findWbemServices();
 					logger.log(Level.FINEST,"Find Services " + list.size());
 					synchronized (serviceWrappers) {
 						serviceWrappers.clear();
 						
 						logger.fine("Found Service Urls: " + list.size());
 						
-						for (Iterator iterUrls = list.iterator(); iterUrls.hasNext();) {
+						for (Iterator<ServiceURL> iterUrls = list.iterator(); iterUrls.hasNext();) {
 							ServiceURL url = (ServiceURL) iterUrls.next();
 							
 							logger.fine("Processing Service Url: " + url.toString());
 							
 							ServiceWrapper wrapper = new ServiceWrapper();
 							wrapper.serviceUrl = url;
-							List attributes = client.findAttributes(url,SLPClient.SCOPE,ATTRIBUTES);
-							for (Iterator iteratorAttributes = attributes.iterator(); iteratorAttributes.hasNext();)
+							List<ServiceLocationAttribute> attributes = client.findAttributes(url,SLPClient.SCOPE,ATTRIBUTES);
+							for (Iterator<ServiceLocationAttribute> iteratorAttributes = attributes.iterator(); iteratorAttributes.hasNext();)
 							{
 								ServiceLocationAttribute attribute = (ServiceLocationAttribute) iteratorAttributes.next();
 								logger.fine(attribute.toString());

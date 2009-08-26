@@ -1,14 +1,14 @@
 /**
  *  TaskLauncherConfig.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Marius Kreis <mail@nulldevice.org>
  *
@@ -22,7 +22,6 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -98,8 +97,8 @@ public class TaskLauncherConfig
 	
     private static Logger logger = Logger.getLogger(TaskLauncherConfig.class.getName());
 
-    private Vector cimomData;
-    private Vector treeConfigData;
+    private Vector<CimomData> cimomData;
+    private Vector<TreeConfigData> treeConfigData;
 	private TasklauncherconfigDocument tasklauncherConfigDoc;
 	private TasklauncherconfigDocument tasklauncherConfigDocSlp;
 	private boolean hasConfiguration;
@@ -111,7 +110,7 @@ public class TaskLauncherConfig
 	 * 
 	 * If the list is empty or null all treeConfigs are used
 	 */
-	private List treeConfigs = new ArrayList();
+	private List<TreeConfigData> treeConfigs = new ArrayList<TreeConfigData>();
 
 	private boolean useSlp = false;
 
@@ -122,7 +121,7 @@ public class TaskLauncherConfig
 	 * @param treeConfigs List with TreeConfigData-Objects. Can be used to filter all those tasks which are not in the List
 	 * @throws WbemsmtException
 	 */
-    public TaskLauncherConfig(String configFilename, List treeConfigs, boolean useSlp, SLPLoader slpLoader) throws WbemsmtException
+    public TaskLauncherConfig(String configFilename, List<TreeConfigData> treeConfigs, boolean useSlp, SLPLoader slpLoader) throws WbemsmtException
     {
     	this.configFilename = configFilename;
 		this.treeConfigs = treeConfigs;
@@ -134,8 +133,8 @@ public class TaskLauncherConfig
     
 	private void init() {
 		bundle = ResourceBundleManager.getResourceBundle(new String[]{"messages"});
-    	this.cimomData = new Vector();
-        this.treeConfigData = new Vector();
+    	this.cimomData = new Vector<CimomData>();
+        this.treeConfigData = new Vector<TreeConfigData>();
 	}
 
     private void readConfig() throws WbemsmtException
@@ -251,8 +250,8 @@ public class TaskLauncherConfig
         for (int i = 0; i < treeconfigReferenceArray.length; i++) {
 			TreeconfigReference reference = treeconfigReferenceArray[i];
 			boolean found = false;
-			for (Iterator iter = treeConfigData.iterator(); iter.hasNext()&& !found;) {
-				TreeConfigData treeConfigData = (TreeConfigData) iter.next();
+			for (Iterator<TreeConfigData> iter = treeConfigData.iterator(); iter.hasNext()&& !found;) {
+				TreeConfigData treeConfigData = iter.next();
 				if (treeConfigData.getName().equals(reference.getName()))
 				{
 					try {
@@ -281,7 +280,7 @@ public class TaskLauncherConfig
 		this.cimomData.add(cimomData);
     }
     
-    public Vector getCimomData()
+    public Vector<CimomData> getCimomData()
     {
         return this.cimomData;
     }
@@ -291,10 +290,10 @@ public class TaskLauncherConfig
         this.treeConfigData.add(new TreeConfigData(treeconfig));
     }
     
-    public Vector getTreeConfigDataByHostname(String cimomHostname) throws WbemsmtException
+    public Vector<TreeConfigData> getTreeConfigDataByHostname(String cimomHostname) throws WbemsmtException
     {
-        for (Iterator iter = this.cimomData.iterator(); iter.hasNext();) {
-			CimomData cimomData = (CimomData) iter.next();
+        for (Iterator<CimomData> iter = this.cimomData.iterator(); iter.hasNext();) {
+			CimomData cimomData = iter.next();
 			
 			//Try to resolve the hostname because 
 			//If the admin defined in the config-File the host on a per name basis and slp returns the IP-Address, and user wants to read configured tasks with
@@ -323,7 +322,7 @@ public class TaskLauncherConfig
                 }
             }
 		}
-        return new Vector();
+        return new Vector<TreeConfigData>();
     }
     
     /**
@@ -333,8 +332,8 @@ public class TaskLauncherConfig
      */
     public CimomData getCimomDataDataByHostname(String hostname)
     {
-        for (Iterator iter = this.cimomData.iterator(); iter.hasNext();) {
-			CimomData cimomData = (CimomData) iter.next();
+        for (Iterator<CimomData> iter = this.cimomData.iterator(); iter.hasNext();) {
+			CimomData cimomData = iter.next();
 			
 			//Try to resolve the hostname because 
 			//If the admin defined in the config-File the host on a per name basis and slp returns the IP-Address, and user wants to read configured tasks with
@@ -362,8 +361,8 @@ public class TaskLauncherConfig
     
     public TreeConfigData getTreeConfigDataByTaskname(String taskname)
     {
-    	for (Iterator iter = treeConfigData.iterator(); iter.hasNext();) {
-			TreeConfigData configData = (TreeConfigData) iter.next();
+    	for (Iterator<TreeConfigData> iter = treeConfigData.iterator(); iter.hasNext();) {
+			TreeConfigData configData = iter.next();
 			if (configData.getName().equals(taskname))
 			{
 				return configData;
@@ -374,7 +373,7 @@ public class TaskLauncherConfig
     }
     
     
-	public Vector getTreeConfigData() {
+	public Vector<TreeConfigData> getTreeConfigData() {
 		return treeConfigData;
 	}
 
@@ -399,7 +398,7 @@ public class TaskLauncherConfig
 		private String lookupClass;
 		private String embeddedFilterClass;
 		private final String welcomeListenerClass;
-        private final Map configMap = new HashMap();
+        private final Map<String, ConfigurationValueData> configMap = new HashMap<String, ConfigurationValueData>();
 		private String namespace;
 		
 		
@@ -558,13 +557,13 @@ public class TaskLauncherConfig
 		 * @return
 		 * @see ConfigurationValueData
 		 */
-		public Map getConfigurationMap()
+		public Map<String, ConfigurationValueData> getConfigurationMap()
 		{
-			Map result = new HashMap();
-			Iterator iterator = configMap.entrySet().iterator();
+			Map<String, ConfigurationValueData> result = new HashMap<String, ConfigurationValueData>();
+			Iterator<Map.Entry<String, ConfigurationValueData>> iterator = configMap.entrySet().iterator();
 			while (iterator.hasNext())
 			{
-				Map.Entry entry = (Entry) iterator.next();
+				Map.Entry<String, ConfigurationValueData> entry = iterator.next();
 				ConfigurationValueData value = (ConfigurationValueData) entry.getValue();
 				value = new ConfigurationValueData(value.getName(),value.getValue());
 				result.put(entry.getKey(),value);
@@ -594,7 +593,7 @@ public class TaskLauncherConfig
                        protocol,
                        user, password;
         private int port;
-		private Vector treeConfigs = new Vector();
+		private Vector<TreeConfigData> treeConfigs = new Vector<TreeConfigData>();
 		
         public CimomData()
         {
@@ -656,7 +655,7 @@ public class TaskLauncherConfig
 			
 		}
 		
-        public Vector getTreeConfigs() {
+        public Vector<TreeConfigData> getTreeConfigs() {
 			return treeConfigs;
 		}
 
@@ -716,7 +715,7 @@ public class TaskLauncherConfig
 			this.port = port;
 		}
 
-		public void setTreeConfigs(Vector configs) {
+		public void setTreeConfigs(Vector<TreeConfigData> configs) {
 			this.treeConfigs = configs;
 		}
     }
@@ -833,7 +832,7 @@ public class TaskLauncherConfig
 		//read in the treeconfigs from the separate files
 		File taskXML = null;
 		File[] files = getTaskXMLs();
-		List configs = new ArrayList();
+		List<Treeconfig> configs = new ArrayList<Treeconfig>();
 		for (int i = 0; i < files.length; i++) {
 			try {
 				taskXML = files[i];
@@ -850,7 +849,7 @@ public class TaskLauncherConfig
 		//for SLP get all the Tasks that are supported via SLP
 		if (useSlp)
 		{
-			treeConfigs = new ArrayList();
+			treeConfigs = new ArrayList<TreeConfigData>();
 			tasklauncherConfigDocSlp = SLPUtil.readFromSlp(slpLoader, treeconfigs);
 		}
 		else
@@ -864,8 +863,8 @@ public class TaskLauncherConfig
 					if (treeConfigs != null && treeConfigs.size() > 0)
 					{
 						add = false;
-						for (Iterator iter = treeConfigs.iterator(); !add && iter.hasNext();) {
-							TreeConfigData treeConfigData = (TreeConfigData) iter.next();
+						for (Iterator<TreeConfigData> iter = treeConfigs.iterator(); !add && iter.hasNext();) {
+							TreeConfigData treeConfigData = iter.next();
 							if (treeConfigData.getName().equals(treeConfigToAdd.getName()))
 							{
 								add = true;

@@ -1,14 +1,14 @@
 /**
  * AjaxPanelPhaseListener.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Michael.Bauschert@de.ibm.com
  *
@@ -67,7 +67,7 @@ public class AjaxPanelPhaseListener implements PhaseListener
 		}
 
 		FacesContext context = event.getFacesContext();
-		Map externalRequestMap = context.getExternalContext().getRequestParameterMap();
+		Map<String, String> externalRequestMap = context.getExternalContext().getRequestParameterMap();
 
 //		for (Iterator iter = externalRequestMap.entrySet().iterator(); iter.hasNext();) {
 //			Map.Entry entry = (Map.Entry) iter.next();
@@ -171,8 +171,8 @@ public class AjaxPanelPhaseListener implements PhaseListener
         out.print("<state>");
                 FacesContext facesContext = FacesContext.getCurrentInstance();
                 StateManager stateManager = facesContext.getApplication().getStateManager();
-                StateManager.SerializedView serializedView
-                        = stateManager.saveSerializedView(facesContext);
+                Object serializedView
+                        = stateManager.saveView(facesContext);
                 try
                 {
                     stateManager.writeState(facesContext, serializedView);

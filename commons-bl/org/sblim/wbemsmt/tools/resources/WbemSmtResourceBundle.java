@@ -1,14 +1,14 @@
  /** 
   * WbemSmtResourceBundle.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -35,7 +35,9 @@ import org.sblim.wbemsmt.bl.messages.MessageNumber;
  * @see org.sblim.wbemsmt.tools.resources.ResourceBundleManager#getResourceBundle(String[], Locale)
  *
  */
-public class WbemSmtResourceBundle extends HashMap {
+
+	// @TODO This should really be HashMap<String, String> but the structure java.util.Properties is being used and that only supports <Object, Object>
+public class WbemSmtResourceBundle extends HashMap<Object, Object> {
 
 	/**
 	 * 
@@ -62,7 +64,7 @@ public class WbemSmtResourceBundle extends HashMap {
 		//return properties.getProperty(key,"???"+key+"???");
 	}
 
-	public Enumeration getKeys() {
+	public Enumeration<Object> getKeys() {
 		return properties.keys();
 	}
 
@@ -79,7 +81,7 @@ public class WbemSmtResourceBundle extends HashMap {
 	 */
 	public void add(ResourceBundle bundle)
 	{
-		Enumeration keys = bundle.getKeys();
+		Enumeration<String> keys = bundle.getKeys();
 		while (keys.hasMoreElements())
 		{
 			String key = (String)keys.nextElement();
@@ -101,7 +103,7 @@ public class WbemSmtResourceBundle extends HashMap {
 	 */
 	public void add(WbemSmtResourceBundle bundle)
 	{
-		Enumeration keys = bundle.getKeys();
+		Enumeration<Object> keys = bundle.getKeys();
 		while (keys.hasMoreElements())
 		{
 			String key = (String)keys.nextElement();
@@ -122,7 +124,7 @@ public class WbemSmtResourceBundle extends HashMap {
 	 */
 	private void addBundleNames(WbemSmtResourceBundle bundle) {
 
-		List bundleNameList = new ArrayList();
+		List<String> bundleNameList = new ArrayList<String>();
 		for (int i = 0; bundleNames != null && i < bundleNames.length; i++) {
 			bundleNameList.add(bundleNames[i]);
 		}
@@ -249,15 +251,17 @@ public class WbemSmtResourceBundle extends HashMap {
 		this.locale = locale;
 	}
 
+	// @TODO This method is not complete
 	public boolean containsKey(Object key) {
 		return true;
 	}
 
+	// @TODO This method is not complete
 	public boolean containsValue(Object value) {
 		return true;
 	}
 
-	public Object get(Object key) {
+	public String get(Object key) {
 		return getString(key.toString());
 	}
 

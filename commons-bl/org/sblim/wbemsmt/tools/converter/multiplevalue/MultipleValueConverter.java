@@ -1,14 +1,14 @@
  /** 
   * MultipleValueConverter.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -45,11 +45,11 @@ public abstract class MultipleValueConverter {
 	 */
 	public Object convertForGui(Object value) {
 
-		List list = (List) value;
+		List<Number> list = (List<Number>) value;
 		StringBuffer result = new StringBuffer();
 		if (list != null)
 		{
-			for (Iterator iter = list.iterator(); iter.hasNext();) {
+			for (Iterator<Number> iter = list.iterator(); iter.hasNext();) {
 				Number number = (Number) iter.next();
 				int index = number.intValue();
 				if (index >= values.length)
@@ -107,7 +107,7 @@ public abstract class MultipleValueConverter {
 	 */
 	public Object convertForModel(Object guiElement) {
 		
-		List result = new ArrayList();
+		List<Object> result = new ArrayList<Object>();
 		String[] guiElements = (String[])getEnteredValues((String) guiElement);
 		for (int i = 0; i < guiElements.length; i++) {
 			String text = guiElements[i];

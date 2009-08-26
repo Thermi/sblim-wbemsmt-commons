@@ -1,14 +1,14 @@
 /**
  *  TaskLauncherContextMenu.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Marius Kreis <mail@nulldevice.org>
  *
@@ -34,7 +34,7 @@ import org.sblim.wbemsmt.tools.resources.ILocaleManager;
 public class TaskLauncherContextMenu implements Cloneable
 {
 	private static final Logger logger = Logger.getLogger(TaskLauncherContextMenu.class.getName());
-	private Vector menuItems;
+	private Vector<TaskLauncherContextMenuItem > menuItems;
 	private static int currentCount = 0;
 	private int id = currentCount++;
 	
@@ -46,7 +46,7 @@ public class TaskLauncherContextMenu implements Cloneable
 	public TaskLauncherContextMenu(ContextmenuDocument.Contextmenu contextMenu, String[] bundles)
 	{
 		this.bundles = bundles;
-		this.menuItems = new Vector();
+		this.menuItems = new Vector<TaskLauncherContextMenuItem>();
 		
 		if(contextMenu != null)
 		{
@@ -89,7 +89,7 @@ public class TaskLauncherContextMenu implements Cloneable
 	 */
 	public void initI18n(ILocaleManager localeManager)
 	{
-		for (Iterator iter = menuItems.iterator(); iter.hasNext();) {
+		for (Iterator<TaskLauncherContextMenuItem > iter = menuItems.iterator(); iter.hasNext();) {
 			TaskLauncherContextMenuItem item = (TaskLauncherContextMenuItem) iter.next();
 			item.initI18n(localeManager);
 		}
@@ -108,12 +108,12 @@ public class TaskLauncherContextMenu implements Cloneable
 		menuItems.remove(item);
 	}
 	
-	public Vector getMenuItems()
+	public Vector<TaskLauncherContextMenuItem > getMenuItems()
 	{
 		return this.menuItems;
 	}
 	
-	public void setMenuItems(Vector items)
+	public void setMenuItems(Vector<TaskLauncherContextMenuItem > items)
 	{
 		this.menuItems = items;
 	}	
@@ -122,7 +122,7 @@ public class TaskLauncherContextMenu implements Cloneable
 	{
 		TaskLauncherContextMenu menu = (TaskLauncherContextMenu) super.clone(); 
 		menu.setId(currentCount++);
-		menu.setMenuItems(new Vector());
+		menu.setMenuItems(new Vector<TaskLauncherContextMenuItem >());
 		
 		for (int i=0; i < menuItems.size(); i++) {
 			TaskLauncherContextMenuItem item = (TaskLauncherContextMenuItem) menuItems.get(i);

@@ -1,14 +1,14 @@
  /** 
   * CimomLoginLogoutListener.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -57,7 +57,7 @@ public class CimomLoginLogoutListener extends TaskLauncherContextMenuEventListen
 
 				CimomTreeNode cimomTreeNode = (CimomTreeNode) event.getTreeNode();
 				
-				LoginCheck login = (LoginCheck)BeanNameConstants.LOGIN_CHECK.asValueBinding(fc).getValue(fc);
+				LoginCheck login = (LoginCheck)BeanNameConstants.LOGIN_CHECK.asValueExpression(fc).getValue(fc.getELContext());
 				login.setCimomData(cimomTreeNode.getCimomData());
 				String result;
 				if (cimomTreeNode.isLoggedIn())
@@ -69,11 +69,11 @@ public class CimomLoginLogoutListener extends TaskLauncherContextMenuEventListen
 					ITaskLauncherTreeNode nodeWithInactiveCimomsNodes = controller.getCurrentTreeFactory().getNodeWithInactiveCimomsNodes();
 
 					ObjectActionControllerBean oac = (ObjectActionControllerBean) BeanNameConstants.OBJECT_ACTION_CONTROLLER.getBoundValue(FacesContext.getCurrentInstance());
-					List nodes = new ArrayList();
+					List<CimomTreeNode> nodes = new ArrayList<CimomTreeNode>();
 					try {
 						if (nodeWithInactiveCimomsNodes != null)
 						{
-							Iterator it = nodeWithInactiveCimomsNodes.getSubnodes().iterator();
+							Iterator<ITaskLauncherTreeNode> it = nodeWithInactiveCimomsNodes.getSubnodes().iterator();
 							while (it.hasNext())
 							{
 								CimomTreeNode node = (CimomTreeNode)it.next();
@@ -87,8 +87,9 @@ public class CimomLoginLogoutListener extends TaskLauncherContextMenuEventListen
 								node.setSlpRendered(!login.isUseSlp());
 								node.setUseSlp(login.isUseSlp());
 								
+								nodes.add(node);
+								
 							}
-							nodes.addAll(nodeWithInactiveCimomsNodes.getSubnodes());
 						}
 					} catch (WbemsmtException e) {
 						logger.log(Level.SEVERE,"Cannot get Inactive CimomTreeNodes",e);

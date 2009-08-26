@@ -1,13 +1,13 @@
 /** 
  * Validator.java
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author:	Michael Bauschert <Michael.Bauschert@de.ibm.com>
  *
@@ -99,8 +99,8 @@ public abstract class Validator {
 
 	public abstract void validateElement(MessageList result) throws WbemsmtException;
 
-	List childs = new ArrayList();
-	List parents = new ArrayList();
+	List<Validator> childs = new ArrayList<Validator>();
+	List<Validator> parents = new ArrayList<Validator>();
 	
 	/**
 	 * The added validator childs are only validated if the parent validator finished okay
@@ -122,7 +122,7 @@ public abstract class Validator {
 
 	private void validateChilds(MessageList result) throws WbemsmtException
 	{
-		for (Iterator iter = childs.iterator(); iter.hasNext();) {
+		for (Iterator<Validator> iter = childs.iterator(); iter.hasNext();) {
 			Validator child = (Validator) iter.next();
 			result.addAll(child.validate());
 		}
@@ -130,7 +130,7 @@ public abstract class Validator {
 
 	private void validateParents(MessageList result) throws WbemsmtException
 	{
-		for (Iterator iter = parents.iterator(); iter.hasNext();) {
+		for (Iterator<Validator> iter = parents.iterator(); iter.hasNext();) {
 			Validator child = (Validator) iter.next();
 			result.addAll(child.validate());
 		}

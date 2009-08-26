@@ -1,14 +1,14 @@
 /** 
  * MultiLineBasePanel.java
  *
- * © Copyright IBM Corp. 2005
+ * © Copyright IBM Corp.  2009,2005
  *
- * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
  * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
  * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
  *
- * You can obtain a current copy of the Common Public License from
- * http://www.opensource.org/licenses/cpl1.0.php
+ * You can obtain a current copy of the Eclipse Public License from
+ * http://www.opensource.org/licenses/eclipse-1.0.php
  *
  * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
  *
@@ -38,7 +38,7 @@ public abstract class MultiLinePanel extends BasePanel {
 	HtmlDataTable dataTable;
 	private HtmlPanelGrid outerPanel;
 	private String rowClasses = "multiLineRowWhite,multiLineRowGray";
-	private List list;
+	private List<? extends DataContainer> list;
 	private LabeledJSFInputComponent[] headerFields;
 	protected int cols;
 	
@@ -47,14 +47,14 @@ public abstract class MultiLinePanel extends BasePanel {
 
 	/**
 	 * @param adapter
-	 * @param bindingPrefix
-	 * @param bindingPrefixOfContainer
+	 * @param expressionPrefix
+	 * @param expressionPrefixOfContainer
 	 * @param keyForTitle
 	 * @param rolename
 	 * @param cols
 	 */
-	public MultiLinePanel(AbstractBaseCimAdapter adapter,String bindingPrefix, String bindingPrefixOfContainer, String keyForTitle, String rolename, int cols) {
-		super(adapter, bindingPrefix);
+	public MultiLinePanel(AbstractBaseCimAdapter adapter,String expressionPrefix, String expressionPrefixOfContainer, String keyForTitle, String rolename, int cols) {
+		super(adapter, expressionPrefix);
 		this.rolename = rolename;
 		this.cols = cols;
 
@@ -79,9 +79,9 @@ public abstract class MultiLinePanel extends BasePanel {
 		
 		dataTable = (HtmlDataTable) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlDataTable.COMPONENT_TYPE);
 		dataTable.setVar("item");
-		dataTable.setValueBinding("value", FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + bindingPrefix +  rolename + "ForUI}"));
+		dataTable.setValueExpression("value", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + expressionPrefix +  rolename + "ForUI}", Object.class));
 		dataTable.setHeaderClass("multiLineRowHeader left");
-		dataTable.setValueBinding("rowClasses", FacesContext.getCurrentInstance().getApplication().createValueBinding(bindingPrefixOfContainer +  ".rowClasses}"));
+		dataTable.setValueExpression("rowClasses", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), expressionPrefixOfContainer +  ".rowClasses}", Object.class));
 		dataTable.setCellpadding("0");
 		dataTable.setCellspacing("0");
 		dataTable.setStyleClass("multiLineTable");
@@ -93,13 +93,13 @@ public abstract class MultiLinePanel extends BasePanel {
 		
 		
 		HtmlOutputText noEntriesFooter = (HtmlOutputText) FacesContext.getCurrentInstance().getApplication().createComponent(HtmlOutputText.COMPONENT_TYPE);
-		noEntriesFooter.setValueBinding("value",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{messages.noEntries}") );
-		noEntriesFooter.setValueBinding("styleClass",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + bindingPrefix +  rolename +  "AvailableFooterClass}") );
+		noEntriesFooter.setValueExpression("value",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{messages.noEntries}", Object.class) );
+		noEntriesFooter.setValueExpression("styleClass",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + expressionPrefix +  rolename +  "AvailableFooterClass}", Object.class) );
 		noEntriesFooter.setStyle("width:200px;white-space: nowrap;");
 		outerFooterPanel.getChildren().add(noEntriesFooter);
 		
 		dataTable.getFacets().put("footer", outerFooterPanel);
-		dataTable.setValueBinding("footerClass",FacesContext.getCurrentInstance().getApplication().createValueBinding("#{" + bindingPrefix +  rolename +  "FooterClass}") );
+		dataTable.setValueExpression("footerClass",FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), "#{" + expressionPrefix +  rolename +  "FooterClass}", Object.class) );
 
 		
 		StringBuffer sb = new StringBuffer();
@@ -116,7 +116,7 @@ public abstract class MultiLinePanel extends BasePanel {
 		}
 		dataTable.setColumnClasses(sb.toString());
 		
-		createTitleValueBindingForMultiline(outerPanel,bindingPrefixOfContainer + ".titleText}",keyForTitle);
+		createTitleValueExpressionForMultiline(outerPanel,expressionPrefixOfContainer + ".titleText}",keyForTitle);
 		
 		outerPanel.getChildren().add(dataTable);
 		outerPanel.getChildren().add(dummyPanel);
@@ -142,8 +142,8 @@ public abstract class MultiLinePanel extends BasePanel {
 
 			UIColumn column = (UIColumn) FacesContext.getCurrentInstance().getApplication().createComponent(UIColumn.COMPONENT_TYPE);
 			
-			String expr = "#{" + bindingPrefix + rolename + "Panel.headerVisible[" + i + "]}";
-			column.setValueBinding("rendered", FacesContext.getCurrentInstance().getApplication().createValueBinding(expr));
+			String expr = "#{" + expressionPrefix + rolename + "Panel.headerVisible[" + i + "]}";
+			column.setValueExpression("rendered", FacesContext.getCurrentInstance().getApplication().getExpressionFactory().createValueExpression(FacesContext.getCurrentInstance().getELContext(), expr, Object.class));
 			
 			column.getFacets().put("header", node.getLabelPanel());
 			column.getChildren().add(node.getComponentPanel());
@@ -239,11 +239,11 @@ public abstract class MultiLinePanel extends BasePanel {
 		this.rowClasses = rowClasses;
 	}
 
-	public List getList() {
+	public List<? extends DataContainer> getList() {
 		return list;
 	}
 
-	public void setList(List list) {
+	public void setList(List<? extends DataContainer> list) {
 		this.list = list;
 	}
 

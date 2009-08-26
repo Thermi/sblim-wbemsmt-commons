@@ -1,14 +1,14 @@
  /** 
   * FcoUtil.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -63,11 +63,11 @@ public final class FcoUtil {
 			String getterName = "get_" + StringUtils.capitalize(propertyName);
 			String setterName = "set_" + StringUtils.capitalize(propertyName);
 			
-			Method method = container.getClass().getMethod(getterName, null);
-			LabeledBaseInputComponentIf field = (LabeledBaseInputComponentIf) method.invoke(container, null);
+			Method method = container.getClass().getMethod(getterName, (Class<?>[])null);
+			LabeledBaseInputComponentIf field = (LabeledBaseInputComponentIf) method.invoke(container, (Object[])null);
 			
-			Method getterFco = fco.getClass().getMethod(getterName, null);
-			Class returnType = getterFco.getReturnType();
+			Method getterFco = fco.getClass().getMethod(getterName, (Class<?>[])null);
+			Class<?> returnType = getterFco.getReturnType();
 			
 			Method setterFco = fco.getClass().getMethod(setterName, new Class[]{returnType});
 			
@@ -90,12 +90,12 @@ public final class FcoUtil {
 		try {
 			String getterName = "get_" + StringUtils.capitalize(propertyName);
 			
-			Method method = container.getClass().getMethod(getterName, null);
-			LabeledBaseInputComponentIf field = (LabeledBaseInputComponentIf) method.invoke(container, null);
+			Method method = container.getClass().getMethod(getterName, (Class<?>[])null);
+			LabeledBaseInputComponentIf field = (LabeledBaseInputComponentIf) method.invoke(container, (Object[])null);
 			
-			Method getterFco = fco.getClass().getMethod(getterName, null);
+			Method getterFco = fco.getClass().getMethod(getterName, (Class<?>[])null);
 			
-			field.setControlValue(getterFco.invoke(fco, null));
+			field.setControlValue(getterFco.invoke(fco, (Object[])null));
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Cannot copy values to dataContainer", e);
 			throw new IllegalArgumentException("Cannot copy values to datacontainer " + e.getMessage());
@@ -113,7 +113,7 @@ public final class FcoUtil {
 	 * @return the first children
 	 * @throws WbemsmtException if there was no child or is not of the type defined by  mustReturnThis
 	 */
-	public static Object getFirstChild(Class mustReturnThis, List list, boolean silent, boolean createIfNotExists, WBEMClient client) throws WbemsmtException {
+	public static Object getFirstChild(Class<?> mustReturnThis, List<?> list, boolean silent, boolean createIfNotExists, WBEMClient client) throws WbemsmtException {
 		if (!silent && list.size() != 1)
 		{
 			logger.severe("Cannot get Element of Type " + mustReturnThis.getName() + " beause not exact one element was found in List. Found: " + list.size());
@@ -154,7 +154,7 @@ public final class FcoUtil {
 				String helper = mustReturnThis.getName() + "Helper";
 				Object fco = null;
 				try {
-					Class clsHelper = Class.forName(helper);
+					Class<?> clsHelper = Class.forName(helper);
 					Method method = clsHelper.getMethod("getInstance",new Class[]{WBEMClient.class,CIMObjectPath.class});
 					fco = method.invoke(null,new Object[]{client,path});
 					return fco;

@@ -1,14 +1,14 @@
  /** 
   * AbstractWbemsmtFCO.java
   *
-  * © Copyright IBM Corp. 2005
+  * © Copyright IBM Corp.  2009,2005
   *
-  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+  * THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
   * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
   * CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
   *
-  * You can obtain a current copy of the Common Public License from
-  * http://www.opensource.org/licenses/cpl1.0.php
+  * You can obtain a current copy of the Eclipse Public License from
+  * http://www.opensource.org/licenses/eclipse-1.0.php
   *
   * @author: Michael Bauschert <Michael.Bauschert@de.ibm.com>
   *
@@ -48,7 +48,7 @@ public abstract class AbstractWbemsmtFco {
     /**
      * list with java packages to search for the FCOs
      */
-    protected static java.util.Set Java_Package_List = new java.util.HashSet();
+    protected static java.util.Set<String> Java_Package_List = new java.util.HashSet<String>();
     /**
      * logger instance
      */
@@ -58,7 +58,7 @@ public abstract class AbstractWbemsmtFco {
      * contains the List of {@link CIMProperty} objects to be checked during initialization
      * filled by the subclasses before init is called 
      */
-    protected Map propertiesToCheck = new HashMap();
+    protected Map<String, CIMProperty> propertiesToCheck = new HashMap<String, CIMProperty>();
     /**
      * contains a list of properties with a wrong type<br>
      * - key is the property as defined in the FCO<br>
@@ -66,7 +66,7 @@ public abstract class AbstractWbemsmtFco {
      * filled by the init method
      * @see #getWrongTypedProperties()
      */
-	protected Map wrongTypedProperties = new HashMap();
+	protected Map<CIMProperty, CIMProperty> wrongTypedProperties = new HashMap<CIMProperty, CIMProperty>();
 	
 	
     /**
@@ -75,7 +75,7 @@ public abstract class AbstractWbemsmtFco {
      * filled by the init method
      * @see #getMissingProperties()
      */
-	protected Set missingProperties = new HashSet();
+	protected Set<CIMProperty> missingProperties = new HashSet<CIMProperty>();
     
 	/**
 	 * indicates if the object was loaded from the server or created on the client
@@ -107,7 +107,7 @@ public abstract class AbstractWbemsmtFco {
         wrongTypedProperties.clear();
         missingProperties.clear();
         
-        Iterator iterator = propertiesToCheck.values().iterator();
+        Iterator<CIMProperty> iterator = propertiesToCheck.values().iterator();
         while (iterator.hasNext())
         {
         	CIMProperty property = (CIMProperty) iterator.next();
@@ -276,8 +276,8 @@ public abstract class AbstractWbemsmtFco {
           if (props1.length != props2.length)
              return false;
 
-             java.util.Map propMap1 = new java.util.HashMap();
-             java.util.Map propMap2 = new java.util.HashMap();
+             java.util.Map<String, CIMProperty> propMap1 = new java.util.HashMap<String, CIMProperty>();
+             java.util.Map<String, CIMProperty> propMap2 = new java.util.HashMap<String, CIMProperty>();
 
           for (int i=0; i < props1.length; i++)
           {
@@ -285,7 +285,7 @@ public abstract class AbstractWbemsmtFco {
              propMap2.put(props2[i].getName(),props2[i]);
           }              
                   
-          java.util.Iterator itKeys = propMap1.keySet().iterator();
+          java.util.Iterator<String> itKeys = propMap1.keySet().iterator();
           while (itKeys.hasNext())
           {
              if (!propMap2.containsKey(itKeys.next()))
@@ -384,7 +384,7 @@ public abstract class AbstractWbemsmtFco {
      * @return the wrong typed properties
      * @see #wrongTypedProperties
      */
-	public Map getWrongTypedProperties() {
+	public Map<CIMProperty, CIMProperty> getWrongTypedProperties() {
 		return wrongTypedProperties;
 	}
 
@@ -393,7 +393,7 @@ public abstract class AbstractWbemsmtFco {
 	 * @return the missing properties
 	 * @see #missingProperties
 	 */
-	public Set getMissingProperties() {
+	public Set<CIMProperty> getMissingProperties() {
 		return missingProperties;
 	}
 
