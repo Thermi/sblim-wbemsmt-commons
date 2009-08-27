@@ -112,7 +112,7 @@ Installation
 ------------------------------------------------------------------------------
 The installation can be processed in three ways. 
 
-The preferred installatoin method is to run the wbemsmt setup script available
+The preferred installation method is to run the wbemsmt setup script available
 from sourceforge. 
 
 The second possible installation method would be to use the RPM package. 
